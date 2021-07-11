@@ -90,10 +90,6 @@ var twitchGlobalEmotes;
 var ffzUsers = {};
 var ffzEmotes = {};
 const Helper = {
-    onChatLoaded() {
-
-        console.log("ChatLoaded")
-    },
     getDefaultSettings() {
         return {
             general: {
@@ -1315,6 +1311,40 @@ const Helper = {
 
                                             if (!newusername) {newusername = message.info.user_login.trim()}
 
+                                            function isSub() {
+                                                let is = false
+                                                if (Array.isArray(message.info.other_roles)) {
+                                                    for(let role of message.info.other_roles) {
+                                                        if (!is) is = (role == 'CHANNEL_SUBSCRIBER')
+                                                    }
+                                                } else {
+                                                    if (!is) is = (message.info.other_roles == 'CHANNEL_SUBSCRIBER')
+                                                }
+                                                return is;
+                                            }
+                                            function isOwner() {
+                                                let is = false
+                                                if (Array.isArray(message.info.user_channel_role)) {
+                                                    for(let role of message.info.user_channel_role) {
+                                                        if (!is) is = (role == 'CHANNEL_OWNER')
+                                                    }
+                                                } else {
+                                                    if (!is) is = (message.info.user_channel_role == 'CHANNEL_OWNER')
+                                                }
+                                                return is;
+                                            }
+                                            function isModer() {
+                                                let is = false
+                                                if (Array.isArray(message.info.user_channel_role)) {
+                                                    for(let role of message.info.user_channel_role) {
+                                                        if (!is) is = (role == 'CHANNEL_MODERATOR')
+                                                    }
+                                                } else {
+                                                    if (!is) is = (message.info.user_channel_role == 'CHANNEL_MODERATOR')
+                                                }
+                                                return is;
+                                            }
+
                                             if (message.type == 'MESSAGE') {
 
                                                 let blockmessage = message.info.message;
@@ -1337,8 +1367,23 @@ const Helper = {
                                                 date_time = new Date(message.date_time);
                                                 let div = document.createElement('div')
                                                 div.classList.add('block__messages__item-ovg')
-                                                div.innerHTML = `<wasd-chat-message><div class="message-ovg is-time"><div class="message__time-ovg"> ${(date_time.getHours() < 10) ? '0' + date_time.getHours() : date_time.getHours()}:${(date_time.getMinutes() < 10) ? '0' + date_time.getMinutes() : date_time.getMinutes()} </div><div class="message__info-ovg"><div class="message__info__text-ovg"><div class="info__text__status-ovg"><div class="info__text__status__name-ovg" style="${(settings.wasd.colonAfterNickname[1]) ? `margin: 0px;` : ''}color: ${userColors[message.info.user_id % (userColors.length - 1)]}">${newusername}</div></div>${(settings.wasd.colonAfterNickname[1]) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))" >: </span>` : '' }<div class="message-text-ovg"><span>${blockmessage}</span></div></div></div></div></wasd-chat-message>`;
-                                                
+
+                                                div.innerHTML = `<wasd-chat-message>
+                                                    <div class="message-ovg is-time">
+                                                        <div class="message__time-ovg"> ${(date_time.getHours() < 10) ? '0' + date_time.getHours() : date_time.getHours()}:${(date_time.getMinutes() < 10) ? '0' + date_time.getMinutes() : date_time.getMinutes()} </div>
+                                                        <div class="message__info-ovg">
+                                                            <div class="message__info__text-ovg">
+                                                                <div class="info__text__status-ovg">
+                                                                    ${isSub() ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${userColors[message.info.user_id % (userColors.length - 1)]}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
+                                                                    <div class="info__text__status__name-ovg ${isModer() ? 'is-moderator' : ''}${isOwner() ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname[1]) ? `margin: 0px;` : ''}color: ${userColors[message.info.user_id % (userColors.length - 1)]}">${isModer() ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner() ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${newusername}</div>
+                                                                </div>
+                                                                ${(settings.wasd.colonAfterNickname[1]) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))" >: </span>` : '' }
+                                                                <div class="message-text-ovg"><span>${blockmessage}</span></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </wasd-chat-message>`;
+                                                    
                                                 let node = messagesDiv.appendChild(div)
 
                                                 if (settings.wasd.stickerovg[1].toString() === '3') {
@@ -1463,7 +1508,22 @@ const Helper = {
                                                     date_time = new Date(message.date_time);
                                                     let div = document.createElement('div')
                                                     div.classList.add('block__messages__item-ovg')
-                                                    div.innerHTML = `<wasd-chat-message><div class="message-ovg is-time"><div class="message__time-ovg"> ${(date_time.getHours() < 10) ? '0' + date_time.getHours() : date_time.getHours()}:${(date_time.getMinutes() < 10) ? '0' + date_time.getMinutes() : date_time.getMinutes()} </div><div class="message__info-ovg"><div class="message__info__text-ovg"><div class="info__text__status-ovg"><div class="info__text__status__name-ovg" style="${(settings.wasd.colonAfterNickname[1]) ? `margin: 0px;` : ''}color: ${userColors[message.info.user_id % (userColors.length - 1)]}"> ${newusername} </div></div>${(settings.wasd.colonAfterNickname[1]) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))" >: </span>` : '' }<div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div> ${(blockmessage == '') ? '<img alt="sticker" class="sticker small" src="'+message.info.sticker.sticker_image.medium+'">' : ''} </div></div></div></wasd-chat-message>`;
+                                                    div.innerHTML = `<wasd-chat-message>
+                                                        <div class="message-ovg is-time">
+                                                            <div class="message__time-ovg"> ${(date_time.getHours() < 10) ? '0' + date_time.getHours() : date_time.getHours()}:${(date_time.getMinutes() < 10) ? '0' + date_time.getMinutes() : date_time.getMinutes()} </div>
+                                                                    <div class="message__info-ovg">
+                                                                        <div class="message__info__text-ovg">
+                                                                            <div class="info__text__status-ovg">
+                                                                                ${isSub() ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${userColors[message.info.user_id % (userColors.length - 1)]}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
+                                                                                <div class="info__text__status__name-ovg ${isModer() ? 'is-moderator' : ''}${isOwner() ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname[1]) ? `margin: 0px;` : ''}color: ${userColors[message.info.user_id % (userColors.length - 1)]}">${isModer() ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner() ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${newusername}</div>
+                                                                            </div>
+                                                                            ${(settings.wasd.colonAfterNickname[1]) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
+                                                                            <div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div>
+                                                                            ${(blockmessage == '') ? '<img alt="sticker" class="sticker small" src="'+message.info.sticker.sticker_image.medium+'">' : ''}
+                                                                        </div>
+                                                                    </div>
+                                                            </div>
+                                                    </wasd-chat-message>`;
 
                                                     let node = messagesDiv.appendChild(div)
 
@@ -1753,11 +1813,11 @@ const Helper = {
                 scrollPosition = messagess.scrollTop + messagess.offsetHeight
                 messagePosition = message.offsetTop + message.offsetHeight
                 //console.log(messagePosition - scrollPosition)
-                if ((messagePosition - scrollPosition) > scrollend) {
-                    document.querySelector('.block').scrollTop = document.querySelector('.block__messages').scrollHeight
-                } else if ((messagePosition - scrollPosition) < scrollstart) {
+
+                if ((messagePosition - scrollPosition) > 0 && (messagePosition - scrollPosition) < 150) {
                     document.querySelector('.block').scrollTop = document.querySelector('.block__messages').scrollHeight
                 }
+
             }
         },
         async getSelfDateFollowedTo(user_login) {
@@ -1871,7 +1931,7 @@ const Helper = {
                     ]
                 },
                 sticker: {
-                    title: `Отображение стикеров. <a title="Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров' " class="helpTitleHover">(INFO)</a> <a title="Eсли отключено 'Автоматически обновлять чат после изменений программы'' дважды щелкните 'Close', чтобы обновить чат." class="helpTitleHover">(F5)</a>`,
+                    title: `Отображение стикеров WASD. <a title="Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров' " class="helpTitleHover">(INFO)</a> <a title="Eсли отключено 'Автоматически обновлять чат после изменений программы'' дважды щелкните 'Close', чтобы обновить чат." class="helpTitleHover">(F5)</a>`,
                     type: 'select',
                     items: [
                         { value: 0, label: 'По умолчанию' },
@@ -1901,7 +1961,7 @@ const Helper = {
                     ]
                 },
                 forceResizeStickers: {
-                    title: 'Принудиельно изменять размер стикеров (WASD).',
+                    title: 'Принудиельно изменять размер стикеров WASD.',
                     type: 'select',
                     items: [
                         { value: 0, label: 'Нет' },
@@ -2549,8 +2609,7 @@ const Helper = {
             }
         },
     },
-    // Helper.socket.start(getChannelName())
-    // Helper.socket.stop()
+    
     socket: {
         socketd: null,
         streamId: 0,
@@ -4167,9 +4226,12 @@ const wasd = {
                 mentoinText = node.querySelector('.block__item__title')
             }
             if (mentoinText) {
+                let mentoinusername = settings.wasd.userNameEdited[mentoinText.textContent.trim().split('@').join('')];
+                if (!mentoinusername) {mentoinusername = mentoinText.textContent.trim().split('@').join('')}
+
                 if (settings.wasd.onClickMention[1].toString() === '0') {
 
-                    mentoinText.innerHTML = `<span style='color: ${usercolor(mentoinText.textContent.trim())};' class='chat-message-mention' username="@${mentoinText.textContent.trim()}">${mentoinText.textContent}</span>`
+                    mentoinText.innerHTML = `<span style='color: ${usercolor(mentoinText.textContent.trim())};' class='chat-message-mention' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
                     node.querySelectorAll('.chat-message-mention').forEach(element => {
                         usercolorapi(element);
                         element.addEventListener('click', ({ target }) => {
@@ -4180,7 +4242,7 @@ const wasd = {
                     });
 
                 } else if (settings.wasd.onClickMention[1].toString() === '1') {
-                    mentoinText.innerHTML = `<span style='color: ${usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}">${mentoinText.textContent}</span>`
+                    mentoinText.innerHTML = `<span style='color: ${usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
                     node.querySelectorAll('.chat-message-mention.click').forEach(element => {
                         usercolorapi(element);
                         element.addEventListener('click', ({ target }) => {
@@ -4193,7 +4255,7 @@ const wasd = {
                     });
 
                 } else if (settings.wasd.onClickMention[1].toString() === '2') {
-                    mentoinText.innerHTML = `<span style='color: ${usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}">${mentoinText.textContent}</span>`
+                    mentoinText.innerHTML = `<span style='color: ${usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
                     node.querySelectorAll('.chat-message-mention.click').forEach(element => {
                         usercolorapi(element);
                         element.addEventListener('click', ({ target }) => {
@@ -4510,17 +4572,38 @@ const wasd = {
             cssCode += '.gifts-wrapper-top-right { display: none!important; }';
         }
 
-
         if (settings.wasd.sticker[1].toString() === '0') {
-            cssCode += '.message__info img.sticker {   display: block; height: 128px; margin-top: 8px; }'
+            if (settings.wasd.forceResizeStickers[1].toString() === '1') {
+                cssCode += '.message__info img.sticker { display: block; height: 128px!important; width: 128px!important; margin-top: 8px; }'
+            }
+            else if (settings.wasd.forceResizeStickers[1].toString() === '2') {
+                cssCode += '.message__info img.sticker { display: block; height: 56px!important; width: 56px!important; margin-top: 8px; }'
+            }
         }
-        if (settings.wasd.sticker[1].toString() === '2') {
+        else if (settings.wasd.sticker[1].toString() === '1') {
+            cssCode += 'img.sticker { width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
+        }
+        else if (settings.wasd.sticker[1].toString() === '2') {
+            if (settings.wasd.forceResizeStickers[1].toString() === '0') {
+                cssCode += 'img.sticker {max-width: -webkit-fill-available; transition: transform .2s; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
+                cssCode += 'img.sticker:hover { transform: scale(4.4) translateY(-8px); background-color: var(--wasd-color-prime); border-radius: 4px; box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16); }';
+                cssCode += 'img.sticker.small:hover { transform: scale(2.2) translateY(-4px); background-color: var(--wasd-color-prime); border-radius: 4px; box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16); }';
+            }
+            else if (settings.wasd.forceResizeStickers[1].toString() === '1') {
+                cssCode += 'img.sticker {max-width: -webkit-fill-available; transition: transform .2s; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
+                cssCode += 'img.sticker:hover { transform: scale(4.4) translateY(-8px); background-color: var(--wasd-color-prime); border-radius: 4px; box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16); }';
+            }
+            else if (settings.wasd.forceResizeStickers[1].toString() === '2') {
+                cssCode += 'img.sticker {max-width: -webkit-fill-available; transition: transform .2s; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
+                cssCode += 'img.sticker:hover { transform: scale(2.2) translateY(-8px); background-color: var(--wasd-color-prime); border-radius: 4px; box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16); }';
+            }
+
             cssCode += 'div.block__messages__item:hover { z-index: 1; }';
             cssCode += 'div.block__messages__item-ovg:hover { z-index: 1; }';
             cssCode += '.block__new-messages { z-index: 1; }'; // исправление ' к новым сообщениям '
         }
-        else if (settings.wasd.sticker[1].toString() === '1') {
-            cssCode += 'img.sticker { width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
+        else if (settings.wasd.sticker[1].toString() === '3') {
+            cssCode += 'img.sticker { display: none!important; }';
         }
         else if (settings.wasd.sticker[1].toString() === '4') {
             cssCode += 'img.sticker { display: none!important; }';
@@ -4679,7 +4762,7 @@ const wasd = {
         }
         cssCode+= `.paidsubs-popup__stickers-item {cursor: url(${chrome.extension.getURL("img/cursorS.png")}) 4 4, auto}`
 
-        if (settings.wasd.forceResizeStickers[1].toString() === '0') {
+        /*if (settings.wasd.forceResizeStickers[1].toString() === '0') {
             cssCode += 'img.sticker { transition: transform .2s; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
             cssCode += 'img.sticker:hover { transform: scale(4.4) translateY(-8px); background-color: var(--wasd-color-prime); border-radius: 4px; box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16); }';
             cssCode += 'img.sticker.small:hover { transform: scale(2.2) translateY(-4px); background-color: var(--wasd-color-prime); border-radius: 4px; box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16); }';
@@ -4689,7 +4772,7 @@ const wasd = {
         } else if (settings.wasd.forceResizeStickers[1].toString() === '2') {
             cssCode += 'img.sticker { transition: transform .2s; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
             cssCode += 'img.sticker:hover { transform: scale(2.2) translateY(-8px); background-color: var(--wasd-color-prime); border-radius: 4px; box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16); }';
-        }
+        }*/
 
         if (settings.wasd.decreaseIndentationStickerMenu[1]) {
             cssCode += 'wasd-chat-emoji-stickers .stickers__body {padding: 6px 0 0 8px!important;}wasd-chat-emoji-stickers .stickers__body__item {min-width: auto!important;padding: 2px!important;margin: 0 8px 8px 0!important;height: 43px!important;width: 43px!important;}wasd-chat-emoji-stickers .stickers__body__item--not-available {width: 18px!important;height: 18px!important;right: 10px!important;bottom: 10px!important;}wasd-chat-emoji-stickers .stickers__body__item--not-available img {height: 11px!important;}'
@@ -4753,6 +4836,27 @@ const BetterStreamChat = {
             removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
         };
         let changelogList = [{
+                version: '1.2.6',
+                date: '2021-07-11',
+                items: [{
+                    text: [
+                        'Ник пользователя в действиях это упоминание.'
+                    ],
+                    label: 'optimized'
+                },{
+                    text: [
+                        `Карточка пользователя - Последние сообщения - Роли пользователя.`
+                    ],
+                    label: 'added'
+                },{
+                    text: [
+                        `Карточка пользователя - Последние сообщения - APNG.`,
+                        `Принудительно изменять размер стикеров.`,
+                        `Прокрутка чата.`
+                    ],
+                    label: 'fixed'
+                }]
+            },{
                 version: '1.2.5.2',
                 date: '2021-07-06',
                 items: [{
@@ -4985,7 +5089,8 @@ const BetterStreamChat = {
                     label: 'fixed'
                 },{
                     text: [
-                        'Неавторизованные пользователи.', 'Мобильные устройства.'
+                        'Неавторизованные пользователи.',
+                        'Мобильные устройства.'
                     ],
                     label: 'optimized'
                 }] 

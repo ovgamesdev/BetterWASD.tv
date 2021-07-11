@@ -982,7 +982,7 @@ h4.tw-c-text-overlay.tw-ellipsis.tw-line-clamp-2.tw-word-break-all {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
-    display: -webkit-box;
+    display: flex;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     color: #fff!important;
@@ -992,6 +992,7 @@ h4.tw-c-text-overlay.tw-ellipsis.tw-line-clamp-2.tw-word-break-all {
     margin: 0;
     cursor: move;
     max-width: 205px;
+    width: 205px;
 }
 a.tw-link {
     text-decoration: none;
@@ -1124,7 +1125,7 @@ svg.ScIconSVG-sc-1bgeryd-1 {
     fill: currentcolor;
 }
 .bttv-moderator-card-nickname-change-button {
-    position: absolute;
+    position: relative;
     align-items: center;
     background-color: var(--color-background-button-icon-overlay-default);
     border: var(--border-width-default) solid transparent;
@@ -2612,4 +2613,46 @@ div.sticker-card:hover wasd-tooltip .tooltip {
 }
 .formField .optionField.botevent {
     margin-right: 15px;
+}
+
+
+.block__messages__item-ovg .is-moderator {
+    background-color: var(--wasd-color-gray2);
+    border-radius: 2px;
+    color: var(--wasd-color-white)!important;
+    padding: 0 8px 0 4px;
+}
+.block__messages__item-ovg .is-moderator i.icon {
+    margin-right: 4px;
+    width: 14px;
+}
+.block__messages__item-ovg .wasd-icons-moderator:before {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.block__messages__item-ovg .is-owner {
+    background-color: var(--wasd-color-event3);
+    border-radius: 2px;
+    color: var(--wasd-color-white)!important;
+    padding: 0 8px 0 4px;
+}
+.block__messages__item-ovg .is-owner i.icon {
+    margin-right: 4px;
+    width: 14px;
+}
+.block__messages__item-ovg .wasd-icons-owner:before {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.block__messages__item-ovg .info__text__status-paid {
+    border-radius: 2px;
+    margin-right: 4px;
+    padding: 0 4px;
+}
+
+.block__messages__item-ovg .wasd-icons-star:before {
+    margin-left: 0;
+    margin-right: 0;
 }
