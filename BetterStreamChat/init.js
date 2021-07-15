@@ -11,6 +11,17 @@ const BetterStreamChat = {
             removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
         };
         let changelogList = [{
+                version: '1.2.8',
+                date: '2021-07-15',
+                items: [{
+                    text: [
+                        `Распознавание ссылок.`,
+                        `Карточка пользователя - Последние сообщения.`,
+                        `BTTV и FFZ`
+                    ],
+                    label: 'optimized'
+                }]
+            },{
                 version: '1.2.7',
                 date: '2021-07-13',
                 items: [{
