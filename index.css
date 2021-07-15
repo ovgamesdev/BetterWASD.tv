@@ -42,7 +42,6 @@
 #bscSettingsPanel .update {
     flex: 0 0 auto;
     font-size: 30px;
-    margin-right: 20px;
     cursor: pointer;
 }
 
@@ -55,7 +54,8 @@
     padding: 0;
 }
 
-#bscSettingsPanel .nav>li {
+#bscSettingsPanel .nav>li,
+#bscSettingsPanel .nav>div {
     color: #adafae;
     cursor: pointer;
 }
@@ -70,7 +70,8 @@
     color: var(--wasd-color-corp-blue);
 }
 
-#bscSettingsPanel > header > ul.nav > li > a {
+#bscSettingsPanel > header > ul.nav > li > a,
+#bscSettingsPanel > header > ul.nav > div > a {
     padding-bottom: 12px;
     padding-left: 10px;
     padding-right: 10px;
@@ -2258,7 +2259,8 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
     #bscSettingsPanel .table-heading-text-ovg {
         font-size: 13px;
     }
-    #bscSettingsPanel .nav li a {
+    #bscSettingsPanel .nav li a,
+    #bscSettingsPanel .nav div a {
         font-size: 13px;
     }
     
