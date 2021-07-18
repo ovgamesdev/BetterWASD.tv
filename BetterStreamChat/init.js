@@ -917,7 +917,6 @@ const BetterStreamChat = {
                     HelperWASD.showChatMessage(`Пользователь ${text} добавлен в ЧС`, 'success')
                     settings.wasd.blockUserList[text] = new Date();
                     HelperWASD.addUserToBlackList(text)
-                    HelperWASD.removeMessagesOfUsername(text)
                     HelperSettings.save([document.querySelector('.optionField')]);
                 } else {
                     HelperWASD.showChatMessage('Пользователь уже в ЧС')
@@ -933,7 +932,6 @@ const BetterStreamChat = {
                     HelperWASD.showChatMessage(`Пользователь ${text} добавлен в ЧС`, 'success')
                     settings.wasd.blockUserList[text] = new Date();
                     HelperWASD.addUserToBlackList(text)
-                    HelperWASD.removeMessagesOfUsername(text)
                     HelperSettings.save([document.querySelector('.optionField')]);
                 } else {
                     HelperWASD.showChatMessage('Пользователь уже в ЧС')
