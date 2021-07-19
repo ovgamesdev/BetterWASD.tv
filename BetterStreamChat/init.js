@@ -11,6 +11,23 @@ const BetterStreamChat = {
             removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
         };
         let changelogList = [{
+                version: '1.2.9',
+                date: '2021-07-19',
+                items: [{
+                    text: [
+                        `Меню модератора - Временно заблокировать.`,
+                        `Срок блока "Временно заблокировать" (Меню модератора).`,
+                        `Удалить все сообщения "Временно заблокировать" (Меню модератора).`,
+                    ],
+                    label: 'added'
+                },{
+                    text: [
+                        `ЧС.`,
+                        `Меню модератора - Забанить пользователя.`,
+                    ],
+                    label: 'changed'
+                }]
+            },{
                 version: '1.2.8',
                 date: '2021-07-15',
                 items: [{

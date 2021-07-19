@@ -34,7 +34,7 @@ const Helper = {
                 pictureInPicture: [true, true],
                 resetToPlayer: [false, false],
                 moderatorMenu: [0, 0],
-                moderatorMenuAutomatic: [false, false],
+                moderatorMenuAutomatic: [true, true],
                 autoPlayStreamersOnMain: [true, true],
                 pressedFullScreen: [true, true],
                 pressedTheater: [true, true],
@@ -82,6 +82,8 @@ const Helper = {
                 decreaseIndentationBTTVandFFZMenu: [false, false],
                 highlightStickersStickerMenu: [false, false],
                 hideGreatRandom: [false, false],
+                moderatorMenuTimeout: [10, 10],
+                keepMessagesTimeout: [false, false],
             }
         };
     },

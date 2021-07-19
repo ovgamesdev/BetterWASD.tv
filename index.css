@@ -1257,6 +1257,60 @@ button.primary.medium.ovg {
     position: relative;
     width: inherit;
 }
+
+
+button.warning.medium.ovg.disabled {
+    background: #212528!important;
+    color: #949494!important;
+    cursor: no-drop;
+}
+button.warning.medium.ovg.disabled:hover  {
+    background: !important;
+    color: #949494!important;
+    cursor: no-drop;
+}
+button.warning.medium.ovg.disabled:active {
+    background: #212528!important;
+    color: #949494!important;
+    cursor: no-drop;
+}
+
+button.primary.medium.ovg:hover {
+    background-color: rgba(var(--wasd-color-warning--rgb),.16)!important;
+}
+button.primary.medium.ovg:active {
+    color: rgba(var(--wasd-color-white--rgb),.8)!important;
+    background-color: rgba(var(--wasd-color-warning--rgb),.24)!important;
+}
+
+button.warning.medium.ovg {
+    background: var(--wasd-color-gray1)!important;
+    color: var(--wasd-color-warning)!important;
+    height: 32px;
+    padding: 0 16px;
+    align-items: center;
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: Roboto-Bold,sans-serif;
+    letter-spacing: .4px;
+    outline: none;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .1s ease;
+    vertical-align: top;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+    width: inherit;
+}
+
+
+
 button * {
     pointer-events: none;
 }

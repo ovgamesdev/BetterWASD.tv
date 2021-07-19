@@ -188,6 +188,19 @@ const HelperSettings = {
                 title: 'Автоматически подтверждать бан/удаление (Меню модератора).',
                 type: 'boolean'
             },
+            moderatorMenuTimeout: {
+                title: 'Срок блока "Временно заблокировать" (Меню модератора).',
+                type: 'select',
+                items: [
+                    { value: 1, label: '1 минута' },
+                    { value: 10, label: '10 минут' },
+                    { value: 60, label: '1 час' }
+                ]
+            },
+            keepMessagesTimeout: {
+                title: 'Удалить все сообщения "Временно заблокировать" (Меню модератора).',
+                type: 'boolean'
+            },
             alternatingColorChatMessages: {
                 title: 'Отображать строки с меняющимеся цветами фона.',
                 type: 'boolean'

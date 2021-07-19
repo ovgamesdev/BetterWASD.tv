@@ -275,7 +275,6 @@ const HelperWASD = {
                             }
 
                             // viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').innerHTML = out.result.channel.channel_description;
-                            
                         }
 
                         // followers_count
@@ -741,19 +740,7 @@ const HelperWASD = {
                     if (document.querySelector('.user_last_messages-ovg')) document.querySelector('.user_last_messages-ovg').style.display = 'none';
                 };
 
-                let channelurl;
-
-                if (document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text') && document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text').textContent == " Доступно по ссылке " && document.querySelector('.stream-private-link__link-input input')) {
-                    channelurl = 'https://wasd.tv/api/v2/broadcasts/closed/' + new URL(document.querySelector('.stream-private-link__link-input input').value).pathname.split('/')[2]
-                } else if (document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text') && document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text').textContent == " Доступно для всех " && document.querySelector('#selector-sp-stream-links input[placeholder="Чат"]')) {
-                    channelurl = 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + new URL(document.querySelector('#selector-sp-stream-links input[placeholder="Чат"]').value).searchParams.get('channel_name')
-                } else if (new URL(document.URL).pathname.split('/')[1] == 'private-stream') {
-                    channelurl = 'https://wasd.tv/api/v2/broadcasts/closed/' + new URL(document.URL).pathname.split('/')[2]
-                } else {
-                    channelurl = 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + getChannelName()
-                }
-
-                oReq_channel.open("get", channelurl, true); oReq_channel.send();
+                oReq_channel.open("get", HelperWASD.getStreamBroadcastsUrl(), true); oReq_channel.send();
 
             } else {
                HelperWASD.showChatMessage('не удалось получить информацию о пользователе');
@@ -769,7 +756,6 @@ const HelperWASD = {
             }
         };
         oReq.open("get", `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${channel_name.trim()}`, true); oReq.send();
-
     },
     download(filename, text) {
         var element = document.createElement('a');
@@ -1043,4 +1029,18 @@ const HelperWASD = {
         if (data == data.slice(data.length-1)) {data = null}
         return {cmd: cmd, data: data}
     },
+    getStreamBroadcastsUrl() {
+        let channelurl = ''
+        if (document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text') && document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text').textContent == " Доступно по ссылке " && document.querySelector('.stream-private-link__link-input input')) {
+            channelurl = 'https://wasd.tv/api/v2/broadcasts/closed/' + new URL(document.querySelector('.stream-private-link__link-input input').value).pathname.split('/')[2]
+        } else if (document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text') && document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text').textContent == " Доступно для всех " && document.querySelector('#selector-sp-stream-links input[placeholder="Чат"]')) {
+            channelurl = 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + new URL(document.querySelector('#selector-sp-stream-links input[placeholder="Чат"]').value).searchParams.get('channel_name')
+        } else if (new URL(document.URL).pathname.split('/')[1] == 'private-stream') {
+            channelurl = 'https://wasd.tv/api/v2/broadcasts/closed/' + new URL(document.URL).pathname.split('/')[2]
+        } else {
+            channelurl = 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + getChannelName()
+        }
+
+        return channelurl
+    }
 }
