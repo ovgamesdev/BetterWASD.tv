@@ -53,7 +53,7 @@ const BetterStreamChat = {
                     label: 'fixed'
                 },{
                     text: [
-                        `БОТ.`
+                        `<a href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb" target="_blank">БОТ</a>.`
                     ],
                     label: 'removed'
                 }]
@@ -640,7 +640,7 @@ const BetterStreamChat = {
                     <li><a data-tab="bttvSettings">BTTV</a></li>
                     <li><a data-tab="ffzSettings">FFZ</a></li>
                     <li class="active"><a data-tab="wasdSettings">Настройки</a></li>
-                    <div><a href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb" target="_blank">БОТ</a></div>
+                    <!--div><a href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb" target="_blank">БОТ</a></div-->
                     <li><a data-tab="blacklist">ЧС</a></li>
                     <li><a data-tab="changelog">Журнал изменений</a></li>
                     <li><a data-tab="backup">Бэкап</a></li>
@@ -662,7 +662,8 @@ const BetterStreamChat = {
                     <h1 style="margin-top: 100px;">Думаете, этот аддон классный?</h1>
                     <br><br><h2>
                     Напишите отзыв на <a target="_blank" href="https://chrome.google.com/webstore/detail/betterwasd/cokaeiijnnpcfaoehijmdfcgbkpffgbh">Chrome Webstore</a>
-                    <!-- или <a target="_blank" href="https://addons.mozilla.org/ru/firefox/addon/betterwasd/">Firefox Add-ons site</a-->
+                    <br><br>
+                    или скачайте БОТа для вашего WASD канала <a target="_blank" href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb/">Chrome Webstore</a>
                     </h2><br>
                 </div>
             </main>
@@ -761,10 +762,14 @@ const BetterStreamChat = {
             <main class="text" data-tab="blacklist">
                 <h1 style="padding-left: 10px; padding-right: 10px;"> Черный список (чат) </h1>
                 <h4 style="margin-top:10px;padding-left: 10px;padding-right: 0px;"> Добавить в ЧС </h4>
-                <div style="padding-left: 10px;">
-                    <input placeholder="username" type="search" id="blacklistAddUser" />
-                    <button id="blacklistAddUserBtn" class="ovg-button">+</button>
+                <div style="padding-left: 10px;display: inline-flex;">
+                    <div style="min-width: 105px;overflow: unset;height: 22px;">
+                        <input placeholder="username" type="search" id="blacklistAddUser" style="width: -webkit-fill-available;">
+                        <div id="blacklist_result" class="inputresult" style="background-color: var(--wasd-color-prime);box-shadow: 0 0 2px 0 rgba(var(--wasd-color-switch--rgb),0.32);position: relative;"></div>
+                    </div>
+                    <button id="blacklistAddUserBtn" class="ovg-button" style="height: min-content;">+</button>
                 </div>
+
                 <table class="table-ovg">
                     <thead class="thead-ovg">
                         <th class="table-heading-ovg">
@@ -955,6 +960,7 @@ const BetterStreamChat = {
                 }
             }
             settingsDiv.querySelector('input#blacklistAddUser').value = ''
+            onFetchBLAddUser()
         });
 
         // navigation
@@ -1019,6 +1025,48 @@ const BetterStreamChat = {
                 HelperSettings.save([event.target]);
             });
         }
+
+
+        var userProf = '<ul>';
+        var active
+        var searchedText = ''
+        var controller, signal
+
+        settingsDiv.querySelector("#blacklist_result").innerHTML = userProf;
+        settingsDiv.querySelector("#blacklistAddUser").oninput = function() {
+            onFetchBLAddUser()
+        };
+
+        function onFetchBLAddUser() {
+            let searchInput =settingsDiv.querySelector("#blacklistAddUser")
+            let searchText = searchInput.value.toLowerCase();
+            let stringLength = searchText.length;
+            if (stringLength >= 1 && searchedText != searchText) {
+                
+                searchedText = searchText
+                if (controller) controller.abort();
+                controller = new AbortController();
+                signal = controller.signal;
+
+                fetch(`https://wasd.tv/api/search/profiles?limit=5&offset=0&search_phrase=${searchText}`, {signal})
+                .then(res => res.json())
+                .then((out) => {
+                    if ($('#blacklistAddUser').is(':focus')) {
+                        document.querySelector('#blacklist_result').innerHTML = '';
+                        active = 0
+                        for (let i = 0; i < out.result.rows.length; i++) {
+                            document.querySelector('#blacklist_result').innerHTML += "<li class='list'>" + "<h2>" + out.result.rows[i].user_login + "</h2>" + "</li>";
+                        }
+                    }
+                })
+
+            } else {
+                settingsDiv.querySelector("#blacklist_result").innerHTML = userProf;
+                active = null
+                searchedText = ''
+            }
+        }
+
 
         // load bttv and ffz emotes
         await HelperBTTV.update();

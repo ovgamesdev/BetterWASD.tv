@@ -19,7 +19,7 @@ const HelperSocket = {
                                 HelperSocket.streamId = out.result.media_container.media_container_streams[0].stream_id
                                 HelperSocket.channelId = out.result.channel.channel_id
                                 var data = `42["join",{"streamId":${HelperSocket.streamId},"channelId":${HelperSocket.channelId},"jwt":"${HelperSocket.jwt}","excludeStickers":true}]`;
-                                if (HelperSocket.socketd.readyState === 1) HelperSocket.socketd.send(data);
+                                if (HelperSocket.socketd && HelperSocket.socketd.readyState === 1) HelperSocket.socketd.send(data);
                                 HelperSocket.intervalcheck = setInterval(() => {
                                     if (HelperSocket.socketd) {
                                         try {

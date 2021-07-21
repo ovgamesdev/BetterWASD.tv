@@ -81,12 +81,16 @@ const HelperWASD = {
         let hide = () => {
             if (messageTimeout) { clearTimeout(messageTimeout); }
             messageTimeout = null;
-            statusNofify.removeEventListener('click', hide);
-            statusNofify.classList.remove('active');
+            if (statusNofify) {
+                statusNofify.removeEventListener('click', hide);
+                statusNofify.classList.remove('active');
+            }
             
         };
-        statusNofify.addEventListener('click', hide);
-        messageTimeout = setTimeout(hide, 2000);
+        if (statusNofify) {
+            statusNofify.addEventListener('click', hide);
+            messageTimeout = setTimeout(hide, 2000);    
+        }
     },
     addMessageToChat(messagetext, isClick=false) {
         messages = document.querySelector('.block__messages')

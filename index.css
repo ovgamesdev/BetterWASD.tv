@@ -1575,7 +1575,7 @@ div.stream-uptime > wasd-tooltip > div > div.tooltip-content:before {
 }
 
 #bscSettingsPanel .emoteCard {
-    width: 13.63%;
+    /*width: 13.63%*/;
     height: 105px;
     margin-right: 5px;
     margin-bottom: 5px;
@@ -1588,6 +1588,7 @@ div.stream-uptime > wasd-tooltip > div > div.tooltip-content:before {
     color: var(--wasd-color-text-second);
     justify-content: center;
     border: none!important;
+    min-width: 105px;
 }
 
 #bscSettingsPanel .emoteCard:hover {
@@ -1607,12 +1608,13 @@ div.stream-uptime > wasd-tooltip > div > div.tooltip-content:before {
     width: auto;
     height: 50px;
     margin-bottom: 8px;
-    max-width: calc(100% - 5px);
+    padding: 0 5px;
+    /*max-width: calc(100% - 5px);*/
 }
-#bscSettingsPanel .emoteCard:hover img {
+/*#bscSettingsPanel .emoteCard:hover img {
     max-width: unset!important;
     background-color: rgba(var(--wasd-color-prime--rgb),0.5);
-}
+}*/
 #bscSettingsPanel .emoteCard span {
     font-size: 13px;
     line-height: 16px;
@@ -1621,7 +1623,8 @@ div.stream-uptime > wasd-tooltip > div > div.tooltip-content:before {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: calc(100% - 10px);
+    width: auto;
+    max-width: 100px;
 }
 
 #bscSettingsPanel #bttvUserList,
@@ -2925,4 +2928,11 @@ div.chat-room__viewer-card * {
 }
 .ffz--shift-hide {
     color: var(--wasd-color-bg-second);
+}
+
+div.inputresult li:nth-child(2n) {
+    background-color: var(--color-second-layer);
+}
+div.inputresult li h2 {
+    padding: 2px 5px;
 }
