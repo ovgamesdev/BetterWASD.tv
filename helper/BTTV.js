@@ -129,8 +129,10 @@ const HelperBTTV = {
             $.ajax({
                 url: `https://api.betterttv.net/3/cached/users/twitch/${userID}`,
                 success: function(out){
-                    console.log(out)
-                    resolve (out)
+                    resolve ()
+                },
+                error: function(out){
+                    reject (out?.message)
                 }
             });
         });

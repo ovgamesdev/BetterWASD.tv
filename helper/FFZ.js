@@ -129,8 +129,10 @@ const HelperFFZ = {
             $.ajax({
                 url: `https://api.frankerfacez.com/v1/room/id/${userID}`,
                 success: function(out){
-                    console.log(out)
                     resolve (out)
+                },
+                error: function(out){
+                    reject (out?.message)
                 }
             });
         });
