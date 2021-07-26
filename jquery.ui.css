@@ -898,7 +898,7 @@ body .ui-tooltip {
 }
 .ui-widget.ui-widget-content {
 	background: var(--wasd-color-prime);
-	color: var(--wasd-color-text-prime);
+	color: rgba(var(--wasd-color-switch--rgb),.64);
 	box-shadow: 0 0 2px 0 rgba(var(--wasd-color-switch--rgb),0.32);
 	z-index: 999999;
 }
@@ -982,9 +982,9 @@ a.ui-button:focus {
 a.ui-button:active,
 .ui-button:active,
 .ui-button.ui-state-active:hover {
-	background: rgba(var(--wasd-color-switch--rgb),.08);
+	background: var(--wasd-color-corp-blue);
 	font-weight: normal;
-	color: rgba(var(--wasd-color-switch--rgb),.64);
+	color: var(--wasd-color-white);
 }
 .ui-icon-background,
 .ui-state-active .ui-icon-background {
