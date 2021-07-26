@@ -60,9 +60,14 @@ const HelperBTTV = {
             let bttvEmotes = items.bttvEmotes || {};
             let bttvUsers = items.bttvUsers || {};
             if (typeof bttvUsers.global === 'undefined' || Date.now() - bttvUsers.global.lastUpdate > 604800000) {
-                return fetch('https://api.betterttv.net/3/cached/emotes/global').then((response) => {
-                    if (response.status === 200) { return response.json(); }
-                    else { return Promise.reject(); }
+                // return
+                new Promise((resolve, reject) => {
+                    $.ajax(`https://api.betterttv.net/3/cached/emotes/global`
+                    ).always(function (out, textStatus, xhr) {
+                        console.log(out, textStatus, xhr)
+                        if (xhr.status === 200) { return resolve(out); }
+                        else { return reject(); }
+                    })
                 }).then((data) => {
                     bttvEmotes.global = {};
                     for (let emote of data) {
@@ -112,13 +117,23 @@ const HelperBTTV = {
             size = Number(settings.wasd.bttvEmoteSize[1]) + 1;
 
 
+
+
             if (HelperBTTV.emotes[word]) word = `<img class="stickerovg small" style="vertical-align: middle; width: auto!important;" src="https://cdn.betterttv.net/emote/${HelperBTTV.emotes[word]}/${size}x" alt="${word}" title="${word}" />`;
             newText.push(word);
         }
         return newText.join(' ');
     },
     getUserEmotes(userID) {
-        return Helper.fetch(`https://api.betterttv.net/3/cached/users/twitch/${userID}`);
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: `https://api.betterttv.net/3/cached/users/twitch/${userID}`,
+                success: function(out){
+                    console.log(out)
+                    resolve (out)
+                }
+            });
+        });
     },
     updateUserChannelEmotes(userID, username) {
         return HelperBTTV.getUserEmotes(userID).then((bttvData) => {
@@ -177,7 +192,7 @@ const HelperBTTV = {
             return HelperBTTV.update();
         }).then(() => {
             let newEmotes = Object.keys(HelperBTTV.emotes).length - beforeEmotes;
-            HelperSettings.showMessage(`Пользователь ${username} и ${newEmotes} эмоции добавлены.`);
+            HelperSettings.showMessage(`Пользователь ${username} и ${newEmotes} уникальные эмоции добавлены.`);
         }).catch((err) => {
             HelperSettings.showMessage(err, 'error');
         }).finally(() => {

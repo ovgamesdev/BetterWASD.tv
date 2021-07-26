@@ -60,9 +60,14 @@ const HelperFFZ = {
             let ffzEmotes = items.ffzEmotes || {};
             let ffzUsers = items.ffzUsers || {};
             if (typeof ffzUsers.global === 'undefined' || Date.now() - ffzUsers.global.lastUpdate > 604800000) {
-                return fetch('https://api.frankerfacez.com/v1/set/global').then((response) => {
-                    if (response.status === 200) { return response.json(); }
-                    else { return Promise.reject(); }
+                
+                new Promise((resolve, reject) => {
+                    $.ajax(`https://api.frankerfacez.com/v1/set/global`
+                    ).always(function (out, textStatus, xhr) {
+                        console.log(out, textStatus, xhr)
+                        if (xhr.status === 200) { return resolve(out); }
+                        else { return reject(); }
+                    })
                 }).then((data) => {
                     ffzEmotes.global = {};
                     for (let emote of data.sets[data.default_sets[0]].emoticons) {
@@ -120,7 +125,15 @@ const HelperFFZ = {
         return newText.join(' ');
     },
     getUserEmotes(userID) {
-        return Helper.fetch(`https://api.frankerfacez.com/v1/room/id/${userID}`);
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: `https://api.frankerfacez.com/v1/room/id/${userID}`,
+                success: function(out){
+                    console.log(out)
+                    resolve (out)
+                }
+            });
+        });
     },
     updateUserChannelEmotes(userID, username) {
         return HelperFFZ.getUserEmotes(userID).then((ffzData) => {
@@ -179,7 +192,7 @@ const HelperFFZ = {
             return HelperFFZ.update();
         }).then(() => {
             let newEmotes = Object.keys(HelperFFZ.emotes).length - beforeEmotes;
-            HelperSettings.showMessage(`Пользователь ${username} и ${newEmotes} эмоции добавлены.`);
+            HelperSettings.showMessage(`Пользователь ${username} и ${newEmotes} уникальные эмоции добавлены.`);
         }).catch((err) => {
             HelperSettings.showMessage(err, 'error');
         }).finally(() => {

@@ -11,6 +11,21 @@ const BetterStreamChat = {
             removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
         };
         let changelogList = [{
+                version: '1.3',
+                date: '2021-07-23',
+                items: [{
+                    text: [
+                        `ЧС.`
+                    ],
+                    label: 'optimized'
+                },{
+                    text: [
+                        `Чат после проигрывателя (Мобильные устройства).`,
+                        `Цвет для опции "Меню модератора".`
+                    ],
+                    label: 'added'
+                }]
+            },{
                 version: '1.2.9',
                 date: '2021-07-19',
                 items: [{
@@ -765,7 +780,6 @@ const BetterStreamChat = {
                 <div style="padding-left: 10px;display: inline-flex;">
                     <div style="min-width: 105px;overflow: unset;height: 22px;">
                         <input placeholder="username" type="search" id="blacklistAddUser" style="width: -webkit-fill-available;">
-                        <div id="blacklist_result" class="inputresult" style="background-color: var(--wasd-color-prime);box-shadow: 0 0 2px 0 rgba(var(--wasd-color-switch--rgb),0.32);position: relative;"></div>
                     </div>
                     <button id="blacklistAddUserBtn" class="ovg-button" style="height: min-content;">+</button>
                 </div>
@@ -799,7 +813,7 @@ const BetterStreamChat = {
             HelperBTTV.tryAddUser();
         });
         settingsDiv.querySelector('#bttvAddUser').addEventListener('keyup', (event) => {
-            if (event.key !== 'Enter') return; 
+            if (event.key !== 'Enter') return;
             HelperBTTV.tryAddUser();
         });
 
@@ -808,8 +822,19 @@ const BetterStreamChat = {
             HelperFFZ.tryAddUser();
         });
         settingsDiv.querySelector('#ffzAddUser').addEventListener('keyup', (event) => {
-            if (event.key !== 'Enter') return; 
+            if (event.key !== 'Enter') return;
             HelperFFZ.tryAddUser();
+        });
+
+        // bl events
+        settingsDiv.querySelector('#blacklistAddUserBtn').addEventListener('click', () => {
+            text = settingsDiv.querySelector('#blacklistAddUser').value
+            if (text != '') HelperWASD.addUserToBL(text)
+        });
+        settingsDiv.querySelector('#blacklistAddUser').addEventListener('keyup', (event) => {
+            if (event.key !== 'Enter') return;
+            text = settingsDiv.querySelector('#blacklistAddUser').value
+            HelperWASD.addUserToBL(text)
         });
 
         // bind close settings 
@@ -932,37 +957,6 @@ const BetterStreamChat = {
             HelperWASD.addUserToBlackList(user)
         }
 
-        settingsDiv.querySelector('button#blacklistAddUserBtn').addEventListener('click', () => {
-            text = settingsDiv.querySelector('input#blacklistAddUser').value
-            if (text != '') {
-                if (!settings.wasd.blockUserList[text]) {
-                    HelperWASD.showChatMessage(`Пользователь ${text} добавлен в ЧС`, 'success')
-                    settings.wasd.blockUserList[text] = new Date();
-                    HelperWASD.addUserToBlackList(text)
-                    HelperSettings.save([document.querySelector('.optionField')]);
-                } else {
-                    HelperWASD.showChatMessage('Пользователь уже в ЧС')
-                }
-            }
-            settingsDiv.querySelector('input#blacklistAddUser').value = ''
-        });
-
-        settingsDiv.querySelector('input#blacklistAddUser').addEventListener('change', () => {
-            text = settingsDiv.querySelector('input#blacklistAddUser').value
-            if (text != '') {
-                if (!settings.wasd.blockUserList[text]) {
-                    HelperWASD.showChatMessage(`Пользователь ${text} добавлен в ЧС`, 'success')
-                    settings.wasd.blockUserList[text] = new Date();
-                    HelperWASD.addUserToBlackList(text)
-                    HelperSettings.save([document.querySelector('.optionField')]);
-                } else {
-                    HelperWASD.showChatMessage('Пользователь уже в ЧС')
-                }
-            }
-            settingsDiv.querySelector('input#blacklistAddUser').value = ''
-            onFetchBLAddUser()
-        });
-
         // navigation
         for (let navItem of settingsDiv.querySelectorAll('ul.nav > li > a')) {
             navItem.addEventListener('click', ({ target }) => {
@@ -1027,45 +1021,57 @@ const BetterStreamChat = {
         }
 
 
-        var userProf = '<ul>';
-        var active
-        var searchedText = ''
-        var controller, signal
 
-        settingsDiv.querySelector("#blacklist_result").innerHTML = userProf;
-        settingsDiv.querySelector("#blacklistAddUser").oninput = function() {
-            onFetchBLAddUser()
-        };
-
-        function onFetchBLAddUser() {
-            let searchInput =settingsDiv.querySelector("#blacklistAddUser")
-            let searchText = searchInput.value.toLowerCase();
-            let stringLength = searchText.length;
-            if (stringLength >= 1 && searchedText != searchText) {
-                
-                searchedText = searchText
-                if (controller) controller.abort();
-                controller = new AbortController();
-                signal = controller.signal;
-
-                fetch(`https://wasd.tv/api/search/profiles?limit=5&offset=0&search_phrase=${searchText}`, {signal})
-                .then(res => res.json())
-                .then((out) => {
-                    if ($('#blacklistAddUser').is(':focus')) {
-                        document.querySelector('#blacklist_result').innerHTML = '';
-                        active = 0
-                        for (let i = 0; i < out.result.rows.length; i++) {
-                            document.querySelector('#blacklist_result').innerHTML += "<li class='list'>" + "<h2>" + out.result.rows[i].user_login + "</h2>" + "</li>";
-                        }
+        let searchInput = settingsDiv.querySelector('#blacklistAddUser')
+        $("#blacklistAddUser").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: `https://wasd.tv/api/search/profiles?limit=5&offset=0&search_phrase=${searchInput.value.toLowerCase()}`,
+                    success: function(data){
+                        response($.map(data?.result?.rows, function(item) {
+                            return { label: item.user_login, value: item.user_login }
+                        }));
                     }
-                })
-
-            } else {
-                settingsDiv.querySelector("#blacklist_result").innerHTML = userProf;
-                active = null
-                searchedText = ''
+                });
             }
-        }
+        });
+
+        let searchBTTVUser = settingsDiv.querySelector("#bttvAddUser")
+        $("#bttvAddUser").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: `https://api.twitch.tv/kraken/search/channels?query=${searchBTTVUser.value.toLowerCase()}&limit=5`,
+                    headers: {
+                        'Client-ID': 'iteua36t3bn764geiij8px2tr5w5bl',
+                        Accept: 'application/vnd.twitchtv.v5+json'
+                    },
+                    success: function(data){
+                        response($.map(data.channels, function(item) {
+                            return { label: item.display_name, value: item.display_name }
+                        }));
+                    }
+                });
+            }
+        });
+
+        let searchFFZUser = settingsDiv.querySelector("#ffzAddUser")
+        $("#ffzAddUser").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: `https://api.twitch.tv/kraken/search/channels?query=${searchFFZUser.value.toLowerCase()}&limit=5`,
+                    headers: {
+                        'Client-ID': 'iteua36t3bn764geiij8px2tr5w5bl',
+                        Accept: 'application/vnd.twitchtv.v5+json'
+                    },
+                    success: function(data){
+                        response($.map(data.channels, function(item) {
+                            return { label: item.display_name, value: item.display_name }
+                        }));
+                    }
+                });
+            }
+        });
+
 
 
         // load bttv and ffz emotes

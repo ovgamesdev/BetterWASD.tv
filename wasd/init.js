@@ -193,17 +193,24 @@ const wasd = {
             wasd.update();
         }
 
-        function openMobileChat() {
+        function fixMobilePlayer() {
             setTimeout(()=> {
-                if(document.querySelector('.chat-container__btn-open--mobile')) {
-                    document.querySelector('.chat-container__btn-open--mobile').click()
+                if (document.querySelector('.theatre-mode-mobile')) {
+                    document.querySelector('.theatre-mode-mobile').classList.remove('theatre-mode-mobile')
+                    document.querySelector('.chat-container__btn-open--mobile').addEventListener('click', () => {
+                        document.querySelector('.player-wrapper').classList.add('theatre-mode-mobile')
+                    })
+                    document.querySelector('.chat-container__btn-close--mobile').addEventListener('click', () => {
+                        document.querySelector('.player-wrapper').classList.remove('theatre-mode-mobile')
+                    })
                 } else {
-                    openMobileChat()
+                    fixMobilePlayer()
                 }
             }, 1)
         }
 
-        openMobileChat()
+        fixMobilePlayer()
+
     },
     update() {
         let cssCode = ``;
@@ -393,8 +400,6 @@ const wasd = {
             cssCode += `#banner_mobile_app { display: none!important; }`;
         }
 
-        cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc((100% - 97px) - 56vw)!important; }}`
-
         if (settings.wasd.alwaysOpenVolumeControl[1]) {
             cssCode += `div.volume-container .volume-slider-container {width: 86px!important;}`
         }
@@ -462,6 +467,24 @@ const wasd = {
                 cssCode += `.block__messages__item[mention*="${d}"] {display: none!important;}`
             }
         }
+
+        if (settings.wasd.chatMobilePlayer[1]) {
+            if (settings.wasd.hidePanelMobile[1]) {
+                cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc(100% - 97px)!important; }}`
+
+                cssCode +=`@media screen and (max-width:480px){.visible--mobile{width:100%!important}.theatre-mode-mobile{position:fixed!important;top:48px;z-index:999}}`
+                cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc((100% - 97px) - 56vw)!important; }}`
+            } else {
+                cssCode +=`@media screen and (max-width:480px){.visible--mobile{width:100%!important}.theatre-mode-mobile{position:fixed!important;top:97px;z-index:999}}`
+                cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc((100% - 145px) - 56vw)!important; }}`
+            }
+        } else {
+            if (settings.wasd.hidePanelMobile[1]) {
+                cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc(100% - 97px)!important; }}`
+            }
+        }
+
+        cssCode += `.info__text__status-paid-ovg {background-color: ${settings.wasd.colorModOptions[1] != '#000000' ? settings.wasd.colorModOptions[1]+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
 
         if (wasd.style) {
             if (typeof wasd.style.styleSheet !== 'undefined') {
@@ -772,42 +795,45 @@ const wasd = {
                         
 	                    if (HelperWASD.isModerator) {
                             let data = node.querySelector('.info__text__status__name').getAttribute('username').toLowerCase()
-                            fetch(`https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`)
-                            .then(res => res.json())
-                            .then((out) => {
-                                if (out.result) {
-                                    var finded = false;
-                                    for (let value of out.result.rows) {
 
-                                        if (value.user_login.toLowerCase().trim() == data) {
-                                            finded = true;
-                                            fetch(HelperWASD.getStreamBroadcastsUrl())
-                                            .then(res => res.json())
-                                            .then((out) => {
-                                                let response = {
-                                                    method: 'PUT',
-                                                    body: `{"user_id":${value.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}, "keep_messages": ${!settings.wasd.keepMessagesTimeout[1]}, "duration": ${settings.wasd.moderatorMenuTimeout[1]}}`,
-                                                    headers: {'Content-Type': 'application/json'},
-                                                }
-                                                fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
-                                                .then(res => res.json())
-                                                .then((out) => {
-                                                    //console.log(out)
-                                                    if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                                        HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
-                                                    } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                                        HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                            $.ajax({
+                                url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`,
+                                success: function(out){
+                                    if (out.result) {
+                                        var finded = false;
+                                        for (let value of out.result.rows) {
+
+                                            if (value.user_login.toLowerCase().trim() == data) {
+                                                finded = true;
+
+                                                $.ajax({
+                                                    url: HelperWASD.getStreamBroadcastsUrl(),
+                                                    success: function(out){
+                                                        $.ajax({
+                                                            method: 'PUT',
+                                                            data: { "user_id": value.user_id, "stream_id": out.result.media_container.media_container_streams[0].stream_id, "keep_messages": !settings.wasd.keepMessagesTimeout[1], "duration": settings.wasd.moderatorMenuTimeout[1]},
+                                                            url: `https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`,
+                                                            success: function(out){
+                                                                if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
+                                                                    HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
+                                                                } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
+                                                                    HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                                                                }
+                                                            }
+                                                        });
                                                     }
-                                                })
-                                            })
-                                            break;
+                                                });
+                                                
+                                                break;
+                                            }
+                                        }
+                                        if (!finded) {
+                                            HelperWASD.showChatMessage('Пользователь не найден');
                                         }
                                     }
-                                    if (!finded) {
-                                        HelperWASD.showChatMessage('Пользователь не найден');
-                                    }
                                 }
-                            })
+                            });
+
                         } else {
                            HelperWASD.showChatMessage('Вы не можете этого сделать');
                         }
@@ -819,42 +845,45 @@ const wasd = {
 
                         if (HelperWASD.isModerator) {
                             let data = node.querySelector('.info__text__status__name').getAttribute('username').toLowerCase()
-                            fetch(`https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`)
-                            .then(res => res.json())
-                            .then((out) => {
-                                if (out.result) {
-                                    var finded = false;
-                                    for (let value of out.result.rows) {
 
-                                        if (value.user_login.toLowerCase().trim() == data) {
-                                            finded = true;
-                                            fetch(HelperWASD.getStreamBroadcastsUrl())
-                                            .then(res => res.json())
-                                            .then((out) => {
-                                                let response = {
-                                                    method: 'PUT',
-                                                    body: `{"user_id":${value.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}}`,
-                                                    headers: {'Content-Type': 'application/json'},
-                                                }
-                                                fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
-                                                .then(res => res.json())
-                                                .then((out) => {
-                                                    //console.log(out)
-                                                    if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                                        HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
-                                                    } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                                        HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+
+                            $.ajax({
+                                url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`,
+                                success: function(out){
+                                    if (out.result) {
+                                        var finded = false;
+                                        for (let value of out.result.rows) {
+
+                                            if (value.user_login.toLowerCase().trim() == data) {
+                                                finded = true;
+                                                $.ajax({
+                                                    url: HelperWASD.getStreamBroadcastsUrl(),
+                                                    success: function(out){
+                                                        $.ajax({
+                                                            method: 'PUT',
+                                                            data: {"user_id": value.user_id, "stream_id": out.result.media_container.media_container_streams[0].stream_id},
+                                                            url: `https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`,
+                                                            success: function(out){
+                                                                if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
+                                                                    HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
+                                                                } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
+                                                                    HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                                                                }
+                                                            }
+                                                        });
                                                     }
-                                                })
-                                            })
-                                            break;
+                                                });
+
+                                                break;
+                                            }
+                                        }
+                                        if (!finded) {
+                                            HelperWASD.showChatMessage('Пользователь не найден');
                                         }
                                     }
-                                    if (!finded) {
-                                        HelperWASD.showChatMessage('Пользователь не найден');
-                                    }
                                 }
-                            })
+                            });
+
                         } else {
                            HelperWASD.showChatMessage('Вы не можете этого сделать');
                         }
@@ -864,9 +893,9 @@ const wasd = {
 	            let loading;
 	            let messageInfoStatus = node.querySelector('div.info__text__status')
 	            if (messageInfoStatus && !node.querySelector('div.is-owner') && node.querySelector('div.message__info__icon')) {
-	                messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button banned" style="background-color: rgb(0 140 255);"><i class="icon-ovg wasd-icons-ban"></i></div>`);
-                    messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button timeout" style="background-color: rgb(0 140 255);"><i class="icon-ovg wasd-icons-sound-off"></i></div>`);
-	                messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button remove" style="background-color: rgb(0 140 255);"><i class="icon-ovg wasd-icons-delete"></i></div>`);
+	                messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button banned"><i class="icon-ovg wasd-icons-ban"></i></div>`);
+                    messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button timeout"><i class="icon-ovg wasd-icons-sound-off"></i></div>`);
+	                messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button remove"><i class="icon-ovg wasd-icons-delete"></i></div>`);
 
 	                messageInfo = node.querySelector('div.message__info');
 	                if (messageInfo) {
@@ -877,42 +906,45 @@ const wasd = {
 	                messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.banned').addEventListener('click', ({ target }) => {
 	                    if (HelperWASD.isModerator) {
                             let data = node.querySelector('.info__text__status__name').getAttribute('username').toLowerCase()
-                            fetch(`https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`)
-                            .then(res => res.json())
-                            .then((out) => {
-                                if (out.result) {
-                                    var finded = false;
-                                    for (let value of out.result.rows) {
 
-                                        if (value.user_login.toLowerCase().trim() == data) {
-                                            finded = true;
-                                            fetch(HelperWASD.getStreamBroadcastsUrl())
-                                            .then(res => res.json())
-                                            .then((out) => {
-                                                let response = {
-                                                    method: 'PUT',
-                                                    body: `{"user_id":${value.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}}`,
-                                                    headers: {'Content-Type': 'application/json'},
-                                                }
-                                                fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
-                                                .then(res => res.json())
-                                                .then((out) => {
-                                                    //console.log(out)
-                                                    if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                                        HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
-                                                    } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                                        HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                            $.ajax({
+                                url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`,
+                                success: function(out){
+                                    if (out.result) {
+                                        var finded = false;
+                                        for (let value of out.result.rows) {
+
+                                            if (value.user_login.toLowerCase().trim() == data) {
+                                                finded = true;
+
+                                                $.ajax({
+                                                    url: HelperWASD.getStreamBroadcastsUrl(),
+                                                    success: function(out){
+                                                        $.ajax({
+                                                            method: 'PUT',
+                                                            data: {"user_id": value.user_id, "stream_id": out.result.media_container.media_container_streams[0].stream_id},
+                                                            url: `https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`,
+                                                            success: function(out){
+                                                                if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
+                                                                    HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
+                                                                } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
+                                                                    HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                                                                }
+                                                            }
+                                                        });
                                                     }
-                                                })
-                                            })
-                                            break;
+                                                });
+
+                                                break;
+                                            }
+                                        }
+                                        if (!finded) {
+                                            HelperWASD.showChatMessage('Пользователь не найден');
                                         }
                                     }
-                                    if (!finded) {
-                                        HelperWASD.showChatMessage('Пользователь не найден');
-                                    }
                                 }
-                            })
+                            });
+
                         } else {
                            HelperWASD.showChatMessage('Вы не можете этого сделать');
                         }
@@ -921,42 +953,45 @@ const wasd = {
                     messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.timeout').addEventListener('click', ({ target }) => {
                         if (HelperWASD.isModerator) {
                             let data = node.querySelector('.info__text__status__name').getAttribute('username').toLowerCase()
-                            fetch(`https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`)
-                            .then(res => res.json())
-                            .then((out) => {
-                                if (out.result) {
-                                    var finded = false;
-                                    for (let value of out.result.rows) {
 
-                                        if (value.user_login.toLowerCase().trim() == data) {
-                                            finded = true;
-                                            fetch(HelperWASD.getStreamBroadcastsUrl())
-                                            .then(res => res.json())
-                                            .then((out) => {
-                                                let response = {
-                                                    method: 'PUT',
-                                                    body: `{"user_id":${value.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}, "keep_messages": ${!settings.wasd.keepMessagesTimeout[1]}, "duration": ${settings.wasd.moderatorMenuTimeout[1]}}`,
-                                                    headers: {'Content-Type': 'application/json'},
-                                                }
-                                                fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
-                                                .then(res => res.json())
-                                                .then((out) => {
-                                                    //console.log(out)
-                                                    if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                                        HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
-                                                    } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                                        HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                            $.ajax({
+                                url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`,
+                                success: function(out){
+                                    if (out.result) {
+                                        var finded = false;
+                                        for (let value of out.result.rows) {
+
+                                            if (value.user_login.toLowerCase().trim() == data) {
+                                                finded = true;
+
+                                                $.ajax({
+                                                    url: HelperWASD.getStreamBroadcastsUrl(),
+                                                    success: function(out){
+                                                        $.ajax({
+                                                            method: 'PUT',
+                                                            data: {"user_id": value.user_id, "stream_id": out.result.media_container.media_container_streams[0].stream_id, "keep_messages": !settings.wasd.keepMessagesTimeout[1], "duration": settings.wasd.moderatorMenuTimeout[1]},
+                                                            url: `https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`,
+                                                            success: function(out){
+                                                                if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
+                                                                    HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
+                                                                } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
+                                                                    HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                                                                }
+                                                            }
+                                                        });
                                                     }
-                                                })
-                                            })
-                                            break;
+                                                });
+
+                                                break;
+                                            }
+                                        }
+                                        if (!finded) {
+                                            HelperWASD.showChatMessage('Пользователь не найден');
                                         }
                                     }
-                                    if (!finded) {
-                                        HelperWASD.showChatMessage('Пользователь не найден');
-                                    }
                                 }
-                            })
+                            });
+
                         } else {
                            HelperWASD.showChatMessage('Вы не можете этого сделать');
                         }

@@ -1608,7 +1608,8 @@ div.stream-uptime > wasd-tooltip > div > div.tooltip-content:before {
     width: auto;
     height: 50px;
     margin-bottom: 8px;
-    padding: 0 5px;
+    /*padding: 0 5px;*/
+    padding: 0 16.9px;
     /*max-width: calc(100% - 5px);*/
 }
 /*#bscSettingsPanel .emoteCard:hover img {
@@ -2238,14 +2239,14 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
         box-shadow: none!important;
         border-color: rgba(0, 0, 0, 0)!important;
     }
-    .visible--mobile {
+    /*.visible--mobile {
         width: 100%!important;
     }
     .theatre-mode-mobile {
         position: fixed!important;
         top: 48px;
         z-index: 999;
-    }
+    }*/
     .ovg-viewer-card {
         width: calc(100% - 15px)!important;
     }
@@ -2295,7 +2296,6 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
         font-size: 13px !important;
     }
     #bscSettingsPanel .emoteCard {
-        width: 23%;
         height: 81px;
     }
     #bscSettingsPanel .emoteCard img {
@@ -2935,4 +2935,5 @@ div.inputresult li:nth-child(2n) {
 }
 div.inputresult li h2 {
     padding: 2px 5px;
+    pointer-events: none;
 }

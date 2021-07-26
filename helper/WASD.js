@@ -104,7 +104,7 @@ const HelperWASD = {
     },
     createUserViewerCard(channel_name, positionself=false) {
         var y_card;
-        var x_card = 5;
+        var x_card = 7.5;
         var data;
         if (!positionself) {
             if (document.querySelector('div.chat-container')) {
@@ -113,26 +113,26 @@ const HelperWASD = {
                     x_card = document.querySelector('div#scroll-content.wrapper').offsetWidth - document.querySelector('div.chat-container').offsetWidth + 5;
                 } else {
                     y_card = y-13;
-                    x_card = 4;
+                    x_card = 6.5;
                 }
 
-                if (document.querySelector('div#scroll-content.wrapper').offsetWidth-4 <= x_card+310) {
-                    x_card = (document.querySelector('div#scroll-content.wrapper').offsetWidth-4) - 310-1;
+                if (document.querySelector('div#scroll-content.wrapper').offsetWidth-6.5 <= x_card+310) {
+                    x_card = (document.querySelector('div#scroll-content.wrapper').offsetWidth-6.5) - 310-1;
                 }
-                if (!(x_card <= 4)) {
-                    if ((x_card >= (document.querySelector('div#scroll-content.wrapper').offsetWidth-4) - 180)) {
-                        x_card = ((document.querySelector('div#scroll-content.wrapper').offsetWidth-4) - 181);
+                if (!(x_card <= 6.5)) {
+                    if ((x_card >= (document.querySelector('div#scroll-content.wrapper').offsetWidth-6.5) - 180)) {
+                        x_card = ((document.querySelector('div#scroll-content.wrapper').offsetWidth-6.5) - 181);
                     }
                 } else {
-                    x_card = 5;
+                    x_card = 7.5;
                 }
 
-                if (!(y_card <= 4)) {
-                    if ((y_card >= (document.querySelector('div#scroll-content.wrapper').offsetHeight-4) - 476)) {
-                        y_card = ((document.querySelector('div#scroll-content.wrapper').offsetHeight-4) - 477);
+                if (!(y_card <= 6.5)) {
+                    if ((y_card >= (document.querySelector('div#scroll-content.wrapper').offsetHeight-6.5) - 476)) {
+                        y_card = ((document.querySelector('div#scroll-content.wrapper').offsetHeight-6.5) - 477);
                     }
                 } else {
-                    y_card = 5;
+                    y_card = 7.5;
                 }
             } else {
                 y_card = y-13;
@@ -141,7 +141,7 @@ const HelperWASD = {
 
             let mobile = document.querySelector('.theatre-mode-mobile');
             if (mobile) {
-                y_card = mobile.clientHeight + 44 + 5
+                y_card = mobile.clientHeight + 93 + 7.5
             }
         } else if (document.querySelector('div.chat-room__viewer-card')) {
             y_card = document.querySelector('.ovg-viewer-card').offsetTop
@@ -329,48 +329,54 @@ const HelperWASD = {
                         buttonfollow.addEventListener('click', () => {
                             
                             if (!buttonfollow.classList.contains('disabled')) {
-                                let urlurlbroadcasts2 = `https://wasd.tv/api/v2/broadcasts/public?channel_id=${data.channel_id}`;
-                                fetch(urlurlbroadcasts2)
-                                .then(res => res.json())
-                                .then((out) => {
-                                    if (!out.result.channel.is_user_follower) {
-                                        // follow
-                                        let url = `https://wasd.tv/api/channels/${data.channel_id}/followers/`
-                                        fetch(url, {method: 'PUT'})
-                                        .then(res => res.json())
-                                        .then((out) => {
-                                            if (buttonfollow) {
-                                                buttonfollow.classList.add('basic'); // add class to unfollow
-                                                buttonfollow.classList.remove('medium');
-                                                buttonfollow.classList.remove('disabled');
 
-                                                ifollow.classList.remove('wasd-icons-like');
-                                                
-                                                ifollow.classList.add('wasd-icons-favorite');
-                                                tooltipfollow.textContent = ' В избранном ';
-                                            }
-                                            //console.log(out.result);
-                                        });
-                                    } else {
-                                        // un follow
-                                        let url = `https://wasd.tv/api/channels/${data.channel_id}/followers/`;
-                                        fetch(url, {method: 'DELETE'})
-                                        .then(res => res.json())
-                                        .then((out) => {
-                                            if (buttonfollow) {
-                                                buttonfollow.classList.add('medium'); // add class to follow
-                                                buttonfollow.classList.remove('basic');
-                                                buttonfollow.classList.remove('disabled');
+                                $.ajax({
+                                    url: `https://wasd.tv/api/v2/broadcasts/public?channel_id=${data.channel_id}`,
+                                    success: function(out){
+                                        if (!out.result.channel.is_user_follower) {
+                                            // follow
 
-                                                ifollow.classList.remove('wasd-icons-favorite');
-                                                ifollow.classList.add('wasd-icons-like');
+                                            $.ajax({
+                                                method: 'PUT',
+                                                url: `https://wasd.tv/api/channels/${data.channel_id}/followers/`,
+                                                success: function(out){
+                                                    if (buttonfollow) {
+                                                        buttonfollow.classList.add('basic'); // add class to unfollow
+                                                        buttonfollow.classList.remove('medium');
+                                                        buttonfollow.classList.remove('disabled');
 
-                                                tooltipfollow.textContent = ' Добавить в избранное '; 
-                                            }
-                                            //console.log(out.result);
-                                        });
+                                                        ifollow.classList.remove('wasd-icons-like');
+                                                        
+                                                        ifollow.classList.add('wasd-icons-favorite');
+                                                        tooltipfollow.textContent = ' В избранном ';
+                                                    }
+                                                }
+                                            });
+                                            
+                                        } else {
+                                            // un follow
+
+                                            $.ajax({
+                                                method: 'DELETE',
+                                                url: `https://wasd.tv/api/channels/${data.channel_id}/followers/`,
+                                                success: function(out){
+                                                    if (buttonfollow) {
+                                                        buttonfollow.classList.add('medium'); // add class to follow
+                                                        buttonfollow.classList.remove('basic');
+                                                        buttonfollow.classList.remove('disabled');
+
+                                                        ifollow.classList.remove('wasd-icons-favorite');
+                                                        ifollow.classList.add('wasd-icons-like');
+
+                                                        tooltipfollow.textContent = ' Добавить в избранное '; 
+                                                    }
+                                                }
+                                            });
+
+                                        }
                                     }
-                                })
+                                });
+
                             }
                                 
                         });
@@ -470,8 +476,15 @@ const HelperWASD = {
                                 if (content.style.maxHeight) {
                                     content.style.maxHeight = null;
                                 } else {
-                                    if (document.querySelector('.theatre-mode-mobile')) {
-                                        document.querySelector('.block-ovg').style.maxHeight = document.querySelector('.chat-container__wrap').clientHeight - (13 + document.querySelector('.ovg-viewer-card').clientHeight)+'px'
+                                    if (document.querySelector('.theatre-mode-mobile') && settings.wasd.chatMobilePlayer[1]) {
+                                        
+                                        if (settings.wasd.hidePanelMobile[1]) {
+                                            document.querySelector('.block-ovg').style.maxHeight = document.querySelector('.chat-container__wrap').clientHeight - (62 + document.querySelector('.ovg-viewer-card').clientHeight)+'px'
+                                        } else {
+                                            document.querySelector('.block-ovg').style.maxHeight = document.querySelector('.chat-container__wrap').clientHeight - (64 + document.querySelector('.ovg-viewer-card').clientHeight)+'px'
+                                        }
+                                        
+                                        //document.querySelector('.block-ovg').style.maxHeight = document.querySelector('.chat-container__wrap').clientHeight - (13 + document.querySelector('.ovg-viewer-card').clientHeight)+'px'
                                     } else {
                                         content.style.maxHeight = "190px";
                                     }
@@ -961,23 +974,29 @@ const HelperWASD = {
         var isMod = false;
         return new Promise((resolve, reject) => {
             if (document.querySelector('#selector-header-profile .header__user-profile-name')) {
-                fetch(`https://wasd.tv/api/v2/broadcasts/public?channel_name=${getChannelName()}`)
-                .then(res => res.json())
-                .then((out) => {
-                    if (typeof out.result !== 'undefined') if (typeof out.result.channel !== 'undefined') {
-                        fetch(`https://wasd.tv/api/chat/streamers/${out.result.channel.user_id}/moderators`)
-                        .then(res => res.json())
-                        .then((out) => {
-                            for(var mod of out.result) {
-                                if (mod.user_login.trim() == document.querySelector('#selector-header-profile .header__user-profile-name').textContent.trim()) {
-                                    isMod = true
-                                    resolve(isMod)
+
+                $.ajax({
+                    url: `https://wasd.tv/api/v2/broadcasts/public?channel_name=${getChannelName()}`,
+                    success: function(out){
+                        if (typeof out.result !== 'undefined') if (typeof out.result.channel !== 'undefined') {
+
+                            $.ajax({
+                                url: `https://wasd.tv/api/chat/streamers/${out.result.channel.user_id}/moderators`,
+                                success: function(out){
+                                    for(var mod of out.result) {
+                                        if (mod.user_login.trim() == document.querySelector('#selector-header-profile .header__user-profile-name').textContent.trim()) {
+                                            isMod = true
+                                            resolve(isMod)
+                                        }
+                                    }
+                                    if (!isMod) resolve(isMod)
                                 }
-                            }
-                            if (!isMod) resolve(isMod)
-                        })
+                            });
+
+                        }
                     }
-                })
+                });
+
             } else {
                 resolve(false)
             }
@@ -998,18 +1017,20 @@ const HelperWASD = {
     },
     async getSelfDateFollowedTo(user_login) {
         return new Promise((resolve, reject) => {
-            fetch('https://wasd.tv/api/profiles/current/followed-channels?limit=999&offset=0')
-            .then(res => res.json())
-            .then((out) => {
-                var isMod;
-                for (var data of out.result) {
-                    if (data.channel_owner.user_login == user_login) {
-                        isMod = true;
-                        resolve(data.channel_follower.updated_at)
+            $.ajax({
+                url: `https://wasd.tv/api/profiles/current/followed-channels?limit=999&offset=0`,
+                success: function(out){
+                    var isMod;
+                    for (var data of out.result) {
+                        if (data.channel_owner.user_login == user_login) {
+                            isMod = true;
+                            resolve(data.channel_follower.updated_at)
+                        }
                     }
+                    if (!isMod) reject('NOT_FOUND')
                 }
-                if (!isMod) reject('NOT_FOUND')
-            })
+            });
+
         })
     },
     removeMessagesOfUsername(username) {
@@ -1046,5 +1067,16 @@ const HelperWASD = {
         }
 
         return channelurl
+    },
+    addUserToBL(username) {
+        if (!settings.wasd.blockUserList[username]) {
+            HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
+            settings.wasd.blockUserList[text] = new Date();
+            HelperWASD.addUserToBlackList(username)
+            HelperSettings.save([document.querySelector('.optionField')]);
+        } else {
+            HelperWASD.showChatMessage('Пользователь уже в ЧС')
+        }
+        document.querySelector('#bscSettingsPanel #blacklistAddUser').value = ''
     }
 }

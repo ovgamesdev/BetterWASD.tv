@@ -235,43 +235,82 @@ function createClipByOvg() {
                         divbuttons.children[2].insertAdjacentHTML("afterend", buttonpip);
                         const button = document.querySelector("button.clip-ovg");
 
-                        fetch(`${new URL(document.URL).pathname.split('/')[1] == 'private-stream'? 'https://wasd.tv/api/v2/broadcasts/closed/' + new URL(document.URL).pathname.split('/')[2] : 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + getChannelName()} `)
-                        .then(res => res.json())
-                        .then((out) => {
-                            if (out.error) {
-                                new Error(out.error.code)
-                            } else if (out.result.media_container) {
-                                button.addEventListener('click', () => {
-                                    if (document.querySelector('iframe#createClip')) {
-                                        document.querySelector('iframe#createClip').remove()
-                                    } else {
-                                        document.querySelector('wasd-player-component > div[data-player]').insertAdjacentHTML("beforeend", `<iframe id="createClip" src="https://wasd.tv/clip/${out.result.media_container.media_container_id}" width="500" height="640" align="left" style="bottom: 15px; right: 5px; position: absolute; z-index: 998;">Ваш браузер не поддерживает плавающие фреймы!</iframe>`);
-                                        var iframe = document.querySelector('iframe#createClip')
-                                        iframe.onload = function() {
-                                            var style = document.createElement('style')
-                                            style.textContent ='body {background-color: rgba(0,0,0,0)!important;} #topDiv, wasd-mobile-app, wasd-dynamic-popup, wasd-footer {display: none!important;} #scroll-content {background-color: rgba(0,0,0,0)!important; overflow: hidden;margin: 0!important;height: 100%!important;} .create-clip{padding: 0!important;} div.close-cip {display: flex;width: 100%;max-width: 640px;}div.close-cip .create-clip__title {font-size: 24px;color: var(--wasd-color-switch);width: 100%;max-width: 640px;}div.close-cip .close-clip-btn {background-color: red;width: 28px;height: 28px;text-align: center;}div.close-cip .close-clip-btn span.close-text {font-size: 20px;}} div.tw-absolute.tw-mg-r-05.tw-mg-t-05.tw-right-0.tw-top-0 {margin-right: .5rem!important;margin-top: .5rem!important;right: 0!important;top: 0!important;position: absolute!important;}div.tw-inline-flex.viewer-card-drag-cancel {display: inline-flex!important;cursor: auto;}button.tw-button-icon.tw-button-icon--overlay.tw-core-button {border: 1px solid transparent;background-color: transparent;color: #fff;border-radius: .4rem;height: 3rem;justify-content: center;user-select: none;display: inline-flex;align-items: center;position: relative;-webkit-box-align: center;-webkit-box-pack: center;vertical-align: middle;overflow: hidden;text-decoration: none;white-space: nowrap;text-align: inherit;background: 0 0;  }button.tw-button-icon.tw-button-icon--overlay.tw-core-button:hover {cursor: pointer;background-color: rgb(178 177 177 / 18%);}button.tw-button-icon.tw-button-icon--overlay.tw-core-button:active {background-color: rgba(255, 255, 255, .5);}'
-                                            iframe.contentDocument.head.appendChild(style)
+                        $.ajax({
+                            url: `${new URL(document.URL).pathname.split('/')[1] == 'private-stream'? 'https://wasd.tv/api/v2/broadcasts/closed/' + new URL(document.URL).pathname.split('/')[2] : 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + getChannelName()} `,
+                            success: function(out){
+                                if (out.error) {
+                                    new Error(out.error.code)
+                                } else if (out.result.media_container) {
+                                    button.addEventListener('click', () => {
+                                        if (document.querySelector('iframe#createClip')) {
+                                            document.querySelector('iframe#createClip').remove()
+                                        } else {
+                                            document.querySelector('wasd-player-component > div[data-player]').insertAdjacentHTML("beforeend", `<iframe id="createClip" src="https://wasd.tv/clip/${out.result.media_container.media_container_id}" width="500" height="640" align="left" style="bottom: 15px; right: 5px; position: absolute; z-index: 998;">Ваш браузер не поддерживает плавающие фреймы!</iframe>`);
+                                            var iframe = document.querySelector('iframe#createClip')
+                                            iframe.onload = function() {
+                                                var style = document.createElement('style')
+                                                style.textContent ='body {background-color: rgba(0,0,0,0)!important;} #topDiv, wasd-mobile-app, wasd-dynamic-popup, wasd-footer {display: none!important;} #scroll-content {background-color: rgba(0,0,0,0)!important; overflow: hidden;margin: 0!important;height: 100%!important;} .create-clip{padding: 0!important;} div.close-cip {display: flex;width: 100%;max-width: 640px;}div.close-cip .create-clip__title {font-size: 24px;color: var(--wasd-color-switch);width: 100%;max-width: 640px;}div.close-cip .close-clip-btn {background-color: red;width: 28px;height: 28px;text-align: center;}div.close-cip .close-clip-btn span.close-text {font-size: 20px;}} div.tw-absolute.tw-mg-r-05.tw-mg-t-05.tw-right-0.tw-top-0 {margin-right: .5rem!important;margin-top: .5rem!important;right: 0!important;top: 0!important;position: absolute!important;}div.tw-inline-flex.viewer-card-drag-cancel {display: inline-flex!important;cursor: auto;}button.tw-button-icon.tw-button-icon--overlay.tw-core-button {border: 1px solid transparent;background-color: transparent;color: #fff;border-radius: .4rem;height: 3rem;justify-content: center;user-select: none;display: inline-flex;align-items: center;position: relative;-webkit-box-align: center;-webkit-box-pack: center;vertical-align: middle;overflow: hidden;text-decoration: none;white-space: nowrap;text-align: inherit;background: 0 0;  }button.tw-button-icon.tw-button-icon--overlay.tw-core-button:hover {cursor: pointer;background-color: rgb(178 177 177 / 18%);}button.tw-button-icon.tw-button-icon--overlay.tw-core-button:active {background-color: rgba(255, 255, 255, .5);}'
+                                                iframe.contentDocument.head.appendChild(style)
 
-                                            function createbtncloseclip() {
-                                                let text_clip = iframe.contentDocument.querySelector('.create-clip__title')
-                                                if (text_clip) {
-                                                    text_clip.outerHTML = '<div class="close-cip"><span class="create-clip__title">Создание клипа</span><div data-a-target="viewer-card-close-button" class="tw-absolute tw-mg-r-05 tw-mg-t-05 tw-right-0 tw-top-0"><div class="tw-inline-flex viewer-card-drag-cancel"><button class="tw-button-icon tw-button-icon--overlay tw-core-button" aria-label="Скрыть" data-test-selector="close-viewer-card"><i _ngcontent-ykf-c54="" style="font-size:13px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-close"></i></button></div></div></div>'
-                                                    iframe.contentDocument.querySelector('button.tw-button-icon.tw-button-icon--overlay.tw-core-button').addEventListener("click", ()=>{
-                                                        document.querySelector('iframe#createClip').remove()
-                                                    })
-                                                } else {
-                                                    setTimeout(()=>{
-                                                        createbtncloseclip()
-                                                    }, 10)
+                                                function createbtncloseclip() {
+                                                    let text_clip = iframe.contentDocument.querySelector('.create-clip__title')
+                                                    if (text_clip) {
+                                                        text_clip.outerHTML = '<div class="close-cip"><span class="create-clip__title">Создание клипа</span><div data-a-target="viewer-card-close-button" class="tw-absolute tw-mg-r-05 tw-mg-t-05 tw-right-0 tw-top-0"><div class="tw-inline-flex viewer-card-drag-cancel"><button class="tw-button-icon tw-button-icon--overlay tw-core-button" aria-label="Скрыть" data-test-selector="close-viewer-card"><i _ngcontent-ykf-c54="" style="font-size:13px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-close"></i></button></div></div></div>'
+                                                        iframe.contentDocument.querySelector('button.tw-button-icon.tw-button-icon--overlay.tw-core-button').addEventListener("click", ()=>{
+                                                            document.querySelector('iframe#createClip').remove()
+                                                        })
+                                                    } else {
+                                                        setTimeout(()=>{
+                                                            createbtncloseclip()
+                                                        }, 10)
+                                                    }
                                                 }
+                                                createbtncloseclip()
+                                                    
                                             }
-                                            createbtncloseclip()
-                                                
                                         }
-                                    }
-                                });
+                                    });
+                                }
                             }
-                        })
+                        });
+
+                        // fetch(`${new URL(document.URL).pathname.split('/')[1] == 'private-stream'? 'https://wasd.tv/api/v2/broadcasts/closed/' + new URL(document.URL).pathname.split('/')[2] : 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + getChannelName()} `)
+                        // .then(res => res.json())
+                        // .then((out) => {
+                        //         if (out.error) {
+                        //             new Error(out.error.code)
+                        //         } else if (out.result.media_container) {
+                        //             button.addEventListener('click', () => {
+                        //                 if (document.querySelector('iframe#createClip')) {
+                        //                     document.querySelector('iframe#createClip').remove()
+                        //                 } else {
+                        //                     document.querySelector('wasd-player-component > div[data-player]').insertAdjacentHTML("beforeend", `<iframe id="createClip" src="https://wasd.tv/clip/${out.result.media_container.media_container_id}" width="500" height="640" align="left" style="bottom: 15px; right: 5px; position: absolute; z-index: 998;">Ваш браузер не поддерживает плавающие фреймы!</iframe>`);
+                        //                     var iframe = document.querySelector('iframe#createClip')
+                        //                     iframe.onload = function() {
+                        //                         var style = document.createElement('style')
+                        //                         style.textContent ='body {background-color: rgba(0,0,0,0)!important;} #topDiv, wasd-mobile-app, wasd-dynamic-popup, wasd-footer {display: none!important;} #scroll-content {background-color: rgba(0,0,0,0)!important; overflow: hidden;margin: 0!important;height: 100%!important;} .create-clip{padding: 0!important;} div.close-cip {display: flex;width: 100%;max-width: 640px;}div.close-cip .create-clip__title {font-size: 24px;color: var(--wasd-color-switch);width: 100%;max-width: 640px;}div.close-cip .close-clip-btn {background-color: red;width: 28px;height: 28px;text-align: center;}div.close-cip .close-clip-btn span.close-text {font-size: 20px;}} div.tw-absolute.tw-mg-r-05.tw-mg-t-05.tw-right-0.tw-top-0 {margin-right: .5rem!important;margin-top: .5rem!important;right: 0!important;top: 0!important;position: absolute!important;}div.tw-inline-flex.viewer-card-drag-cancel {display: inline-flex!important;cursor: auto;}button.tw-button-icon.tw-button-icon--overlay.tw-core-button {border: 1px solid transparent;background-color: transparent;color: #fff;border-radius: .4rem;height: 3rem;justify-content: center;user-select: none;display: inline-flex;align-items: center;position: relative;-webkit-box-align: center;-webkit-box-pack: center;vertical-align: middle;overflow: hidden;text-decoration: none;white-space: nowrap;text-align: inherit;background: 0 0;  }button.tw-button-icon.tw-button-icon--overlay.tw-core-button:hover {cursor: pointer;background-color: rgb(178 177 177 / 18%);}button.tw-button-icon.tw-button-icon--overlay.tw-core-button:active {background-color: rgba(255, 255, 255, .5);}'
+                        //                         iframe.contentDocument.head.appendChild(style)
+
+                        //                         function createbtncloseclip() {
+                        //                             let text_clip = iframe.contentDocument.querySelector('.create-clip__title')
+                        //                             if (text_clip) {
+                        //                                 text_clip.outerHTML = '<div class="close-cip"><span class="create-clip__title">Создание клипа</span><div data-a-target="viewer-card-close-button" class="tw-absolute tw-mg-r-05 tw-mg-t-05 tw-right-0 tw-top-0"><div class="tw-inline-flex viewer-card-drag-cancel"><button class="tw-button-icon tw-button-icon--overlay tw-core-button" aria-label="Скрыть" data-test-selector="close-viewer-card"><i _ngcontent-ykf-c54="" style="font-size:13px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-close"></i></button></div></div></div>'
+                        //                                 iframe.contentDocument.querySelector('button.tw-button-icon.tw-button-icon--overlay.tw-core-button').addEventListener("click", ()=>{
+                        //                                     document.querySelector('iframe#createClip').remove()
+                        //                                 })
+                        //                             } else {
+                        //                                 setTimeout(()=>{
+                        //                                     createbtncloseclip()
+                        //                                 }, 10)
+                        //                             }
+                        //                         }
+                        //                         createbtncloseclip()
+                                                    
+                        //                     }
+                        //                 }
+                        //             });
+                        //         }
+                        // })
 
                     }
                 }

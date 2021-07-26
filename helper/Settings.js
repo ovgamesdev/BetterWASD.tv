@@ -201,6 +201,10 @@ const HelperSettings = {
                 title: 'Удалить все сообщения "Временно заблокировать" (Меню модератора).',
                 type: 'boolean'
             },
+            colorModOptions: {
+                title: 'Цвет для опции "Меню модератора".',
+                type: 'color'
+            },
             alternatingColorChatMessages: {
                 title: 'Отображать строки с меняющимеся цветами фона.',
                 type: 'boolean'
@@ -440,9 +444,14 @@ const HelperSettings = {
                 title: 'Скрыть кнопку "Великий рандом!" в заголовке.',
                 type: 'boolean'
             },
+            chatMobilePlayer: {
+                title: 'Чат после проигрывателя (Мобильные устройства).',
+                type: 'boolean'
+            }
         },
     },
     showMessage(message, type = 'success') {
+        console.log(message, type)
         if (this.messageTimeout) clearTimeout(this.messageTimeout);
 
         let statusElement = BetterStreamChat.settingsDiv.querySelector('#status');

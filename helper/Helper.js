@@ -84,20 +84,34 @@ const Helper = {
                 hideGreatRandom: [false, false],
                 moderatorMenuTimeout: [10, 10],
                 keepMessagesTimeout: [false, false],
+                chatMobilePlayer: [false, false],
+                colorModOptions: ['#000000', '#000000'],
             }
         };
     },
     fetch(...args) {
         return new Promise((resolve, reject) => {
-            fetch(...args).then((response) => {
-                response.json().then((json) => {
-                    if (response.status === 200) {
-                        resolve(json);
-                    } else {
-                        reject(json);
-                    }
-                });
+            console.log(...args)
+            $.ajax({
+                ...args,
+                success: function(out, textStatus, jqXHR){
+                    //console.log(out, textStatus, jqXHR)
+                    resolve(out);
+                },
+                error: function(data){
+                    reject(data.error);
+                },
             });
+            // fetch(...args).then((response) => {
+            //     response.json().then((json) => {
+            //         if (response.status === 200) {
+            //             resolve(json);
+            //         } else {
+            //             reject(json);
+            //         }
+            //     });
+            // });
+
         });
     },
     getSettings() {
