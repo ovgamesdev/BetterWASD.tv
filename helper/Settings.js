@@ -52,6 +52,10 @@ const HelperSettings = {
                 title: 'Смайлики FFZ в чате. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
                 type: 'boolean'
             },
+            tv7Emotes: {
+                title: 'Смайлики 7TV в чате. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                type: 'boolean'
+            },
             bttvInChatMenu: {
                 title: 'Опция BTTV в меню смайликов в чате.',
                 type: 'boolean'
@@ -60,13 +64,17 @@ const HelperSettings = {
                 title: 'Опция FFZ в меню смайликов в чате.',
                 type: 'boolean'
             },
+            tv7InChatMenu: {
+                title: 'Опция 7TV в меню смайликов в чате.',
+                type: 'boolean'
+            },
             bttvEmoteSize: {
-                title: 'Разрешение смайликов в чате BTTV и FFZ.<a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: 'Разрешение смайликов в чате BTTV, FFZ и 7TV.<a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
                 type: 'select',
                 items: [
-                    { value: 0, label: 'bttv-28px, ffz-32px' },
-                    { value: 1, label: 'bttv-56px, ffz-64px' },
-                    { value: 2, label: 'bttv-112px, ffz-128px' }
+                    { value: 0, label: 'bttv-28px,  ffz-32px,  7tv-32px' },
+                    { value: 1, label: 'bttv-56px,  ffz-64px,  7tv-48px' },
+                    { value: 2, label: 'bttv-112px, ffz-128px, 7tv-128px' }
                 ]
             },
             sticker: {
@@ -81,7 +89,7 @@ const HelperSettings = {
                 ]
             },
             stickerovg: {
-                title: `Отображение стикеров BTTV и FFZ. <a title="Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров' " class="helpTitleHover">(INFO)</a> <a title="Eсли отключено 'Автоматически обновлять чат после изменений программы'' дважды щелкните 'Close', чтобы обновить чат." class="helpTitleHover">(F5)</a>`,
+                title: `Отображение стикеров BTTV, FFZ и 7TV. <a title="Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров' " class="helpTitleHover">(INFO)</a> <a title="Eсли отключено 'Автоматически обновлять чат после изменений программы'' дважды щелкните 'Close', чтобы обновить чат." class="helpTitleHover">(F5)</a>`,
                 type: 'select',
                 items: [
                     { value: 0, label: 'По умолчанию' },
@@ -92,7 +100,7 @@ const HelperSettings = {
                 ]
             },
             bttvSize: {
-                title: 'Размер стикеров BTTV и FFZ.',
+                title: 'Размер стикеров BTTV, FFZ и 7TV.',
                 type: 'select',
                 items: [
                     { value: '128px', label: 'Большой' },
@@ -117,11 +125,11 @@ const HelperSettings = {
                 type: 'boolean'
             },
             decreaseIndentationBTTVandFFZMenu: {
-                title: 'Уменьшить отступ в меню смайликов - BTTV и FFZ.',
+                title: 'Уменьшить отступ в меню смайликов - BTTV, FFZ и 7TV.',
                 type: 'boolean'
             },
             highlightStickersStickerMenu: {
-                title: 'Подсвечивать СМАЙЛЫ, BTTV и FFZ эмоции в меню стикеров.',
+                title: 'Подсвечивать СМАЙЛЫ, BTTV, FFZ и 7TV эмоции в меню стикеров.',
                 type: 'boolean'
             },*/
             paddingChatMessage: {
@@ -451,10 +459,8 @@ const HelperSettings = {
         },
     },
     showMessage(message, type = 'success') {
-        console.log(message, type)
         if (this.messageTimeout) clearTimeout(this.messageTimeout);
-
-        let statusElement = BetterStreamChat.settingsDiv.querySelector('#status');
+        let statusElement = document.querySelector('#status');
         let textElement = statusElement.querySelector('p');
         textElement.innerHTML = message;
         textElement.classList.remove(...statusElement.classList);

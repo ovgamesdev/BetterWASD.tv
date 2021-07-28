@@ -8,40 +8,34 @@ const HelperSocket = {
             if (!HelperSocket.socketd) {
                 HelperSocket.socketd = new WebSocket("wss://chat.wasd.tv/socket.io/?EIO=3&transport=websocket");
                 HelperSocket.socketd.onopen = function(e) {
-                    var oReq_chatToken = new XMLHttpRequest();
-                    oReq_chatToken.onload = (out) => {
-                        var out = JSON.parse(oReq_chatToken.responseText);
-                        HelperSocket.jwt = out.result
-                        var oReq_channel_name = new XMLHttpRequest();
-                        oReq_channel_name.onload = (out) => {
-                            var out = JSON.parse(oReq_channel_name.responseText);
-                            if (typeof out.result !== 'undefined') if (out.result !== null) if (out.result.media_container !== null) if (typeof out.result.media_container !== 'undefined') {
-                                HelperSocket.streamId = out.result.media_container.media_container_streams[0].stream_id
-                                HelperSocket.channelId = out.result.channel.channel_id
-                                var data = `42["join",{"streamId":${HelperSocket.streamId},"channelId":${HelperSocket.channelId},"jwt":"${HelperSocket.jwt}","excludeStickers":true}]`;
-                                if (HelperSocket.socketd && HelperSocket.socketd.readyState === 1) HelperSocket.socketd.send(data);
-                                HelperSocket.intervalcheck = setInterval(() => {
-                                    if (HelperSocket.socketd) {
-                                        try {
-                                            if (HelperSocket.socketd && HelperSocket.socketd.readyState === 1) HelperSocket.socketd.send('2')
-                                        } catch {
-                                            clearInterval(HelperSocket.intervalcheck)
-                                            HelperSocket.socketd = null
-                                            console.log('[catch]', HelperSocket.socketd)
-                                            HelperSocket.start(getChannelName())
-                                        }
+                    $.ajax({
+                        url: `https://wasd.tv/api/auth/chat-token`,
+                        success: function(out){
+                            $.ajax({
+                                url: HelperWASD.getStreamBroadcastsUrl(),
+                                success: function(out){
+                                    if (typeof out.result !== 'undefined') if (out.result !== null) if (out.result.media_container !== null) if (typeof out.result.media_container !== 'undefined') {
+                                        HelperSocket.streamId = out.result.media_container.media_container_streams[0].stream_id
+                                        HelperSocket.channelId = out.result.channel.channel_id
+                                        var data = `42["join",{"streamId":${HelperSocket.streamId},"channelId":${HelperSocket.channelId},"jwt":"${HelperSocket.jwt}","excludeStickers":true}]`;
+                                        if (HelperSocket.socketd && HelperSocket.socketd.readyState === 1) HelperSocket.socketd.send(data);
+                                        HelperSocket.intervalcheck = setInterval(() => {
+                                            if (HelperSocket.socketd) {
+                                                try {
+                                                    if (HelperSocket.socketd && HelperSocket.socketd.readyState === 1) HelperSocket.socketd.send('2')
+                                                } catch {
+                                                    clearInterval(HelperSocket.intervalcheck)
+                                                    HelperSocket.socketd = null
+                                                    console.log('[catch]', HelperSocket.socketd)
+                                                    HelperSocket.start(getChannelName())
+                                                }
+                                            }
+                                        }, 5000)
                                     }
-                                }, 5000)
-                            }
-                        };
-
-                        oReq_channel_name.open("get", `${new URL(document.URL).pathname.split('/')[1] == 'private-stream'? 'https://wasd.tv/api/v2/broadcasts/closed/' + new URL(document.URL).pathname.split('/')[2] : 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + getChannelName()} `, true); oReq_channel_name.send();
-
-                    };
-                    oReq_chatToken.onerror = (out) => {
-
-                    };
-                    oReq_chatToken.open("get", `https://wasd.tv/api/auth/chat-token`, true); oReq_chatToken.send();
+                                }
+                            });
+                        }
+                    });
                 };
 
                 HelperSocket.socketd.onclose = function(e) {

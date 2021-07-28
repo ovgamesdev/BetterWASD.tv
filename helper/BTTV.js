@@ -1,6 +1,7 @@
 const HelperBTTV = {
     isBusy: false,
     emotes: {},
+    fullemotes: {},
     updateSettings() {
         let bttvEmoteList = BetterStreamChat.settingsDiv.querySelector('#bttvEmoteList');
         bttvEmoteList.innerText = '';
@@ -60,11 +61,10 @@ const HelperBTTV = {
             let bttvEmotes = items.bttvEmotes || {};
             let bttvUsers = items.bttvUsers || {};
             if (typeof bttvUsers.global === 'undefined' || Date.now() - bttvUsers.global.lastUpdate > 604800000) {
-                // return
+
                 new Promise((resolve, reject) => {
                     $.ajax(`https://api.betterttv.net/3/cached/emotes/global`
                     ).always(function (out, textStatus, xhr) {
-                        console.log(out, textStatus, xhr)
                         if (xhr.status === 200) { return resolve(out); }
                         else { return reject(); }
                     })
@@ -94,6 +94,7 @@ const HelperBTTV = {
                     bttvEmotes = items.bttvEmotes;
                     bttvUsers = items.bttvUsers;
                     let emotes = {};
+
                     for (let userID in items.bttvEmotes) {
                         if (items.bttvEmotes.hasOwnProperty(userID)) {
                             for (let emoteCode in items.bttvEmotes[userID]) {
@@ -103,6 +104,7 @@ const HelperBTTV = {
                             }
                         }
                     }
+                    HelperBTTV.fullemotes = items
                     HelperBTTV.emotes = emotes;
                     HelperBTTV.updateSettings();
                     resolve();
@@ -118,8 +120,8 @@ const HelperBTTV = {
 
 
 
-
             if (HelperBTTV.emotes[word]) word = `<img class="stickerovg small" style="vertical-align: middle; width: auto!important;" src="https://cdn.betterttv.net/emote/${HelperBTTV.emotes[word]}/${size}x" alt="${word}" title="${word}" />`;
+            // console.log(HelperBTTV.fullemotes)
             newText.push(word);
         }
         return newText.join(' ');
@@ -129,7 +131,7 @@ const HelperBTTV = {
             $.ajax({
                 url: `https://api.betterttv.net/3/cached/users/twitch/${userID}`,
                 success: function(out){
-                    resolve ()
+                    resolve (out)
                 },
                 error: function(out){
                     reject (out?.message)
@@ -194,7 +196,7 @@ const HelperBTTV = {
             return HelperBTTV.update();
         }).then(() => {
             let newEmotes = Object.keys(HelperBTTV.emotes).length - beforeEmotes;
-            HelperSettings.showMessage(`Пользователь ${username} и ${newEmotes} уникальные эмоции добавлены.`);
+            HelperSettings.showMessage(`Пользователь ${username} и ${newEmotes} уникальные эмоции добавлены.`, 'success');
         }).catch((err) => {
             HelperSettings.showMessage(err, 'error');
         }).finally(() => {

@@ -86,7 +86,7 @@ const wasd = {
                                 }
 
                             } else {
-                                console.log("observer not started (CHAT)");
+                                // console.log("observer not started (CHAT)");
                                 setTimeout(startObserver, 10)
                                 HelperSocket.stop()
                             }
@@ -210,7 +210,6 @@ const wasd = {
         }
 
         fixMobilePlayer()
-
     },
     update() {
         let cssCode = ``;
@@ -286,20 +285,20 @@ const wasd = {
         }
 
         if (settings.wasd.stickerovg[1].toString() === '0') {
-            cssCode += `.message__info img.stickerovg {max-width: -webkit-fill-available; display: block; height: ${settings.wasd.bttvSize[1]}; margin-top: 8px; }`
+            cssCode += `.message__info .stickerovg {max-width: -webkit-fill-available; display: block; height: ${settings.wasd.bttvSize[1]}; margin-top: 8px; }`
         }
         if (settings.wasd.stickerovg[1].toString() === '2') {
             cssCode += 'div.block__messages__item:hover { z-index: 1; }';
             cssCode += 'div.block__messages__item-ovg:hover { z-index: 1; }';
-            cssCode += 'img.stickerovg {max-width: -webkit-fill-available; transition: transform .2s; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
-            cssCode += `img.stickerovg:hover { transform: scale(${settings.wasd.bttvSize[1] == '128px'? '4.4' : '2.2'}) translateY(-8px); background-color: var(--wasd-color-prime); border-radius: 4px; box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16); }`;
+            cssCode += '.stickerovg {max-width: -webkit-fill-available; transition: transform .2s; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
+            cssCode += `.stickerovg:hover { transform: scale(${settings.wasd.bttvSize[1] == '128px'? '4.4' : '2.2'}) translateY(-8px); background-color: var(--wasd-color-prime); border-radius: 4px; box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16); }`;
             cssCode += '.block__new-messages { z-index: 1; }';
         }
         else if (settings.wasd.stickerovg[1].toString() === '1') {
-            cssCode += 'img.stickerovg {max-width: -webkit-fill-available; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
+            cssCode += '.stickerovg {max-width: -webkit-fill-available; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
         }
         else if (settings.wasd.stickerovg[1].toString() === '4') {
-            cssCode += 'img.stickerovg { display: none!important; }';
+            cssCode += '.stickerovg { display: none!important; }';
         }
 
 
@@ -519,26 +518,27 @@ const wasd = {
 	            node.style.display = 'block';
 	        }
 
-	        var usernametext;
-	        if (node.querySelector('div.info__text__status__name')) usernametext = node.querySelector('div.info__text__status__name').textContent.trim()
+            modRef = node.querySelector('.is-moderator')
+            ownerRef = node.querySelector('.is-owner')
+            subRef = node.querySelector('.info__text__status-paid')
 
-	        if (settings.wasd.highlightMessagesOpenCard[1] && HelperWASD.openUserCardName == usernametext) {
-	            if (node.querySelector('wasd-chat-message > .message')) {
-	                node.querySelector('wasd-chat-message > .message').classList.add('openCardColor')
-	            }
-	        } // fixWasdMention
-	        
-	        if (usernametext) {
-	            node.setAttribute('username', usernametext)
+	        var usernametext = node.querySelector('.info__text__status__name')?.textContent.trim()
+            var message = node.querySelector('.message-text > span')?.textContent.trim()
+	        var color = node.querySelector('.info__text__status__name')?.style?.color
+            if (subRef) color = subRef?.style?.backgroundColor
+            var sticker = node.querySelector('.sticker')?.src
+
+            if (HelperWASD.openUserCardName == usernametext && node.querySelector('wasd-chat-message > .message')) {
+                if (settings.wasd.highlightMessagesOpenCard[1]) node.querySelector('wasd-chat-message > .message').classList.add('openCardColor')
+                HelperWASD.addMessageToCpenCard(ownerRef, modRef, subRef, usernametext, color, message, sticker)
 	        }
+	        
+	        if (usernametext) node.setAttribute('username', usernametext) 
 
-	        var message;
-	        if (node.querySelector('.message-text > span')) message = node.querySelector('.message-text > span').textContent
 	        if (message) node.setAttribute('message', message)
 
 	        if (!settings.wasd.mentionSelf[1]) {
-	            metion = document.querySelector('.has-mention')
-	            if (metion) metion.classList.remove('has-mention')
+	            document.querySelector('.has-mention')?.classList?.remove('has-mention')
 	        }
 
 	        if (isobserver && node.querySelector('.message__time')) {
@@ -557,21 +557,20 @@ const wasd = {
 	            }
 	        }
 
-	        let nicknamediv = node.querySelector('div.info__text__status__name');
+	        let nicknamediv = node.querySelector('.info__text__status__name');
 	        if (settings.wasd.colonAfterNickname[1]) {
 	            let message = node.querySelector('.message-text');
 	            if (message) {
 	                message.insertAdjacentHTML("beforebegin", `<span aria-hidden="true" id="colon-after-author-name" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))" >: </span>`);
-	                
+
 	                if (nicknamediv) {
 	                    nicknamediv.style.margin = "0px";
 	                }
 	            }
 	        }
 
-	        nicknamediv = node.querySelector('div.info__text__status__name');
+	        nicknamediv = node.querySelector('.info__text__status__name');
 	        if (nicknamediv) {
-
 	            nicknamediv.setAttribute('username', nicknamediv.textContent.trim());
 
 	            if (settings.wasd.userNameEdited[nicknamediv.textContent.trim()]) {
@@ -581,13 +580,9 @@ const wasd = {
 
 	        let messageText = node.querySelector('.message-text > span');
 	        if (messageText) {
-
-	            if (settings.wasd.bttvEmotes[1]) {
-	                messageText.innerHTML = HelperBTTV.replaceText(messageText.innerHTML);
-	            }
-	            if (settings.wasd.ffzEmotes[1]) {
-	                messageText.innerHTML = HelperFFZ.replaceText(messageText.innerHTML);
-	            }
+	            if (settings.wasd.bttvEmotes[1]) messageText.innerHTML = HelperBTTV.replaceText(messageText.innerHTML);
+	            if (settings.wasd.ffzEmotes[1] ) messageText.innerHTML = HelperFFZ .replaceText(messageText.innerHTML);
+                if (settings.wasd.tv7Emotes[1] ) messageText.innerHTML = HelperTV7 .replaceText(messageText.innerHTML);
 
                 let bl = ' ';
 
@@ -595,10 +590,10 @@ const wasd = {
 	                messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
 	                    let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
 	                    if (!username) {username = $1.trim().split('@').join('')}
-	                    return `<span style='color: ${usercolor($1.trim())};' class='chat-message-mention' username="${$1}">@${username.trim()}</span>`;
+	                    return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention' username="${$1}">@${username.trim()}</span>`;
 	                });
 	                node.querySelectorAll('.chat-message-mention').forEach(element => {
-	                    usercolorapi(element);
+	                    HelperWASD.usercolorapi(element);
                         bl += element.getAttribute('username').split('@').join('') + ' '
 	                    element.addEventListener('click', ({ target }) => {
 	                        if (target.getAttribute('username')) {
@@ -606,15 +601,15 @@ const wasd = {
 	                        }
 	                    });
 	                });
-
-	            } else if (settings.wasd.onClickMention[1].toString() === '1') {
+	            }
+                else if (settings.wasd.onClickMention[1].toString() === '1') {
 	                messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
 	                    let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
 	                    if (!username) {username = $1.trim().split('@').join('')}
-	                    return `<span style='color: ${usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
+	                    return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
 	                });
 	                node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-	                    usercolorapi(element);
+	                    HelperWASD.usercolorapi(element);
                         bl += element.getAttribute('username').split('@').join('') + ' '
 	                    element.addEventListener('click', ({ target }) => {
 	                        if (textarea) {
@@ -624,15 +619,15 @@ const wasd = {
 	                        }
 	                    })
 	                });
-
-	            } else if (settings.wasd.onClickMention[1].toString() === '2') {
+	            }
+                else if (settings.wasd.onClickMention[1].toString() === '2') {
 	                messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
 	                    let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
 	                    if (!username) {username = $1.trim().split('@').join('')}
-	                    return `<span style='color: ${usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
+	                    return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
 	                });
 	                node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-	                    usercolorapi(element);
+	                    HelperWASD.usercolorapi(element);
                         bl += element.getAttribute('username').split('@').join('') + ' '
 	                    element.addEventListener('click', ({ target }) => {
 	                        if (target.getAttribute('username')) {
@@ -642,52 +637,9 @@ const wasd = {
 	                        }
 	                    })
 	                });
-
 	            }
 
                 node.setAttribute('mention', bl)
-
-	            function usercolorapi(element) {
-	                // ищем цвет по api если по ласт сообщениям не нашли
-	                if (element.style.color == '' && settings.wasd.colorAtTheMention[1]) {
-	                    color = "rgba(var(--wasd-color-switch--rgb),.88);";
-
-	                    var oReq = new XMLHttpRequest();
-	                    oReq.onload = (out) => {
-	                        var out = JSON.parse(oReq.responseText);
-	                        let data;
-	                        const userColors = ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"];
-	                        if (out.result) {
-	                            for (let value of out.result.rows) {
-	                                if (value.user_login.toLowerCase().trim() == element.getAttribute('username').split('@').join('').toLowerCase().toLowerCase().trim()) {
-	                                    color = userColors[value.user_id % (userColors.length - 1)];
-	                                    break;
-	                                }
-	                            }
-	                        }
-	                        element.style.color = color;
-	                    };
-	                    oReq.open("get", `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${element.getAttribute('username').split('@').join('').toLowerCase().trim()}`, true); oReq.send();
-
-	                }
-	            }
-
-	            function usercolor(channel_name) {
-	                // ищем цвет по ласт сообщениям тк у api есть задержка
-	                let color;
-	                if (settings.wasd.colorAtTheMention[1]) {
-	                    allNames = document.querySelectorAll('div.info__text__status__name');
-	                    for (let element of allNames) {
-	                        if (element.getAttribute('username')) {
-	                            if(channel_name.split('@').join('').toLowerCase().trim() == element.getAttribute('username').toLowerCase().trim()) {
-	                                color = element.style.color;
-	                                break;
-	                            }
-	                        }
-	                    }
-	                    return color;
-	                }
-	            }
 	        }
 
 	        if (nicknamediv) {
@@ -701,11 +653,11 @@ const wasd = {
 	                        HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
 	                    }
 	                });
-
-	            } else if (settings.wasd.onClickUserName[1].toString() === '2') {
+	            } 
+                else if (settings.wasd.onClickUserName[1].toString() === '2') {
 	                elClone = nicknamediv.cloneNode(true);
 	                nicknamediv.parentNode.replaceChild(elClone, nicknamediv);
-	                nicknamediv = node.querySelector('div.info__text__status__name');
+	                nicknamediv = node.querySelector('.info__text__status__name');
 	                nicknamediv.addEventListener('click', ({ target }) => {
 	                    if (target.getAttribute('username')) {
 	                        if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
@@ -718,7 +670,7 @@ const wasd = {
 
 	        if (settings.wasd.moderatorMenu[1].toString() === '1') {
 	            let loading;
-	            if (!node.querySelector('div.is-owner') && node.querySelector('div.message__info__icon')) {
+	            if (!ownerRef && node.querySelector('div.message__info__icon')) {
 
 	                node.insertAdjacentHTML("beforeend", "<div class='mod'></div>");
 	                moderDiv = node.querySelector('div.mod');
@@ -889,10 +841,11 @@ const wasd = {
                         }
 	                });
 	            }
-	        } else if (settings.wasd.moderatorMenu[1].toString() === '2') {
+	        } 
+            else if (settings.wasd.moderatorMenu[1].toString() === '2') {
 	            let loading;
 	            let messageInfoStatus = node.querySelector('div.info__text__status')
-	            if (messageInfoStatus && !node.querySelector('div.is-owner') && node.querySelector('div.message__info__icon')) {
+	            if (messageInfoStatus && !ownerRef && node.querySelector('div.message__info__icon')) {
 	                messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button banned"><i class="icon-ovg wasd-icons-ban"></i></div>`);
                     messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button timeout"><i class="icon-ovg wasd-icons-sound-off"></i></div>`);
 	                messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button remove"><i class="icon-ovg wasd-icons-delete"></i></div>`);
@@ -1034,19 +987,18 @@ const wasd = {
 	                });
 	            }
 	        }
-	        
-	        a = node.querySelector('div.message-text a');
 
+	        a = node.querySelector('div.message-text a');
 
 	        switch (settings.wasd.linkRecognitionRights[1].toString()) {
 	            case '0':
-	                if (node.querySelector('.is-owner')) linkRecognizerGo()
+	                if (ownerRef) linkRecognizerGo()
 	                break;
 	            case '1':
-	                if (node.querySelector('.is-owner') || node.querySelector('.is-moderator')) linkRecognizerGo()
+	                if (ownerRef || modRef) linkRecognizerGo()
 	                break;
 	            case '2':
-	                if (node.querySelector('.is-owner') || node.querySelector('.is-moderator') || node.querySelector('.info__text__status-paid')) linkRecognizerGo()
+	                if (ownerRef || modRef || subRef) linkRecognizerGo()
 	                break;
 	            case '3':
 	                linkRecognizerGo()
@@ -1058,280 +1010,159 @@ const wasd = {
 	                if (new URL(a.href).host == "wasd.tv" && new URL(a.href).searchParams.get('record') != null) {
 	                    if (settings.wasd.linkRecognizerWASD[1]) {
 	                        if (node) {
-	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;max-width:25%"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
+	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
 	                            HelperWASD.scrollChatMessage(node, 50)
 	                        }
-	                        let linkService = `https://wasd.tv/api/v2/media-containers/${new URL(a.href).searchParams.get('record')}`;
 	                        let href = a.href;
 
-	                        var oReq = new XMLHttpRequest();
-	                        oReq.onload = (out) => {
-	                            var out = JSON.parse(oReq.responseText);
-	                            var game = 'неизвестно'
-	                            if(out.result.game != null) game = out.result.game.game_name;
-	                            node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.media_container_streams[0].stream_media[0].media_meta.media_preview_images.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.media_container_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.media_container_name}</div><div title="${out.result.media_container_channel.channel_name} играет в ${game}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${out.result.user_id}">${out.result.media_container_channel.channel_name}</a> играет в ${game}</div><div title="${out.result.created_at} - ${out.result.media_container_streams[0].stream_total_viewers} просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${new Date(out.result.created_at).toLocaleDateString()} - ${out.result.media_container_streams[0].stream_total_viewers} просмотров</div></div></div></div>`;
-	                        };
-	                        oReq.onerror = (err) => {
-	                            console.log('не удалось получить данные из сервера');
-	                            node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
+                            $.ajax({
+                                url: `https://wasd.tv/api/v2/media-containers/${new URL(a.href).searchParams.get('record')}`,
+                                success: function(out){
+                                    var game = 'неизвестно'
+                                    if(out.result.game != null) game = out.result.game.game_name;
+                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.media_container_streams[0].stream_media[0].media_meta.media_preview_images.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.media_container_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.media_container_name}</div><div title="${out.result.media_container_channel.channel_name} играет в ${game}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${out.result.user_id}">${out.result.media_container_channel.channel_name}</a> играет в ${game}</div><div title="${out.result.created_at} - ${out.result.media_container_streams[0].stream_total_viewers} просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${new Date(out.result.created_at).toLocaleDateString()} - ${out.result.media_container_streams[0].stream_total_viewers} просмотров</div></div></div></div>`;
+                                },
+                                error: function(out){
+                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
 
-	                        };
-	                        oReq.open("get", linkService, true); oReq.send();
+                                }
+                            });
 
 	                    }
 
 	                } else if (new URL(a.href).host == "wasd.tv" && new URL(a.href).searchParams.get('clip') != null) {
 	                    if (settings.wasd.linkRecognizerWASD[1]) {
 	                        if (node) {
-	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;max-width:25%"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
+	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
 	                            HelperWASD.scrollChatMessage(node, 50)
 	                        }
-	                        let linkService = `https://wasd.tv/api/v2/clips/${new URL(a.href).searchParams.get('clip')}`;
 	                        let href = a.href;
 
-	                        var oReq = new XMLHttpRequest();
-	                        oReq.onload = (out) => {
-	                            var out = JSON.parse(oReq.responseText);
-
-                                if (!out?.error?.code) {
-                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.clip_data.preview.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.clip_title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.clip_title}</div><div title="${out.result.clip_channel.channel_name} играет в ${out.result.clip_game_name}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${out.result.clip_channel.user_id}">${out.result.clip_channel.channel_name}</a> играет в ${out.result.clip_game_name}</div><div title="Автор клипа: ${out.result.clip_owner_login} - ${out.result.clip_views_count} просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">Автор клипа: <a target="_blank" href="https://wasd.tv/user/${out.result.clip_owner_profile_id}">${out.result.clip_owner_login}</a> - ${out.result.clip_views_count} просмотров</div></div></div></div>`;
-                                } else {
-                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out.error.code}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.error.code}</div></div></div></div>`;
+                            $.ajax({
+                                url: `https://wasd.tv/api/v2/clips/${new URL(a.href).searchParams.get('clip')}`,
+                                success: function(out){
+                                    if (!out?.error?.code) {
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.clip_data.preview.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.clip_title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.clip_title}</div><div title="${out.result.clip_channel.channel_name} играет в ${out.result.clip_game_name}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${out.result.clip_channel.user_id}">${out.result.clip_channel.channel_name}</a> играет в ${out.result.clip_game_name}</div><div title="Автор клипа: ${out.result.clip_owner_login} - ${out.result.clip_views_count} просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">Автор клипа: <a target="_blank" href="https://wasd.tv/user/${out.result.clip_owner_profile_id}">${out.result.clip_owner_login}</a> - ${out.result.clip_views_count} просмотров</div></div></div></div>`;
+                                    } else {
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out.error.code}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.error.code}</div></div></div></div>`;
+                                    }
+                                },
+                                error: function(out){
+                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                                 }
-
-                            };
-	                        oReq.onerror = (err) => {
-	                            console.log('не удалось получить данные из сервера');
-	                            node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
-
-	                        };
-	                        oReq.open("get", linkService, true); oReq.send();
+                            });
 
 	                    }
-	                        
+
 	                } else if (new URL(a.href).host == "wasd.tv" && new URL(a.href).pathname.split('/')[1] == "games") {
 	                    if (settings.wasd.linkRecognizerWASD[1]) {
 	                        if (node) {
-	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;max-width:25%"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
+	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
 	                            HelperWASD.scrollChatMessage(node, 50)
 	                        }
-	                        let linkService = `https://wasd.tv/api/games/${new URL(a.href).pathname.split('/')[2]}`;
 	                        let href = a.href;
 
-	                        var oReq = new XMLHttpRequest();
-	                        oReq.onload = (out) => {
-                                var out = JSON.parse(oReq.responseText);
+                            $.ajax({
+                                url: `https://wasd.tv/api/games/${new URL(a.href).pathname.split('/')[2]}`,
+                                success: function(out){
+                                    console.log(out)
 
-                                console.log(out)
-
-                                if (!out?.error?.code) {
-                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.game_icon.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.game_asset_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.game_asset_name}</div><div title="${out.result.game_description}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.result.game_description != null ? out.result.game_description : 'Нет описания'}</div></div></div></div>`;
-                                } else {
-                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out.error.code}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.error.code}</div></div></div></div>`;
+                                    if (!out?.error?.code) {
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.game_icon.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.game_asset_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.game_asset_name}</div><div title="${out.result.game_description}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.result.game_description != null ? out.result.game_description : 'Нет описания'}</div></div></div></div>`;
+                                    } else {
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out.error.code}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.error.code}</div></div></div></div>`;
+                                    }
+                                },
+                                error: function(out){
+                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                                 }
-
-	                        };
-	                        oReq.onerror = (err) => {
-	                            console.log('не удалось получить данные из сервера');
-	                            node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
-
-	                        };
-	                        oReq.open("get", linkService, true); oReq.send();
+                            });
 
 	                    }
 
 	                } else if (new URL(a.href).host == "wasd.tv") {
 	                    if (settings.wasd.linkRecognizerWASD[1]) {
 	                        if (node) {
-	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;max-width:25%"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
+	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
 	                            HelperWASD.scrollChatMessage(node, 50)
 	                        }
-	                        let linkService = 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + new URL(a.href).pathname.split('/')[1];
 	                        let href = a.href;
 
-	                        var oReq = new XMLHttpRequest();
-	                        oReq.onload = (out) => {
-	                            var out = JSON.parse(oReq.responseText);
-	                            if (typeof out.error !== 'undefined') {
-	                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
-	                            } else {
-	                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.channel.channel_image.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.channel.channel_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.channel.channel_name}</div><div title="${out.result.channel.channel_description}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.result.channel.channel_description}</div></div></div></div>`;
-	                            }
-	                        };
-	                        oReq.onerror = (err) => {
-	                            console.log('не удалось получить данные из сервера');
-	                            node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
+                            $.ajax({
+                                url: HelperWASD.getStreamBroadcastsUrl(),
+                                success: function(out){
+                                    if (typeof out.error !== 'undefined') {
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
+                                    } else {
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.channel.channel_image.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.channel.channel_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.channel.channel_name}</div><div title="${out.result.channel.channel_description}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.result.channel.channel_description}</div></div></div></div>`;
+                                    }
+                                },
+                                error: function(out){
+                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
+                                }
+                            });
 
-	                        };
-	                        oReq.open("get", linkService, true); oReq.send();
 	                        
 	                    }
 
 	                } else if (new URL(a.href).host == "www.twitch.tv") {
 	                    if (settings.wasd.linkRecognizerWASD[1]) {
 	                        if (node) {
-	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;max-width:25%"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
+	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
 	                            HelperWASD.scrollChatMessage(node, 50)
 	                        }
-	                        let linkService = `https://api-test.frankerfacez.com/v2/link?url=${a.href}`;
 	                        let href = a.href;
 
-	                        var oReq = new XMLHttpRequest();
-	                        oReq.onload = (out) => {
-	                            var out = JSON.parse(oReq.responseText);
-
-	                            if (!out.short.subtitle) {
-	                                //console.log("1111 - "+ href);
-	                                let img = '';
-	                                if (typeof out.short.image != "undefined") {
-	                                    img = out.short.image.url;
-	                                }
-	                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${img}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.short.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.short.title}</div></div></div></div>`;
-	                            } else {
-	                                //console.log(out)
-	                                //console.log("2222 - "+ href);
-	                                let img = '';
-	                                if (typeof out.short.image != "undefined") {
-	                                    img = out.short.image.url;
-	                                }
-	                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${img}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.short.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.short.title}</div><div title="${out.short.subtitle.content.user.content.content}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.short.subtitle.content.user.content.content}</div></div></div></div>`;
-	                            }
-	                            
-	                            if (out.error) {
-	                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
-	                            }
-	                        };
-	                        oReq.onerror = (err) => {
-	                            console.log('не удалось получить данные из сервера');
-	                            node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
-
-	                        };
-	                        oReq.open("get", linkService, true); oReq.send();
-	                        
+                            $.ajax({
+                                url: `https://api-test.frankerfacez.com/v2/link?url=${a.href}`,
+                                success: function(out){
+                                    if (!out.short.subtitle) {
+                                        let img = '';
+                                        if (typeof out.short.image != "undefined") img = out.short.image.url; 
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${img}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.short.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.short.title}</div></div></div></div>`;
+                                    } else {
+                                        let img = '';
+                                        if (typeof out.short.image != "undefined") img = out.short.image.url; 
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${img}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.short.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.short.title}</div><div title="${out.short.subtitle.content.user.content.content}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.short.subtitle.content.user.content.content}</div></div></div></div>`;
+                                    }
+                                    
+                                    if (out.error) {
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
+                                    }
+                                },
+                                error: function(out){
+                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
+                                }
+                            });	                        
 	                    }
-	                        
+
 	                } else {
 	                    if (settings.wasd.linkRecognizerall[1]) {
 
 	                        if (node) {
-	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="lrhiverimg"></div><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;max-width:25%"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
+	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="lrhiver"></div><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
 	                            HelperWASD.scrollChatMessage(node, 50)
 	                        }
-	                        let linkService = `https://api-test.frankerfacez.com/v2/link?url=${a.href}`;
 	                        let href = a.href;
 
                             let img = ''
 
-	                        var oReq = new XMLHttpRequest();
-	                        oReq.onload = (out) => {
-	                            var out = JSON.parse(oReq.responseText);
-
-                                if (out?.error?.phrase) {
-                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out?.error?.phrase}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.error?.phrase}</div></div></div></div>`;
-                                } else if ( new URL(href).host == "youtu.be" || new URL(href).host == "m.youtube.com" || new URL(href).host == "youtube.be" || (new URL(href).host == "www.youtube.com" && new URL(href).pathname == "/watch"))  {
-                                    let imgdiv = ''
-                                    if (typeof out?.short?.image?.url != 'undefined') {
-                                        img = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.short.image.url}" class=""></div>`
-                                    } else {
-                                        img = ''
-                                    }
-                                    var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value)*1000)
-                                    var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
-                                    node.querySelector('.lrhiverimg').innerHTML = `<div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
-                                        <div>
-                                            <div class="ffz--shift-hide">
-                                                ${out?.short?.image?.url ? `
-                                                    <div class="ffz--rich-gallery" data-items="1">
-                                                        <div class="ffz--gallery-column" data-items="1">
-                                                            <div class="ffz--overlay">
-                                                                <div class="ffz--overlay__content">
-                                                                    <div class="ffz-aspect ffz-aspect--align-center">
-                                                                        <div class="ffz-aspect__spacer" style="padding-top: 56.25%;"></div><img class=" " src="${out.short.image.url}" title="">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="ffz--overlay__bit" data-side="bottom-right">${textdate}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ` : ``}
-                                                
-
-                                                <div class="tw-flex ffz--rich-header">
-                                                    <div class="ffz--header-image-h tw-mg-x-05"></div>
-                                                    <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
-                                                        ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
-                                                        ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
-                                                    </div>
-                                                </div>
-                                                ${out?.full?.[2]?.content ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
-                                                ${out?.short?.extra?.[2]?.attrs?.datetime ? `
-                                                    <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
-                                                        <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
-                                                    </div>
-                                                ` : ``}
-                                            </div>
-                                        </div>
-                                    </div>`
-                                    imgdiv = ``
-                                    node.querySelector('.ffz--header-image').innerHTML = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05 ffz--header-aspect" style="width:8.53333rem">${img}</div>`
-
-	                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div><div title="${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out?.short?.subtitle?.content?.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out?.short?.subtitle?.content?.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div><div title="${out?.short?.extra?.[1]} ${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><span class="ffz-i-youtube-play"></span>${out?.short?.extra?.[1]}<time datetime="${out?.short?.extra?.[2]?.attrs?.datetime}" class="">${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}</time></div></div></div></div>`;
-	                            } else if (out?.short?.title) {
-	                                if (typeof out.error == 'undefined') {
-	                                    if (!out?.short?.subtitle) {
-	                                        if (typeof out?.short?.image?.url != 'undefined') {
-                                                img = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.short.image.url}" class=""></div>`
-                                            } else {
-                                                img = ''
-                                            }
-                                            var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value)*1000)
-                                            var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
-                                            node.querySelector('.lrhiverimg').innerHTML = `<div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
-                                                <div>
-                                                    <div class="ffz--shift-hide">
-                                                        ${out?.short?.image?.url ? `
-                                                            <div class="ffz--rich-gallery" data-items="1">
-                                                                <div class="ffz--gallery-column" data-items="1">
-                                                                    <div class="ffz--overlay">
-                                                                        <div class="ffz--overlay__content">
-                                                                            <div class="ffz-aspect ffz-aspect--align-center">
-                                                                                <div class="ffz-aspect__spacer" style="padding-top: 56.25%;"></div><img class=" " src="${out.short.image.url}" title="">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="ffz--overlay__bit" data-side="bottom-right">${textdate}</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        ` : ``}
-                                                        
-
-                                                        <div class="tw-flex ffz--rich-header">
-                                                            <div class="ffz--header-image-h tw-mg-x-05"></div>
-                                                            <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
-                                                                ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
-                                                                ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
-                                                            </div>
-                                                        </div>
-                                                        ${typeof out?.full?.[2]?.content == 'string' ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
-                                                        ${out?.short?.extra?.[2]?.attrs?.datetime ? `
-                                                            <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
-                                                                <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
-                                                            </div>
-                                                        ` : ``}
-                                                    </div>
-                                                </div>
-                                            </div>`
-	                                        
-	                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div></div></div></div>`;
-	                                    } else {
-	                                        if (typeof out?.short?.image?.url != 'undefined') {
-	                                            img = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.short.image.url}" class=""></div>`
-                                            } else {
-                                                img = ''
-                                            }
-                                            var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value)*1000)
-                                            var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
-                                            node.querySelector('.lrhiverimg').innerHTML = `<div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
+                            $.ajax({
+                                url: `https://api-test.frankerfacez.com/v2/link?url=${a.href}`,
+                                success: function(out){
+                                    if (out?.error?.phrase) {
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out?.error?.phrase}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.error?.phrase}</div></div></div></div>`;
+                                    } else if ( new URL(href).host == "youtu.be" || new URL(href).host == "m.youtube.com" || new URL(href).host == "youtube.be" || (new URL(href).host == "www.youtube.com" && new URL(href).pathname == "/watch"))  {
+                                        let imgdiv = ''
+                                        if (typeof out?.short?.image?.url != 'undefined') {
+                                            img = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.short.image.url}" class=""></div>`
+                                        } else {
+                                            img = ''
+                                        }
+                                        var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value)*1000)
+                                        var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
+                                        node.querySelector('.lrhiver').innerHTML = `<div class="lrhiverimg">
+                                            <div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
                                                 <div>
                                                     <div class="ffz--shift-hide">
                                                         ${out?.short?.image?.url ? `
@@ -1365,94 +1196,186 @@ const wasd = {
                                                         ` : ``}
                                                     </div>
                                                 </div>
-                                            </div>`
-	                                        
-	                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div><div title="${out?.short?.subtitle}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.short?.subtitle}</div></div></div></div>`;
-	                                    }
-	                                } else {
-	                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out.error.phrase}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.error.phrase}</div></div></div></div>`;
-	                                }
-	                            } else {
-                                    if (typeof out?.short?.image?.url != 'undefined') {
-                                        img = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.short.image.url}" class=""></div>`
-                                    } else {
-                                        img = ''
-                                    }
-                                    var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value)*1000)
-                                    var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
-                                    node.querySelector('.lrhiverimg').innerHTML = `<div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
-                                        <div>
-                                            <div class="ffz--shift-hide">
-                                                ${out?.short?.image?.url ? `
-                                                    <div class="ffz--rich-gallery" data-items="1">
-                                                        <div class="ffz--gallery-column" data-items="1">
-                                                            <div class="ffz--overlay">
-                                                                <div class="ffz--overlay__content">
-                                                                    <div class="ffz-aspect ffz-aspect--align-center">
-                                                                        <div class="ffz-aspect__spacer" style="padding-top: 56.25%;"></div><img class=" " src="${out.short.image.url}" title="">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="ffz--overlay__bit" data-side="bottom-right">${textdate}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ` : ``}
-                                                
-
-                                                <div class="tw-flex ffz--rich-header">
-                                                    <div class="ffz--header-image-h tw-mg-x-05"></div>
-                                                    <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
-                                                        ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
-                                                        ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
-                                                    </div>
-                                                </div>
-                                                ${out?.full?.[2]?.content ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
-                                                ${out?.short?.extra?.[2]?.attrs?.datetime ? `
-                                                    <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
-                                                        <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
-                                                    </div>
-                                                ` : ``}
                                             </div>
-                                        </div>
-                                    </div>`
-                                    
-                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.base}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.base}</div></div></div></div>`;
+                                        </div>`
+                                        imgdiv = ``
+                                        node.querySelector('.ffz--header-image').innerHTML = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05 ffz--header-aspect" style="width:8.8rem">${img}</div>`
+
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div><div title="${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out?.short?.subtitle?.content?.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out?.short?.subtitle?.content?.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div><div title="${out?.short?.extra?.[1]} ${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><span class="ffz-i-youtube-play"></span>${out?.short?.extra?.[1]}<time datetime="${out?.short?.extra?.[2]?.attrs?.datetime}" class="">${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}</time></div></div></div></div>`;
+                                    } else if (out?.short?.title) {
+                                        if (typeof out.error == 'undefined') {
+                                            if (!out?.short?.subtitle) {
+                                                if (typeof out?.short?.image?.url != 'undefined') {
+                                                    img = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.short.image.url}" class=""></div>`
+                                                } else {
+                                                    img = ''
+                                                }
+                                                var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value)*1000)
+                                                var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
+                                                // node.querySelector('.lrhiverimg').innerHTML = `<div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
+                                                //     <div>
+                                                //         <div class="ffz--shift-hide">
+                                                //             ${out?.short?.image?.url ? `
+                                                //                 <div class="ffz--rich-gallery" data-items="1">
+                                                //                     <div class="ffz--gallery-column" data-items="1">
+                                                //                         <div class="ffz--overlay">
+                                                //                             <div class="ffz--overlay__content">
+                                                //                                 <div class="ffz-aspect ffz-aspect--align-center">
+                                                //                                     <div class="ffz-aspect__spacer" style="padding-top: 56.25%;"></div><img class=" " src="${out.short.image.url}" title="">
+                                                //                                 </div>
+                                                //                             </div>
+                                                //                             <div class="ffz--overlay__bit" data-side="bottom-right">${textdate}</div>
+                                                //                         </div>
+                                                //                     </div>
+                                                //                 </div>
+                                                //             ` : ``}
+                                                            
+
+                                                //             <div class="tw-flex ffz--rich-header">
+                                                //                 <div class="ffz--header-image-h tw-mg-x-05"></div>
+                                                //                 <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
+                                                //                     ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
+                                                //                     ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
+                                                //                 </div>
+                                                //             </div>
+                                                //             ${typeof out?.full?.[2]?.content == 'string' ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
+                                                //             ${out?.short?.extra?.[2]?.attrs?.datetime ? `
+                                                //                 <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
+                                                //                     <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
+                                                //                 </div>
+                                                //             ` : ``}
+                                                //         </div>
+                                                //     </div>
+                                                // </div>`
+                                                
+                                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div></div></div></div>`;
+                                            } else {
+                                                if (typeof out?.short?.image?.url != 'undefined') {
+                                                    img = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.short.image.url}" class=""></div>`
+                                                } else {
+                                                    img = ''
+                                                }
+                                                var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value)*1000)
+                                                var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
+                                                // node.querySelector('.lrhiverimg').innerHTML = `<div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
+                                                //     <div>
+                                                //         <div class="ffz--shift-hide">
+                                                //             ${out?.short?.image?.url ? `
+                                                //                 <div class="ffz--rich-gallery" data-items="1">
+                                                //                     <div class="ffz--gallery-column" data-items="1">
+                                                //                         <div class="ffz--overlay">
+                                                //                             <div class="ffz--overlay__content">
+                                                //                                 <div class="ffz-aspect ffz-aspect--align-center">
+                                                //                                     <div class="ffz-aspect__spacer" style="padding-top: 56.25%;"></div><img class=" " src="${out.short.image.url}" title="">
+                                                //                                 </div>
+                                                //                             </div>
+                                                //                             <div class="ffz--overlay__bit" data-side="bottom-right">${textdate}</div>
+                                                //                         </div>
+                                                //                     </div>
+                                                //                 </div>
+                                                //             ` : ``}
+                                                            
+
+                                                //             <div class="tw-flex ffz--rich-header">
+                                                //                 <div class="ffz--header-image-h tw-mg-x-05"></div>
+                                                //                 <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
+                                                //                     ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
+                                                //                     ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
+                                                //                 </div>
+                                                //             </div>
+                                                //             ${out?.full?.[2]?.content ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
+                                                //             ${out?.short?.extra?.[2]?.attrs?.datetime ? `
+                                                //                 <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
+                                                //                     <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
+                                                //                 </div>
+                                                //             ` : ``}
+                                                //         </div>
+                                                //     </div>
+                                                // </div>`
+                                                
+                                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div><div title="${out?.short?.subtitle}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.short?.subtitle}</div></div></div></div>`;
+                                            }
+                                        } else {
+                                            node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out.error.phrase}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.error.phrase}</div></div></div></div>`;
+                                        }
+                                    } else {
+                                        if (typeof out?.short?.image?.url != 'undefined') {
+                                            img = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.short.image.url}" class=""></div>`
+                                        } else {
+                                            img = ''
+                                        }
+                                        var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value)*1000)
+                                        var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
+                                        // node.querySelector('.lrhiverimg').innerHTML = `<div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
+                                        //     <div>
+                                        //         <div class="ffz--shift-hide">
+                                        //             ${out?.short?.image?.url ? `
+                                        //                 <div class="ffz--rich-gallery" data-items="1">
+                                        //                     <div class="ffz--gallery-column" data-items="1">
+                                        //                         <div class="ffz--overlay">
+                                        //                             <div class="ffz--overlay__content">
+                                        //                                 <div class="ffz-aspect ffz-aspect--align-center">
+                                        //                                     <div class="ffz-aspect__spacer" style="padding-top: 56.25%;"></div><img class=" " src="${out.short.image.url}" title="">
+                                        //                                 </div>
+                                        //                             </div>
+                                        //                             <div class="ffz--overlay__bit" data-side="bottom-right">${textdate}</div>
+                                        //                         </div>
+                                        //                     </div>
+                                        //                 </div>
+                                        //             ` : ``}
+                                                    
+
+                                        //             <div class="tw-flex ffz--rich-header">
+                                        //                 <div class="ffz--header-image-h tw-mg-x-05"></div>
+                                        //                 <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
+                                        //                     ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
+                                        //                     ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
+                                        //                 </div>
+                                        //             </div>
+                                        //             ${out?.full?.[2]?.content ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
+                                        //             ${out?.short?.extra?.[2]?.attrs?.datetime ? `
+                                        //                 <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
+                                        //                     <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
+                                        //                 </div>
+                                        //             ` : ``}
+                                        //         </div>
+                                        //     </div>
+                                        // </div>`
+                                        
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.base}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.base}</div></div></div></div>`;
+                                    }
+                                },
+                                error: function(out){
+                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                                 }
-	                        };
-	                        oReq.onerror = (err) => {
-	                            console.log('не удалось получить данные из сервера');
-	                            node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
-                                
-	                        };
-	                        oReq.open("get", linkService, true); oReq.send();
+                            });
+
 	                    }
 	                }
 	            }
 	        }
 
-	        if (node.querySelector('div.message__info__icon > i')) {
-	            node.querySelector('div.message__info__icon > i').addEventListener('click', () => {
-	                context_menu = node.querySelector('.context-menu')
-	                if (context_menu) {
-	                    let item = document.createElement('div')
-	                    item.classList.add(`context-menu__block`)
-	                    item.innerHTML = `<div class="context-menu__block__icon"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Добавить в ЧС </div>`;
-	                    context_menu.append(item)
-	                    item.addEventListener('click', ({ target }) => {
-	                        let username = node.querySelector('.info__text__status__name').getAttribute('username');
-	                        if (!settings.wasd.blockUserList[username]) {
-	                            HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
-	                            settings.wasd.blockUserList[username] = new Date();
-	                            HelperWASD.addUserToBlackList(username)
-	                            HelperSettings.save([document.querySelector('.optionField')]);
-	                        } else {
-	                            HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!')
-	                        }
-	                        node.click()
-	                    })
-	                }
-	            })
-	        }
+            node.querySelector('div.message__info__icon > i')?.addEventListener('click', () => {
+                context_menu = node.querySelector('.context-menu')
+                if (context_menu) {
+                    let item = document.createElement('div')
+                    item.classList.add(`context-menu__block`)
+                    item.innerHTML = `<div class="context-menu__block__icon"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Добавить в ЧС </div>`;
+                    context_menu.append(item)
+                    item.addEventListener('click', ({ target }) => {
+                        let username = node.querySelector('.info__text__status__name').getAttribute('username');
+                        if (!settings.wasd.blockUserList[username]) {
+                            HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
+                            settings.wasd.blockUserList[username] = new Date();
+                            HelperWASD.addUserToBlackList(username)
+                            HelperSettings.save([document.querySelector('.optionField')]);
+                        } else {
+                            HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!')
+                        }
+                        node.click()
+                    })
+                }
+            })
 
 	        if (settings.wasd.sticker[1].toString() === '3') {
 	            sticker = node.querySelector(`.message__info__text img.sticker`);
@@ -1463,7 +1386,8 @@ const wasd = {
 	                    newMessage.remove();
 	                }
 	            }
-	        } else if (settings.wasd.sticker[1].toString() === '4') {
+	        }
+            else if (settings.wasd.sticker[1].toString() === '4') {
 	            sticker = node.querySelector(`.message__info__text img.sticker`);
 	            if (sticker) {
 	                messageText = node.querySelector(`.message-text > span`);
@@ -1476,7 +1400,7 @@ const wasd = {
 	        }
 
 	        if (settings.wasd.stickerovg[1].toString() === '3') {
-	            stickerovg = node.querySelector(`.message__info__text img.stickerovg`);
+	            stickerovg = node.querySelector(`.message__info__text .stickerovg`);
 	            if (stickerovg) {
 	                node.remove();
 	                newMessage = document.querySelector(`div.block__new-messages`);
@@ -1484,8 +1408,9 @@ const wasd = {
 	                    newMessage.remove();
 	                }
 	            }
-	        } else if (settings.wasd.stickerovg[1].toString() === '4') {
-	            stickerovg = node.querySelector(`.message__info__text img.stickerovg`);
+	        }
+            else if (settings.wasd.stickerovg[1].toString() === '4') {
+	            stickerovg = node.querySelector(`.message__info__text .stickerovg`);
 	            if (stickerovg) {
 	                messageText = node.querySelector(`.message-text > span`);
 	                messageText.innerHTML = "<span class='chat-message-text stickertext'>Стикер</span>";
@@ -1506,24 +1431,24 @@ const wasd = {
 	        }
 	        if (mentoinText) {
 	            let mentoinusername = settings.wasd.userNameEdited[mentoinText.textContent.trim().split('@').join('')];
-	            if (!mentoinusername) {mentoinusername = mentoinText.textContent.trim().split('@').join('')}
+	            if (!mentoinusername) { mentoinusername = mentoinText.textContent.trim().split('@').join('') }
 
 	            if (settings.wasd.onClickMention[1].toString() === '0') {
 
-	                mentoinText.innerHTML = `<span style='color: ${usercolor(mentoinText.textContent.trim())};' class='chat-message-mention' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
+	                mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
 	                node.querySelectorAll('.chat-message-mention').forEach(element => {
-	                    usercolorapi(element);
+	                    HelperWASD.usercolorapi(element);
 	                    element.addEventListener('click', ({ target }) => {
 	                        if (target.getAttribute('username')) {
 	                            HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
 	                        }
 	                    });
 	                });
-
-	            } else if (settings.wasd.onClickMention[1].toString() === '1') {
-	                mentoinText.innerHTML = `<span style='color: ${usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
+	            }
+                else if (settings.wasd.onClickMention[1].toString() === '1') {
+	                mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
 	                node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-	                    usercolorapi(element);
+	                    HelperWASD.usercolorapi(element);
 	                    element.addEventListener('click', ({ target }) => {
 	                        if (textarea) {
 	                            textarea.value+=target.getAttribute('username').trim()+' ';
@@ -1532,11 +1457,11 @@ const wasd = {
 	                        }
 	                    })
 	                });
-
-	            } else if (settings.wasd.onClickMention[1].toString() === '2') {
-	                mentoinText.innerHTML = `<span style='color: ${usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
+	            }
+                else if (settings.wasd.onClickMention[1].toString() === '2') {
+	                mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
 	                node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-	                    usercolorapi(element);
+	                    HelperWASD.usercolorapi(element);
 	                    element.addEventListener('click', ({ target }) => {
 	                        if (target.getAttribute('username')) {
 	                            if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
@@ -1545,48 +1470,6 @@ const wasd = {
 	                        }
 	                    })
 	                });
-	            }
-
-	            function usercolorapi(element) {
-	                // ищем цвет по api если по ласт сообщениям не нашли
-	                if (element.style.color == '' && settings.wasd.colorAtTheMention[1]) {
-	                    color = "rgba(var(--wasd-color-switch--rgb),.88);";
-
-	                    var oReq = new XMLHttpRequest();
-	                    oReq.onload = (out) => {
-	                        var out = JSON.parse(oReq.responseText);
-	                        let data;
-	                        const userColors = ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"];
-	                        if (out.result) {
-	                            for (let value of out.result.rows) {
-	                                if (value.user_login.toLowerCase().trim() == element.getAttribute('username').split('@').join('').toLowerCase().toLowerCase().trim()) {
-	                                    color = userColors[value.user_id % (userColors.length - 1)];
-	                                    break;
-	                                }
-	                            }
-	                        }
-	                        element.style.color = color;
-	                    };
-	                    oReq.open("get", `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${element.getAttribute('username').split('@').join('').toLowerCase().trim()}`, true); oReq.send();
-
-	                }
-	            }
-
-	            function usercolor(channel_name) {
-	                // ищем цвет по ласт сообщениям тк у api есть задержка
-	                let color;
-	                if (settings.wasd.colorAtTheMention[1]) {
-	                    allNames = document.querySelectorAll('div.info__text__status__name');
-	                    for (let element of allNames) {
-	                        if (element.getAttribute('username')) {
-	                            if(channel_name.split('@').join('').toLowerCase().trim() == element.getAttribute('username').toLowerCase().trim()) {
-	                                color = element.style.color;
-	                                break;
-	                            }
-	                        }
-	                    }
-	                    return color;
-	                }
 	            }
 	        }
 	    }

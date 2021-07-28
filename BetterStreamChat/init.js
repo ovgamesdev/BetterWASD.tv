@@ -11,6 +11,27 @@ const BetterStreamChat = {
             removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
         };
         let changelogList = [{
+                version: '1.3.1',
+                date: '2021-07-28',
+                items: [{
+                    text: [
+                        `СТРИМИНГОВАЯ - Карточка пользователя - Последние сообщения.`
+                    ],
+                    label: 'fixed'
+                },{
+                    text: [
+                        `<a target="_blank" href="https://7tv.app/">7TV</a> эмоции.`,
+                        `Поддержка Firefox.`
+                    ],
+                    label: 'added'
+                },{
+                    text: [
+                        `Карточка пользователя - Последние сообщения.`,
+                        `Распознавание ссылок`
+                    ],
+                    label: 'optimized'
+                }]
+            },{
                 version: '1.3',
                 date: '2021-07-23',
                 items: [{
@@ -654,6 +675,7 @@ const BetterStreamChat = {
                     <li><a data-tab="general">Общий</a></li>
                     <li><a data-tab="bttvSettings">BTTV</a></li>
                     <li><a data-tab="ffzSettings">FFZ</a></li>
+                    <li><a data-tab="tv7Settings">TV7</a></li>
                     <li class="active"><a data-tab="wasdSettings">Настройки</a></li>
                     <!--div><a href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb" target="_blank">БОТ</a></div-->
                     <li><a data-tab="blacklist">ЧС</a></li>
@@ -661,7 +683,7 @@ const BetterStreamChat = {
                     <li><a data-tab="backup">Бэкап</a></li>
                 </ul>
                 <!--span title="" class="fade helpTitleHover"><img class="nofade " style="width: 22px; filter: invert(99%) sepia(6%) saturate(1%) hue-rotate(57deg) brightness(95%) contrast(85%);"></span-->
-                <span style="margin-right: 5px;" title="Обновить BTTV И FFZ эмоции (щелкните мышью по кнопке дважды) (Подождите пару секунд)." class="updateemotes helpTitleHover"><i _ngcontent-boj-c248="" class="wasd-icons-record-icon" style="font-size: 22px;align-items: center;display: flex;justify-content: center;"></i></span>
+                <span style="margin-right: 5px;" title="Обновить BTTV, FFZ и TV7 эмоции (щелкните мышью по кнопке дважды) (Подождите пару секунд)." class="updateemotes helpTitleHover"><i _ngcontent-boj-c248="" class="wasd-icons-record-icon" style="font-size: 22px;align-items: center;display: flex;justify-content: center;"></i></span>
                 <span style="margin-right: 10px;" title="Обновить чат (щелкните мышью по кнопке дважды) (Подождите пару секунд)." class="update helpTitleHover"><i _ngcontent-boj-c248="" class="wasd-icons-record-icon" style="font-size: 22px;align-items: center;display: flex;justify-content: center;"></i></span>
                 
                 <span class="close"><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></span>
@@ -740,6 +762,35 @@ const BetterStreamChat = {
                 <h2> Доступные эмоции FrankerFaceZ </h2>
                 <input type="search" placeholder="Поиск эмоций" class="option ffzemojiSearch" style="background: url(${chrome.extension.getURL("img/search.png")}) no-repeat 10px; background-color: var(--wasd-color-prime); margin-top: 10px; margin-bottom: 10px; border-bottom-width: 0px!important; min-height: auto;">
                 <ul id="ffzEmoteList"></ul>
+            </main>
+
+            <main class="text" data-tab="tv7Settings">
+                <h1 style="padding-left: 10px; padding-right: 10px;"> 7TV </h1>
+                <h4 style="margin-top:10px;padding-left: 10px;padding-right: 0px;">Добавить новый канал (Twitch username)</h4>
+                <div style="padding-left: 10px;">
+                    <input placeholder="username" type="search" id="tv7AddUser" />
+                    <button id="tv7AddUserBtn" class="ovg-button">+</button>
+                </div>
+
+                <table class="table-ovg">
+                    <thead class="thead-ovg">
+                        <th class="table-heading-ovg">
+                            <div class="table-heading-text-ovg">Имя пользователя</div>
+                        </th>
+                        <th class="table-heading-ovg">
+                            <div class="table-heading-text-ovg">Время последнего обновления</div>
+                        </th>
+                        <th class="table-heading-ovg remove">
+                            <div class="table-heading-text-ovg">Действия</div>
+                        </th>
+                    </thead>
+                    <tbody class="tv7UserList ovg-items">
+                    </tbody>
+                </table>
+
+                <h2> Доступные эмоции 7TV </h2>
+                <input type="search" placeholder="Поиск эмоций" class="option tv7emojiSearch" style="background: url(${chrome.extension.getURL("img/search.png")}) no-repeat 10px; background-color: var(--wasd-color-prime); margin-top: 10px; margin-bottom: 10px; border-bottom-width: 0px!important; min-height: auto;">
+                <ul id="tv7EmoteList"></ul>
             </main>
 
             <main class="active" data-tab="wasdSettings">
@@ -826,6 +877,15 @@ const BetterStreamChat = {
             HelperFFZ.tryAddUser();
         });
 
+        // tv7 events
+        settingsDiv.querySelector('#tv7AddUserBtn').addEventListener('click', () => {
+            HelperTV7.tryAddUser();
+        });
+        settingsDiv.querySelector('#tv7AddUser').addEventListener('keyup', (event) => {
+            if (event.key !== 'Enter') return;
+            HelperTV7.tryAddUser();
+        });
+
         // bl events
         settingsDiv.querySelector('#blacklistAddUserBtn').addEventListener('click', () => {
             text = settingsDiv.querySelector('#blacklistAddUser').value
@@ -874,6 +934,7 @@ const BetterStreamChat = {
 
             HelperBTTV.updateEmotesBttv();
             HelperFFZ.updateEmotesFfz()
+            HelperTV7.updateEmotesTv7()
         });
 
         // bind search settings
@@ -925,6 +986,21 @@ const BetterStreamChat = {
                 if (ffztitle) {
                     if (ffztitle.textContent.toUpperCase().indexOf(ffzfilter) != -1) { ffzoptions[ffzi].style.display = ""; }
                     else { ffzoptions[ffzi].style.display = "none"; }
+                }
+            }
+        });
+
+        var tv7input, tv7filter, tv7ul, tv7options, tv7title, tv7titleline, tv7i;
+        tv7input = document.querySelector('input.option.tv7emojiSearch');
+        tv7input.addEventListener('input', () => {
+            tv7filter = tv7input.value.toUpperCase();
+            tv7ul = document.querySelector("main[data-tab='tv7Settings'] > #tv7EmoteList");
+            tv7options = tv7ul.querySelectorAll("a.emoteCard");
+            for (tv7i = 0; tv7i < tv7options.length; tv7i++) {
+                tv7title = tv7options[tv7i].querySelector("span");
+                if (tv7title) {
+                    if (tv7title.textContent.toUpperCase().indexOf(tv7filter) != -1) { tv7options[tv7i].style.display = ""; }
+                    else { tv7options[tv7i].style.display = "none"; }
                 }
             }
         });
@@ -1020,8 +1096,6 @@ const BetterStreamChat = {
             });
         }
 
-
-
         let searchInput = settingsDiv.querySelector('#blacklistAddUser')
         $("#blacklistAddUser").autocomplete({
             source: function(request, response) {
@@ -1072,14 +1146,33 @@ const BetterStreamChat = {
             }
         });
 
+        let searchTV7User = settingsDiv.querySelector("#tv7AddUser")
+        $("#tv7AddUser").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: `https://api.twitch.tv/kraken/search/channels?query=${searchTV7User.value.toLowerCase()}&limit=5`,
+                    headers: {
+                        'Client-ID': 'iteua36t3bn764geiij8px2tr5w5bl',
+                        Accept: 'application/vnd.twitchtv.v5+json'
+                    },
+                    success: function(data){
+                        response($.map(data.channels, function(item) {
+                            return { label: item.display_name, value: item.display_name }
+                        }));
+                    }
+                });
+            }
+        });
 
-
-        // load bttv and ffz emotes
+        // load bttv, ffz and 7tv emotes
         await HelperBTTV.update();
         HelperBTTV.loaded();
 
         await HelperFFZ.update();
         HelperFFZ.loaded();
+
+        await HelperTV7.update();
+        HelperTV7.loaded();
 
         // load chat
         HelperWASD.loaded();

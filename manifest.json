@@ -13,6 +13,7 @@
             "helper/Twitch.js",
             "helper/FFZ.js",
             "helper/BTTV.js",
+            "helper/TV7.js",
             "helper/WASD.js",
             "helper/Socket.js",
             "wasd/init.js",

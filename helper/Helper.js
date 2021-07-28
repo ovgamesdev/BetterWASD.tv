@@ -86,33 +86,10 @@ const Helper = {
                 keepMessagesTimeout: [false, false],
                 chatMobilePlayer: [false, false],
                 colorModOptions: ['#000000', '#000000'],
+                tv7Emotes: [true, true],
+                tv7InChatMenu: [true, true],
             }
         };
-    },
-    fetch(...args) {
-        return new Promise((resolve, reject) => {
-            console.log(...args)
-            $.ajax({
-                ...args,
-                success: function(out, textStatus, jqXHR){
-                    //console.log(out, textStatus, jqXHR)
-                    resolve(out);
-                },
-                error: function(data){
-                    reject(data.error);
-                },
-            });
-            // fetch(...args).then((response) => {
-            //     response.json().then((json) => {
-            //         if (response.status === 200) {
-            //             resolve(json);
-            //         } else {
-            //             reject(json);
-            //         }
-            //     });
-            // });
-
-        });
     },
     getSettings() {
         return new Promise((resolve, reject) => {

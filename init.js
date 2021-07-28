@@ -133,8 +133,8 @@ function observerFull() {
             console.log("start observer (FULL)");
 
             // fix init chat Великий рандом
-            if (document.querySelector('li#selector-header-random-stream')) document.querySelector('li#selector-header-random-stream').addEventListener('click', () => {
-                if (document.querySelector('wasd-chat')) document.querySelector('wasd-chat').remove()
+            document.querySelector('li#selector-header-random-stream')?.addEventListener('click', () => {
+                document.querySelector('wasd-chat')?.remove()
             })
         } else {
             console.log("observer not started (FULL)");
@@ -146,15 +146,14 @@ observerFull();
 function createbuttonovg() {
     setTimeout(() => {
         chatsettingsbutton = document.querySelectorAll("div.header__block__btn > i");
-        if (chatsettingsbutton.item(0)) {
-            chatsettingsbutton.item(0).addEventListener("click", clickSettingsButton);
-        }
+        chatsettingsbutton.item(0)?.addEventListener("click", clickSettingsButton);
+
         backbutton = document.querySelectorAll("div.menu.menu__inside > div.menu__block.menu__inside-header");
-        if (backbutton.item(0)) {
-            if (backbutton.item(0).querySelector('div.menu__block__text').textContent == " Настройки чата ") {
-                backbutton.item(0).addEventListener("click", clickSettingsButton);
-            }
+    
+        if (backbutton.item(0)?.querySelector('div.menu__block__text').textContent == " Настройки чата ") {
+            backbutton.item(0)?.addEventListener("click", clickSettingsButton);
         }
+        
         createbuttonovg();
     }, 200);
 }
@@ -162,9 +161,7 @@ createbuttonovg();
 function clickSettingsButton() {
     //console.log('bind click');
     divmenu = document.querySelector("wasd-chat-menu > div.menu");
-    if (divmenu) {
-        addToMenu();
-    }
+    if (divmenu) addToMenu();
 }
 function addToMenu() {
     //console.log("addToMenu");
@@ -174,17 +171,17 @@ function addToMenu() {
         switcher = `<div id="buttonOvG" class="menu__block menu__block-header"><div class="menu__block__icon"><i class="icon wasd-icons-settings-profile"></i></div><div class="menu__block__text">${text}</div></div>`;
         chatmenu.item(0).insertAdjacentHTML("afterend", switcher);
 
-        if (document.querySelector('#buttonOvG')) {
-            document.querySelector('#buttonOvG').addEventListener('click', () => {
-                BetterStreamChat.settingsDiv.style.display = 'block'
-                document.querySelector('.header__block__btn > i').click()
-                document.body.style.overflowY = "hidden";
-                BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
-                BetterStreamChat.settingsDiv.querySelectorAll('main').forEach(function(main) {
-                    main.scrollTo(0, 0)
-                })
+        
+        document.querySelector('#buttonOvG')?.addEventListener('click', () => {
+            BetterStreamChat.settingsDiv.style.display = 'block'
+            document.querySelector('.header__block__btn > i').click()
+            document.body.style.overflowY = "hidden";
+            BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
+            BetterStreamChat.settingsDiv.querySelectorAll('main').forEach(function(main) {
+                main.scrollTo(0, 0)
             })
-        }
+        })
+        
     }
 }
 //-
@@ -273,45 +270,6 @@ function createClipByOvg() {
                                 }
                             }
                         });
-
-                        // fetch(`${new URL(document.URL).pathname.split('/')[1] == 'private-stream'? 'https://wasd.tv/api/v2/broadcasts/closed/' + new URL(document.URL).pathname.split('/')[2] : 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + getChannelName()} `)
-                        // .then(res => res.json())
-                        // .then((out) => {
-                        //         if (out.error) {
-                        //             new Error(out.error.code)
-                        //         } else if (out.result.media_container) {
-                        //             button.addEventListener('click', () => {
-                        //                 if (document.querySelector('iframe#createClip')) {
-                        //                     document.querySelector('iframe#createClip').remove()
-                        //                 } else {
-                        //                     document.querySelector('wasd-player-component > div[data-player]').insertAdjacentHTML("beforeend", `<iframe id="createClip" src="https://wasd.tv/clip/${out.result.media_container.media_container_id}" width="500" height="640" align="left" style="bottom: 15px; right: 5px; position: absolute; z-index: 998;">Ваш браузер не поддерживает плавающие фреймы!</iframe>`);
-                        //                     var iframe = document.querySelector('iframe#createClip')
-                        //                     iframe.onload = function() {
-                        //                         var style = document.createElement('style')
-                        //                         style.textContent ='body {background-color: rgba(0,0,0,0)!important;} #topDiv, wasd-mobile-app, wasd-dynamic-popup, wasd-footer {display: none!important;} #scroll-content {background-color: rgba(0,0,0,0)!important; overflow: hidden;margin: 0!important;height: 100%!important;} .create-clip{padding: 0!important;} div.close-cip {display: flex;width: 100%;max-width: 640px;}div.close-cip .create-clip__title {font-size: 24px;color: var(--wasd-color-switch);width: 100%;max-width: 640px;}div.close-cip .close-clip-btn {background-color: red;width: 28px;height: 28px;text-align: center;}div.close-cip .close-clip-btn span.close-text {font-size: 20px;}} div.tw-absolute.tw-mg-r-05.tw-mg-t-05.tw-right-0.tw-top-0 {margin-right: .5rem!important;margin-top: .5rem!important;right: 0!important;top: 0!important;position: absolute!important;}div.tw-inline-flex.viewer-card-drag-cancel {display: inline-flex!important;cursor: auto;}button.tw-button-icon.tw-button-icon--overlay.tw-core-button {border: 1px solid transparent;background-color: transparent;color: #fff;border-radius: .4rem;height: 3rem;justify-content: center;user-select: none;display: inline-flex;align-items: center;position: relative;-webkit-box-align: center;-webkit-box-pack: center;vertical-align: middle;overflow: hidden;text-decoration: none;white-space: nowrap;text-align: inherit;background: 0 0;  }button.tw-button-icon.tw-button-icon--overlay.tw-core-button:hover {cursor: pointer;background-color: rgb(178 177 177 / 18%);}button.tw-button-icon.tw-button-icon--overlay.tw-core-button:active {background-color: rgba(255, 255, 255, .5);}'
-                        //                         iframe.contentDocument.head.appendChild(style)
-
-                        //                         function createbtncloseclip() {
-                        //                             let text_clip = iframe.contentDocument.querySelector('.create-clip__title')
-                        //                             if (text_clip) {
-                        //                                 text_clip.outerHTML = '<div class="close-cip"><span class="create-clip__title">Создание клипа</span><div data-a-target="viewer-card-close-button" class="tw-absolute tw-mg-r-05 tw-mg-t-05 tw-right-0 tw-top-0"><div class="tw-inline-flex viewer-card-drag-cancel"><button class="tw-button-icon tw-button-icon--overlay tw-core-button" aria-label="Скрыть" data-test-selector="close-viewer-card"><i _ngcontent-ykf-c54="" style="font-size:13px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-close"></i></button></div></div></div>'
-                        //                                 iframe.contentDocument.querySelector('button.tw-button-icon.tw-button-icon--overlay.tw-core-button').addEventListener("click", ()=>{
-                        //                                     document.querySelector('iframe#createClip').remove()
-                        //                                 })
-                        //                             } else {
-                        //                                 setTimeout(()=>{
-                        //                                     createbtncloseclip()
-                        //                                 }, 10)
-                        //                             }
-                        //                         }
-                        //                         createbtncloseclip()
-                                                    
-                        //                     }
-                        //                 }
-                        //             });
-                        //         }
-                        // })
-
                     }
                 }
             }
@@ -320,12 +278,12 @@ function createClipByOvg() {
         if (document.querySelector('.player-button.clip-button')) {
             document.querySelector('.player-button.clip-button').parentElement.style.display = ""
         }
+
         if (document.querySelector("button.clip-ovg")) {
             document.querySelector('.buttons-right .buttons-wraper.clip-ovg').remove();
         }
-        if (document.querySelector('iframe#createClip')) {
-            document.querySelector('iframe#createClip').remove()
-        }
+
+        document.querySelector('iframe#createClip')?.remove()
     }
 }
 //-
@@ -364,9 +322,7 @@ function addResetToPlayer() {
         }
     } else {
         const buttondiv = document.querySelector("div.resetplayer");
-        if (buttondiv) {
-            buttondiv.remove();
-        }
+        if (buttondiv) buttondiv.remove(); 
     }
 }
 //-
@@ -374,11 +330,9 @@ let videoPlyerPauseTimer = null;
 isInterval = false;
 function videoPlyerPauseIsWasdHome() {
     if (document.URL == 'https://wasd.tv/' || document.URL == 'http://wasd.tv/') {
-        if (!settings.wasd.autoPlayStreamersOnMain[1]) {
-            if (!isInterval) {
-                videoPlyerPauseTimer = setInterval(videoPlyerPause, 100);
-                isInterval = true;
-            }
+        if (!settings.wasd.autoPlayStreamersOnMain[1] && !isInterval) {
+            videoPlyerPauseTimer = setInterval(videoPlyerPause, 100);
+            isInterval = true;
         }
 
     } else {
@@ -392,12 +346,8 @@ function videoPlyerPauseIsWasdHome() {
         videoActive = document.querySelector('.carousel__slide.active > div > div > wasd-player > div.player > .video-player > wasd-player-component > div > div > video');
         if (videoActive) {
             divPending = document.querySelector('.carousel__slide.active > div > div > wasd-player > div.player > div.pending');
-            if (divPending) {
-                divPending.style.display = 'none';
-            }
-            if (!videoActive.paused) {
-                videoActive.pause();
-            }
+            if (divPending) divPending.style.display = 'none'; 
+            if (!videoActive.paused) videoActive.pause(); 
         }
     }
 }
@@ -487,10 +437,7 @@ function createbuttonovgside() {
                 }
                 document.body.style.overflowY = "hidden";
                 BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
-                //document.body.querySelector('div#scroll-content.wrapper').style.pointerEvents = "none";
-                BetterStreamChat.settingsDiv.querySelectorAll('main').forEach(function(main) {
-                    main.scrollTo(0, 0)
-                })
+                BetterStreamChat.settingsDiv.querySelectorAll('main').forEach(function(main){main.scrollTo(0, 0)})
             });
         }
     }
@@ -498,169 +445,133 @@ function createbuttonovgside() {
 //-
 function updateStiskers() {
     if (settings.wasd.bttvInChatMenu[1]) {
-        if (!document.querySelector('.bttv-emoji')) {
-            if (document.querySelector('div.emoji__head__options')) {
+        if (!document.querySelector('.bttv-emoji') && document.querySelector('div.emoji__head__options')) {
+            document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option bttv-emoji"> BTTV </div>`)
+            document.querySelector('div.option.bttv-emoji').addEventListener('click', () => {
 
-                document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option bttv-emoji"> BTTV </div>`)
-                document.querySelector('div.option.bttv-emoji').addEventListener('click', () => {
+                document.querySelector('div.emoji__head__options > .active')?.classList?.remove('active');
 
-                    if (document.querySelector('div.emoji__head__options > .active')) {
-                        if (document.querySelector('div.emoji__head__options > .active').classList) {
-                            document.querySelector('div.emoji__head__options > .active').classList.remove('active');
-                        }
-                    }
+                document.querySelector('wasd-chat-emoji-smiles-ffz')?.remove();
+                document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove();
 
-                    if (document.querySelector('wasd-chat-emoji-smiles-ffz')) {
-                        document.querySelector('wasd-chat-emoji-smiles-ffz').remove();
-                    }
-
-                    if (!document.querySelector('div.emoji__head__options > .bttv-emoji.active')) {
-                        setTimeout(()=>{
-                            let option_emotesbttv = document.querySelector('div.option.bttv-emoji')
-                            if (option_emotesbttv) {
-                                if (option_emotesbttv.classList) {
-                                    option_emotesbttv.classList.add('active');
-                                }
-                            }
-
-                            let emojiSmilesbttv = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
-                            if (emojiSmilesbttv) {
-                                emojiSmilesbttv.style.display = 'none';
-                            }
-
-                            let emojiStickersbttv = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
-                            if (emojiStickersbttv) {
-                                emojiStickersbttv.style.display = 'none';
-                            }
-
-                            let emoteBodybttv = document.querySelector('.emoji__body');
-                            if (emoteBodybttv) {
-                                emoteBodybttv.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-bttv><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bttvemojiSearch-shat" style="background: url(chrome-extension://iiihfpccbafenoaiclhhejfbldcnbmmd/img/search.png) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-bttv>`)
-                                let EmoteListbttv = emoteBodybttv.querySelector('div.emoji-ovg');
-                                //console.log(HelperBTTV.emotes);
-
-                                chrome.storage.local.get((items) => {
-                                    HelperBTTV.fetchGlobalEmotes(items).finally(() => {
-                                        bttvEmotes = items.bttvEmotes;
-                                        bttvUsers = items.bttvUsers;
-                                        let emotes = {};
-                                        for (let userID in items.bttvEmotes) {
-                                            if (items.bttvEmotes.hasOwnProperty(userID)) {
-
-                                                let splitdev = document.createElement('div');
-                                                splitdev.classList.add('stickers__div')
-
-                                                splitdev.innerHTML = `<div class="stickers__info"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof bttvUsers[userID].username == 'undefined' ? userID : bttvUsers[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
-                                                EmoteListbttv.append(splitdev);
-                                                
-                                                let stickers__line = splitdev.querySelector('.stickers__line')
-                                                for (let emoteCode in items.bttvEmotes[userID]) {
-
-                                                    if (items.bttvEmotes[userID].hasOwnProperty(emoteCode)) {
-
-                                                        if (typeof emotes[emoteCode] === 'undefined') {
-
-                                                            emotes[emoteCode] = items.bttvEmotes[userID][emoteCode];
-                                                            
-                                                            let img = document.createElement('img');
-                                                            img.src = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[emoteCode]}/1x`;
-                                                            img.classList.add('emoji__item-ovg');
-                                                            img.title = emoteCode;
-                                                            img.alt = emoteCode;
-
-                                                            stickers__line.append(img);
-                                                            img.addEventListener('click', () => {
-
-                                                                let textareabttv = document.querySelector('.footer > div > textarea')
-                                                                //saveValuetextareabttv = textareabttv.value;
-                                                                textareabttv.value += emoteCode+' ';
-                                                                textareabttv.focus()
-                                                                textareabttv.dispatchEvent(new Event('input'));
-                                                                                
-                                                                //document.querySelector('.footer__block.footer__block__btn').click();
-                                                                //textareabttv.value = saveValuetextareabttv;
-                                                            });
-
-                                                        }
-                                                    }
-                                                }
-
-                                            }
-                                        }
-                                    })
-                                });
-
-                                // bind search emoji chat
-                                var inputbttv, filterbttv, ulbttv, optionsbttv, titlebttv, ibttv;
-                                inputbttv = document.querySelector('input.bttvemojiSearch-shat');
-                                inputbttv.addEventListener('input', () => {
-                                    filterbttv = inputbttv.value.toUpperCase();
-                                    ulbttv = document.querySelector("wasd-chat-emoji-smiles-bttv .emoji-ovg");
-
-                                    /*for(let info of document.querySelectorAll("wasd-chat-emoji-smiles-bttv .stickers__info")) {
-                                        info.style.display = `${filterbttv != '' ? '' : ''}`
-                                    }*/
-
-                                    /*let stickers = document.querySelectorAll(`wasd-chat-emoji-smiles-bttv .stickers__line`)
-
-                                    for(let sticker of stickers) {
-                                        for(let info of sticker.querySelectorAll('.emoji__item-ovg')) {
-                                            if (sticker.querySelectorAll('.emoji__item-ovg').length == sticker.querySelectorAll('.emoji__item-ovg[style="display: none;"]').length) {
-                                                stickers[sticker].style.display = 'none'
-                                            }
-                                        }
-                                    }*/
-
-                                    optionsbttv = ulbttv.querySelectorAll("img.emoji__item-ovg");
-                                    for (ibttv = 0; ibttv < optionsbttv.length; ibttv++) {
-                                        titlebttv = optionsbttv[ibttv].title
-                                        if (titlebttv) {
-                                            if (titlebttv.toUpperCase().indexOf(filterbttv) != -1) {
-                                                optionsbttv[ibttv].style.display = "";
-                                            } else {
-                                                optionsbttv[ibttv].style.display = "none";
-                                            }
-                                        }
-                                    }
-                                });
-                            }
-                        },50)
-                    }
-                });
-
-                for (let optinbttv of document.querySelectorAll('div.emoji__head__options > .option')) {
-                    optinbttv.addEventListener('click', (element) => {
+                if (!document.querySelector('div.emoji__head__options > .bttv-emoji.active')) {
+                    setTimeout(()=>{
                         let option_emotesbttv = document.querySelector('div.option.bttv-emoji')
                         if (option_emotesbttv) {
                             if (option_emotesbttv.classList) {
-                                option_emotesbttv.classList.remove('active');
+                                option_emotesbttv.classList.add('active');
                             }
-                        }
-                        element.path[0].classList.add('active')
-
-                        if (document.querySelector('wasd-chat-emoji-smiles-bttv')) {
-                            document.querySelector('wasd-chat-emoji-smiles-bttv').remove();
                         }
 
                         let emojiSmilesbttv = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
                         if (emojiSmilesbttv) {
-                            emojiSmilesbttv.style.display = '';
+                            emojiSmilesbttv.style.display = 'none';
                         }
 
                         let emojiStickersbttv = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
                         if (emojiStickersbttv) {
-                            emojiStickersbttv.style.display = '';
+                            emojiStickersbttv.style.display = 'none';
                         }
-                    });
-                }
 
+                        let emoteBodybttv = document.querySelector('.emoji__body');
+                        if (emoteBodybttv) {
+                            emoteBodybttv.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-bttv><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bttvemojiSearch-shat" style="background: url(chrome-extension://iiihfpccbafenoaiclhhejfbldcnbmmd/img/search.png) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-bttv>`)
+                            let EmoteListbttv = emoteBodybttv.querySelector('div.emoji-ovg');
+                            //console.log(HelperBTTV.emotes);
+
+                            chrome.storage.local.get((items) => {
+                                HelperBTTV.fetchGlobalEmotes(items).finally(() => {
+                                    bttvEmotes = items.bttvEmotes;
+                                    bttvUsers = items.bttvUsers;
+                                    let emotes = {};
+                                    for (let userID in items.bttvEmotes) {
+                                        if (items.bttvEmotes.hasOwnProperty(userID)) {
+
+                                            let splitdev = document.createElement('div');
+                                            splitdev.classList.add('stickers__div')
+
+                                            splitdev.innerHTML = `<div class="stickers__info"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof bttvUsers[userID].username == 'undefined' ? userID : bttvUsers[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
+                                            EmoteListbttv.append(splitdev);
+                                            
+                                            let stickers__line = splitdev.querySelector('.stickers__line')
+                                            for (let emoteCode in items.bttvEmotes[userID]) {
+
+                                                if (items.bttvEmotes[userID].hasOwnProperty(emoteCode)) {
+
+                                                    if (typeof emotes[emoteCode] === 'undefined') {
+
+                                                        emotes[emoteCode] = items.bttvEmotes[userID][emoteCode];
+                                                        
+                                                        let img = document.createElement('img');
+                                                        img.src = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[emoteCode]}/1x`;
+                                                        img.classList.add('emoji__item-ovg');
+                                                        img.title = emoteCode;
+                                                        img.alt = emoteCode;
+
+                                                        stickers__line.append(img);
+                                                        img.addEventListener('click', () => {
+
+                                                            let textareabttv = document.querySelector('.footer > div > textarea')
+                                                            textareabttv.value += emoteCode+' ';
+                                                            textareabttv.focus()
+                                                            textareabttv.dispatchEvent(new Event('input'));
+                                                        });
+
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                })
+                            });
+
+                            // bind search emoji chat
+                            var inputbttv, filterbttv, ulbttv, optionsbttv, titlebttv, ibttv;
+                            inputbttv = document.querySelector('input.bttvemojiSearch-shat');
+                            inputbttv.addEventListener('input', () => {
+                                filterbttv = inputbttv.value.toUpperCase();
+                                ulbttv = document.querySelector("wasd-chat-emoji-smiles-bttv .emoji-ovg");
+
+                                optionsbttv = ulbttv.querySelectorAll("img.emoji__item-ovg");
+                                for (ibttv = 0; ibttv < optionsbttv.length; ibttv++) {
+                                    titlebttv = optionsbttv[ibttv].title
+                                    if (titlebttv) {
+                                        if (titlebttv.toUpperCase().indexOf(filterbttv) != -1) {
+                                            optionsbttv[ibttv].style.display = "";
+                                        } else {
+                                            optionsbttv[ibttv].style.display = "none";
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    },50)
+                }
+            });
+
+            for (let optinbttv of document.querySelectorAll('div.emoji__head__options > .option')) {
+                optinbttv.addEventListener('click', (element) => {
+                    let option_emotesbttv = document.querySelector('div.option.bttv-emoji')
+                    option_emotesbttv?.classList?.remove('active');
+                    element.path[0].classList.add('active')
+
+                    document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
+                    
+                    let emojiSmilesbttv = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
+                    if (emojiSmilesbttv) {
+                        emojiSmilesbttv.style.display = '';
+                    }
+
+                    let emojiStickersbttv = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
+                    if (emojiStickersbttv) {
+                        emojiStickersbttv.style.display = '';
+                    }
+                });
             }
         }
     } else {
-        let wasd_emoji_smiles = document.querySelector('wasd-chat-emoji-smiles-bttv')
-        if (wasd_emoji_smiles) {
-            wasd_emoji_smiles.remove();
-        }
+        document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
         let option_emotesbttv = document.querySelector('div.option.bttv-emoji')
         if (option_emotesbttv) {
             option_emotesbttv.remove();
@@ -683,34 +594,19 @@ function updateStiskers() {
                 document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option ffz-emoji"> FFZ </div>`)
                 document.querySelector('div.option.ffz-emoji').addEventListener('click', () => {
 
-                    if (document.querySelector('div.emoji__head__options > .active')) {
-                        if (document.querySelector('div.emoji__head__options > .active').classList) {
-                            document.querySelector('div.emoji__head__options > .active').classList.remove('active');
-                        }
-                    }
+                    document.querySelector('div.emoji__head__options > .active')?.classList?.remove('active');
 
-                    if (document.querySelector('wasd-chat-emoji-smiles-bttv')) {
-                        document.querySelector('wasd-chat-emoji-smiles-bttv').remove();
-                    }
-
+                    document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
+                    document.querySelector('wasd-chat-emoji-smiles-vt7')?.remove();
                     
                     if (!document.querySelector('div.emoji__head__options > .ffz-emoji.active')) {
                         setTimeout(()=>{
-                            let option_emotesffz = document.querySelector('div.option.ffz-emoji')
-                            if (option_emotesffz) {
-                                if (option_emotesffz.classList) {
-                                    option_emotesffz.classList.add('active');
-                                }
+                            document.querySelector('div.option.ffz-emoji')?.classList?.add('active');
+                            if (document.querySelector('.emoji__body > wasd-chat-emoji-smiles')) {
+                                document.querySelector('.emoji__body > wasd-chat-emoji-smiles').style.display = 'none';
                             }
-
-                            let emojiSmilesffz = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
-                            if (emojiSmilesffz) {
-                                emojiSmilesffz.style.display = 'none';
-                            }
-
-                            let emojiStickersffz = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
-                            if (emojiStickersffz) {
-                                emojiStickersffz.style.display = 'none';
+                            if (document.querySelector('.emoji__body > wasd-chat-emoji-stickers')) {
+                                document.querySelector('.emoji__body > wasd-chat-emoji-stickers').style.display = 'none';
                             }
 
                             let emoteBodyffz = document.querySelector('.emoji__body');
@@ -788,10 +684,6 @@ function updateStiskers() {
                                     filterffz = inputffz.value.toUpperCase();
                                     ulffz = document.querySelector("wasd-chat-emoji-smiles-ffz .emoji-ovg");
                                     
-                                    /*for(let info of document.querySelectorAll("wasd-chat-emoji-smiles-ffz .stickers__info")) {
-                                        info.style.display = `${filterffz != '' ? 'none' : ''}`
-                                    }*/
-                                    
                                     optionsffz = ulffz.querySelectorAll("img.emoji__item-ovg");
                                     for (iffz = 0; iffz < optionsffz.length; iffz++) {
                                         titleffz = optionsffz[iffz].title
@@ -838,10 +730,8 @@ function updateStiskers() {
             }
         }
     } else {
-        let wasd_emoji_smiles = document.querySelector('wasd-chat-emoji-smiles-ffz')
-        if (wasd_emoji_smiles) {
-            wasd_emoji_smiles.remove();
-        }
+        document.querySelector('wasd-chat-emoji-smiles-ffz')?.remove();
+
         let option_emotesffz = document.querySelector('div.option.ffz-emoji')
         if (option_emotesffz) {
             option_emotesffz.remove();
@@ -853,6 +743,149 @@ function updateStiskers() {
             let emojiStickersffz = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
             if (emojiStickersffz) {
                 emojiStickersffz.style.display = '';
+                document.querySelectorAll('.emoji__head__options > div.option')[0].classList.add('active');
+            }
+        }
+    }
+    if (settings.wasd.tv7InChatMenu[1]) {
+        if (!document.querySelector('.tv7-emoji') && document.querySelector('div.emoji__head__options')) {
+            document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option tv7-emoji"> TV7 </div>`)
+            document.querySelector('div.option.tv7-emoji').addEventListener('click', () => {
+
+                document.querySelector('div.emoji__head__options > .active')?.classList?.remove('active');
+
+                document.querySelector('wasd-chat-emoji-smiles-ffz')?.remove();
+                document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
+
+                if (!document.querySelector('div.emoji__head__options > .tv7-emoji.active')) {
+                    setTimeout(()=>{
+                        let option_emotestv7 = document.querySelector('div.option.tv7-emoji')
+                        if (option_emotestv7) {
+                            if (option_emotestv7.classList) {
+                                option_emotestv7.classList.add('active');
+                            }
+                        }
+
+                        let emojiSmilestv7 = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
+                        if (emojiSmilestv7) {
+                            emojiSmilestv7.style.display = 'none';
+                        }
+
+                        let emojiStickerstv7 = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
+                        if (emojiStickerstv7) {
+                            emojiStickerstv7.style.display = 'none';
+                        }
+
+                        let emoteBodytv7 = document.querySelector('.emoji__body');
+                        if (emoteBodytv7) {
+                            emoteBodytv7.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-tv7><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option tv7emojiSearch-shat" style="background: url(chrome-extension://iiihfpccbafenoaiclhhejfbldcnbmmd/img/search.png) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-tv7>`)
+                            let EmoteListtv7 = emoteBodytv7.querySelector('div.emoji-ovg');
+                            //console.log(HelperTV7.emotes);
+
+                            chrome.storage.local.get((items) => {
+                                HelperTV7.fetchGlobalEmotes(items).finally(() => {
+                                    tv7Emotes = items.tv7Emotes;
+                                    tv7Users = items.tv7Users;
+                                    let emotes = {};
+                                    for (let userID in items.tv7Emotes) {
+                                        if (items.tv7Emotes.hasOwnProperty(userID)) {
+
+                                            let splitdev = document.createElement('div');
+                                            splitdev.classList.add('stickers__div')
+
+                                            splitdev.innerHTML = `<div class="stickers__info"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof tv7Users[userID].username == 'undefined' ? userID : tv7Users[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
+                                            EmoteListtv7.append(splitdev);
+                                            
+                                            let stickers__line = splitdev.querySelector('.stickers__line')
+                                            for (let emoteCode in items.tv7Emotes[userID]) {
+
+                                                if (items.tv7Emotes[userID].hasOwnProperty(emoteCode)) {
+
+                                                    if (typeof emotes[emoteCode] === 'undefined') {
+
+                                                        emotes[emoteCode] = items.tv7Emotes[userID][emoteCode];
+                                                        
+                                                        let img = document.createElement('img');
+                                                        img.src = `https://cdn.7tv.app/emote/${HelperTV7.emotes[emoteCode]}/1x`;
+                                                        img.classList.add('emoji__item-ovg');
+                                                        img.title = emoteCode;
+                                                        img.alt = emoteCode;
+
+                                                        stickers__line.append(img);
+                                                        img.addEventListener('click', () => {
+
+                                                            let textareatv7 = document.querySelector('.footer > div > textarea')
+                                                            textareatv7.value += emoteCode+' ';
+                                                            textareatv7.focus()
+                                                            textareatv7.dispatchEvent(new Event('input'));
+                                                        });
+
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                })
+                            });
+
+                            // bind search emoji chat
+                            var inputtv7, filtertv7, ultv7, optionstv7, titletv7, itv7;
+                            inputtv7 = document.querySelector('input.tv7emojiSearch-shat');
+                            inputtv7.addEventListener('input', () => {
+                                filtertv7 = inputtv7.value.toUpperCase();
+                                ultv7 = document.querySelector("wasd-chat-emoji-smiles-tv7 .emoji-ovg");
+
+                                optionstv7 = ultv7.querySelectorAll("img.emoji__item-ovg");
+                                for (itv7 = 0; itv7 < optionstv7.length; itv7++) {
+                                    titletv7 = optionstv7[itv7].title
+                                    if (titletv7) {
+                                        if (titletv7.toUpperCase().indexOf(filtertv7) != -1) {
+                                            optionstv7[itv7].style.display = "";
+                                        } else {
+                                            optionstv7[itv7].style.display = "none";
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    },50)
+                }
+            });
+
+            for (let optintv7 of document.querySelectorAll('div.emoji__head__options > .option')) {
+                optintv7.addEventListener('click', (element) => {
+                    let option_emotestv7 = document.querySelector('div.option.tv7-emoji')
+                    option_emotestv7?.classList?.remove('active');
+                    element.path[0].classList.add('active')
+
+                    document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove(); //btttv
+                    
+                    let emojiSmilestv7 = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
+                    if (emojiSmilestv7) {
+                        emojiSmilestv7.style.display = '';
+                    }
+
+                    let emojiStickerstv7 = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
+                    if (emojiStickerstv7) {
+                        emojiStickerstv7.style.display = '';
+                    }
+                });
+            }
+        }
+    } else {
+        document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove();
+        let option_emotestv7 = document.querySelector('div.option.tv7-emoji')
+        if (option_emotestv7) {
+            option_emotestv7.remove();
+            let emojiSmilestv7 = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
+            if (emojiSmilestv7) {
+                emojiSmilestv7.style.display = '';
+                document.querySelectorAll('.emoji__head__options > div.option')[1].classList.add('active');
+            }
+            let emojiStickerstv7 = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
+            if (emojiStickerstv7) {
+                emojiStickerstv7.style.display = '';
                 document.querySelectorAll('.emoji__head__options > div.option')[0].classList.add('active');
             }
         }
