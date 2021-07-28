@@ -36,5 +36,5 @@
     ],
     "minimum_chrome_version": "41",
     "permissions": ["storage", "*://*.wasd.tv/*"],
-    "version": "1.2.9"
+    "version": "1.3"
 }

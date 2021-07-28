@@ -11,7 +11,7 @@ const BetterStreamChat = {
             removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
         };
         let changelogList = [{
-                version: '1.3.1',
+                version: '1.3',
                 date: '2021-07-28',
                 items: [{
                     text: [
@@ -21,30 +21,18 @@ const BetterStreamChat = {
                 },{
                     text: [
                         `<a target="_blank" href="https://7tv.app/">7TV</a> эмоции.`,
-                        `Поддержка Firefox.`
+                        `Поддержка Firefox.`,
+                        `Чат после проигрывателя (Мобильные устройства).`,
+                        `Цвет для опции "Меню модератора".`
                     ],
                     label: 'added'
                 },{
                     text: [
                         `Карточка пользователя - Последние сообщения.`,
-                        `Распознавание ссылок`
-                    ],
-                    label: 'optimized'
-                }]
-            },{
-                version: '1.3',
-                date: '2021-07-23',
-                items: [{
-                    text: [
+                        `Распознавание ссылок`,
                         `ЧС.`
                     ],
                     label: 'optimized'
-                },{
-                    text: [
-                        `Чат после проигрывателя (Мобильные устройства).`,
-                        `Цвет для опции "Меню модератора".`
-                    ],
-                    label: 'added'
                 }]
             },{
                 version: '1.2.9',
