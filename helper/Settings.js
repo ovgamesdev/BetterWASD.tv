@@ -18,7 +18,6 @@ const HelperSettings = {
             },
             messageFollower: {
                 title: 'Скрыть сообщение о фолловере.',
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/hideSystemMessages.png',
                 type: 'boolean'
             },
             messageSub: {
@@ -27,10 +26,12 @@ const HelperSettings = {
             },
             messageSystem: {
                 title: 'Скрыть системные сообщения.',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSystemMessages.png',
                 type: 'boolean'
             },
             messageHover: {
                 title: 'Подсвечивать сообщениие при наведении.',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/messageHover.png',
                 type: 'boolean'
             },
             colorMessageHover: {
@@ -39,7 +40,7 @@ const HelperSettings = {
             },
             wasdIconsSmile: {
                 title: 'Cкрыть стикеры / смайлы в панели ввода текста.',
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/wasdIconsSmile.png',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/wasdIconsSmile.png',
                 type: 'boolean'
             },
             wasdIconsCircleRu: {
@@ -60,17 +61,17 @@ const HelperSettings = {
             },
             bttvInChatMenu: {
                 title: 'Опция BTTV в меню смайликов в чате.',
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/bttvInChatMenu.png',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/bttvInChatMenu.png',
                 type: 'boolean'
             },
             ffzInChatMenu: {
                 title: 'Опция FFZ в меню смайликов в чате.',
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/ffzInChatMenu.png',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/ffzInChatMenu.png',
                 type: 'boolean'
             },
             tv7InChatMenu: {
                 title: 'Опция 7TV в меню смайликов в чате.',
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/tv7InChatMenu.png',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/tv7InChatMenu.png',
                 type: 'boolean'
             },
             bttvEmoteSize: {
@@ -158,6 +159,7 @@ const HelperSettings = {
             },*/
             colorAtTheMention: {
                 title: 'Отображать упоминания пользователей в чата с их цветом никнейма. <a title="Эта опция находится в стадии разработки и может работать некорректно." class="helpTitleHover">(BETA)</a> <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colorAtTheMention.png',
                 type: 'boolean'
             },
             chatWidth: {
@@ -372,7 +374,7 @@ const HelperSettings = {
             },
             pictureInPicture: {
                 title: "Добавить кнопку 'Картинка в картинке' к управлению проигрывателем. (PIP)",
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/pictureInPicture.png',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/pictureInPicture.png',
                 type: 'boolean'
             },
             /*resetToPlayer: {
@@ -402,17 +404,17 @@ const HelperSettings = {
             },
             uptimeStream:  {
                 title: 'Аптайм трансляции. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/uptimeStream.png',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStream.png',
                 type: 'boolean'
             },
             uptimeStreamMobile:  {
                 title: `Аптайм трансляции рядом с надписью 'в эфире'.`,
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/uptimeStreamMobile.png',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStreamMobile.png',
                 type: 'boolean'
             },
             alwaysOpenVolumeControl: {
                 title: 'Всегда раскрывать регулятор громкости.',
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/alwaysOpenVolumeControl.png',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/alwaysOpenVolumeControl.png',
                 type: 'boolean'
             },
             mutePlayerOnMiddleMouse: {
@@ -421,7 +423,7 @@ const HelperSettings = {
             },
             iframeCreateClip: {
                 title: 'Создавать клипы в проигрывателе а не новом окне.',
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/iframeCreateClip.png',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/iframeCreateClip.png',
                 type: 'boolean'
             },
 
@@ -460,12 +462,12 @@ const HelperSettings = {
             },
             hideSelectorStreamSettings: {
                 title: 'Скрыть кнопку "Начать стрим" в заголовке.',
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/hideSelectorStreamSettings.png',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSelectorStreamSettings.png',
                 type: 'boolean'
             },
             hideGreatRandom: {
                 title: 'Скрыть кнопку "Великий рандом!" в заголовке.',
-                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/hideGreatRandom.png',
+                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideGreatRandom.png',
                 type: 'boolean'
             },
             chatMobilePlayer: {
