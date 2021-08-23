@@ -241,6 +241,7 @@ const wasd = {
 
         if (settings.wasd.giftsWrapperSide[1]) {
             cssCode += '.gifts-wrapper-side { display: none!important; }';
+            cssCode += '.gifts-wrapper-bottom { display: none!important; }';
         }
 
         if (settings.wasd.giftsWrapperTopRight[1]) {

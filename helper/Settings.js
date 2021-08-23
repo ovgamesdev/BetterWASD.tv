@@ -18,6 +18,7 @@ const HelperSettings = {
             },
             messageFollower: {
                 title: 'Скрыть сообщение о фолловере.',
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/hideSystemMessages.png',
                 type: 'boolean'
             },
             messageSub: {
@@ -38,6 +39,7 @@ const HelperSettings = {
             },
             wasdIconsSmile: {
                 title: 'Cкрыть стикеры / смайлы в панели ввода текста.',
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/wasdIconsSmile.png',
                 type: 'boolean'
             },
             wasdIconsCircleRu: {
@@ -58,14 +60,17 @@ const HelperSettings = {
             },
             bttvInChatMenu: {
                 title: 'Опция BTTV в меню смайликов в чате.',
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/bttvInChatMenu.png',
                 type: 'boolean'
             },
             ffzInChatMenu: {
                 title: 'Опция FFZ в меню смайликов в чате.',
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/ffzInChatMenu.png',
                 type: 'boolean'
             },
             tv7InChatMenu: {
                 title: 'Опция 7TV в меню смайликов в чате.',
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/tv7InChatMenu.png',
                 type: 'boolean'
             },
             bttvEmoteSize: {
@@ -354,11 +359,11 @@ const HelperSettings = {
                 type: 'boolean'
             },
             giftsWrapperSide: {
-                title: 'Cкрыть полосу подарков.',
+                title: 'Cкрыть полосу подарков (справа и снизу).',
                 type: 'boolean'
             },
             giftsWrapperTopRight: {
-                title: 'Скрыть подарки вверху справа.',
+                title: 'Скрыть подарки (вверху справа).',
                 type: 'boolean'
             },
             videoOverlay: {
@@ -367,6 +372,7 @@ const HelperSettings = {
             },
             pictureInPicture: {
                 title: "Добавить кнопку 'Картинка в картинке' к управлению проигрывателем. (PIP)",
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/pictureInPicture.png',
                 type: 'boolean'
             },
             /*resetToPlayer: {
@@ -396,14 +402,17 @@ const HelperSettings = {
             },
             uptimeStream:  {
                 title: 'Аптайм трансляции. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/uptimeStream.png',
                 type: 'boolean'
             },
             uptimeStreamMobile:  {
                 title: `Аптайм трансляции рядом с надписью 'в эфире'.`,
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/uptimeStreamMobile.png',
                 type: 'boolean'
             },
             alwaysOpenVolumeControl: {
                 title: 'Всегда раскрывать регулятор громкости.',
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/alwaysOpenVolumeControl.png',
                 type: 'boolean'
             },
             mutePlayerOnMiddleMouse: {
@@ -412,6 +421,7 @@ const HelperSettings = {
             },
             iframeCreateClip: {
                 title: 'Создавать клипы в проигрывателе а не новом окне.',
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/iframeCreateClip.png',
                 type: 'boolean'
             },
 
@@ -450,10 +460,12 @@ const HelperSettings = {
             },
             hideSelectorStreamSettings: {
                 title: 'Скрыть кнопку "Начать стрим" в заголовке.',
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/hideSelectorStreamSettings.png',
                 type: 'boolean'
             },
             hideGreatRandom: {
                 title: 'Скрыть кнопку "Великий рандом!" в заголовке.',
+                help: 'https://github.com/ovgamesdev/BetterWASD.tv/blob/main/help/hideGreatRandom.png',
                 type: 'boolean'
             },
             chatMobilePlayer: {
@@ -551,32 +563,35 @@ const HelperSettings = {
                 let type = setting.type;
                 let fieldName = `${category}_${name}`;
                 if (type === 'boolean') {
-                    html += this.boolean(fieldName, setting.title, setting.description, settings[category][name]);
+                    html += this.boolean(fieldName, setting.title, setting.description, settings[category][name], 'Вкл', 'Откл', setting.help);
                 } else if (type === 'text') {
-                    html += this.text(fieldName, setting.title, setting.description, settings[category][name]);
+                    html += this.text(fieldName, setting.title, setting.description, settings[category][name], setting.help);
                 } else if (type === 'number') {
-                    html += this.number(fieldName, setting.title, setting.description, settings[category][name], setting.min, setting.max);
+                    html += this.number(fieldName, setting.title, setting.description, settings[category][name], setting.min, setting.max, setting.help);
                 } else if (type === 'select') {
-                    html += this.select(fieldName, setting.title, setting.description, setting.items, settings[category][name]);
+                    html += this.select(fieldName, setting.title, setting.description, setting.items, settings[category][name], setting.help);
                 } else if (type === 'none') {
-                    html += this.none(fieldName, setting.title, setting.description, settings[category][name]);
+                    html += this.none(fieldName, setting.title, setting.description, settings[category][name], setting.help);
                 } else if (type === 'title') {
-                    html += this.title(fieldName, setting.title, setting.description, settings[category][name]);
+                    html += this.title(fieldName, setting.title, setting.description, settings[category][name], setting.help);
                 } else if (type === 'color') {
-                    html += this.color(fieldName, setting.title, setting.description, settings[category][name]);
+                    html += this.color(fieldName, setting.title, setting.description, settings[category][name], setting.help);
                 } else if (type === 'botevent') {
-                    html += this.botevent(fieldName, setting.title, setting.description, settings[category][name]);
+                    html += this.botevent(fieldName, setting.title, setting.description, settings[category][name], setting.help);
                 }
             }
         }
         return html;
     },
-    boolean(name, title, description, defaultValue = false, yesButton = 'Вкл', noButton = 'Откл') {
+    boolean(name, title, description, defaultValue = false, yesButton = 'Вкл', noButton = 'Откл', help = '') {
         if (typeof defaultValue[1] === 'undefined') {
             updateSettingsToNew()
             return ''
         } else {
             return this._basic(title, description, `
+
+                ${ help == '' ? '' : ` <img src="${help}" alt='help' /> `}
+
                 <ol class="flexibleButtonGroup optionTypeBoolean">
                     <li>
                         <input type="radio" id="boolean_${name}" name="boolean_${name}" value="1" class="optionField" data-name="${name}" ${defaultValue[1] ? 'checked' : ''}>
@@ -590,7 +605,7 @@ const HelperSettings = {
                 </ol>`);
         }
     },
-    text(name, title, description, defaultValue = '') {
+    text(name, title, description, defaultValue = '', help = '') {
         if (typeof defaultValue[1] === 'undefined') {
             updateSettingsToNew()
             return ''
@@ -602,7 +617,7 @@ const HelperSettings = {
             </ol>`);
         }
     },
-    number(name, title, description, defaultValue = '', min = 0, max = 0) {
+    number(name, title, description, defaultValue = '', min = 0, max = 0, help = '') {
         if (typeof defaultValue[1] === 'undefined') {
             updateSettingsToNew()
             return ''
@@ -614,7 +629,7 @@ const HelperSettings = {
             </ol>`);
         }
     },
-    select(name, title, description, items = [], defaultValue = '') {
+    select(name, title, description, items = [], defaultValue = '', help = '') {
         if (typeof defaultValue[1] === 'undefined') {
             updateSettingsToNew()
             return ''
@@ -631,13 +646,13 @@ const HelperSettings = {
             </ol>`);
         }
     },
-    none(name, title, description, defaultValue = '') {
+    none(name, title, description, defaultValue = '', help = '') {
         return this._basic(title, description, ``, false);
     },
-    title(name, title, description, defaultValue = '') {
+    title(name, title, description, defaultValue = '', help = '') {
         return this._basic(title, description, ``, true);
     },
-    color(name, title, description, defaultValue = '') {
+    color(name, title, description, defaultValue = '', help = '') {
         if (typeof defaultValue[1] === 'undefined') {
             updateSettingsToNew()
             return ''
@@ -649,7 +664,7 @@ const HelperSettings = {
             </ol>`);
         }
     },
-    botevent(name, title, description, defaultValue = ['', false], yesButton = 'Вкл', noButton = 'Откл') {
+    botevent(name, title, description, defaultValue = ['', false], yesButton = 'Вкл', noButton = 'Откл', help = '') {
         if (typeof defaultValue[1] === 'undefined') {
             updateSettingsToNew()
             return ''
