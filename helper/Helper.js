@@ -88,6 +88,9 @@ const Helper = {
                 colorModOptions: ['#000000', '#000000'],
                 tv7Emotes: [true, true],
                 tv7InChatMenu: [true, true],
+                uptimeStreamMobile: [false, false],
+                highlightingWhenMentionList: {},
+                hideWhenMentionList: {},
             }
         };
     },

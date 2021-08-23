@@ -831,20 +831,30 @@ const HelperWASD = {
                         }, 1000);
 
                         function changeUptime() {
+
                             if (out.result.media_container.media_container_status == 'RUNNING') {
+                                const date = new Date();
+                                dater = new Date(date - date1);
+
+                                textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
+
                                 if(document.querySelector('div.stream-uptime > input.player-info__stat-value')) {
-                                    const date = new Date();
-                                    dater = new Date(date - date1);
-
-                                    textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
-
                                     document.querySelector('div.stream-uptime > input.player-info__stat-value').value = textdate;
-
                                 }
+
+                                if (document.querySelector('.stream-status-container .stream-status-text.live')) {
+                                    if (settings.wasd.uptimeStreamMobile[1]) {
+                                        document.querySelector('.stream-status-container .stream-status-text.live').textContent = ` в эфире ${textdate} `
+                                    } else {
+                                        document.querySelector('.stream-status-container .stream-status-text.live').textContent = ` в эфире `
+                                    }
+                                }
+
                             } else {
 
                                 clearInterval(intervalUpdateStreamTimer);
                             }
+
                         }
                     }
                 },

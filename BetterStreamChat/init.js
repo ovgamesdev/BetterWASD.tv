@@ -653,23 +653,40 @@ const BetterStreamChat = {
         this.settingsDiv = settingsDiv;
         settingsDiv.style.display = 'none';
         settingsDiv.id = 'bscSettingsPanel';
+                // <ul class="nav">
+                //     <li><a data-tab="about">О нас</a></li>
+                //     <li><a data-tab="general">Общий</a></li>
+                //     <li><a data-tab="bttvSettings">BTTV</a></li>
+                //     <li><a data-tab="ffzSettings">FFZ</a></li>
+                //     <li><a data-tab="tv7Settings">TV7</a></li>
+                //     <li class="active"><a data-tab="wasdSettings">Настройки</a></li>
+                //     <!--div><a href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb" target="_blank">БОТ</a></div-->
+                //     <li><a data-tab="blacklist">ЧС</a></li>
+                //     <li><a data-tab="changelog">Журнал изменений</a></li>
+                //     <li><a data-tab="backup">Бэкап</a></li>
+                // </ul>
         settingsDiv.innerHTML = `<div id="status">
             <p>
             </p>
             </div>
             <header>
-                <ul class="nav">
-                    <li><a data-tab="about">О нас</a></li>
-                    <li><a data-tab="general">Общий</a></li>
-                    <li><a data-tab="bttvSettings">BTTV</a></li>
-                    <li><a data-tab="ffzSettings">FFZ</a></li>
-                    <li><a data-tab="tv7Settings">TV7</a></li>
-                    <li class="active"><a data-tab="wasdSettings">Настройки</a></li>
-                    <!--div><a href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb" target="_blank">БОТ</a></div-->
-                    <li><a data-tab="blacklist">ЧС</a></li>
-                    <li><a data-tab="changelog">Журнал изменений</a></li>
-                    <li><a data-tab="backup">Бэкап</a></li>
-                </ul>
+
+                <section class="tabs-ovg-wrapper horizontal left">
+                    <div class="tabs-ovg">
+                        <div class="items">
+                            <a role="tab" class="item" data-tab="about">О нас</a>
+                            <a role="tab" class="item" data-tab="general">Общий</a>
+                            <a role="tab" class="item" data-tab="bttvSettings">BTTV</a>
+                            <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
+                            <a role="tab" class="item" data-tab="tv7Settings">TV7</a>
+                            <a role="tab" class="item active" data-tab="wasdSettings">Настройки</a>
+                            <a role="tab" class="item" data-tab="blacklist">ЧС</a>
+                            <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
+                            <a role="tab" class="item" data-tab="backup">Бэкап</a>
+                        </div>
+                    </div>
+                </section>
+
                 <!--span title="" class="fade helpTitleHover"><img class="nofade " style="width: 22px; filter: invert(99%) sepia(6%) saturate(1%) hue-rotate(57deg) brightness(95%) contrast(85%);"></span-->
                 <span style="margin-right: 5px;" title="Обновить BTTV, FFZ и TV7 эмоции (щелкните мышью по кнопке дважды) (Подождите пару секунд)." class="updateemotes helpTitleHover"><i _ngcontent-boj-c248="" class="wasd-icons-record-icon" style="font-size: 22px;align-items: center;display: flex;justify-content: center;"></i></span>
                 <span style="margin-right: 10px;" title="Обновить чат (щелкните мышью по кнопке дважды) (Подождите пару секунд)." class="update helpTitleHover"><i _ngcontent-boj-c248="" class="wasd-icons-record-icon" style="font-size: 22px;align-items: center;display: flex;justify-content: center;"></i></span>
@@ -1022,14 +1039,14 @@ const BetterStreamChat = {
         }
 
         // navigation
-        for (let navItem of settingsDiv.querySelectorAll('ul.nav > li > a')) {
+        for (let navItem of settingsDiv.querySelectorAll('section .items > a')) {
             navItem.addEventListener('click', ({ target }) => {
-                let links = settingsDiv.querySelectorAll('ul.nav > li');
+                let links = settingsDiv.querySelectorAll('section .items > a');
                 let tabs = settingsDiv.querySelectorAll('main');
                 for (let element of [...tabs, ...links]) {
                     element.classList.remove('active');
                 }
-                target.parentNode.classList.add('active');
+                target.classList.add('active');
                 settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
             });
         }

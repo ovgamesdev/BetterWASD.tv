@@ -398,6 +398,10 @@ const HelperSettings = {
                 title: 'Аптайм трансляции. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
                 type: 'boolean'
             },
+            uptimeStreamMobile:  {
+                title: `Аптайм трансляции рядом с надписью 'в эфире'.`,
+                type: 'boolean'
+            },
             alwaysOpenVolumeControl: {
                 title: 'Всегда раскрывать регулятор громкости.',
                 type: 'boolean'

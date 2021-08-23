@@ -483,6 +483,12 @@ const wasd = {
             }
         }
 
+        if (settings.wasd.uptimeStreamMobile[1]) {
+            cssCode += `.stream-status-container .stream-status-icon { padding-left: 4px!important; }`
+            cssCode += `.stream-status-container .stream-status-text { padding-right: 4px!important; }`
+            cssCode += `.stream-status-container { width: auto!important; }`
+        }
+
         cssCode += `.info__text__status-paid-ovg {background-color: ${settings.wasd.colorModOptions[1] != '#000000' ? settings.wasd.colorModOptions[1]+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
 
         if (wasd.style) {
