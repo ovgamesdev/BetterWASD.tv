@@ -432,9 +432,7 @@ function createbuttonovgside() {
             burgerlist.insertAdjacentHTML("beforeEnd", buttonovg);
                 document.querySelector('li#selector-bm-ovg-settings').addEventListener('click', () => {
                 BetterStreamChat.settingsDiv.style.display = 'block'
-                if (document.querySelector('wasd-chat-menu')) {
-                    document.querySelector('.header__block__btn > i').click()
-                }
+                document.querySelector('body').click()
                 document.body.style.overflowY = "hidden";
                 BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
                 BetterStreamChat.settingsDiv.querySelectorAll('main').forEach(function(main){main.scrollTo(0, 0)})

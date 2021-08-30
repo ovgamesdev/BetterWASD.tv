@@ -1,6 +1,7 @@
 const HelperTV7 = {
     isBusy: false,
     emotes: {},
+    
     updateSettings() {
         let tv7EmoteList = BetterStreamChat.settingsDiv.querySelector(' #tv7EmoteList');
         tv7EmoteList.innerText = '';
@@ -18,18 +19,23 @@ const HelperTV7 = {
                         let stickers__line = splitdev.querySelector('.stickers__line')
                         for (let emoteCode in items.tv7Emotes[userID]) {
                             if (items.tv7Emotes[userID].hasOwnProperty(emoteCode)) {
+                                let div = document.createElement('div');
                                 let a = document.createElement('a');
                                 let img = document.createElement('img');
+                                let div_span = document.createElement('div');
                                 let span = document.createElement('span');
+                                div.classList.add('div_emoteCard');
                                 span.innerText = emoteCode;
                                 img.src = `https://cdn.7tv.app/emote/${HelperTV7.emotes[emoteCode]}/2x`;
                                 a.href = `https://7tv.app/emotes/${HelperTV7.emotes[emoteCode]}`
                                 a.target = '_blank'
                                 a.classList.add('emoteCard');
                                 a.append(img);
-                                a.append(span);
+                                div_span.append(span);
+                                div.append(a);
+                                a.append(div_span);
                                 a.title = emoteCode;
-                                tv7EmoteList.append(a);
+                                tv7EmoteList.append(div);
                             }
                         }
                     }

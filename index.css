@@ -1,3 +1,151 @@
+.switch-ovg {
+    pointer-events: none;
+    position: relative;
+    display: inline-block;
+    cursor: inherit;
+}
+
+.switch-ovg input { 
+    display: none;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider-ovg {
+    height: 16px;
+    width: 32px;
+    align-items: center;
+    background: var(--wasd-color-corp-gray);
+    border-radius: 8px;
+    display: flex;
+    position: relative;
+}
+
+.switcher_thumb-ovg {
+    height: 12px;
+    width: 12px;
+    -o-object-fit: contain;
+    background-color: var(--wasd-color-white);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px 0 rgba(var(--wasd-color-black--rgb),.24);
+    left: 0;
+    margin: 2px;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    transition: all .2s;
+}
+
+input:checked + .slider-ovg {
+    background-color: var(--wasd-color-corp-blue);
+}
+
+input:checked + .slider-ovg > .switcher_thumb-ovg {
+    background: var(--wasd-color-white);
+    left: 50%;
+}
+
+
+button[ovg] {
+    align-items: center;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    margin-left: 4px;
+    outline: none;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+wasd-input[ovg] {
+    width: 100%;
+}
+.wasd-input-wrapper[ovg] {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    font-family: Roboto,sans-serif;
+    justify-content: space-between;
+    padding: 8px 0;
+    width: 100%;
+}
+.wasd-input-wrapper[ovg]  .wasd-input[ovg] {
+    caret-color: var(--wasd-color-corp-blue);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+}
+.wasd-input-wrapper[ovg]  .wasd-input[ovg]  label[ovg] {
+    align-items: center;
+    color: rgba(var(--wasd-color-switch--rgb),.64);
+    display: flex;
+    font-size: 12px;
+    height: 14px;
+    opacity: 0;
+    transition: opacity .5s;
+}
+.wasd-input-wrapper[ovg]  .wasd-input[ovg]  input.has-button[ovg] {
+    padding-right: 28px;
+}
+.wasd-input-wrapper[ovg]  .wasd-input[ovg]  input[ovg] {
+    background-color: transparent;
+    border: 1px solid var(--wasd-color-text-fourth);
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: var(--wasd-color-switch);
+    font-family: Roboto,sans-serif;
+    font-size: 14px;
+    height: 32px;
+    margin: 4px 0 0;
+    outline: none;
+    padding: 0 8px;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+.wasd-input-wrapper[ovg]  .wasd-input[ovg]  button[ovg] {
+    height: 24px;
+    left: auto;
+    position: absolute;
+    right: 4px;
+    top: 22px;
+    width: 24px;
+}
+button.button-icon[ovg] {
+    cursor: auto;
+    padding: unset;
+    background: none;
+}
+i[ovg] {
+    color: rgba(var(--wasd-color-switch--rgb),.64);
+    font-size: 12px;
+}
+
+.wasd-input-wrapper[ovg]   .wasd-input[ovg]   input[ovg]:active,
+.wasd-input-wrapper[ovg]   .wasd-input[ovg]   input[ovg]:focus {
+    border: 1px solid var(--wasd-color-corp-blue) !important;
+    box-shadow: 0 0 0 2px rgba(var(--wasd-color-corp-blue--rgb),.48) !important;
+}
+.wasd-input-wrapper[ovg]   .wasd-input[ovg]   input[ovg]:hover {
+    border: 1px solid var(--wasd-color-text-prime);
+}
+button.button-icon[ovg]:active,
+button.button-icon[ovg]:hover {
+    background: transparent;
+}
+button[ovg]:active   i[ovg], button[ovg]:hover   i[ovg] {
+    color: var(--wasd-color-switch);
+}
+.show[ovg] {
+  opacity: 1!important;
+}
+
+
 #bscSettingsPanel {
     position: fixed;
     top: 50%;
@@ -10,7 +158,7 @@
     z-index: 5556;
     border-radius: 3px;
     border: 1px solid #000000;
-    background-color: var(--wasd-color-bg-prime);
+    background-color: var(--wasd-color-prime);
     box-shadow: -1px 0 0 rgba(0, 0, 0, 0.3), -2px 0 0 rgba(0, 0, 0, 0.2), -3px 0 0 rgba(0, 0, 0, 0.1), 1px 0 0 rgba(0, 0, 0, 0.3), 2px 0 0 rgba(0, 0, 0, 0.2), 3px 0 0 rgba(0, 0, 0, 0.1), 0 -1px 0 rgba(0, 0, 0, 0.3), 0 -2px 0 rgba(0, 0, 0, 0.2), 0 -3px 0 rgba(0, 0, 0, 0.1), 0 1px 0 rgba(0, 0, 0, 0.3), 0 2px 0 rgba(0, 0, 0, 0.2), 0 3px 0 rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -43,44 +191,6 @@
     font-size: 30px;
     cursor: pointer;
 }
-
-/*#bscSettingsPanel .nav {
-    display: flex;
-    flex: 1;
-    list-style: none;
-    margin: 0 10px 0 0;
-    vertical-align: middle;
-    padding: 0;
-}
-
-#bscSettingsPanel .nav>li,
-#bscSettingsPanel .nav>div {
-    color: #adafae;
-    cursor: pointer;
-}
-
-#bscSettingsPanel a {
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#bscSettingsPanel .nav > li.active a {
-    border-bottom: 1px solid var(--wasd-color-text-prime);
-    color: var(--wasd-color-corp-blue);
-}
-
-#bscSettingsPanel > header > ul.nav > li > a,
-#bscSettingsPanel > header > ul.nav > div > a {
-    padding-bottom: 12px;
-    padding-left: 10px;
-    padding-right: 10px;
-}*/
-
-/*#bscSettingsPanel a:hover {
-    border-bottom: 1px solid var(--wasd-color-text-prime);
-    color: rgba(var(--wasd-color-corp-blue),.16);
-}*/
-
 
 main[data-tab="about"] > div.aboutHalf {
     background-color: var(--wasd-color-prime);
@@ -161,17 +271,26 @@ button#backupButton {
 }
 
 #bscSettingsPanel main .option {
-    display: flex;
     align-items: center;
-    padding: 5px;
-    border-bottom: 1px solid rgba(var(--wasd-color-black--rgb),.3)!important;
-    background-color: var(--wasd-color-bg-prime);
-    line-height: normal;
-    min-height: 43px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    height: 48px;
+    justify-content: space-between;
 }
 
-#bscSettingsPanel main .option:nth-child(2n) {
-    background-color: var(--wasd-color-prime);
+#bscSettingsPanel main .ovg-option {
+    align-items: center;
+    display: grid;
+    height: 100%;
+    padding: 0 10px 0 24px;
+    width: 100%;
+}
+
+#bscSettingsPanel main .option-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #bscSettingsPanel main .option .labelField {
@@ -187,7 +306,7 @@ button#backupButton {
 #bscSettingsPanel main .option .labelField>.title {
     font-weight: bold;
     font-size: 14px;
-    color: var(--wasd-color-text-second);
+    color: rgba(var(--wasd-color-switch--rgb),.64);
     line-height: normal;
     position: relative;
     display: block;
@@ -220,13 +339,6 @@ button#backupButton {
     font-size: 12px;
 }
 
-/*#bscSettingsPanel ul,
-#bscSettingsPanel li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}*/
-
 #bscSettingsPanel main.text {
     padding: 10px;
 }
@@ -255,11 +367,6 @@ button#backupButton {
 
 #bscSettingsPanel .label.orange {
     background: var(--wasd-color-event3);
-}
-
-#bscSettingsPanel button {
-    background: var(--wasd-color-text-prime);
-    padding: 3px 10px;
 }
 
 #bscSettingsPanel #status {
@@ -319,7 +426,6 @@ button#backupButton {
     width: 100%;
     padding: 5px;
     border-top: 1px solid rgba(var(--wasd-color-black--rgb),.5);
-    /*box-sizing: content-box;*/
     z-index: inherit;
 
     display: flex;
@@ -333,18 +439,21 @@ button#backupButton {
 }
 
 #bscSettingsPanel > main[data-tab='wasdSettings'] .settingsSearch {
-    border: none;
+    border-right: none;
+    border-bottom: 1px solid rgba(var(--wasd-color-switch--rgb),.24);
     outline: none;
     padding-left: 40px!important;
     width: 100%;
     color: var(--wasd-color-text-second);
     line-height: 30px;
+    box-shadow: none;
 }
 
 .flexibleButtonGroup {
     display: flex;
     flex-wrap: wrap;
     margin: 0;
+    align-items: center;
 }
 
 .flexibleButtonGroup>li {
@@ -412,6 +521,16 @@ button#backupButton {
     height: 20px!important;
     min-width: auto!important;
     margin-left: 20px!important;
+}
+
+.flexibleButtonGroup input,
+.flexibleButtonGroup select {
+    background: var(--wasd-color-corp-gray);
+    color: var(--wasd-color-text-prime);
+}
+.flexibleButtonGroup input:not([type="color"]),
+.flexibleButtonGroup select {
+    padding: 5px;
 }
 
 @keyframes BetterStreamChatFadeInOpacity {
@@ -893,7 +1012,6 @@ div.tw-border-radius-medium.tw-c-background-base.viewer-card {
     cursor: move;
 }
 div.tw-c-background-accent-alt.viewer-card-header__background {
-    /* background-image: url(&quot;https://static-cdn.jtvnw.net/jtv_user_pictures/58dccadb-3834-4ffa-9c7d-ef1eddf60397-profile_banner-480.jpeg&quot;);*/
     background-position: center top;
     background-size: cover;
     border-top-left-radius: .4rem;
@@ -1014,12 +1132,10 @@ a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto {
     font-size: 1.3rem;
     line-height: 1.5;
     margin: 0;
-    /* ... */
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     vertical-align: middle;
-    /* ... end */
 }
 div.bttv-moderator-card-user-stats {
     background-color: rgba(0,0,0,.6);
@@ -1576,58 +1692,86 @@ div.stream-uptime > wasd-tooltip > div > div.tooltip-content:before {
     justify-content: center;
 }
 
-#bscSettingsPanel .emoteCard {
-    /*width: 13.63%*/;
-    height: 105px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    background-color: var(--wasd-color-prime);
-    border-radius: 5px;
-    align-items: center;
-    flex-direction: column;
+#bscSettingsPanel .div_emoteCard {
     display: flex;
-    padding: 0px;
-    color: var(--wasd-color-text-second);
-    justify-content: center;
-    border: none!important;
     min-width: 105px;
+    width: min-content;
+    list-style-type: none;
+    padding: 6px;
+    transition: transform .2s cubic-bezier(.333,0,0,1);
+    vertical-align: top;
+    margin-right: 5px;
+    margin-bottom: 25px;
 }
 
+#bscSettingsPanel .emoteCard > div {
+    position: absolute;
+    width: -webkit-fill-available;
+}
+
+#bscSettingsPanel .emoteCard {
+    transition: .175s;
+    background-color: rgba(var(--wasd-color-switch--rgb),.08);
+    color: rgba(var(--wasd-color-switch--rgb),.64);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    margin: 0;
+    outline: none;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    width: auto;
+    height: auto;
+    position: relative;
+    min-width: -webkit-fill-available;
+}
+
+
+#bscSettingsPanel .emoteCard span:hover,
 #bscSettingsPanel .emoteCard:hover {
-    background-color: rgba(var(--wasd-color-prime--rgb),0.5);
+    background-color: var(--wasd-color-corp-blue);
     z-index: 1;
 }
 
-#bscSettingsPanel .emoteCard:hover * {
-    pointer-events: none;
+#bscSettingsPanel .emoteCard span:hover,
+#bscSettingsPanel .emoteCard:hover span {
+    text-decoration: none;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-wrap: break-word;
+    background-color: var(--wasd-color-corp-blue);
+    color: var(--wasd-color-white);
 }
 
-#bscSettingsPanel .emoteCard:hover span {
-    white-space: unset;
-}
+
 
 #bscSettingsPanel .emoteCard img {
     width: auto;
     height: 50px;
-    margin-bottom: 8px;
-    /*padding: 0 5px;*/
-    padding: 0 16.9px;
-    /*max-width: calc(100% - 5px);*/
+    position: relative;
+    margin: 8px;
 }
-/*#bscSettingsPanel .emoteCard:hover img {
-    max-width: unset!important;
-    background-color: rgba(var(--wasd-color-prime--rgb),0.5);
-}*/
+
 #bscSettingsPanel .emoteCard span {
-    font-size: 13px;
-    line-height: 16px;
-    word-break: break-all;
-    text-align: center;
-    white-space: nowrap;
+    display: inline-block;
+    font-size: 14px;
+    letter-spacing: 0.09px;
+    line-height: 18px;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: auto;
-    max-width: 100px;
+    white-space: nowrap;
+    width: inherit;
+
+    background-color: rgba(var(--wasd-color-switch--rgb),0.08);
+    color: rgba(var(--wasd-color-switch--rgb),0.64);
+    text-align: center;
+    height: min-content;
+    position: relative;
+    transition: all 0.175s ease 0s;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    text-decoration: none;
+    padding: 0px 5px 5px 5px;
 }
 
 #bscSettingsPanel #tv7UserList,
@@ -1760,25 +1904,6 @@ button.ovg:active {
     color: rgba(var(--wasd-color-white--rgb),.8)!important;
 }
 
-
-#bscSettingsPanel select,
-#bscSettingsPanel input {
-    color: var(--wasd-color-text-prime);
-    font-family: Roboto,sans-serif;
-    font-size: 14px;
-    letter-spacing: normal;
-    line-height: 1.44;
-    min-height: 20px;
-    outline: none;
-    overflow: hidden;
-    resize: none;
-    width: inherit;
-    background-color: var(--wasd-color-prime);
-    border: none;
-    box-shadow: 0 0 2px 0 rgba(var(--wasd-color-switch--rgb),.32);
-    box-sizing: border-box;
-    min-width: 105px;
-}
 #bscSettingsPanel input {
     cursor: text;
 }
@@ -2204,7 +2329,8 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
 }
 
 .table-ovg {
-    width: 100%;
+    margin-left: -10px;
+    width: calc( 100% + 20px );
     border-color: initial;
     border-collapse: collapse;
     border-spacing: 0;
@@ -2221,12 +2347,14 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
 .ovg-items {
     display: table-row-group;
 }
+.ovg-items button,
+main[data-tab="backup"] button {
+    padding: 3px 10px !important;
+}
 .table-menu__block td {
-    padding: 10px !important;
+    padding: 10px;
 }
-.table-menu__block:nth-child(2n) {
-    background-color: var(--wasd-color-prime);
-}
+
 .table-menu__block td div p {
     margin: 8px 0 8px 0;
 }
@@ -2241,6 +2369,15 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
     display: inline-flex !important;
     position: relative !important;
 }
+.table-menu__block {
+    font-weight: bold;
+    font-size: 14px;
+    color: rgba(var(--wasd-color-switch--rgb),0.64);
+}
+.table-menu__block:hover {
+    background-color: rgba(var(--wasd-color-switch--rgb),0.08)  !important;
+    color: var(--wasd-color-switch)  !important;
+}
 
 
 @media screen and (max-width:480px) {
@@ -2251,14 +2388,6 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
         box-shadow: none!important;
         border-color: rgba(0, 0, 0, 0)!important;
     }
-    /*.visible--mobile {
-        width: 100%!important;
-    }
-    .theatre-mode-mobile {
-        position: fixed!important;
-        top: 48px;
-        z-index: 999;
-    }*/
     .ovg-viewer-card {
         width: calc(100% - 15px)!important;
     }
@@ -2313,6 +2442,10 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
     }
     #bscSettingsPanel .emoteCard img {
         height: 38px;
+        max-width: -webkit-fill-available;
+    }
+    #bscSettingsPanel .div_emoteCard {
+        margin-bottom: 5px;
     }
     #bscSettingsPanel .emoteCard span {
         font-size: 11px;
@@ -2320,11 +2453,22 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
     #bscSettingsPanel .table-heading-text-ovg {
         font-size: 13px;
     }
-/*    #bscSettingsPanel .nav li a,
-    #bscSettingsPanel .nav div a {
-        font-size: 13px;
-    }*/
-    
+    .tabs-ovg a.item {
+        padding: 0px 4px !important;
+    }
+    .tabs-ovg a.item::before {
+        margin: 0px 5px !important;
+        width: calc(100% - 10px) !important;
+    }
+    .table-ovg .td-btn-remove {
+        padding: 10px 18px 10px 10px !important;
+    }
+    .ovg-option {
+        padding: 0px 10px !important;
+    }
+    .table-menu__block td {
+        padding: 2px 10px 2px 10px !important;
+    }
 }
 
 @media screen and (max-width:350px) {
@@ -2342,78 +2486,11 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
         margin-left: 0px;
         left: 0px;
     }
-/*    #bscSettingsPanel .nav {
-        width: 170px;
-        overflow-x: scroll;
-        overflow-y: hidden;
-        white-space: nowrap;
-    }*/
 }
-
-/*#bscSettingsPanel .nav::-webkit-scrollbar {
-    background-color: rgba(var(--wasd-color-switch--rgb),.08);
-    height: 4px;
-}
-
-#bscSettingsPanel .nav::-webkit-scrollbar-thumb {
-    background-color: var(--wasd-color-gray1);
-    border-radius: 4px;
-    box-shadow: 0 0 2px 0 rgba(var(--wasd-color-prime--rgb),.32);
-}
-
-#bscSettingsPanel .nav::-webkit-scrollbar-track {
-    background-color: rgba(var(--wasd-color-switch--rgb),.08);
-    border-radius: 4px;
-}*/
 
 a:not(a) {
     pointer-events: none;
 }
-
-
-/*
-.footer__block.footer__block__btn-ovg {
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-}
-
-.wasd-icons-send {
-    color: rgba(var(--wasd-color-switch--rgb),.72);
-    cursor: pointer;
-    font-size: 19px;
-}
-.icons-send-active {
-    color: var(--wasd-color-corp-blue);
-}
-
-.footer__block.footer__block__message-ovg {
-    display: flex;
-    margin: 0 6px;
-    width: 100%;
-}
-.footer__block.footer__block__message-ovg textarea {
-    background: transparent;
-    border: none;
-    color: var(--wasd-color-text-prime);
-    cursor: text;
-    font-family: Roboto,sans-serif;
-    font-size: 14px;
-    height: 20px;
-    letter-spacing: normal;
-    line-height: 1.44;
-    min-height: 20px;
-    outline: none;
-    overflow: hidden;
-    padding: 0;
-    resize: none;
-    width: inherit;
-}
-.footer__block.footer__block__message-ovg textarea:focus {
-    caret-color: var(--wasd-color-corp-blue);
-}
-*/
 
 .lds-ring {
     align-items: center;
@@ -2504,7 +2581,6 @@ div.sticker-card wasd-tooltip .tooltip_position-bottom {
 }
 
 div.sticker-card wasd-tooltip .tooltip {
-    /*display: none;*/
     display: flex;
     justify-content: center;
     position: absolute;
@@ -2764,10 +2840,6 @@ div.chat-room__viewer-card * {
 }
 
 
-
-
-/*  */
-
 .tw-align-left {
     text-align: left!important;
 }
@@ -2946,7 +3018,6 @@ div.inputresult li h2 {
 }
 
 
-
 .tabs-ovg-wrapper.horizontal {
     flex-direction: column;
 }
@@ -2962,7 +3033,7 @@ div.inputresult li h2 {
     max-width: 100%;
 }
 
-.tabs-ovg-wrapper > .tabs-ovg {
+.tabs-ovg {
     color: var(--wasd-color-switch);
     display: flex;
     flex-direction: column;
@@ -2973,43 +3044,44 @@ div.inputresult li h2 {
     position: relative;
     display: grid;
 }
-.tabs-ovg-wrapper.horizontal > .tabs-ovg:before {
+.tabs-ovg:before {
     border-bottom: 2px solid rgba(var(--wasd-color-switch--rgb),.08);
     height: 2px;
     left: 0;
     width: 100%;
 }
-.tabs-ovg-wrapper > .tabs-ovg:before {
+.tabs-ovg:before {
     bottom: 0;
     content: "";
     position: absolute;
 }
 
-.tabs-ovg-wrapper.horizontal > .tabs-ovg .items {
+.tabs-ovg .items {
     overflow-x: auto;
     overflow-y: hidden;
 }
-.tabs-ovg-wrapper > .tabs-ovg .items {
+.tabs-ovg .items {
     display: flex;
     position: relative;
     white-space: nowrap;
     z-index: 1;
 }
 
-.tabs-ovg-wrapper.horizontal > .tabs-ovg .items .item:first-child {
+.tabs-ovg a.item:first-child {
     padding-left: 0;
 }
-.tabs-ovg-wrapper.horizontal > .tabs-ovg .items .item {
+.tabs-ovg a.item {
     margin-bottom: 12px;
 }
-.tabs-ovg-wrapper > .tabs-ovg .active, .tabs-ovg-wrapper > .tabs-ovg .active:hover {
+.tabs-ovg .active,
+.tabs-ovg .active:hover {
     color: var(--wasd-color-corp-blue) !important;
 }
-.tabs-ovg-wrapper > .tabs-ovg .active {
+.tabs-ovg .active {
     cursor: default !important;
     position: relative !important;
 }
-.tabs-ovg-wrapper > .tabs-ovg .item {
+.tabs-ovg a.item {
     align-items: center;
     border-radius: 4px;
     color: var(--wasd-color-text-prime);
@@ -3019,22 +3091,22 @@ div.inputresult li h2 {
     height: 28px;
     letter-spacing: .2px;
     line-height: 1.43;
-    padding: 0 16px;
+    padding: 0px 14.5px;
     position: relative;
     white-space: nowrap;
 }
-.tabs-ovg-wrapper > .tabs-ovg a {
+.tabs-ovg a {
     text-decoration: none;
 }
 
-.tabs-ovg-wrapper.horizontal > .tabs-ovg .items .item:first-child:before {
+.tabs-ovg .items .item:first-child:before {
     margin-left: 0;
     width: calc(100% - 16px);
 }
-.tabs-ovg-wrapper.horizontal > .tabs-ovg .items .active:before {
+.tabs-ovg .items .active:before {
     background: var(--wasd-color-corp-blue) !important;
 }
-.tabs-ovg-wrapper.horizontal > .tabs-ovg .items .item:before {
+.tabs-ovg .items .item:before {
     background: transparent;
     bottom: -12px;
     content: "";
@@ -3045,7 +3117,7 @@ div.inputresult li h2 {
     width: calc(100% - 32px);
 }
 
-.tabs-ovg-wrapper > .tabs-ovg .items::-webkit-scrollbar {
+.tabs-ovg .items::-webkit-scrollbar {
     display: none;
     height: 0;
     width: 0;
@@ -3058,4 +3130,14 @@ div::-webkit-scrollbar {
     height: .8rem;
     background: rgba(var(--wasd-color-switch--rgb),.24);
     border-radius: .4rem .4rem .4rem .4rem;
+}
+
+
+#bscSettingsPanel main .option:hover {
+    background-color: rgba(var(--wasd-color-switch--rgb),0.08) !important;
+    color: var(--wasd-color-switch) !important;
+}
+
+#bscSettingsPanel main .option:hover .title {
+    color: var(--wasd-color-switch) !important;
 }

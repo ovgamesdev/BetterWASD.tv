@@ -1,6 +1,7 @@
 const HelperFFZ = {
     isBusy: false,
     emotes: {},
+    
     updateSettings() {
         let ffzEmoteList = BetterStreamChat.settingsDiv.querySelector(' #ffzEmoteList');
         ffzEmoteList.innerText = '';
@@ -18,18 +19,23 @@ const HelperFFZ = {
                         let stickers__line = splitdev.querySelector('.stickers__line')
                         for (let emoteCode in items.ffzEmotes[userID]) {
                             if (items.ffzEmotes[userID].hasOwnProperty(emoteCode)) {
+                                let div = document.createElement('div');
                                 let a = document.createElement('a');
                                 let img = document.createElement('img');
+                                let div_span = document.createElement('div');
                                 let span = document.createElement('span');
+                                div.classList.add('div_emoteCard');
                                 span.innerText = emoteCode;
                                 img.src = `https://cdn.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]}/2`;
                                 a.href = `https://www.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]}`
                                 a.target = '_blank'
                                 a.classList.add('emoteCard');
                                 a.append(img);
-                                a.append(span);
+                                div_span.append(span);
+                                div.append(a);
+                                a.append(div_span);
                                 a.title = emoteCode;
-                                ffzEmoteList.append(a);
+                                ffzEmoteList.append(div);
                             }
                         }
                     }

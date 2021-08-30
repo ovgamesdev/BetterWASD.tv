@@ -26,12 +26,12 @@ const HelperSettings = {
             },
             messageSystem: {
                 title: 'Скрыть системные сообщения.',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSystemMessages.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSystemMessages.png'],
                 type: 'boolean'
             },
             messageHover: {
                 title: 'Подсвечивать сообщениие при наведении.',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/messageHover.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/messageHover.png'],
                 type: 'boolean'
             },
             colorMessageHover: {
@@ -40,7 +40,7 @@ const HelperSettings = {
             },
             wasdIconsSmile: {
                 title: 'Cкрыть стикеры / смайлы в панели ввода текста.',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/wasdIconsSmile.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/wasdIconsSmile.png'],
                 type: 'boolean'
             },
             wasdIconsCircleRu: {
@@ -61,17 +61,17 @@ const HelperSettings = {
             },
             bttvInChatMenu: {
                 title: 'Опция BTTV в меню смайликов в чате.',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/bttvInChatMenu.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/bttvInChatMenu.png'],
                 type: 'boolean'
             },
             ffzInChatMenu: {
                 title: 'Опция FFZ в меню смайликов в чате.',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/ffzInChatMenu.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/ffzInChatMenu.png'],
                 type: 'boolean'
             },
             tv7InChatMenu: {
                 title: 'Опция 7TV в меню смайликов в чате.',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/tv7InChatMenu.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/tv7InChatMenu.png'],
                 type: 'boolean'
             },
             bttvEmoteSize: {
@@ -159,7 +159,7 @@ const HelperSettings = {
             },*/
             colorAtTheMention: {
                 title: 'Отображать упоминания пользователей в чата с их цветом никнейма. <a title="Эта опция находится в стадии разработки и может работать некорректно." class="helpTitleHover">(BETA)</a> <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colorAtTheMention.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colorAtTheMention.png'],
                 type: 'boolean'
             },
             chatWidth: {
@@ -374,7 +374,7 @@ const HelperSettings = {
             },
             pictureInPicture: {
                 title: "Добавить кнопку 'Картинка в картинке' к управлению проигрывателем. (PIP)",
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/pictureInPicture.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/pictureInPicture.png'],
                 type: 'boolean'
             },
             /*resetToPlayer: {
@@ -404,17 +404,17 @@ const HelperSettings = {
             },
             uptimeStream:  {
                 title: 'Аптайм трансляции. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStream.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStream.png'],
                 type: 'boolean'
             },
             uptimeStreamMobile:  {
                 title: `Аптайм трансляции рядом с надписью 'в эфире'.`,
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStreamMobile.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStreamMobile.png'],
                 type: 'boolean'
             },
             alwaysOpenVolumeControl: {
                 title: 'Всегда раскрывать регулятор громкости.',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/alwaysOpenVolumeControl.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/alwaysOpenVolumeControl.png'],
                 type: 'boolean'
             },
             mutePlayerOnMiddleMouse: {
@@ -423,7 +423,7 @@ const HelperSettings = {
             },
             iframeCreateClip: {
                 title: 'Создавать клипы в проигрывателе а не новом окне.',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/iframeCreateClip.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/iframeCreateClip.png'],
                 type: 'boolean'
             },
 
@@ -462,12 +462,12 @@ const HelperSettings = {
             },
             hideSelectorStreamSettings: {
                 title: 'Скрыть кнопку "Начать стрим" в заголовке.',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSelectorStreamSettings.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSelectorStreamSettings.png'],
                 type: 'boolean'
             },
             hideGreatRandom: {
                 title: 'Скрыть кнопку "Великий рандом!" в заголовке.',
-                help: 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideGreatRandom.png',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideGreatRandom.png'],
                 type: 'boolean'
             },
             chatMobilePlayer: {
@@ -493,12 +493,20 @@ const HelperSettings = {
         this.messageTimeout = setTimeout(hide, 2000);
     },
     _basic(title, description, formField, line=false) {
-        return `<div class="option">
-            <div class="labelField">
-                <span ${line ? 'class="titleline" style="padding-left: 5px;' : 'class="title"'}">${title}</span>
-                <span class="description">${description || ''}</span>
+        return `
+        <div class="option">
+            <div class="ovg-option" >
+                <div class="option-line" >
+
+                    <div class="labelField">
+                        <span ${line ? 'class="titleline" style="padding-left: 5px;"' : 'class="title"'}> ${title} </span>
+                        <span class="description"> ${description || ''}</span>
+                    </div>
+
+                    <div class="formField"> ${formField} </div>
+
+                </div>
             </div>
-            <div class="formField">${formField}</div>
         </div>`;
     },
     save(optionElements) {
@@ -585,26 +593,41 @@ const HelperSettings = {
         }
         return html;
     },
-    boolean(name, title, description, defaultValue = false, yesButton = 'Вкл', noButton = 'Откл', help = '') {
+    boolean(name, title, description, defaultValue = false, yesButton = 'Вкл', noButton = 'Откл', help = ['', '']) {
         if (typeof defaultValue[1] === 'undefined') {
             updateSettingsToNew()
             return ''
         } else {
             return this._basic(title, description, `
 
-                ${ help == '' ? '' : ` <img src="${help}" alt='help' /> `}
+                <!--${ help[0] == '' ? '' : ` <img src="${help[0]}" alt='helpyes' /> `}
+                
+                ${ help[1] == '' ? '' : ` <img src="${help[1]}" alt='helpno' /> `}-->
 
                 <ol class="flexibleButtonGroup optionTypeBoolean">
-                    <li>
-                        <input type="radio" id="boolean_${name}" name="boolean_${name}" value="1" class="optionField" data-name="${name}" ${defaultValue[1] ? 'checked' : ''}>
-                        <label for="boolean_${name}" class="green"><span class="icon16 fa-check"></span> ${yesButton}</label>
-                    </li>
-                    <li>
-                        <input type="radio" id="boolean_${name}_no" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${!defaultValue[1] ? 'checked' : ''}>
-                        <label for="boolean_${name}_no" class="red"><span class="icon16 fa-times"></span> ${noButton}</label>
-                    </li>
+
+                    <label class="switch-ovg">
+                        <input type="checkbox" id="boolean_${name}" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${defaultValue[1] ? 'checked' : ''}>
+                        <span class="slider-ovg"> <div class="switcher_thumb-ovg"></div> </span>
+                    </label>
+
                     <button class="optionField def" data-name="${name}" option-type="boolean"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
-                </ol>`);
+                </ol>
+                `);
+                    // <li>
+                    //     <input type="radio" id="boolean_${name}" name="boolean_${name}" value="1" class="optionField" data-name="${name}" ${defaultValue[1] ? 'checked' : ''}>
+                    //     <label for="boolean_${name}" class="green">
+                    //         <span class="icon16 fa-check"></span>
+                    //         ${yesButton}
+                    //     </label>
+                    // </li>
+                    // <li>
+                    //     <input type="radio" id="boolean_${name}_no" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${!defaultValue[1] ? 'checked' : ''}>
+                    //     <label for="boolean_${name}_no" class="red">
+                    //         <span class="icon16 fa-times"></span>
+                    //         ${noButton}
+                    //     </label>
+                    // </li>
         }
     },
     text(name, title, description, defaultValue = '', help = '') {

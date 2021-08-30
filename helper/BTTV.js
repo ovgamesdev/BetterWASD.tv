@@ -19,18 +19,23 @@ const HelperBTTV = {
                         let stickers__line = splitdev.querySelector('.stickers__line')
                         for (let emoteCode in items.bttvEmotes[userID]) {
                             if (items.bttvEmotes[userID].hasOwnProperty(emoteCode)) {
+                                let div = document.createElement('div');
                                 let a = document.createElement('a');
                                 let img = document.createElement('img');
+                                let div_span = document.createElement('div');
                                 let span = document.createElement('span');
+                                div.classList.add('div_emoteCard');
                                 span.innerText = emoteCode;
                                 img.src = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[emoteCode]}/2x`;
-                                a.href = `https://betterttv.com/emotes/${HelperBTTV.emotes[emoteCode]}`
-                                a.target = '_blank'
+                                a.href = `https://betterttv.com/emotes/${HelperBTTV.emotes[emoteCode]}`;
+                                a.target = '_blank';
                                 a.classList.add('emoteCard');
                                 a.append(img);
-                                a.append(span);
+                                div_span.append(span);
+                                div.append(a);
+                                a.append(div_span);
                                 a.title = emoteCode;
-                                bttvEmoteList.append(a);
+                                bttvEmoteList.append(div);
                             }
                         }
                     }
