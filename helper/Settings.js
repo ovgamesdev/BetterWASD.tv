@@ -36,6 +36,7 @@ const HelperSettings = {
             },
             colorMessageHover: {
                 title: 'Цвет для опции "Подсвечивать сообщениие при наведении".',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colorMessageHover.gif'],
                 type: 'color'
             },
             wasdIconsSmile: {
@@ -62,17 +63,17 @@ const HelperSettings = {
             },
             bttvInChatMenu: {
                 title: 'Опция BTTV в меню смайликов в чате.',
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/bttvInChatMenu.png'],
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/bttvInChatMenu.gif'],
                 type: 'boolean'
             },
             ffzInChatMenu: {
                 title: 'Опция FFZ в меню смайликов в чате.',
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/ffzInChatMenu.png'],
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/ffzInChatMenu.gif'],
                 type: 'boolean'
             },
             tv7InChatMenu: {
                 title: 'Опция 7TV в меню смайликов в чате.',
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/tv7InChatMenu.png'],
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/tv7InChatMenu.gif'],
                 type: 'boolean'
             },
             bttvEmoteSize: {
@@ -161,7 +162,7 @@ const HelperSettings = {
             },*/
             colorAtTheMention: {
                 title: 'Отображать упоминания пользователей в чата с их цветом никнейма. <a title="Эта опция находится в стадии разработки и может работать некорректно." class="helpTitleHover">(BETA)</a> <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colorAtTheMention.png'],
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colorAtTheMention.gif'],
                 type: 'boolean'
             },
             chatWidth: {
@@ -416,7 +417,7 @@ const HelperSettings = {
             },
             alwaysOpenVolumeControl: {
                 title: 'Всегда раскрывать регулятор громкости.',
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/alwaysOpenVolumeControl.png'],
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/alwaysOpenVolumeControl.gif'],
                 type: 'boolean'
             },
             mutePlayerOnMiddleMouse: {
@@ -469,7 +470,7 @@ const HelperSettings = {
             },
             hideGreatRandom: {
                 title: 'Скрыть кнопку "Великий рандом!" в заголовке.',
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideGreatRandom.png'],
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideGreatRandom.gif'],
                 type: 'boolean'
             },
             chatMobilePlayer: {
