@@ -205,14 +205,14 @@ const HelperWASD = {
             url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${channel_name.trim()}`,
             success: function(out){
                 if (out.result) {
-                    for (let value of out.result.rows) {
+                    for (let value of out.result?.rows) {
                         if (value.user_login.trim() == channel_name.trim()) {
                             data = value;
                             break;
                         }
                     }
                     if (!data) {
-                        for (let value of out.result.rows) {
+                        for (let value of out.result?.rows) {
                             if (value.user_login.trim().toLowerCase() == channel_name.trim().toLowerCase()) {
                                 data = value;
                                 break;
@@ -260,37 +260,37 @@ const HelperWASD = {
                                 //console.log(out.result);
                                 if (out.result.media_container != null) {
                                     // game_name
-                                    viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').textContent = ` Стримит ${out.result.media_container.game.game_name}`; // n error
-                                    viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').title = ` Стримит ${out.result.media_container.game.game_name}`;
+                                    viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').textContent = ` Стримит ${out.result?.media_container?.game?.game_name}`; // n error
+                                    viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').title = ` Стримит ${out.result?.media_container?.game?.game_name}`;
                                     // stream_total_viewers
-                                    viewerCard.querySelector('div.tw-stat__value.viewers').textContent = out.result.media_container.media_container_streams[0].stream_total_viewers;
-                                    viewerCard.querySelector('.viewers-title').title = `Всего зрителей за стрим ${out.result.media_container.media_container_streams[0].stream_total_viewers}`;
+                                    viewerCard.querySelector('div.tw-stat__value.viewers').textContent = out.result?.media_container?.media_container_streams[0]?.stream_total_viewers;
+                                    viewerCard.querySelector('.viewers-title').title = `Всего зрителей за стрим ${out.result?.media_container?.media_container_streams[0]?.stream_total_viewers}`;
                                     // game_id url
-                                    viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').href =  `games/${out.result.media_container.game.game_id}`;
+                                    viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').href =  `games/${out.result?.media_container?.game?.game_id}`;
                                 } else {
                                     // channel_description
-                                    let message = out.result.channel.channel_description;
-                                    if (out.result.channel.channel_description) {
+                                    let message = out.result?.channel?.channel_description;
+                                    if (out.result?.channel?.channel_description) {
                                         viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').innerHTML = HelperWASD.textToURL(message);
-                                        viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').title = out.result.channel.channel_description;
+                                        viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').title = out.result?.channel?.channel_description;
                                     }
 
                                     // viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').innerHTML = out.result.channel.channel_description;
                                 }
 
                                 // followers_count
-                                viewerCard.querySelector('div.tw-stat__value.channal_followers_count').textContent = out.result.channel.followers_count;
-                                viewerCard.querySelector('.channal_followers_count-title').title = `${out.result.channel.followers_count} фолловеров`;
+                                viewerCard.querySelector('div.tw-stat__value.channal_followers_count').textContent = out.result?.channel?.followers_count;
+                                viewerCard.querySelector('.channal_followers_count-title').title = `${out.result?.channel?.followers_count} фолловеров`;
                                 
                                 $.ajax({
                                     url: `https://wasd.tv/api/v2/profiles/current`,
                                     success: function(out){
-                                        if (typeof out.result.user_login !== "undefined") if(!(data.user_login.toLowerCase().trim() == out.result.user_login.toLowerCase().trim())) {
+                                        if (typeof out.result?.user_login !== "undefined") if(!(data.user_login.toLowerCase().trim() == out.result?.user_login?.toLowerCase().trim())) {
                                             let buttonfollow = document.querySelector('div.viewer-card > div.ovg.buttonsdiv > wasd-channel-favorite-btn > wasd-button > button')
                                             let ifollow = document.querySelector('div.viewer-card > div.ovg.buttonsdiv > wasd-channel-favorite-btn > wasd-button > button > i')
                                             let tooltipfollow = document.querySelector('wasd-channel-favorite-btn#selector-channel-favorite-btn-ovg > wasd-button > wasd-tooltip > div.tooltip > div.tooltip-content')
                                             if (buttonfollow) {
-                                                if (databroadcasts.result.channel.is_user_follower) {
+                                                if (databroadcasts.result?.channel?.is_user_follower) {
                                                     buttonfollow.classList.add('basic'); // add class to unfollow
                                                     buttonfollow.classList.remove('medium');
                                                     buttonfollow.classList.remove('disabled');

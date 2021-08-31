@@ -26,12 +26,12 @@ const HelperSettings = {
             },
             messageSystem: {
                 title: 'Скрыть системные сообщения.',
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSystemMessages.png'],
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSystemMessages.gif'],
                 type: 'boolean'
             },
             messageHover: {
                 title: 'Подсвечивать сообщениие при наведении.',
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/messageHover.png'],
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/messageHover.gif'],
                 type: 'boolean'
             },
             colorMessageHover: {
@@ -40,11 +40,12 @@ const HelperSettings = {
             },
             wasdIconsSmile: {
                 title: 'Cкрыть стикеры / смайлы в панели ввода текста.',
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/wasdIconsSmile.png'],
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/wasdIconsSmile.gif'],
                 type: 'boolean'
             },
             wasdIconsCircleRu: {
                 title: 'Скрыть поддержать в панели ввода текста. (ru)',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/wasdIconsCircleRu.gif'],
                 type: 'boolean'
             },
             bttvEmotes: {
@@ -151,6 +152,7 @@ const HelperSettings = {
             },
             colonAfterNickname: {
                 title: 'Двоеточие после никнейма. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colonAfterNickname.gif'],
                 type: 'boolean'
             },
             /*smallBadges: {
@@ -604,7 +606,10 @@ const HelperSettings = {
                 
                 ${ help[1] == '' ? '' : ` <img src="${help[1]}" alt='helpno' /> `}-->
 
+
                 <ol class="flexibleButtonGroup optionTypeBoolean">
+
+                    ${ help[0] == '' ? '' : ` <div class="helpoption tooltip-ovg"><img src="${help[0]}"> ${help[1]} </div> `}
 
                     <label class="switch-ovg">
                         <input type="checkbox" id="boolean_${name}" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${defaultValue[1] ? 'checked' : ''}>
@@ -613,21 +618,7 @@ const HelperSettings = {
 
                     <button class="optionField def" data-name="${name}" option-type="boolean"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
                 </ol>
-                `);
-                    // <li>
-                    //     <input type="radio" id="boolean_${name}" name="boolean_${name}" value="1" class="optionField" data-name="${name}" ${defaultValue[1] ? 'checked' : ''}>
-                    //     <label for="boolean_${name}" class="green">
-                    //         <span class="icon16 fa-check"></span>
-                    //         ${yesButton}
-                    //     </label>
-                    // </li>
-                    // <li>
-                    //     <input type="radio" id="boolean_${name}_no" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${!defaultValue[1] ? 'checked' : ''}>
-                    //     <label for="boolean_${name}_no" class="red">
-                    //         <span class="icon16 fa-times"></span>
-                    //         ${noButton}
-                    //     </label>
-                    // </li>
+            `);
         }
     },
     text(name, title, description, defaultValue = '', help = '') {

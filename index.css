@@ -454,6 +454,7 @@ button#backupButton {
     flex-wrap: wrap;
     margin: 0;
     align-items: center;
+    position: relative;
 }
 
 .flexibleButtonGroup>li {
@@ -530,7 +531,10 @@ button#backupButton {
 }
 .flexibleButtonGroup input:not([type="color"]),
 .flexibleButtonGroup select {
-    padding: 5px;
+    padding: 0 5px 0 5px;
+}
+.flexibleButtonGroup input[type="color"] {
+    padding: 0;
 }
 
 @keyframes BetterStreamChatFadeInOpacity {
@@ -2693,6 +2697,18 @@ div.sticker-card:hover wasd-tooltip .tooltip {
     margin-bottom: 8px;
     top: auto;
 }
+#bscSettingsPanel .option .tooltip-ovg.helpoption {
+    display: grid;
+    margin: 0 17px 0 0;
+}
+#bscSettingsPanel .option .tooltip-ovg.helpoption img {
+    max-width: 300px;
+    max-height: 500px;
+}
+#bscSettingsPanel .option:hover .tooltip-ovg.helpoption {
+    visibility: visible;
+    opacity: 1;
+}
 #bscSettingsPanel .option .tooltip-ovg:before {
     height: calc(100% + 8px);
     left: -4px;
@@ -2726,6 +2742,7 @@ div.sticker-card:hover wasd-tooltip .tooltip {
     visibility: visible;
     opacity: 1;
 }
+
 
 #bscSettingsPanel .option button.def i {
     color: var(--wasd-color-text-second);
