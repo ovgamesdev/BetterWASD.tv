@@ -2703,7 +2703,7 @@ div.sticker-card:hover wasd-tooltip .tooltip {
 }
 #bscSettingsPanel .option .tooltip-ovg.helpoption img {
     max-width: 300px;
-    max-height: 500px;
+    max-height: 300px;
 }
 #bscSettingsPanel .option:hover .tooltip-ovg.helpoption {
     visibility: visible;

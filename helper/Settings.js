@@ -179,6 +179,7 @@ const HelperSettings = {
             },
             highlightMessagesBold: {
                 title: 'Выделять упоминания в чате жирным шрифтом.',
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/highlightMessagesBold.gif'],
                 type: 'boolean'
             },
             streamerMessage: {
@@ -377,7 +378,7 @@ const HelperSettings = {
             },
             pictureInPicture: {
                 title: "Добавить кнопку 'Картинка в картинке' к управлению проигрывателем. (PIP)",
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/pictureInPicture.png'],
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/pictureInPicture.gif'],
                 type: 'boolean'
             },
             /*resetToPlayer: {
@@ -465,7 +466,7 @@ const HelperSettings = {
             },
             hideSelectorStreamSettings: {
                 title: 'Скрыть кнопку "Начать стрим" в заголовке.',
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSelectorStreamSettings.png'],
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSelectorStreamSettings.gif'],
                 type: 'boolean'
             },
             hideGreatRandom: {
@@ -603,11 +604,6 @@ const HelperSettings = {
         } else {
             return this._basic(title, description, `
 
-                <!--${ help[0] == '' ? '' : ` <img src="${help[0]}" alt='helpyes' /> `}
-                
-                ${ help[1] == '' ? '' : ` <img src="${help[1]}" alt='helpno' /> `}-->
-
-
                 <ol class="flexibleButtonGroup optionTypeBoolean">
 
                     ${ help[0] == '' ? '' : ` <div class="helpoption tooltip-ovg"><img src="${help[0]}"> ${help[1]} </div> `}
@@ -658,6 +654,7 @@ const HelperSettings = {
             }
             return this._basic(title, description, `
             <ol class="flexibleButtonGroup optionTypeBoolean">
+                ${ help[0] == '' ? '' : ` <div class="helpoption tooltip-ovg"><img src="${help[0]}"> ${help[1]} </div> `}
                 <select class="optionField" data-name="${name}">${selectOptions}</select>
                 <button class="optionField def" data-name="${name}" option-type="select"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
             </ol>`);
@@ -676,6 +673,7 @@ const HelperSettings = {
         } else {
             return this._basic(title, description, `
             <ol class="flexibleButtonGroup optionTypeBoolean">
+            ${ help[0] == '' ? '' : ` <div class="helpoption tooltip-ovg"><img src="${help[0]}"> ${help[1]} </div> `}
                 <input type="color" class="optionField" data-name="${name}" value="${defaultValue[1]}" />
                 <button class="optionField def" data-name="${name}" option-type="color"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
             </ol>`);
