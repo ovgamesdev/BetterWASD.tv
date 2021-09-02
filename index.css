@@ -442,7 +442,8 @@ button#backupButton {
     border-right: none;
     border-bottom: 1px solid rgba(var(--wasd-color-switch--rgb),.24);
     outline: none;
-    padding-left: 40px!important;
+    margin: 0;
+    padding: 0 0 0 40px;
     width: 100%;
     color: var(--wasd-color-text-second);
     line-height: 30px;
@@ -452,9 +453,10 @@ button#backupButton {
 .flexibleButtonGroup {
     display: flex;
     flex-wrap: wrap;
-    margin: 0;
+    margin: 0 0 0 40px;
     align-items: center;
     position: relative;
+    padding: 0px!important;
 }
 
 .flexibleButtonGroup>li {
@@ -744,7 +746,9 @@ main.active::-webkit-scrollbar {
 }
 
 
-.helpTitleHover {
+.helpTitleHover,
+.flexibleButtonGroup,
+.optionField {
     cursor: help !important;
 }
 
@@ -1908,16 +1912,16 @@ button.ovg:active {
     color: rgba(var(--wasd-color-white--rgb),.8)!important;
 }
 
-#bscSettingsPanel input {
+#bscSettingsPanel input:not([type="color"]) {
     cursor: text;
 }
 #bscSettingsPanel input[type="color"] {
-    cursor: pointer!important;
+    cursor: pointer;
     width: 105px;
     vertical-align: middle;
 }
 #bscSettingsPanel select {
-    cursor: pointer!important;
+    cursor: pointer;
 }
 
 div.item__links-ovg {
@@ -2697,18 +2701,22 @@ div.sticker-card:hover wasd-tooltip .tooltip {
     margin-bottom: 8px;
     top: auto;
 }
+
 #bscSettingsPanel .option .tooltip-ovg.helpoption {
     display: grid;
     margin: 0 17px 0 0;
 }
 #bscSettingsPanel .option .tooltip-ovg.helpoption img {
     max-width: 300px;
-    max-height: 300px;
+    max-height: 3s00px;
 }
-#bscSettingsPanel .option:hover .tooltip-ovg.helpoption {
+#bscSettingsPanel .option .flexibleButtonGroup:hover .tooltip-ovg.helpoption {
     visibility: visible;
-    opacity: 1;
+    animation-duration: 1s;
+    animation-name: show_help;
 }
+
+
 #bscSettingsPanel .option .tooltip-ovg:before {
     height: calc(100% + 8px);
     left: -4px;
@@ -3157,4 +3165,10 @@ div::-webkit-scrollbar {
 
 #bscSettingsPanel main .option:hover .title {
     color: var(--wasd-color-switch) !important;
+}
+
+@keyframes show_help {
+    0% {opacity: 0;}
+    80% {opacity: 0;}
+    100%   {opacity: 1;}
 }
