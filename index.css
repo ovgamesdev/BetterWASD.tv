@@ -252,6 +252,20 @@ button#backupButton {
     display: block;
     animation-duration: .4s;
     animation-name: opentab;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--wasd-color-switch--rgb),0.48) rgba(var(--wasd-color-switch--rgb),0.24);
+}
+
+#bscSettingsPanel main.active::-webkit-scrollbar-thumb {
+    background: rgba(var(--wasd-color-switch--rgb),.48);
+    border-radius: .4rem .4rem .4rem .4rem;
+}
+
+#bscSettingsPanel main.active::-webkit-scrollbar {
+    width: .8rem;
+    height: .8rem;
+    background: rgba(var(--wasd-color-switch--rgb),.24);
+    border-radius: .4rem .4rem .4rem .4rem;
 }
 
 #bscSettingsPanel main h1 {
@@ -710,18 +724,6 @@ body:not([data-theater-mode]) #toggleChatOverVideo {
 
 yt-live-chat-header-renderer {
     background: blue !important;
-}
-
-main.active::-webkit-scrollbar-thumb {
-    background: rgba(var(--wasd-color-switch--rgb),.48);
-    border-radius: .4rem .4rem .4rem .4rem;
-}
-
-main.active::-webkit-scrollbar {
-    width: .8rem;
-    height: .8rem;
-    background: rgba(var(--wasd-color-switch--rgb),.24);
-    border-radius: .4rem .4rem .4rem .4rem;
 }
 
 .chat-message-mention {
@@ -1339,151 +1341,7 @@ wasd-button.flat-btn.ovg {
     outline: none;
 }
 
-button.primary.medium.ovg.disabled {
-    background: #212528!important;
-    color: #949494!important;
-    cursor: no-drop;
-}
-button.primary.medium.ovg.disabled:hover  {
-    background: #212528!important;
-    color: #949494!important;
-    cursor: no-drop;
-}
-button.primary.medium.ovg.disabled:active {
-    background: #212528!important;
-    color: #949494!important;
-    cursor: no-drop;
-}
 
-button.primary.medium.ovg {
-    background: var(--wasd-color-corp-blue)!important;
-    color: var(--wasd-color-white)!important;
-    height: 32px;
-    padding: 0 16px;
-    align-items: center;
-    display: flex;
-    font-size: 12px;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: Roboto-Bold,sans-serif;
-    letter-spacing: .4px;
-    outline: none;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: all .1s ease;
-    vertical-align: top;
-    white-space: nowrap;
-    margin: 0;
-    position: relative;
-    width: inherit;
-}
-
-
-button.warning.medium.ovg.disabled {
-    background: #212528!important;
-    color: #949494!important;
-    cursor: no-drop;
-}
-button.warning.medium.ovg.disabled:hover  {
-    background: !important;
-    color: #949494!important;
-    cursor: no-drop;
-}
-button.warning.medium.ovg.disabled:active {
-    background: #212528!important;
-    color: #949494!important;
-    cursor: no-drop;
-}
-
-button.primary.medium.ovg:hover {
-    background-color: rgba(var(--wasd-color-warning--rgb),.16)!important;
-}
-button.primary.medium.ovg:active {
-    color: rgba(var(--wasd-color-white--rgb),.8)!important;
-    background-color: rgba(var(--wasd-color-warning--rgb),.24)!important;
-}
-
-button.warning.medium.ovg {
-    background: var(--wasd-color-gray1)!important;
-    color: var(--wasd-color-warning)!important;
-    height: 32px;
-    padding: 0 16px;
-    align-items: center;
-    display: flex;
-    font-size: 12px;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: Roboto-Bold,sans-serif;
-    letter-spacing: .4px;
-    outline: none;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: all .1s ease;
-    vertical-align: top;
-    white-space: nowrap;
-    margin: 0;
-    position: relative;
-    width: inherit;
-}
-
-
-
-button * {
-    pointer-events: none;
-}
-button *:before {
-    pointer-events: none;
-}
-button.primary.medium.ovg:hover {
-    background-color: #48A1E9!important;
-}
-button.primary.medium.ovg:active {
-    color: rgba(var(--wasd-color-white--rgb),.8)!important;
-    background-color: #1F78C0!important;
-}
-button.primary.basic.ovg.disabled {
-    background: #212528!important;
-    color: #949494!important;
-    cursor: auto;
-    pointer-events: none;
-}
-button.primary.basic.ovg {
-    background: var(--wasd-color-gray1)!important;
-    color: var(--wasd-color-white)!important;
-    font-size: 12px;
-    height: 32px;
-    padding: 0 16px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: Roboto-Bold,sans-serif;
-    letter-spacing: .4px;
-    margin: 0;
-    outline: none;
-    position: relative;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: all .1s ease;
-    vertical-align: top;
-    white-space: nowrap;
-    width: inherit;
-}
-button.primary.basic.ovg:hover {
-    background-color: #474B51!important;
-}
-button.primary.basic.ovg:active {
-    color: rgba(var(--wasd-color-white--rgb),.8)!important;
-    background-color: #1E2228!important;
-}
 i.wasd-icons-like.ovg {
     font-size: 14px;
     height: 14px;
@@ -1500,45 +1358,7 @@ i.wasd-icons-favorite {
     display: flex;
     justify-content: center;
 }
-div.tooltip.tooltip_position-bottomRight.tooltip_size-small.ovg {
-    width: 200px;
-    justify-content: flex-start;
-    margin-top: 8px;
-    left: 0;
-    top: 100%;
-    position: absolute;
-    transform: translateZ(0);
-    z-index: 3;
-    display: none;
-}
-div.tooltip.tooltip_position-bottomRight.tooltip_size-small.ovg:hover {
-    display: flex!important;
-}
-div.tooltip.tooltip_position-bottomRight.tooltip_size-small.ovg:after {
-    border: 4px solid transparent;
-    border-bottom: 4px solid rgb(var(--color-switch));
-    border-top: none;
-    bottom: 100%;
-    content: "";
-    height: 0;
-    position: absolute;
-    left: 8px;
-    transition: all .3s ease;
-}
 
-div.tooltip-content.tooltip-content_left.ovg {
-    padding: 4px 16px;
-    text-align: left;
-    background-color: rgb(var(--color-switch));
-    border-radius: 4px;
-    color: rgba(var(--color-background),1);
-    font-family: Roboto,sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    line-height: normal;
-    position: relative;
-    word-break: break-word;
-}
 
 div.ovg.buttonsdiv {
     margin-top: 10px;
@@ -1547,59 +1367,63 @@ div.ovg.buttonsdiv {
 }
 
 
-div.gifts-info__gift_buttons > wasd-channel-amazing-btn > div.button__container > wasd-tooltip > div.tooltip.tooltip_position-bottomRight {
-    left: -225px;
-}
-div.gifts-info__gift_buttons > wasd-channel-amazing-btn > div.button__container > wasd-tooltip > div.tooltip.tooltip_position-top {
-    left: -45px;
-}
-div.gifts-info__gift_buttons > wasd-channel-amazing-btn > div.button__container > wasd-tooltip > div.tooltip > div.tooltip-content:before {
-    left: 83%!important;
+@media screen and (min-width: 1024px) {
+    div.gifts-info__gift_buttons > wasd-channel-amazing-btn > div.button__container > wasd-tooltip > div.tooltip.tooltip_position-bottomRight {
+        left: -225px;
+    }
+    div.gifts-info__gift_buttons > wasd-channel-amazing-btn > div.button__container > wasd-tooltip > div.tooltip.tooltip_position-top {
+        left: -45px;
+    }
+    div.gifts-info__gift_buttons > wasd-channel-amazing-btn > div.button__container > wasd-tooltip > div.tooltip > div.tooltip-content:before {
+        left: 83%!important;
+    }
+
+    div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_1 > wasd-tooltip > div.tooltip.tooltip_position-bottomRight {
+        left: -355px;
+    }
+    div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_1 > wasd-tooltip > div.tooltip.tooltip_position-top {
+        left: -160px;
+    }
+    div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_1 > wasd-tooltip > div.tooltip > div.tooltip-content:before {
+        left: 370px!important;
+    }
+
+    div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-league7_gift_5 > wasd-tooltip > div.tooltip {
+        left: -50px;
+    }
+    div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-league7_gift_5 > wasd-tooltip > div.tooltip > div.tooltip-content:before {
+        left: 225px!important;
+    }
+
+    div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-league7_gift_4 > wasd-tooltip > div.tooltip {
+        left: -20px;
+    }
+    div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-league7_gift_4 > wasd-tooltip > div.tooltip > div.tooltip-content:before {
+        left: 190px!important;
+    }
+
+    div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_4 > wasd-tooltip > div.tooltip.tooltip_position-bottomRight {
+        left: -355px;
+    }
+    div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_4 > wasd-tooltip > div.tooltip.tooltip_position-top {
+        left: -160px;
+    }
+    div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_4 > wasd-tooltip > div.tooltip > div.tooltip-content:before {
+        left: 370px!important;
+    }
+
+    wasd-channel-amazing-btn#selector-channel-amazing-btn > div > wasd-tooltip > div.tooltip.tooltip_position-bottomRight {
+        left: -228px;
+    }
+    wasd-channel-amazing-btn#selector-channel-amazing-btn > div > wasd-tooltip > div.tooltip.tooltip_position-top {
+        left: -59px;
+    }
+    wasd-channel-amazing-btn#selector-channel-amazing-btn > div > wasd-tooltip > div.tooltip > div.tooltip-content:before {
+        left: 168px!important;
+    }
 }
 
-div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_1 > wasd-tooltip > div.tooltip.tooltip_position-bottomRight {
-    left: -355px;
-}
-div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_1 > wasd-tooltip > div.tooltip.tooltip_position-top {
-    left: -160px;
-}
-div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_1 > wasd-tooltip > div.tooltip > div.tooltip-content:before {
-    left: 370px!important;
-}
 
-div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-league7_gift_5 > wasd-tooltip > div.tooltip {
-    left: -50px;
-}
-div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-league7_gift_5 > wasd-tooltip > div.tooltip > div.tooltip-content:before {
-    left: 225px!important;
-}
-
-div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-league7_gift_4 > wasd-tooltip > div.tooltip {
-    left: -20px;
-}
-div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-league7_gift_4 > wasd-tooltip > div.tooltip > div.tooltip-content:before {
-    left: 190px!important;
-}
-
-div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_4 > wasd-tooltip > div.tooltip.tooltip_position-bottomRight {
-    left: -355px;
-}
-div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_4 > wasd-tooltip > div.tooltip.tooltip_position-top {
-    left: -160px;
-}
-div.gifts-info__gift_buttons > wasd-channel-gift-btn > div#selector-channel-amazing-btn-gift_4 > wasd-tooltip > div.tooltip > div.tooltip-content:before {
-    left: 370px!important;
-}
-
-wasd-channel-amazing-btn#selector-channel-amazing-btn > div > wasd-tooltip > div.tooltip.tooltip_position-bottomRight {
-    left: -228px;
-}
-wasd-channel-amazing-btn#selector-channel-amazing-btn > div > wasd-tooltip > div.tooltip.tooltip_position-top {
-    left: -59px;
-}
-wasd-channel-amazing-btn#selector-channel-amazing-btn > div > wasd-tooltip > div.tooltip > div.tooltip-content:before {
-    left: 168px!important;
-}
 
 
 div.stream-uptime {
@@ -1620,44 +1444,6 @@ div.stream-uptime > input.player-info__stat-value{
     width: 65px;
 }
 
-div.stream-uptime > wasd-tooltip > div {
-    bottom: 100%;
-    left: 50%;
-    margin-bottom: 8px;
-    transform: translateX(-50%) translateZ(0);
-    display: none;
-    justify-content: center;
-    position: absolute;
-    z-index: 1;
-}
-
-div.stream-uptime > wasd-tooltip > div > div.tooltip-content {
-    padding: 4px 16px;
-    text-align: center;
-    background-color: rgb(var(--color-switch));
-    border-radius: 4px;
-    color: rgba(var(--color-background),1);
-    font-family: Roboto,sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    line-height: normal;
-    position: relative;
-    word-break: break-word;
-}
-
-div.stream-uptime > wasd-tooltip > div > div.tooltip-content:before {
-    border: 4px solid transparent;
-    border-bottom: none;
-    border-top: 4px solid rgb(var(--color-switch));
-    content: "";
-    height: 0;
-    left: 50%;
-    margin-left: -4px;
-    position: absolute;
-    top: 100%;
-    transition: all .3s ease;
-}
-
 .ovg-button-div {
     line-height: 2rem;
     vertical-align: middle;
@@ -1676,7 +1462,7 @@ div.stream-uptime > wasd-tooltip > div > div.tooltip-content:before {
 .ovg-button-span {
     padding-right: 0;
     display: inline-flex;
-    padding: .4rem .8rem;
+    padding: 0 8px 0 0;
     transition-duration: .2s;
     transition-property: opacity;
 }
@@ -1687,7 +1473,7 @@ div.stream-uptime > wasd-tooltip > div > div.tooltip-content:before {
     transition-property: opacity;
     text-align: center;
     position: relative;
-    padding: .5rem 1rem;
+    padding: 0 8px 0 0;
 }
 
 #bscSettingsPanel #tv7EmoteList,
@@ -1878,38 +1664,6 @@ img.emoji__item-ovg {
     margin-right: 24px;
     user-select: none;
     max-width: -webkit-fill-available;
-}
-
-
-button.ovg {
-    background: var(--wasd-color-corp-blue)!important;
-    color: var(--wasd-color-white)!important;
-    font-size: 12px;
-    height: 32px;
-    padding: 0 16px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: Roboto-Bold,sans-serif;
-    letter-spacing: .4px;
-    margin: 0;
-    outline: none;
-    position: relative;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: all .1s ease;
-    vertical-align: top;
-    white-space: nowrap;
-    width: inherit;
-}
-button.ovg:hover {
-    background-color: #48A1E9!important;
-}
-button.ovg:active {
-    color: rgba(var(--wasd-color-white--rgb),.8)!important;
 }
 
 #bscSettingsPanel input:not([type="color"]) {
@@ -2576,67 +2330,6 @@ div.sticker-card:hover div.paidsubs-popup__stickers-item {
     box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16);
 }
 
-div.sticker-card wasd-tooltip {
-    position: relative;
-    bottom: -5px;
-}
-
-div.sticker-card wasd-tooltip .tooltip_position-bottom {
-    left: 50%;
-    margin-top: 8px;
-    top: 100%;
-    transform: translateX(-50%) translateZ(0);
-}
-
-div.sticker-card wasd-tooltip .tooltip {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    transform: translateZ(0);
-    z-index: 1;
-    left: -115px;
-    opacity: 0;
-    transition: opacity .2s;
-    pointer-events: none;
-}
-
-div.sticker-card wasd-tooltip .tooltip_size-small .tooltip-content {
-    padding: 4px 16px;
-}
-
-div.sticker-card wasd-tooltip .tooltip .tooltip-content_left {
-    text-align: left;
-}
-
-div.sticker-card wasd-tooltip .tooltip .tooltip-content {
-    background-color: rgb(var(--color-switch));
-    border-radius: 4px;
-    color: rgba(var(--color-background),1);
-    font-family: Roboto,sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    line-height: normal;
-    position: relative;
-    word-break: break-word;
-}
-
-div.sticker-card wasd-tooltip .tooltip .tooltip-content:after {
-    border: 4px solid transparent;
-    border-bottom: 4px solid rgb(var(--color-switch));
-    border-top: none;
-    bottom: 100%;
-    content: "";
-    height: 0;
-    left: 50%;
-    margin-left: -4px;
-    position: absolute;
-    transition: all .3s ease;
-}
-
-div.sticker-card:hover wasd-tooltip .tooltip {
-    opacity: 1;
-}
-
 .user_last_messages-ovg .accordion-header-wrap-ovg {
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -3171,4 +2864,8 @@ div::-webkit-scrollbar {
     0% {opacity: 0;}
     80% {opacity: 0;}
     100%   {opacity: 1;}
+}
+
+ovg-button {
+    position: relative;
 }

@@ -38,27 +38,27 @@ const wasd = {
                                 wasd.update();
                                 isObserverStarted = true;
                                 HelperWASD.updateStreamTimer();
-                                HelperSocket.start(getChannelName()).then(i => {
-                                    if (i == 'leave') {
-                                        isObserverStarted = false;
-                                        isObserverBinding = false;
-                                        observer.disconnect();
-                                        HelperSocket.stop()
-                                        clearInterval(intervalUpdateStreamTimer);
-                                        console.log("disconnect observer (CHAT) leave");
-                                        HelperWASD.isModerator = false
-                                        if (document.querySelector('.chat-container__wrap')) document.querySelector('.chat-container__wrap').remove()
-                                        if (document.querySelector('wasd-stream-chat')) document.querySelector('wasd-stream-chat').remove()
-                                        setTimeout(startObserver, 200)
-                                    }
-                                });
+                                // HelperSocket.start(getChannelName()).then(i => {
+                                //     if (i == 'leave') {
+                                //         isObserverStarted = false;
+                                //         isObserverBinding = false;
+                                //         observer.disconnect();
+                                //         HelperSocket.stop()
+                                //         clearInterval(intervalUpdateStreamTimer);
+                                //         console.log("disconnect observer (CHAT) leave");
+                                //         HelperWASD.isModerator = false
+                                //         if (document.querySelector('.chat-container__wrap')) document.querySelector('.chat-container__wrap').remove()
+                                //         if (document.querySelector('wasd-stream-chat')) document.querySelector('wasd-stream-chat').remove()
+                                //         setTimeout(startObserver, 200)
+                                //     }
+                                // });
 
                                 if (!this.isObserverEndBind && document.querySelector('.burger-menu #selector-bm-channel a')) {
                                     document.querySelector('.burger-menu #selector-bm-channel a').addEventListener('click', ({ target }) => {
                                         isObserverBinding = false;
                                         isObserverStarted = false;
                                         observer.disconnect();
-                                        HelperSocket.stop()
+                                        //HelperSocket.stop()
                                         clearInterval(intervalUpdateStreamTimer);
                                         console.log("disconnect observer (CHAT) 4");
                                         HelperWASD.isModerator = false
@@ -74,7 +74,7 @@ const wasd = {
                                         isObserverBinding = false;
                                         isObserverStarted = false;
                                         observer.disconnect();
-                                        HelperSocket.stop()
+                                        //HelperSocket.stop()
                                         clearInterval(intervalUpdateStreamTimer);
                                         console.log("disconnect observer (CHAT) 3");
                                         HelperWASD.isModerator = false
@@ -88,7 +88,7 @@ const wasd = {
                             } else {
                                 // console.log("observer not started (CHAT)");
                                 setTimeout(startObserver, 10)
-                                HelperSocket.stop()
+                                //HelperSocket.stop()
                             }
 
                             for (let element of this.document.querySelectorAll('div.block__messages__item')) {
@@ -103,7 +103,7 @@ const wasd = {
                                             isObserverStarted = false;
                                             isObserverBinding = false;
                                             observer.disconnect();
-                                            HelperSocket.stop()
+                                            //HelperSocket.stop()
                                             clearInterval(intervalUpdateStreamTimer);
                                             console.log("disconnect observer (CHAT) 2");
                                             HelperWASD.isModerator = false
@@ -116,7 +116,7 @@ const wasd = {
                                                     isObserverBinding = false;
                                                     isObserverStarted = false;
                                                     observer.disconnect();
-                                                    HelperSocket.stop()
+                                                    //HelperSocket.stop()
                                                     clearInterval(intervalUpdateStreamTimer);
                                                     console.log("disconnect observer (CHAT) 1");
                                                     HelperWASD.isModerator = false
@@ -235,8 +235,9 @@ const wasd = {
         }
 
         if (settings.wasd.webkitScrollbarWidth[1]) {
-            cssCode += 'div::-webkit-scrollbar { width: 0px; }';
+            cssCode += 'div#channel-wrapper::-webkit-scrollbar { width: 0px; }';
             cssCode += 'wasd-chat-body { box-shadow: 0 0 2px 0 rgba(var(--wasd-color-switch--rgb),.32); }';
+            cssCode += 'div#channel-wrapper { scrollbar-width: none; }'
         }
 
         if (settings.wasd.giftsWrapperSide[1]) {
@@ -491,6 +492,10 @@ const wasd = {
         }
 
         cssCode += `.info__text__status-paid-ovg {background-color: ${settings.wasd.colorModOptions[1] != '#000000' ? settings.wasd.colorModOptions[1]+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
+
+        if (settings.wasd.hideRaid[1]) {
+            cssCode += `.player-info .raid { display: none!important; }`
+        }
 
         if (wasd.style) {
             if (typeof wasd.style.styleSheet !== 'undefined') {
@@ -1363,24 +1368,35 @@ const wasd = {
 	        }
 
             node.querySelector('div.message__info__icon > i')?.addEventListener('click', () => {
-                context_menu = node.querySelector('.context-menu')
-                if (context_menu) {
-                    let item = document.createElement('div')
-                    item.classList.add(`context-menu__block`)
-                    item.innerHTML = `<div class="context-menu__block__icon"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Добавить в ЧС </div>`;
-                    context_menu.append(item)
-                    item.addEventListener('click', ({ target }) => {
-                        let username = node.querySelector('.info__text__status__name').getAttribute('username');
-                        if (!settings.wasd.blockUserList[username]) {
-                            HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
-                            settings.wasd.blockUserList[username] = new Date();
-                            HelperWASD.addUserToBlackList(username)
-                            HelperSettings.save([document.querySelector('.optionField')]);
-                        } else {
-                            HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!')
+                let trycreate = 0
+                create_context_block()
+                function create_context_block() {
+                    context_menu = node.querySelector('.context-menu')
+                    if (context_menu) {
+                        let item = document.createElement('div')
+                        item.classList.add(`context-menu__block`)
+                        item.innerHTML = `<div class="context-menu__block__icon"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Добавить в ЧС </div>`;
+                        context_menu.append(item)
+                        item.addEventListener('click', ({ target }) => {
+                            let username = node.querySelector('.info__text__status__name').getAttribute('username');
+                            if (!settings.wasd.blockUserList[username]) {
+                                HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
+                                settings.wasd.blockUserList[username] = new Date();
+                                HelperWASD.addUserToBlackList(username)
+                                HelperSettings.save([document.querySelector('.optionField')]);
+                            } else {
+                                HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!')
+                            }
+                            node.click()
+                        })
+                    } else {
+                        trycreate++
+                        if (trycreate < 999) {
+                            setTimeout(()=>{
+                                create_context_block()
+                            }, 10)
                         }
-                        node.click()
-                    })
+                    }
                 }
             })
 

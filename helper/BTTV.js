@@ -218,7 +218,10 @@ const HelperBTTV = {
         let item = document.createElement('tr')
         item.classList.add(`table-menu__block`)
         item.style = 'justify-content: space-between;'
-        item.innerHTML = `<td><div><p title="${user.username}"> ${user.username} </p></div></td> <td><div><p> ${(new Date(user.lastUpdate)).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div><button class="removeUser primary ovg basic" data="${userID}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button><button style="left: 10px;" class="updateUser primary ovg basic" data="${userID}"><i class="wasd-icons-record-icon" style="pointer-events: none;"></i></button></div></td>`;
+        item.innerHTML = `<td><div><p title="${user.username}"> ${user.username} </p></div></td> <td><div><p> ${(new Date(user.lastUpdate)).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div>
+        <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg removeUser warning" data="${userID}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button>
+        <ovg-button class="flat-btn ovg updateUser" style="left: 10px;"> <button class="basic medium ovg updateUser" data="${userID}"><i class="wasd-icons-record-icon" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить </div></div></ovg-tooltip> </ovg-button>
+        </div></td>`;
         list.append(item)
         item.querySelector('.removeUser').addEventListener('click', () => {
             HelperBTTV.removeUser(userID)

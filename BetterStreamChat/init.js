@@ -864,7 +864,7 @@ const BetterStreamChat = {
                 <input id="importInput" type="file" accept=".backup" style="display: none;">
                 <span> Эта функция позволяет вам сохранить и восстановить ваши настройки BetterWASD </span>
                 <div style="padding-top: 10px;">
-                    <div class="ovg-button-div">
+                    <div class="flat-btn ovg ovg-button-div">
                         <button class="primary medium ovg backup-download">
                             <span class="primary medium ovg-button-span">
                                 <img style="width: 20px; height: 20px;" src="${chrome.extension.getURL("img/download.png")}">
@@ -872,7 +872,7 @@ const BetterStreamChat = {
                             <span> Сохранить </span>
                         </button>
                     </div>
-                    <div class="ovg-button-div">
+                    <div class="flat-btn ovg ovg-button-div">
                         <button class="primary medium ovg backup-upload">
                             <span class="primary medium ovg-button-span">
                                 <img style="width: 20px; height: 20px;" src="${chrome.extension.getURL("img/upload.png")}">

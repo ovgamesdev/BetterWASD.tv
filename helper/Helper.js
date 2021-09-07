@@ -91,6 +91,7 @@ const Helper = {
                 uptimeStreamMobile: [false, false],
                 highlightingWhenMentionList: {},
                 hideWhenMentionList: {},
+                hideRaid: [false, false],
             }
         };
     },
