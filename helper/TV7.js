@@ -240,4 +240,38 @@ const HelperTV7 = {
             }
         });
     },
+    restoreSettings(items) {
+        return new Promise((resolve, reject) => {
+            console.log('tv7Users', items)
+
+            chrome.storage.local.set({ tv7Users:items.tv7Users, tv7Emotes:{} });
+            
+            let l = 0
+            let i = 0
+
+            for(let userID in items.tv7Users) { l++ }
+
+            for(let userID in items.tv7Users) {
+                // if (userID == 'global' || !items.tv7Users[userID]?.username) {
+                //     i++
+                //     console.log('tv7Users i', i, l)
+                //     if (i == l) {
+                //         console.log('resolve i == l', i, l)
+                //         resolve()
+                //     }
+                // } else {
+                    console.log(userID)
+                    HelperTV7.updateUserChannelEmotes(userID, items.tv7Users[userID].username).finally(() => {
+                        i++
+                        console.log('tv7Users i', i, l)
+                        HelperSettings.showMessage(`7TV ${i}/${l}`)
+                        if (i == l) {
+                            console.log('resolve i == l', i, l)
+                            resolve()
+                        }
+                    })
+                // }
+            }
+        });
+    }
 }

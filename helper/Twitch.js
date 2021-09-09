@@ -9,6 +9,9 @@ const HelperTwitch = {
                 url: `https://api.twitch.tv/kraken/users?login=${username}`,
                 success: function(out){
                     resolve (out.users);
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    reject (errorThrown)
                 }
             });
         });
@@ -24,6 +27,9 @@ const HelperTwitch = {
                 url: `https://api.twitch.tv/kraken/search/channels?query=${username}`,
                 success: function(out){
                     resolve (out.channels);
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    reject (errorThrown)
                 }
             });
         });

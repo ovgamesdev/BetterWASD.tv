@@ -859,8 +859,8 @@ const BetterStreamChat = {
                 <h4 style="margin-top:10px;padding-left: 10px;padding-right: 0px;margin-bottom: 0px;"> Информацию о будущих версиях можно найти <a href="https://wasd.tv/ovgames/posts">тут</a></h4>
                 ${changelogHtml}
             </main>
-            <main class="text" data-tab="backup">
 
+            <main class="text" data-tab="backup">
                 <input id="importInput" type="file" accept=".backup" style="display: none;">
                 <span> Эта функция позволяет вам сохранить и восстановить ваши настройки BetterWASD </span>
                 <div style="padding-top: 10px;">
@@ -881,7 +881,11 @@ const BetterStreamChat = {
                         </button>
                     </div>
                 </div>
+
+                <div id="backupDropContainer" class="drodHere">Drop Here</div>
+
             </main>
+
             <main class="text" data-tab="blacklist">
                 <h1 style="padding-left: 10px; padding-right: 10px;"> Черный список (чат) </h1>
                 <div>
@@ -1075,27 +1079,128 @@ const BetterStreamChat = {
 
 
         settingsDiv.querySelector('button.primary.medium.ovg.backup-upload').addEventListener('click', () => {
-            settingsDiv.querySelector('#importInput').click();
+            settingsDiv.querySelector('#importInput').click()
         });
 
-        settingsDiv.querySelector('input#importInput').onchange = uploadFile;
-        function uploadFile(){
-            var files = document.querySelector('input#importInput').files[0];
-            var reader = new FileReader();
-            reader.onload = processFile(files);
-            reader.readAsText(files); 
-        }
+        settingsDiv.querySelector('input#importInput').onchange = (() => {
+            let files = settingsDiv.querySelector('input#importInput').files[0]
+            var reader = new FileReader()
+            reader.onload = processFile(files)
+            if (files.name.indexOf('.backup') == files.name.length - 7) {
+                reader.readAsText(files)
+            } else {
+                HelperSettings.showMessage(`только .backup файлы`, 'error');
+            }
+        })
 
         function processFile(theFile){
           return function(e) { 
-                chrome.storage[storageType].set(JSON.parse(e.target.result), () => {
-                    location.reload();
-                });
+
+                let set_settings = JSON.parse(e.target.result)
+
+                HelperSettings.showMessage('восстановление настроек')
+
+                let emotesData = {}
+
+                emotesData.bttvUsers = set_settings['bttvUsers'] || {global: {"lastUpdate": 1111111111111}}
+                HelperBTTV.restoreSettings(emotesData).finally(() => {
+                    delete set_settings['bttvUsers']
+
+                    console.log('then bttv')
+                    HelperSettings.showMessage(`получение emoji bttv`)
+
+                    emotesData.ffzUsers = set_settings['ffzUsers'] || {global: {"lastUpdate": 1111111111111}}
+                    HelperFFZ.restoreSettings(emotesData).finally(() => {
+                        delete set_settings['ffzUsers']
+
+                        console.log('then ffz')
+                        HelperSettings.showMessage(`получение emoji ffz`)
+
+                        emotesData.tv7Users = set_settings['tv7Users'] || {global: {"lastUpdate": 1111111111111}}
+                        HelperTV7.restoreSettings(emotesData).finally(() => {
+                            delete set_settings['tv7Users']
+                            console.log('then tv7')
+                            HelperSettings.showMessage(`получение emoji tv7`)
+
+                            chrome.storage[storageType].set(set_settings, () => {
+                                location.reload()
+                                HelperSettings.showMessage(`reload`)
+                                console.log('location.reload()')
+                            })
+
+                        })
+
+                    })
+                })
             }
         }
 
+        /************/
+
+        settingsDiv.ondragenter = function(e) {
+            e.preventDefault();
+        };
+        settingsDiv.ondragover = function (e) { 
+            e.preventDefault(); 
+            this.classList.add('dragoverbackup');
+        }
+        settingsDiv.ondragleave = function (e) { 
+            e.preventDefault();
+            this.classList.remove('dragoverbackup');
+        }
+        settingsDiv.ondrop = function(e) {
+            e.preventDefault();
+            this.classList.remove('dragoverbackup');
+        }; 
+
+
+        backupDropContainer.ondragenter = function(e) {
+            e.preventDefault();
+        };
+        backupDropContainer.ondragover = function (e) { 
+            e.preventDefault();
+            this.classList.add('dragover');
+        }
+        backupDropContainer.ondragleave = function (e) { 
+            e.preventDefault();
+            this.classList.remove('dragover');
+        }
+        backupDropContainer.ondrop = function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            var reader = new FileReader();
+            reader.onload = processFile(e.dataTransfer.files[0]);
+            let n = e.dataTransfer.files[0].name
+
+            if (n.indexOf('.backup') == n.length - 7) {
+                reader.readAsText(e.dataTransfer.files[0]);
+            } else {
+                HelperSettings.showMessage(`только .backup файлы`, 'error');
+            }
+        };  
+
+        /************/
+
         settingsDiv.querySelector('button.primary.medium.ovg.backup-download').addEventListener('click', () => {
-            HelperWASD.download(`BetterWASD-settings.backup`, JSON.stringify(settings));
+
+            let save_settings = settings
+
+            chrome.storage.local.get((items) => {
+                if (items['bttvUsers'] !== undefined) {
+                    save_settings.bttvUsers = items.bttvUsers
+                }
+
+                if (items['ffzUsers'] !== undefined) {
+                    save_settings.ffzUsers = items.ffzUsers
+                }
+
+                if (items['tv7Users'] !== undefined) {
+                    save_settings.tv7Users = items.tv7Users
+                }
+
+                HelperWASD.download(`BetterWASD-settings.backup`, JSON.stringify(save_settings));
+
+            });
         });
 
         for (let user of Object.keys(settings.wasd.blockUserList)) {
