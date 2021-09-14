@@ -179,14 +179,12 @@ const HelperBTTV = {
         });
     },
     tryAddUser() {
-        let userElement = BetterStreamChat.settingsDiv.querySelector('#bttvAddUser');
-        let button = BetterStreamChat.settingsDiv.querySelector('#bttvAddUserBtn');
-        let username = userElement.value.trim();
+        let username = bttvAddUser.value.trim();
         if (!username.length) return;
         if (HelperBTTV.isBusy) return;
 
-        userElement.setAttribute('disabled', 'disabled');
-        button.setAttribute('disabled', 'disabled');
+        bttvAddUser.setAttribute('disabled', 'disabled');
+        bttvAddUserBtn.setAttribute('disabled', 'disabled');
         HelperBTTV.isBusy = true;
         let beforeEmotes = Object.keys(HelperBTTV.emotes).length;
         let userID;
@@ -206,9 +204,9 @@ const HelperBTTV = {
         }).catch((err) => {
             HelperSettings.showMessage(err, 'error');
         }).finally(() => {
-            userElement.value = '';
-            userElement.removeAttribute('disabled');
-            button.removeAttribute('disabled');
+            bttvAddUser.value = '';
+            bttvAddUser.removeAttribute('disabled');
+            bttvAddUserBtn.removeAttribute('disabled');
             HelperBTTV.isBusy = false;
         });
     },

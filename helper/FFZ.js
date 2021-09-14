@@ -176,14 +176,12 @@ const HelperFFZ = {
         });
     },
     tryAddUser() {
-        let userElement = BetterStreamChat.settingsDiv.querySelector('#ffzAddUser');
-        let button = BetterStreamChat.settingsDiv.querySelector('#ffzAddUserBtn');
-        let username = userElement.value.trim();
+        let username = ffzAddUser.value.trim();
         if (!username.length) return; 
         if (HelperFFZ.isBusy) return; 
 
-        userElement.setAttribute('disabled', 'disabled');
-        button.setAttribute('disabled', 'disabled');
+        ffzAddUser.setAttribute('disabled', 'disabled');
+        ffzAddUserBtn.setAttribute('disabled', 'disabled');
         HelperFFZ.isBusy = true;
         let beforeEmotes = Object.keys(HelperFFZ.emotes).length;
         let userID;
@@ -203,9 +201,9 @@ const HelperFFZ = {
         }).catch((err) => {
             HelperSettings.showMessage(err, 'error');
         }).finally(() => {
-            userElement.value = '';
-            userElement.removeAttribute('disabled');
-            button.removeAttribute('disabled');
+            ffzAddUser.value = '';
+            ffzAddUser.removeAttribute('disabled');
+            ffzAddUserBtn.removeAttribute('disabled');
             HelperFFZ.isBusy = false;
         });
     },

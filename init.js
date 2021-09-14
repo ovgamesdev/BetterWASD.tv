@@ -177,9 +177,9 @@ function addToMenu() {
             document.querySelector('.header__block__btn > i').click()
             document.body.style.overflowY = "hidden";
             BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
-            BetterStreamChat.settingsDiv.querySelectorAll('main').forEach(function(main) {
-                main.scrollTo(0, 0)
-            })
+            // BetterStreamChat.settingsDiv.querySelectorAll('main').forEach(function(main) {
+            //     main.scrollTo(0, 0)
+            // })
         })
         
     }
@@ -215,9 +215,7 @@ function addPipToPlayer() {
         }
     } else {
         const buttondiv = document.querySelector("div.pip");
-        if (buttondiv) {
-            buttondiv.remove();
-        }
+        buttondiv?.remove();
     }
 }
 function createClipByOvg() {
@@ -435,7 +433,11 @@ function createbuttonovgside() {
                 document.querySelector('body').click()
                 document.body.style.overflowY = "hidden";
                 BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
-                BetterStreamChat.settingsDiv.querySelectorAll('main').forEach(function(main){main.scrollTo(0, 0)})
+                // setTimeout(() => {
+                //     BetterStreamChat.settingsDiv.style.margin = '0px'
+                //     BetterStreamChat.settingsDiv.style.transform = 'translate(-50%, -50%)'
+                // }, 500)
+                // BetterStreamChat.settingsDiv.querySelectorAll('main').forEach(function(main){main.scrollTo(0, 0)})
             });
         }
     }

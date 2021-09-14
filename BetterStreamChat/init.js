@@ -659,28 +659,51 @@ const BetterStreamChat = {
             </div>
             <header>
 
-                <section class="tabs-ovg-wrapper horizontal left">
-                    <div class="tabs-ovg">
-                        <div class="items">
-                            <a role="tab" class="item" data-tab="about">О нас</a>
-                            <a role="tab" class="item" data-tab="general">Общий</a>
-                            <a role="tab" class="item" data-tab="bttvSettings">BTTV</a>
-                            <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
-                            <a role="tab" class="item" data-tab="tv7Settings">TV7</a>
-                            <a role="tab" class="item active" data-tab="wasdSettings">Настройки</a>
-                            <a role="tab" class="item" data-tab="blacklist">ЧС</a>
-                            <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
-                            <a role="tab" class="item" data-tab="backup">Бэкап</a>
+                <div ovg="" class="burger-menu__wrap" style="width: 1.6rem;padding-left: 6px;"><div ovg="" class="burger-toggle show-section-mobile"><div ovg="" class="burger-toggle__icon icon-default"><i ovg="" class="wasd-icons-menu-burger"></i></div><div ovg="" class="burger-toggle__icon icon-active"><i ovg="" class="wasd-icons-close"></i></div></div></div>
+
+                <div class="logo">
+                    <img src="chrome-extension://leildpnijdjakgapjimklcbkdgfpheck/img/icon128.png" style="width: 32px; height: 32px;">
+                    <div style="padding-left: 10px; font-size: 18px; width: 120px;">BetterWASD</div>
+                </div>
+
+                <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched" id="settingsSearchDiv">
+                    <div ovg="" class="wasd-input-wrapper">
+                        <div ovg="" class="wasd-input">
+                            <input ovg="" id="settingsSearch" class="has-button ng-pristine ng-untouched ng-valid ui-autocomplete-input" placeholder="Поиск настроек" type="text" autocomplete="off" style="margin: 0;">
+                            <button id="settingsSearchClose" ovg="" type="button" class="button-icon" style="top: 4px;">
+                                <i ovg="" class="wasd-icons-close"></i>
+                            </button>
                         </div>
                     </div>
-                </section>
-
-                <!--span title="" class="fade helpTitleHover"><img class="nofade " style="width: 22px; filter: invert(99%) sepia(6%) saturate(1%) hue-rotate(57deg) brightness(95%) contrast(85%);"></span-->
-                <span style="margin-right: 5px;" title="Обновить BTTV, FFZ и TV7 эмоции (щелкните мышью по кнопке дважды) (Подождите пару секунд)." class="updateemotes helpTitleHover"><i _ngcontent-boj-c248="" class="wasd-icons-record-icon" style="font-size: 22px;align-items: center;display: flex;justify-content: center;"></i></span>
-                <span style="margin-right: 10px;" title="Обновить чат (щелкните мышью по кнопке дважды) (Подождите пару секунд)." class="update helpTitleHover"><i _ngcontent-boj-c248="" class="wasd-icons-record-icon" style="font-size: 22px;align-items: center;display: flex;justify-content: center;"></i></span>
+                </wasd-input>
                 
-                <span class="close"><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></span>
+                <div style="width: 100%"></div>
+
+                <wasd-button class="ghost-btn ovg" style="display: flex;">
+                    <button class="basic medium-cube ovg fade" type="button"><i class="wasd-icons-show"></i> <span></span></button>
+                    <button class="basic medium-cube ovg updateemotes" type="button"><i class="wasd-icons-record"></i> <span></span></button>
+                    <button class="basic medium-cube ovg update" type="button"><i class="wasd-icons-record"></i> <span></span></button>
+                    <button class="basic medium-cube ovg close" type="button"><i class="ovg wasd-icons-close"></i> <span></span></button>
+                </wasd-button>
+
             </header>
+
+            <section class="ovg-tabs-wrapper vertical left">
+                <div class="tabs">
+                    <div class="items">
+                        <a role="tab" class="item" data-tab="about">О нас</a>
+                        <a role="tab" class="item" data-tab="general">Общий</a>
+                        <a role="tab" class="item active" data-tab="wasdSettings">Настройки</a>
+                        <a role="tab" class="item" data-tab="bttvSettings">BTTV</a>
+                        <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
+                        <a role="tab" class="item" data-tab="tv7Settings">TV7</a>
+                        <a role="tab" class="item" data-tab="blacklist">ЧС</a>
+                        <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
+                        <a role="tab" class="item" data-tab="backup">Бэкап</a>
+                    </div>
+                </div>
+            </section>
+
             <main class="text" data-tab="about" style="background-color: var(--wasd-color-bg-prime);">
                 <div class="aboutHalf">
                     <img class="aboutIcon" src="${chrome.extension.getURL("img/icon128.png")}">
@@ -733,8 +756,7 @@ const BetterStreamChat = {
                     </tbody>
                 </table>
                 <h2> Доступные эмоции BetterTTV </h2>
-                <!--input type="search" placeholder="Поиск эмоций" class="bttvemojiSearch" style="background: url(${chrome.extension.getURL("img/search.png")}) no-repeat 10px; background-color: var(--wasd-color-prime); margin-top: 10px; margin-bottom: 10px; border-bottom-width: 0px!important; min-height: auto;"-->
-                
+
                 <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
                     <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
                         <label ovg=""> Поиск эмоций </label>
@@ -783,9 +805,7 @@ const BetterStreamChat = {
                 </table>
 
                 <h2> Доступные эмоции FrankerFaceZ </h2>
-                
-                <!--input type="search" placeholder="Поиск эмоций" class="ffzemojiSearch" style="background: url(${chrome.extension.getURL("img/search.png")}) no-repeat 10px; background-color: var(--wasd-color-prime); margin-top: 10px; margin-bottom: 10px; border-bottom-width: 0px!important; min-height: auto;"-->
-                
+
                 <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
                     <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
                         <label ovg=""> Поиск эмоций </label>
@@ -834,7 +854,6 @@ const BetterStreamChat = {
                 </table>
 
                 <h2> Доступные эмоции 7TV </h2>
-                <!--input type="search" placeholder="Поиск эмоций" class="tv7emojiSearch" style="background: url(${chrome.extension.getURL("img/search.png")}) no-repeat 10px; background-color: var(--wasd-color-prime); margin-top: 10px; margin-bottom: 10px; border-bottom-width: 0px!important; min-height: auto;"-->
 
                 <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
                     <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
@@ -851,7 +870,6 @@ const BetterStreamChat = {
             </main>
 
             <main class="active" data-tab="wasdSettings">
-                <input type="search" placeholder="Поиск настроек" class="option settingsSearch" style="background: url(${chrome.extension.getURL("img/search.png")}) no-repeat 10px;">
                 ${HelperSettings.build('wasd')}
             </main>
             <main class="text" data-tab="changelog">
@@ -864,20 +882,26 @@ const BetterStreamChat = {
                 <input id="importInput" type="file" accept=".backup" style="display: none;">
                 <span> Эта функция позволяет вам сохранить и восстановить ваши настройки BetterWASD </span>
                 <div style="padding-top: 10px;">
-                    <div class="flat-btn ovg ovg-button-div">
+                    <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
                         <button class="primary medium ovg backup-download">
-                            <span class="primary medium ovg-button-span">
+                            <span class="ovg-button-span">
                                 <img style="width: 20px; height: 20px;" src="${chrome.extension.getURL("img/download.png")}">
                             </span>
                             <span> Сохранить </span>
                         </button>
                     </div>
-                    <div class="flat-btn ovg ovg-button-div">
+                    <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
                         <button class="primary medium ovg backup-upload">
-                            <span class="primary medium ovg-button-span">
+                            <span class="ovg-button-span">
                                 <img style="width: 20px; height: 20px;" src="${chrome.extension.getURL("img/upload.png")}">
                             </span>
                             <span> Восстановить </span>
+                        </button>
+                    </div>
+                    <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
+                        <button class="backup-reset medium ovg warning">
+                            <span class="ovg-button-span">
+                            <i class="wasd-icons-record" style="font-size: 20px;"></i></span><span class=""> Сбросить по умолчанию </span>
                         </button>
                     </div>
                 </div>
@@ -928,7 +952,7 @@ const BetterStreamChat = {
         document.body.append(settingsDiv);
 
         // bttv events
-        settingsDiv.querySelector('#bttvAddUserBtn').addEventListener('click', () => {
+        bttvAddUserBtn.addEventListener('click', () => {
             HelperBTTV.tryAddUser();
         });
         var bttvAddUser = settingsDiv.querySelector('#bttvAddUser')
@@ -938,7 +962,7 @@ const BetterStreamChat = {
         });
 
         // ffz events
-        settingsDiv.querySelector('#ffzAddUserBtn').addEventListener('click', () => {
+        ffzAddUserBtn.addEventListener('click', () => {
             HelperFFZ.tryAddUser();
         });
         var ffzAddUser = settingsDiv.querySelector('#ffzAddUser')
@@ -948,18 +972,16 @@ const BetterStreamChat = {
         });
 
         // tv7 events
-        settingsDiv.querySelector('#tv7AddUserBtn').addEventListener('click', () => {
+        tv7AddUserBtn.addEventListener('click', () => {
             HelperTV7.tryAddUser();
         });
-        var tv7AddUser = settingsDiv.querySelector('#tv7AddUser')
         tv7AddUser.addEventListener('keyup', (event) => {
             if (event.key !== 'Enter') return;
             HelperTV7.tryAddUser();
         });
 
         // bl events
-        var blacklistAddUser = settingsDiv.querySelector('#blacklistAddUser')
-        settingsDiv.querySelector('#blacklistAddUserBtn').addEventListener('click', () => {
+        blacklistAddUserBtn.addEventListener('click', () => {
             text = blacklistAddUser.value
             if (text != '') HelperWASD.addUserToBL(text)
         });
@@ -969,11 +991,21 @@ const BetterStreamChat = {
             HelperWASD.addUserToBL(text)
         });
 
+        // bind fade settings
+        settingsDiv.querySelector('.fade').addEventListener('click', () => {
+            settingsDiv.classList.toggle('faded')
+            settingsDiv.querySelector('.fade > i').classList.toggle('wasd-icons-show')
+            settingsDiv.querySelector('.fade > i').classList.toggle('wasd-icons-hide')
+        });
+
         // bind close settings 
         settingsDiv.querySelector('.close').addEventListener('click', () => {
             settingsDiv.style.animationName = 'hidebetterpanel';
             setTimeout(() => { settingsDiv.style.display = 'none'; }, 350);
             document.body.style.overflowY = "";
+            if (settingsDiv.classList.contains('faded')) {
+                settingsDiv.querySelector('.fade').click()
+            }
         });
 
         // bind update chat 
@@ -1010,10 +1042,9 @@ const BetterStreamChat = {
         });
 
         // bind search settings
-        var input1, filter1, ul1, options1, title1, titleline1, i1;
-        input1 = document.querySelector('input.option.settingsSearch');
-        input1.addEventListener('input', () => {
-            filter1 = input1.value.toUpperCase();
+        var filter1, ul1, options1, title1, titleline1, i1;
+        settingsSearch.addEventListener('input', () => {
+            filter1 = settingsSearch.value.toUpperCase();
             ul1 = document.querySelector("main[data-tab='wasdSettings']");
             options1 = ul1.querySelectorAll("div.option");
             for (i1 = 0; i1 < options1.length; i1++) {
@@ -1032,10 +1063,9 @@ const BetterStreamChat = {
         });
 
         // bind search emoji
-        var bttvinput, bttvfilter, bttvul, bttvoptions, bttvtitle, bttvtitleline, bttvi;
-        bttvinput = document.querySelector('input#bttvemojiSearch');
-        bttvinput.addEventListener('input', () => {
-            bttvfilter = bttvinput.value.toUpperCase();
+        var bttvfilter, bttvul, bttvoptions, bttvtitle, bttvtitleline, bttvi;
+        bttvemojiSearch.addEventListener('input', () => {
+            bttvfilter = bttvemojiSearch.value.toUpperCase();
             bttvul = document.querySelector("main[data-tab='bttvSettings'] > #bttvEmoteList");
             bttvoptions = bttvul.querySelectorAll(".div_emoteCard");
             for (bttvi = 0; bttvi < bttvoptions.length; bttvi++) {
@@ -1047,10 +1077,9 @@ const BetterStreamChat = {
             }
         });
 
-        var ffzinput, ffzfilter, ffzul, ffzoptions, ffztitle, ffztitleline, ffzi;
-        ffzinput = document.querySelector('input#ffzemojiSearch');
-        ffzinput.addEventListener('input', () => {
-            ffzfilter = ffzinput.value.toUpperCase();
+        var ffzfilter, ffzul, ffzoptions, ffztitle, ffztitleline, ffzi;
+        ffzemojiSearch.addEventListener('input', () => {
+            ffzfilter = ffzemojiSearch.value.toUpperCase();
             ffzul = document.querySelector("main[data-tab='ffzSettings'] > #ffzEmoteList");
             ffzoptions = ffzul.querySelectorAll(".div_emoteCard");
             for (ffzi = 0; ffzi < ffzoptions.length; ffzi++) {
@@ -1062,10 +1091,9 @@ const BetterStreamChat = {
             }
         });
 
-        var tv7input, tv7filter, tv7ul, tv7options, tv7title, tv7titleline, tv7i;
-        tv7input = document.querySelector('input#tv7emojiSearch');
-        tv7input.addEventListener('input', () => {
-            tv7filter = tv7input.value.toUpperCase();
+        var tv7filter, tv7ul, tv7options, tv7title, tv7titleline, tv7i;
+        tv7emojiSearch.addEventListener('input', () => {
+            tv7filter = tv7emojiSearch.value.toUpperCase();
             tv7ul = document.querySelector("main[data-tab='tv7Settings'] > #tv7EmoteList");
             tv7options = tv7ul.querySelectorAll(".div_emoteCard");
             for (tv7i = 0; tv7i < tv7options.length; tv7i++) {
@@ -1078,7 +1106,7 @@ const BetterStreamChat = {
         });
 
 
-        settingsDiv.querySelector('button.primary.medium.ovg.backup-upload').addEventListener('click', () => {
+        settingsDiv.querySelector('.backup-upload').addEventListener('click', () => {
             settingsDiv.querySelector('#importInput').click()
         });
 
@@ -1093,44 +1121,17 @@ const BetterStreamChat = {
             }
         })
 
+        // show-section-mobile
+        settingsDiv.querySelector('.show-section-mobile').addEventListener('click', () => {
+            settingsDiv.querySelector('section').classList.toggle('mobile-show')
+            settingsDiv.querySelector('.show-section-mobile').classList.toggle('active')
+        });
+
         function processFile(theFile){
-          return function(e) { 
-
-                let set_settings = JSON.parse(e.target.result)
-
-                HelperSettings.showMessage('восстановление настроек')
-
-                let emotesData = {}
-
-                emotesData.bttvUsers = set_settings['bttvUsers'] || {global: {"lastUpdate": 1111111111111}}
-                HelperBTTV.restoreSettings(emotesData).finally(() => {
-                    delete set_settings['bttvUsers']
-
-                    console.log('then bttv')
-                    HelperSettings.showMessage(`получение emoji bttv`)
-
-                    emotesData.ffzUsers = set_settings['ffzUsers'] || {global: {"lastUpdate": 1111111111111}}
-                    HelperFFZ.restoreSettings(emotesData).finally(() => {
-                        delete set_settings['ffzUsers']
-
-                        console.log('then ffz')
-                        HelperSettings.showMessage(`получение emoji ffz`)
-
-                        emotesData.tv7Users = set_settings['tv7Users'] || {global: {"lastUpdate": 1111111111111}}
-                        HelperTV7.restoreSettings(emotesData).finally(() => {
-                            delete set_settings['tv7Users']
-                            console.log('then tv7')
-                            HelperSettings.showMessage(`получение emoji tv7`)
-
-                            chrome.storage[storageType].set(set_settings, () => {
-                                location.reload()
-                                HelperSettings.showMessage(`reload`)
-                                console.log('location.reload()')
-                            })
-
-                        })
-
-                    })
+            return function(e) { 
+                chrome.storage[storageType].set(JSON.parse(e.target.result), () => {
+                    location.reload()
+                    HelperSettings.showMessage(`reload`)
                 })
             }
         }
@@ -1170,9 +1171,9 @@ const BetterStreamChat = {
             this.classList.remove('dragover');
             var reader = new FileReader();
             reader.onload = processFile(e.dataTransfer.files[0]);
-            let n = e.dataTransfer.files[0].name
+            let n = e.dataTransfer?.files[0]?.name
 
-            if (n.indexOf('.backup') == n.length - 7) {
+            if (n && n.indexOf('.backup') == n.length - 7) {
                 reader.readAsText(e.dataTransfer.files[0]);
             } else {
                 HelperSettings.showMessage(`только .backup файлы`, 'error');
@@ -1181,26 +1182,14 @@ const BetterStreamChat = {
 
         /************/
 
-        settingsDiv.querySelector('button.primary.medium.ovg.backup-download').addEventListener('click', () => {
+        settingsDiv.querySelector('.backup-download').addEventListener('click', () => {
+            HelperWASD.download(`BetterWASD-settings.backup`, JSON.stringify(settings));
+        });
 
-            let save_settings = settings
-
-            chrome.storage.local.get((items) => {
-                if (items['bttvUsers'] !== undefined) {
-                    save_settings.bttvUsers = items.bttvUsers
-                }
-
-                if (items['ffzUsers'] !== undefined) {
-                    save_settings.ffzUsers = items.ffzUsers
-                }
-
-                if (items['tv7Users'] !== undefined) {
-                    save_settings.tv7Users = items.tv7Users
-                }
-
-                HelperWASD.download(`BetterWASD-settings.backup`, JSON.stringify(save_settings));
-
-            });
+        settingsDiv.querySelector('.backup-reset').addEventListener('click', () => {
+            chrome.storage[storageType].set(Helper.getDefaultSettings(), () => {
+                location.reload()
+            })
         });
 
         for (let user of Object.keys(settings.wasd.blockUserList)) {
@@ -1215,50 +1204,63 @@ const BetterStreamChat = {
                 for (let element of [...tabs, ...links]) {
                     element.classList.remove('active');
                 }
+
+                if (target.getAttribute('data-tab') == 'wasdSettings') {
+                    settingsSearchDiv.classList.remove('hidden')
+                } else {
+                    settingsSearchDiv.classList.add('hidden')
+                }
+
                 target.classList.add('active');
                 settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
             });
         }
 
+        settingsDiv.querySelector('.ovg-tabs-wrapper').addEventListener('click', ()=> {
+            settingsDiv.querySelector('.show-section-mobile')?.click()
+        })
+
+        
+
         // to def
-        for (let option of settingsDiv.querySelectorAll('.optionField.def')) {
-            option.addEventListener('click', (event) => {
-                let split = event.target.dataset.name.split('_');
-                switch(event.target.getAttribute('option-type')) {
-                    case 'boolean':
-                        event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).checked = settings[split[0]][split[1]][0]
-                        HelperSettings.save([event.target.parentElement.querySelector('input[type="checkbox"]')])
-                        break;
-                    case 'text':
-                        event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0]
-                        HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
-                        break;
-                    case 'number':
-                        event.target.parentElement.querySelector('input[type="number"]').value = settings[split[0]][split[1]][0]
-                        HelperSettings.save([event.target.parentElement.querySelector('input[type="number"]')])
-                        break; 
-                    case 'select':
-                        event.target.parentElement.querySelector('select').value = settings[split[0]][split[1]][0]
-                        HelperSettings.save([event.target.parentElement.querySelector('select')])
-                        break;
-                    case 'color':
-                        event.target.parentElement.querySelector('input[type="color"]').value = settings[split[0]][split[1]][0]
-                        HelperSettings.save([event.target.parentElement.querySelector('input[type="color"]')])
-                        break;
-                    case 'botevent':
-                        if (settings[split[0]][split[1]][0]) {
-                            event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).click()
-                        } else {
-                            event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}_no]`).click()
-                        }
-                        event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0][0]
-                        HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
-                        break;
-                    default:
-                        console.log('def')
-                }
-            });
-        }
+        // for (let option of settingsDiv.querySelectorAll('.optionField.def')) {
+        //     option.addEventListener('click', (event) => {
+        //         let split = event.target.dataset.name.split('_');
+        //         switch(event.target.getAttribute('option-type')) {
+        //             case 'boolean':
+        //                 event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).checked = settings[split[0]][split[1]][0]
+        //                 HelperSettings.save([event.target.parentElement.querySelector('input[type="checkbox"]')])
+        //                 break;
+        //             case 'text':
+        //                 event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0]
+        //                 HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
+        //                 break;
+        //             case 'number':
+        //                 event.target.parentElement.querySelector('input[type="number"]').value = settings[split[0]][split[1]][0]
+        //                 HelperSettings.save([event.target.parentElement.querySelector('input[type="number"]')])
+        //                 break; 
+        //             case 'select':
+        //                 event.target.parentElement.querySelector('select').value = settings[split[0]][split[1]][0]
+        //                 HelperSettings.save([event.target.parentElement.querySelector('select')])
+        //                 break;
+        //             case 'color':
+        //                 event.target.parentElement.querySelector('input[type="color"]').value = settings[split[0]][split[1]][0]
+        //                 HelperSettings.save([event.target.parentElement.querySelector('input[type="color"]')])
+        //                 break;
+        //             case 'botevent':
+        //                 if (settings[split[0]][split[1]][0]) {
+        //                     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).click()
+        //                 } else {
+        //                     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}_no]`).click()
+        //                 }
+        //                 event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0][0]
+        //                 HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
+        //                 break;
+        //             default:
+        //                 console.log('def')
+        //         }
+        //     });
+        // }
 
         // change event
         for (let option of settingsDiv.querySelectorAll('.optionField')) {
@@ -1358,6 +1360,7 @@ const BetterStreamChat = {
             tv7AddUser.parentElement.querySelector('input[ovg]').placeholder = 'Добавить новый канал (Twitch username)'
         })
 
+
         blacklistAddUser.addEventListener('focus', () => {
             blacklistAddUser.parentElement.querySelector('label[ovg]').classList.add('show')
             blacklistAddUser.parentElement.querySelector('input[ovg]').placeholder = ''
@@ -1367,6 +1370,7 @@ const BetterStreamChat = {
             blacklistAddUser.parentElement.querySelector('input[ovg]').placeholder = 'Добавить в ЧС (username)'
         })
 
+
         bttvemojiSearch.addEventListener('focus', () => {
             bttvemojiSearch.parentElement.querySelector('label[ovg]').classList.add('show')
             bttvemojiSearch.parentElement.querySelector('input[ovg]').placeholder = ''
@@ -1375,7 +1379,7 @@ const BetterStreamChat = {
             bttvemojiSearch.parentElement.querySelector('label[ovg]').classList.remove('show')
             bttvemojiSearch.parentElement.querySelector('input[ovg]').placeholder = 'Поиск эмоций'
         })
-        settingsDiv.querySelector(`#bttvemojiSearchClose`).addEventListener('click', () => {
+        bttvemojiSearchClose.addEventListener('click', () => {
             bttvemojiSearch.parentElement.querySelector('input[ovg]').value = ''
             bttvemojiSearch.parentElement.querySelector('input[ovg]').dispatchEvent(new Event('input'));
         })
@@ -1388,7 +1392,7 @@ const BetterStreamChat = {
             ffzemojiSearch.parentElement.querySelector('label[ovg]').classList.remove('show')
             ffzemojiSearch.parentElement.querySelector('input[ovg]').placeholder = 'Поиск эмоций'
         })
-        settingsDiv.querySelector(`#ffzemojiSearchClose`).addEventListener('click', () => {
+        ffzemojiSearchClose.addEventListener('click', () => {
             ffzemojiSearch.parentElement.querySelector('input[ovg]').value = ''
             ffzemojiSearch.parentElement.querySelector('input[ovg]').dispatchEvent(new Event('input'));
         })
@@ -1401,9 +1405,15 @@ const BetterStreamChat = {
             tv7emojiSearch.parentElement.querySelector('label[ovg]').classList.remove('show')
             tv7emojiSearch.parentElement.querySelector('input[ovg]').placeholder = 'Поиск эмоций'
         })
-        settingsDiv.querySelector(`#tv7emojiSearchClose`).addEventListener('click', () => {
+        tv7emojiSearchClose.addEventListener('click', () => {
             tv7emojiSearch.parentElement.querySelector('input[ovg]').value = ''
             tv7emojiSearch.parentElement.querySelector('input[ovg]').dispatchEvent(new Event('input'));
+        })
+
+
+        settingsSearchClose.addEventListener('click', () => {
+            settingsSearch.parentElement.querySelector('input[ovg]').value = ''
+            settingsSearch.parentElement.querySelector('input[ovg]').dispatchEvent(new Event('input'));
         })
 
 
@@ -1420,14 +1430,7 @@ const BetterStreamChat = {
         // load chat
         HelperWASD.loaded();
 
-        for (let option of settingsDiv.querySelectorAll('.option')) {
-            if (option.querySelector('.optionField')) {
-                option.addEventListener('click', () => {
-                    option.querySelector('.optionField').click()
-                    option.querySelector('.optionField').focus()
-                })
-            }
-        }
+        // HelperWASD.dragSettingsPanel()
 
         this.install();
     },

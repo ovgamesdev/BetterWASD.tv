@@ -155,7 +155,7 @@ const wasd = {
                         }, 10)
                     }
                     wasdPlayer.onmousedown = function(e) {
-                        if (settings.wasd.mutePlayerOnMiddleMouse[1] && e.button === 1) {
+                        if (settings.wasd.mutePlayerOnMiddleMouse[1] && e.button == 1) {
                             document.querySelector('.player-button.volume-button').click()
                             return false;
                         }
@@ -482,19 +482,19 @@ const wasd = {
         } else {
             if (settings.wasd.hidePanelMobile[1]) {
                 cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc(100% - 97px)!important; }}`
-            }
+            }zzzzzzzz
         }
 
-        if (settings.wasd.uptimeStreamMobile[1]) {
-            cssCode += `.stream-status-container .stream-status-icon { padding-left: 4px!important; }`
-            cssCode += `.stream-status-container .stream-status-text { padding-right: 4px!important; }`
-            cssCode += `.stream-status-container { width: auto!important; }`
-        }
+        // if (settings.wasd.uptimeStreamMobile[1]) {
+        //     cssCode += `.stream-status-container .stream-status-icon { padding-left: 4px!important; }`
+        //     cssCode += `.stream-status-container .stream-status-text { padding-right: 4px!important; }`
+        //     cssCode += `.stream-status-container { width: auto!important; }`
+        // }
 
         cssCode += `.info__text__status-paid-ovg {background-color: ${settings.wasd.colorModOptions[1] != '#000000' ? settings.wasd.colorModOptions[1]+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
 
         if (settings.wasd.hideRaid[1]) {
-            cssCode += `.player-info .raid { display: none!important; }`
+            cssCode += `.player-info .raid { display: none !important; }`
         }
 
         if (wasd.style) {
@@ -560,6 +560,10 @@ const wasd = {
 	        if (node.querySelector('div.message-text')) {
 	            node.querySelector('div.message-text').innerHTML = node.querySelector('div.message-text').innerHTML.replace('</',' </').replace('>','> ');
 	        }
+
+            if (node.querySelector('div.message-text') && settings.wasd.fixCharactersBreakingChat[1]) {
+                node.querySelector('div.message-text').innerHTML = stripCombiningMarks(node.querySelector('div.message-text').innerHTML)
+            }
 
 	        // fix link
 	        if (settings.wasd.fixedLinks[1]) {

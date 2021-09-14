@@ -176,14 +176,12 @@ const HelperTV7 = {
         });
     },
     tryAddUser() {
-        let userElement = BetterStreamChat.settingsDiv.querySelector('#tv7AddUser');
-        let button = BetterStreamChat.settingsDiv.querySelector('#tv7AddUserBtn');
-        let username = userElement.value.trim();
+        let username = tv7AddUser.value.trim();
         if (!username.length) return; 
         if (HelperTV7.isBusy) return; 
 
-        userElement.setAttribute('disabled', 'disabled');
-        button.setAttribute('disabled', 'disabled');
+        tv7AddUser.setAttribute('disabled', 'disabled');
+        tv7AddUserBtn.setAttribute('disabled', 'disabled');
         HelperTV7.isBusy = true;
         let beforeEmotes = Object.keys(HelperTV7.emotes).length;
         let userID;
@@ -203,9 +201,9 @@ const HelperTV7 = {
         }).catch((err) => {
             HelperSettings.showMessage(err, 'error');
         }).finally(() => {
-            userElement.value = '';
-            userElement.removeAttribute('disabled');
-            button.removeAttribute('disabled');
+            tv7AddUser.value = '';
+            tv7AddUser.removeAttribute('disabled');
+            tv7AddUserBtn.removeAttribute('disabled');
             HelperTV7.isBusy = false;
         });
     },

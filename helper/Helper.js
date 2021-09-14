@@ -92,6 +92,7 @@ const Helper = {
                 highlightingWhenMentionList: {},
                 hideWhenMentionList: {},
                 hideRaid: [false, false],
+                fixCharactersBreakingChat: [false, false],
             }
         };
     },

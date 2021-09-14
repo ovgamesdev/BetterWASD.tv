@@ -763,6 +763,60 @@ const HelperWASD = {
             document.onmousemove = null;
         }
     },
+    dragSettingsPanel() {
+        let elmnt = document.querySelector('#bscSettingsPanel')
+        var isDrag = false;
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        document.querySelector('#bscSettingsPanel header').onmousedown = dragMouseDown;
+
+        function dragMouseDown(e) {
+            if (!(e.target.nodeName == 'A' || e.target.nodeName == 'BUTTON')) {isDrag = true} else {isDrag = false}
+            e = e || window.event;
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            if (isDrag) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                if (!((elmnt.offsetTop - pos2) <= 0)) {
+                    if (!((elmnt.offsetTop - pos2) >= document.body.offsetHeight - elmnt.offsetHeight)) {
+                        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                    } else {
+                        elmnt.style.top = (document.body.offsetHeight - elmnt.offsetHeight+1) + "px";
+                    }
+                } else {
+
+                    elmnt.style.top = "0px";
+                }
+
+                if (!((elmnt.offsetLeft - pos1) <= 0)) {
+                    if (!((elmnt.offsetLeft - pos1) >= document.body.offsetWidth - elmnt.offsetWidth)) {
+                        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                    } else {
+                        elmnt.style.left = (document.body.offsetWidth - elmnt.offsetWidth-1) + "px";
+                    }
+                } else {
+
+                    elmnt.style.left = "0px";
+                }
+            }
+        }
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    },
     addUsernameToTextarea(username) {
         let textarea = document.querySelector('.footer > div >textarea');
         if (settings.wasd.onClickUser[1].toString() === '1') {
@@ -843,7 +897,7 @@ const HelperWASD = {
 
                                 if (document.querySelector('.stream-status-container .stream-status-text.live')) {
                                     if (settings.wasd.uptimeStreamMobile[1]) {
-                                        document.querySelector('.stream-status-container .stream-status-text.live').textContent = ` в эфире ${textdate} `
+                                        document.querySelector('.stream-status-container .stream-status-text.live').textContent = textdate
                                     } else {
                                         document.querySelector('.stream-status-container .stream-status-text.live').textContent = ` в эфире `
                                     }
@@ -1005,7 +1059,7 @@ const HelperWASD = {
         } else {
             HelperWASD.showChatMessage('Пользователь уже в ЧС')
         }
-        document.querySelector('#bscSettingsPanel #blacklistAddUser').value = ''
+        blacklistAddUser.value = ''
     },
     addMessageToCpenCard(isOwner, isModer, isSub, username, color, message, sticker) {
         var block__messages = document.querySelector('.chat-room__viewer-card .block__messages-ovg')

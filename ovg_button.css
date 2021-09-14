@@ -89,6 +89,27 @@ button.ovg.medium.icon-right i+span:not(:empty) {
     padding-right: 8px
 }
 
+button.ovg.medium-cube {
+    font-size: 12px;
+    height: 32px;
+    width: 32px
+}
+
+button.ovg.medium-cube i {
+    font-size: 14px;
+    height: 14px;
+    width: 14px
+}
+
+button.ovg.medium-cube i+span:not(:empty) {
+    padding-left: 8px
+}
+
+button.ovg.medium-cube.icon-right i+span:not(:empty) {
+    padding-left: 0;
+    padding-right: 8px
+}
+
 button.ovg.large {
     font-size: 14px;
     height: 40px;
@@ -482,4 +503,10 @@ button.ovg[disabled]:before {
     to {
         stroke-dashoffset: -600
     }
+}
+
+/******************************/
+
+.ovg-viewer-card button > * {
+    pointer-events: none;
 }

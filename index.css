@@ -1,8 +1,7 @@
 .switch-ovg {
-    pointer-events: none;
     position: relative;
     display: inline-block;
-    cursor: inherit;
+    cursor: pointer;
 }
 
 .switch-ovg input { 
@@ -174,22 +173,10 @@ button[ovg]:active   i[ovg], button[ovg]:hover   i[ovg] {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     background-color: var(--wasd-color-prime);
-    border-bottom: 1px solid rgba(var(--wasd-color-black--rgb),.5);
-    line-height: 42px;
     box-shadow: 0 2px 2px 0 rgba(var(--wasd-color-black--rgb),.08);
-    min-width: auto;
-}
-
-#bscSettingsPanel .close {
-    flex: 0 0 auto;
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-#bscSettingsPanel .update {
-    flex: 0 0 auto;
-    font-size: 30px;
-    cursor: pointer;
+    height: 4.8rem;
+    padding-right: 8px;
+    cursor: move;
 }
 
 main[data-tab="about"] > div.aboutHalf {
@@ -238,14 +225,17 @@ button#backupButton {
     background-color: #EFEFEF!important;
 }
 
+#bscSettingsPanel main,
+#bscSettingsPanel .ovg-tabs-wrapper {
+    height: calc(100% - 76px);
+}
+
 /* main content */
 #bscSettingsPanel main {
     overflow-y: auto;
     display: none;
     margin-bottom: 35px;
-    height: calc(100% - (43px + 28px));
     overflow-x: hidden;
-
 }
 
 #bscSettingsPanel main.active {
@@ -286,10 +276,10 @@ button#backupButton {
 
 #bscSettingsPanel main .option {
     align-items: center;
-    cursor: pointer;
     display: flex;
     flex-direction: row;
-    height: 48px;
+    height: auto;
+    min-height: 48px;
     justify-content: space-between;
 }
 
@@ -342,7 +332,7 @@ button#backupButton {
     z-index: 1;
     position: relative;
     vertical-align: middle;
-    background-color: rgba(var(--wasd-color-switch--rgb),.08);
+    background-color: rgba(var(--wasd-color-switch--rgb),.24);
 }
 #bscSettingsPanel main .option .labelField>.titleline:after {
     left: 15px;
@@ -448,7 +438,7 @@ button#backupButton {
     overflow: auto;
 }
 
-#bscSettingsPanel a {
+#bscSettingsPanel main a {
     color: var(--wasd-color-text-prime);
 }
 
@@ -751,7 +741,7 @@ yt-live-chat-header-renderer {
 .helpTitleHover,
 .flexibleButtonGroup,
 .optionField {
-    cursor: help !important;
+    cursor: help;
 }
 
 .resetPlayerLoading {
@@ -870,29 +860,29 @@ span.chat-message-text.stickertext {
 
 @media screen and (min-width:800px) {
     @keyframes hidebetterpanel {
-        0%   {overflow: hidden; padding: 0px; opacity: 1; width: 797.778px; height: 497.778px; margin: -250px 0px 0px -400px; }
+        0% {overflow: hidden; padding: 0px; opacity: 1; width: 797.778px; height: 497.778px; margin: -250px 0px 0px -400px; }
         100% {overflow: hidden; padding: 0px; opacity: 0; width: 50px; height: 50px; margin: -50px 0px 0px -50px;}
     }
     @keyframes showbetterpanel {
         0% {overflow: hidden; padding: 0px; opacity: 0; width: 50px; height: 50px; margin: -50px 0px 0px -50px;}
-        100%   {overflow: hidden; padding: 0px; opacity: 1; width: 797.778px; height: 497.778px; margin: -250px 0px 0px -400px; }
+        100% {overflow: hidden; padding: 0px; opacity: 1; width: 797.778px; height: 497.778px; margin: -250px 0px 0px -400px; }
     }
 }
 
 @media screen and (max-width:800px) {
     @keyframes hidebetterpanel {
-        0%   {overflow: hidden; padding: 0px; opacity: 1; }
+        0% {overflow: hidden; padding: 0px; opacity: 1; }
         100% {overflow: hidden; padding: 0px; opacity: 0; }
     }
     @keyframes showbetterpanel {
         0% {overflow: hidden; padding: 0px; opacity: 0; }
-        100%   {overflow: hidden; padding: 0px; opacity: 1; }
+        100% {overflow: hidden; padding: 0px; opacity: 1; }
     }
 }
 
 @keyframes opentab {
     0% {opacity: 0;}
-    100%   {opacity: 1;}
+    100% opacity: 1;}
 }
 
 span.fade.helpTitleHover > img.nofade {
@@ -2736,121 +2726,6 @@ div.inputresult li h2 {
 }
 
 
-.tabs-ovg-wrapper.horizontal {
-    flex-direction: column;
-}
-.tabs-ovg-wrapper {
-    display: flex;
-    width: auto;
-    margin-top: 8px;
-    margin-left: 8px;
-    margin-right: 8px;
-}
-.tabs-ovg-wrapper {
-    max-height: 100%;
-    max-width: 100%;
-}
-
-.tabs-ovg {
-    color: var(--wasd-color-switch);
-    display: flex;
-    flex-direction: column;
-    font-family: Roboto,sans-serif;
-    font-size: 14px;
-    line-height: 1.71;
-    max-width: 100%;
-    position: relative;
-    display: grid;
-}
-.tabs-ovg:before {
-    border-bottom: 2px solid rgba(var(--wasd-color-switch--rgb),.08);
-    height: 2px;
-    left: 0;
-    width: 100%;
-}
-.tabs-ovg:before {
-    bottom: 0;
-    content: "";
-    position: absolute;
-}
-
-.tabs-ovg .items {
-    overflow-x: auto;
-    overflow-y: hidden;
-}
-.tabs-ovg .items {
-    display: flex;
-    position: relative;
-    white-space: nowrap;
-    z-index: 1;
-}
-
-.tabs-ovg a.item:first-child {
-    padding-left: 0;
-}
-.tabs-ovg a.item {
-    margin-bottom: 12px;
-}
-.tabs-ovg .active,
-.tabs-ovg .active:hover {
-    color: var(--wasd-color-corp-blue) !important;
-}
-.tabs-ovg .active {
-    cursor: default !important;
-    position: relative !important;
-}
-.tabs-ovg a.item {
-    align-items: center;
-    border-radius: 4px;
-    color: var(--wasd-color-text-prime);
-    cursor: pointer;
-    display: flex;
-    font-size: 14px;
-    height: 28px;
-    letter-spacing: .2px;
-    line-height: 1.43;
-    padding: 0px 14.5px;
-    position: relative;
-    white-space: nowrap;
-}
-.tabs-ovg a {
-    text-decoration: none;
-}
-
-.tabs-ovg .items .item:first-child:before {
-    margin-left: 0;
-    width: calc(100% - 16px);
-}
-.tabs-ovg .items .active:before {
-    background: var(--wasd-color-corp-blue) !important;
-}
-.tabs-ovg .items .item:before {
-    background: transparent;
-    bottom: -12px;
-    content: "";
-    height: 2px;
-    left: 0;
-    margin: 0 16px;
-    position: absolute;
-    width: calc(100% - 32px);
-}
-
-.tabs-ovg .items::-webkit-scrollbar {
-    display: none;
-    height: 0;
-    width: 0;
-}
-div::-webkit-scrollbar {
-    width: 0px;
-}
-div::-webkit-scrollbar {
-    width: .8rem;
-    height: .8rem;
-    background: rgba(var(--wasd-color-switch--rgb),.24);
-    border-radius: .4rem .4rem .4rem .4rem;
-}
-
-
 #bscSettingsPanel main .option:hover {
     background-color: rgba(var(--wasd-color-switch--rgb),0.08) !important;
     color: var(--wasd-color-switch) !important;
@@ -2863,7 +2738,7 @@ div::-webkit-scrollbar {
 @keyframes show_help {
     0% {opacity: 0;}
     80% {opacity: 0;}
-    100%   {opacity: 1;}
+    100% {opacity: 1;}
 }
 
 ovg-button {
@@ -2877,7 +2752,7 @@ ovg-button {
     left: 50%;
     border: solid 1px;
     padding: 80px 110px;
-    transform: translate(-50%, -50%);
+    transform: translate(-22%, -44%);
     transition: opacity .2s;
 }
 .dragover {
@@ -2886,4 +2761,133 @@ ovg-button {
 
 .dragoverbackup .drodHere {
     opacity: 1;
+}
+
+
+
+
+#bscSettingsPanel.faded {
+    opacity: .5;
+}
+
+#bscSettingsPanel.faded:hover {
+    opacity: .75;
+}
+
+
+
+/******************************/
+/******************************/
+/******************************/
+
+#bscSettingsPanel section {
+    background: var(--wasd-color-bg-prime);
+    float: left;
+    z-index: 2;
+}
+#bscSettingsPanel section .tabs {
+    margin: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes showSettingsSearch {
+    0% { opacity: 0; transform: translate(-5px); }
+    100% { opacity: 1; transform: translate(0px); }
+}
+#settingsSearchDiv {
+    animation-duration: .4s;
+    animation-name: showSettingsSearch;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+#settingsSearchDiv .wasd-input-wrapper {
+    padding: 0;
+    width: 330px;
+}
+
+
+/******** mobile *********/
+
+
+.show-section-mobile {
+    display: none !important;
+}
+
+#bscSettingsPanel header .burger-menu__wrap {
+    display:  none;
+}
+
+
+@media screen and (max-width:650px) {
+
+    #bscSettingsPanel section {
+        position: absolute;
+        left: 0px;
+        transition: transform .2s, opacity .25s;
+        transform: translate(-101%);
+        width: inherit;
+        background: rgb(0 0 0 / 50%);
+        backdrop-filter: blur(5px);
+        opacity: 0;
+    }
+
+    #bscSettingsPanel section .tabs {
+        background: var(--wasd-color-bg-prime);
+    }    
+
+    #bscSettingsPanel section.mobile-show {
+        transform: translate(0%);
+        opacity: 1;
+    }
+
+    #bscSettingsPanel header {
+        display: flex;
+    }
+
+    #bscSettingsPanel header .show-section-mobile {
+        display: flex !important;
+    }
+
+    header .logo {
+        display: none;
+    }
+
+    #settingsSearchDiv {
+        padding: 0 0 0 26px;
+    }
+
+    #settingsSearchDiv .wasd-input-wrapper {
+        width: 210px;
+    }
+
+    #bscSettingsPanel header .burger-menu__wrap {
+        display:  block;
+    }
+
+}
+
+@media screen and (max-width:480px) {
+    #settingsSearchDiv .wasd-input-wrapper {
+        width: 180px;
+    }
+}
+
+@media screen and (max-width:370px) {
+    #settingsSearchDiv .wasd-input-wrapper {
+        width: 120px;
+    }
+}
+
+@media screen and (max-width:300px) {
+    #settingsSearchDiv .wasd-input-wrapper {
+        width: 80px;
+    }
 }
