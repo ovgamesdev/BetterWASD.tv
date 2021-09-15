@@ -10,6 +10,7 @@
             "lib/dayjs/dayjs.min.js",
             "lib/strip-combining-marks/strip-combining-marks.js",
             "helper/Helper.js",
+            "lib/betterwasd.js",
             "helper/Settings.js",
             "helper/Twitch.js",
             "helper/FFZ.js",

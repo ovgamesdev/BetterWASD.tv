@@ -3,7 +3,7 @@ const wasd = {
     isObserverEndBind: false,
     isObserverEndBindBody: false,
     init() {
-        console.log("init");
+        ovg.log("init");
         var observer;
         const chatQuerySelector = 'wasd-chat';
         const init = (documentElement, target) => {
@@ -28,7 +28,7 @@ const wasd = {
                             observer = new MutationObserver(callback);
                             if (mutationtarget) {
                                 observer.observe(mutationtarget, config);
-                                console.log("start observer (CHAT)");
+                                ovg.log("start observer (CHAT)");
                                 document.querySelector('#bscSettingsPanel .update > i').classList.remove('resetPlayerLoading');
                                 HelperWASD.getIsModerator().then((resolve) => {
                                     HelperWASD.isModerator = resolve
@@ -45,7 +45,7 @@ const wasd = {
                                 //         observer.disconnect();
                                 //         HelperSocket.stop()
                                 //         clearInterval(intervalUpdateStreamTimer);
-                                //         console.log("disconnect observer (CHAT) leave");
+                                //         ovg.log("disconnect observer (CHAT) leave");
                                 //         HelperWASD.isModerator = false
                                 //         if (document.querySelector('.chat-container__wrap')) document.querySelector('.chat-container__wrap').remove()
                                 //         if (document.querySelector('wasd-stream-chat')) document.querySelector('wasd-stream-chat').remove()
@@ -60,7 +60,7 @@ const wasd = {
                                         observer.disconnect();
                                         //HelperSocket.stop()
                                         clearInterval(intervalUpdateStreamTimer);
-                                        console.log("disconnect observer (CHAT) 4");
+                                        ovg.log("disconnect observer (CHAT) [4 Канал]");
                                         HelperWASD.isModerator = false
                                         if (document.querySelector('.chat-container__wrap')) document.querySelector('.chat-container__wrap').remove()
                                         if (document.querySelector('wasd-stream-chat')) document.querySelector('wasd-stream-chat').remove()
@@ -76,7 +76,7 @@ const wasd = {
                                         observer.disconnect();
                                         //HelperSocket.stop()
                                         clearInterval(intervalUpdateStreamTimer);
-                                        console.log("disconnect observer (CHAT) 3");
+                                        ovg.log("disconnect observer (CHAT) [3 Начать стрим]");
                                         HelperWASD.isModerator = false
                                         if (document.querySelector('.chat-container__wrap')) document.querySelector('.chat-container__wrap').remove()
                                         if (document.querySelector('wasd-stream-chat')) document.querySelector('wasd-stream-chat').remove()
@@ -86,7 +86,7 @@ const wasd = {
                                 }
 
                             } else {
-                                // console.log("observer not started (CHAT)");
+                                // ovg.log("observer not started (CHAT)");
                                 setTimeout(startObserver, 10)
                                 //HelperSocket.stop()
                             }
@@ -101,11 +101,11 @@ const wasd = {
                                     if (header_block_menu) {
                                         header_block_menu.childNodes[1].addEventListener('click', ({ target }) => {
                                             isObserverStarted = false;
-                                            isObserverBinding = false;
+                                            // isObserverBinding = false;
                                             observer.disconnect();
                                             //HelperSocket.stop()
                                             clearInterval(intervalUpdateStreamTimer);
-                                            console.log("disconnect observer (CHAT) 2");
+                                            ovg.log("disconnect observer (CHAT) [2 чат/участники]");
                                             HelperWASD.isModerator = false
                                             setTimeout(startObserver, 200)
                                         });
@@ -118,7 +118,7 @@ const wasd = {
                                                     observer.disconnect();
                                                     //HelperSocket.stop()
                                                     clearInterval(intervalUpdateStreamTimer);
-                                                    console.log("disconnect observer (CHAT) 1");
+                                                    ovg.log("disconnect observer (CHAT) [1]");
                                                     HelperWASD.isModerator = false
                                                     setTimeout(startObserver, 200)
                                                 }
@@ -482,7 +482,7 @@ const wasd = {
         } else {
             if (settings.wasd.hidePanelMobile[1]) {
                 cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc(100% - 97px)!important; }}`
-            }zzzzzzzz
+            }
         }
 
         // if (settings.wasd.uptimeStreamMobile[1]) {
@@ -504,9 +504,9 @@ const wasd = {
                 wasd.style.innerHTML = '';
                 wasd.style.appendChild(document.createTextNode(cssCode));
             }
-            console.log('style inited')
+            ovg.log('style inited')
         } else {
-            console.log('style undefined')
+            ovg.log('style undefined')
             setTimeout(()=>{
                 wasd.update()
             }, 50)
@@ -684,181 +684,224 @@ const wasd = {
 	            }
 	        }
 
-	        if (settings.wasd.moderatorMenu[1].toString() === '1') {
-	            let loading;
-	            if (!ownerRef && node.querySelector('div.message__info__icon')) {
+	        // if (settings.wasd.moderatorMenu[1].toString() === '1') {
+	        //     let loading;
+	        //     if (!ownerRef && node.querySelector('div.message__info__icon')) {
 
-	                node.insertAdjacentHTML("beforeend", "<div class='mod'></div>");
-	                moderDiv = node.querySelector('div.mod');
+	        //         node.insertAdjacentHTML("beforeend", "<div class='mod'></div>");
+	        //         moderDiv = node.querySelector('div.mod');
 
-	                moderButtonRemove = moderDiv.insertAdjacentHTML("beforeend", "<div><button class='moderButtonRemove ovg primary' title='Удалить сообщение'><svg viewBox='0 0 24 24' focusable='false'><g><path d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z'></path></g></svg></button></div>");
-	                moderButtonTimeout = moderDiv.insertAdjacentHTML("beforeend", "<div><button class='moderButtonTimeout ovg primary' title='Временно заблокировать'><svg viewBox='0 0 24 24' focusable='false'><g><path d='M6 2v6h.01L6 8.01 10 12l-4 4 .01.01H6V22h12v-5.99h-.01L18 16l-4-4 4-3.99-.01-.01H18V2H6z'></path></g></svg></button></div>");
-	                moderButtonBan = moderDiv.insertAdjacentHTML("beforeend", "<div><button class='moderButtonBan ovg primary' title='Забанить пользователя'><svg viewBox='0 0 24 24' focusable='false'><g><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z'></path></g></svg></button></div>");
+	        //         moderButtonRemove = moderDiv.insertAdjacentHTML("beforeend", "<div><button class='moderButtonRemove ovg primary' title='Удалить сообщение'><svg viewBox='0 0 24 24' focusable='false'><g><path d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z'></path></g></svg></button></div>");
+	        //         moderButtonTimeout = moderDiv.insertAdjacentHTML("beforeend", "<div><button class='moderButtonTimeout ovg primary' title='Временно заблокировать'><svg viewBox='0 0 24 24' focusable='false'><g><path d='M6 2v6h.01L6 8.01 10 12l-4 4 .01.01H6V22h12v-5.99h-.01L18 16l-4-4 4-3.99-.01-.01H18V2H6z'></path></g></svg></button></div>");
+	        //         moderButtonBan = moderDiv.insertAdjacentHTML("beforeend", "<div><button class='moderButtonBan ovg primary' title='Забанить пользователя'><svg viewBox='0 0 24 24' focusable='false'><g><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z'></path></g></svg></button></div>");
 
-	                messageInfo = node.querySelector('div.message__info');
-	                if (messageInfo) {
-	                    messageInfo.insertAdjacentHTML("beforeend", `<div class="lds-ring" style="display: none;"><svg x="0px" y="0px" viewBox="0 0 150 150" class="icon-pending-ovg"><circle cx="75" cy="75" r="60" class="icon-pending-inner-ovg"></circle></svg></div>`);
-	                    loading = node.querySelector('.lds-ring');
-	                }
+	        //         messageInfo = node.querySelector('div.message__info');
+	        //         if (messageInfo) {
+	        //             messageInfo.insertAdjacentHTML("beforeend", `<div class="lds-ring" style="display: none;"><svg x="0px" y="0px" viewBox="0 0 150 150" class="icon-pending-ovg"><circle cx="75" cy="75" r="60" class="icon-pending-inner-ovg"></circle></svg></div>`);
+	        //             loading = node.querySelector('.lds-ring');
+	        //         }
 
-	                node.addEventListener('mouseover', ({ target }) => {
-	                    if (isPressedAlt) {
-	                        if (node.querySelector('div.mod')) node.querySelector('div.mod').classList.add('active');
-	                    }
-	                });
-	                node.addEventListener('mousemove', ({ target }) => {
-	                    if (isPressedAlt) {
-	                        if (node.querySelector('div.mod')) node.querySelector('div.mod').classList.add('active');
-	                    }
-	                });
-	                node.addEventListener('mouseout', ({ target }) => {
-	                    if (node.querySelector('div.mod')) if (node.querySelector('div.mod').classList.contains('active')) {
-	                        node.querySelector('div.mod').classList.remove('active');
-	                    }
-	                });
+	        //         node.addEventListener('mouseover', ({ target }) => {
+	        //             if (isPressedAlt) {
+	        //                 if (node.querySelector('div.mod')) node.querySelector('div.mod').classList.add('active');
+	        //             }
+	        //         });
+	        //         node.addEventListener('mousemove', ({ target }) => {
+	        //             if (isPressedAlt) {
+	        //                 if (node.querySelector('div.mod')) node.querySelector('div.mod').classList.add('active');
+	        //             }
+	        //         });
+	        //         node.addEventListener('mouseout', ({ target }) => {
+	        //             if (node.querySelector('div.mod')) if (node.querySelector('div.mod').classList.contains('active')) {
+	        //                 node.querySelector('div.mod').classList.remove('active');
+	        //             }
+	        //         });
 
-	                node.querySelector('div.mod > div > .moderButtonRemove').addEventListener('click', ({ target }) => {
-	                    if (node.querySelector('div.mod').classList.contains('active')) {
-	                        node.querySelector('div.mod').classList.remove('active');
-	                    }
+	        //         node.querySelector('.moderButtonRemove').addEventListener('click', ({ target }) => {
+	        //             if (node.querySelector('div.mod').classList.contains('active')) {
+	        //                 node.querySelector('div.mod').classList.remove('active');
+	        //             }
 
-	                    if (node.querySelector('.message__info__icon > i')) {
-                            node.querySelector('.message__info__icon > i').click();
-                            contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
-                            if (contextMenu) contextMenuBlocks = contextMenu.querySelectorAll('div.context-menu__block');
-                            let edited = false;
-                            for (i = 0; i < 10; i++) {
-                                if (contextMenuBlocks[i]) {
-                                    if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Удалить сообщения ") {
-                                        contextMenuBlocks[i].click();
-                                        //console.log('remove channal author');
-                                        document.querySelector('.message__info').click();
-                                        edited = true;
-                                        loading.style.display = 'inline-block'
-                                        if (document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input').checked) {
-                                            document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input').click();
-                                        }
+         //                if (node.querySelector('.message__info__icon > i')) {
+         //                    node.querySelector('.message__info__icon > i').click();
 
-                                        if (settings.wasd.moderatorMenuAutomatic[1]) {
-                                            document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning').click();
-                                            document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
-                                            loading.style.display = 'none'
-                                        } else {
-                                            document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
-                                                loading.style.display = 'none'
-                                            })
-                                        }
-                                        break;
-                                    }
-                                }
-                            }
-                        } else {
-                            HelperWASD.showChatMessage('Вы не можете этого сделать');
-                        }
-	                });
-	                node.querySelector('div.mod > div > .moderButtonTimeout').addEventListener('click', ({ target }) => {
-	                    if (node.querySelector('div.mod').classList.contains('active')) {
-	                        node.querySelector('div.mod').classList.remove('active');
-	                    }
+         //                    const remove_message = () => {
+         //                        if (contextMenu) contextMenuBlocks = contextMenu.querySelectorAll('div.context-menu__block');
+         //                        let edited = false;
+         //                        for (i = 0; i < 10; i++) {
+         //                            if (contextMenuBlocks[i]) {
+         //                                if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Удалить сообщения ") {
+         //                                    contextMenuBlocks[i].click();
+         //                                    //ovg.log('remove channal author');
+         //                                    document.querySelector('.message__info').click();
+         //                                    edited = true;
+         //                                    loading.style.display = 'inline-block'
+         //                                    if (document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input').checked) {
+         //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input').click();
+         //                                    }
+
+         //                                    if (settings.wasd.moderatorMenuAutomatic[1]) {
+         //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning').click();
+         //                                        document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
+         //                                        loading.style.display = 'none'
+         //                                    } else {
+         //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
+         //                                            loading.style.display = 'none'
+         //                                        })
+         //                                    }
+         //                                    break;
+         //                                }
+         //                            }
+         //                            if (i == 9) {
+         //                                document.querySelector('.message__info').click();
+         //                                HelperWASD.showChatMessage('Вы не можете этого сделать');
+         //                            }
+         //                        }
+         //                    }
+
+         //                    function fetch_remove_message() {
+         //                        if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
+         //                            contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
+         //                            remove_message()
+         //                        } else {
+         //                            setTimeout( () => { fetch_remove_message() }, 5 )
+         //                        }
+         //                    }
+         //                    fetch_remove_message()
+         //                } else {
+         //                    HelperWASD.showChatMessage('Вы не можете этого сделать');
+         //                }
+	        //         });
+	        //         node.querySelector('.moderButtonTimeout').addEventListener('click', ({ target }) => {
+	        //             if (node.querySelector('div.mod').classList.contains('active')) {
+	        //                 node.querySelector('div.mod').classList.remove('active');
+	        //             }
                         
-	                    if (HelperWASD.isModerator) {
-                            let data = node.querySelector('.info__text__status__name').getAttribute('username').toLowerCase()
+         //                if (node.querySelector('.message__info__icon > i')) {
+         //                    node.querySelector('.message__info__icon > i').click();
 
-                            $.ajax({
-                                url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`,
-                                success: function(out){
-                                    if (out.result) {
-                                        var finded = false;
-                                        for (let value of out.result.rows) {
+         //                    const timeout_message = () => {
+         //                        if (contextMenu) contextMenuBlocks = contextMenu.querySelectorAll('div.context-menu__block');
+         //                        let edited = false;
+         //                        for (i = 0; i < 10; i++) {
+         //                            if (contextMenuBlocks[i]) {
+         //                                if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Временно заблокировать ") {
+         //                                    contextMenuBlocks[i].click();
+         //                                    //ovg.log('timeout channal author');
+         //                                    document.querySelector('.message__info').click();
+         //                                    edited = true;
+         //                                    loading.style.display = 'inline-block'
+         //                                    if (!document.querySelector('.block__popup__body > .block__popup__body__inner .inner__text__checkbox [type="checkbox"].input').checked && settings.wasd.keepMessagesTimeout[1]) {
+         //                                        document.querySelector('.block__popup__body > .block__popup__body__inner .inner__text__checkbox [type="checkbox"].input').click()
+         //                                    }
+         //                                    switch(settings.wasd.moderatorMenuTimeout[1]) {
+         //                                        case 1:
+         //                                        case '1':
+         //                                            document.querySelector('[formcontrolname="selectMuteDuration"] [for="0"]').click()
+         //                                            break
+         //                                        case 10:
+         //                                        case '10':
+         //                                            document.querySelector('[formcontrolname="selectMuteDuration"] [for="1"]').click()
+         //                                            break
+         //                                        case 60:
+         //                                        case '60':
+         //                                            document.querySelector('[formcontrolname="selectMuteDuration"] [for="2"]').click()
+         //                                            break
+         //                                        default:
+         //                                            document.querySelector('[formcontrolname="selectMuteDuration"] [for="0"]').click()
+         //                                            break
+         //                                    }
 
-                                            if (value.user_login.toLowerCase().trim() == data) {
-                                                finded = true;
+         //                                    if (settings.wasd.moderatorMenuAutomatic[1]) {
+         //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning').click();
+         //                                        document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
 
-                                                $.ajax({
-                                                    url: HelperWASD.getStreamBroadcastsUrl(),
-                                                    success: function(out){
-                                                        $.ajax({
-                                                            method: 'PUT',
-                                                            data: { "user_id": value.user_id, "stream_id": out.result.media_container.media_container_streams[0].stream_id, "keep_messages": !settings.wasd.keepMessagesTimeout[1], "duration": settings.wasd.moderatorMenuTimeout[1]},
-                                                            url: `https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`,
-                                                            success: function(out){
-                                                                if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                                                    HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
-                                                                } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                                                    HelperWASD.showChatMessage(`Вы не можете этого сделать`);
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                                
-                                                break;
-                                            }
-                                        }
-                                        if (!finded) {
-                                            HelperWASD.showChatMessage('Пользователь не найден');
-                                        }
-                                    }
-                                }
-                            });
+         //                                        loading.style.display = 'none'
+         //                                    } else {
+         //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
+         //                                            loading.style.display = 'none'
+         //                                        })
+         //                                    }
+         //                                    break;
+         //                                }
+         //                            }
+         //                            if (i == 9) {
+         //                                document.querySelector('.message__info').click();
+         //                                HelperWASD.showChatMessage('Вы не можете этого сделать');
+         //                            }
+         //                        }
+         //                    }
 
-                        } else {
-                           HelperWASD.showChatMessage('Вы не можете этого сделать');
-                        }
-	                });
-	                node.querySelector('div.mod > div > .moderButtonBan').addEventListener('click', ({ target }) => {
-	                    if (node.querySelector('div.mod').classList.contains('active')) {
-	                        node.querySelector('div.mod').classList.remove('active');
-	                    }
+         //                    function fetch_timeout_message() {
+         //                        if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
+         //                            contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
+         //                            timeout_message()
+         //                        } else {
+         //                            setTimeout( () => { fetch_timeout_message() }, 5 )
+         //                        }
+         //                    }
+         //                    fetch_timeout_message()
+         //                } else {
+         //                    HelperWASD.showChatMessage('Вы не можете этого сделать');
+         //                }
+	        //         });
+	        //         node.querySelector('.moderButtonBan').addEventListener('click', ({ target }) => {
+	        //             if (node.querySelector('div.mod').classList.contains('active')) {
+	        //                 node.querySelector('div.mod').classList.remove('active');
+	        //             }
 
-                        if (HelperWASD.isModerator) {
-                            let data = node.querySelector('.info__text__status__name').getAttribute('username').toLowerCase()
+         //                if (node.querySelector('.message__info__icon > i')) {
+         //                    node.querySelector('.message__info__icon > i').click();
 
+         //                    const banned_message = () => {
+         //                        if (contextMenu) contextMenuBlocks = contextMenu.querySelectorAll('div.context-menu__block');
+         //                        let edited = false;
+         //                        for (i = 0; i < 10; i++) {
+         //                            if (contextMenuBlocks[i]) {
+         //                                if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Забанить ") {
+         //                                    contextMenuBlocks[i].click();
+         //                                    //ovg.log('banned channal author');
+         //                                    document.querySelector('.message__info').click();
+         //                                    edited = true;
+         //                                    loading.style.display = 'inline-block'
 
-                            $.ajax({
-                                url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`,
-                                success: function(out){
-                                    if (out.result) {
-                                        var finded = false;
-                                        for (let value of out.result.rows) {
+         //                                    if (settings.wasd.moderatorMenuAutomatic[1]) {
+         //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning').click();
+         //                                        document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
 
-                                            if (value.user_login.toLowerCase().trim() == data) {
-                                                finded = true;
-                                                $.ajax({
-                                                    url: HelperWASD.getStreamBroadcastsUrl(),
-                                                    success: function(out){
-                                                        $.ajax({
-                                                            method: 'PUT',
-                                                            data: {"user_id": value.user_id, "stream_id": out.result.media_container.media_container_streams[0].stream_id},
-                                                            url: `https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`,
-                                                            success: function(out){
-                                                                if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                                                    HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
-                                                                } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                                                    HelperWASD.showChatMessage(`Вы не можете этого сделать`);
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                });
+         //                                        loading.style.display = 'none'
+         //                                    } else {
+         //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
+         //                                            loading.style.display = 'none'
+         //                                        })
+         //                                    }
+         //                                    break;
+         //                                }
+         //                            }
+         //                            if (i == 9) {
+         //                                document.querySelector('.message__info').click();
+         //                                HelperWASD.showChatMessage('Вы не можете этого сделать');
+         //                            }
+         //                        }
+         //                    }
 
-                                                break;
-                                            }
-                                        }
-                                        if (!finded) {
-                                            HelperWASD.showChatMessage('Пользователь не найден');
-                                        }
-                                    }
-                                }
-                            });
-
-                        } else {
-                           HelperWASD.showChatMessage('Вы не можете этого сделать');
-                        }
-	                });
-	            }
-	        } 
-            else if (settings.wasd.moderatorMenu[1].toString() === '2') {
+         //                    function fetch_banned_message() {
+         //                        if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
+         //                            contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
+         //                            banned_message()
+         //                        } else {
+         //                            setTimeout( () => { fetch_banned_message() }, 5 )
+         //                        }
+         //                    }
+         //                    fetch_banned_message()
+         //                } else {
+         //                    HelperWASD.showChatMessage('Вы не можете этого сделать');
+         //                }
+	        //         });
+	        //     }
+	        // } 
+         //    else 
+            if (settings.wasd.moderatorMenu[1].toString() === '2' || settings.wasd.moderatorMenu[1].toString() === '1') {
 	            let loading;
 	            let messageInfoStatus = node.querySelector('div.info__text__status')
 	            if (messageInfoStatus && !ownerRef && node.querySelector('div.message__info__icon')) {
@@ -873,130 +916,172 @@ const wasd = {
 	                }
 
 	                messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.banned').addEventListener('click', ({ target }) => {
-	                    if (HelperWASD.isModerator) {
-                            let data = node.querySelector('.info__text__status__name').getAttribute('username').toLowerCase()
+                        if (node.querySelector('.message__info__icon > i')) {
+                            node.querySelector('.message__info__icon > i').click();
 
-                            $.ajax({
-                                url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`,
-                                success: function(out){
-                                    if (out.result) {
-                                        var finded = false;
-                                        for (let value of out.result.rows) {
+                            const banned_message = () => {
+                                if (contextMenu) contextMenuBlocks = contextMenu.querySelectorAll('div.context-menu__block');
+                                let edited = false;
+                                for (i = 0; i < 10; i++) {
+                                    if (contextMenuBlocks[i]) {
+                                        if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Забанить ") {
+                                            contextMenuBlocks[i].click();
+                                            //ovg.log('banned channal author');
+                                            document.querySelector('.message__info').click();
+                                            edited = true;
+                                            loading.style.display = 'inline-block'
 
-                                            if (value.user_login.toLowerCase().trim() == data) {
-                                                finded = true;
+                                            if (settings.wasd.moderatorMenuAutomatic[1]) {
+                                                document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning').click();
+                                                document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
 
-                                                $.ajax({
-                                                    url: HelperWASD.getStreamBroadcastsUrl(),
-                                                    success: function(out){
-                                                        $.ajax({
-                                                            method: 'PUT',
-                                                            data: {"user_id": value.user_id, "stream_id": out.result.media_container.media_container_streams[0].stream_id},
-                                                            url: `https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`,
-                                                            success: function(out){
-                                                                if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                                                    HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
-                                                                } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                                                    HelperWASD.showChatMessage(`Вы не можете этого сделать`);
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                });
-
-                                                break;
+                                                loading.style.display = 'none'
+                                            } else {
+                                                document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
+                                                    loading.style.display = 'none'
+                                                })
                                             }
-                                        }
-                                        if (!finded) {
-                                            HelperWASD.showChatMessage('Пользователь не найден');
+                                            break;
                                         }
                                     }
+                                    if (i == 9) {
+                                        document.querySelector('.message__info').click();
+                                        HelperWASD.showChatMessage('Вы не можете этого сделать');
+                                    }
                                 }
-                            });
+                            }
 
+                            function fetch_banned_message() {
+                                if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
+                                    contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
+                                    banned_message()
+                                } else {
+                                    setTimeout( () => { fetch_banned_message() }, 2 )
+                                }
+                            }
+                            fetch_banned_message()
                         } else {
-                           HelperWASD.showChatMessage('Вы не можете этого сделать');
+                            HelperWASD.showChatMessage('Вы не можете этого сделать');
                         }
 	                });
 
                     messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.timeout').addEventListener('click', ({ target }) => {
-                        if (HelperWASD.isModerator) {
-                            let data = node.querySelector('.info__text__status__name').getAttribute('username').toLowerCase()
+                        if (node.querySelector('.message__info__icon > i')) {
+                            node.querySelector('.message__info__icon > i').click();
 
-                            $.ajax({
-                                url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${data}`,
-                                success: function(out){
-                                    if (out.result) {
-                                        var finded = false;
-                                        for (let value of out.result.rows) {
-
-                                            if (value.user_login.toLowerCase().trim() == data) {
-                                                finded = true;
-
-                                                $.ajax({
-                                                    url: HelperWASD.getStreamBroadcastsUrl(),
-                                                    success: function(out){
-                                                        $.ajax({
-                                                            method: 'PUT',
-                                                            data: {"user_id": value.user_id, "stream_id": out.result.media_container.media_container_streams[0].stream_id, "keep_messages": !settings.wasd.keepMessagesTimeout[1], "duration": settings.wasd.moderatorMenuTimeout[1]},
-                                                            url: `https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`,
-                                                            success: function(out){
-                                                                if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                                                    HelperWASD.showChatMessage(`Пользователь @${value.user_login} уже заблокирован`);
-                                                                } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                                                    HelperWASD.showChatMessage(`Вы не можете этого сделать`);
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                });
-
-                                                break;
+                            const timeout_message = () => {
+                                if (contextMenu) contextMenuBlocks = contextMenu.querySelectorAll('div.context-menu__block');
+                                let edited = false;
+                                for (i = 0; i < 10; i++) {
+                                    if (contextMenuBlocks[i]) {
+                                        if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Временно заблокировать ") {
+                                            contextMenuBlocks[i].click();
+                                            //ovg.log('timeout channal author');
+                                            document.querySelector('.message__info').click();
+                                            edited = true;
+                                            loading.style.display = 'inline-block'
+                                            if (!document.querySelector('.block__popup__body > .block__popup__body__inner .inner__text__checkbox [type="checkbox"].input').checked && settings.wasd.keepMessagesTimeout[1]) {
+                                                document.querySelector('.block__popup__body > .block__popup__body__inner .inner__text__checkbox [type="checkbox"].input').click()
                                             }
-                                        }
-                                        if (!finded) {
-                                            HelperWASD.showChatMessage('Пользователь не найден');
+                                            switch(settings.wasd.moderatorMenuTimeout[1]) {
+                                                case 1:
+                                                case '1':
+                                                    document.querySelector('[formcontrolname="selectMuteDuration"] [for="0"]').click()
+                                                    break
+                                                case 10:
+                                                case '10':
+                                                    document.querySelector('[formcontrolname="selectMuteDuration"] [for="1"]').click()
+                                                    break
+                                                case 60:
+                                                case '60':
+                                                    document.querySelector('[formcontrolname="selectMuteDuration"] [for="2"]').click()
+                                                    break
+                                                default:
+                                                    document.querySelector('[formcontrolname="selectMuteDuration"] [for="0"]').click()
+                                                    break
+                                            }
+
+                                            if (settings.wasd.moderatorMenuAutomatic[1]) {
+                                                document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning').click();
+                                                document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
+
+                                                loading.style.display = 'none'
+                                            } else {
+                                                document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
+                                                    loading.style.display = 'none'
+                                                })
+                                            }
+                                            break;
                                         }
                                     }
+                                    if (i == 9) {
+                                        document.querySelector('.message__info').click();
+                                        HelperWASD.showChatMessage('Вы не можете этого сделать');
+                                    }
                                 }
-                            });
+                            }
 
+                            function fetch_timeout_message() {
+                                if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
+                                    contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
+                                    timeout_message()
+                                } else {
+                                    setTimeout( () => { fetch_timeout_message() }, 2 )
+                                }
+                            }
+                            fetch_timeout_message()
                         } else {
-                           HelperWASD.showChatMessage('Вы не можете этого сделать');
+                            HelperWASD.showChatMessage('Вы не можете этого сделать');
                         }
                     });
 
 	                messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.remove').addEventListener('click', ({ target }) => {
 	                    if (node.querySelector('.message__info__icon > i')) {
 	                        node.querySelector('.message__info__icon > i').click();
-	                        contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
-	                        if (contextMenu) contextMenuBlocks = contextMenu.querySelectorAll('div.context-menu__block');
-	                        let edited = false;
-	                        for (i = 0; i < 10; i++) {
-                                if (contextMenuBlocks[i]) {
-                                    if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Удалить сообщения ") {
-                                        contextMenuBlocks[i].click();
-                                        //console.log('remove channal author');
-                                        document.querySelector('.message__info').click();
-                                        edited = true;
-                                        loading.style.display = 'inline-block'
-                                        if (document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input').checked) {
-                                            document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input').click();
-                                        }
 
-                                        if (settings.wasd.moderatorMenuAutomatic[1]) {
-                                            document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning').click();
-                                            document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
-                                            loading.style.display = 'none'
-                                        } else {
-                                            document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
+                            const remove_message = () => {
+                                if (contextMenu) contextMenuBlocks = contextMenu.querySelectorAll('div.context-menu__block');
+    	                        let edited = false;
+    	                        for (i = 0; i < 10; i++) {
+                                    if (contextMenuBlocks[i]) {
+                                        if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Удалить сообщения ") {
+                                            contextMenuBlocks[i].click();
+                                            //ovg.log('remove channal author');
+                                            document.querySelector('.message__info').click();
+                                            edited = true;
+                                            loading.style.display = 'inline-block'
+                                            if (document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input').checked) {
+                                                document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input').click();
+                                            }
+
+                                            if (settings.wasd.moderatorMenuAutomatic[1]) {
+                                                document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning').click();
+                                                document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
                                                 loading.style.display = 'none'
-                                            })
+                                            } else {
+                                                document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
+                                                    loading.style.display = 'none'
+                                                })
+                                            }
+                                            break;
                                         }
-                                        break;
+                                    }
+                                    if (i == 9) {
+                                        document.querySelector('.message__info').click();
+                                        HelperWASD.showChatMessage('Вы не можете этого сделать');
                                     }
                                 }
                             }
+
+                            function fetch_remove_message() {
+                                if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
+                                    contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
+                                    remove_message()
+                                } else {
+                                    setTimeout( () => { fetch_remove_message() }, 2 )
+                                }
+                            }
+                            fetch_remove_message()
 	                    } else {
 	                        HelperWASD.showChatMessage('Вы не можете этого сделать');
 	                    }
@@ -1081,7 +1166,6 @@ const wasd = {
                             $.ajax({
                                 url: `https://wasd.tv/api/games/${new URL(a.href).pathname.split('/')[2]}`,
                                 success: function(out){
-                                    console.log(out)
 
                                     if (!out?.error?.code) {
                                         node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.game_icon.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.game_asset_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.game_asset_name}</div><div title="${out.result.game_description}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.result.game_description != null ? out.result.game_description : 'Нет описания'}</div></div></div></div>`;
@@ -1377,28 +1461,30 @@ const wasd = {
                 function create_context_block() {
                     context_menu = node.querySelector('.context-menu')
                     if (context_menu) {
-                        let item = document.createElement('div')
-                        item.classList.add(`context-menu__block`)
-                        item.innerHTML = `<div class="context-menu__block__icon"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Добавить в ЧС </div>`;
-                        context_menu.append(item)
-                        item.addEventListener('click', ({ target }) => {
-                            let username = node.querySelector('.info__text__status__name').getAttribute('username');
-                            if (!settings.wasd.blockUserList[username]) {
-                                HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
-                                settings.wasd.blockUserList[username] = new Date();
-                                HelperWASD.addUserToBlackList(username)
-                                HelperSettings.save([document.querySelector('.optionField')]);
-                            } else {
-                                HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!')
-                            }
-                            node.click()
-                        })
+                        if (!context_menu.querySelector('.contextBlacklistAddUser')) {
+                            let item = document.createElement('div')
+                            item.classList.add(`context-menu__block`)
+                            item.innerHTML = `<div class="context-menu__block__icon contextBlacklistAddUser"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Добавить в ЧС </div>`;
+                            context_menu.append(item)
+                            item.addEventListener('click', ({ target }) => {
+                                let username = node.querySelector('.info__text__status__name').getAttribute('username');
+                                if (!settings.wasd.blockUserList[username]) {
+                                    HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
+                                    settings.wasd.blockUserList[username] = new Date();
+                                    HelperWASD.addUserToBlackList(username)
+                                    HelperSettings.save([document.querySelector('.optionField')]);
+                                } else {
+                                    HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!')
+                                }
+                                node.click()
+                            })
+                        }
                     } else {
                         trycreate++
                         if (trycreate < 999) {
                             setTimeout(()=>{
                                 create_context_block()
-                            }, 10)
+                            }, 5)
                         }
                     }
                 }

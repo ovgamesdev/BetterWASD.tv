@@ -80,7 +80,7 @@ let initialize = async () => {
             settings = Helper.getDefaultSettings();
         }
     } catch (e) {
-        console.log('catch', e);
+        ovg.log('catch', e);
     }
     // init wasd
     if (location.hostname.toLowerCase().includes('wasd.tv')) {
@@ -130,14 +130,14 @@ function observerFull() {
         if (mutationtarget) {
             observer.observe(mutationtarget, config);
             isObserverStarted = true;
-            console.log("start observer (FULL)");
+            ovg.log("start observer (FULL)");
 
             // fix init chat Великий рандом
             document.querySelector('li#selector-header-random-stream')?.addEventListener('click', () => {
                 document.querySelector('wasd-chat')?.remove()
             })
         } else {
-            console.log("observer not started (FULL)");
+            ovg.log("observer not started (FULL)");
         } // observer.disconnect();
 
     }, 500);
@@ -159,19 +159,18 @@ function createbuttonovg() {
 }
 createbuttonovg();
 function clickSettingsButton() {
-    //console.log('bind click');
+    //ovg.log('bind click');
     divmenu = document.querySelector("wasd-chat-menu > div.menu");
     if (divmenu) addToMenu();
 }
 function addToMenu() {
-    //console.log("addToMenu");
+    //ovg.log("addToMenu");
     chatmenu = document.querySelector("wasd-chat-menu > div.menu").querySelectorAll("div.menu__block");
     if (chatmenu) {
         text = " BetterWASD настройки ";
         switcher = `<div id="buttonOvG" class="menu__block menu__block-header"><div class="menu__block__icon"><i class="icon wasd-icons-settings-profile"></i></div><div class="menu__block__text">${text}</div></div>`;
         chatmenu.item(0).insertAdjacentHTML("afterend", switcher);
 
-        
         document.querySelector('#buttonOvG')?.addEventListener('click', () => {
             BetterStreamChat.settingsDiv.style.display = 'block'
             document.querySelector('.header__block__btn > i').click()
@@ -477,7 +476,7 @@ function updateStiskers() {
                         if (emoteBodybttv) {
                             emoteBodybttv.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-bttv><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bttvemojiSearch-shat" style="background: url(chrome-extension://iiihfpccbafenoaiclhhejfbldcnbmmd/img/search.png) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-bttv>`)
                             let EmoteListbttv = emoteBodybttv.querySelector('div.emoji-ovg');
-                            //console.log(HelperBTTV.emotes);
+                            //ovg.log(HelperBTTV.emotes);
 
                             chrome.storage.local.get((items) => {
                                 HelperBTTV.fetchGlobalEmotes(items).finally(() => {
@@ -613,7 +612,7 @@ function updateStiskers() {
                             if (emoteBodyffz) {
                                 emoteBodyffz.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-ffz><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option ffzemojiSearch-shat" style="background: url(chrome-extension://iiihfpccbafenoaiclhhejfbldcnbmmd/img/search.png) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-ffz>`)
                                 let EmoteListffz = emoteBodyffz.querySelector('div.emoji-ovg');
-                                //console.log(HelperFFZ.emotes);
+                                //ovg.log(HelperFFZ.emotes);
 
                                 chrome.storage.local.get((items) => {
                                     HelperFFZ.fetchGlobalEmotes(items).finally(() => {
@@ -780,7 +779,7 @@ function updateStiskers() {
                         if (emoteBodytv7) {
                             emoteBodytv7.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-tv7><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option tv7emojiSearch-shat" style="background: url(chrome-extension://iiihfpccbafenoaiclhhejfbldcnbmmd/img/search.png) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-tv7>`)
                             let EmoteListtv7 = emoteBodytv7.querySelector('div.emoji-ovg');
-                            //console.log(HelperTV7.emotes);
+                            //ovg.log(HelperTV7.emotes);
 
                             chrome.storage.local.get((items) => {
                                 HelperTV7.fetchGlobalEmotes(items).finally(() => {

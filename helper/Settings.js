@@ -199,7 +199,7 @@ const HelperSettings = {
                 type: 'select',
                 items: [
                     { value: 0, label: 'Нет' },
-                    { value: 1, label: 'ALT меню (YouTube)' },
+                    // { value: 1, label: 'ALT меню (YouTube)' },
                     { value: 2, label: 'Twitch' }
                 ]
             },
@@ -317,7 +317,7 @@ const HelperSettings = {
                 ]
             },
             mentionSelf: {
-                title: 'Выделять сообщения, упоминающие вас.',
+                title: 'Выделять сообщения, упоминающие вас. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
                 type: 'boolean'
             },
             colorMentionSelf: {
@@ -512,7 +512,8 @@ const HelperSettings = {
                 <div class="option-line" >
 
                     <div class="labelField">
-                        <span ${line ? 'class="titleline" style="padding-left: 5px;"' : 'class="title"'}> ${title} </span>
+                        ${line ? '<div class="line"></div>' : ''}
+                        <span ${line ? 'class="titleline"' : 'class="title"'}> ${title} </span>
                         <span class="description"> ${description || ''}</span>
                     </div>
 
@@ -629,7 +630,7 @@ const HelperSettings = {
         return this._basic(title, description, `
         <ol class="flexibleButtonGroup optionTypeBoolean">
             <input type="number" class="optionField" data-name="${name}" value="${defaultValue[1]}" ${min ? 'min="' + min + '" ' : ''}${max ? 'max="' + max + '"' : ''}/>
-            <!--button class="optionField def" data-name="${name}" option-type="number"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
+            <button class="optionField def" data-name="${name}" option-type="number"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
         </ol>`);
     },
     select(name, title, description, items = [], defaultValue = '', help = '') {
@@ -656,7 +657,7 @@ const HelperSettings = {
         <ol class="flexibleButtonGroup optionTypeBoolean">
         <!--${ help[0] == '' ? '' : ` <div class="helpoption tooltip-ovg"><img src="${help[0]}"> ${help[1]} </div> `}-->
             <input type="color" class="optionField" data-name="${name}" value="${defaultValue[1]}" />
-            <!--button class="optionField def" data-name="${name}" option-type="color"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
+            <button class="optionField def" data-name="${name}" option-type="color"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
         </ol>`);
     },
     botevent(name, title, description, defaultValue = ['', false], yesButton = 'Вкл', noButton = 'Откл', help = '') {

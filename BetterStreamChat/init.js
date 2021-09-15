@@ -680,17 +680,27 @@ const BetterStreamChat = {
                 <div style="width: 100%"></div>
 
                 <wasd-button class="ghost-btn ovg" style="display: flex;">
-                    <button class="basic medium-cube ovg fade" type="button"><i class="wasd-icons-show"></i> <span></span></button>
-                    <button class="basic medium-cube ovg updateemotes" type="button"><i class="wasd-icons-record"></i> <span></span></button>
-                    <button class="basic medium-cube ovg update" type="button"><i class="wasd-icons-record"></i> <span></span></button>
-                    <button class="basic medium-cube ovg close" type="button"><i class="ovg wasd-icons-close"></i> <span></span></button>
+                    <button class="basic medium-cube ovg fade" type="button">
+                        <i class="wasd-icons-show"></i>
+                    </button>
+                    <button class="basic medium-cube ovg updateemotes" type="button">
+                        <i class="wasd-icons-record"></i>
+                        <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить BTTV, FFZ и TV7 эмоции (щелкните мышью по кнопке дважды) </div></div></ovg-tooltip>
+                    </button>
+                    <button class="basic medium-cube ovg update" type="button">
+                        <i class="wasd-icons-record"></i>
+                        <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить чат (щелкните мышью по кнопке дважды) </div></div></ovg-tooltip>
+                    </button>
+                    <button class="basic medium-cube ovg close" type="button">
+                        <i class="ovg wasd-icons-close"></i>
+                    </button>
                 </wasd-button>
 
             </header>
 
             <section class="ovg-tabs-wrapper vertical left">
                 <div class="tabs">
-                    <div class="items">
+                    <div class="items" style="padding: 10px 0">
                         <a role="tab" class="item" data-tab="about">О нас</a>
                         <a role="tab" class="item" data-tab="general">Общий</a>
                         <a role="tab" class="item active" data-tab="wasdSettings">Настройки</a>
@@ -1025,6 +1035,7 @@ const BetterStreamChat = {
             } else {
             	HelperSettings.showMessage(`Чат не найден.`, 'error');
             }
+
         });
 
         // bind update emotes 
@@ -1223,44 +1234,45 @@ const BetterStreamChat = {
         
 
         // to def
-        // for (let option of settingsDiv.querySelectorAll('.optionField.def')) {
-        //     option.addEventListener('click', (event) => {
-        //         let split = event.target.dataset.name.split('_');
-        //         switch(event.target.getAttribute('option-type')) {
-        //             case 'boolean':
-        //                 event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).checked = settings[split[0]][split[1]][0]
-        //                 HelperSettings.save([event.target.parentElement.querySelector('input[type="checkbox"]')])
-        //                 break;
-        //             case 'text':
-        //                 event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0]
-        //                 HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
-        //                 break;
-        //             case 'number':
-        //                 event.target.parentElement.querySelector('input[type="number"]').value = settings[split[0]][split[1]][0]
-        //                 HelperSettings.save([event.target.parentElement.querySelector('input[type="number"]')])
-        //                 break; 
-        //             case 'select':
-        //                 event.target.parentElement.querySelector('select').value = settings[split[0]][split[1]][0]
-        //                 HelperSettings.save([event.target.parentElement.querySelector('select')])
-        //                 break;
-        //             case 'color':
-        //                 event.target.parentElement.querySelector('input[type="color"]').value = settings[split[0]][split[1]][0]
-        //                 HelperSettings.save([event.target.parentElement.querySelector('input[type="color"]')])
-        //                 break;
-        //             case 'botevent':
-        //                 if (settings[split[0]][split[1]][0]) {
-        //                     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).click()
-        //                 } else {
-        //                     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}_no]`).click()
-        //                 }
-        //                 event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0][0]
-        //                 HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
-        //                 break;
-        //             default:
-        //                 console.log('def')
-        //         }
-        //     });
-        // }
+        for (let option of settingsDiv.querySelectorAll('.optionField.def')) {
+            option.addEventListener('click', (event) => {
+                let split = event.target.dataset.name.split('_');
+                switch(event.target.getAttribute('option-type')) {
+                    // case 'boolean':
+                    //     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).checked = settings[split[0]][split[1]][0]
+                    //     HelperSettings.save([event.target.parentElement.querySelector('input[type="checkbox"]')])
+                    //     break;
+                    // case 'text':
+                    //     event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0]
+                    //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
+                    //     break;
+                    case 'number':
+                        event.target.parentElement.querySelector('input[type="number"]').value = settings[split[0]][split[1]][0]
+                        HelperSettings.save([event.target.parentElement.querySelector('input[type="number"]')])
+                        break; 
+                    // case 'select':
+                    //     event.target.parentElement.querySelector('select').value = settings[split[0]][split[1]][0]
+                    //     HelperSettings.save([event.target.parentElement.querySelector('select')])
+                    //     break;
+                    case 'color':
+                        event.target.parentElement.querySelector('input[type="color"]').value = settings[split[0]][split[1]][0]
+                        HelperSettings.save([event.target.parentElement.querySelector('input[type="color"]')])
+                        break;
+                    // case 'botevent':
+                    //     if (settings[split[0]][split[1]][0]) {
+                    //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).click()
+                    //     } else {
+                    //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}_no]`).click()
+                    //     }
+                    //     event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0][0]
+                    //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
+                    //     break;
+                    default:
+                        ovg.log('def')
+                        break;
+                }
+            });
+        }
 
         // change event
         for (let option of settingsDiv.querySelectorAll('.optionField')) {

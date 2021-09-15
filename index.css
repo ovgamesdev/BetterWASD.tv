@@ -158,7 +158,7 @@ button[ovg]:active   i[ovg], button[ovg]:hover   i[ovg] {
     border-radius: 3px;
     border: 1px solid #000000;
     background-color: var(--wasd-color-prime);
-    box-shadow: -1px 0 0 rgba(0, 0, 0, 0.3), -2px 0 0 rgba(0, 0, 0, 0.2), -3px 0 0 rgba(0, 0, 0, 0.1), 1px 0 0 rgba(0, 0, 0, 0.3), 2px 0 0 rgba(0, 0, 0, 0.2), 3px 0 0 rgba(0, 0, 0, 0.1), 0 -1px 0 rgba(0, 0, 0, 0.3), 0 -2px 0 rgba(0, 0, 0, 0.2), 0 -3px 0 rgba(0, 0, 0, 0.1), 0 1px 0 rgba(0, 0, 0, 0.3), 0 2px 0 rgba(0, 0, 0, 0.2), 0 3px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: rgb(0 0 0 / 40%) 0px 4px 8px, rgb(0 0 0 / 40%) 0px 0px 4px;
     display: flex;
     flex-direction: column;
     font-size: 15px;
@@ -176,7 +176,7 @@ button[ovg]:active   i[ovg], button[ovg]:hover   i[ovg] {
     box-shadow: 0 2px 2px 0 rgba(var(--wasd-color-black--rgb),.08);
     height: 4.8rem;
     padding-right: 8px;
-    cursor: move;
+    /*cursor: move;*/
 }
 
 main[data-tab="about"] > div.aboutHalf {
@@ -322,11 +322,12 @@ button#backupButton {
     color: var(--wasd-color-text-second);
     overflow: hidden;
     text-align: center;
+    background-color: var(--wasd-color-prime);
+    padding: 0 9px;
 }
-#bscSettingsPanel main .option .labelField>.titleline:after {
+/*#bscSettingsPanel main .option .labelField>.titleline:after {
     content: '';
     display: inline-block;
-    width: 100%;
     height: 1px;
     background: #000;
     z-index: 1;
@@ -335,8 +336,32 @@ button#backupButton {
     background-color: rgba(var(--wasd-color-switch--rgb),.24);
 }
 #bscSettingsPanel main .option .labelField>.titleline:after {
-    left: 15px;
-    margin: 0 -100% 0 0;
+    width: 91.5%;
+    margin: 0px 0px 0px 5px;
+}
+
+#bscSettingsPanel main .option .labelField>.titleline:before {
+    content: '';
+    display: inline-block;
+    height: 1px;
+    background: #000;
+    z-index: 1;
+    position: relative;
+    vertical-align: middle;
+    background-color: rgba(var(--wasd-color-switch--rgb),.24);
+}
+#bscSettingsPanel main .option .labelField>.titleline:before {
+    width: 1%;
+    margin: 0px 5px 0px 0px;
+}*/
+
+#bscSettingsPanel main .option .labelField .line {
+    background-color: rgba(var(--wasd-color-switch--rgb),0.24);
+    height: 1px;
+    margin: 0 -15px 0 -19px;
+    position: relative;
+    top: 11.5px;
+    z-index: -1;
 }
 
 #bscSettingsPanel main .option .labelField>.description {
@@ -738,11 +763,11 @@ yt-live-chat-header-renderer {
 }
 
 
-.helpTitleHover,
+/*.helpTitleHover,
 .flexibleButtonGroup,
 .optionField {
     cursor: help;
-}
+}*/
 
 .resetPlayerLoading {
     border-color: #fff transparent #fff transparent;
@@ -829,7 +854,7 @@ yt-live-chat-header-renderer {
 
 .block__messages__item.ovg > div.mod > div {
     border-width: 0px;
-    padding: 3px;
+    margin: 3px;
 }
 .block__messages__item.ovg > div.mod > div > button {
     width: 32px;
@@ -2437,6 +2462,7 @@ div.sticker-card:hover div.paidsubs-popup__stickers-item {
 
 #bscSettingsPanel .option button.def i {
     color: var(--wasd-color-text-second);
+    pointer-events: none;
 }
 #bscSettingsPanel .option button.def {
     margin-left: 10px;
@@ -2450,6 +2476,7 @@ div.sticker-card:hover div.paidsubs-popup__stickers-item {
     padding: 4px;
     position: relative;
     width: 24px;
+
 }
 #bscSettingsPanel .option button.def:hover {
     background: rgba(var(--wasd-color-switch--rgb),.08);
@@ -2733,6 +2760,10 @@ div.inputresult li h2 {
 
 #bscSettingsPanel main .option:hover .title {
     color: var(--wasd-color-switch) !important;
+}
+
+#bscSettingsPanel main .option:hover .titleline {
+    background: none !important;
 }
 
 @keyframes show_help {

@@ -7,7 +7,6 @@ const HelperBTTV = {
         bttvEmoteList.innerText = '';
 
         chrome.storage.local.get((items) => {
-            console.log(items)
             HelperBTTV.fetchGlobalEmotes(items).finally(() => {
                 bttvEmotes = items.bttvEmotes;
                 bttvUsers = items.bttvUsers;
@@ -127,7 +126,7 @@ const HelperBTTV = {
 
 
             if (HelperBTTV.emotes[word]) word = `<img class="stickerovg small" style="vertical-align: middle; width: auto!important;" src="https://cdn.betterttv.net/emote/${HelperBTTV.emotes[word]}/${size}x" alt="${word}" title="${word}" />`;
-            // console.log(HelperBTTV.fullemotes)
+            // ovg.log(HelperBTTV.fullemotes)
             newText.push(word);
         }
         return newText.join(' ');
@@ -243,7 +242,7 @@ const HelperBTTV = {
     },
     restoreSettings(items) {
         return new Promise((resolve, reject) => {
-            console.log('bttvUsers', items)
+            ovg.log('bttvUsers', items)
 
             chrome.storage.local.set({ bttvUsers:items.bttvUsers, bttvEmotes:{} });
 
@@ -255,18 +254,18 @@ const HelperBTTV = {
             for(let userID in items.bttvUsers) {
                 // if (userID == 'global' || !items.bttvUsers[userID]?.username) {
                 //     i++
-                //     console.log('bttvUsers i', i, l)
+                //     ovg.log('bttvUsers i', i, l)
                 //     if (i == l) {
-                //         console.log('resolve i == l', i, l)
+                //         ovg.log('resolve i == l', i, l)
                 //         resolve()
                 //     }
                 // } else {
                     HelperBTTV.updateUserChannelEmotes(userID, items.bttvUsers[userID].username).finally(() => {
                         i++
-                        console.log('bttvUsers i', i, l)
+                        ovg.log('bttvUsers i', i, l)
                         HelperSettings.showMessage(`BTTV ${i}/${l}`)
                         if (i == l) {
-                            console.log('resolve i == l', i, l)
+                            ovg.log('resolve i == l', i, l)
                             resolve()
                         }
                     })

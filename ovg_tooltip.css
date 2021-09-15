@@ -208,7 +208,8 @@ ovg-tooltip .tooltip_size-large .tooltip-content {
 	bottom: -5px;
 }
 
-ovg-button:hover .tooltip,
+ovg-button:hover ovg-tooltip .tooltip,
+button:hover ovg-tooltip .tooltip,
 .sticker-card:hover ovg-tooltip .tooltip {
 	display: flex;
 }

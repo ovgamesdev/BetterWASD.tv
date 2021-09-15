@@ -240,7 +240,7 @@ const HelperFFZ = {
     },
     restoreSettings(items) {
         return new Promise((resolve, reject) => {
-            console.log('ffzUsers', items)
+            ovg.log('ffzUsers', items)
 
             chrome.storage.local.set({ ffzUsers:items.ffzUsers, ffzEmotes:{} });
 
@@ -250,22 +250,22 @@ const HelperFFZ = {
             for(let userID in items.ffzUsers) { l++ }
 
             for(let userID in items.ffzUsers) {
-                    console.log('d1', items.ffzUsers[userID])
-                    console.log('d2', items.ffzUsers[userID]?.username)
+                    ovg.log('d1', items.ffzUsers[userID])
+                    ovg.log('d2', items.ffzUsers[userID]?.username)
                 // if (userID == 'global' || !items.ffzUsers[userID]?.username) {
                 //     i++
-                //     console.log('ffzUsers i', i, l)
+                //     ovg.log('ffzUsers i', i, l)
                 //     if (i == l) {
-                //         console.log('resolve i == l', i, l)
+                //         ovg.log('resolve i == l', i, l)
                 //         resolve()
                 //     }
                 // } else {
                     HelperFFZ.updateUserChannelEmotes(userID, items.ffzUsers[userID].username).finally(() => {
                         i++
-                        console.log('ffzUsers i', i, l)
+                        ovg.log('ffzUsers i', i, l)
                         HelperSettings.showMessage(`FFZ ${i}/${l}`)
                         if (i == l) {
-                            console.log('resolve i == l', i, l)
+                            ovg.log('resolve i == l', i, l)
                             resolve()
                         }
                     })
