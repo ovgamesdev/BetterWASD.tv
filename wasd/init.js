@@ -38,6 +38,7 @@ const wasd = {
                                 wasd.update();
                                 isObserverStarted = true;
                                 HelperWASD.updateStreamTimer();
+                                HelperWASD.createPinMessages();
                                 // HelperSocket.start(getChannelName()).then(i => {
                                 //     if (i == 'leave') {
                                 //         isObserverStarted = false;

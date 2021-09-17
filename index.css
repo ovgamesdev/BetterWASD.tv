@@ -1710,6 +1710,17 @@ div.item__links-ovg > .link > img {
     height: 32px;
     width: 32px;
 }
+div.item__links-ovg > .link > .plus {
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    display: flex;
+    background-color: #258fe5;
+    color: rgb(255, 255, 255);
+    border-radius: 3px;
+}
 
 .message__info__text {
     width: 100%!important;
@@ -2157,7 +2168,7 @@ main[data-tab="backup"] button {
 }
 
 
-@media screen and (max-width:480px) {
+@media screen and (max-width:479px) {
     #bscSettingsPanel {
         margin-top: 0px!important;
         height: 100% !important;
@@ -2905,7 +2916,7 @@ header .logo {
 
 }
 
-@media screen and (max-width:480px) {
+@media screen and (max-width:479px) {
     #settingsSearchDiv .wasd-input-wrapper {
         width: 180px;
     }
@@ -2921,4 +2932,27 @@ header .logo {
     #settingsSearchDiv .wasd-input-wrapper {
         width: 80px;
     }
+}
+
+
+.moderator .go_ban {
+    display: flex;
+}
+.moderator .go_unban {
+    display: none;
+}
+
+.moderator.ban .go_ban {
+    display: none;
+}
+.moderator.ban .go_unban {
+    display: flex;
+}
+
+.moderator.disabled button {
+    box-shadow: none;
+    cursor: default;
+    color: rgba(var(--wasd-color-switch--rgb), 0.48) !important;
+    background: rgba(var(--wasd-color-switch--rgb), 0.08) !important;
+    pointer-events: none;
 }

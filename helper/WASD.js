@@ -165,15 +165,17 @@ const HelperWASD = {
 
         document.querySelector('#scroll-content').insertAdjacentHTML("beforeend", usercard);
 
+        let card = document.querySelector('.chat-room__viewer-card')
+
         if (settings.wasd.highlightMessagesOpenCard[1]) HelperWASD.highlightMessages(channel_name.trim())
 
-        document.querySelector(".tw-border-radius-medium.ovg-viewer-card > [data-a-target='viewer-card-close-button']").addEventListener('click', () => {
+        card.querySelector("[data-a-target='viewer-card-close-button']").addEventListener('click', () => {
             removeVC()
         });
 
         HelperWASD.openUserCardName = channel_name.trim()
 
-        document.querySelector("button.bttv-moderator-card-nickname-change-button").addEventListener('click', () => {
+        card.querySelector("button.bttv-moderator-card-nickname-change-button").addEventListener('click', () => {
             var newusername;
             var user_channel_name = channel_name.trim();
             if (settings.wasd.userNameEdited[user_channel_name]) {
@@ -193,11 +195,11 @@ const HelperWASD = {
             HelperSettings.save([document.querySelector('.optionField')]);
         });
 
-        document.querySelector('wasd-button.flat-btn.ovg > button.ovg')?.addEventListener('mouseover', () => {
-            document.querySelector('div.tooltip.tooltip_position-right.tooltip_size-small.ovg').style.display = 'flex';
+        card.querySelector('wasd-button.flat-btn.ovg > button.ovg')?.addEventListener('mouseover', () => {
+            card.querySelector('div.tooltip.tooltip_position-right.tooltip_size-small.ovg').style.display = 'flex';
         });
-        document.querySelector('wasd-button.flat-btn.ovg > button.ovg')?.addEventListener('mouseout', () => {
-            document.querySelector('div.tooltip.tooltip_position-right.tooltip_size-small.ovg').style.display = '';
+        card.querySelector('wasd-button.flat-btn.ovg > button.ovg')?.addEventListener('mouseout', () => {
+            card.querySelector('div.tooltip.tooltip_position-right.tooltip_size-small.ovg').style.display = '';
         });
 
         HelperWASD.dragElement(document.querySelector(".tw-border-radius-medium.ovg-viewer-card"));
@@ -421,12 +423,19 @@ const HelperWASD = {
                         url: `https://wasd.tv/api/channels/${data.channel_id}/links`,
                         success: function(out){
                             if (out.result.length != 0) {
-                                linkIndex = 0;
+                                linkIndex = -1;
                                 itemLinks = document.querySelector('div.item__links-ovg');
-                                for (let data of out.result) {
-                                    linkIndex ++;
-                                    if (itemLinks && linkIndex <= 6) {
-                                        itemLinks.insertAdjacentHTML("beforeend", `<a target="_blank" class="link" href="${data.channel_link_value}"><img style="pointer-events: none;" src="${data.channel_link_type.channel_link_type_icon.large}"></a>`);
+                                if (out.result.length > 6) {
+                                    itemLinks.insertAdjacentHTML("beforeend", `<a class="link"><div class="plus">+ ${out.result.length - 5}</div></a>`);
+                                    for (let data of out.result) {
+                                        linkIndex ++;
+                                        if (itemLinks && linkIndex <= 4) {
+                                            itemLinks.insertAdjacentHTML("beforeend", `<a target="_blank" class="link" href="${data.channel_link_value}"><img style="pointer-events: none;" src="${data.channel_link_type.channel_link_type_icon.large}"></a>`);
+                                        }
+                                    }
+                                } else {
+                                    for (let data of out.result) {
+                                        itemLinks?.insertAdjacentHTML("beforeend", `<a target="_blank" class="link" href="${data.channel_link_value}"><img style="pointer-events: none;" src="${data.channel_link_type.channel_link_type_icon.large}"></a>`);
                                     }
                                 }
                             }
@@ -678,7 +687,173 @@ const HelperWASD = {
                                             }
                                         }
                                     },
+                                })
+                                
+                                let self_user_id = 0 //  || self_user_id != data.user_id
+                                if (out.result.channel.user_id != data.user_id) $.ajax({
+                                    url: `https://wasd.tv/api/chat/streamers/${out.result.channel.user_id}/ban?user_id=${data.user_id}`,
+                                    success: function(out){
+                                        if (HelperWASD.isModerator) {
+                                            card.querySelector('.user_last_messages-ovg').insertAdjacentHTML("beforebegin", `
+                                            <div class="moderator disabled">
+                                                <div class="go_ban">
+                                                    <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 10px;">
+                                                        <button class="basic ovg small ban" type="button">
+                                                            <i class="wasd-icons-ban"></i>
+                                                        </button>
+                                                    </wasd-button>
+                                                    <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
+                                                        <button class="basic ovg small timeout1m" type="button">
+                                                            <i class="wasd-icons-sound-off"></i>
+                                                            <span> 1 мин </span>
+                                                        </button>
+                                                    </wasd-button>
+                                                    <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
+                                                        <button class="basic ovg small timeout10m" type="button">
+                                                            <i class="wasd-icons-sound-off"></i>
+                                                            <span> 10 мин </span>
+                                                        </button>
+                                                    </wasd-button>
+                                                    <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
+                                                        <button class="basic ovg small timeout1h" type="button">
+                                                            <i class="wasd-icons-sound-off"></i>
+                                                            <span> 1 час </span>
+                                                        </button>
+                                                    </wasd-button>
+                                                </div>
+                                                <div class="go_unban">
+                                                    <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 10px;">
+                                                        <button class="basic ovg small unban" type="button">
+                                                            <i class="icon wasd-icons-unban"></i>
+                                                        </button>
+                                                    </wasd-button>
+                                                </div>
+                                            </div>
+                                            <div class="tw-c-background-alt-2 tw-pd-t-05">
+                                                <div class="paid_title-ovg" style="display:none"> Стикеры канала </div><div class="paidsubs-popup__stickers"></div>
+                                            </div>`)
+
+                                            card.querySelector('.ban').addEventListener('click', () => {
+                                                fetch(HelperWASD.getStreamBroadcastsUrl())
+                                                .then(res => res.json())
+                                                .then((out) => {
+                                                    let response = {
+                                                        method: 'PUT',
+                                                        body: `{"user_id":${data.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}}`,
+                                                        headers: {'Content-Type': 'application/json'},
+                                                    }
+                                                    card.querySelector('.moderator').classList.add('ban')
+                                                    fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
+                                                    .then(res => res.json())
+                                                    .then((out) => {
+                                                        card.querySelector('.moderator').classList.remove('ban')
+                                                        if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
+                                                            HelperWASD.showChatMessage(`Пользователь @${data.user_login} уже заблокирован`);
+                                                        } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
+                                                            HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                                                        }
+                                                    })
+                                                })
+                                            })
+
+                                            card.querySelector('.unban').addEventListener('click', () => {
+                                                fetch(HelperWASD.getStreamBroadcastsUrl())
+                                                .then(res => res.json())
+                                                .then((out) => {
+                                                    let response = {
+                                                        method: 'DELETE',
+                                                    }
+                                                    card.querySelector('.moderator').classList.remove('ban')
+                                                    fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users/${data.user_id}`, response)
+                                                    .then(res => res.json())
+                                                    .then((out) => {
+                                                        card.querySelector('.moderator').classList.remove('ban')
+                                                        if (out.error.code == 'STREAMER_BAN_NOT_FOUND') {
+                                                            HelperWASD.showChatMessage(`Пользователь @${data.user_login} не забанен`)
+                                                        } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
+                                                            HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                                                        }
+                                                    })
+                                                })
+                                            })
+
+                                            card.querySelector('.timeout1m').addEventListener('click', () => {
+                                                fetch(HelperWASD.getStreamBroadcastsUrl())
+                                                .then(res => res.json())
+                                                .then((out) => {
+                                                    let response = {
+                                                        method: 'PUT',
+                                                        body: `{"user_id":${data.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}, "keep_messages": true, "duration": 1}`,
+                                                        headers: {'Content-Type': 'application/json'},
+                                                    }
+                                                    card.querySelector('.moderator').classList.add('ban')
+                                                    fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
+                                                    .then(res => res.json())
+                                                    .then((out) => {
+                                                        card.querySelector('.moderator').classList.remove('ban')
+                                                        if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
+                                                            HelperWASD.showChatMessage(`Пользователь @${data.user_login} уже заблокирован`);
+                                                        } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
+                                                            HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                                                        }
+                                                    })
+                                                })
+                                            })
+
+                                            card.querySelector('.timeout10m').addEventListener('click', () => {
+                                                fetch(HelperWASD.getStreamBroadcastsUrl())
+                                                .then(res => res.json())
+                                                .then((out) => {
+                                                    let response = {
+                                                        method: 'PUT',
+                                                        body: `{"user_id":${data.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}, "keep_messages": true, "duration": 10}`,
+                                                        headers: {'Content-Type': 'application/json'},
+                                                    }
+                                                    card.querySelector('.moderator').classList.add('ban')
+                                                    fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
+                                                    .then(res => res.json())
+                                                    .then((out) => {
+                                                        card.querySelector('.moderator').classList.remove('ban')
+                                                        if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
+                                                            HelperWASD.showChatMessage(`Пользователь @${data.user_login} уже заблокирован`);
+                                                        } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
+                                                            HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                                                        }
+                                                    })
+                                                })
+                                            })
+
+                                            card.querySelector('.timeout1h').addEventListener('click', () => {
+                                                fetch(HelperWASD.getStreamBroadcastsUrl())
+                                                .then(res => res.json())
+                                                .then((out) => {
+                                                    let response = {
+                                                        method: 'PUT',
+                                                        body: `{"user_id":${data.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}, "keep_messages": true, "duration": 60}`,
+                                                        headers: {'Content-Type': 'application/json'},
+                                                    }
+                                                    card.querySelector('.moderator').classList.add('ban')
+                                                    fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
+                                                    .then(res => res.json())
+                                                    .then((out) => {
+                                                        card.querySelector('.moderator').classList.remove('ban')
+                                                        if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
+                                                            HelperWASD.showChatMessage(`Пользователь @${data.user_login} уже заблокирован`);
+                                                        } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
+                                                            HelperWASD.showChatMessage(`Вы не можете этого сделать`);
+                                                        }
+                                                    })
+                                                })
+                                            })
+                                        }
+
+                                        card.querySelector('.moderator').classList.remove('disabled')
+                                        if (out.result.length != 0) {
+                                            card.querySelector('.moderator').classList.add('ban')
+                                        }
+                                    }
                                 });
+
                             } else {
                                 if (document.querySelector('.user_last_messages-ovg')) document.querySelector('.user_last_messages-ovg').style.display = 'none';
                             }
@@ -688,14 +863,16 @@ const HelperWASD = {
                         }
                     });
 
+                                    
+
                 } else {
                     HelperWASD.showChatMessage('не удалось получить информацию о пользователе');
-                    document.querySelector('div[data-a-target="viewer-card-close-button"] > div.viewer-card-drag-cancel > button')?.click();
+                    card.querySelector('div[data-a-target="viewer-card-close-button"] > div.viewer-card-drag-cancel > button')?.click();
                 }
             },
             error: function(out){
                 HelperWASD.showChatMessage('не удалось получить информацию о пользователе');
-                document.querySelector('div[data-a-target="viewer-card-close-button"] > div.viewer-card-drag-cancel > button')?.click();
+                card.querySelector('div[data-a-target="viewer-card-close-button"] > div.viewer-card-drag-cancel > button')?.click();
             }
         });
     },
@@ -1226,4 +1403,7 @@ const HelperWASD = {
             return color;
         }
     },
+    createPinMessages() {
+        document.querySelector('wasd-chat .body-container').insertAdjacentHTML("afterbegin", `<pin-chat-messages-ovg style="background: var(--wasd-color-prime);"></pin-chat-messages-ovg>`)
+    }
 }

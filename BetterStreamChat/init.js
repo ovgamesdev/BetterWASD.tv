@@ -11,6 +11,38 @@ const BetterStreamChat = {
             removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
         };
         let changelogList = [{
+                version: '1.3.1',
+                date: '2021-09-16',
+                items: [{
+                    text: [
+                        `Сообщение - Контекстное меню - Добавить в ЧС.`,
+                        `Меню модератора.`
+                    ],
+                    label: 'fixed'
+                },{
+                    text: [
+                        `Исправить символы ломающие чат (Текст Zalgo).`,
+                        `Заменить надпись 'в эфире' на аптайм трансляции.`,
+                        `Чат после проигрывателя (Мобильные устройства).`,
+                        `Cкрыть полосу подарков (справа и снизу).`,
+                        `Cкрыть рейд.`
+                    ],
+                    label: 'added'
+                },{
+                    text: [
+                        `Интерфейс.`
+                    ],
+                    label: 'optimized'
+                },{
+                    text: [
+                        `Cкрыть полосу подарков (справа).`,
+                        `Поддержка настроек прошлых версий > 1.2.`,
+                        `WebSocket для чата.`,
+                        `Меню модератора - YouTube.`
+                    ],
+                    label: 'removed'
+                },]
+            },{
                 version: '1.3',
                 date: '2021-07-28',
                 items: [{
@@ -292,7 +324,9 @@ const BetterStreamChat = {
                     label: 'added'
                 },{
                     text: [
-                        `Карточка пользователя.`, `Чат команды.`, `Распознавание ссылок.`
+                        `Карточка пользователя.`,
+                        `Чат команды.`,
+                        `Распознавание ссылок.`
                     ],
                     label: 'optimized'
                 },{
@@ -685,11 +719,11 @@ const BetterStreamChat = {
                     </button>
                     <button class="basic medium-cube ovg updateemotes" type="button">
                         <i class="wasd-icons-record"></i>
-                        <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить BTTV, FFZ и TV7 эмоции (щелкните мышью по кнопке дважды) </div></div></ovg-tooltip>
+                        <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить эмоции (нажмите дважды) </div></div></ovg-tooltip>
                     </button>
                     <button class="basic medium-cube ovg update" type="button">
                         <i class="wasd-icons-record"></i>
-                        <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить чат (щелкните мышью по кнопке дважды) </div></div></ovg-tooltip>
+                        <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить чат (нажмите дважды) </div></div></ovg-tooltip>
                     </button>
                     <button class="basic medium-cube ovg close" type="button">
                         <i class="ovg wasd-icons-close"></i>

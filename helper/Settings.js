@@ -10,6 +10,10 @@ const HelperSettings = {
                 title: '(BETA) - Эта опция находится в стадии разработки и может работать некорректно.',
                 type: 'none'
             },
+            F5: {
+                title: '(F5) - Эта опция требует обновления чата.',
+                type: 'none'
+            },
         },
         wasd: {
             chatAppearance: {
@@ -204,11 +208,11 @@ const HelperSettings = {
                 ]
             },
             moderatorMenuAutomatic: {
-                title: 'Автоматически подтверждать бан/удаление (Меню модератора).',
+                title: 'Автоматически подтверждать бан/таймаут/удаление (Меню модератора).',
                 type: 'boolean'
             },
             moderatorMenuTimeout: {
-                title: 'Срок блока "Временно заблокировать" (Меню модератора).',
+                title: 'Срок блока (Меню модератора - Временно заблокировать).',
                 type: 'select',
                 items: [
                     { value: 1, label: '1 минута' },
@@ -217,11 +221,11 @@ const HelperSettings = {
                 ]
             },
             keepMessagesTimeout: {
-                title: 'Удалить все сообщения "Временно заблокировать" (Меню модератора).',
+                title: 'Удалить все сообщения (Меню модератора - Временно заблокировать).',
                 type: 'boolean'
             },
             colorModOptions: {
-                title: 'Цвет для опции "Меню модератора".',
+                title: 'Цвет для опции (Меню модератора).',
                 type: 'color'
             },
             alternatingColorChatMessages: {
@@ -355,6 +359,11 @@ const HelperSettings = {
                     { value: 60000, label: 'Зачем??? (1 мин.)' }
                 ]
             },
+            uptimeStreamMobile:  {
+                title: `Заменить надпись 'в эфире' на аптайм трансляции.`,
+                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStreamMobile.png'],
+                type: 'boolean'
+            },
 
             playerGeneral: {
                 title: 'Проигрыватель',
@@ -409,11 +418,6 @@ const HelperSettings = {
             uptimeStream:  {
                 title: 'Аптайм трансляции. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
                 help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStream.png'],
-                type: 'boolean'
-            },
-            uptimeStreamMobile:  {
-                title: `Заменить надпись 'в эфире' на аптайм трансляции.`,
-                help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStreamMobile.png'],
                 type: 'boolean'
             },
             alwaysOpenVolumeControl: {
