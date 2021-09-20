@@ -1480,6 +1480,25 @@ const wasd = {
                                 node.click()
                             })
                         }
+                        if (!context_menu.querySelector('.contextPinMessages')) {
+                            let item = document.createElement('div')
+                            item.classList.add(`context-menu__block`)
+                            item.innerHTML = `<div class="context-menu__block__icon contextPinMessages"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Закрепить сообщение </div>`;
+                            context_menu.append(item)
+                            item.addEventListener('click', ({ target }) => {
+                                let username = node.querySelector('.info__text__status__name').getAttribute('username');
+                                // if (!settings.wasd.blockUserList[username]) {
+                                //     HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
+                                //     settings.wasd.blockUserList[username] = new Date();
+                                //     HelperWASD.addUserToBlackList(username)
+                                //     HelperSettings.save([document.querySelector('.optionField')]);
+                                // } else {
+                                //     HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!')
+                                // }
+                                document.querySelector('pin-chat-messages-ovg')
+                                node.click()
+                            })
+                        }
                     } else {
                         trycreate++
                         if (trycreate < 999) {

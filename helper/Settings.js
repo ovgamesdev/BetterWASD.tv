@@ -18,6 +18,7 @@ const HelperSettings = {
         wasd: {
             chatAppearance: {
                 title: 'Чат',
+                id : 'ovg_settings_chat',
                 type: 'title'
             },
             messageFollower: {
@@ -367,6 +368,7 @@ const HelperSettings = {
 
             playerGeneral: {
                 title: 'Проигрыватель',
+                id : 'ovg_settings_player',
                 type: 'title'
             },
             webkitScrollbarWidth: {
@@ -446,6 +448,7 @@ const HelperSettings = {
 
             channelAppearance: {
                 title: 'Канал',
+                id : 'ovg_settings_channel',
                 type: 'title'
             },
             hideDonationChannelButton: {
@@ -463,6 +466,7 @@ const HelperSettings = {
 
             appearanceLocation: {
                 title: 'Внешний вид',
+                id : 'ovg_settings_appearance',
                 type: 'title'
             },
             chatOnTheLeft: {
@@ -509,9 +513,9 @@ const HelperSettings = {
         statusElement.addEventListener('click', hide);
         this.messageTimeout = setTimeout(hide, 2000);
     },
-    _basic(title, description, formField, line=false) {
+    _basic(title, description, formField, line=false, id) {
         return `
-        <div class="option">
+        <div class="option" id="${id}">
             <div class="ovg-option" >
                 <div class="option-line" >
 
@@ -601,7 +605,7 @@ const HelperSettings = {
                 } else if (type === 'none') {
                     html += this.none(fieldName, setting.title, setting.description, settings[category][name], setting.help);
                 } else if (type === 'title') {
-                    html += this.title(fieldName, setting.title, setting.description, settings[category][name], setting.help);
+                    html += this.title(fieldName, setting.title, setting.description, settings[category][name], setting.help, setting.id);
                 } else if (type === 'color') {
                     html += this.color(fieldName, setting.title, setting.description, settings[category][name], setting.help);
                 } else if (type === 'botevent') {
@@ -653,8 +657,8 @@ const HelperSettings = {
     none(name, title, description, defaultValue = '', help = '') {
         return this._basic(title, description, ``, false);
     },
-    title(name, title, description, defaultValue = '', help = '') {
-        return this._basic(title, description, ``, true);
+    title(name, title, description, defaultValue = '', help = '', id = '') {
+        return this._basic(title, description, ``, true, id);
     },
     color(name, title, description, defaultValue = '', help = '') {
         return this._basic(title, description, `
