@@ -10,7 +10,7 @@ const HelperWASD = {
         });
     },
     addUserToBlackList(username) {
-        let html = document.querySelector('.blacklist.ovg-items')
+        let html = document.querySelector('.blacklist .user .ovg-items')
         let item = document.createElement('tr')
         item.classList.add(`table-menu__block`)
         item.style = 'justify-content: space-between;'
@@ -28,6 +28,66 @@ const HelperWASD = {
             HelperSettings.save([document.querySelector('.optionField')]);
         })
     },
+    addUserToHighLight(username) {
+        let html = document.querySelector('.highlight .user .ovg-items')
+        let item = document.createElement('tr')
+        item.classList.add(`table-menu__block`)
+        item.style = 'justify-content: space-between;'
+
+        let usernameed = settings.wasd.userNameEdited[username.trim().split('@').join('')];
+        let setting = settings.wasd.highlightUserList[username]
+
+        item.innerHTML = `<td><div><p title="${username}, ${setting.color}, ${setting.register}"> ${usernameed ? usernameed+' ('+username+')' : username} </p></div></td> <td><div><p> ${new Date(setting.date).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${username}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
+        item.setAttribute('data', username)
+        html.append(item)
+        item.querySelector('.remove').addEventListener('click', ({ target }) => {
+            let nickname = target.getAttribute('data')
+            delete settings.wasd.highlightUserList[nickname];
+            item.remove()
+            HelperWASD.showChatMessage(`Пользователь ${nickname} удален из выделения`, 'success')
+            //ovg.log(settings.wasd.highlightUserList)
+            HelperSettings.save([document.querySelector('.optionField')]);
+        })
+    },
+    addTermToBlackList(term) {
+        let html = document.querySelector('.blacklist .term .ovg-items')
+        let item = document.createElement('tr')
+        item.classList.add(`table-menu__block`)
+        item.style = 'justify-content: space-between;'
+
+        item.innerHTML = `<td><div><p title="${term}"> ${term} </p></div></td> <td><div><p> ${(new Date(settings.wasd.blockTermList[term])).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${term}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
+        item.setAttribute('data', term)
+        html.append(item)
+        item.querySelector('.remove').addEventListener('click', ({ target }) => {
+            let termin = target.getAttribute('data')
+            delete settings.wasd.blockTermList[termin];
+            item.remove()
+            HelperWASD.showChatMessage(`Термин ${termin} удален из ЧС`, 'success')
+            //ovg.log(settings.wasd.blockTermList)
+            HelperSettings.save([document.querySelector('.optionField')]);
+        })
+    },
+    addTermToHighLight(term) {
+        let html = document.querySelector('.highlight .term .ovg-items')
+        let item = document.createElement('tr')
+        item.classList.add(`table-menu__block`)
+        item.style = 'justify-content: space-between;'
+
+        let setting = settings.wasd.highlightTermList[term]
+
+        item.innerHTML = `<td><div><p title="${term}, ${setting.color}, ${setting.register}, ${setting.whole}"> ${term} </p></div></td> <td><div><p> ${new Date(setting.date).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${term}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
+        item.setAttribute('data', term)
+        html.append(item)
+        item.querySelector('.remove').addEventListener('click', ({ target }) => {
+            let termin = target.getAttribute('data')
+            delete settings.wasd.highlightTermList[termin];
+            item.remove()
+            HelperWASD.showChatMessage(`Термин ${termin} удален из выделения`, 'success')
+            //ovg.log(settings.wasd.highlightTermList)
+            HelperSettings.save([document.querySelector('.optionField')]);
+        })
+    },
+
     textToURL(text) {
         if (text) {
             for (let item of text.split(' ')) {
@@ -1204,7 +1264,7 @@ const HelperWASD = {
     },
     removeMessagesOfUsername(username) {
         for(let message of document.querySelectorAll('.block__messages__item') ) {
-            if(message.getAttribute('username') == username.trim().split('@').join('')){
+            if(message.getAttribute('username') == username.trim().split('@').join('')) {
                 message.remove()
             } else if (settings.wasd.removeMentionBL[1]) {
                 for(let msg of message.querySelectorAll(`.chat-message-mention[username="@${username.trim().split('@').join('')}"]`)) {
@@ -1232,16 +1292,62 @@ const HelperWASD = {
             return 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + getChannelName()
         }
     },
-    addUserToBL(username) {
+    addUserToBL(user) {
+        let username = user.trim().split('@').join('')
         if (!settings.wasd.blockUserList[username]) {
             HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
-            settings.wasd.blockUserList[text] = new Date();
+            settings.wasd.blockUserList[username] = new Date();
             HelperWASD.addUserToBlackList(username)
             HelperSettings.save([document.querySelector('.optionField')]);
         } else {
             HelperWASD.showChatMessage('Пользователь уже в ЧС')
         }
         blacklistAddUser.value = ''
+    },
+    addUserToHL(user, color = 'red', register = true) {
+        let username = user.trim().split('@').join('')
+        if (!settings.wasd.highlightUserList[username]) {
+            HelperWASD.showChatMessage(`Пользователь ${username} добавлен в выделение`, 'success')
+            settings.wasd.highlightUserList[username] = {}
+            settings.wasd.highlightUserList[username]['username'] = username
+            settings.wasd.highlightUserList[username]['date'] = new Date()
+            settings.wasd.highlightUserList[username]['color'] = highlightAddUserColor.value
+            settings.wasd.highlightUserList[username]['register'] = register
+            HelperWASD.addUserToHighLight(username)
+            HelperSettings.save([document.querySelector('.optionField')]);
+        } else {
+            HelperWASD.showChatMessage('Пользователь уже в ЧС')
+        }
+        highlightAddUser.value = ''
+    },
+    addTermToBL(t) {
+        let term = t.trim()
+        if (!settings.wasd.blockTermList[term]) {
+            HelperWASD.showChatMessage(`Термин ${term} добавлен в ЧС`, 'success')
+            settings.wasd.blockTermList[term] = new Date();
+            HelperWASD.addTermToBlackList(term)
+            HelperSettings.save([document.querySelector('.optionField')]);
+        } else {
+            HelperWASD.showChatMessage('Пользователь уже в ЧС')
+        }
+        blacklistAddTerm.value = ''
+    },
+    addTermToHL(t, color = 'green', register = true, whole = true) {
+        let term = t.trim()
+        if (!settings.wasd.highlightTermList[term]) {
+            HelperWASD.showChatMessage(`Термин ${term} добавлен в выделение`, 'success')
+            settings.wasd.highlightTermList[term] = {}
+            settings.wasd.highlightTermList[term]['term'] = term
+            settings.wasd.highlightTermList[term]['date'] = new Date()
+            settings.wasd.highlightTermList[term]['color'] = highlightAddTermColor.value
+            settings.wasd.highlightTermList[term]['register'] = register
+            settings.wasd.highlightTermList[term]['whole'] = whole
+            HelperWASD.addTermToHighLight(term)
+            HelperSettings.save([document.querySelector('.optionField')]);
+        } else {
+            HelperWASD.showChatMessage('Пользователь уже в ЧС')
+        }
+        highlightAddTerm.value = ''
     },
     addMessageToCpenCard(isOwner, isModer, isSub, username, color, message, sticker) {
         var block__messages = document.querySelector('.chat-room__viewer-card .block__messages-ovg')

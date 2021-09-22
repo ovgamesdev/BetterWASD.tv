@@ -55,7 +55,6 @@ const Helper = {
                 videoOverlay: [false, false],
                 userNameEdited: {},
                 onClickUser: [2, 2],
-                blockUserList: {},
                 removeMentionBL: [true, true],
                 hidePanelMobile: [true, true],
                 formatMessageSentTime: ['H:mm', 'H:mm'],
@@ -93,6 +92,10 @@ const Helper = {
                 hideWhenMentionList: {},
                 hideRaid: [false, false],
                 fixCharactersBreakingChat: [false, false],
+                blockUserList: {},
+                blockTermList: {},
+                highlightUserList: {},
+                highlightTermList: {},
             }
         };
     },

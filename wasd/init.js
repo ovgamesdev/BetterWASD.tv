@@ -463,11 +463,25 @@ const wasd = {
             cssCode += 'li#selector-header-random-stream {display: none!important}'
         }
 
-        for (let d in settings.wasd.blockUserList) {
-            cssCode += `.block__messages__item[username="${d}"] {display: none!important;}`
+        for (let user in settings.wasd.blockUserList) {
+            cssCode += `.block__messages__item[username="${user}"] {display: none!important;}`
             if (settings.wasd.removeMentionBL[1]) {
-                cssCode += `.block__messages__item[mention*="${d}"] {display: none!important;}`
+                cssCode += `.block__messages__item[mention*="${user}"] {display: none!important;}`
             }
+        }
+
+        for (let term in settings.wasd.highlightTermList) {
+            let setting = settings.wasd.highlightTermList[term]
+            cssCode += `.block__messages__item[message*="${setting.term}"] {background-color: ${setting.color}!important;}`
+        }
+
+        for (let term in settings.wasd.blockTermList) {
+            cssCode += `.block__messages__item[message*="${term}"] {display: none!important;}`
+        }
+
+        for (let user in settings.wasd.highlightUserList) {
+            let setting = settings.wasd.highlightUserList[user]
+            cssCode += `.block__messages__item[username="${setting.username}"] {background-color: ${setting.color}!important;}`
         }
 
         if (settings.wasd.chatMobilePlayer[1]) {

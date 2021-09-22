@@ -704,7 +704,7 @@ const BetterStreamChat = {
                     <div ovg="" class="wasd-input-wrapper">
                         <div ovg="" class="wasd-input">
                             <input ovg="" id="settingsSearch" class="has-button ng-pristine ng-untouched ng-valid ui-autocomplete-input" placeholder="Поиск настроек" type="text" autocomplete="off" style="margin: 0;">
-                            <button id="settingsSearchClose" ovg="" type="button" class="button-icon" style="top: 4px;">
+                            <button ovg="" type="button" class="button-icon" style="top: 4px;">
                                 <i ovg="" class="wasd-icons-close"></i>
                             </button>
                         </div>
@@ -741,7 +741,7 @@ const BetterStreamChat = {
                         <a role="tab" class="item" data-tab="bttvSettings">BTTV</a>
                         <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
                         <a role="tab" class="item" data-tab="tv7Settings">TV7</a>
-                        <a role="tab" class="item" data-tab="blacklist">ЧС</a>
+                        <a role="tab" class="item" data-tab="filtration">Фильтрация</a>
                         <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
                         <a role="tab" class="item" data-tab="backup">Бэкап</a>
                     </div>
@@ -773,7 +773,7 @@ const BetterStreamChat = {
                     
                     <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
                         <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                            <label ovg=""> Добавить новый канал (Twitch username) </label>
+                            <label ovg=""></label>
                             <input id="bttvAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
                                 <button id="bttvAddUserBtn" ovg="" type="button" class="button-icon">
                                     <i ovg="" class="wasd-icons-add"></i>
@@ -802,10 +802,11 @@ const BetterStreamChat = {
                 <h2> Доступные эмоции BetterTTV </h2>
 
                 <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                    <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                        <label ovg=""> Поиск эмоций </label>
-                        <input id="bttvemojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
-                            <button id="bttvemojiSearchClose" ovg="" type="button" class="button-icon">
+                    <div ovg="" class="wasd-input-wrapper">
+                        <div ovg="" class="wasd-input">
+                            <label ovg=""></label>
+                            <input id="bttvemojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
+                            <button ovg="" type="button" class="button-icon">
                                 <i ovg="" class="wasd-icons-close"></i>
                             </button>
                         </div>
@@ -821,7 +822,7 @@ const BetterStreamChat = {
 
                     <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
                         <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                            <label ovg=""> Добавить новый канал (Twitch username) </label>
+                            <label ovg=""></label>
                             <input id="ffzAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
                                 <button id="ffzAddUserBtn" ovg="" type="button" class="button-icon">
                                     <i ovg="" class="wasd-icons-add"></i>
@@ -852,9 +853,9 @@ const BetterStreamChat = {
 
                 <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
                     <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                        <label ovg=""> Поиск эмоций </label>
+                        <label ovg=""></label>
                         <input id="ffzemojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
-                            <button id="ffzemojiSearchClose" ovg="" type="button" class="button-icon">
+                            <button ovg="" type="button" class="button-icon">
                                 <i ovg="" class="wasd-icons-close"></i>
                             </button>
                         </div>
@@ -870,7 +871,7 @@ const BetterStreamChat = {
 
                     <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
                         <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                            <label ovg=""> Добавить новый канал (Twitch username) </label>
+                            <label ovg=""></label>
                             <input id="tv7AddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
                                 <button id="tv7AddUserBtn" ovg="" type="button" class="button-icon">
                                     <i ovg="" class="wasd-icons-add"></i>
@@ -901,9 +902,9 @@ const BetterStreamChat = {
 
                 <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
                     <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                        <label ovg=""> Поиск эмоций </label>
+                        <label ovg=""></label>
                         <input id="tv7emojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
-                            <button id="tv7emojiSearchClose" ovg="" type="button" class="button-icon">
+                            <button ovg="" type="button" class="button-icon">
                                 <i ovg="" class="wasd-icons-close"></i>
                             </button>
                         </div>
@@ -946,6 +947,7 @@ const BetterStreamChat = {
                         <button class="backup-reset medium ovg warning">
                             <span class="ovg-button-span">
                             <i class="wasd-icons-record" style="font-size: 20px;"></i></span><span class=""> Сбросить по умолчанию </span>
+                            <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> нажмите дважды </div></div></ovg-tooltip>
                         </button>
                     </div>
                 </div>
@@ -954,14 +956,16 @@ const BetterStreamChat = {
 
             </main>
 
-            <main class="text" data-tab="blacklist">
-                <h1 style="padding-left: 10px; padding-right: 10px;"> Черный список (чат) </h1>
-                <div>
-
+            <main class="text" data-tab="filtration">
+                <h1 style="padding-left: 10px; padding-right: 10px;"> Фильтрация </h1>
+                
+                <div class="blacklist">
+                    <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Пользователи </h3>
                     <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                        <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                            <label ovg=""> Добавить в ЧС (username) </label>
-                            <input id="blacklistAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить в ЧС (username) " type="text">
+                        <div ovg="" class="wasd-input-wrapper">
+                            <div ovg="" class="wasd-input">
+                                <label ovg=""></label>
+                                <input id="blacklistAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить пользователя " type="text">
                                 <button id="blacklistAddUserBtn" ovg="" type="button" class="button-icon">
                                     <i ovg="" class="wasd-icons-add"></i>
                                 </button>
@@ -969,23 +973,116 @@ const BetterStreamChat = {
                         </div>
                     </wasd-input>
 
+                    <table class="table-ovg user">
+                        <thead class="thead-ovg">
+                            <th class="table-heading-ovg">
+                                <div class="table-heading-text-ovg">Имя пользователя</div>
+                            </th>
+                            <th class="table-heading-ovg">
+                                <div class="table-heading-text-ovg">Время добавления</div>
+                            </th>
+                            <th class="table-heading-ovg remove">
+                                <div class="table-heading-text-ovg">Действия</div>
+                            </th>
+                        </thead>
+                        <tbody class="ovg-items">
+                        </tbody>
+                    </table>
+
+
+                    <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Термины </h3>
+                    <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+                        <div ovg="" class="wasd-input-wrapper">
+                            <div ovg="" class="wasd-input">
+                                <label ovg=""></label>
+                                <input id="blacklistAddTerm" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить термин " type="text">
+                                <button id="blacklistAddTermBtn" ovg="" type="button" class="button-icon">
+                                    <i ovg="" class="wasd-icons-add"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </wasd-input>
+
+                    <table class="table-ovg term">
+                        <thead class="thead-ovg">
+                            <th class="table-heading-ovg">
+                                <div class="table-heading-text-ovg">Термин</div>
+                            </th>
+                            <th class="table-heading-ovg">
+                                <div class="table-heading-text-ovg">Время добавления</div>
+                            </th>
+                            <th class="table-heading-ovg remove">
+                                <div class="table-heading-text-ovg">Действия</div>
+                            </th>
+                        </thead>
+                        <tbody class="ovg-items">
+                        </tbody>
+                    </table>
                 </div>
 
-                <table class="table-ovg">
-                    <thead class="thead-ovg">
-                        <th class="table-heading-ovg">
-                            <div class="table-heading-text-ovg">Имя пользователя</div>
-                        </th>
-                        <th class="table-heading-ovg">
-                            <div class="table-heading-text-ovg">Время добавления</div>
-                        </th>
-                        <th class="table-heading-ovg remove">
-                            <div class="table-heading-text-ovg">Действия</div>
-                        </th>
-                    </thead>
-                    <tbody class="blacklist ovg-items">
-                    </tbody>
-                </table>
+                <div class="highlight">
+                    <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Пользователи </h3>
+                    <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+                        <div ovg="" class="wasd-input-wrapper">
+                            <div ovg="" class="wasd-input">
+                                <label ovg=""></label>
+                                <input id="highlightAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить пользователя " type="text">
+                                <button id="highlightAddUserBtn" ovg="" type="button" class="button-icon">
+                                    <i ovg="" class="wasd-icons-add"></i>
+                                </button>
+                                <input id="highlightAddUserColor" type="color" class="">
+                            </div>
+                        </div>
+                    </wasd-input>
+
+                    <table class="table-ovg user">
+                        <thead class="thead-ovg">
+                            <th class="table-heading-ovg">
+                                <div class="table-heading-text-ovg">Имя пользователя</div>
+                            </th>
+                            <th class="table-heading-ovg">
+                                <div class="table-heading-text-ovg">Время добавления</div>
+                            </th>
+                            <th class="table-heading-ovg remove">
+                                <div class="table-heading-text-ovg">Действия</div>
+                            </th>
+                        </thead>
+                        <tbody class="ovg-items">
+                        </tbody>
+                    </table>
+
+
+                    <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Термины </h3>
+                    <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+                        <div ovg="" class="wasd-input-wrapper">
+                            <div ovg="" class="wasd-input">
+                                <label ovg=""></label>
+                                <input id="highlightAddTerm" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить термин " type="text">
+                                <button id="highlightAddTermBtn" ovg="" type="button" class="button-icon">
+                                    <i ovg="" class="wasd-icons-add"></i>
+                                </button>
+                                <input id="highlightAddTermColor" type="color" class="">
+                            </div>
+                        </div>
+                    </wasd-input>
+
+                    <table class="table-ovg term">
+                        <thead class="thead-ovg">
+                            <th class="table-heading-ovg">
+                                <div class="table-heading-text-ovg">Термин</div>
+                            </th>
+                            <th class="table-heading-ovg">
+                                <div class="table-heading-text-ovg">Время добавления</div>
+                            </th>
+                            <th class="table-heading-ovg remove">
+                                <div class="table-heading-text-ovg">Действия</div>
+                            </th>
+                        </thead>
+                        <tbody class="ovg-items">
+                        </tbody>
+                    </table>
+                </div>
+
 
             </main>
             <footer>
@@ -1024,7 +1121,8 @@ const BetterStreamChat = {
             HelperTV7.tryAddUser();
         });
 
-        // bl events
+
+        // filtration events
         blacklistAddUserBtn.addEventListener('click', () => {
             text = blacklistAddUser.value
             if (text != '') HelperWASD.addUserToBL(text)
@@ -1034,6 +1132,54 @@ const BetterStreamChat = {
             text = blacklistAddUser.value
             HelperWASD.addUserToBL(text)
         });
+
+
+        blacklistAddTermBtn.addEventListener('click', () => {
+            text = blacklistAddTerm.value
+            if (text != '') HelperWASD.addTermToBL(text)
+        });
+        blacklistAddTerm.addEventListener('keyup', (event) => {
+            if (event.key !== 'Enter') return;
+            text = blacklistAddTerm.value
+            HelperWASD.addTermToBL(text)
+        });
+
+
+        highlightAddUserBtn.addEventListener('click', () => {
+            text = highlightAddUser.value
+            if (text != '') HelperWASD.addUserToHL(text)
+        });
+        highlightAddUser.addEventListener('keyup', (event) => {
+            if (event.key !== 'Enter') return;
+            text = highlightAddUser.value
+            HelperWASD.addUserToHL(text)
+        });
+
+
+        highlightAddTermBtn.addEventListener('click', () => {
+            text = highlightAddTerm.value
+            if (text != '') HelperWASD.addTermToHL(text)
+        });
+        highlightAddTerm.addEventListener('keyup', (event) => {
+            if (event.key !== 'Enter') return;
+            text = highlightAddTerm.value
+            HelperWASD.addTermToHL(text)
+        });
+
+
+        for (let user of Object.keys(settings.wasd.blockUserList)) {
+            HelperWASD.addUserToBlackList(user)
+        }
+        for (let term of Object.keys(settings.wasd.blockTermList)) {
+            HelperWASD.addTermToBlackList(term)
+        }
+        for (let user of Object.keys(settings.wasd.highlightUserList)) {
+            HelperWASD.addUserToHighLight(user)
+        }
+        for (let term of Object.keys(settings.wasd.highlightTermList)) {
+            HelperWASD.addTermToHighLight(term)
+        }
+
 
         // bind fade settings
         settingsDiv.querySelector('.fade').addEventListener('click', () => {
@@ -1150,7 +1296,7 @@ const BetterStreamChat = {
             }
         });
 
-
+        // backup
         settingsDiv.querySelector('.backup-upload').addEventListener('click', () => {
             settingsDiv.querySelector('#importInput').click()
         });
@@ -1166,12 +1312,6 @@ const BetterStreamChat = {
             }
         })
 
-        // show-section-mobile
-        settingsDiv.querySelector('.show-section-mobile').addEventListener('click', () => {
-            settingsDiv.querySelector('section').classList.toggle('mobile-show')
-            settingsDiv.querySelector('.show-section-mobile').classList.toggle('active')
-        });
-
         function processFile(theFile){
             return function(e) { 
                 chrome.storage[storageType].set(JSON.parse(e.target.result), () => {
@@ -1180,6 +1320,13 @@ const BetterStreamChat = {
                 })
             }
         }
+
+        // show-section-mobile
+        settingsDiv.querySelector('.show-section-mobile').addEventListener('click', () => {
+            settingsDiv.querySelector('section').classList.toggle('mobile-show')
+            settingsDiv.querySelector('.show-section-mobile').classList.toggle('active')
+        });
+
 
         /************/
 
@@ -1231,15 +1378,11 @@ const BetterStreamChat = {
             HelperWASD.download(`BetterWASD-settings.backup`, JSON.stringify(settings));
         });
 
-        settingsDiv.querySelector('.backup-reset').addEventListener('click', () => {
+        settingsDiv.querySelector('.backup-reset').addEventListener('dblclick', () => {
             chrome.storage[storageType].set(Helper.getDefaultSettings(), () => {
                 location.reload()
             })
         });
-
-        for (let user of Object.keys(settings.wasd.blockUserList)) {
-            HelperWASD.addUserToBlackList(user)
-        }
 
         // navigation
         for (let navItem of settingsDiv.querySelectorAll('section .items > a')) {
@@ -1283,11 +1426,11 @@ const BetterStreamChat = {
                     case 'number':
                         event.target.parentElement.querySelector('input[type="number"]').value = settings[split[0]][split[1]][0]
                         HelperSettings.save([event.target.parentElement.querySelector('input[type="number"]')])
-                        break; 
-                    // case 'select':
-                    //     event.target.parentElement.querySelector('select').value = settings[split[0]][split[1]][0]
-                    //     HelperSettings.save([event.target.parentElement.querySelector('select')])
-                    //     break;
+                        break;
+                    case 'select':
+                        event.target.parentElement.querySelector('select').value = settings[split[0]][split[1]][0]
+                        HelperSettings.save([event.target.parentElement.querySelector('select')])
+                        break;
                     case 'color':
                         event.target.parentElement.querySelector('input[type="color"]').value = settings[split[0]][split[1]][0]
                         HelperSettings.save([event.target.parentElement.querySelector('input[type="color"]')])
@@ -1308,6 +1451,49 @@ const BetterStreamChat = {
             });
         }
 
+        for (let option of settingsDiv.querySelectorAll('.optionField')) {
+            option.addEventListener('contextmenu', (event) => {
+                let split = event.target.dataset.name.split('_');
+                switch(event.target.getAttribute('option-type')) {
+                    // case 'boolean':
+                    //     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).checked = settings[split[0]][split[1]][0]
+                    //     HelperSettings.save([event.target.parentElement.querySelector('input[type="checkbox"]')])
+                    //     break;
+                    // case 'text':
+                    //     event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0]
+                    //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
+                    //     break;
+                    case 'number':
+                        event.target.parentElement.querySelector('input[type="number"]').value = settings[split[0]][split[1]][0]
+                        HelperSettings.save([event.target.parentElement.querySelector('input[type="number"]')])
+                        break;
+                    case 'select':
+                        event.target.parentElement.querySelector('select').value = settings[split[0]][split[1]][0]
+                        HelperSettings.save([event.target.parentElement.querySelector('select')])
+                        break;
+                    case 'color':
+                        event.target.parentElement.querySelector('input[type="color"]').value = settings[split[0]][split[1]][0]
+                        HelperSettings.save([event.target.parentElement.querySelector('input[type="color"]')])
+                        break;
+                    // case 'botevent':
+                    //     if (settings[split[0]][split[1]][0]) {
+                    //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).click()
+                    //     } else {
+                    //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}_no]`).click()
+                    //     }
+                    //     event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0][0]
+                    //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
+                    //     break;
+                    default:
+                        ovg.log('def')
+                        break;
+                }
+                event.preventDefault();
+            });
+        }
+           
+
+
         // change event
         for (let option of settingsDiv.querySelectorAll('.optionField')) {
             option.addEventListener('change', (event) => {
@@ -1319,6 +1505,19 @@ const BetterStreamChat = {
             source: function(request, response) {
                 $.ajax({
                     url: `https://wasd.tv/api/search/profiles?limit=5&offset=0&search_phrase=${blacklistAddUser.value.toLowerCase()}`,
+                    success: function(data){
+                        response($.map(data?.result?.rows, function(item) {
+                            return { label: item.user_login, value: item.user_login }
+                        }));
+                    }
+                });
+            }
+        });
+
+        $("#highlightAddUser").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: `https://wasd.tv/api/search/profiles?limit=5&offset=0&search_phrase=${highlightAddUser.value.toLowerCase()}`,
                     success: function(data){
                         response($.map(data?.result?.rows, function(item) {
                             return { label: item.user_login, value: item.user_login }
@@ -1379,89 +1578,25 @@ const BetterStreamChat = {
             }
         });
 
-        bttvAddUser.addEventListener('focus', () => {
-            bttvAddUser.parentElement.querySelector('label[ovg]').classList.add('show')
-            bttvAddUser.parentElement.querySelector('input[ovg]').placeholder = ''
-        })
-        bttvAddUser.addEventListener('blur', () => {
-            bttvAddUser.parentElement.querySelector('label[ovg]').classList.remove('show')
-            bttvAddUser.parentElement.querySelector('input[ovg]').placeholder = 'Добавить новый канал (Twitch username)'
-        })
-
-        ffzAddUser.addEventListener('focus', () => {
-            ffzAddUser.parentElement.querySelector('label[ovg]').classList.add('show')
-            ffzAddUser.parentElement.querySelector('input[ovg]').placeholder = ''
-        })
-        ffzAddUser.addEventListener('blur', () => {
-            ffzAddUser.parentElement.querySelector('label[ovg]').classList.remove('show')
-            ffzAddUser.parentElement.querySelector('input[ovg]').placeholder = 'Добавить новый канал (Twitch username)'
-        })
-
-        tv7AddUser.addEventListener('focus', () => {
-            tv7AddUser.parentElement.querySelector('label[ovg]').classList.add('show')
-            tv7AddUser.parentElement.querySelector('input[ovg]').placeholder = ''
-        })
-        tv7AddUser.addEventListener('blur', () => {
-            tv7AddUser.parentElement.querySelector('label[ovg]').classList.remove('show')
-            tv7AddUser.parentElement.querySelector('input[ovg]').placeholder = 'Добавить новый канал (Twitch username)'
-        })
-
-
-        blacklistAddUser.addEventListener('focus', () => {
-            blacklistAddUser.parentElement.querySelector('label[ovg]').classList.add('show')
-            blacklistAddUser.parentElement.querySelector('input[ovg]').placeholder = ''
-        })
-        blacklistAddUser.addEventListener('blur', () => {
-            blacklistAddUser.parentElement.querySelector('label[ovg]').classList.remove('show')
-            blacklistAddUser.parentElement.querySelector('input[ovg]').placeholder = 'Добавить в ЧС (username)'
-        })
-
-
-        bttvemojiSearch.addEventListener('focus', () => {
-            bttvemojiSearch.parentElement.querySelector('label[ovg]').classList.add('show')
-            bttvemojiSearch.parentElement.querySelector('input[ovg]').placeholder = ''
-        })
-        bttvemojiSearch.addEventListener('blur', () => {
-            bttvemojiSearch.parentElement.querySelector('label[ovg]').classList.remove('show')
-            bttvemojiSearch.parentElement.querySelector('input[ovg]').placeholder = 'Поиск эмоций'
-        })
-        bttvemojiSearchClose.addEventListener('click', () => {
-            bttvemojiSearch.parentElement.querySelector('input[ovg]').value = ''
-            bttvemojiSearch.parentElement.querySelector('input[ovg]').dispatchEvent(new Event('input'));
-        })
-
-        ffzemojiSearch.addEventListener('focus', () => {
-            ffzemojiSearch.parentElement.querySelector('label[ovg]').classList.add('show')
-            ffzemojiSearch.parentElement.querySelector('input[ovg]').placeholder = ''
-        })
-        ffzemojiSearch.addEventListener('blur', () => {
-            ffzemojiSearch.parentElement.querySelector('label[ovg]').classList.remove('show')
-            ffzemojiSearch.parentElement.querySelector('input[ovg]').placeholder = 'Поиск эмоций'
-        })
-        ffzemojiSearchClose.addEventListener('click', () => {
-            ffzemojiSearch.parentElement.querySelector('input[ovg]').value = ''
-            ffzemojiSearch.parentElement.querySelector('input[ovg]').dispatchEvent(new Event('input'));
-        })
-
-        tv7emojiSearch.addEventListener('focus', () => {
-            tv7emojiSearch.parentElement.querySelector('label[ovg]').classList.add('show')
-            tv7emojiSearch.parentElement.querySelector('input[ovg]').placeholder = ''
-        })
-        tv7emojiSearch.addEventListener('blur', () => {
-            tv7emojiSearch.parentElement.querySelector('label[ovg]').classList.remove('show')
-            tv7emojiSearch.parentElement.querySelector('input[ovg]').placeholder = 'Поиск эмоций'
-        })
-        tv7emojiSearchClose.addEventListener('click', () => {
-            tv7emojiSearch.parentElement.querySelector('input[ovg]').value = ''
-            tv7emojiSearch.parentElement.querySelector('input[ovg]').dispatchEvent(new Event('input'));
-        })
-
-
-        settingsSearchClose.addEventListener('click', () => {
-            settingsSearch.parentElement.querySelector('input[ovg]').value = ''
-            settingsSearch.parentElement.querySelector('input[ovg]').dispatchEvent(new Event('input'));
-        })
-
+        // bind wasd-input
+        for (let wasdinput of settingsDiv.querySelectorAll('wasd-input')) {
+            let label = wasdinput.querySelector('label[ovg]')
+            let input = wasdinput.querySelector('input[ovg]')
+            let text = input?.placeholder
+            if (label) label.textContent = text 
+            wasdinput.querySelector('input').addEventListener('focus', () => {
+                label?.classList.add('show')
+                input.placeholder = ''
+            })
+            wasdinput.querySelector('input').addEventListener('blur', () => {
+                label?.classList.remove('show')
+                input.placeholder = text
+            })
+            wasdinput.querySelector('button')?.addEventListener('click', () => {
+                input.value = ''
+                input.dispatchEvent(new Event('input'))
+            })
+        }
 
         // load bttv, ffz and 7tv emotes
         await HelperBTTV.update();

@@ -210,6 +210,7 @@ ovg-tooltip .tooltip_size-large .tooltip-content {
 
 ovg-button:hover ovg-tooltip .tooltip,
 button:hover ovg-tooltip .tooltip,
-.sticker-card:hover ovg-tooltip .tooltip {
+.sticker-card:hover ovg-tooltip .tooltip,
+.def:hover ovg-tooltip .tooltip {
 	display: flex;
 }

@@ -2257,6 +2257,12 @@ main[data-tab="backup"] button {
     .table-menu__block td {
         padding: 2px 10px 2px 10px !important;
     }
+    #bscSettingsPanel .option button.def {
+        display: block !important;
+    }
+    .def ovg-tooltip .tooltip {
+        display: none !important;
+    }
 }
 
 @media screen and (max-width:350px) {
@@ -2487,7 +2493,7 @@ div.sticker-card:hover div.paidsubs-popup__stickers-item {
     padding: 4px;
     position: relative;
     width: 24px;
-
+    display: none;
 }
 #bscSettingsPanel .option button.def:hover {
     background: rgba(var(--wasd-color-switch--rgb),.08);
@@ -2955,4 +2961,24 @@ header .logo {
     color: rgba(var(--wasd-color-switch--rgb), 0.48) !important;
     background: rgba(var(--wasd-color-switch--rgb), 0.08) !important;
     pointer-events: none;
+}
+
+
+wasd-input [ovg] input[type="color"] {
+  height: 24px;
+  left: auto;
+  position: absolute;
+  right: 32px;
+  top: 22px;
+  width: 24px;
+  padding: unset;
+  background: none;
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin-left: 4px;
+  pointer-events: auto;
+  z-index: 1;
+  border-style: none;
 }
