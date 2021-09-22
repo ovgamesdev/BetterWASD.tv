@@ -184,7 +184,7 @@ main[data-tab="about"] > div.aboutHalf {
     border-radius: 3px;
     display: inline-block;
     float: left;
-    height: 383px;
+    height: 94.226%;
     margin: 12px;
     padding: 5px;
     text-align: center;
@@ -274,6 +274,10 @@ button#backupButton {
     padding-top: 0;
 }
 
+#bscSettingsPanel main h3 {
+    margin: 10px 0 0 0;
+}
+
 #bscSettingsPanel main .option {
     align-items: center;
     display: flex;
@@ -325,35 +329,6 @@ button#backupButton {
     background-color: var(--wasd-color-prime);
     padding: 0 9px;
 }
-/*#bscSettingsPanel main .option .labelField>.titleline:after {
-    content: '';
-    display: inline-block;
-    height: 1px;
-    background: #000;
-    z-index: 1;
-    position: relative;
-    vertical-align: middle;
-    background-color: rgba(var(--wasd-color-switch--rgb),.24);
-}
-#bscSettingsPanel main .option .labelField>.titleline:after {
-    width: 91.5%;
-    margin: 0px 0px 0px 5px;
-}
-
-#bscSettingsPanel main .option .labelField>.titleline:before {
-    content: '';
-    display: inline-block;
-    height: 1px;
-    background: #000;
-    z-index: 1;
-    position: relative;
-    vertical-align: middle;
-    background-color: rgba(var(--wasd-color-switch--rgb),.24);
-}
-#bscSettingsPanel main .option .labelField>.titleline:before {
-    width: 1%;
-    margin: 0px 5px 0px 0px;
-}*/
 
 #bscSettingsPanel main .option .labelField .line {
     background-color: rgba(var(--wasd-color-switch--rgb),0.24);
@@ -1688,6 +1663,8 @@ img.emoji__item-ovg {
     cursor: pointer;
     width: 105px;
     vertical-align: middle;
+    background: none;
+    border-style: none;
 }
 #bscSettingsPanel select {
     cursor: pointer;

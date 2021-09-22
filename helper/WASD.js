@@ -176,7 +176,7 @@ const HelperWASD = {
         var data;
         if (!positionself) {
             if (document.querySelector('div.chat-container')) {
-                if (!settings.wasd.chatOnTheLeft[1]) {
+                if (!settings.wasd.chatOnTheLeft) {
                     y_card = y-13;
                     x_card = document.querySelector('div#scroll-content.wrapper').offsetWidth - document.querySelector('div.chat-container').offsetWidth + 5;
                 } else {
@@ -227,7 +227,7 @@ const HelperWASD = {
 
         let card = document.querySelector('.chat-room__viewer-card')
 
-        if (settings.wasd.highlightMessagesOpenCard[1]) HelperWASD.highlightMessages(channel_name.trim())
+        if (settings.wasd.highlightMessagesOpenCard) HelperWASD.highlightMessages(channel_name.trim())
 
         card.querySelector("[data-a-target='viewer-card-close-button']").addEventListener('click', () => {
             removeVC()
@@ -517,9 +517,9 @@ const HelperWASD = {
                                             if (content.style.maxHeight) {
                                                 content.style.maxHeight = null;
                                             } else {
-                                                if (document.querySelector('.theatre-mode-mobile') && settings.wasd.chatMobilePlayer[1]) {
+                                                if (document.querySelector('.theatre-mode-mobile') && settings.wasd.chatMobilePlayer) {
                                                     
-                                                    if (settings.wasd.hidePanelMobile[1]) {
+                                                    if (settings.wasd.hidePanelMobile) {
                                                         document.querySelector('.block-ovg').style.maxHeight = document.querySelector('.chat-container__wrap').clientHeight - (62 + document.querySelector('.ovg-viewer-card').clientHeight)+'px'
                                                     } else {
                                                         document.querySelector('.block-ovg').style.maxHeight = document.querySelector('.chat-container__wrap').clientHeight - (64 + document.querySelector('.ovg-viewer-card').clientHeight)+'px'
@@ -581,24 +581,24 @@ const HelperWASD = {
                                                         let blockmessage = message.info.message;
                                                         const userColors = ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"];
 
-                                                        if (settings.wasd.bttvEmotes[1]) {
+                                                        if (settings.wasd.bttvEmotes) {
                                                             blockmessage = HelperBTTV.replaceText(blockmessage);
                                                         }
-                                                        if (settings.wasd.ffzEmotes[1]) {
+                                                        if (settings.wasd.ffzEmotes) {
                                                             blockmessage = HelperFFZ.replaceText(blockmessage);
                                                         }
-                                                        if (settings.wasd.tv7Emotes[1]) {
+                                                        if (settings.wasd.tv7Emotes) {
                                                             blockmessage = HelperTV7.replaceText(blockmessage);
                                                         }
 
                                                         // fix link
-                                                        if (settings.wasd.fixedLinks[1]) {
+                                                        if (settings.wasd.fixedLinks) {
                                                             if (blockmessage) {
                                                                 blockmessage = HelperWASD.textToURL(blockmessage)
                                                             }
                                                         }
 
-                                                        if (settings.wasd.fixCharactersBreakingChat[1]) {
+                                                        if (settings.wasd.fixCharactersBreakingChat) {
                                                             blockmessage = stripCombiningMarks(blockmessage)
                                                         }
 
@@ -613,9 +613,9 @@ const HelperWASD = {
                                                                     <div class="message__info__text-ovg">
                                                                         <div class="info__text__status-ovg">
                                                                             ${isSub() ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${userColors[message.info.user_id % (userColors.length - 1)]}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
-                                                                            <div class="info__text__status__name-ovg ${isModer() ? 'is-moderator' : ''}${isOwner() ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname[1]) ? `margin: 0px;` : ''}color: ${userColors[message.info.user_id % (userColors.length - 1)]}">${isModer() ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner() ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${newusername}</div>
+                                                                            <div class="info__text__status__name-ovg ${isModer() ? 'is-moderator' : ''}${isOwner() ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${userColors[message.info.user_id % (userColors.length - 1)]}">${isModer() ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner() ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${newusername}</div>
                                                                         </div>
-                                                                        ${(settings.wasd.colonAfterNickname[1]) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))" >: </span>` : '' }
+                                                                        ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))" >: </span>` : '' }
                                                                         <div class="message-text-ovg"><span>${blockmessage}</span></div>
                                                                     </div>
                                                                 </div>
@@ -624,12 +624,12 @@ const HelperWASD = {
                                                             
                                                         let node = messagesDiv.appendChild(div)
 
-                                                        if (settings.wasd.stickerovg[1].toString() === '3') {
+                                                        if (settings.wasd.stickerovg.toString() === '3') {
                                                             stickerovg = node.querySelector(`.message__info__text-ovg img.stickerovg`);
                                                             if (stickerovg) {
                                                                 node.remove();
                                                             }
-                                                        } else if (settings.wasd.stickerovg[1].toString() === '4') {
+                                                        } else if (settings.wasd.stickerovg.toString() === '4') {
                                                             stickerovg = node.querySelector(`.message__info__text-ovg img.stickerovg`);
                                                             if (stickerovg) {
                                                                 messageText = node.querySelector(`.message-text-ovg > span`);
@@ -640,7 +640,7 @@ const HelperWASD = {
                                                         var messageText = node.querySelector('.message-text-ovg > span')
                                                         if (messageText) {
 
-                                                            if (settings.wasd.onClickMention[1].toString() === '0') {
+                                                            if (settings.wasd.onClickMention.toString() === '0') {
                                                                 messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
                                                                     let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
                                                                     if (!username) {username = $1.trim().split('@').join('')}
@@ -655,7 +655,7 @@ const HelperWASD = {
                                                                     });
                                                                 });
 
-                                                            } else if (settings.wasd.onClickMention[1].toString() === '1') {
+                                                            } else if (settings.wasd.onClickMention.toString() === '1') {
                                                                 messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
                                                                     let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
                                                                     if (!username) {username = $1.trim().split('@').join('')}
@@ -672,7 +672,7 @@ const HelperWASD = {
                                                                     })
                                                                 });
 
-                                                            } else if (settings.wasd.onClickMention[1].toString() === '2') {
+                                                            } else if (settings.wasd.onClickMention.toString() === '2') {
                                                                 messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
                                                                     let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
                                                                     if (!username) {username = $1.trim().split('@').join('')}
@@ -697,10 +697,10 @@ const HelperWASD = {
                                                         let blockmessage = '';
                                                         const userColors = ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"];
                                 
-                                                        if (settings.wasd.sticker[1].toString() === '4') {
+                                                        if (settings.wasd.sticker.toString() === '4') {
                                                             blockmessage = 'Стикер';
                                                         }
-                                                        if (settings.wasd.sticker[1].toString() !== '3') {
+                                                        if (settings.wasd.sticker.toString() !== '3') {
                                                             date_time = new Date(message.date_time);
                                                             let div = document.createElement('div')
                                                             div.classList.add('block__messages__item-ovg')
@@ -711,9 +711,9 @@ const HelperWASD = {
                                                                             <div class="message__info__text-ovg">
                                                                                 <div class="info__text__status-ovg">
                                                                                     ${isSub() ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${userColors[message.info.user_id % (userColors.length - 1)]}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
-                                                                                    <div class="info__text__status__name-ovg ${isModer() ? 'is-moderator' : ''}${isOwner() ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname[1]) ? `margin: 0px;` : ''}color: ${userColors[message.info.user_id % (userColors.length - 1)]}">${isModer() ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner() ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${newusername}</div>
+                                                                                    <div class="info__text__status__name-ovg ${isModer() ? 'is-moderator' : ''}${isOwner() ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${userColors[message.info.user_id % (userColors.length - 1)]}">${isModer() ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner() ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${newusername}</div>
                                                                                 </div>
-                                                                                ${(settings.wasd.colonAfterNickname[1]) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
+                                                                                ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
                                                                                 <div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div>
                                                                                 ${(blockmessage == '') ? '<img alt="sticker" class="sticker small" src="'+message.info.sticker.sticker_image.medium+'">' : ''}
                                                                             </div>
@@ -723,12 +723,12 @@ const HelperWASD = {
 
                                                             let node = messagesDiv.appendChild(div)
 
-                                                            if (settings.wasd.sticker[1].toString() === '3') {
+                                                            if (settings.wasd.sticker.toString() === '3') {
                                                                 sticker = node.querySelector(`.message__info__text-ovg img.sticker`);
                                                                 if (sticker) {
                                                                     node.remove();
                                                                 }
-                                                            } else if (settings.wasd.sticker[1].toString() === '4') {
+                                                            } else if (settings.wasd.sticker.toString() === '4') {
                                                                 sticker = node.querySelector(`.message__info__text-ovg img.sticker`);
                                                                 if (sticker) {
                                                                     messageText = node.querySelector(`.message-text > span`);
@@ -1061,7 +1061,7 @@ const HelperWASD = {
     },
     addUsernameToTextarea(username) {
         let textarea = document.querySelector('.footer > div >textarea');
-        if (settings.wasd.onClickUser[1].toString() === '1') {
+        if (settings.wasd.onClickUser.toString() === '1') {
             if (isPressedControl) {
                 if (textarea) {
                     textarea.value+=`@${username} `;
@@ -1072,7 +1072,7 @@ const HelperWASD = {
             } else {
                 return false;
             }
-        } else if (settings.wasd.onClickUser[1].toString() === '2') {
+        } else if (settings.wasd.onClickUser.toString() === '2') {
             if (isPressedShift) {
                 if (textarea) {
                     textarea.value+=`@${username} `;
@@ -1083,7 +1083,7 @@ const HelperWASD = {
             } else {
                 return false;
             }
-        } else if (settings.wasd.onClickUser[1].toString() === '3') {
+        } else if (settings.wasd.onClickUser.toString() === '3') {
             if (isPressedAlt) {
                 if (textarea) {
                     textarea.value+=`@${username} `;
@@ -1138,7 +1138,7 @@ const HelperWASD = {
                                 }
 
                                 if (document.querySelector('.stream-status-container .stream-status-text.live')) {
-                                    if (settings.wasd.uptimeStreamMobile[1]) {
+                                    if (settings.wasd.uptimeStreamMobile) {
                                         document.querySelector('.stream-status-container .stream-status-text.live').textContent = textdate
                                     } else {
                                         document.querySelector('.stream-status-container .stream-status-text.live').textContent = ` в эфире `
@@ -1161,7 +1161,7 @@ const HelperWASD = {
         }
     },
     createStreamUptime() {
-        if (settings.wasd.uptimeStream[1] && new URL(document.URL).pathname.split('/')[2] != 'videos' && new URL(document.URL).pathname.split('/')[2] != 'clips') {
+        if (settings.wasd.uptimeStream && new URL(document.URL).pathname.split('/')[2] != 'videos' && new URL(document.URL).pathname.split('/')[2] != 'clips') {
             if (!document.querySelector('div.stream-uptime')) {
 
                 document.querySelector('div.player-info__wrap-line > wasd-user-plays')?.insertAdjacentHTML("afterend", `<div class="stream-uptime" style="position:relative"><i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip></div>`);
@@ -1266,7 +1266,7 @@ const HelperWASD = {
         for(let message of document.querySelectorAll('.block__messages__item') ) {
             if(message.getAttribute('username') == username.trim().split('@').join('')) {
                 message.remove()
-            } else if (settings.wasd.removeMentionBL[1]) {
+            } else if (settings.wasd.removeMentionBL) {
                 for(let msg of message.querySelectorAll(`.chat-message-mention[username="@${username.trim().split('@').join('')}"]`)) {
                     msg.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove()
                 }
@@ -1355,30 +1355,30 @@ const HelperWASD = {
         let blockmessage = message;
 
         if (message != '') {
-            if (settings.wasd.bttvEmotes[1]) {
+            if (settings.wasd.bttvEmotes) {
                 blockmessage = HelperBTTV.replaceText(blockmessage);
             }
-            if (settings.wasd.ffzEmotes[1]) {
+            if (settings.wasd.ffzEmotes) {
                 blockmessage = HelperFFZ.replaceText(blockmessage);
             }
-            if (settings.wasd.tv7Emotes[1]) {
+            if (settings.wasd.tv7Emotes) {
                 blockmessage = HelperTV7.replaceText(blockmessage);
             }
 
             // fix link
-            if (settings.wasd.fixedLinks[1]) {
+            if (settings.wasd.fixedLinks) {
                 blockmessage = HelperWASD.textToURL(blockmessage)
             }
 
-            if (settings.wasd.fixCharactersBreakingChat[1]) {
+            if (settings.wasd.fixCharactersBreakingChat) {
                 blockmessage = stripCombiningMarks(blockmessage)
             }
         }
 
-        if (settings.wasd.sticker[1].toString() === '4') {
+        if (settings.wasd.sticker.toString() === '4') {
             blockmessage = 'Стикер';
         }
-        if (settings.wasd.sticker[1].toString() !== '3') {
+        if (settings.wasd.sticker.toString() !== '3') {
             date_time = new Date();
 
             let div = document.createElement('div')
@@ -1390,9 +1390,9 @@ const HelperWASD = {
                             <div class="message__info__text-ovg">
                                 <div class="info__text__status-ovg">
                                     ${isSub ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
-                                    <div class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname[1]) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${username}</div>
+                                    <div class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${username}</div>
                                 </div>
-                                ${(settings.wasd.colonAfterNickname[1]) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
+                                ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
                                 <div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div>
                                 ${(sticker != undefined) ? '<img alt="sticker" class="sticker small" src="'+sticker+'">' : ''}
 
@@ -1404,12 +1404,12 @@ const HelperWASD = {
             block__messages.prepend(div)
             let node = block__messages.firstElementChild
 
-            if (settings.wasd.sticker[1].toString() === '3') {
+            if (settings.wasd.sticker.toString() === '3') {
                 sticker = node.querySelector(`.message__info__text-ovg img.sticker`);
                 if (sticker) {
                     node.remove();
                 }
-            } else if (settings.wasd.sticker[1].toString() === '4') {
+            } else if (settings.wasd.sticker.toString() === '4') {
                 sticker = node.querySelector(`.message__info__text-ovg img.sticker`);
                 if (sticker) {
                     messageText = node.querySelector(`.message-text > span`);
@@ -1419,7 +1419,7 @@ const HelperWASD = {
 
             var messageText = node.querySelector('.message-text-ovg > span')
             if (messageText) {
-                if (settings.wasd.onClickMention[1].toString() === '0') {
+                if (settings.wasd.onClickMention.toString() === '0') {
                     messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
                         let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
                         if (!username) {username = $1.trim().split('@').join('')}
@@ -1434,7 +1434,7 @@ const HelperWASD = {
                         });
                     });
 
-                } else if (settings.wasd.onClickMention[1].toString() === '1') {
+                } else if (settings.wasd.onClickMention.toString() === '1') {
                     messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
                         let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
                         if (!username) {username = $1.trim().split('@').join('')}
@@ -1451,7 +1451,7 @@ const HelperWASD = {
                         })
                     });
 
-                } else if (settings.wasd.onClickMention[1].toString() === '2') {
+                } else if (settings.wasd.onClickMention.toString() === '2') {
                     messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
                         let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
                         if (!username) {username = $1.trim().split('@').join('')}
@@ -1473,7 +1473,7 @@ const HelperWASD = {
     },
     usercolorapi(element) {
         // ищем цвет по api если по ласт сообщениям не нашли
-        if (element.style.color == '' && settings.wasd.colorAtTheMention[1]) {
+        if (element.style.color == '' && settings.wasd.colorAtTheMention) {
             color = "rgba(var(--wasd-color-switch--rgb),.88);";
             $.ajax({
                 url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${element.getAttribute('username').split('@').join('').toLowerCase().trim()}`,
@@ -1496,7 +1496,7 @@ const HelperWASD = {
     usercolor(channel_name) {
         // ищем цвет по ласт сообщениям тк у api есть задержка
         let color;
-        if (settings.wasd.colorAtTheMention[1]) {
+        if (settings.wasd.colorAtTheMention) {
             allNames = document.querySelectorAll('div.info__text__status__name');
             for (let element of allNames) {
                 if (element.getAttribute('username')) {

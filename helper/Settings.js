@@ -540,17 +540,17 @@ const HelperSettings = {
             let value = null;
 
             if (option.type === 'radio' && option.classList.contains('botevent')) {
-                value = [settings[split[0]][split[1]][0], [settings[split[0]][split[1]][1][0], option.checked && option.value === '1']];
+                value = option.checked && option.value === '1';
             } else if (option.type === 'text' && option.classList.contains('botevent')) {
-                value = [settings[split[0]][split[1]][0], [option.value, settings[split[0]][split[1]][1][1]] ];
+                value = option.value;
             } else if (option.type === 'radio') {
-                value = [settings[split[0]][split[1]][0], option.checked && option.value === '1'];
+                value = option.checked && option.value === '1';
             } else if (option.type === 'checkbox') {
-                value = [settings[split[0]][split[1]][0], option.checked];
+                value = option.checked;
             } else if (option.dataset.type === 'number' || option.type === 'number') {
-                value = [settings[split[0]][split[1]][0], parseFloat(option.value)];
+                value = parseFloat(option.value);
             } else {
-                value = [settings[split[0]][split[1]][0], option.value];
+                value = option.value;
             }
 
             if (!newSettings[split[0]]) newSettings[split[0]] = {};
@@ -562,7 +562,7 @@ const HelperSettings = {
         }
 
         setTimeout(() => {
-            if (settings.general.autoUpdateChat[1]) {
+            if (settings.general.autoUpdateChat) {
                 let header_block_menu = document.querySelector('.header > div.header__block__menu')
                 let header_update = document.querySelector('.update > i')
                 if (header_block_menu) {
@@ -620,7 +620,7 @@ const HelperSettings = {
             <ol class="flexibleButtonGroup optionTypeBoolean">
                 <!--${ help[0] == '' ? '' : ` <div class="helpoption tooltip-ovg"><img src="${help[0]}"> ${help[1]} </div> `}-->
                 <label class="switch-ovg">
-                    <input option-type="boolean" type="checkbox" id="boolean_${name}" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${defaultValue[1] ? 'checked' : ''}>
+                    <input option-type="boolean" type="checkbox" id="boolean_${name}" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${defaultValue ? 'checked' : ''}>
                     <span class="slider-ovg"> <div class="switcher_thumb-ovg"></div> </span>
                 </label>
                 <!--button class="optionField def" data-name="${name}" option-type="boolean"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
@@ -638,7 +638,7 @@ const HelperSettings = {
         return this._basic(title, description, `
         <ol class="flexibleButtonGroup optionTypeBoolean">
             <div class="def">
-                <input option-type="number" type="number" class="optionField" data-name="${name}" value="${defaultValue[1]}" ${min ? 'min="' + min + '" ' : ''}${max ? 'max="' + max + '"' : ''}/>
+                <input option-type="number" type="number" class="optionField" data-name="${name}" value="${defaultValue}" ${min ? 'min="' + min + '" ' : ''}${max ? 'max="' + max + '"' : ''}/>
                 <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
             </div>
             <button class="optionField def" data-name="${name}" option-type="number"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
@@ -646,9 +646,9 @@ const HelperSettings = {
     },
     select(name, title, description, items = [], defaultValue = '', help = '') {
         let selectOptions = '';
-        defaultValue[1] = defaultValue[1].toString();
+        defaultValue = defaultValue.toString();
         for (let item of items) {
-            selectOptions += `<option value="${item.value}"${item.value.toString() === defaultValue[1] ? ' selected' : ''}>${item.label}</option>`;
+            selectOptions += `<option value="${item.value}"${item.value.toString() === defaultValue ? ' selected' : ''}>${item.label}</option>`;
         }
         return this._basic(title, description, `
         <ol class="flexibleButtonGroup optionTypeBoolean">
@@ -671,7 +671,7 @@ const HelperSettings = {
         <ol class="flexibleButtonGroup optionTypeBoolean">
         <!--${ help[0] == '' ? '' : ` <div class="helpoption tooltip-ovg"><img src="${help[0]}"> ${help[1]} </div> `}-->
             <div class="def">
-                <input type="color" option-type="color" class="optionField" data-name="${name}" value="${defaultValue[1]}" />
+                <input type="color" option-type="color" class="optionField" data-name="${name}" value="${defaultValue}" />
                 <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
             </div>
             <button class="optionField def" data-name="${name}" option-type="color"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
@@ -680,13 +680,13 @@ const HelperSettings = {
     botevent(name, title, description, defaultValue = ['', false], yesButton = 'Вкл', noButton = 'Откл', help = '') {
         return this._basic(title, description, `
             <ol class="flexibleButtonGroup optionTypeBoolean">
-                <input option-type="botevent" type="text" class="optionField botevent" data-name="${name}" value="${defaultValue[1][0]}"/>
+                <input option-type="botevent" type="text" class="optionField botevent" data-name="${name}" value="${defaultValue[0]}"/>
                 <li>
-                    <input option-type="botevent" type="radio" id="boolean_${name}" name="boolean_${name}" value="1" class="optionField botevent" data-name="${name}" ${defaultValue[1][1] ? 'checked' : ''}>
+                    <input option-type="botevent" type="radio" id="boolean_${name}" name="boolean_${name}" value="1" class="optionField botevent" data-name="${name}" ${defaultValue[1] ? 'checked' : ''}>
                     <label for="boolean_${name}" class="green"><span class="icon16 fa-check"></span> ${yesButton}</label>
                 </li>
                 <li>
-                    <input option-type="botevent" type="radio" id="boolean_${name}_no" name="boolean_${name}" value="0" class="optionField botevent" data-name="${name}" ${!defaultValue[1][1] ? 'checked' : ''}>
+                    <input option-type="botevent" type="radio" id="boolean_${name}_no" name="boolean_${name}" value="0" class="optionField botevent" data-name="${name}" ${!defaultValue[1] ? 'checked' : ''}>
                     <label for="boolean_${name}_no" class="red"><span class="icon16 fa-times"></span> ${noButton}</label>
                 </li>
                 <!--button class="optionField def" data-name="${name}" option-type="botevent"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->

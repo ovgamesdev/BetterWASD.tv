@@ -740,7 +740,7 @@ const BetterStreamChat = {
                         <a role="tab" class="item active" data-tab="wasdSettings">Настройки</a>
                         <a role="tab" class="item" data-tab="bttvSettings">BTTV</a>
                         <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
-                        <a role="tab" class="item" data-tab="tv7Settings">TV7</a>
+                        <a role="tab" class="item" data-tab="tv7Settings">7TV</a>
                         <a role="tab" class="item" data-tab="filtration">Фильтрация</a>
                         <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
                         <a role="tab" class="item" data-tab="backup">Бэкап</a>
@@ -1416,32 +1416,32 @@ const BetterStreamChat = {
                 let split = event.target.dataset.name.split('_');
                 switch(event.target.getAttribute('option-type')) {
                     // case 'boolean':
-                    //     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).checked = settings[split[0]][split[1]][0]
+                    //     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).checked = Helper.getDefaultSettings()[split[0]][split[1]]
                     //     HelperSettings.save([event.target.parentElement.querySelector('input[type="checkbox"]')])
                     //     break;
                     // case 'text':
-                    //     event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0]
+                    //     event.target.parentElement.querySelector('input[type="text"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
                     //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
                     //     break;
                     case 'number':
-                        event.target.parentElement.querySelector('input[type="number"]').value = settings[split[0]][split[1]][0]
+                        event.target.parentElement.querySelector('input[type="number"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
                         HelperSettings.save([event.target.parentElement.querySelector('input[type="number"]')])
                         break;
                     case 'select':
-                        event.target.parentElement.querySelector('select').value = settings[split[0]][split[1]][0]
+                        event.target.parentElement.querySelector('select').value = Helper.getDefaultSettings()[split[0]][split[1]]
                         HelperSettings.save([event.target.parentElement.querySelector('select')])
                         break;
                     case 'color':
-                        event.target.parentElement.querySelector('input[type="color"]').value = settings[split[0]][split[1]][0]
+                        event.target.parentElement.querySelector('input[type="color"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
                         HelperSettings.save([event.target.parentElement.querySelector('input[type="color"]')])
                         break;
                     // case 'botevent':
-                    //     if (settings[split[0]][split[1]][0]) {
+                    //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
                     //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).click()
                     //     } else {
                     //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}_no]`).click()
                     //     }
-                    //     event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0][0]
+                    //     event.target.parentElement.querySelector('input[type="text"]').value = Helper.getDefaultSettings()[split[0]][split[1]][0]
                     //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
                     //     break;
                     default:
@@ -1456,32 +1456,32 @@ const BetterStreamChat = {
                 let split = event.target.dataset.name.split('_');
                 switch(event.target.getAttribute('option-type')) {
                     // case 'boolean':
-                    //     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).checked = settings[split[0]][split[1]][0]
+                    //     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).checked = Helper.getDefaultSettings()[split[0]][split[1]]
                     //     HelperSettings.save([event.target.parentElement.querySelector('input[type="checkbox"]')])
                     //     break;
                     // case 'text':
-                    //     event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0]
+                    //     event.target.parentElement.querySelector('input[type="text"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
                     //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
                     //     break;
                     case 'number':
-                        event.target.parentElement.querySelector('input[type="number"]').value = settings[split[0]][split[1]][0]
+                        event.target.parentElement.querySelector('input[type="number"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
                         HelperSettings.save([event.target.parentElement.querySelector('input[type="number"]')])
                         break;
                     case 'select':
-                        event.target.parentElement.querySelector('select').value = settings[split[0]][split[1]][0]
+                        event.target.parentElement.querySelector('select').value = Helper.getDefaultSettings()[split[0]][split[1]]
                         HelperSettings.save([event.target.parentElement.querySelector('select')])
                         break;
                     case 'color':
-                        event.target.parentElement.querySelector('input[type="color"]').value = settings[split[0]][split[1]][0]
+                        event.target.parentElement.querySelector('input[type="color"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
                         HelperSettings.save([event.target.parentElement.querySelector('input[type="color"]')])
                         break;
                     // case 'botevent':
-                    //     if (settings[split[0]][split[1]][0]) {
+                    //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
                     //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).click()
                     //     } else {
                     //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}_no]`).click()
                     //     }
-                    //     event.target.parentElement.querySelector('input[type="text"]').value = settings[split[0]][split[1]][0][0]
+                    //     event.target.parentElement.querySelector('input[type="text"]').value = Helper.getDefaultSettings()[split[0]][split[1]][0]
                     //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
                     //     break;
                     default:

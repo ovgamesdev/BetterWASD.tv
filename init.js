@@ -18,7 +18,7 @@ window.addEventListener('keydown', (e) => {
     if (e.key == "Shift") isPressedShift = true;
     if (e.key == "Control") isPressedControl = true;
     if (e.key == "f" || e.key == "а") {
-        if (settings.wasd.pressedFullScreen[1] && !isPressedFullScreen) {
+        if (settings.wasd.pressedFullScreen && !isPressedFullScreen) {
             if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
                 if (document.querySelector('button.player-button.fullscreen-button')) document.querySelector('button.player-button.fullscreen-button').click();
                 isPressedFullScreen = true;
@@ -26,7 +26,7 @@ window.addEventListener('keydown', (e) => {
         }
     }
     if (e.key == "t" || e.key == "е") {
-        if (settings.wasd.pressedTheater[1] && !isPressedTheater) {
+        if (settings.wasd.pressedTheater && !isPressedTheater) {
             if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
                 if (document.querySelector('button.player-button.theater-button')) document.querySelector('button.player-button.theater-button').click();
                 isPressedTheater = true;
@@ -34,7 +34,7 @@ window.addEventListener('keydown', (e) => {
         }
     }
     if (e.key == "i" || e.key == "ш") {
-        if (settings.wasd.pressedPIP[1] && !isPressedPIP) {
+        if (settings.wasd.pressedPIP && !isPressedPIP) {
             if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
                 if (document.querySelector('button.player-button.pip')) document.querySelector('button.player-button.pip').click();
                 isPressedPIP = true;
@@ -42,9 +42,9 @@ window.addEventListener('keydown', (e) => {
         }
     }
     if (e.key == "x" || e.key == "ч") {
-        if (settings.wasd.pressedClip[1] && !isPressedClip) {
+        if (settings.wasd.pressedClip && !isPressedClip) {
             if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
-                if (settings.wasd.iframeCreateClip[1]) {
+                if (settings.wasd.iframeCreateClip) {
                     if (document.querySelector('button.player-button.clip-ovg')) document.querySelector('button.player-button.clip-ovg').click()
                 } else {
                     if (document.querySelector('button.player-button.clip-button')) document.querySelector('button.player-button.clip-button').click();
@@ -185,7 +185,7 @@ function addToMenu() {
 }
 //-
 function addPipToPlayer() {
-    if (settings.wasd.pictureInPicture[1]) {
+    if (settings.wasd.pictureInPicture) {
         if (!document.querySelector("button.pip")) {
             const divbuttons = document.querySelector("div.buttons-container > div.buttons-right");
             const buttonpip = `<div class="buttons-wraper pip"><button class="player-button pip" type="button"><div class="tooltip tooltip-up tooltip-align-center">Картинка в картинке</div><svg class="tw-icon__svg" width="100%" height="100%" transform="scale(1.3)" viewBox="0 0 128 128"><path fill="#FFF" d="M22 30c-1.9 1.9-2 3.3-2 34s.1 32.1 2 34c1.9 1.9 3.3 2 42 2s40.1-.1 42-2c1.9-1.9 2-3.3 2-34 0-31.6 0-31.9-2.2-34-2.1-1.9-3.3-2-42-2-38.5 0-39.9.1-41.8 2zm78 34v28H28V36h72v28z"></path><path fill="#FFF" d="M60 72v12h32V60H60v12z"></path></svg></button></div>`;
@@ -218,7 +218,7 @@ function addPipToPlayer() {
     }
 }
 function createClipByOvg() {
-    if (settings.wasd.iframeCreateClip[1]) {
+    if (settings.wasd.iframeCreateClip) {
         if (document.querySelector(".clip-button") && !document.querySelector("button.clip-ovg")) {
             document.querySelector('.player-button.clip-button').parentElement.style.display = "none"
             const divbuttons = document.querySelector("div.buttons-container > div.buttons-right");
@@ -285,7 +285,7 @@ function createClipByOvg() {
 }
 //-
 function addResetToPlayer() {
-    if (settings.wasd.resetToPlayer[1]) {
+    if (settings.wasd.resetToPlayer) {
         if (!document.querySelector("button.resetplayer")) {
             const divbuttons = document.querySelector("div.buttons-container > div.buttons-right");
             const buttonpip = `<div class="buttons-wraper resetplayer"><button class="player-button resetplayer" type="button"><div class="tooltip tooltip-up tooltip-align-right">Сбросить проигрыватель (нажмите дважды)</div><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAAD+ElEQVRoge2aW4hVVRiAv5lxUkhxJsuxe2g3KKFIQ+hqb/oSE0lBRCVWvgSBD0EQvXQhkqJeTMqyogslFfXSU+UwUIQaPXR5qCwM1GIaTdMmHb8e1tl12u59zr6sczwPfbCYM3uf/Z/1rb32Wmv/e/eRg5q3q1OsAiaAj4p8ua+vL3t73gEnQOhj4ALgUmBfuy/nCfXHrVNlRoBrgDOBJ+sE6hWhm4CBxuc1wIqqgXpF6ObU/88Dw1UC9YLQqcC1qW2Vu96M2tUp9hsLCNdJwmHgR+AQMJpTj9XAFuDDMj/WiVFuLnAjsBy4ClhEfk/4lSCT1712AYuB/ekdeaNcLmrZcpn6pnrYuGzK+r3SlBA5Q31LPRZZpJkV3RK6TZ3soEjCLnVuJ4X61fVdEGnmxU4JDagvdVkmYWUnhJ47QTKqP6tDthAqO2zfBzzbpi12E+aY3cARwpA8DJzDf+eiqmwG7ooxbF9i9pD8l/qeeqd6XsZxzeUsdZX6ek6sotxQuhlSFRlUt6eC7lUfUE9rI5FXxiuI7FUfVofqCq1rCnpIfVA9uaII6inq0RIi36j3qLOSGHWE5jRaRvUT9aIaIkm5taDIuKGLDqRj1BF6SD1ouEbqiiRlcwuJo4Yl1BWtYlQVmqFuVRdHlOlX92SITKmvWLAHVBWapw5HlEFdkhLZpz6uLigTJ49290MT5ZuiLSsbf38BNgDPAJOxgnfjBi/NCLAWeBn4M3bwXkpjlaLX01jR+F+o1+mk0AghSdJVOiG0kDAU/wCUXxV3igoT5lL1bXW6adJcFnlSHm6sNDoqdLX6gcczacaiska5UH2t3UqhqtCgerv6ZYZIwpaIMqPqfnVNbKHZ6v3qTy1EEu6NIDJH3diIt1M9KZbQfPURdaKASMLCmjKjhnxcwurm/VWFzlc3GO5Sy/BdDZHrPf72fMzGYFBHaJ56oKRIwte2uUFLlSFDF92REeuAuih9TB7tFqfrgPXlm+MfvgLGgM+BncDBxvZh4GzCM9XlwFL+fYKX5m7ghfTGqmmsAfWzimcpBk+bc1ZL03TwxcZ/RFKETaaumyJCRZY+3wKPlm+SWjxB6GrHokVMtcig+kUXzspv6i15Z6XIGSoqhHq5Ie3bCabVN9TTi8jEEsIwucbkD/VVK6TJ8iibU5gJbCO8vpLFJOGJw/yc/UeA74FxYCvwPvB7bu1aEPNdnyXAp2RnjNYCG4FZwLnA7CQcsKdRolzosZ+CP5bRfaYtmSysU3JFWwm1IKvrjQHXlWu26sROY00BdxCuiYR3KsaKSp2cwg7gqcZngXfrV6c+dTOnM4HthHd2roxUp0Lkdbm6ue0pwvtty2rGicbflH1nIVLy48gAAAAASUVORK5CYII=" style="width:18px;color:#fff"></button></div>`;
@@ -327,7 +327,7 @@ let videoPlyerPauseTimer = null;
 isInterval = false;
 function videoPlyerPauseIsWasdHome() {
     if (document.URL == 'https://wasd.tv/' || document.URL == 'http://wasd.tv/') {
-        if (!settings.wasd.autoPlayStreamersOnMain[1] && !isInterval) {
+        if (!settings.wasd.autoPlayStreamersOnMain && !isInterval) {
             videoPlyerPauseTimer = setInterval(videoPlyerPause, 100);
             isInterval = true;
         }
@@ -352,7 +352,7 @@ function videoPlyerPauseIsWasdHome() {
 function updateVideoPlayerButtons() {
     exitfullscreenButton = document.querySelector('.fullscreen>.live>.custom-media-control>.player-controls>.buttons-container>.buttons-right>div>.fullscreen-button > div.tooltip');
     if (exitfullscreenButton) {
-        if (settings.wasd.pressedFullScreen[1]) {
+        if (settings.wasd.pressedFullScreen) {
             exitfullscreenButton.textContent = "В нормальный режим (f)"
         } else {
             exitfullscreenButton.textContent = "В нормальный режим"
@@ -360,7 +360,7 @@ function updateVideoPlayerButtons() {
     } else {
         gofullscreenButton = document.querySelector('.live>.custom-media-control>.player-controls>.buttons-container>.buttons-right>div>.fullscreen-button > div.tooltip');
         if (gofullscreenButton) {
-            if (settings.wasd.pressedFullScreen[1]) {
+            if (settings.wasd.pressedFullScreen) {
                 gofullscreenButton.textContent = "На весь экран (f)"
             } else {
                 gofullscreenButton.textContent = "На весь экран"
@@ -372,7 +372,7 @@ function updateVideoPlayerButtons() {
     if (isTheaterMode) {
         theaterButton = document.querySelector('.player-button.theater-button > div.tooltip');
         if (theaterButton) {
-            if (settings.wasd.pressedTheater[1]) {
+            if (settings.wasd.pressedTheater) {
                 theaterButton.textContent = "Выйти из театрального режима (t)"
             } else {
                 theaterButton.textContent = "Выйти из театрального режима"
@@ -381,7 +381,7 @@ function updateVideoPlayerButtons() {
     } else {
         theaterButton = document.querySelector('.player-button.theater-button > div.tooltip');
         if (theaterButton) {
-            if (settings.wasd.pressedTheater[1]) {
+            if (settings.wasd.pressedTheater) {
                 theaterButton.textContent = "Театральный режим (t)"
             } else {
                 theaterButton.textContent = "Театральный режим"
@@ -392,7 +392,7 @@ function updateVideoPlayerButtons() {
     pipButton = document.querySelector('.player-button.pip > div.tooltip');
     if (document.pictureInPictureEnabled) {
         if (pipButton) {
-            if (settings.wasd.pressedPIP[1]) {
+            if (settings.wasd.pressedPIP) {
                 pipButton.textContent = "Картинка в картинке (i)"
             } else {
                 pipButton.textContent = "Картинка в картинке"
@@ -406,14 +406,14 @@ function updateVideoPlayerButtons() {
         
 
     var clipButton;
-    if (settings.wasd.iframeCreateClip[1]) {
+    if (settings.wasd.iframeCreateClip) {
         clipButton = document.querySelector('.player-button.clip-ovg > div.tooltip')
     } else {
         clipButton = document.querySelector('.player-button.clip-button > div.tooltip');
     }
 
     if (clipButton) {
-        if (settings.wasd.pressedClip[1]) {
+        if (settings.wasd.pressedClip) {
             clipButton.textContent = "Клип (x)"
         } else {
             clipButton.textContent = "Клип"
@@ -443,7 +443,7 @@ function createbuttonovgside() {
 }
 //-
 function updateStiskers() {
-    if (settings.wasd.bttvInChatMenu[1]) {
+    if (settings.wasd.bttvInChatMenu) {
         if (!document.querySelector('.bttv-emoji') && document.querySelector('div.emoji__head__options')) {
             document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option bttv-emoji"> BTTV </div>`)
             document.querySelector('div.option.bttv-emoji').addEventListener('click', () => {
@@ -586,7 +586,7 @@ function updateStiskers() {
             }
         }
     }
-    if (settings.wasd.ffzInChatMenu[1]) {
+    if (settings.wasd.ffzInChatMenu) {
         if (!document.querySelector('.ffz-emoji')) {
             if (document.querySelector('div.emoji__head__options')) {
 
@@ -746,7 +746,7 @@ function updateStiskers() {
             }
         }
     }
-    if (settings.wasd.tv7InChatMenu[1]) {
+    if (settings.wasd.tv7InChatMenu) {
         if (!document.querySelector('.tv7-emoji') && document.querySelector('div.emoji__head__options')) {
             document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option tv7-emoji"> TV7 </div>`)
             document.querySelector('div.option.tv7-emoji').addEventListener('click', () => {
@@ -915,3 +915,123 @@ setInterval(() => {
 setInterval(() => {
     updateStiskers();
 }, 50);
+
+
+/* to new settings */
+
+let toNewSettings = async () => {
+    try {
+        settings = await Helper.getSettings();
+        if (typeof settings === 'undefined') {
+            settings = Helper.getDefaultSettings();
+        } else if (settings.general.autoUpdateChat[1] != undefined) {
+            chrome.storage[storageType].set(getUpdateSettings(), () => {
+                location.reload()
+            })
+        }
+    } catch (e) {
+        ovg.log('catch toNewSettings', e);
+    }
+};
+
+toNewSettings()
+
+const getUpdateSettings = () => {
+    return {
+        general: {
+            autoUpdateChat: settings.general.autoUpdateChat[1],
+        },
+        wasd: {
+            messageFollower: settings.wasd.messageFollower[1],
+            messageSub: settings.wasd.messageSub[1],
+            messageSystem: settings.wasd.messageSystem[1],
+            messageHover: settings.wasd.messageHover[1],
+            wasdIconsSmile: settings.wasd.wasdIconsSmile[1],
+            wasdIconsCircleRu: settings.wasd.wasdIconsCircleRu[1],
+            webkitScrollbarWidth: settings.wasd.webkitScrollbarWidth[1],
+            giftsWrapperSide: settings.wasd.giftsWrapperSide[1],
+            giftsWrapperTopRight: settings.wasd.giftsWrapperTopRight[1],
+            sticker: settings.wasd.sticker[1],
+            stickerovg: settings.wasd.stickerovg[1],
+            paddingChatMessage: settings.wasd.paddingChatMessage[1],
+            colonAfterNickname: settings.wasd.colonAfterNickname[1],
+            linkColor: settings.wasd.linkColor[1],
+            colorAtTheMention: settings.wasd.colorAtTheMention[1],
+            chatOnTheLeft: settings.wasd.chatOnTheLeft[1],
+            chatWidth: settings.wasd.chatWidth[1],
+            hideDonationChannelButton: settings.wasd.hideDonationChannelButton[1],
+            hideAmazingChannelButtoan: settings.wasd.hideAmazingChannelButtoan[1],
+            hideGiftButtons: settings.wasd.hideGiftButtons[1],
+            highlightMessagesBold: settings.wasd.highlightMessagesBold[1],
+            streamerMessage: settings.wasd.streamerMessage[1],
+            fontSize: settings.wasd.fontSize[1],
+            topPanel: settings.wasd.topPanel[1],
+            topPanelChallenge: settings.wasd.topPanelChallenge[1],
+            pictureInPicture: settings.wasd.pictureInPicture[1],
+            resetToPlayer: settings.wasd.resetToPlayer[1],
+            moderatorMenu: settings.wasd.moderatorMenu[1],
+            moderatorMenuAutomatic: settings.wasd.moderatorMenuAutomatic[1],
+            autoPlayStreamersOnMain: settings.wasd.autoPlayStreamersOnMain[1],
+            pressedFullScreen: settings.wasd.pressedFullScreen[1],
+            pressedTheater: settings.wasd.pressedTheater[1],
+            pressedPIP: settings.wasd.pressedPIP[1],
+            pressedClip: settings.wasd.pressedClip[1],
+            alternatingColorChatMessages: settings.wasd.alternatingColorChatMessages[1],
+            alternatingColorChatMessagesColor: settings.wasd.alternatingColorChatMessagesColor[1],
+            onClickMention: settings.wasd.onClickMention[1],
+            onClickUserName: settings.wasd.onClickUserName[1],
+            fixedLinks: settings.wasd.fixedLinks[1],
+            uptimeStream: settings.wasd.uptimeStream[1],
+            bttvEmotes: settings.wasd.bttvEmotes[1],
+            bttvInChatMenu: settings.wasd.bttvInChatMenu[1],
+            bttvEmoteSize: settings.wasd.bttvEmoteSize[1],
+            linkRecognizerall: settings.wasd.linkRecognizerall[1],
+            linkRecognizerWASD: settings.wasd.linkRecognizerWASD[1],
+            decorationLink: settings.wasd.decorationLink[1],
+            videoOverlay: settings.wasd.videoOverlay[1],
+            userNameEdited: settings.wasd.userNameEdited,
+            onClickUser: settings.wasd.onClickUser[1],
+            removeMentionBL: settings.wasd.removeMentionBL[1],
+            hidePanelMobile: settings.wasd.hidePanelMobile[1],
+            formatMessageSentTime: settings.wasd.formatMessageSentTime[1],
+            mentionSelf: settings.wasd.mentionSelf[1],
+            colorMentionSelf: settings.wasd.colorMentionSelf[1],
+            highlightMessagesOpenCard: settings.wasd.highlightMessagesOpenCard[1],
+            highlightMessagesOpenCardColor: settings.wasd.highlightMessagesOpenCardColor[1],
+            alwaysOpenVolumeControl: settings.wasd.alwaysOpenVolumeControl[1],
+            colorMessageHover: settings.wasd.colorMessageHover[1],
+            bttvSize: settings.wasd.bttvSize[1],
+            mutePlayerOnMiddleMouse: settings.wasd.mutePlayerOnMiddleMouse[1],
+            hideBannerOnHome: settings.wasd.hideBannerOnHome[1],
+            hideSelectorStreamSettings: settings.wasd.hideSelectorStreamSettings[1],
+            clickMentionAll: settings.wasd.clickMentionAll[1],
+            underlineUsernameAndMention: settings.wasd.underlineUsernameAndMention[1],
+            iframeCreateClip: settings.wasd.iframeCreateClip[1],
+            linkRecognitionRights: settings.wasd.linkRecognitionRights[1],
+            artificialChatDelay: settings.wasd.artificialChatDelay[1],
+            forceResizeStickers: settings.wasd.forceResizeStickers[1],
+            ffzEmotes: settings.wasd.ffzEmotes[1],
+            ffzInChatMenu: settings.wasd.ffzInChatMenu[1],
+            decreaseIndentationStickerMenu: settings.wasd.decreaseIndentationStickerMenu[1],
+            decreaseIndentationSmilesMenu: settings.wasd.decreaseIndentationSmilesMenu[1],
+            decreaseIndentationBTTVandFFZMenu: settings.wasd.decreaseIndentationBTTVandFFZMenu[1],
+            highlightStickersStickerMenu: settings.wasd.highlightStickersStickerMenu[1],
+            hideGreatRandom: settings.wasd.hideGreatRandom[1],
+            moderatorMenuTimeout: settings.wasd.moderatorMenuTimeout[1],
+            keepMessagesTimeout: settings.wasd.keepMessagesTimeout[1],
+            chatMobilePlayer: settings.wasd.chatMobilePlayer[1],
+            colorModOptions: settings.wasd.colorModOptions[1],
+            tv7Emotes: settings.wasd.tv7Emotes[1],
+            tv7InChatMenu: settings.wasd.tv7InChatMenu[1],
+            uptimeStreamMobile: settings.wasd.uptimeStreamMobile[1],
+            highlightingWhenMentionList: settings.wasd.highlightingWhenMentionList,
+            hideWhenMentionList: settings.wasd.hideWhenMentionList,
+            hideRaid: settings.wasd.hideRaid[1],
+            fixCharactersBreakingChat: settings.wasd.fixCharactersBreakingChat[1],
+            blockUserList: {},
+            blockTermList: {},
+            highlightUserList: {},
+            highlightTermList: {},
+        }
+    };
+}

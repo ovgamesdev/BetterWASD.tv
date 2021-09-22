@@ -119,7 +119,7 @@ const HelperFFZ = {
         let split = text.split(' ');
         let newText = [];
         for (let word of split) {
-            size = Number(settings.wasd.bttvEmoteSize[1]) + 1;
+            size = Number(settings.wasd.bttvEmoteSize) + 1;
             if (typeof size === 'undefined') {size = 2};
             if (size == 3) size = 4
 

@@ -121,7 +121,7 @@ const HelperBTTV = {
         let split = text.split(' ');
         let newText = [];
         for (let word of split) {
-            size = Number(settings.wasd.bttvEmoteSize[1]) + 1;
+            size = Number(settings.wasd.bttvEmoteSize) + 1;
 
 
 
