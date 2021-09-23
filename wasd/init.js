@@ -517,7 +517,9 @@ const wasd = {
                 wasd.style.innerHTML = '';
                 wasd.style.appendChild(document.createTextNode(cssCode));
             }
+
             ovg.log('style inited')
+
         } else {
             ovg.log('style undefined')
             setTimeout(()=>{
@@ -1619,6 +1621,11 @@ const wasd = {
 	                });
 	            }
 	        }
+
+            if (document.visibilityState != "visible" && isobserver && settings.wasd.notifyOnMention && node.querySelector('.has-mention')) {
+                Helper.notify(`Вас упоминул ${node.getAttribute('username')}`, node.getAttribute('message'), node.getAttribute('username'))
+            }
+
 	    }
 	},
 };

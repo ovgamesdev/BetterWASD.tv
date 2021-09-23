@@ -1,4 +1,9 @@
 const Helper = {
+    F5: `<a style="position: relative;">(F5)<ovg-tooltip><div class="tooltip tooltip_position-right tooltip_size-small" style="width: 205px;"><div class="tooltip-content tooltip-content_left"> Eсли отключено 'Автоматически обновлять чат после изменения опции' нажмите дважды 'ОБНОВИТЬ ЧАТ'. </div></div></ovg-tooltip></a>`,
+    BETA: `<a style="position: relative;">(BETA)<ovg-tooltip><div class="tooltip tooltip_position-right tooltip_size-small" style="width: 205px;"><div class="tooltip-content tooltip-content_left"> Эта опция находится в стадии разработки и может работать некорректно. </div></div></ovg-tooltip></a>`,
+    tooltip(text, data) {
+        return `<a style="position: relative;">${text}<ovg-tooltip><div class="tooltip tooltip_position-right tooltip_size-small" style="width: 205px;"><div class="tooltip-content tooltip-content_left"> ${data} </div></div></ovg-tooltip></a>`
+    },
     getDefaultSettings() {
         return {
             general: {
@@ -95,6 +100,7 @@ const Helper = {
                 blockTermList: {},
                 highlightUserList: {},
                 highlightTermList: {},
+                notifyOnMention: false
             }
         };
     },
@@ -117,4 +123,7 @@ const Helper = {
             }
         });
     },
+    notify(title, body, username) {
+        chrome.runtime.sendMessage({notify: "create", title: title, message: body, username: username});
+    }
 }

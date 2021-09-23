@@ -87,7 +87,6 @@ const HelperWASD = {
             HelperSettings.save([document.querySelector('.optionField')]);
         })
     },
-
     textToURL(text) {
         if (text) {
             for (let item of text.split(' ')) {

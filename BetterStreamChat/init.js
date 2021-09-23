@@ -1598,6 +1598,10 @@ const BetterStreamChat = {
             })
         }
 
+        testNotify.addEventListener('click', () => {
+            Helper.notify(`Тест`, `Тестовое уведомление`)
+        })
+
         // load bttv, ffz and 7tv emotes
         await HelperBTTV.update();
         HelperBTTV.loaded();

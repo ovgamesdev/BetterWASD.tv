@@ -7,11 +7,11 @@ const HelperSettings = {
                 type: 'boolean'
             },
             BETA: {
-                title: '(BETA) - Эта опция находится в стадии разработки и может работать некорректно.',
+                title: `${Helper.BETA} - Эта опция находится в стадии разработки и может работать некорректно.`,
                 type: 'none'
             },
             F5: {
-                title: '(F5) - Эта опция требует обновления чата.',
+                title: `${Helper.F5} - Эта опция требует обновления чата.`,
                 type: 'none'
             },
         },
@@ -55,15 +55,15 @@ const HelperSettings = {
                 type: 'boolean'
             },
             bttvEmotes: {
-                title: 'Смайлики BTTV в чате. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Смайлики BTTV в чате. ${Helper.F5}`,
                 type: 'boolean'
             },
             ffzEmotes: {
-                title: 'Смайлики FFZ в чате. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Смайлики FFZ в чате. ${Helper.F5}`,
                 type: 'boolean'
             },
             tv7Emotes: {
-                title: 'Смайлики 7TV в чате. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Смайлики 7TV в чате. ${Helper.F5}`,
                 type: 'boolean'
             },
             bttvInChatMenu: {
@@ -82,7 +82,7 @@ const HelperSettings = {
                 type: 'boolean'
             },
             bttvEmoteSize: {
-                title: 'Разрешение смайликов в чате BTTV, FFZ и 7TV.<a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Разрешение смайликов в чате BTTV, FFZ и 7TV. ${Helper.F5}`,
                 type: 'select',
                 items: [
                     { value: 0, label: 'bttv-28px,  ffz-32px,  7tv-32px' },
@@ -91,7 +91,7 @@ const HelperSettings = {
                 ]
             },
             sticker: {
-                title: `Отображение стикеров WASD. <a title="Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров' " class="helpTitleHover">(INFO)</a> <a title="Eсли отключено 'Автоматически обновлять чат после изменений программы'' дважды щелкните 'Close', чтобы обновить чат." class="helpTitleHover">(F5)</a>`,
+                title: `Отображение стикеров WASD. ${Helper.tooltip('(i)', "Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")} ${Helper.F5}`,
                 type: 'select',
                 items: [
                     { value: 0, label: 'По умолчанию' },
@@ -102,7 +102,7 @@ const HelperSettings = {
                 ]
             },
             stickerovg: {
-                title: `Отображение стикеров BTTV, FFZ и 7TV. <a title="Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров' " class="helpTitleHover">(INFO)</a> <a title="Eсли отключено 'Автоматически обновлять чат после изменений программы'' дважды щелкните 'Close', чтобы обновить чат." class="helpTitleHover">(F5)</a>`,
+                title: `Отображение стикеров BTTV, FFZ и 7TV. ${Helper.tooltip('(i)', "Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")} ${Helper.F5}`,
                 type: 'select',
                 items: [
                     { value: 0, label: 'По умолчанию' },
@@ -157,27 +157,27 @@ const HelperSettings = {
                 ]
             },
             colonAfterNickname: {
-                title: 'Двоеточие после никнейма. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Двоеточие после никнейма. ${Helper.F5}`,
                 help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colonAfterNickname.gif'],
                 type: 'boolean'
             },
             /*smallBadges: {
-                title: 'Маленькие значки. <a title="Эта опция находится в стадии разработки и может работать некорректно." class="helpTitleHover">(BETA)</a>',
+                title: `'`Маленькие значки. ${Helper.BETA}`'`,
                 type: 'boolean'
             },*/
             colorAtTheMention: {
-                title: 'Отображать упоминания пользователей в чата с их цветом никнейма. <a title="Эта опция находится в стадии разработки и может работать некорректно." class="helpTitleHover">(BETA)</a> <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Отображать упоминания пользователей в чата с их цветом никнейма. ${Helper.BETA} ${Helper.F5}`,
                 help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colorAtTheMention.gif'],
                 type: 'boolean'
             },
             chatWidth: {
-                title: 'Размер (Ширина) чата в пикселях. (320)',
+                title: 'Размер (Ширина) чата в пикселях.',
                 type: 'number',
                 min: 200,
                 max: 1200
             },
             fontSize: {
-                title: 'Размер шрифта в пикселях. (14) <a title="Эта опция находится в стадии разработки и может работать некорректно." class="helpTitleHover">(BETA)</a>',
+                title: `Размер шрифта в пикселях. ${Helper.BETA}`,
                 type: 'number',
                 min: 12.0,
                 max: 18.0
@@ -200,7 +200,7 @@ const HelperSettings = {
                 type: 'boolean'
             },
             moderatorMenu: {
-                title: 'Меню модератора. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Меню модератора. ${Helper.F5}`,
                 type: 'select',
                 items: [
                     { value: 0, label: 'Нет' },
@@ -247,7 +247,7 @@ const HelperSettings = {
                 ]
             },
             onClickUserName: {
-                title: 'Действие при клике на пользователя. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Действие при клике на пользователя. ${Helper.F5}`,
                 type: 'select',
                 items: [
                     { value: 0, label: 'Нет' },
@@ -256,7 +256,7 @@ const HelperSettings = {
                 ]
             },
             onClickUser: {
-                title: 'Действие при клике на пользователя или упоминание при зажатой клавише. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Действие при клике на пользователя или упоминание при зажатой клавише. ${Helper.F5}`,
                 type: 'select',
                 items: [
                     { value: 0, label: 'Нет' },
@@ -276,20 +276,20 @@ const HelperSettings = {
                 ]*/
             },
             fixedLinks: {
-                title: 'Исправить ссылки в чате. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Исправить ссылки в чате. ${Helper.F5}`,
                 type: 'boolean'
             },
             linkRecognizerall: {
-                title: 'Распознавание всех ссылок. <a title="Эта опция находится в стадии разработки и может работать некорректно." class="helpTitleHover">(BETA)</a> <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Распознавание всех ссылок. ${Helper.BETA} ${Helper.F5}`,
                 description: 'Распознано с использованием <a target="_blank" href="https://github.com/FrankerFaceZ/link-service">API</a>.',
                 type: 'boolean'
             },
             linkRecognizerWASD: {
-                title: 'Распознавание ссылок wasd.tv. <a title="Эта опция находится в стадии разработки и может работать некорректно." class="helpTitleHover">(BETA)</a> <a title="(wasd.tv/username) (wasd.tv/game/id) (wasd.tv/?record=id) (wasd.tv/?clip=id)" class="helpTitleHover">(i)</a> <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Распознавание ссылок wasd.tv. ${Helper.BETA} ${Helper.tooltip('(i)', '(wasd.tv/username) (wasd.tv/game/id) (wasd.tv/?record=id) (wasd.tv/?clip=id)')} ${Helper.F5}`,
                 type: 'boolean'
             },
             linkRecognitionRights: {
-                title: 'Необходимый уровень пользователя для "Распознавание ссылок". <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Необходимый уровень пользователя для "Распознавание ссылок". ${Helper.F5}`,
                 type: 'select',
                 items: [
                     { value: 0, label: 'Стример' },
@@ -303,11 +303,11 @@ const HelperSettings = {
                 type: 'boolean'
             },
             removeMentionBL: {
-                title: 'Удалять сообщения упоминающие пользователей в ЧС. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Удалять сообщения упоминающие пользователей в ЧС. ${Helper.F5}`,
                 type: 'boolean'
             },
             formatMessageSentTime: {
-                title: 'Формат отметок времени. (Для новых сообщений) <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Формат отметок времени. ${Helper.tooltip('(i)', 'Для новых сообщений')} ${Helper.F5}`,
                 description: 'Отформатировано <a target="_blank" href="https://github.com/iamkun/dayjs/blob/dev/docs/ru/README-ru.md">library Day.js</a>.',
                 type: 'select',
                 items: [
@@ -322,7 +322,7 @@ const HelperSettings = {
                 ]
             },
             mentionSelf: {
-                title: 'Выделять сообщения, упоминающие вас. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Выделять сообщения, упоминающие вас. ${Helper.F5}`,
                 type: 'boolean'
             },
             colorMentionSelf: {
@@ -338,7 +338,7 @@ const HelperSettings = {
                 type: 'color'
             },
             clickMentionAll: {
-                title: 'Ник пользователя в действиях это упоминание (Избранное, Подписка).',
+                title: `Ник пользователя в действиях это упоминание. ${Helper.tooltip('(i)', 'Избранное, Подписка')}`,
                 type: 'boolean'
             },
             underlineUsernameAndMention: {
@@ -365,6 +365,15 @@ const HelperSettings = {
                 help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStreamMobile.png'],
                 type: 'boolean'
             },
+            fixCharactersBreakingChat: {
+                title: `Исправить символы ломающие чат. ${Helper.tooltip('(i)', 'Текст Zalgo')}`,
+                description: 'С использованием <a target="_blank" href="https://github.com/mathiasbynens/strip-combining-marks/blob/master/README.md">library strip-combining-marks.js</a>.',
+                type: 'boolean'
+            },
+            notifyOnMention: {
+                title: `PUSH уведомление при упоминании. ${Helper.tooltip('(i)', 'если окно не видно')} <button id="testNotify"> Показать тестовое уведомление </button> `,
+                type: 'boolean'
+            },
 
             playerGeneral: {
                 title: 'Проигрыватель',
@@ -376,11 +385,11 @@ const HelperSettings = {
                 type: 'boolean'
             },
             giftsWrapperSide: {
-                title: 'Cкрыть полосу подарков (справа и снизу).',
+                title: `Cкрыть полосу подарков. ${Helper.tooltip('(i)', 'справа и снизу')}`,
                 type: 'boolean'
             },
             giftsWrapperTopRight: {
-                title: 'Скрыть подарки (вверху справа).',
+                title: `Скрыть подарки. ${Helper.tooltip('(i)', 'вверху справа')}`,
                 type: 'boolean'
             },
             videoOverlay: {
@@ -393,7 +402,7 @@ const HelperSettings = {
                 type: 'boolean'
             },
             /*resetToPlayer: {
-                title: 'Add button `Reset player` to player control. <a title="Эта опция находится в стадии разработки и может работать некорректно." class="helpTitleHover">(BETA)</a>',
+                title: `Add button `Reset player` to player control. ${Helper.BETA}`,
                 description: 'Добавить кнопку `Сбросить проигрыватель` к управлению проигрывателем.',
                 type: 'boolean'
             },*/
@@ -418,7 +427,7 @@ const HelperSettings = {
                 type: 'boolean'
             },
             uptimeStream:  {
-                title: 'Аптайм трансляции. <a title="Eсли отключено `Автоматически обновлять чат после изменений программы` дважды щелкните `Close`, чтобы обновить чат." class="helpTitleHover">(F5)</a>',
+                title: `Аптайм трансляции. ${Helper.F5}`,
                 help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStream.png'],
                 type: 'boolean'
             },
@@ -438,11 +447,6 @@ const HelperSettings = {
             },
             hideRaid: {
                 title: 'Скрыть рейд.',
-                type: 'boolean'
-            },
-            fixCharactersBreakingChat: {
-                title: 'Исправить символы ломающие чат (Текст Zalgo).',
-                description: 'С использованием <a target="_blank" href="https://github.com/mathiasbynens/strip-combining-marks/blob/master/README.md">library strip-combining-marks.js</a>.',
                 type: 'boolean'
             },
 
@@ -492,7 +496,7 @@ const HelperSettings = {
                 type: 'boolean'
             },
             chatMobilePlayer: {
-                title: 'Чат после проигрывателя (Мобильные устройства).',
+                title: `Чат после проигрывателя. ${Helper.tooltip('(i)', 'Мобильные устройства')}`,
                 type: 'boolean'
             }
         },

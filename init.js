@@ -917,6 +917,21 @@ setInterval(() => {
 }, 50);
 
 
+chrome.runtime.onMessage.addListener(function(msg) {
+    if (msg.from == "background") {
+        window.focus()
+        let textarea = document.querySelector('.footer > div >textarea');
+        if (textarea) {
+            textarea.value+="@"+msg.username+' ';
+            textarea.dispatchEvent(new Event('input'));
+            textarea.focus()
+
+        }
+    }
+});
+
+
+
 /* to new settings */
 
 let toNewSettings = async () => {
@@ -1032,6 +1047,7 @@ const getUpdateSettings = () => {
             blockTermList: {},
             highlightUserList: {},
             highlightTermList: {},
+            notifyOnMention: false
         }
     };
 }
