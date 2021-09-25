@@ -2237,9 +2237,9 @@ main[data-tab="backup"] button {
     #bscSettingsPanel .option button.def {
         display: block !important;
     }
-    .def ovg-tooltip .tooltip {
+    /*.def ovg-tooltip .tooltip {
         display: none !important;
-    }
+    }*/
 }
 
 @media screen and (max-width:350px) {
@@ -2942,20 +2942,25 @@ header .logo {
 
 
 wasd-input [ovg] input[type="color"] {
-  height: 24px;
-  left: auto;
-  position: absolute;
-  right: 32px;
-  top: 22px;
-  width: 24px;
-  padding: unset;
-  background: none;
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  margin-left: 4px;
-  pointer-events: auto;
-  z-index: 1;
-  border-style: none;
+    height: 24px;
+    left: auto;
+    position: absolute;
+    right: 32px;
+    top: 22px;
+    width: 24px;
+    padding: unset;
+    background: none;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    margin-left: 4px;
+    pointer-events: auto;
+    z-index: 1;
+    border-style: none;
+}
+
+.stickerovg_text,
+.sticker_text {
+    display: none;
 }

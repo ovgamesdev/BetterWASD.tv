@@ -281,14 +281,19 @@ const wasd = {
             cssCode += '.block__new-messages { z-index: 1; }';
         }
         else if (settings.wasd.sticker.toString() === '3') {
-            cssCode += 'img.sticker { display: none!important; }';
+            cssCode += '.block__messages__item[sticker] { display: none!important; }';
+            cssCode += '.block__messages__item-ovg[sticker] { display: none!important; }';
         }
         else if (settings.wasd.sticker.toString() === '4') {
             cssCode += 'img.sticker { display: none!important; }';
+            cssCode += '.sticker_text { display: inline!important; }';
         }
 
         if (settings.wasd.stickerovg.toString() === '0') {
-            cssCode += `.message__info .stickerovg {max-width: -webkit-fill-available; display: block; height: ${settings.wasd.bttvSize}; margin-top: 8px; }`
+            cssCode += `.message__info .stickerovg, .message__info-ovg .stickerovg {max-width: -webkit-fill-available; display: block; height: ${settings.wasd.bttvSize}; margin-top: 8px; }`
+        }
+        else if (settings.wasd.stickerovg.toString() === '1') {
+            cssCode += '.stickerovg {max-width: -webkit-fill-available; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
         }
         if (settings.wasd.stickerovg.toString() === '2') {
             cssCode += 'div.block__messages__item:hover { z-index: 1; }';
@@ -297,11 +302,12 @@ const wasd = {
             cssCode += `.stickerovg:hover { transform: scale(${settings.wasd.bttvSize == '128px'? '4.4' : '2.2'}) translateY(-8px); background-color: var(--wasd-color-prime); border-radius: 4px; box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16); }`;
             cssCode += '.block__new-messages { z-index: 1; }';
         }
-        else if (settings.wasd.stickerovg.toString() === '1') {
-            cssCode += '.stickerovg {max-width: -webkit-fill-available; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
+        else if (settings.wasd.stickerovg.toString() === '3') {
+            cssCode += '[stickersovg*=" "] { display: none!important; }';
         }
         else if (settings.wasd.stickerovg.toString() === '4') {
-            cssCode += '.stickerovg { display: none!important; }';
+            cssCode += 'img.stickerovg { display: none!important; }';
+            cssCode += '.stickerovg_text { display: inline!important; }';
         }
 
 
@@ -418,7 +424,13 @@ const wasd = {
 
         cssCode += `.message__time, .message__time-ovg {min-width: auto!important; overflow: unset!important; width: auto!important;}`
 
-        cssCode += `.message.has-mention {background-color: ${settings.wasd.colorMentionSelf != '#000000' ? settings.wasd.colorMentionSelf+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
+        let bgmc = ''
+        if (settings.wasd.mentionSelf) {
+            bgmc = `background-color: ${settings.wasd.colorMentionSelf != '#000000' ? settings.wasd.colorMentionSelf+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }`
+        } else {
+            bgmc = `background-color: rgba(0, 0, 0, 0)!important`
+        }
+        cssCode += `.message.has-mention {${bgmc}}`
 
         cssCode += `.message.openCardColor {background-color: ${settings.wasd.highlightMessagesOpenCardColor != '#000000' ? settings.wasd.highlightMessagesOpenCardColor+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
         
@@ -463,25 +475,29 @@ const wasd = {
             cssCode += 'li#selector-header-random-stream {display: none!important}'
         }
 
-        for (let user in settings.wasd.blockUserList) {
-            cssCode += `.block__messages__item[username="${user}"] {display: none!important;}`
+        for (let user in settings.list.blockUserList) {
+            cssCode += `.block__messages__item[username="${user}"], .block__messages__item-ovg[username="${user}"] {display: none!important;}`
             if (settings.wasd.removeMentionBL) {
-                cssCode += `.block__messages__item[mention*="${user}"] {display: none!important;}`
+                cssCode += `.block__messages__item[mention*="${user}"], .block__messages__item-ovg[mention*="${user}"] {display: none!important;}`
             }
         }
 
-        for (let term in settings.wasd.highlightTermList) {
-            let setting = settings.wasd.highlightTermList[term]
-            cssCode += `.block__messages__item[message*="${setting.term}"] {background-color: ${setting.color}!important;}`
+        for (let term in settings.list.highlightTermList) {
+            let setting = settings.list.highlightTermList[term]
+            cssCode += `.block__messages__item[message*="${setting.term}"], .block__messages__item-ovg[message*="${setting.term}"] {background-color: ${setting.color}!important;}`
         }
 
-        for (let term in settings.wasd.blockTermList) {
-            cssCode += `.block__messages__item[message*="${term}"] {display: none!important;}`
+        for (let term in settings.list.blockTermList) {
+            cssCode += `.block__messages__item[message*="${term}"], .block__messages__item-ovg[message*="${term}"] {display: none!important;}`
         }
 
-        for (let user in settings.wasd.highlightUserList) {
-            let setting = settings.wasd.highlightUserList[user]
-            cssCode += `.block__messages__item[username="${setting.username}"] {background-color: ${setting.color}!important;}`
+        for (let user in settings.list.highlightUserList) {
+            let setting = settings.list.highlightUserList[user]
+            cssCode += `.block__messages__item[username="${setting.username}"], .block__messages__item-ovg[username="${setting.username}"] {background-color: ${setting.color}!important;}`
+        }
+
+        for (let role in settings.highlightRole) {
+            if (settings.highlightRole[role] != '#000000') cssCode += `.block__messages__item[role*="${role}"], .block__messages__item-ovg[role*="${role}"] {background-color:  ${settings.highlightRole[role]}!important}`
         }
 
         if (settings.wasd.chatMobilePlayer) {
@@ -555,18 +571,24 @@ const wasd = {
             if (subRef) color = subRef?.style?.backgroundColor
             var sticker = node.querySelector('.sticker')?.src
 
+            let roles = 'user'
+            if (node.querySelector('.wasd-icons-owner'))      roles += ' owner'
+            if (node.querySelector('.wasd-icons-moderator'))  roles += ' moderator'
+            if (node.querySelector('.wasd-icons-star'))       roles += ' sub'
+            node.setAttribute('role', roles)
+
+            if (node.querySelector('img[alt="sticker"]')) node.setAttribute('sticker', node.querySelector('img[alt="sticker"]').src)
+
             if (HelperWASD.openUserCardName == usernametext && node.querySelector('wasd-chat-message > .message')) {
                 if (settings.wasd.highlightMessagesOpenCard) node.querySelector('wasd-chat-message > .message').classList.add('openCardColor')
-                HelperWASD.addMessageToCpenCard(ownerRef, modRef, subRef, usernametext, color, message, sticker)
+                HelperWASD.addMessageToCpenCard(roles, usernametext, color, message, sticker)
 	        }
-	        
+
 	        if (usernametext) node.setAttribute('username', usernametext) 
 
 	        if (message) node.setAttribute('message', message)
 
-	        if (!settings.wasd.mentionSelf) {
-	            document.querySelector('.has-mention')?.classList?.remove('has-mention')
-	        }
+            if (sticker) node.querySelector('img.sticker').insertAdjacentHTML("afterend", `<span class="chat-message-text stickertext sticker_text">Стикер</span>`)
 
 	        if (isobserver && node.querySelector('.message__time')) {
 	            node.querySelector('.message__time').textContent = dayjs().format(settings.wasd.formatMessageSentTime)
@@ -671,6 +693,12 @@ const wasd = {
 	            }
 
                 node.setAttribute('mention', bl)
+
+                let stickersovg = ''
+                for (let stickerovg of node.querySelectorAll('.stickerovg')) {
+                    stickersovg += stickerovg.getAttribute('title') + ' '
+                }
+                node.setAttribute('stickersovg', stickersovg)
 	        }
 
 	        if (nicknamediv) {
@@ -1483,9 +1511,9 @@ const wasd = {
                             context_menu.append(item)
                             item.addEventListener('click', ({ target }) => {
                                 let username = node.querySelector('.info__text__status__name').getAttribute('username');
-                                if (!settings.wasd.blockUserList[username]) {
+                                if (!settings.list.blockUserList[username]) {
                                     HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
-                                    settings.wasd.blockUserList[username] = new Date();
+                                    settings.list.blockUserList[username] = new Date();
                                     HelperWASD.addUserToBlackList(username)
                                     HelperSettings.save([document.querySelector('.optionField')]);
                                 } else {
@@ -1494,27 +1522,16 @@ const wasd = {
                                 node.click()
                             })
                         }
-                        // if (!context_menu.querySelector('.contextPinMessages')) {
-                        //     let item = document.createElement('div')
-                        //     item.classList.add(`context-menu__block`)
-                        //     item.innerHTML = `<div class="context-menu__block__icon contextPinMessages"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Закрепить сообщение </div>`;
-                        //     context_menu.append(item)
-                        //     item.addEventListener('click', ({ target }) => {
-                        //         let username = node.querySelector('.info__text__status__name').getAttribute('username');
-                                /*
-                                if (!settings.wasd.blockUserList[username]) {
-                                    HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
-                                    settings.wasd.blockUserList[username] = new Date();
-                                    HelperWASD.addUserToBlackList(username)
-                                    HelperSettings.save([document.querySelector('.optionField')]);
-                                } else {
-                                     HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!')
-                                }
-                                */
-                        //         document.querySelector('pin-chat-messages-ovg')
-                        //         node.click()
-                        //     })
-                        // }
+                        if (!context_menu.querySelector('.contextPinMessages')) {
+                            let item = document.createElement('div')
+                            item.classList.add(`context-menu__block`)
+                            item.innerHTML = `<div class="context-menu__block__icon contextPinMessages"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Закрепить сообщение </div>`;
+                            context_menu.append(item)
+                            item.addEventListener('click', ({ target }) => {
+                                HelperWASD.addPinMessage(node)
+                                node.click()
+                            })
+                        }
                     } else {
                         trycreate++
                         if (trycreate < 999) {
@@ -1526,50 +1543,28 @@ const wasd = {
                 }
             })
 
-	        if (settings.wasd.sticker.toString() === '3') {
-	            sticker = node.querySelector(`.message__info__text img.sticker`);
-	            if (sticker) {
-	                node.remove();
-	                newMessage = document.querySelector(`div.block__new-messages`);
-	                if (newMessage) {
-	                    newMessage.remove();
-	                }
-	            }
-	        }
-            else if (settings.wasd.sticker.toString() === '4') {
-	            sticker = node.querySelector(`.message__info__text img.sticker`);
-	            if (sticker) {
-	                messageText = node.querySelector(`.message-text > span`);
-	                messageText.innerHTML = "<span class='chat-message-text stickertext'>Стикер</span>";
-	                newMessage = document.querySelector(`div.block__new-messages`);
-	                if (newMessage) {
-	                    newMessage.remove();
-	                }
-	            }
-	        }
+	        // if (settings.wasd.sticker.toString() === '3') {
+	        //     sticker = node.querySelector(`.message__info__text img.sticker`);
+	        //     if (sticker) {
+	        //         node.remove();
+	        //         newMessage = document.querySelector(`div.block__new-messages`);
+	        //         if (newMessage) {
+	        //             newMessage.remove();
+	        //         }
+	        //     }
+	        // }
+         //    else if (settings.wasd.sticker.toString() === '4') {
+	        //     sticker = node.querySelector(`.message__info__text img.sticker`);
+	        //     if (sticker) {
+	        //         messageText = node.querySelector(`.message-text > span`);
+	        //         messageText.innerHTML = "<span class='chat-message-text stickertext'>Стикер</span>";
+	        //         newMessage = document.querySelector(`div.block__new-messages`);
+	        //         if (newMessage) {
+	        //             newMessage.remove();
+	        //         }
+	        //     }
+	        // }
 
-	        if (settings.wasd.stickerovg.toString() === '3') {
-	            stickerovg = node.querySelector(`.message__info__text .stickerovg`);
-	            if (stickerovg) {
-	                node.remove();
-	                newMessage = document.querySelector(`div.block__new-messages`);
-	                if (newMessage) {
-	                    newMessage.remove();
-	                }
-	            }
-	        }
-            else if (settings.wasd.stickerovg.toString() === '4') {
-	            stickerovg = node.querySelector(`.message__info__text .stickerovg`);
-	            if (stickerovg) {
-	                messageText = node.querySelector(`.message-text > span`);
-	                messageText.innerHTML = "<span class='chat-message-text stickertext'>Стикер</span>";
-	                stickerovg.stylnewMessage = document.querySelector(`div.block__new-messages`);
-	                newMessage = document.querySelector(`div.block__new-messages`);
-	                if (newMessage) {
-	                    newMessage.remove();
-	                }
-	            }
-	        }
 
 	        var mentoinText;
 	        if (settings.wasd.clickMentionAll && node.querySelector('wasd-chat-follower-message')) {

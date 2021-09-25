@@ -16,15 +16,15 @@ const HelperWASD = {
         item.style = 'justify-content: space-between;'
 
         let usernameed = settings.wasd.userNameEdited[username.trim().split('@').join('')];
-        item.innerHTML = `<td><div><p title="${username}"> ${usernameed ? usernameed+' ('+username+')' : username} </p></div></td> <td><div><p> ${(new Date(settings.wasd.blockUserList[username])).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${username}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
+        item.innerHTML = `<td><div><p title="${username}"> ${usernameed ? usernameed+' ('+username+')' : username} </p></div></td> <td><div><p> ${(new Date(settings.list.blockUserList[username])).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${username}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
         item.setAttribute('data', username)
         html.append(item)
         item.querySelector('.remove').addEventListener('click', ({ target }) => {
             let nickname = target.getAttribute('data')
-            delete settings.wasd.blockUserList[nickname];
+            delete settings.list.blockUserList[nickname];
             item.remove()
             HelperWASD.showChatMessage(`Пользователь ${nickname} удален из ЧС`, 'success')
-            //ovg.log(settings.wasd.blockUserList)
+            //ovg.log(settings.list.blockUserList)
             HelperSettings.save([document.querySelector('.optionField')]);
         })
     },
@@ -35,17 +35,17 @@ const HelperWASD = {
         item.style = 'justify-content: space-between;'
 
         let usernameed = settings.wasd.userNameEdited[username.trim().split('@').join('')];
-        let setting = settings.wasd.highlightUserList[username]
+        let setting = settings.list.highlightUserList[username]
 
         item.innerHTML = `<td><div><p title="${username}, ${setting.color}, ${setting.register}"> ${usernameed ? usernameed+' ('+username+')' : username} </p></div></td> <td><div><p> ${new Date(setting.date).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${username}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
         item.setAttribute('data', username)
         html.append(item)
         item.querySelector('.remove').addEventListener('click', ({ target }) => {
             let nickname = target.getAttribute('data')
-            delete settings.wasd.highlightUserList[nickname];
+            delete settings.list.highlightUserList[nickname];
             item.remove()
             HelperWASD.showChatMessage(`Пользователь ${nickname} удален из выделения`, 'success')
-            //ovg.log(settings.wasd.highlightUserList)
+            //ovg.log(settings.list.highlightUserList)
             HelperSettings.save([document.querySelector('.optionField')]);
         })
     },
@@ -55,15 +55,15 @@ const HelperWASD = {
         item.classList.add(`table-menu__block`)
         item.style = 'justify-content: space-between;'
 
-        item.innerHTML = `<td><div><p title="${term}"> ${term} </p></div></td> <td><div><p> ${(new Date(settings.wasd.blockTermList[term])).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${term}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
+        item.innerHTML = `<td><div><p title="${term}"> ${term} </p></div></td> <td><div><p> ${(new Date(settings.list.blockTermList[term])).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${term}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
         item.setAttribute('data', term)
         html.append(item)
         item.querySelector('.remove').addEventListener('click', ({ target }) => {
             let termin = target.getAttribute('data')
-            delete settings.wasd.blockTermList[termin];
+            delete settings.list.blockTermList[termin];
             item.remove()
             HelperWASD.showChatMessage(`Термин ${termin} удален из ЧС`, 'success')
-            //ovg.log(settings.wasd.blockTermList)
+            //ovg.log(settings.list.blockTermList)
             HelperSettings.save([document.querySelector('.optionField')]);
         })
     },
@@ -73,17 +73,17 @@ const HelperWASD = {
         item.classList.add(`table-menu__block`)
         item.style = 'justify-content: space-between;'
 
-        let setting = settings.wasd.highlightTermList[term]
+        let setting = settings.list.highlightTermList[term]
 
         item.innerHTML = `<td><div><p title="${term}, ${setting.color}, ${setting.register}, ${setting.whole}"> ${term} </p></div></td> <td><div><p> ${new Date(setting.date).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${term}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
         item.setAttribute('data', term)
         html.append(item)
         item.querySelector('.remove').addEventListener('click', ({ target }) => {
             let termin = target.getAttribute('data')
-            delete settings.wasd.highlightTermList[termin];
+            delete settings.list.highlightTermList[termin];
             item.remove()
             HelperWASD.showChatMessage(`Термин ${termin} удален из выделения`, 'success')
-            //ovg.log(settings.wasd.highlightTermList)
+            //ovg.log(settings.list.highlightTermList)
             HelperSettings.save([document.querySelector('.optionField')]);
         })
     },
@@ -538,206 +538,44 @@ const HelperWASD = {
                                                 if (message.info.user_id == data.user_id) {
 
                                                     let newusername = settings.wasd.userNameEdited[message.info.user_login.trim()];
+                                                    let role = 'user'
 
                                                     if (!newusername) {newusername = message.info.user_login.trim()}
 
-                                                    function isSub() {
-                                                        let is = false
-                                                        if (Array.isArray(message.info.other_roles)) {
-                                                            for(let role of message.info.other_roles) {
-                                                                if (!is) is = (role == 'CHANNEL_SUBSCRIBER')
-                                                            }
-                                                        } else {
-                                                            if (!is) is = (message.info.other_roles == 'CHANNEL_SUBSCRIBER')
+                                                    let isSub = false
+                                                    if (Array.isArray(message.info.other_roles)) {
+                                                        for(let role of message.info.other_roles) {
+                                                            if (!isSub) isSub = (role == 'CHANNEL_SUBSCRIBER')
                                                         }
-                                                        return is;
+                                                    } else {
+                                                        if (!isSub) isSub = (message.info.other_roles == 'CHANNEL_SUBSCRIBER')
                                                     }
-                                                    function isOwner() {
-                                                        let is = false
-                                                        if (Array.isArray(message.info.user_channel_role)) {
-                                                            for(let role of message.info.user_channel_role) {
-                                                                if (!is) is = (role == 'CHANNEL_OWNER')
-                                                            }
-                                                        } else {
-                                                            if (!is) is = (message.info.user_channel_role == 'CHANNEL_OWNER')
+                                                    if (isSub) role += ' sub'
+
+                                                    let isOwner = false
+                                                    if (Array.isArray(message.info.user_channel_role)) {
+                                                        for(let role of message.info.user_channel_role) {
+                                                            if (!isOwner) isOwner = (role == 'CHANNEL_OWNER')
                                                         }
-                                                        return is;
+                                                    } else {
+                                                        if (!isOwner) isOwner = (message.info.user_channel_role == 'CHANNEL_OWNER')
                                                     }
-                                                    function isModer() {
-                                                        let is = false
-                                                        if (Array.isArray(message.info.user_channel_role)) {
-                                                            for(let role of message.info.user_channel_role) {
-                                                                if (!is) is = (role == 'CHANNEL_MODERATOR')
-                                                            }
-                                                        } else {
-                                                            if (!is) is = (message.info.user_channel_role == 'CHANNEL_MODERATOR')
+                                                    if (isOwner) role += ' owner'
+
+                                                    let isModer = false
+                                                    if (Array.isArray(message.info.user_channel_role)) {
+                                                        for(let role of message.info.user_channel_role) {
+                                                            if (!isModer) isModer = (role == 'CHANNEL_MODERATOR')
                                                         }
-                                                        return is;
+                                                    } else {
+                                                        if (!isModer) isModer = (message.info.user_channel_role == 'CHANNEL_MODERATOR')
                                                     }
+                                                    if (isModer) role += ' moderator'
+                                                
+                                                    const userColors = ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"];
+                                                    messagesDiv.appendChild(HelperWASD.createMessage(role, newusername, userColors[message.info.user_id % (userColors.length - 1)], message?.info?.message, message?.info?.sticker?.sticker_image?.medium, new Date(message.date_time)))
 
-                                                    if (message.type == 'MESSAGE') {
-
-                                                        let blockmessage = message.info.message;
-                                                        const userColors = ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"];
-
-                                                        if (settings.wasd.bttvEmotes) {
-                                                            blockmessage = HelperBTTV.replaceText(blockmessage);
-                                                        }
-                                                        if (settings.wasd.ffzEmotes) {
-                                                            blockmessage = HelperFFZ.replaceText(blockmessage);
-                                                        }
-                                                        if (settings.wasd.tv7Emotes) {
-                                                            blockmessage = HelperTV7.replaceText(blockmessage);
-                                                        }
-
-                                                        // fix link
-                                                        if (settings.wasd.fixedLinks) {
-                                                            if (blockmessage) {
-                                                                blockmessage = HelperWASD.textToURL(blockmessage)
-                                                            }
-                                                        }
-
-                                                        if (settings.wasd.fixCharactersBreakingChat) {
-                                                            blockmessage = stripCombiningMarks(blockmessage)
-                                                        }
-
-                                                        date_time = new Date(message.date_time);
-                                                        let div = document.createElement('div')
-                                                        div.classList.add('block__messages__item-ovg')
-
-                                                        div.innerHTML = `<wasd-chat-message>
-                                                            <div class="message-ovg is-time">
-                                                                <div class="message__time-ovg"> ${(date_time.getHours() < 10) ? '0' + date_time.getHours() : date_time.getHours()}:${(date_time.getMinutes() < 10) ? '0' + date_time.getMinutes() : date_time.getMinutes()} </div>
-                                                                <div class="message__info-ovg">
-                                                                    <div class="message__info__text-ovg">
-                                                                        <div class="info__text__status-ovg">
-                                                                            ${isSub() ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${userColors[message.info.user_id % (userColors.length - 1)]}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
-                                                                            <div class="info__text__status__name-ovg ${isModer() ? 'is-moderator' : ''}${isOwner() ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${userColors[message.info.user_id % (userColors.length - 1)]}">${isModer() ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner() ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${newusername}</div>
-                                                                        </div>
-                                                                        ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))" >: </span>` : '' }
-                                                                        <div class="message-text-ovg"><span>${blockmessage}</span></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </wasd-chat-message>`;
-                                                            
-                                                        let node = messagesDiv.appendChild(div)
-
-                                                        if (settings.wasd.stickerovg.toString() === '3') {
-                                                            stickerovg = node.querySelector(`.message__info__text-ovg img.stickerovg`);
-                                                            if (stickerovg) {
-                                                                node.remove();
-                                                            }
-                                                        } else if (settings.wasd.stickerovg.toString() === '4') {
-                                                            stickerovg = node.querySelector(`.message__info__text-ovg img.stickerovg`);
-                                                            if (stickerovg) {
-                                                                messageText = node.querySelector(`.message-text-ovg > span`);
-                                                                messageText.innerHTML = "<span class='chat-message-text stickertext'>Стикер</span>";
-                                                            }
-                                                        }
-
-                                                        var messageText = node.querySelector('.message-text-ovg > span')
-                                                        if (messageText) {
-
-                                                            if (settings.wasd.onClickMention.toString() === '0') {
-                                                                messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
-                                                                    let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
-                                                                    if (!username) {username = $1.trim().split('@').join('')}
-                                                                    return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention' username="${$1}">@${username.trim()}</span>`;
-                                                                });
-                                                                node.querySelectorAll('.chat-message-mention').forEach(element => {
-                                                                    HelperWASD.usercolorapi(element);
-                                                                    element.addEventListener('click', ({ target }) => {
-                                                                        if (target.getAttribute('username')) {
-                                                                            HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
-                                                                        }
-                                                                    });
-                                                                });
-
-                                                            } else if (settings.wasd.onClickMention.toString() === '1') {
-                                                                messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
-                                                                    let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
-                                                                    if (!username) {username = $1.trim().split('@').join('')}
-                                                                    return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
-                                                                });
-                                                                node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-                                                                    HelperWASD.usercolorapi(element);
-                                                                    element.addEventListener('click', ({ target }) => {
-                                                                        if (textarea) {
-                                                                            textarea.value+=target.getAttribute('username').trim()+' ';
-                                                                            textarea.dispatchEvent(new Event('input'));
-                                                                            textarea.focus()
-                                                                        }
-                                                                    })
-                                                                });
-
-                                                            } else if (settings.wasd.onClickMention.toString() === '2') {
-                                                                messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
-                                                                    let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
-                                                                    if (!username) {username = $1.trim().split('@').join('')}
-                                                                    return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
-                                                                });
-                                                                node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-                                                                    HelperWASD.usercolorapi(element);
-                                                                    element.addEventListener('click', ({ target }) => {
-                                                                        if (target.getAttribute('username')) {
-                                                                            if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
-                                                                                HelperWASD.createUserViewerCard(target.getAttribute('username').split('@').join(''), true);
-                                                                            }
-                                                                        }
-                                                                    })
-                                                                });
-                                                            }
-                                                        }
-
-
-                                                        divMessageDiv.scrollTop = divMessageDiv.scrollHeight;
-                                                    } else if (message.type == 'STICKER') {
-                                                        let blockmessage = '';
-                                                        const userColors = ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"];
-                                
-                                                        if (settings.wasd.sticker.toString() === '4') {
-                                                            blockmessage = 'Стикер';
-                                                        }
-                                                        if (settings.wasd.sticker.toString() !== '3') {
-                                                            date_time = new Date(message.date_time);
-                                                            let div = document.createElement('div')
-                                                            div.classList.add('block__messages__item-ovg')
-                                                            div.innerHTML = `<wasd-chat-message>
-                                                                <div class="message-ovg is-time">
-                                                                    <div class="message__time-ovg"> ${(date_time.getHours() < 10) ? '0' + date_time.getHours() : date_time.getHours()}:${(date_time.getMinutes() < 10) ? '0' + date_time.getMinutes() : date_time.getMinutes()} </div>
-                                                                        <div class="message__info-ovg">
-                                                                            <div class="message__info__text-ovg">
-                                                                                <div class="info__text__status-ovg">
-                                                                                    ${isSub() ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${userColors[message.info.user_id % (userColors.length - 1)]}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
-                                                                                    <div class="info__text__status__name-ovg ${isModer() ? 'is-moderator' : ''}${isOwner() ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${userColors[message.info.user_id % (userColors.length - 1)]}">${isModer() ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner() ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${newusername}</div>
-                                                                                </div>
-                                                                                ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
-                                                                                <div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div>
-                                                                                ${(blockmessage == '') ? '<img alt="sticker" class="sticker small" src="'+message.info.sticker.sticker_image.medium+'">' : ''}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                            </wasd-chat-message>`;
-
-                                                            let node = messagesDiv.appendChild(div)
-
-                                                            if (settings.wasd.sticker.toString() === '3') {
-                                                                sticker = node.querySelector(`.message__info__text-ovg img.sticker`);
-                                                                if (sticker) {
-                                                                    node.remove();
-                                                                }
-                                                            } else if (settings.wasd.sticker.toString() === '4') {
-                                                                sticker = node.querySelector(`.message__info__text-ovg img.sticker`);
-                                                                if (sticker) {
-                                                                    messageText = node.querySelector(`.message-text > span`);
-                                                                    messageText.innerHTML = "<span class='chat-message-text stickertext'>Стикер</span>";
-                                                                }
-                                                            }
-
-                                                            divMessageDiv.scrollTop = divMessageDiv.scrollHeight;
-                                                        }
-                                                    }
+                                                    divMessageDiv.scrollTop = divMessageDiv.scrollHeight;
                                                 }
                                             }
                                             if(document.querySelector('.block__messages-ovg').childNodes.length == 0) {
@@ -1293,9 +1131,9 @@ const HelperWASD = {
     },
     addUserToBL(user) {
         let username = user.trim().split('@').join('')
-        if (!settings.wasd.blockUserList[username]) {
+        if (!settings.list.blockUserList[username]) {
             HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
-            settings.wasd.blockUserList[username] = new Date();
+            settings.list.blockUserList[username] = new Date();
             HelperWASD.addUserToBlackList(username)
             HelperSettings.save([document.querySelector('.optionField')]);
         } else {
@@ -1305,13 +1143,13 @@ const HelperWASD = {
     },
     addUserToHL(user, color = 'red', register = true) {
         let username = user.trim().split('@').join('')
-        if (!settings.wasd.highlightUserList[username]) {
+        if (!settings.list.highlightUserList[username]) {
             HelperWASD.showChatMessage(`Пользователь ${username} добавлен в выделение`, 'success')
-            settings.wasd.highlightUserList[username] = {}
-            settings.wasd.highlightUserList[username]['username'] = username
-            settings.wasd.highlightUserList[username]['date'] = new Date()
-            settings.wasd.highlightUserList[username]['color'] = highlightAddUserColor.value
-            settings.wasd.highlightUserList[username]['register'] = register
+            settings.list.highlightUserList[username] = {}
+            settings.list.highlightUserList[username]['username'] = username
+            settings.list.highlightUserList[username]['date'] = new Date()
+            settings.list.highlightUserList[username]['color'] = highlightAddUserColor.value
+            settings.list.highlightUserList[username]['register'] = register
             HelperWASD.addUserToHighLight(username)
             HelperSettings.save([document.querySelector('.optionField')]);
         } else {
@@ -1321,9 +1159,9 @@ const HelperWASD = {
     },
     addTermToBL(t) {
         let term = t.trim()
-        if (!settings.wasd.blockTermList[term]) {
+        if (!settings.list.blockTermList[term]) {
             HelperWASD.showChatMessage(`Термин ${term} добавлен в ЧС`, 'success')
-            settings.wasd.blockTermList[term] = new Date();
+            settings.list.blockTermList[term] = new Date();
             HelperWASD.addTermToBlackList(term)
             HelperSettings.save([document.querySelector('.optionField')]);
         } else {
@@ -1333,14 +1171,14 @@ const HelperWASD = {
     },
     addTermToHL(t, color = 'green', register = true, whole = true) {
         let term = t.trim()
-        if (!settings.wasd.highlightTermList[term]) {
+        if (!settings.list.highlightTermList[term]) {
             HelperWASD.showChatMessage(`Термин ${term} добавлен в выделение`, 'success')
-            settings.wasd.highlightTermList[term] = {}
-            settings.wasd.highlightTermList[term]['term'] = term
-            settings.wasd.highlightTermList[term]['date'] = new Date()
-            settings.wasd.highlightTermList[term]['color'] = highlightAddTermColor.value
-            settings.wasd.highlightTermList[term]['register'] = register
-            settings.wasd.highlightTermList[term]['whole'] = whole
+            settings.list.highlightTermList[term] = {}
+            settings.list.highlightTermList[term]['term'] = term
+            settings.list.highlightTermList[term]['date'] = new Date()
+            settings.list.highlightTermList[term]['color'] = highlightAddTermColor.value
+            settings.list.highlightTermList[term]['register'] = register
+            settings.list.highlightTermList[term]['whole'] = whole
             HelperWASD.addTermToHighLight(term)
             HelperSettings.save([document.querySelector('.optionField')]);
         } else {
@@ -1348,127 +1186,10 @@ const HelperWASD = {
         }
         highlightAddTerm.value = ''
     },
-    addMessageToCpenCard(isOwner, isModer, isSub, username, color, message, sticker) {
+    addMessageToCpenCard(role, username, color, message, sticker) {
         var block__messages = document.querySelector('.chat-room__viewer-card .block__messages-ovg')
+        block__messages.prepend(HelperWASD.createMessage(role, username, color, message, sticker))
 
-        let blockmessage = message;
-
-        if (message != '') {
-            if (settings.wasd.bttvEmotes) {
-                blockmessage = HelperBTTV.replaceText(blockmessage);
-            }
-            if (settings.wasd.ffzEmotes) {
-                blockmessage = HelperFFZ.replaceText(blockmessage);
-            }
-            if (settings.wasd.tv7Emotes) {
-                blockmessage = HelperTV7.replaceText(blockmessage);
-            }
-
-            // fix link
-            if (settings.wasd.fixedLinks) {
-                blockmessage = HelperWASD.textToURL(blockmessage)
-            }
-
-            if (settings.wasd.fixCharactersBreakingChat) {
-                blockmessage = stripCombiningMarks(blockmessage)
-            }
-        }
-
-        if (settings.wasd.sticker.toString() === '4') {
-            blockmessage = 'Стикер';
-        }
-        if (settings.wasd.sticker.toString() !== '3') {
-            date_time = new Date();
-
-            let div = document.createElement('div')
-            div.classList.add('block__messages__item-ovg')
-            div.innerHTML = `<wasd-chat-message>
-                <div class="message-ovg is-time">
-                    <div class="message__time-ovg"> ${(date_time.getHours() < 10) ? '0' + date_time.getHours() : date_time.getHours()}:${(date_time.getMinutes() < 10) ? '0' + date_time.getMinutes() : date_time.getMinutes()} </div>
-                        <div class="message__info-ovg">
-                            <div class="message__info__text-ovg">
-                                <div class="info__text__status-ovg">
-                                    ${isSub ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
-                                    <div class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${username}</div>
-                                </div>
-                                ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
-                                <div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div>
-                                ${(sticker != undefined) ? '<img alt="sticker" class="sticker small" src="'+sticker+'">' : ''}
-
-                            </div>
-                        </div>
-                    </div>
-                </wasd-chat-message>`;
-
-            block__messages.prepend(div)
-            let node = block__messages.firstElementChild
-
-            if (settings.wasd.sticker.toString() === '3') {
-                sticker = node.querySelector(`.message__info__text-ovg img.sticker`);
-                if (sticker) {
-                    node.remove();
-                }
-            } else if (settings.wasd.sticker.toString() === '4') {
-                sticker = node.querySelector(`.message__info__text-ovg img.sticker`);
-                if (sticker) {
-                    messageText = node.querySelector(`.message-text > span`);
-                    messageText.innerHTML = "<span class='chat-message-text stickertext'>Стикер</span>";
-                }
-            }
-
-            var messageText = node.querySelector('.message-text-ovg > span')
-            if (messageText) {
-                if (settings.wasd.onClickMention.toString() === '0') {
-                    messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
-                        let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
-                        if (!username) {username = $1.trim().split('@').join('')}
-                        return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention' username="${$1}">@${username.trim()}</span>`;
-                    });
-                    node.querySelectorAll('.chat-message-mention').forEach(element => {
-                        HelperWASD.usercolorapi(element);
-                        element.addEventListener('click', ({ target }) => {
-                            if (target.getAttribute('username')) {
-                                HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
-                            }
-                        });
-                    });
-
-                } else if (settings.wasd.onClickMention.toString() === '1') {
-                    messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
-                        let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
-                        if (!username) {username = $1.trim().split('@').join('')}
-                        return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
-                    });
-                    node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-                        HelperWASD.usercolorapi(element);
-                        element.addEventListener('click', ({ target }) => {
-                            if (textarea) {
-                                textarea.value+=target.getAttribute('username').trim()+' ';
-                                textarea.dispatchEvent(new Event('input'));
-                                textarea.focus()
-                            }
-                        })
-                    });
-
-                } else if (settings.wasd.onClickMention.toString() === '2') {
-                    messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
-                        let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
-                        if (!username) {username = $1.trim().split('@').join('')}
-                        return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
-                    });
-                    node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-                        HelperWASD.usercolorapi(element);
-                        element.addEventListener('click', ({ target }) => {
-                            if (target.getAttribute('username')) {
-                                if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
-                                    HelperWASD.createUserViewerCard(target.getAttribute('username').split('@').join(''), true);
-                                }
-                            }
-                        })
-                    });
-                }
-            }
-        }
     },
     usercolorapi(element) {
         // ищем цвет по api если по ласт сообщениям не нашли
@@ -1510,5 +1231,141 @@ const HelperWASD = {
     },
     createPinMessages() {
         document.querySelector('wasd-chat .body-container').insertAdjacentHTML("afterbegin", `<pin-chat-messages-ovg style="background: var(--wasd-color-prime);"></pin-chat-messages-ovg>`)
+    },
+    addPinMessage(node) {
+        node.getAttribute('role')
+        node.getAttribute('username')
+        node.getAttribute('message')
+        node.getAttribute('sticker')
+
+        ovg.log(node)
+        document.querySelector('pin-chat-messages-ovg').append()
+    },
+    createMessage(role, username, color, message, sticker, date_time = new Date()) {
+
+        let isOwner = role.indexOf('owner')     != -1
+        let isModer = role.indexOf('moderator') != -1
+        let isSub   = role.indexOf('sub')       != -1
+        let blockmessage = message;
+        let div;
+        let bl = ' '
+
+        if (message == undefined) blockmessage = ''
+        if (blockmessage != '') {
+            if (settings.wasd.bttvEmotes) {
+                blockmessage = HelperBTTV.replaceText(blockmessage);
+            }
+            if (settings.wasd.ffzEmotes) {
+                blockmessage = HelperFFZ.replaceText(blockmessage);
+            }
+            if (settings.wasd.tv7Emotes) {
+                blockmessage = HelperTV7.replaceText(blockmessage);
+            }
+
+            // fix link
+            if (settings.wasd.fixedLinks) {
+                blockmessage = HelperWASD.textToURL(blockmessage)
+            }
+
+            if (settings.wasd.fixCharactersBreakingChat) {
+                blockmessage = stripCombiningMarks(blockmessage)
+            }
+        }
+
+
+        div = document.createElement('div')
+        div.classList.add('block__messages__item-ovg')
+        div.setAttribute('role', role)
+        if (sticker) div.setAttribute('sticker', sticker)
+        div.setAttribute('username', username)
+        div.setAttribute('message', message)
+        div.innerHTML = `<wasd-chat-message>
+            <div class="message-ovg is-time">
+                <div class="message__time-ovg"> ${(date_time.getHours() < 10) ? '0' + date_time.getHours() : date_time.getHours()}:${(date_time.getMinutes() < 10) ? '0' + date_time.getMinutes() : date_time.getMinutes()} </div>
+                    <div class="message__info-ovg">
+                        <div class="message__info__text-ovg">
+                            <div class="info__text__status-ovg">
+                                ${isSub ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
+                                <div class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''} ${username}</div>
+                            </div>
+                            ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
+                            <div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div>
+                            ${(sticker != undefined) ? '<img alt="sticker" class="sticker small" src="'+sticker+'"> <span class="chat-message-text stickertext sticker_text">Стикер</span>' : ''}
+
+                        </div>
+                    </div>
+                </div>
+            </wasd-chat-message>`;
+
+        let stickersovg = ''
+        for (let stickerovg of div.querySelectorAll('.stickerovg')) {
+            stickersovg += stickerovg.getAttribute('title') + ' '
+        }
+
+        div.setAttribute('stickersovg', stickersovg)
+        var messageText = div.querySelector('.message-text-ovg > span')
+        get_user_color(messageText, div)
+        div.setAttribute('mention', bl)
+
+        function get_user_color(messageText, div) {
+            if (messageText) {
+                if (settings.wasd.onClickMention.toString() === '0') {
+                    messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
+                        let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
+                        if (!username) {username = $1.trim().split('@').join('')}
+                        return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention' username="${$1}">@${username.trim()}</span>`;
+                    });
+                    div.querySelectorAll('.chat-message-mention').forEach(element => {
+                        HelperWASD.usercolorapi(element);
+                        bl += element.getAttribute('username').split('@').join('') + ' '
+                        element.addEventListener('click', ({ target }) => {
+                            if (target.getAttribute('username')) {
+                                HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
+                            }
+                        });
+                    });
+
+                } else if (settings.wasd.onClickMention.toString() === '1') {
+                    messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
+                        let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
+                        if (!username) {username = $1.trim().split('@').join('')}
+                        return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
+                    });
+                    divdiv.querySelectorAll('.chat-message-mention.click').forEach(element => {
+                        HelperWASD.usercolorapi(element);
+                        bl += element.getAttribute('username').split('@').join('') + ' '
+                        element.addEventListener('click', ({ target }) => {
+                            if (textarea) {
+                                textarea.value+=target.getAttribute('username').trim()+' ';
+                                textarea.dispatchEvent(new Event('input'));
+                                textarea.focus()
+                            }
+                        })
+                    });
+
+                } else if (settings.wasd.onClickMention.toString() === '2') {
+                    messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
+                        let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
+                        if (!username) {username = $1.trim().split('@').join('')}
+                        return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
+                    });
+                    div.querySelectorAll('.chat-message-mention.click').forEach(element => {
+                        HelperWASD.usercolorapi(element);
+                        bl += element.getAttribute('username').split('@').join('') + ' '
+                        element.addEventListener('click', ({ target }) => {
+                            if (target.getAttribute('username')) {
+                                if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
+                                    HelperWASD.createUserViewerCard(target.getAttribute('username').split('@').join(''), true);
+                                }
+                            }
+                        })
+                    });
+                }
+            }
+        }
+
+        return div
     }
 }
+
+        

@@ -11,6 +11,25 @@ const BetterStreamChat = {
             removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
         };
         let changelogList = [{
+                version: '1.3.2',
+                date: '2021-09-24',
+                items: [{
+                    text: [
+                        `Карточка пользователя - Действия модерации.`,
+                        `Фильтрация.`,
+                        `PUSH уведомление при упоминании.`
+                    ],
+                    label: 'added'
+                },{
+                    text: [
+                        `Карточка пользователя - Ссылки на соц сети.`,
+                        `Отображение стикеров WASD.`,
+                        `Отображение стикеров BTTV, FFZ и 7TV.`,
+                        `Выделять сообщения, упоминающие вас.`
+                    ],
+                    label: 'optimized'
+                }]
+            },{
                 version: '1.3.1',
                 date: '2021-09-16',
                 items: [{
@@ -41,7 +60,7 @@ const BetterStreamChat = {
                         `Меню модератора - YouTube.`
                     ],
                     label: 'removed'
-                },]
+                }]
             },{
                 version: '1.3',
                 date: '2021-07-28',
@@ -953,7 +972,6 @@ const BetterStreamChat = {
                 </div>
 
                 <div id="backupDropContainer" class="drodHere">Drop Here</div>
-
             </main>
 
             <main class="text" data-tab="filtration">
@@ -1081,9 +1099,11 @@ const BetterStreamChat = {
                         <tbody class="ovg-items">
                         </tbody>
                     </table>
+                    <h3 style="padding: 0 10px 5px 10px;"> Выделение - Роль пользователя </h3>
+                    <div style="margin-left: -10px; width: calc(100% + 20px);">
+                        ${HelperSettings.build('highlightRole')}
+                    </div>
                 </div>
-
-
             </main>
             <footer>
             <span>BetterWASD ${changelogList[0].version} (${changelogList[0].date})</span>
@@ -1167,16 +1187,16 @@ const BetterStreamChat = {
         });
 
 
-        for (let user of Object.keys(settings.wasd.blockUserList)) {
+        for (let user of Object.keys(settings.list.blockUserList)) {
             HelperWASD.addUserToBlackList(user)
         }
-        for (let term of Object.keys(settings.wasd.blockTermList)) {
+        for (let term of Object.keys(settings.list.blockTermList)) {
             HelperWASD.addTermToBlackList(term)
         }
-        for (let user of Object.keys(settings.wasd.highlightUserList)) {
+        for (let user of Object.keys(settings.list.highlightUserList)) {
             HelperWASD.addUserToHighLight(user)
         }
-        for (let term of Object.keys(settings.wasd.highlightTermList)) {
+        for (let term of Object.keys(settings.list.highlightTermList)) {
             HelperWASD.addTermToHighLight(term)
         }
 
@@ -1599,7 +1619,7 @@ const BetterStreamChat = {
         }
 
         testNotify.addEventListener('click', () => {
-            Helper.notify(`Тест`, `Тестовое уведомление`)
+            Helper.notify(`Тест`, `Тестовое уведомление`, 'test')
         })
 
         // load bttv, ffz and 7tv emotes

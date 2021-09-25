@@ -96,11 +96,20 @@ const Helper = {
                 hideWhenMentionList: {},
                 hideRaid: false,
                 fixCharactersBreakingChat: false,
+                notifyOnMention: false
+            },
+            list: {
                 blockUserList: {},
                 blockTermList: {},
                 highlightUserList: {},
                 highlightTermList: {},
-                notifyOnMention: false
+                blockRoleList: {}
+            },
+            highlightRole: {
+                user: "#000000",
+                owner: "#000000",
+                moderator: "#000000",
+                sub: "#000000"
             }
         };
     },

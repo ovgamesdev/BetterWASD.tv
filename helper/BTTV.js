@@ -125,7 +125,7 @@ const HelperBTTV = {
 
 
 
-            if (HelperBTTV.emotes[word]) word = `<img class="stickerovg small" style="vertical-align: middle; width: auto!important;" src="https://cdn.betterttv.net/emote/${HelperBTTV.emotes[word]}/${size}x" alt="${word}" title="${word}" />`;
+            if (HelperBTTV.emotes[word]) word = `<img class="stickerovg small" style="vertical-align: middle; width: auto!important;" src="https://cdn.betterttv.net/emote/${HelperBTTV.emotes[word]}/${size}x" alt="${word}" title="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span>`;
             // ovg.log(HelperBTTV.fullemotes)
             newText.push(word);
         }

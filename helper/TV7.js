@@ -123,7 +123,7 @@ const HelperTV7 = {
             if (typeof size === 'undefined') {size = 2};
             if (size == 3) size = 4
 
-            if (this.emotes[word]) word = `<img class="stickerovg small" style="vertical-align: middle; width: auto!important;" src="https://cdn.7tv.app/emote/${this.emotes[word]}/${size}x" alt="${word}" title="${word}" />`;
+            if (this.emotes[word]) word = `<img class="stickerovg small" style="vertical-align: middle; width: auto!important;" src="https://cdn.7tv.app/emote/${this.emotes[word]}/${size}x" alt="${word}" title="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span>`;
 
             newText.push(word);
         }

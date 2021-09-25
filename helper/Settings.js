@@ -13,7 +13,7 @@ const HelperSettings = {
             F5: {
                 title: `${Helper.F5} - Эта опция требует обновления чата.`,
                 type: 'none'
-            },
+            }
         },
         wasd: {
             chatAppearance: {
@@ -50,7 +50,7 @@ const HelperSettings = {
                 type: 'boolean'
             },
             wasdIconsCircleRu: {
-                title: 'Скрыть поддержать в панели ввода текста. (ru)',
+                title: 'Скрыть поддержать в панели ввода текста.',
                 help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/wasdIconsCircleRu.gif'],
                 type: 'boolean'
             },
@@ -91,7 +91,7 @@ const HelperSettings = {
                 ]
             },
             sticker: {
-                title: `Отображение стикеров WASD. ${Helper.tooltip('(i)', "Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")} ${Helper.F5}`,
+                title: `Отображение стикеров WASD. ${Helper.tooltip('(i)', "Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")}`,
                 type: 'select',
                 items: [
                     { value: 0, label: 'По умолчанию' },
@@ -102,7 +102,7 @@ const HelperSettings = {
                 ]
             },
             stickerovg: {
-                title: `Отображение стикеров BTTV, FFZ и 7TV. ${Helper.tooltip('(i)', "Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")} ${Helper.F5}`,
+                title: `Отображение стикеров BTTV, FFZ и 7TV. ${Helper.tooltip('(i)', "Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")}`,
                 type: 'select',
                 items: [
                     { value: 0, label: 'По умолчанию' },
@@ -171,7 +171,7 @@ const HelperSettings = {
                 type: 'boolean'
             },
             chatWidth: {
-                title: 'Размер (Ширина) чата в пикселях.',
+                title: `Размер чата в пикселях. ${Helper.tooltip('(i)', "(Ширина)")}`,
                 type: 'number',
                 min: 200,
                 max: 1200
@@ -303,7 +303,7 @@ const HelperSettings = {
                 type: 'boolean'
             },
             removeMentionBL: {
-                title: `Удалять сообщения упоминающие пользователей в ЧС. ${Helper.F5}`,
+                title: `Удалять сообщения упоминающие пользователей в Блокировка - Пользователи.`,
                 type: 'boolean'
             },
             formatMessageSentTime: {
@@ -322,7 +322,7 @@ const HelperSettings = {
                 ]
             },
             mentionSelf: {
-                title: `Выделять сообщения, упоминающие вас. ${Helper.F5}`,
+                title: `Выделять сообщения, упоминающие вас.`,
                 type: 'boolean'
             },
             colorMentionSelf: {
@@ -371,7 +371,7 @@ const HelperSettings = {
                 type: 'boolean'
             },
             notifyOnMention: {
-                title: `PUSH уведомление при упоминании. ${Helper.tooltip('(i)', 'если окно не видно')} <button id="testNotify"> Показать тестовое уведомление </button> `,
+                title: `PUSH уведомление при упоминании. ${Helper.tooltip('(i)', 'если окно не видно')} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="testNotify" class="basic fade ovg small" type="button"> Показать тестовое уведомление </button></wasd-button>`,
                 type: 'boolean'
             },
 
@@ -500,6 +500,24 @@ const HelperSettings = {
                 type: 'boolean'
             }
         },
+        highlightRole: {
+            user: {
+                title: 'Цвет для пользователя.',
+                type: 'color'
+            },
+            owner: {
+                title: 'Цвет для создателя канала.',
+                type: 'color'
+            },
+            moderator: {
+                title: 'Цвет для модератора канала.',
+                type: 'color'
+            },
+            sub: {
+                title: 'Цвет для подписчика канала.',
+                type: 'color'
+            }
+        }
     },
     showMessage(message, type = 'success') {
         if (this.messageTimeout) clearTimeout(this.messageTimeout);

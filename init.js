@@ -925,7 +925,6 @@ chrome.runtime.onMessage.addListener(function(msg) {
             textarea.value+="@"+msg.username+' ';
             textarea.dispatchEvent(new Event('input'));
             textarea.focus()
-
         }
     }
 });
@@ -1043,11 +1042,20 @@ const getUpdateSettings = () => {
             hideWhenMentionList: settings.wasd.hideWhenMentionList,
             hideRaid: settings.wasd.hideRaid[1],
             fixCharactersBreakingChat: settings.wasd.fixCharactersBreakingChat[1],
-            blockUserList: {},
+            notifyOnMention: false
+        },
+        list: {
+            blockUserList: settings.wasd.blockUserList[1],
             blockTermList: {},
             highlightUserList: {},
             highlightTermList: {},
-            notifyOnMention: false
+            blockRoleList: {}
+        },
+        highlightRole: {
+            user: "#000000",
+            owner: "#000000",
+            moderator: "#000000",
+            sub: "#000000"
         }
     };
 }
