@@ -1,3 +1,7 @@
+ovg-tooltip {
+    z-index: 5;
+}
+
 ovg-tooltip .tooltip {
     display: none;
     justify-content: center;

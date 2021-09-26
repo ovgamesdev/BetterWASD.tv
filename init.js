@@ -1042,7 +1042,9 @@ const getUpdateSettings = () => {
             hideWhenMentionList: settings.wasd.hideWhenMentionList,
             hideRaid: settings.wasd.hideRaid[1],
             fixCharactersBreakingChat: settings.wasd.fixCharactersBreakingChat[1],
-            notifyOnMention: false
+            notifyOnMention: false,
+            staticGifEmotes: "1",
+            pinMessage: true
         },
         list: {
             blockUserList: settings.wasd.blockUserList[1],

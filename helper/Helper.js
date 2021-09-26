@@ -96,7 +96,9 @@ const Helper = {
                 hideWhenMentionList: {},
                 hideRaid: false,
                 fixCharactersBreakingChat: false,
-                notifyOnMention: false
+                notifyOnMention: false,
+                staticGifEmotes: "1",
+                pinMessage: true
             },
             list: {
                 blockUserList: {},

@@ -374,6 +374,15 @@ const HelperSettings = {
                 title: `PUSH уведомление при упоминании. ${Helper.tooltip('(i)', 'если окно не видно')} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="testNotify" class="basic fade ovg small" type="button"> Показать тестовое уведомление </button></wasd-button>`,
                 type: 'boolean'
             },
+            staticGifEmotes: {
+                title: `Анимированные эмоции. ${Helper.F5} ${Helper.tooltip('(i)', 'только BTTV эмоции')}`,
+                type: 'select',
+                items: [
+                    { value: 0, label: 'Отключено' },
+                    { value: 1, label: 'Включено' },
+                    // { value: 2, label: 'Включено при наведении' }
+                ]
+            },
 
             playerGeneral: {
                 title: 'Проигрыватель',

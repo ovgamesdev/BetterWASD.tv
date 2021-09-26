@@ -1232,7 +1232,7 @@ const wasd = {
 	                        let href = a.href;
 
                             $.ajax({
-                                url: HelperWASD.getStreamBroadcastsUrl(),
+                                url: `https://wasd.tv/api/v2/broadcasts/public?channel_name=${new URL(a.href).pathname.split('/')[1]}`,
                                 success: function(out){
                                     if (typeof out.error !== 'undefined') {
                                         node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
@@ -1249,24 +1249,30 @@ const wasd = {
 	                    }
 
 	                } else if (new URL(a.href).host == "www.twitch.tv") {
-	                    if (settings.wasd.linkRecognizerWASD) {
-	                        if (node) {
-	                            node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
-	                            HelperWASD.scrollChatMessage(node, 50)
-	                        }
-	                        let href = a.href;
+                        if (settings.wasd.linkRecognizerWASD) {
+                            if (node) {
+                                node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
+                                HelperWASD.scrollChatMessage(node, 50)
+                            }
+                            let href = a.href;
 
                             $.ajax({
                                 url: `https://api-test.frankerfacez.com/v2/link?url=${a.href}`,
                                 success: function(out){
                                     if (!out.short.subtitle) {
                                         let img = '';
+                                        let title = out.short.title
+                                        if (typeof title == 'object') title = out.short.title[0]
                                         if (typeof out.short.image != "undefined") img = out.short.image.url; 
-                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${img}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.short.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.short.title}</div></div></div></div>`;
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${img}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${title}</div></div></div></div>`;
                                     } else {
                                         let img = '';
-                                        if (typeof out.short.image != "undefined") img = out.short.image.url; 
-                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${img}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.short.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.short.title}</div><div title="${out.short.subtitle.content.user.content.content}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.short.subtitle.content.user.content.content}</div></div></div></div>`;
+                                        if (typeof out.short.image != "undefined") img = out.short.image.url;
+                                        let d = ''
+                                        let title = out.short.title
+                                        if (typeof title == 'object') title = out.short.title[0]
+                                        if (out.short?.subtitle?.content?.user?.content?.content != undefined) d = `<div title="${out.short?.subtitle?.content?.user?.content?.content}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.short?.subtitle?.content?.user?.content?.content}</div>`
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${img}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${title}</div>${d}</div></div></div>`;
                                     }
                                     
                                     if (out.error) {
@@ -1276,10 +1282,41 @@ const wasd = {
                                 error: function(out){
                                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                                 }
-                            });	                        
-	                    }
+                            });                         
+                        }
 
-	                } else {
+                    } else if (new URL(a.href).host == "twitter.com") {
+                        if (settings.wasd.linkRecognizerWASD) {
+                            if (node) {
+                                node.insertAdjacentHTML("beforeend", `<div style=" font-size: 11px; margin: 5px;" class="ovg-bg-color-prime tw-border-radius-medium tw-elevation-1 ffz--chat-card tw-relative" style=""><div class="tw-border-radius-medium tw-c-background-base tw-flex tw-full-width"><a data-tooltip-type="link" style="text-decoration: none" data-url="${a.href}" target="_blank" rel="noreferrer noopener" href="${a.href}" class="ffz-interactable--hover-enabled tw-block tw-border-radius-medium tw-full-width ffz-interactable--default tw-interactive"><div class="tw-flex tw-flex-nowrap tw-pd-05"><div class="ffz--header-image" style="height:4.8rem;"></div><div class="ffz--card-text tw-full-width tw-overflow-hidden tw-flex tw-flex-column tw-justify-content-center"><div title="Загрузка..." class="tw-c-text-alt-2 tw-ellipsis tw-mg-x-05">Загрузка...</div></div></div></a></div></div>`);
+                                HelperWASD.scrollChatMessage(node, 50)
+                            }
+                            let href = a.href;
+
+                            $.ajax({
+                                url: `https://api-test.frankerfacez.com/v2/link?url=${a.href}`,
+                                success: function(out){
+                                    let img = '';
+                                    if (typeof out.short.image != "undefined") img = out.short.image.url;
+                                    let d = ''
+                                    let title = out.short.title
+                                    if (typeof title == 'object') title = out.short.title.content[0].content
+                                    if (typeof out.short?.subtitle[0] == 'string') d = `<div title="${out.short?.subtitle[0]}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.short?.subtitle[0]}</div>`
+                                    if (typeof out.short?.subtitle?.content?.tweet[0] == 'string') d = `<div title="${out.short.subtitle?.content?.tweet[0]}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.short?.subtitle?.content?.tweet[0]}</div>`
+
+                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${img}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${title}</div>${d}</div></div></div>`;
+                                
+                                    if (out.error) {
+                                        node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
+                                    }
+                                },
+                                error: function(out){
+                                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
+                                }
+                            });                         
+                        }
+
+                    } else {
 	                    if (settings.wasd.linkRecognizerall) {
 
 	                        if (node) {
@@ -1355,43 +1392,11 @@ const wasd = {
                                                 }
                                                 var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value)*1000)
                                                 var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
-                                                // node.querySelector('.lrhiverimg').innerHTML = `<div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
-                                                //     <div>
-                                                //         <div class="ffz--shift-hide">
-                                                //             ${out?.short?.image?.url ? `
-                                                //                 <div class="ffz--rich-gallery" data-items="1">
-                                                //                     <div class="ffz--gallery-column" data-items="1">
-                                                //                         <div class="ffz--overlay">
-                                                //                             <div class="ffz--overlay__content">
-                                                //                                 <div class="ffz-aspect ffz-aspect--align-center">
-                                                //                                     <div class="ffz-aspect__spacer" style="padding-top: 56.25%;"></div><img class=" " src="${out.short.image.url}" title="">
-                                                //                                 </div>
-                                                //                             </div>
-                                                //                             <div class="ffz--overlay__bit" data-side="bottom-right">${textdate}</div>
-                                                //                         </div>
-                                                //                     </div>
-                                                //                 </div>
-                                                //             ` : ``}
-                                                            
-
-                                                //             <div class="tw-flex ffz--rich-header">
-                                                //                 <div class="ffz--header-image-h tw-mg-x-05"></div>
-                                                //                 <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
-                                                //                     ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
-                                                //                     ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
-                                                //                 </div>
-                                                //             </div>
-                                                //             ${typeof out?.full?.[2]?.content == 'string' ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
-                                                //             ${out?.short?.extra?.[2]?.attrs?.datetime ? `
-                                                //                 <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
-                                                //                     <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
-                                                //                 </div>
-                                                //             ` : ``}
-                                                //         </div>
-                                                //     </div>
-                                                // </div>`
                                                 
-                                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div></div></div></div>`;
+                                                let title = out?.short?.title
+                                                if (typeof title == 'object' && typeof title?.phrase == 'string') title = title?.phrase
+
+                                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${title}</div></div></div></div>`;
                                             } else {
                                                 if (typeof out?.short?.image?.url != 'undefined') {
                                                     img = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.short.image.url}" class=""></div>`
@@ -1400,43 +1405,23 @@ const wasd = {
                                                 }
                                                 var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value)*1000)
                                                 var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
-                                                // node.querySelector('.lrhiverimg').innerHTML = `<div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
-                                                //     <div>
-                                                //         <div class="ffz--shift-hide">
-                                                //             ${out?.short?.image?.url ? `
-                                                //                 <div class="ffz--rich-gallery" data-items="1">
-                                                //                     <div class="ffz--gallery-column" data-items="1">
-                                                //                         <div class="ffz--overlay">
-                                                //                             <div class="ffz--overlay__content">
-                                                //                                 <div class="ffz-aspect ffz-aspect--align-center">
-                                                //                                     <div class="ffz-aspect__spacer" style="padding-top: 56.25%;"></div><img class=" " src="${out.short.image.url}" title="">
-                                                //                                 </div>
-                                                //                             </div>
-                                                //                             <div class="ffz--overlay__bit" data-side="bottom-right">${textdate}</div>
-                                                //                         </div>
-                                                //                     </div>
-                                                //                 </div>
-                                                //             ` : ``}
-                                                            
-
-                                                //             <div class="tw-flex ffz--rich-header">
-                                                //                 <div class="ffz--header-image-h tw-mg-x-05"></div>
-                                                //                 <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
-                                                //                     ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
-                                                //                     ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
-                                                //                 </div>
-                                                //             </div>
-                                                //             ${out?.full?.[2]?.content ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
-                                                //             ${out?.short?.extra?.[2]?.attrs?.datetime ? `
-                                                //                 <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
-                                                //                     <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
-                                                //                 </div>
-                                                //             ` : ``}
-                                                //         </div>
-                                                //     </div>
-                                                // </div>`
                                                 
-                                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div><div title="${out?.short?.subtitle}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.short?.subtitle}</div></div></div></div>`;
+                                                let subtitle = out.short.subtitle
+                                                if (typeof subtitle == 'object') subtitle = subtitle[0]
+                                                if (typeof subtitle == 'object') subtitle = ''
+                                                
+                                                if (!(subtitle == '' || typeof subtitle == 'undefined')) {
+                                                    subtitle = `<div title="${subtitle}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${subtitle}</div>`
+                                                } else {
+                                                    subtitle = ''
+                                                }
+
+                                                let title = out?.short?.title
+                                                
+                                                if (typeof title == 'object' && typeof title?.phrase == 'string') title = title?.phrase
+                                                if (typeof out.short.subtitle?.content?.name?.content == 'string') subtitle = `<div title="${out.short.subtitle?.content?.name?.content}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.short.subtitle?.content?.name?.content}</div>`
+
+                                                node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${title}</div>${subtitle}</div></div></div>`;
                                             }
                                         } else {
                                             node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out.error.phrase}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.error.phrase}</div></div></div></div>`;
@@ -1449,41 +1434,6 @@ const wasd = {
                                         }
                                         var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value)*1000)
                                         var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
-                                        // node.querySelector('.lrhiverimg').innerHTML = `<div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
-                                        //     <div>
-                                        //         <div class="ffz--shift-hide">
-                                        //             ${out?.short?.image?.url ? `
-                                        //                 <div class="ffz--rich-gallery" data-items="1">
-                                        //                     <div class="ffz--gallery-column" data-items="1">
-                                        //                         <div class="ffz--overlay">
-                                        //                             <div class="ffz--overlay__content">
-                                        //                                 <div class="ffz-aspect ffz-aspect--align-center">
-                                        //                                     <div class="ffz-aspect__spacer" style="padding-top: 56.25%;"></div><img class=" " src="${out.short.image.url}" title="">
-                                        //                                 </div>
-                                        //                             </div>
-                                        //                             <div class="ffz--overlay__bit" data-side="bottom-right">${textdate}</div>
-                                        //                         </div>
-                                        //                     </div>
-                                        //                 </div>
-                                        //             ` : ``}
-                                                    
-
-                                        //             <div class="tw-flex ffz--rich-header">
-                                        //                 <div class="ffz--header-image-h tw-mg-x-05"></div>
-                                        //                 <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
-                                        //                     ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
-                                        //                     ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
-                                        //                 </div>
-                                        //             </div>
-                                        //             ${out?.full?.[2]?.content ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
-                                        //             ${out?.short?.extra?.[2]?.attrs?.datetime ? `
-                                        //                 <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
-                                        //                     <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
-                                        //                 </div>
-                                        //             ` : ``}
-                                        //         </div>
-                                        //     </div>
-                                        // </div>`
                                         
                                         node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.base}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.base}</div></div></div></div>`;
                                     }
@@ -1522,7 +1472,7 @@ const wasd = {
                                 node.click()
                             })
                         }
-                        if (!context_menu.querySelector('.contextPinMessages')) {
+                        if (!context_menu.querySelector('.contextPinMessages') && !settings.wasd.pinMessage) { // -!2
                             let item = document.createElement('div')
                             item.classList.add(`context-menu__block`)
                             item.innerHTML = `<div class="context-menu__block__icon contextPinMessages"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Закрепить сообщение </div>`;
@@ -1542,29 +1492,6 @@ const wasd = {
                     }
                 }
             })
-
-	        // if (settings.wasd.sticker.toString() === '3') {
-	        //     sticker = node.querySelector(`.message__info__text img.sticker`);
-	        //     if (sticker) {
-	        //         node.remove();
-	        //         newMessage = document.querySelector(`div.block__new-messages`);
-	        //         if (newMessage) {
-	        //             newMessage.remove();
-	        //         }
-	        //     }
-	        // }
-         //    else if (settings.wasd.sticker.toString() === '4') {
-	        //     sticker = node.querySelector(`.message__info__text img.sticker`);
-	        //     if (sticker) {
-	        //         messageText = node.querySelector(`.message-text > span`);
-	        //         messageText.innerHTML = "<span class='chat-message-text stickertext'>Стикер</span>";
-	        //         newMessage = document.querySelector(`div.block__new-messages`);
-	        //         if (newMessage) {
-	        //             newMessage.remove();
-	        //         }
-	        //     }
-	        // }
-
 
 	        var mentoinText;
 	        if (settings.wasd.clickMentionAll && node.querySelector('wasd-chat-follower-message')) {

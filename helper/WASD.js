@@ -1119,9 +1119,9 @@ const HelperWASD = {
         return {cmd: cmd, data: data}
     },
     getStreamBroadcastsUrl() {
-        if (document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text') && document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text').textContent == " Доступно по ссылке " && document.querySelector('.stream-private-link__link-input input')) {
+        if (document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title__text') && document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title__text').textContent == " Доступно по ссылке " && document.querySelector('.stream-private-link__link-input input')) {
             return 'https://wasd.tv/api/v2/broadcasts/closed/' + new URL(document.querySelector('.stream-private-link__link-input input').value).pathname.split('/')[2]
-        } else if (document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text') && document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title--text').textContent == " Доступно для всех " && document.querySelector('#selector-sp-stream-links input[placeholder="Чат"]')) {
+        } else if (document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title__text') && document.querySelector('.settings-page__title-btns wasd-dropdown .dropdown-title__text').textContent == " Доступно для всех " && document.querySelector('#selector-sp-stream-links input[placeholder="Чат"]')) {
             return 'https://wasd.tv/api/v2/broadcasts/public?channel_name=' + new URL(document.querySelector('#selector-sp-stream-links input[placeholder="Чат"]').value).searchParams.get('channel_name')
         } else if (new URL(document.URL).pathname.split('/')[1] == 'private-stream') {
             return 'https://wasd.tv/api/v2/broadcasts/closed/' + new URL(document.URL).pathname.split('/')[2]
@@ -1230,7 +1230,7 @@ const HelperWASD = {
         }
     },
     createPinMessages() {
-        document.querySelector('wasd-chat .body-container').insertAdjacentHTML("afterbegin", `<pin-chat-messages-ovg style="background: var(--wasd-color-prime);"></pin-chat-messages-ovg>`)
+        if (!settings.wasd.pinMessage) document.querySelector('wasd-chat .body-container').insertAdjacentHTML("afterbegin", `<pin-chat-messages-ovg style="background: var(--wasd-color-prime);"></pin-chat-messages-ovg>`)
     },
     addPinMessage(node) {
         node.getAttribute('role')
