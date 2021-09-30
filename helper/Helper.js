@@ -98,7 +98,8 @@ const Helper = {
         fixCharactersBreakingChat: false,
         notifyOnMention: false,
         staticGifEmotes: "1",
-        pinMessage: true
+        pinMessage: true,
+        hoverTooltipEmote: true
       },
       list: {
         blockUserList: {},

@@ -444,11 +444,6 @@ function createbuttonovgside() {
         document.querySelector('body').click()
         document.body.style.overflowY = "hidden";
         BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
-        // setTimeout(() => {
-        //     BetterStreamChat.settingsDiv.style.margin = '0px'
-        //     BetterStreamChat.settingsDiv.style.transform = 'translate(-50%, -50%)'
-        // }, 500)
-        // BetterStreamChat.settingsDiv.querySelectorAll('main').forEach(function(main){main.scrollTo(0, 0)})
       });
     }
   }
@@ -1056,7 +1051,8 @@ const getUpdateSettings = () => {
       fixCharactersBreakingChat: settings.wasd.fixCharactersBreakingChat[1],
       notifyOnMention: false,
       staticGifEmotes: "1",
-      pinMessage: true
+      pinMessage: true,
+      hoverTooltipEmote: true
     },
     list: {
       blockUserList: settings.wasd.blockUserList[1],

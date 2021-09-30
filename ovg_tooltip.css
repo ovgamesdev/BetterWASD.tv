@@ -232,3 +232,7 @@ a:hover ovg-tooltip .tooltip,
 .tooltip-wrapper:hover {
   z-index: 1;
 }
+
+.tooltip-wrapper .tooltip-content {
+  text-align: center;
+}

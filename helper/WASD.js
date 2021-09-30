@@ -1251,7 +1251,10 @@ const HelperWASD = {
   },
   addMessageToCpenCard(role, username, color, message, sticker) {
     var block__messages = document.querySelector('.chat-room__viewer-card .block__messages-ovg')
-    block__messages.prepend(HelperWASD.createMessage(role, username, color, message, sticker))
+    if (block__messages) {
+      block__messages.prepend(HelperWASD.createMessage(role, username, color, message, sticker))
+      document.querySelector('.chat-room__viewer-card .user_last_messages-ovg').style.display = 'block'
+    }
 
   },
   usercolorapi(element) {

@@ -551,6 +551,10 @@ const HelperSettings = {
           // { value: 2, label: 'Включено при наведении' }
         ]
       },
+      hoverTooltipEmote: {
+        title: `Подсказка для эмоций BTTV, FFZ и 7TV при наведении. ${Helper.F5}`,
+        type: 'boolean'
+      },
 
       playerGeneral: {
         title: 'Проигрыватель',
