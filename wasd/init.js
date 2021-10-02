@@ -583,7 +583,7 @@ const wasd = {
 
       if (HelperWASD.openUserCardName == usernametext && node.querySelector('wasd-chat-message > .message')) {
         if (settings.wasd.highlightMessagesOpenCard) node.querySelector('wasd-chat-message > .message').classList.add('openCardColor')
-        HelperWASD.addMessageToCpenCard(roles, usernametext, color, message, sticker)
+        if (isobserver) HelperWASD.addMessageToCpenCard(roles, usernametext, color, message, sticker)
       }
 
       if (usernametext) node.setAttribute('username', usernametext)

@@ -2527,6 +2527,19 @@ div.sticker-card:hover div.paidsubs-popup__stickers-item {
   margin-right: 4px;
   width: 14px;
 }
+.block__messages__item-ovg .is-admin {
+  background-color: var(--wasd-color-corp-blue);
+  border-radius: 2px;
+  color: var(--wasd-color-white)!important;
+  padding: 0 8px 0 4px;
+}
+.block__messages__item-ovg .is-admin i.icon {
+  margin-right: 4px;
+  width: 14px;
+}
+.block__messages__item-ovg .is-admin i.icon:before {
+  margin: 0;
+}
 .block__messages__item-ovg .wasd-icons-owner:before {
   margin-left: 0;
   margin-right: 0;

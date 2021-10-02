@@ -11,6 +11,24 @@ const BetterStreamChat = {
       removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
     };
     let changelogList = [{
+      version: '1.3.4',
+      date: '2021-09-30',
+      items: [{
+        text: [
+          `Выделение - Роль пользователя - Цвет для администратора WASD.`,
+          `Подсказка для эмоций BTTV, FFZ и 7TV при наведении.`
+        ],
+        label: 'added'
+      }, {
+        text: [
+          `Выделение - Роль пользователя.`,
+          `Бэкап и восстановление.`,
+          `Карточка пользователя.`,
+          `Карточка пользователя - Последние сообщения.`
+        ],
+        label: 'optimized'
+      }]
+    }, {
       version: '1.3.3',
       date: '2021-09-26',
       items: [{
