@@ -168,14 +168,13 @@ function createbuttonovg() {
 createbuttonovg();
 
 function clickSettingsButton() {
-  //ovg.log('bind click');
-  divmenu = document.querySelector("wasd-chat-menu > div.menu");
-  if (divmenu) addToMenu();
+  if (document.querySelector("wasd-chat-menu > div.menu")) addToMenu();
 }
 
 function addToMenu() {
   //ovg.log("addToMenu");
-  chatmenu = document.querySelector("wasd-chat-menu > div.menu").querySelectorAll("div.menu__block");
+  if (!BetterStreamChat.isSettingsNewWindow) chatmenu = document.querySelector("wasd-chat-menu > div.menu").querySelectorAll("div.menu__block");
+
   if (chatmenu) {
     text = " BetterWASD настройки ";
     switcher = `<div id="buttonOvG" class="menu__block menu__block-header"><div class="menu__block__icon"><i class="icon wasd-icons-settings-profile"></i></div><div class="menu__block__text">${text}</div></div>`;
@@ -186,11 +185,9 @@ function addToMenu() {
       document.querySelector('.header__block__btn > i').click()
       document.body.style.overflowY = "hidden";
       BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
-      // BetterStreamChat.settingsDiv.querySelectorAll('main').forEach(function(main) {
-      //     main.scrollTo(0, 0)
-      // })
     })
-
+  } else {
+    document.querySelector("wasd-chat-menu > div.menu #buttonOvG")?.remove()
   }
 }
 //-
@@ -434,18 +431,22 @@ function updateVideoPlayerButtons() {
 }
 //-
 function createbuttonovgside() {
-  if (!document.querySelector('li#selector-bm-ovg-settings')) {
-    var burgerlist = document.querySelectorAll('wasd-header > wasd-burger-menu > .burger-menu > ul.burger-list')[1]
-    if (burgerlist) {
-      const buttonovg = `<li id="selector-bm-ovg-settings"><a class="burger-menu__link"><div class="bm__link-name"> BetterWASD настройки </div></a></li>`;
-      burgerlist.insertAdjacentHTML("beforeEnd", buttonovg);
-      document.querySelector('li#selector-bm-ovg-settings').addEventListener('click', () => {
-        BetterStreamChat.settingsDiv.style.display = 'block'
-        document.querySelector('body').click()
-        document.body.style.overflowY = "hidden";
-        BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
-      });
+  if (!BetterStreamChat.isSettingsNewWindow) {
+    if (!document.querySelector('li#selector-bm-ovg-settings')) {
+      var burgerlist = document.querySelectorAll('wasd-header > wasd-burger-menu > .burger-menu > ul.burger-list')[1]
+      if (burgerlist) {
+        const buttonovg = `<li id="selector-bm-ovg-settings"><a class="burger-menu__link"><div class="bm__link-name"> BetterWASD настройки </div></a></li>`;
+        burgerlist.insertAdjacentHTML("beforeEnd", buttonovg);
+        document.querySelector('li#selector-bm-ovg-settings').addEventListener('click', () => {
+          BetterStreamChat.settingsDiv.style.display = 'block'
+          document.querySelector('body').click()
+          document.body.style.overflowY = "hidden";
+          BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
+        });
+      }
     }
+  } else {
+    document.querySelector('li#selector-bm-ovg-settings')?.remove()
   }
 }
 //-
@@ -911,12 +912,12 @@ function getChannelName() {
 
 setInterval(() => {
   addPipToPlayer();
-  addResetToPlayer();
+  // addResetToPlayer();
   createClipByOvg();
   videoPlyerPauseIsWasdHome();
   updateVideoPlayerButtons();
   createbuttonovgside();
-  /*setAutoOnlyAudio()*/
+  // setAutoOnlyAudio()
 }, 1000);
 
 setInterval(() => {
@@ -925,7 +926,7 @@ setInterval(() => {
 
 
 chrome.runtime.onMessage.addListener(function(msg) {
-  if (msg.from == "background") {
+  if (msg.from == "background" && msg.username) {
     window.focus()
     let textarea = document.querySelector('.footer > div >textarea');
     if (textarea) {
@@ -933,6 +934,40 @@ chrome.runtime.onMessage.addListener(function(msg) {
       textarea.dispatchEvent(new Event('input'));
       textarea.focus()
     }
+  }
+  if (msg.from == "background" && msg.update_save) {
+    let newSettings = JSON.parse(JSON.stringify(settings));
+
+    let option = BetterStreamChat.settingsDiv.querySelector(`[data-name="${msg?.update_save?.split[0]}_${msg?.update_save?.split[1]}"]`)
+    let split = msg.update_save.split
+    let value = msg.update_save.value
+
+    if (option.type === 'checkbox') {
+      option.checked = value
+      HelperSettings.save([option])
+    } else if (option.dataset.type === 'number' || option.type === 'number') {
+      option.value = value
+      HelperSettings.save([option])
+    } else {
+      option.value = value
+      HelperSettings.save([option])
+    }
+  }
+  if (msg.from == "background" && msg.update_chat == true) {
+    let header_block_menu = document.querySelector('.header > div.header__block__menu')
+    if (header_block_menu) {
+      if (header_block_menu.childNodes.length >= 1) {
+        if (header_block_menu.childNodes[1].nodeName != "#comment") {
+          header_block_menu.childNodes[1].click();
+        }
+        if (header_block_menu.childNodes[0].nodeName != "#comment") {
+          header_block_menu.childNodes[0].click();
+        }
+      }
+    }
+  }
+  if (msg.from == "background" && msg.location == 'reload') {
+    location.reload()
   }
 });
 

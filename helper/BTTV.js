@@ -265,7 +265,6 @@ const HelperBTTV = {
   },
   restoreSettings(items) {
     return new Promise((resolve, reject) => {
-      ovg.log('bttvUsers', items)
 
       chrome.storage.local.set({
         bttvUsers: items.bttvUsers,
@@ -280,26 +279,14 @@ const HelperBTTV = {
       }
 
       for (let userID in items.bttvUsers) {
-        // if (userID == 'global' || !items.bttvUsers[userID]?.username) {
-        //     i++
-        //     ovg.log('bttvUsers i', i, l)
-        //     if (i == l) {
-        //         ovg.log('resolve i == l', i, l)
-        //         resolve()
-        //     }
-        // } else {
         HelperBTTV.updateUserChannelEmotes(userID, items.bttvUsers[userID].username).finally(() => {
           i++
-          ovg.log('bttvUsers i', i, l)
           HelperSettings.showMessage(`BTTV ${i}/${l}`)
           if (i == l) {
-            ovg.log('resolve i == l', i, l)
             resolve()
           }
         })
-        // }
       }
     });
-
   }
 }

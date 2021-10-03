@@ -267,7 +267,6 @@ const HelperTV7 = {
   },
   restoreSettings(items) {
     return new Promise((resolve, reject) => {
-      ovg.log('tv7Users', items)
 
       chrome.storage.local.set({
         tv7Users: items.tv7Users,
@@ -282,25 +281,13 @@ const HelperTV7 = {
       }
 
       for (let userID in items.tv7Users) {
-        // if (userID == 'global' || !items.tv7Users[userID]?.username) {
-        //     i++
-        //     ovg.log('tv7Users i', i, l)
-        //     if (i == l) {
-        //         ovg.log('resolve i == l', i, l)
-        //         resolve()
-        //     }
-        // } else {
-        ovg.log(userID)
         HelperTV7.updateUserChannelEmotes(userID, items.tv7Users[userID].username).finally(() => {
           i++
-          ovg.log('tv7Users i', i, l)
           HelperSettings.showMessage(`7TV ${i}/${l}`)
           if (i == l) {
-            ovg.log('resolve i == l', i, l)
             resolve()
           }
         })
-        // }
       }
     });
   }

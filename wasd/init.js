@@ -742,223 +742,6 @@ const wasd = {
         }
       }
 
-      // if (settings.wasd.moderatorMenu.toString() === '1') {
-      //     let loading;
-      //     if (!ownerRef && node.querySelector('div.message__info__icon')) {
-
-      //         node.insertAdjacentHTML("beforeend", "<div class='mod'></div>");
-      //         moderDiv = node.querySelector('div.mod');
-
-      //         moderButtonRemove = moderDiv.insertAdjacentHTML("beforeend", "<div><button class='moderButtonRemove ovg primary' title='Удалить сообщение'><svg viewBox='0 0 24 24' focusable='false'><g><path d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z'></path></g></svg></button></div>");
-      //         moderButtonTimeout = moderDiv.insertAdjacentHTML("beforeend", "<div><button class='moderButtonTimeout ovg primary' title='Временно заблокировать'><svg viewBox='0 0 24 24' focusable='false'><g><path d='M6 2v6h.01L6 8.01 10 12l-4 4 .01.01H6V22h12v-5.99h-.01L18 16l-4-4 4-3.99-.01-.01H18V2H6z'></path></g></svg></button></div>");
-      //         moderButtonBan = moderDiv.insertAdjacentHTML("beforeend", "<div><button class='moderButtonBan ovg primary' title='Забанить пользователя'><svg viewBox='0 0 24 24' focusable='false'><g><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z'></path></g></svg></button></div>");
-
-      //         messageInfo = node.querySelector('div.message__info');
-      //         if (messageInfo) {
-      //             messageInfo.insertAdjacentHTML("beforeend", `<div class="lds-ring" style="display: none;"><svg x="0px" y="0px" viewBox="0 0 150 150" class="icon-pending-ovg"><circle cx="75" cy="75" r="60" class="icon-pending-inner-ovg"></circle></svg></div>`);
-      //             loading = node.querySelector('.lds-ring');
-      //         }
-
-      //         node.addEventListener('mouseover', ({ target }) => {
-      //             if (isPressedAlt) {
-      //                 if (node.querySelector('div.mod')) node.querySelector('div.mod').classList.add('active');
-      //             }
-      //         });
-      //         node.addEventListener('mousemove', ({ target }) => {
-      //             if (isPressedAlt) {
-      //                 if (node.querySelector('div.mod')) node.querySelector('div.mod').classList.add('active');
-      //             }
-      //         });
-      //         node.addEventListener('mouseout', ({ target }) => {
-      //             if (node.querySelector('div.mod')) if (node.querySelector('div.mod').classList.contains('active')) {
-      //                 node.querySelector('div.mod').classList.remove('active');
-      //             }
-      //         });
-
-      //         node.querySelector('.moderButtonRemove').addEventListener('click', ({ target }) => {
-      //             if (node.querySelector('div.mod').classList.contains('active')) {
-      //                 node.querySelector('div.mod').classList.remove('active');
-      //             }
-
-      //                if (node.querySelector('.message__info__icon > i')) {
-      //                    node.querySelector('.message__info__icon > i').click();
-
-      //                    const remove_message = () => {
-      //                        if (contextMenu) contextMenuBlocks = contextMenu.querySelectorAll('div.context-menu__block');
-      //                        let edited = false;
-      //                        for (i = 0; i < 10; i++) {
-      //                            if (contextMenuBlocks[i]) {
-      //                                if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Удалить сообщения ") {
-      //                                    contextMenuBlocks[i].click();
-      //                                    //ovg.log('remove channal author');
-      //                                    document.querySelector('.message__info').click();
-      //                                    edited = true;
-      //                                    loading.style.display = 'inline-block'
-      //                                    if (document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input').checked) {
-      //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input').click();
-      //                                    }
-
-      //                                    if (settings.wasd.moderatorMenuAutomatic) {
-      //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning').click();
-      //                                        document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
-      //                                        loading.style.display = 'none'
-      //                                    } else {
-      //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
-      //                                            loading.style.display = 'none'
-      //                                        })
-      //                                    }
-      //                                    break;
-      //                                }
-      //                            }
-      //                            if (i == 9) {
-      //                                document.querySelector('.message__info').click();
-      //                                HelperWASD.showChatMessage('Вы не можете этого сделать');
-      //                            }
-      //                        }
-      //                    }
-
-      //                    function fetch_remove_message() {
-      //                        if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
-      //                            contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
-      //                            remove_message()
-      //                        } else {
-      //                            setTimeout( () => { fetch_remove_message() }, 5 )
-      //                        }
-      //                    }
-      //                    fetch_remove_message()
-      //                } else {
-      //                    HelperWASD.showChatMessage('Вы не можете этого сделать');
-      //                }
-      //         });
-      //         node.querySelector('.moderButtonTimeout').addEventListener('click', ({ target }) => {
-      //             if (node.querySelector('div.mod').classList.contains('active')) {
-      //                 node.querySelector('div.mod').classList.remove('active');
-      //             }
-
-      //                if (node.querySelector('.message__info__icon > i')) {
-      //                    node.querySelector('.message__info__icon > i').click();
-
-      //                    const timeout_message = () => {
-      //                        if (contextMenu) contextMenuBlocks = contextMenu.querySelectorAll('div.context-menu__block');
-      //                        let edited = false;
-      //                        for (i = 0; i < 10; i++) {
-      //                            if (contextMenuBlocks[i]) {
-      //                                if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Временно заблокировать ") {
-      //                                    contextMenuBlocks[i].click();
-      //                                    //ovg.log('timeout channal author');
-      //                                    document.querySelector('.message__info').click();
-      //                                    edited = true;
-      //                                    loading.style.display = 'inline-block'
-      //                                    if (!document.querySelector('.block__popup__body > .block__popup__body__inner .inner__text__checkbox [type="checkbox"].input').checked && settings.wasd.keepMessagesTimeout) {
-      //                                        document.querySelector('.block__popup__body > .block__popup__body__inner .inner__text__checkbox [type="checkbox"].input').click()
-      //                                    }
-      //                                    switch(settings.wasd.moderatorMenuTimeout) {
-      //                                        case 1:
-      //                                        case '1':
-      //                                            document.querySelector('[formcontrolname="selectMuteDuration"] [for="0"]').click()
-      //                                            break
-      //                                        case 10:
-      //                                        case '10':
-      //                                            document.querySelector('[formcontrolname="selectMuteDuration"] [for="1"]').click()
-      //                                            break
-      //                                        case 60:
-      //                                        case '60':
-      //                                            document.querySelector('[formcontrolname="selectMuteDuration"] [for="2"]').click()
-      //                                            break
-      //                                        default:
-      //                                            document.querySelector('[formcontrolname="selectMuteDuration"] [for="0"]').click()
-      //                                            break
-      //                                    }
-
-      //                                    if (settings.wasd.moderatorMenuAutomatic) {
-      //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning').click();
-      //                                        document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
-
-      //                                        loading.style.display = 'none'
-      //                                    } else {
-      //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
-      //                                            loading.style.display = 'none'
-      //                                        })
-      //                                    }
-      //                                    break;
-      //                                }
-      //                            }
-      //                            if (i == 9) {
-      //                                document.querySelector('.message__info').click();
-      //                                HelperWASD.showChatMessage('Вы не можете этого сделать');
-      //                            }
-      //                        }
-      //                    }
-
-      //                    function fetch_timeout_message() {
-      //                        if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
-      //                            contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
-      //                            timeout_message()
-      //                        } else {
-      //                            setTimeout( () => { fetch_timeout_message() }, 5 )
-      //                        }
-      //                    }
-      //                    fetch_timeout_message()
-      //                } else {
-      //                    HelperWASD.showChatMessage('Вы не можете этого сделать');
-      //                }
-      //         });
-      //         node.querySelector('.moderButtonBan').addEventListener('click', ({ target }) => {
-      //             if (node.querySelector('div.mod').classList.contains('active')) {
-      //                 node.querySelector('div.mod').classList.remove('active');
-      //             }
-
-      //                if (node.querySelector('.message__info__icon > i')) {
-      //                    node.querySelector('.message__info__icon > i').click();
-
-      //                    const banned_message = () => {
-      //                        if (contextMenu) contextMenuBlocks = contextMenu.querySelectorAll('div.context-menu__block');
-      //                        let edited = false;
-      //                        for (i = 0; i < 10; i++) {
-      //                            if (contextMenuBlocks[i]) {
-      //                                if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Забанить ") {
-      //                                    contextMenuBlocks[i].click();
-      //                                    //ovg.log('banned channal author');
-      //                                    document.querySelector('.message__info').click();
-      //                                    edited = true;
-      //                                    loading.style.display = 'inline-block'
-
-      //                                    if (settings.wasd.moderatorMenuAutomatic) {
-      //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning').click();
-      //                                        document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
-
-      //                                        loading.style.display = 'none'
-      //                                    } else {
-      //                                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
-      //                                            loading.style.display = 'none'
-      //                                        })
-      //                                    }
-      //                                    break;
-      //                                }
-      //                            }
-      //                            if (i == 9) {
-      //                                document.querySelector('.message__info').click();
-      //                                HelperWASD.showChatMessage('Вы не можете этого сделать');
-      //                            }
-      //                        }
-      //                    }
-
-      //                    function fetch_banned_message() {
-      //                        if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
-      //                            contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
-      //                            banned_message()
-      //                        } else {
-      //                            setTimeout( () => { fetch_banned_message() }, 5 )
-      //                        }
-      //                    }
-      //                    fetch_banned_message()
-      //                } else {
-      //                    HelperWASD.showChatMessage('Вы не можете этого сделать');
-      //                }
-      //         });
-      //     }
-      // } 
-      //    else 
       if (settings.wasd.moderatorMenu.toString() === '2' || settings.wasd.moderatorMenu.toString() === '1') {
         let loading;
         let messageInfoStatus = node.querySelector('div.info__text__status')
@@ -1243,7 +1026,6 @@ const wasd = {
               $.ajax({
                 url: `https://wasd.tv/api/games/${new URL(a.href).pathname.split('/')[2]}`,
                 success: function(out) {
-
                   if (!out?.error?.code) {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.game_icon.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.game_asset_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.game_asset_name}</div><div title="${out.result.game_description}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.result.game_description != null ? out.result.game_description : 'Нет описания'}</div></div></div></div>`;
                   } else {
@@ -1278,8 +1060,6 @@ const wasd = {
                   node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                 }
               });
-
-
             }
 
           } else if (new URL(a.href).host == "www.twitch.tv") {
@@ -1376,42 +1156,40 @@ const wasd = {
                     var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value) * 1000)
                     var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
                     node.querySelector('.lrhiver').innerHTML = `<div class="lrhiverimg">
-                                            <div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
-                                                <div>
-                                                    <div class="ffz--shift-hide">
-                                                        ${out?.short?.image?.url ? `
-                                                            <div class="ffz--rich-gallery" data-items="1">
-                                                                <div class="ffz--gallery-column" data-items="1">
-                                                                    <div class="ffz--overlay">
-                                                                        <div class="ffz--overlay__content">
-                                                                            <div class="ffz-aspect ffz-aspect--align-center">
-                                                                                <div class="ffz-aspect__spacer" style="padding-top: 56.25%;"></div><img class=" " src="${out.short.image.url}" title="">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="ffz--overlay__bit" data-side="bottom-right">${textdate}</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        ` : ``}
-                                                        
-
-                                                        <div class="tw-flex ffz--rich-header">
-                                                            <div class="ffz--header-image-h tw-mg-x-05"></div>
-                                                            <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
-                                                                ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
-                                                                ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
-                                                            </div>
-                                                        </div>
-                                                        ${out?.full?.[2]?.content ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
-                                                        ${out?.short?.extra?.[2]?.attrs?.datetime ? `
-                                                            <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
-                                                                <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
-                                                            </div>
-                                                        ` : ``}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>`
+                      <div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
+                        <div>
+                          <div class="ffz--shift-hide">
+                            ${out?.short?.image?.url ? `
+                              <div class="ffz--rich-gallery" data-items="1">
+                                <div class="ffz--gallery-column" data-items="1">
+                                  <div class="ffz--overlay">
+                                    <div class="ffz--overlay__content">
+                                      <div class="ffz-aspect ffz-aspect--align-center">
+                                        <div class="ffz-aspect__spacer" style="padding-top: 56.25%;"></div><img class=" " src="${out.short.image.url}" title="">
+                                      </div>
+                                    </div>
+                                    <div class="ffz--overlay__bit" data-side="bottom-right">${textdate}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            ` : ``}
+                            
+                            <div class="tw-flex ffz--rich-header">
+                              <div class="ffz--header-image-h tw-mg-x-05"></div>
+                              <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
+                                ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
+                                ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
+                              </div>
+                            </div>
+                            ${out?.full?.[2]?.content ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
+                            ${out?.short?.extra?.[2]?.attrs?.datetime ? `
+                              <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
+                                <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
+                              </div>
+                            ` : ``}
+                          </div>
+                        </div>
+                      </div></div>`
                     imgdiv = ``
                     node.querySelector('.ffz--header-image').innerHTML = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05 ffz--header-aspect" style="width:8.8rem">${img}</div>`
 

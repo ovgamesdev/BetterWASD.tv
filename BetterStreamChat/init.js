@@ -1,6 +1,7 @@
 const BetterStreamChat = {
   activeInstance: null,
   settingsDiv: null,
+  isSettingsNewWindow: false,
   async init() {
     //<editor-fold desc="changelog">
     let changelogLabels = {
@@ -767,8 +768,8 @@ const BetterStreamChat = {
                 
                 <div style="width: 100%"></div>
 
-                <wasd-button class="ghost-btn ovg" style="display: flex;">
-                    <button class="basic medium-cube ovg fade" type="button">
+                <wasd-button class="ghost-btn ovg head-buttons">
+                    <button class="basic medium-cube ovg hide-fullscreen fade" type="button">
                         <i class="wasd-icons-show"></i>
                     </button>
                     <button class="basic medium-cube ovg updateemotes" type="button">
@@ -779,7 +780,11 @@ const BetterStreamChat = {
                         <i class="wasd-icons-record"></i>
                         <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить чат (нажмите дважды) </div></div></ovg-tooltip>
                     </button>
-                    <button class="basic medium-cube ovg close" type="button">
+                    <button class="basic medium-cube ovg hide-fullscreen newtab" type="button">
+                        <i class="ovg wasd-icons-extract"></i>
+                        <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Открыть настройки в новом окне </div></div></ovg-tooltip>
+                    </button>
+                    <button class="basic medium-cube ovg hide-fullscreen close" type="button">
                         <i class="ovg wasd-icons-close"></i>
                     </button>
                 </wasd-button>
@@ -1270,9 +1275,28 @@ const BetterStreamChat = {
           }
         }
       } else {
-        HelperSettings.showMessage(`Чат не найден.`, 'error');
+        if (settingsDiv.classList.contains('fullscreen')) {
+          chrome.runtime.sendMessage({
+            update_chat: true
+          });
+        } else {
+          HelperSettings.showMessage(`Чат не найден.`, 'error');
+        }
       }
+    });
 
+    // bind newtab settings
+    settingsDiv.querySelector('.newtab').addEventListener('click', () => {
+      let settings_window = window.open('https://wasd.tv/chat?helper-settings=settings', '_blank', 'location=yes,height=500,width=800')
+      BetterStreamChat.isSettingsNewWindow = true
+      var timer_settings_window = setInterval(() => { 
+        if(settings_window.closed) {
+          clearInterval(timer_settings_window);
+          BetterStreamChat.isSettingsNewWindow = false
+        }
+      }, 200);
+      window.onunload = () => { settings_window?.close() }
+      settingsDiv.querySelector('.close').click()
     });
 
     // bind update emotes 
@@ -1388,6 +1412,9 @@ const BetterStreamChat = {
       return function(e) {
         chrome.storage[storageType].set(JSON.parse(e.target.result), () => {
           location.reload()
+          chrome.runtime.sendMessage({
+            location: 'reload'
+          });
           HelperSettings.showMessage(`reload`)
         })
       }
@@ -1453,6 +1480,9 @@ const BetterStreamChat = {
     settingsDiv.querySelector('.backup-reset').addEventListener('dblclick', () => {
       chrome.storage[storageType].set(Helper.getDefaultSettings(), () => {
         location.reload()
+        chrome.runtime.sendMessage({
+          location: 'reload'
+        });
       })
     });
 
@@ -1499,15 +1529,15 @@ const BetterStreamChat = {
           //     break;
           case 'number':
             event.target.parentElement.querySelector('input[type="number"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            HelperSettings.save([event.target.parentElement.querySelector('input[type="number"]')])
+            event.target.parentElement.querySelector('input[type="number"]').dispatchEvent(new Event('change'));
             break;
           case 'select':
             event.target.parentElement.querySelector('select').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            HelperSettings.save([event.target.parentElement.querySelector('select')])
+            event.target.parentElement.querySelector('select').dispatchEvent(new Event('change'));
             break;
           case 'color':
             event.target.parentElement.querySelector('input[type="color"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            HelperSettings.save([event.target.parentElement.querySelector('input[type="color"]')])
+            event.target.parentElement.querySelector('input[type="color"]').dispatchEvent(new Event('change'));
             break;
             // case 'botevent':
             //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
@@ -1539,15 +1569,15 @@ const BetterStreamChat = {
           //     break;
           case 'number':
             event.target.parentElement.querySelector('input[type="number"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            HelperSettings.save([event.target.parentElement.querySelector('input[type="number"]')])
+            event.target.parentElement.querySelector('input[type="number"]').dispatchEvent(new Event('change'));
             break;
           case 'select':
             event.target.parentElement.querySelector('select').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            HelperSettings.save([event.target.parentElement.querySelector('select')])
+            event.target.parentElement.querySelector('select').dispatchEvent(new Event('change'));
             break;
           case 'color':
             event.target.parentElement.querySelector('input[type="color"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            HelperSettings.save([event.target.parentElement.querySelector('input[type="color"]')])
+            event.target.parentElement.querySelector('input[type="color"]').dispatchEvent(new Event('change'));
             break;
             // case 'botevent':
             //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
@@ -1572,6 +1602,31 @@ const BetterStreamChat = {
     for (let option of settingsDiv.querySelectorAll('.optionField')) {
       option.addEventListener('change', (event) => {
         HelperSettings.save([event.target]);
+
+        let split = option.dataset.name.split('_');
+        let value = null;
+
+        if (option.type === 'radio' && option.classList.contains('botevent')) {
+          value = option.checked && option.value === '1';
+        } else if (option.type === 'text' && option.classList.contains('botevent')) {
+          value = option.value;
+        } else if (option.type === 'radio') {
+          value = option.checked && option.value === '1';
+        } else if (option.type === 'checkbox') {
+          value = option.checked;
+        } else if (option.dataset.type === 'number' || option.type === 'number') {
+          value = parseFloat(option.value);
+        } else {
+          value = option.value;
+        }
+
+        chrome.runtime.sendMessage({
+          update_save: {
+            split: split,
+            value: value
+          }
+        })
+
       });
     }
 
@@ -1724,6 +1779,25 @@ const BetterStreamChat = {
   update() {
     if (this.activeInstance) {
       wasd.update();
+      $('.blacklist .user .ovg-items').empty();
+      for (let user of Object.keys(settings.list.blockUserList)) {
+        HelperWASD.addUserToBlackList(user)
+      }
+
+      $('.blacklist .term .ovg-items').empty();
+      for (let term of Object.keys(settings.list.blockTermList)) {
+        HelperWASD.addTermToBlackList(term)
+      }
+
+      $('.highlight .user .ovg-items').empty();
+      for (let user of Object.keys(settings.list.highlightUserList)) {
+        HelperWASD.addUserToHighLight(user)
+      }
+
+      $('.highlight .term .ovg-items').empty();
+      for (let term of Object.keys(settings.list.highlightTermList)) {
+        HelperWASD.addTermToHighLight(term)
+      }
     }
   }
 }

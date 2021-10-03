@@ -2,6 +2,23 @@ const HelperWASD = {
   openUserCardName: '',
   isModerator: false,
   loaded() {
+    if (new URL(document.URL).searchParams.get('helper-settings')) {
+      BetterStreamChat.settingsDiv.style.display = 'block'
+      BetterStreamChat.settingsDiv.classList.add('fullscreen')
+
+      setInterval(() => {
+        chrome.runtime.sendMessage({
+          from: "tab_settings"
+        })
+      }, 5000)
+
+    } else {
+      setInterval(() => {
+        chrome.runtime.sendMessage({
+          from: "tab_content"
+        })
+      }, 5000)
+    }
     chrome.storage.onChanged.addListener(async function(changes, namespace) {
       if (namespace === 'sync') {
         settings = await Helper.getSettings();
@@ -1347,22 +1364,22 @@ const HelperWASD = {
     div.setAttribute('username', username)
     div.setAttribute('message', message)
     div.innerHTML = `<wasd-chat-message>
-            <div class="message-ovg is-time">
-                <div class="message__time-ovg"> ${(date_time.getHours() < 10) ? '0' + date_time.getHours() : date_time.getHours()}:${(date_time.getMinutes() < 10) ? '0' + date_time.getMinutes() : date_time.getMinutes()} </div>
-                    <div class="message__info-ovg">
-                        <div class="message__info__text-ovg">
-                            <div class="info__text__status-ovg">
-                                ${isSub ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
-                                <div class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''} ${username}</div>
-                            </div>
-                            ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
-                            <div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div>
-                            ${(sticker != undefined) ? '<img alt="sticker" class="sticker small" src="'+sticker+'"> <span class="chat-message-text stickertext sticker_text">Стикер</span>' : ''}
-
-                        </div>
-                    </div>
-                </div>
-            </wasd-chat-message>`;
+      <div class="message-ovg is-time">
+        <div class="message__time-ovg"> ${(date_time.getHours() < 10) ? '0' + date_time.getHours() : date_time.getHours()}:${(date_time.getMinutes() < 10) ? '0' + date_time.getMinutes() : date_time.getMinutes()} </div>
+          <div class="message__info-ovg">
+            <div class="message__info__text-ovg">
+              <div class="info__text__status-ovg">
+                ${isSub ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
+                <div class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''} ${username}</div>
+              </div>
+              ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
+              <div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div>
+              ${(sticker != undefined) ? '<img alt="sticker" class="sticker small" src="'+sticker+'"> <span class="chat-message-text stickertext sticker_text">Стикер</span>' : ''}
+            </div>
+          </div>
+        </div>
+      </div>
+    </wasd-chat-message>`;
 
     let stickersovg = ''
     for (let stickerovg of div.querySelectorAll('.stickerovg')) {
