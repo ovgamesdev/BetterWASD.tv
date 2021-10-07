@@ -18,7 +18,7 @@ window.addEventListener('keydown', (e) => {
   if (e.key == "Shift") isPressedShift = true;
   if (e.key == "Control") isPressedControl = true;
   if (e.key == "f" || e.key == "а") {
-    if (settings.wasd.pressedFullScreen && !isPressedFullScreen) {
+    if (settings.wasd.pressedFullScreen && !isPressedFullScreen && !isPressedControl) {
       if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
         if (document.querySelector('button.player-button.fullscreen-button')) document.querySelector('button.player-button.fullscreen-button').click();
         isPressedFullScreen = true;
@@ -26,7 +26,7 @@ window.addEventListener('keydown', (e) => {
     }
   }
   if (e.key == "t" || e.key == "е") {
-    if (settings.wasd.pressedTheater && !isPressedTheater) {
+    if (settings.wasd.pressedTheater    && !isPressedTheater    && !isPressedControl) {
       if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
         if (document.querySelector('button.player-button.theater-button')) document.querySelector('button.player-button.theater-button').click();
         isPressedTheater = true;
@@ -34,7 +34,7 @@ window.addEventListener('keydown', (e) => {
     }
   }
   if (e.key == "i" || e.key == "ш") {
-    if (settings.wasd.pressedPIP && !isPressedPIP) {
+    if (settings.wasd.pressedPIP        && !isPressedPIP        && !isPressedControl) {
       if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
         if (document.querySelector('button.player-button.pip')) document.querySelector('button.player-button.pip').click();
         isPressedPIP = true;
@@ -42,7 +42,7 @@ window.addEventListener('keydown', (e) => {
     }
   }
   if (e.key == "x" || e.key == "ч") {
-    if (settings.wasd.pressedClip && !isPressedClip) {
+    if (settings.wasd.pressedClip       && !isPressedClip       && !isPressedControl) {
       if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
         if (settings.wasd.iframeCreateClip) {
           if (document.querySelector('button.player-button.clip-ovg')) document.querySelector('button.player-button.clip-ovg').click()

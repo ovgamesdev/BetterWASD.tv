@@ -7,14 +7,14 @@ const HelperWASD = {
       BetterStreamChat.settingsDiv.classList.add('fullscreen')
 
       setInterval(() => {
-        chrome.runtime.sendMessage({
+        if(typeof chrome.app.isInstalled!=='undefined') chrome.runtime.sendMessage({
           from: "tab_settings"
         })
       }, 5000)
 
     } else {
       setInterval(() => {
-        chrome.runtime.sendMessage({
+        if(typeof chrome.app.isInstalled!=='undefined') chrome.runtime.sendMessage({
           from: "tab_content"
         })
       }, 5000)
@@ -199,7 +199,7 @@ const HelperWASD = {
     }
 
     var y_card;
-    var x_card = 7.5;
+    var x_card = 0;
     var data;
     if (!positionself) {
       if (document.querySelector('div.chat-container')) {
@@ -208,31 +208,32 @@ const HelperWASD = {
           x_card = document.querySelector('div#scroll-content.wrapper').offsetWidth - document.querySelector('div.chat-container').offsetWidth + 5;
         } else {
           y_card = y - 13;
-          x_card = 6.5;
+          x_card = 0;
         }
 
-        if (document.querySelector('div#scroll-content.wrapper').offsetWidth - 6.5 <= x_card + 310) {
-          x_card = (document.querySelector('div#scroll-content.wrapper').offsetWidth - 6.5) - 310 - 1;
+        if (document.querySelector('div#scroll-content.wrapper').offsetWidth - 9 <= x_card + 310) {
+          x_card = (document.querySelector('div#scroll-content.wrapper').offsetWidth - 9) - 310 - 1;
         }
-        if (!(x_card <= 6.5)) {
-          if ((x_card >= (document.querySelector('div#scroll-content.wrapper').offsetWidth - 6.5) - 180)) {
-            x_card = ((document.querySelector('div#scroll-content.wrapper').offsetWidth - 6.5) - 181);
+        if (!(x_card <= 9)) {
+          if ((x_card >= (document.querySelector('div#scroll-content.wrapper').offsetWidth - 9) - 180)) {
+            x_card = ((document.querySelector('div#scroll-content.wrapper').offsetWidth - 9) - 181);
           }
         } else {
-          x_card = 7.5;
+          x_card = 0;
         }
 
-        if (!(y_card <= 6.5)) {
-          if ((y_card >= (document.querySelector('div#scroll-content.wrapper').offsetHeight - 6.5) - 476)) {
-            y_card = ((document.querySelector('div#scroll-content.wrapper').offsetHeight - 6.5) - 477);
+        if (!(y_card <= 9)) {
+          if ((y_card >= (document.querySelector('div#scroll-content.wrapper').offsetHeight - 9) - 476)) {
+            y_card = ((document.querySelector('div#scroll-content.wrapper').offsetHeight - 9) - 477);
           }
         } else {
-          y_card = 7.5;
+          y_card = 10;
         }
       } else {
         y_card = y - 13;
         x_card = x - 13;
       }
+      // 1815.5px > 1813px
 
       let mobile = document.querySelector('.theatre-mode-mobile');
       if (mobile) {
@@ -289,7 +290,7 @@ const HelperWASD = {
       card.querySelector('div.tooltip.tooltip_position-right.tooltip_size-small.ovg').style.display = '';
     });
 
-    HelperWASD.dragElement(document.querySelector(".tw-border-radius-medium.ovg-viewer-card"));
+    $( ".tw-border-radius-medium.ovg-viewer-card" ).draggable({ containment: ".viewer-card-layer", scroll: false, cursor: "move"});
 
     $.ajax({
       url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${channel_name.trim()}`,
@@ -843,131 +844,6 @@ const HelperWASD = {
 
     document.body.removeChild(element);
   },
-  dragElement(elmnt) {
-    var isDrag = false;
-    var pos1 = 0,
-      pos2 = 0,
-      pos3 = 0,
-      pos4 = 0;
-    if (document.querySelector(".tw-border-radius-medium.ovg-viewer-card")) {
-      document.querySelector(".tw-border-radius-medium.ovg-viewer-card").onmousedown = dragMouseDown;
-    } else {
-      elmnt.onmousedown = dragMouseDown;
-    }
-
-    function dragMouseDown(e) {
-      if (!(e.target.nodeName == 'A' || e.target.nodeName == 'BUTTON' || e.target.className == 'chat-message-mention click')) {
-        isDrag = true
-      } else {
-        isDrag = false
-      }
-      e = e || window.event;
-      e.preventDefault();
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      document.onmouseup = closeDragElement;
-      document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-      if (isDrag) {
-        e = e || window.event;
-        e.preventDefault();
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        if (!((elmnt.offsetTop - pos2) <= 4)) {
-          if (!((elmnt.offsetTop - pos2) >= (document.querySelector('div#scroll-content.wrapper').offsetHeight - 4) - document.querySelector('div.tw-border-radius-medium.ovg-viewer-card').offsetHeight)) {
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-          } else {
-            elmnt.style.top = ((document.querySelector('div#scroll-content.wrapper').offsetHeight - 4) - document.querySelector('div.tw-border-radius-medium.ovg-viewer-card').offsetHeight + 1) + "px";
-          }
-        } else {
-
-          elmnt.style.top = "5px";
-        }
-
-        if (!((elmnt.offsetLeft - pos1) <= 4)) {
-          if (!((elmnt.offsetLeft - pos1) >= (document.querySelector('div#scroll-content.wrapper').offsetWidth - 4) - document.querySelector('div.tw-border-radius-medium.ovg-viewer-card').offsetWidth)) {
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-          } else {
-            elmnt.style.left = ((document.querySelector('div#scroll-content.wrapper').offsetWidth - 4) - document.querySelector('div.tw-border-radius-medium.ovg-viewer-card').offsetWidth - 1) + "px";
-          }
-        } else {
-
-          elmnt.style.left = "5px";
-        }
-      }
-    }
-
-    function closeDragElement() {
-      document.onmouseup = null;
-      document.onmousemove = null;
-    }
-  },
-  dragSettingsPanel() {
-    let elmnt = document.querySelector('#bscSettingsPanel')
-    var isDrag = false;
-    var pos1 = 0,
-      pos2 = 0,
-      pos3 = 0,
-      pos4 = 0;
-    document.querySelector('#bscSettingsPanel header').onmousedown = dragMouseDown;
-
-    function dragMouseDown(e) {
-      if (!(e.target.nodeName == 'A' || e.target.nodeName == 'BUTTON')) {
-        isDrag = true
-      } else {
-        isDrag = false
-      }
-      e = e || window.event;
-      e.preventDefault();
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      document.onmouseup = closeDragElement;
-      document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-      if (isDrag) {
-        e = e || window.event;
-        e.preventDefault();
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        if (!((elmnt.offsetTop - pos2) <= 0)) {
-          if (!((elmnt.offsetTop - pos2) >= document.body.offsetHeight - elmnt.offsetHeight)) {
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-          } else {
-            elmnt.style.top = (document.body.offsetHeight - elmnt.offsetHeight + 1) + "px";
-          }
-        } else {
-
-          elmnt.style.top = "0px";
-        }
-
-        if (!((elmnt.offsetLeft - pos1) <= 0)) {
-          if (!((elmnt.offsetLeft - pos1) >= document.body.offsetWidth - elmnt.offsetWidth)) {
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-          } else {
-            elmnt.style.left = (document.body.offsetWidth - elmnt.offsetWidth - 1) + "px";
-          }
-        } else {
-
-          elmnt.style.left = "0px";
-        }
-      }
-    }
-
-    function closeDragElement() {
-      document.onmouseup = null;
-      document.onmousemove = null;
-    }
-  },
   addUsernameToTextarea(username) {
     let textarea = document.querySelector('.footer > div >textarea');
     if (settings.wasd.onClickUser.toString() === '1') {
@@ -1037,18 +913,14 @@ const HelperWASD = {
             function changeUptime() {
 
               if (out.result.media_container.media_container_status == 'RUNNING') {
-                const date = new Date();
-                dater = new Date(date - date1);
-
-                textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
 
                 if (document.querySelector('div.stream-uptime > input.player-info__stat-value')) {
-                  document.querySelector('div.stream-uptime > input.player-info__stat-value').value = textdate;
+                  document.querySelector('div.stream-uptime > input.player-info__stat-value').value = moment.utc(new Date(new Date() - date1)).format('HH:mm:ss');
                 }
 
                 if (document.querySelector('.stream-status-container .stream-status-text.live')) {
                   if (settings.wasd.uptimeStreamMobile) {
-                    document.querySelector('.stream-status-container .stream-status-text.live').textContent = textdate
+                    document.querySelector('.stream-status-container .stream-status-text.live').textContent = moment.utc(new Date(new Date() - date1)).format('HH:mm:ss')
                   } else {
                     document.querySelector('.stream-status-container .stream-status-text.live').textContent = ` в эфире `
                   }
@@ -1272,7 +1144,6 @@ const HelperWASD = {
       block__messages.prepend(HelperWASD.createMessage(role, username, color, message, sticker))
       document.querySelector('.chat-room__viewer-card .user_last_messages-ovg').style.display = 'block'
     }
-
   },
   usercolorapi(element) {
     // ищем цвет по api если по ласт сообщениям не нашли
@@ -1365,7 +1236,7 @@ const HelperWASD = {
     div.setAttribute('message', message)
     div.innerHTML = `<wasd-chat-message>
       <div class="message-ovg is-time">
-        <div class="message__time-ovg"> ${(date_time.getHours() < 10) ? '0' + date_time.getHours() : date_time.getHours()}:${(date_time.getMinutes() < 10) ? '0' + date_time.getMinutes() : date_time.getMinutes()} </div>
+        <div class="message__time-ovg"> ${moment(date_time).format(settings.wasd.formatMessageSentTime)} </div>
           <div class="message__info-ovg">
             <div class="message__info__text-ovg">
               <div class="info__text__status-ovg">

@@ -31,27 +31,22 @@ const HelperSettings = {
       },
       messageSystem: {
         title: 'Скрыть системные сообщения.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSystemMessages.gif'],
         type: 'boolean'
       },
       messageHover: {
         title: 'Подсвечивать сообщениие при наведении.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/messageHover.gif'],
         type: 'boolean'
       },
       colorMessageHover: {
         title: 'Цвет для опции "Подсвечивать сообщениие при наведении".',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colorMessageHover.gif'],
         type: 'color'
       },
       wasdIconsSmile: {
         title: 'Cкрыть стикеры / смайлы в панели ввода текста.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/wasdIconsSmile.gif'],
         type: 'boolean'
       },
       wasdIconsCircleRu: {
         title: 'Скрыть поддержать в панели ввода текста.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/wasdIconsCircleRu.gif'],
         type: 'boolean'
       },
       bttvEmotes: {
@@ -68,17 +63,14 @@ const HelperSettings = {
       },
       bttvInChatMenu: {
         title: 'Опция BTTV в меню смайликов в чате.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/bttvInChatMenu.gif'],
         type: 'boolean'
       },
       ffzInChatMenu: {
         title: 'Опция FFZ в меню смайликов в чате.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/ffzInChatMenu.gif'],
         type: 'boolean'
       },
       tv7InChatMenu: {
         title: 'Опция 7TV в меню смайликов в чате.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/tv7InChatMenu.gif'],
         type: 'boolean'
       },
       bttvEmoteSize: {
@@ -221,7 +213,6 @@ const HelperSettings = {
       },
       colonAfterNickname: {
         title: `Двоеточие после никнейма. ${Helper.F5}`,
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colonAfterNickname.gif'],
         type: 'boolean'
       },
       /*smallBadges: {
@@ -230,7 +221,6 @@ const HelperSettings = {
       },*/
       colorAtTheMention: {
         title: `Отображать упоминания пользователей в чата с их цветом никнейма. ${Helper.BETA} ${Helper.F5}`,
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/colorAtTheMention.gif'],
         type: 'boolean'
       },
       chatWidth: {
@@ -247,7 +237,6 @@ const HelperSettings = {
       },
       highlightMessagesBold: {
         title: 'Выделять упоминания в чате жирным шрифтом.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/highlightMessagesBold.gif'],
         type: 'boolean'
       },
       streamerMessage: {
@@ -371,12 +360,6 @@ const HelperSettings = {
       linkColor: {
         title: 'Цвет ссылки.',
         type: 'color',
-        /*items: [
-            { value: 0, label: 'Default' },
-            { value: 1, label: 'Google' },
-            { value: 2, label: 'Twitch' },
-            { value: 3, label: 'Blue' }
-        ]*/
       },
       fixedLinks: {
         title: `Исправить ссылки в чате. ${Helper.F5}`,
@@ -422,39 +405,39 @@ const HelperSettings = {
       },
       formatMessageSentTime: {
         title: `Формат отметок времени. ${Helper.tooltip('(i)', 'Для новых сообщений')} ${Helper.F5}`,
-        description: 'Отформатировано <a target="_blank" href="https://github.com/iamkun/dayjs/blob/dev/docs/ru/README-ru.md">library Day.js</a>.',
+        description: 'Отформатировано <a target="_blank" href="https://momentjs.com/">library Moment.js</a>.',
         type: 'select',
         items: [{
             value: 'h:mm',
-            label: '12 часов'
+            label: '12 часов (2:15)'
           },
           {
             value: 'h:mm:ss',
-            label: '12 часов с секундами'
+            label: '12 часов с секундами (2:15:35)'
           },
           {
             value: 'H:mm',
-            label: '24 часа'
+            label: '24 часа (14:15)'
           },
           {
             value: 'H:mm:ss',
-            label: '24 часа с секундами'
+            label: '24 часа с секундами (14:15:35)'
           },
           {
             value: 'hh:mm',
-            label: 'Дополнительные'
+            label: 'Дополнительные (02:15)'
           },
           {
             value: 'hh:mm:ss',
-            label: 'Дополнительные с секундами'
+            label: 'Дополнительные с секундами (02:15:35)'
           },
           {
             value: 'HH:mm',
-            label: 'Дополнительные 24 часа'
+            label: 'Дополнительные 24 часа (14:15)'
           },
           {
             value: 'HH:mm:ss',
-            label: 'Дополнительные 24 часа с секундами'
+            label: 'Дополнительные 24 часа с секундами (14:15:35)'
           }
         ]
       },
@@ -525,7 +508,6 @@ const HelperSettings = {
       },
       uptimeStreamMobile: {
         title: `Заменить надпись 'в эфире' на аптайм трансляции.`,
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStreamMobile.png'],
         type: 'boolean'
       },
       fixCharactersBreakingChat: {
@@ -579,7 +561,6 @@ const HelperSettings = {
       },
       pictureInPicture: {
         title: "Добавить кнопку 'Картинка в картинке' к управлению проигрывателем. (PIP)",
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/pictureInPicture.gif'],
         type: 'boolean'
       },
       /*resetToPlayer: {
@@ -609,12 +590,10 @@ const HelperSettings = {
       },
       uptimeStream: {
         title: `Аптайм трансляции. ${Helper.F5}`,
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/uptimeStream.png'],
         type: 'boolean'
       },
       alwaysOpenVolumeControl: {
         title: 'Всегда раскрывать регулятор громкости.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/alwaysOpenVolumeControl.gif'],
         type: 'boolean'
       },
       mutePlayerOnMiddleMouse: {
@@ -623,7 +602,6 @@ const HelperSettings = {
       },
       iframeCreateClip: {
         title: 'Создавать клипы в проигрывателе а не новом окне.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/iframeCreateClip.png'],
         type: 'boolean'
       },
       hideRaid: {
@@ -668,12 +646,10 @@ const HelperSettings = {
       },
       hideSelectorStreamSettings: {
         title: 'Скрыть кнопку "Начать стрим" в заголовке.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideSelectorStreamSettings.gif'],
         type: 'boolean'
       },
       hideGreatRandom: {
         title: 'Скрыть кнопку "Великий рандом!" в заголовке.',
-        help: ['https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/help/hideGreatRandom.gif'],
         type: 'boolean'
       },
       chatMobilePlayer: {
@@ -806,30 +782,29 @@ const HelperSettings = {
         let type = setting.type;
         let fieldName = `${category}_${name}`;
         if (type === 'boolean') {
-          html += this.boolean(fieldName, setting.title, setting.description, settings[category][name], 'Вкл', 'Откл', setting.help);
+          html += this.boolean(fieldName, setting.title, setting.description, settings[category][name], 'Вкл', 'Откл');
         } else if (type === 'text') {
-          html += this.text(fieldName, setting.title, setting.description, settings[category][name], setting.help);
+          html += this.text(fieldName, setting.title, setting.description, settings[category][name]);
         } else if (type === 'number') {
-          html += this.number(fieldName, setting.title, setting.description, settings[category][name], setting.min, setting.max, setting.help);
+          html += this.number(fieldName, setting.title, setting.description, settings[category][name], setting.min, setting.max);
         } else if (type === 'select') {
-          html += this.select(fieldName, setting.title, setting.description, setting.items, settings[category][name], setting.help);
+          html += this.select(fieldName, setting.title, setting.description, setting.items, settings[category][name]);
         } else if (type === 'none') {
-          html += this.none(fieldName, setting.title, setting.description, settings[category][name], setting.help);
+          html += this.none(fieldName, setting.title, setting.description, settings[category][name]);
         } else if (type === 'title') {
-          html += this.title(fieldName, setting.title, setting.description, settings[category][name], setting.help, setting.id);
+          html += this.title(fieldName, setting.title, setting.description, settings[category][name], setting.id);
         } else if (type === 'color') {
-          html += this.color(fieldName, setting.title, setting.description, settings[category][name], setting.help);
+          html += this.color(fieldName, setting.title, setting.description, settings[category][name]);
         } else if (type === 'botevent') {
-          html += this.botevent(fieldName, setting.title, setting.description, settings[category][name], setting.help);
+          html += this.botevent(fieldName, setting.title, setting.description, settings[category][name]);
         }
       }
     }
     return html;
   },
-  boolean(name, title, description, defaultValue = false, yesButton = 'Вкл', noButton = 'Откл', help = '') {
+  boolean(name, title, description, defaultValue = false, yesButton = 'Вкл', noButton = 'Откл') {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
-        <!--${ help[0] == '' ? '' : ` <div class="helpoption tooltip-ovg"><img src="${help[0]}"> ${help[1]} </div> `}-->
         <label class="switch-ovg">
           <input option-type="boolean" type="checkbox" id="boolean_${name}" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${defaultValue ? 'checked' : ''}>
           <span class="slider-ovg"> <div class="switcher_thumb-ovg"></div> </span>
@@ -837,14 +812,14 @@ const HelperSettings = {
         <!--button class="optionField def" data-name="${name}" option-type="boolean"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
       </ol>`);
   },
-  text(name, title, description, defaultValue = '', help = '') {
+  text(name, title, description, defaultValue = '') {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <input type="text" class="optionField" data-name="${name}" value="${defaultValue[1]}" />
         <!--button class="optionField def" data-name="${name}" option-type="text"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
       </ol>`);
   },
-  number(name, title, description, defaultValue = '', min = 0, max = 0, help = '') {
+  number(name, title, description, defaultValue = '', min = 0, max = 0) {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <div class="def">
@@ -854,7 +829,7 @@ const HelperSettings = {
         <button class="optionField def" data-name="${name}" option-type="number"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
       </ol>`);
   },
-  select(name, title, description, items = [], defaultValue = '', help = '') {
+  select(name, title, description, items = [], defaultValue = '') {
     let selectOptions = '';
     defaultValue = defaultValue.toString();
     for (let item of items) {
@@ -862,7 +837,6 @@ const HelperSettings = {
     }
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
-        <!--${ help[0] == '' ? '' : ` <div class="helpoption tooltip-ovg"><img src="${help[0]}"> ${help[1]} </div> `}-->
         <div class="def">
           <select option-type="select" class="optionField" data-name="${name}">${selectOptions}</select>
           <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
@@ -870,24 +844,27 @@ const HelperSettings = {
         <button class="optionField def" data-name="${name}" option-type="select"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
       </ol>`);
   },
-  none(name, title, description, defaultValue = '', help = '') {
+  none(name, title, description, defaultValue = '') {
     return this._basic(title, description, ``, false);
   },
-  title(name, title, description, defaultValue = '', help = '', id = '') {
+  title(name, title, description, defaultValue = '', id = '') {
     return this._basic(title, description, ``, true, id);
   },
-  color(name, title, description, defaultValue = '', help = '') {
+  color(name, title, description, defaultValue = '') {
+    defaultValue = Helper.varColorToColor(defaultValue)
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
-      <!--${ help[0] == '' ? '' : ` <div class="helpoption tooltip-ovg"><img src="${help[0]}"> ${help[1]} </div> `}-->
         <div class="def">
-          <input type="color" option-type="color" class="optionField" data-name="${name}" value="${defaultValue}" />
+          <div class="clr-field" style="color: ${defaultValue};">
+            <button aria-labelledby="clr-open-label"></button>
+            <input type="text" option-type="color" class="optionField" data-name="${name}" value="${defaultValue}" data-coloris>
+          </div>
           <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
         </div>
         <button class="optionField def" data-name="${name}" option-type="color"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
       </ol>`);
   },
-  botevent(name, title, description, defaultValue = ['', false], yesButton = 'Вкл', noButton = 'Откл', help = '') {
+  botevent(name, title, description, defaultValue = ['', false], yesButton = 'Вкл', noButton = 'Откл') {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <input option-type="botevent" type="text" class="optionField botevent" data-name="${name}" value="${defaultValue[0]}"/>

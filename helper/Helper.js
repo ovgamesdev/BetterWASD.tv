@@ -23,7 +23,7 @@ const Helper = {
         stickerovg: "2",
         paddingChatMessage: "4",
         colonAfterNickname: false,
-        linkColor: "#000000",
+        linkColor: "rgba(var(--wasd-color-switch--rgb),.88)",
         colorAtTheMention: true,
         chatOnTheLeft: false,
         chatWidth: 320,
@@ -45,7 +45,7 @@ const Helper = {
         pressedPIP: true,
         pressedClip: true,
         alternatingColorChatMessages: false,
-        alternatingColorChatMessagesColor: "#000000",
+        alternatingColorChatMessagesColor: "var(--wasd-color-prime)",
         onClickMention: "2",
         onClickUserName: "1",
         fixedLinks: true,
@@ -61,13 +61,13 @@ const Helper = {
         onClickUser: "2",
         removeMentionBL: true,
         hidePanelMobile: true,
-        formatMessageSentTime: "H:mm",
+        formatMessageSentTime: "HH:mm",
         mentionSelf: true,
-        colorMentionSelf: "#000000",
+        colorMentionSelf: "rgba(var(--wasd-color-switch--rgb),.08)",
         highlightMessagesOpenCard: false,
-        highlightMessagesOpenCardColor: "#000000",
+        highlightMessagesOpenCardColor: "rgba(var(--wasd-color-switch--rgb),.08)",
         alwaysOpenVolumeControl: false,
-        colorMessageHover: "#000000",
+        colorMessageHover: "rgba(var(--wasd-color-switch--rgb),.08)",
         bttvSize: "56px",
         mutePlayerOnMiddleMouse: false,
         hideBannerOnHome: false,
@@ -88,7 +88,7 @@ const Helper = {
         moderatorMenuTimeout: "10",
         keepMessagesTimeout: false,
         chatMobilePlayer: false,
-        colorModOptions: "#000000",
+        colorModOptions: "rgba(var(--wasd-color-switch--rgb),.08)",
         tv7Emotes: true,
         tv7InChatMenu: true,
         uptimeStreamMobile: false,
@@ -109,11 +109,11 @@ const Helper = {
         blockRoleList: {}
       },
       highlightRole: {
-        user: "#000000",
-        admin: "#000000",
-        sub: "#000000",
-        owner: "#000000",
-        moderator: "#000000"
+        user: "#00000000",
+        admin: "#00000000",
+        sub: "#00000000",
+        owner: "#00000000",
+        moderator: "#00000000"
       }
     };
   },
@@ -143,5 +143,11 @@ const Helper = {
       message: body,
       username: username
     });
+  },
+  varColorToColor(value) {
+    return value.replace(/var\(\D+\)/ig, ($0)=>{
+      data = $0.replace('var(', '').replace(')', '')
+      return window.getComputedStyle(document.body).getPropertyValue(data).replace(/ /ig, '')
+    })
   }
 }

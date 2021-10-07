@@ -473,7 +473,7 @@ const wasd = {
     }
 
     for (let role in settings.highlightRole) {
-      if (settings.highlightRole[role] != '#000000') cssCode += `.block__messages__item[role*="${role}"], .block__messages__item-ovg[role*="${role}"] {background-color:  ${settings.highlightRole[role]}!important}`
+      if (settings.highlightRole[role] != '#000000' || settings.highlightRole[role] != '#00000000') cssCode += `.block__messages__item[role*="${role}"], .block__messages__item-ovg[role*="${role}"] {background-color:  ${settings.highlightRole[role]}!important}`
     }
 
     for (let user in settings.list.blockUserList) {
@@ -593,7 +593,7 @@ const wasd = {
       if (sticker) node.querySelector('img.sticker').insertAdjacentHTML("afterend", `<span class="chat-message-text stickertext sticker_text">Стикер</span>`)
 
       if (isobserver && node.querySelector('.message__time')) {
-        node.querySelector('.message__time').textContent = dayjs().format(settings.wasd.formatMessageSentTime)
+        node.querySelector('.message__time').textContent = moment().format(settings.wasd.formatMessageSentTime)
       }
 
       if (node.querySelector('div.message-text')) {

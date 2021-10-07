@@ -742,414 +742,417 @@ const BetterStreamChat = {
     this.settingsDiv = settingsDiv;
     settingsDiv.style.display = 'none';
     settingsDiv.id = 'bscSettingsPanel';
-    settingsDiv.innerHTML = `<div id="status">
-            <p>
-            </p>
+    settingsDiv.innerHTML = `
+      <div id="status">
+        <p>
+        </p>
+      </div>
+      <header>
+
+        <div ovg="" class="burger-menu__wrap" style="width: 1.6rem;padding-left: 6px;"><div ovg="" class="burger-toggle show-section-mobile"><div ovg="" class="burger-toggle__icon icon-default"><i ovg="" class="wasd-icons-menu-burger"></i></div><div ovg="" class="burger-toggle__icon icon-active"><i ovg="" class="wasd-icons-close"></i></div></div></div>
+
+        <div class="logo">
+          <img src="chrome-extension://leildpnijdjakgapjimklcbkdgfpheck/img/icon128.png" style="width: 32px; height: 32px;">
+          <div style="padding-left: 10px; font-size: 18px; width: 120px;">BetterWASD</div>
+        </div>
+
+        <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched" id="settingsSearchDiv">
+          <div ovg="" class="wasd-input-wrapper">
+            <div ovg="" class="wasd-input">
+              <input ovg="" id="settingsSearch" class="has-button ng-pristine ng-untouched ng-valid ui-autocomplete-input" placeholder="Поиск настроек" type="text" autocomplete="off" style="margin: 0;">
+              <button ovg="" type="button" class="button-icon" style="top: 4px;">
+                <i ovg="" class="wasd-icons-close"></i>
+              </button>
             </div>
-            <header>
+          </div>
+        </wasd-input>
+        
+        <div style="width: 100%"></div>
 
-                <div ovg="" class="burger-menu__wrap" style="width: 1.6rem;padding-left: 6px;"><div ovg="" class="burger-toggle show-section-mobile"><div ovg="" class="burger-toggle__icon icon-default"><i ovg="" class="wasd-icons-menu-burger"></i></div><div ovg="" class="burger-toggle__icon icon-active"><i ovg="" class="wasd-icons-close"></i></div></div></div>
+        <wasd-button class="ghost-btn ovg head-buttons">
+          <button class="basic medium-cube ovg hide-fullscreen fade" type="button">
+            <i class="wasd-icons-show"></i>
+          </button>
+          <button class="basic medium-cube ovg updateemotes" type="button">
+            <i class="wasd-icons-record"></i>
+            <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить эмоции (нажмите дважды) </div></div></ovg-tooltip>
+          </button>
+          <button class="basic medium-cube ovg update" type="button">
+            <i class="wasd-icons-record"></i>
+            <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить чат (нажмите дважды) </div></div></ovg-tooltip>
+          </button>
+          <button class="basic medium-cube ovg hide-fullscreen newtab" type="button">
+            <i class="ovg wasd-icons-extract"></i>
+            <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Открыть настройки в новом окне </div></div></ovg-tooltip>
+          </button>
+          <button class="basic medium-cube ovg hide-fullscreen close" type="button">
+            <i class="ovg wasd-icons-close"></i>
+          </button>
+        </wasd-button>
 
-                <div class="logo">
-                    <img src="chrome-extension://leildpnijdjakgapjimklcbkdgfpheck/img/icon128.png" style="width: 32px; height: 32px;">
-                    <div style="padding-left: 10px; font-size: 18px; width: 120px;">BetterWASD</div>
+      </header>
+
+      <section class="ovg-tabs-wrapper vertical left">
+        <div class="tabs">
+          <div class="items" style="padding: 10px 0">
+            <a role="tab" class="item" data-tab="about">О нас</a>
+            <a role="tab" class="item" data-tab="general">Общий</a>
+            <a role="tab" class="item active" data-tab="wasdSettings">Настройки</a>
+            <a role="tab" class="item" data-tab="bttvSettings">BTTV</a>
+            <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
+            <a role="tab" class="item" data-tab="tv7Settings">7TV</a>
+            <a role="tab" class="item" data-tab="filtration">Фильтрация</a>
+            <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
+            <a role="tab" class="item" data-tab="backup">Бэкап</a>
+          </div>
+        </div>
+      </section>
+
+      <main class="text" data-tab="about" style="background-color: var(--wasd-color-bg-prime);">
+        <div class="aboutHalf">
+          <img class="aboutIcon" src="${chrome.extension.getURL("img/icon128.png")}">
+          <h1>BetterWASD v${changelogList[0].version}</h1>
+          <h2>от ваших друзей в <a href="https://ovgamesdev.github.io/ru/" target="_blank">OvGames</a></h2>
+          <br>
+        </div>
+        <div class="aboutHalf">
+          <h1 style="margin-top: 100px;">Думаете, этот аддон классный?</h1>
+          <br><br><h2>
+          Напишите отзыв на <a target="_blank" href="https://chrome.google.com/webstore/detail/betterwasd/cokaeiijnnpcfaoehijmdfcgbkpffgbh">Chrome Webstore</a>
+          <br><br>
+          или скачайте БОТа для вашего WASD канала <a target="_blank" href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb/">Chrome Webstore</a>
+          </h2><br>
+        </div>
+      </main>
+      <main id="general" data-tab="general">
+        ${HelperSettings.build('general')}
+      </main>
+      <main class="text" data-tab="bttvSettings">
+        <h1 style="padding-left: 10px; padding-right: 10px;"> BetterTTV  </h1>
+        <div>
+            
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
+              <label ovg=""></label>
+              <input id="bttvAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
+                <button id="bttvAddUserBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+              </div>
+            </div>
+          </wasd-input>
+        </div>
+
+        <table class="table-ovg">
+          <thead class="thead-ovg">
+            <th class="table-heading-ovg">
+              <div class="table-heading-text-ovg">Имя пользователя</div>
+            </th>
+            <th class="table-heading-ovg">
+              <div class="table-heading-text-ovg">Время последнего обновления</div>
+            </th>
+            <th class="table-heading-ovg remove">
+              <div class="table-heading-text-ovg">Действия</div>
+            </th>
+          </thead>
+          <tbody class="bttvUserList ovg-items">
+          </tbody>
+        </table>
+        <h2> Доступные эмоции BetterTTV </h2>
+
+        <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+          <div ovg="" class="wasd-input-wrapper">
+            <div ovg="" class="wasd-input">
+              <label ovg=""></label>
+              <input id="bttvemojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
+              <button ovg="" type="button" class="button-icon">
+                <i ovg="" class="wasd-icons-close"></i>
+              </button>
+            </div>
+          </div>
+        </wasd-input>
+
+        <ul id="bttvEmoteList"></ul>
+      </main>
+
+      <main class="text" data-tab="ffzSettings">
+        <h1 style="padding-left: 10px; padding-right: 10px;"> FrankerFaceZ </h1>
+        <div>
+
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
+              <label ovg=""></label>
+              <input id="ffzAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
+                <button id="ffzAddUserBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+              </div>
+            </div>
+          </wasd-input>
+        </div>
+
+        <table class="table-ovg">
+          <thead class="thead-ovg">
+            <th class="table-heading-ovg">
+              <div class="table-heading-text-ovg">Имя пользователя</div>
+            </th>
+            <th class="table-heading-ovg">
+              <div class="table-heading-text-ovg">Время последнего обновления</div>
+            </th>
+            <th class="table-heading-ovg remove">
+              <div class="table-heading-text-ovg">Действия</div>
+            </th>
+          </thead>
+          <tbody class="ffzUserList ovg-items">
+          </tbody>
+        </table>
+
+        <h2> Доступные эмоции FrankerFaceZ </h2>
+
+        <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+          <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
+            <label ovg=""></label>
+            <input id="ffzemojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
+              <button ovg="" type="button" class="button-icon">
+                <i ovg="" class="wasd-icons-close"></i>
+              </button>
+            </div>
+          </div>
+        </wasd-input>
+
+        <ul id="ffzEmoteList"></ul>
+      </main>
+
+      <main class="text" data-tab="tv7Settings">
+        <h1 style="padding-left: 10px; padding-right: 10px;"> 7TV </h1>
+        <div>
+
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
+              <label ovg=""></label>
+              <input id="tv7AddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
+                <button id="tv7AddUserBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+              </div>
+            </div>
+          </wasd-input>
+        </div>
+
+        <table class="table-ovg">
+          <thead class="thead-ovg">
+            <th class="table-heading-ovg">
+              <div class="table-heading-text-ovg">Имя пользователя</div>
+            </th>
+            <th class="table-heading-ovg">
+              <div class="table-heading-text-ovg">Время последнего обновления</div>
+            </th>
+            <th class="table-heading-ovg remove">
+              <div class="table-heading-text-ovg">Действия</div>
+            </th>
+          </thead>
+          <tbody class="tv7UserList ovg-items">
+          </tbody>
+        </table>
+
+        <h2> Доступные эмоции 7TV </h2>
+
+        <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+          <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
+            <label ovg=""></label>
+            <input id="tv7emojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
+              <button ovg="" type="button" class="button-icon">
+                <i ovg="" class="wasd-icons-close"></i>
+              </button>
+            </div>
+          </div>
+        </wasd-input>
+
+        <ul id="tv7EmoteList"></ul>
+      </main>
+
+      <main class="active" data-tab="wasdSettings">
+        ${HelperSettings.build('wasd')}
+      </main>
+      <main class="text" data-tab="changelog">
+        <h1>Журнал изменений</h1>
+        <h4 style="margin-top:10px;padding-left: 10px;padding-right: 0px;margin-bottom: 0px;"> Информацию о будущих версиях можно найти <a href="https://wasd.tv/ovgames/posts">тут</a></h4>
+        ${changelogHtml}
+      </main>
+
+      <main class="text" data-tab="backup">
+        <input id="importInput" type="file" accept=".backup, .backup.txt" style="display: none;">
+        <span> Эта функция позволяет вам сохранить и восстановить ваши настройки BetterWASD </span>
+        <div style="padding-top: 10px;">
+          <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
+            <button class="primary medium ovg backup-download">
+              <span class="ovg-button-span">
+                <img style="width: 20px; height: 20px;" src="${chrome.extension.getURL("img/download.png")}">
+              </span>
+              <span> Сохранить </span>
+            </button>
+          </div>
+          <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
+            <button class="primary medium ovg backup-upload">
+              <span class="ovg-button-span">
+                <img style="width: 20px; height: 20px;" src="${chrome.extension.getURL("img/upload.png")}">
+              </span>
+              <span> Восстановить </span>
+            </button>
+          </div>
+          <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
+            <button class="backup-reset medium ovg warning">
+              <span class="ovg-button-span">
+              <i class="wasd-icons-record" style="font-size: 20px;"></i></span><span class=""> Сбросить по умолчанию </span>
+              <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> нажмите дважды </div></div></ovg-tooltip>
+            </button>
+          </div>
+        </div>
+        <div id="backupDropContainer" class="drodHere">Drop Here</div>
+      </main>
+
+      <main class="text" data-tab="filtration">
+        <h1 style="padding-left: 10px; padding-right: 10px;"> Фильтрация </h1>
+        
+        <div class="blacklist">
+          <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Пользователи </h3>
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper">
+              <div ovg="" class="wasd-input">
+                <label ovg=""></label>
+                <input id="blacklistAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить пользователя " type="text">
+                <button id="blacklistAddUserBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+              </div>
+            </div>
+          </wasd-input>
+
+          <table class="table-ovg user">
+            <thead class="thead-ovg">
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Имя пользователя</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Время добавления</div>
+              </th>
+              <th class="table-heading-ovg remove">
+                <div class="table-heading-text-ovg">Действия</div>
+              </th>
+            </thead>
+            <tbody class="ovg-items">
+            </tbody>
+          </table>
+
+
+          <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Термины </h3>
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper">
+              <div ovg="" class="wasd-input">
+                <label ovg=""></label>
+                <input id="blacklistAddTerm" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить термин " type="text">
+                <button id="blacklistAddTermBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+              </div>
+            </div>
+          </wasd-input>
+
+          <table class="table-ovg term">
+            <thead class="thead-ovg">
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Термин</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Время добавления</div>
+              </th>
+              <th class="table-heading-ovg remove">
+                <div class="table-heading-text-ovg">Действия</div>
+              </th>
+            </thead>
+            <tbody class="ovg-items">
+            </tbody>
+          </table>
+        </div>
+
+        <div class="highlight">
+          <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Пользователи </h3>
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper">
+              <div ovg="" class="wasd-input">
+                <label ovg=""></label>
+                <input id="highlightAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить пользователя " type="text">
+                <button id="highlightAddUserBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+                <div class="clr-field" style="color: #00000000;">
+                <button aria-labelledby="clr-open-label"></button>
+                <input id="highlightAddUserColor" type="text" value="#00000000" data-coloris>
+                  </div>
+              </div>
+            </div>
+          </wasd-input>
+
+          <table class="table-ovg user">
+            <thead class="thead-ovg">
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Имя пользователя</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Время добавления</div>
+              </th>
+              <th class="table-heading-ovg remove">
+                <div class="table-heading-text-ovg">Действия</div>
+              </th>
+            </thead>
+            <tbody class="ovg-items">
+            </tbody>
+          </table>
+
+
+          <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Термины </h3>
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper">
+              <div ovg="" class="wasd-input">
+                <label ovg=""></label>
+                <input id="highlightAddTerm" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить термин " type="text">
+                <button id="highlightAddTermBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+                <div class="clr-field" style="color: #00000000;">
+                <button aria-labelledby="clr-open-label"></button>
+                <input id="highlightAddTermColor" type="text" value="#00000000" data-coloris>
                 </div>
+              </div>
+            </div>
+          </wasd-input>
 
-                <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched" id="settingsSearchDiv">
-                    <div ovg="" class="wasd-input-wrapper">
-                        <div ovg="" class="wasd-input">
-                            <input ovg="" id="settingsSearch" class="has-button ng-pristine ng-untouched ng-valid ui-autocomplete-input" placeholder="Поиск настроек" type="text" autocomplete="off" style="margin: 0;">
-                            <button ovg="" type="button" class="button-icon" style="top: 4px;">
-                                <i ovg="" class="wasd-icons-close"></i>
-                            </button>
-                        </div>
-                    </div>
-                </wasd-input>
-                
-                <div style="width: 100%"></div>
-
-                <wasd-button class="ghost-btn ovg head-buttons">
-                    <button class="basic medium-cube ovg hide-fullscreen fade" type="button">
-                        <i class="wasd-icons-show"></i>
-                    </button>
-                    <button class="basic medium-cube ovg updateemotes" type="button">
-                        <i class="wasd-icons-record"></i>
-                        <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить эмоции (нажмите дважды) </div></div></ovg-tooltip>
-                    </button>
-                    <button class="basic medium-cube ovg update" type="button">
-                        <i class="wasd-icons-record"></i>
-                        <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить чат (нажмите дважды) </div></div></ovg-tooltip>
-                    </button>
-                    <button class="basic medium-cube ovg hide-fullscreen newtab" type="button">
-                        <i class="ovg wasd-icons-extract"></i>
-                        <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Открыть настройки в новом окне </div></div></ovg-tooltip>
-                    </button>
-                    <button class="basic medium-cube ovg hide-fullscreen close" type="button">
-                        <i class="ovg wasd-icons-close"></i>
-                    </button>
-                </wasd-button>
-
-            </header>
-
-            <section class="ovg-tabs-wrapper vertical left">
-                <div class="tabs">
-                    <div class="items" style="padding: 10px 0">
-                        <a role="tab" class="item" data-tab="about">О нас</a>
-                        <a role="tab" class="item" data-tab="general">Общий</a>
-                        <a role="tab" class="item active" data-tab="wasdSettings">Настройки</a>
-                        <a role="tab" class="item" data-tab="bttvSettings">BTTV</a>
-                        <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
-                        <a role="tab" class="item" data-tab="tv7Settings">7TV</a>
-                        <a role="tab" class="item" data-tab="filtration">Фильтрация</a>
-                        <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
-                        <a role="tab" class="item" data-tab="backup">Бэкап</a>
-                    </div>
-                </div>
-            </section>
-
-            <main class="text" data-tab="about" style="background-color: var(--wasd-color-bg-prime);">
-                <div class="aboutHalf">
-                    <img class="aboutIcon" src="${chrome.extension.getURL("img/icon128.png")}">
-                    <h1>BetterWASD v${changelogList[0].version}</h1>
-                    <h2>от ваших друзей в <a href="https://ovgamesdev.github.io/ru/" target="_blank">OvGames</a></h2>
-                    <br>
-                </div>
-                <div class="aboutHalf">
-                    <h1 style="margin-top: 100px;">Думаете, этот аддон классный?</h1>
-                    <br><br><h2>
-                    Напишите отзыв на <a target="_blank" href="https://chrome.google.com/webstore/detail/betterwasd/cokaeiijnnpcfaoehijmdfcgbkpffgbh">Chrome Webstore</a>
-                    <br><br>
-                    или скачайте БОТа для вашего WASD канала <a target="_blank" href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb/">Chrome Webstore</a>
-                    </h2><br>
-                </div>
-            </main>
-            <main id="general" data-tab="general">
-                ${HelperSettings.build('general')}
-            </main>
-            <main class="text" data-tab="bttvSettings">
-                <h1 style="padding-left: 10px; padding-right: 10px;"> BetterTTV  </h1>
-                <div>
-                    
-                    <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                        <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                            <label ovg=""></label>
-                            <input id="bttvAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
-                                <button id="bttvAddUserBtn" ovg="" type="button" class="button-icon">
-                                    <i ovg="" class="wasd-icons-add"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </wasd-input>
-
-                </div>
-
-                <table class="table-ovg">
-                    <thead class="thead-ovg">
-                        <th class="table-heading-ovg">
-                            <div class="table-heading-text-ovg">Имя пользователя</div>
-                        </th>
-                        <th class="table-heading-ovg">
-                            <div class="table-heading-text-ovg">Время последнего обновления</div>
-                        </th>
-                        <th class="table-heading-ovg remove">
-                            <div class="table-heading-text-ovg">Действия</div>
-                        </th>
-                    </thead>
-                    <tbody class="bttvUserList ovg-items">
-                    </tbody>
-                </table>
-                <h2> Доступные эмоции BetterTTV </h2>
-
-                <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                    <div ovg="" class="wasd-input-wrapper">
-                        <div ovg="" class="wasd-input">
-                            <label ovg=""></label>
-                            <input id="bttvemojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
-                            <button ovg="" type="button" class="button-icon">
-                                <i ovg="" class="wasd-icons-close"></i>
-                            </button>
-                        </div>
-                    </div>
-                </wasd-input>
-
-                <ul id="bttvEmoteList"></ul>
-            </main>
-
-            <main class="text" data-tab="ffzSettings">
-                <h1 style="padding-left: 10px; padding-right: 10px;"> FrankerFaceZ </h1>
-                <div>
-
-                    <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                        <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                            <label ovg=""></label>
-                            <input id="ffzAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
-                                <button id="ffzAddUserBtn" ovg="" type="button" class="button-icon">
-                                    <i ovg="" class="wasd-icons-add"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </wasd-input>
-
-                </div>
-
-                <table class="table-ovg">
-                    <thead class="thead-ovg">
-                        <th class="table-heading-ovg">
-                            <div class="table-heading-text-ovg">Имя пользователя</div>
-                        </th>
-                        <th class="table-heading-ovg">
-                            <div class="table-heading-text-ovg">Время последнего обновления</div>
-                        </th>
-                        <th class="table-heading-ovg remove">
-                            <div class="table-heading-text-ovg">Действия</div>
-                        </th>
-                    </thead>
-                    <tbody class="ffzUserList ovg-items">
-                    </tbody>
-                </table>
-
-                <h2> Доступные эмоции FrankerFaceZ </h2>
-
-                <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                    <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                        <label ovg=""></label>
-                        <input id="ffzemojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
-                            <button ovg="" type="button" class="button-icon">
-                                <i ovg="" class="wasd-icons-close"></i>
-                            </button>
-                        </div>
-                    </div>
-                </wasd-input>
-
-                <ul id="ffzEmoteList"></ul>
-            </main>
-
-            <main class="text" data-tab="tv7Settings">
-                <h1 style="padding-left: 10px; padding-right: 10px;"> 7TV </h1>
-                <div>
-
-                    <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                        <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                            <label ovg=""></label>
-                            <input id="tv7AddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
-                                <button id="tv7AddUserBtn" ovg="" type="button" class="button-icon">
-                                    <i ovg="" class="wasd-icons-add"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </wasd-input>
-
-                </div>
-
-                <table class="table-ovg">
-                    <thead class="thead-ovg">
-                        <th class="table-heading-ovg">
-                            <div class="table-heading-text-ovg">Имя пользователя</div>
-                        </th>
-                        <th class="table-heading-ovg">
-                            <div class="table-heading-text-ovg">Время последнего обновления</div>
-                        </th>
-                        <th class="table-heading-ovg remove">
-                            <div class="table-heading-text-ovg">Действия</div>
-                        </th>
-                    </thead>
-                    <tbody class="tv7UserList ovg-items">
-                    </tbody>
-                </table>
-
-                <h2> Доступные эмоции 7TV </h2>
-
-                <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                    <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-                        <label ovg=""></label>
-                        <input id="tv7emojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
-                            <button ovg="" type="button" class="button-icon">
-                                <i ovg="" class="wasd-icons-close"></i>
-                            </button>
-                        </div>
-                    </div>
-                </wasd-input>
-
-                <ul id="tv7EmoteList"></ul>
-            </main>
-
-            <main class="active" data-tab="wasdSettings">
-                ${HelperSettings.build('wasd')}
-            </main>
-            <main class="text" data-tab="changelog">
-                <h1>Журнал изменений</h1>
-                <h4 style="margin-top:10px;padding-left: 10px;padding-right: 0px;margin-bottom: 0px;"> Информацию о будущих версиях можно найти <a href="https://wasd.tv/ovgames/posts">тут</a></h4>
-                ${changelogHtml}
-            </main>
-
-            <main class="text" data-tab="backup">
-                <input id="importInput" type="file" accept=".backup, .backup.txt" style="display: none;">
-                <span> Эта функция позволяет вам сохранить и восстановить ваши настройки BetterWASD </span>
-                <div style="padding-top: 10px;">
-                    <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
-                        <button class="primary medium ovg backup-download">
-                            <span class="ovg-button-span">
-                                <img style="width: 20px; height: 20px;" src="${chrome.extension.getURL("img/download.png")}">
-                            </span>
-                            <span> Сохранить </span>
-                        </button>
-                    </div>
-                    <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
-                        <button class="primary medium ovg backup-upload">
-                            <span class="ovg-button-span">
-                                <img style="width: 20px; height: 20px;" src="${chrome.extension.getURL("img/upload.png")}">
-                            </span>
-                            <span> Восстановить </span>
-                        </button>
-                    </div>
-                    <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
-                        <button class="backup-reset medium ovg warning">
-                            <span class="ovg-button-span">
-                            <i class="wasd-icons-record" style="font-size: 20px;"></i></span><span class=""> Сбросить по умолчанию </span>
-                            <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> нажмите дважды </div></div></ovg-tooltip>
-                        </button>
-                    </div>
-                </div>
-
-                <div id="backupDropContainer" class="drodHere">Drop Here</div>
-            </main>
-
-            <main class="text" data-tab="filtration">
-                <h1 style="padding-left: 10px; padding-right: 10px;"> Фильтрация </h1>
-                
-                <div class="blacklist">
-                    <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Пользователи </h3>
-                    <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                        <div ovg="" class="wasd-input-wrapper">
-                            <div ovg="" class="wasd-input">
-                                <label ovg=""></label>
-                                <input id="blacklistAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить пользователя " type="text">
-                                <button id="blacklistAddUserBtn" ovg="" type="button" class="button-icon">
-                                    <i ovg="" class="wasd-icons-add"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </wasd-input>
-
-                    <table class="table-ovg user">
-                        <thead class="thead-ovg">
-                            <th class="table-heading-ovg">
-                                <div class="table-heading-text-ovg">Имя пользователя</div>
-                            </th>
-                            <th class="table-heading-ovg">
-                                <div class="table-heading-text-ovg">Время добавления</div>
-                            </th>
-                            <th class="table-heading-ovg remove">
-                                <div class="table-heading-text-ovg">Действия</div>
-                            </th>
-                        </thead>
-                        <tbody class="ovg-items">
-                        </tbody>
-                    </table>
-
-
-                    <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Термины </h3>
-                    <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                        <div ovg="" class="wasd-input-wrapper">
-                            <div ovg="" class="wasd-input">
-                                <label ovg=""></label>
-                                <input id="blacklistAddTerm" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить термин " type="text">
-                                <button id="blacklistAddTermBtn" ovg="" type="button" class="button-icon">
-                                    <i ovg="" class="wasd-icons-add"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </wasd-input>
-
-                    <table class="table-ovg term">
-                        <thead class="thead-ovg">
-                            <th class="table-heading-ovg">
-                                <div class="table-heading-text-ovg">Термин</div>
-                            </th>
-                            <th class="table-heading-ovg">
-                                <div class="table-heading-text-ovg">Время добавления</div>
-                            </th>
-                            <th class="table-heading-ovg remove">
-                                <div class="table-heading-text-ovg">Действия</div>
-                            </th>
-                        </thead>
-                        <tbody class="ovg-items">
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="highlight">
-                    <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Пользователи </h3>
-                    <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                        <div ovg="" class="wasd-input-wrapper">
-                            <div ovg="" class="wasd-input">
-                                <label ovg=""></label>
-                                <input id="highlightAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить пользователя " type="text">
-                                <button id="highlightAddUserBtn" ovg="" type="button" class="button-icon">
-                                    <i ovg="" class="wasd-icons-add"></i>
-                                </button>
-                                <input id="highlightAddUserColor" type="color" class="">
-                            </div>
-                        </div>
-                    </wasd-input>
-
-                    <table class="table-ovg user">
-                        <thead class="thead-ovg">
-                            <th class="table-heading-ovg">
-                                <div class="table-heading-text-ovg">Имя пользователя</div>
-                            </th>
-                            <th class="table-heading-ovg">
-                                <div class="table-heading-text-ovg">Время добавления</div>
-                            </th>
-                            <th class="table-heading-ovg remove">
-                                <div class="table-heading-text-ovg">Действия</div>
-                            </th>
-                        </thead>
-                        <tbody class="ovg-items">
-                        </tbody>
-                    </table>
-
-
-                    <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Термины </h3>
-                    <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-                        <div ovg="" class="wasd-input-wrapper">
-                            <div ovg="" class="wasd-input">
-                                <label ovg=""></label>
-                                <input id="highlightAddTerm" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить термин " type="text">
-                                <button id="highlightAddTermBtn" ovg="" type="button" class="button-icon">
-                                    <i ovg="" class="wasd-icons-add"></i>
-                                </button>
-                                <input id="highlightAddTermColor" type="color" class="">
-                            </div>
-                        </div>
-                    </wasd-input>
-
-                    <table class="table-ovg term">
-                        <thead class="thead-ovg">
-                            <th class="table-heading-ovg">
-                                <div class="table-heading-text-ovg">Термин</div>
-                            </th>
-                            <th class="table-heading-ovg">
-                                <div class="table-heading-text-ovg">Время добавления</div>
-                            </th>
-                            <th class="table-heading-ovg remove">
-                                <div class="table-heading-text-ovg">Действия</div>
-                            </th>
-                        </thead>
-                        <tbody class="ovg-items">
-                        </tbody>
-                    </table>
-                    <h3 style="padding: 0 10px 5px 10px;"> Выделение - Роль пользователя </h3>
-                    <div style="margin-left: -10px; width: calc(100% + 20px);">
-                        ${HelperSettings.build('highlightRole')}
-                    </div>
-                </div>
-            </main>
-            <footer>
-            <span>BetterWASD ${changelogList[0].version} (${changelogList[0].date})</span>
-            <span>
-                Offered by <a href="https://ovgamesdev.github.io/ru/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a>
-            </span>`;
+          <table class="table-ovg term">
+            <thead class="thead-ovg">
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Термин</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Время добавления</div>
+              </th>
+              <th class="table-heading-ovg remove">
+                <div class="table-heading-text-ovg">Действия</div>
+              </th>
+            </thead>
+            <tbody class="ovg-items">
+            </tbody>
+          </table>
+          <h3 style="padding: 0 10px 5px 10px;"> Выделение - Роль пользователя </h3>
+          <div style="margin-left: -10px; width: calc(100% + 20px);">
+            ${HelperSettings.build('highlightRole')}
+          </div>
+        </div>
+      </main>
+      <footer>
+      <span>BetterWASD ${changelogList[0].version} (${changelogList[0].date})</span>
+      <span>
+        Offered by <a href="https://ovgamesdev.github.io/ru/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a>
+      </span>`;
     document.body.append(settingsDiv);
 
     // bttv events
@@ -1536,8 +1539,10 @@ const BetterStreamChat = {
             event.target.parentElement.querySelector('select').dispatchEvent(new Event('change'));
             break;
           case 'color':
-            event.target.parentElement.querySelector('input[type="color"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            event.target.parentElement.querySelector('input[type="color"]').dispatchEvent(new Event('change'));
+            let defVal = Helper.varColorToColor(Helper.getDefaultSettings()[split[0]][split[1]])
+            event.target.parentElement.querySelector('input[data-coloris]').value = defVal
+            event.target.parentElement.style.color = defVal
+            event.target.parentElement.querySelector('input[data-coloris]').dispatchEvent(new Event('change'));
             break;
             // case 'botevent':
             //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
@@ -1576,8 +1581,10 @@ const BetterStreamChat = {
             event.target.parentElement.querySelector('select').dispatchEvent(new Event('change'));
             break;
           case 'color':
-            event.target.parentElement.querySelector('input[type="color"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            event.target.parentElement.querySelector('input[type="color"]').dispatchEvent(new Event('change'));
+            let defVal = Helper.varColorToColor(Helper.getDefaultSettings()[split[0]][split[1]])
+            event.target.parentElement.querySelector('input[data-coloris]').value = defVal
+            event.target.parentElement.style.color = defVal
+            event.target.parentElement.querySelector('input[data-coloris]').dispatchEvent(new Event('change'));
             break;
             // case 'botevent':
             //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
@@ -1764,7 +1771,10 @@ const BetterStreamChat = {
     // load chat
     HelperWASD.loaded();
 
-    // HelperWASD.dragSettingsPanel()
+    $( "#bscSettingsPanel" ).draggable({ containment: "body", scroll: false, cursor: "move", drag: function( event, ui ) {
+      ui.position.left = Math.max( (bscSettingsPanel.clientWidth / 2), ui.position.left );
+      ui.position.top = Math.max( (bscSettingsPanel.clientHeight / 2), ui.position.top );
+    }});
 
     this.install();
   },

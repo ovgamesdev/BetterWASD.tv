@@ -1059,7 +1059,7 @@ div.tw-full-height.tw-z-above.viewer-card-layer>div.tw-border-radius-medium {
   border-radius: .4rem!important;
   width: 310px;
   pointer-events: all;
-  margin: 0;
+  margin: 5px 5px 55px 5px;
   padding: 0;
   border: 0;
   font-size: 100%;
@@ -1076,7 +1076,6 @@ div.tw-border-radius-medium.tw-c-background-base.viewer-card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, .4), 0 0 4px rgba(0, 0, 0, .4)!important;
   background-color: var(--wasd-color-prime)!important;
   border-radius: .4rem!important;
-  cursor: move;
 }
 div.tw-c-background-accent-alt.viewer-card-header__background {
   background-position: center top;
@@ -2023,7 +2022,6 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
   align-items: center;
   display: flex;
   flex-direction: column-reverse;
-  cursor: move;
 }
 .message__info__text-ovg>.sticker.small {
   height: 56px;
@@ -2179,7 +2177,7 @@ main[data-tab="backup"] button {
   .formField input,
   .formField select {
     height: 26px!important;
-    width: 92.3px!important;
+    width: 113px!important;
     min-width: 92.3px!important;
     font-size: 12px!important;
   }
@@ -2272,9 +2270,9 @@ main[data-tab="backup"] button {
   #bscSettingsPanel .option button.def {
     display: block !important;
   }
-  /*.def ovg-tooltip .tooltip {
-        display: none !important;
-    }*/
+  .head-buttons .newtab {
+    display: none !important;
+  }
 }
 @media screen and (max-width:350px) {
   #bscSettingsPanel .title {
@@ -2861,7 +2859,7 @@ header .logo {
 }
 #settingsSearchDiv .wasd-input-wrapper {
   padding: 0;
-  width: 330px;
+  width: 320px;
 }
 
 /******** mobile *********/
@@ -2952,24 +2950,34 @@ header .logo {
   background: rgba(var(--wasd-color-switch--rgb), 0.08) !important;
   pointer-events: none;
 }
-wasd-input [ovg] input[type="color"] {
+
+[data-coloris] {
+  width: 113px;
+}
+
+wasd-input [ovg] .clr-field {
   height: 24px;
   left: auto;
   position: absolute;
-  right: 32px;
+  right: 40px;
   top: 22px;
   width: 24px;
   padding: unset;
   background: none;
   align-items: center;
   cursor: pointer;
-  display: flex;
   justify-content: center;
   margin-left: 4px;
   pointer-events: auto;
   z-index: 1;
   border-style: none;
+  display: inline-table;
 }
+wasd-input [ovg] .clr-field input {
+  width: 30px;
+}
+
+
 .stickerovg_text,
 .sticker_text {
   display: none;

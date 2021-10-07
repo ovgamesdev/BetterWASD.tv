@@ -236,3 +236,9 @@ a:hover ovg-tooltip .tooltip,
 .tooltip-wrapper .tooltip-content {
   text-align: center;
 }
+
+@media screen and (max-width:479px) {
+  .def:hover ovg-tooltip .tooltip {
+    display: none;
+  }
+}
