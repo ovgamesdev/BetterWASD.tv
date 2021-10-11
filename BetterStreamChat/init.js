@@ -1111,9 +1111,9 @@ const BetterStreamChat = {
                   <i ovg="" class="wasd-icons-add"></i>
                 </button>
                 <div class="clr-field" style="color: #00000000;">
-                <button aria-labelledby="clr-open-label"></button>
-                <input id="highlightAddUserColor" type="text" value="#00000000" data-coloris>
-                  </div>
+                  <button aria-labelledby="clr-open-label"></button>
+                  <input id="highlightAddUserColor" type="text" value="#00000000" data-coloris>
+                </div>
               </div>
             </div>
           </wasd-input>
@@ -1125,6 +1125,9 @@ const BetterStreamChat = {
               </th>
               <th class="table-heading-ovg">
                 <div class="table-heading-text-ovg">Время добавления</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Цвет</div>
               </th>
               <th class="table-heading-ovg remove">
                 <div class="table-heading-text-ovg">Действия</div>
@@ -1145,8 +1148,8 @@ const BetterStreamChat = {
                   <i ovg="" class="wasd-icons-add"></i>
                 </button>
                 <div class="clr-field" style="color: #00000000;">
-                <button aria-labelledby="clr-open-label"></button>
-                <input id="highlightAddTermColor" type="text" value="#00000000" data-coloris>
+                  <button aria-labelledby="clr-open-label"></button>
+                  <input id="highlightAddTermColor" type="text" value="#00000000" data-coloris>
                 </div>
               </div>
             </div>
@@ -1159,6 +1162,9 @@ const BetterStreamChat = {
               </th>
               <th class="table-heading-ovg">
                 <div class="table-heading-text-ovg">Время добавления</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Цвет</div>
               </th>
               <th class="table-heading-ovg remove">
                 <div class="table-heading-text-ovg">Действия</div>
@@ -1810,11 +1816,6 @@ const BetterStreamChat = {
 
     // load chat
     HelperWASD.loaded();
-
-    $( "#bscSettingsPanel" ).draggable({ containment: "body", scroll: false, cursor: "move", drag: function( event, ui ) {
-      ui.position.left = Math.max( (bscSettingsPanel.clientWidth / 2), ui.position.left );
-      ui.position.top = Math.max( (bscSettingsPanel.clientHeight / 2), ui.position.top );
-    }});
 
     this.install();
   },

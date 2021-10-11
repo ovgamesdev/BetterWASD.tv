@@ -1677,15 +1677,15 @@ img.emoji__item-ovg {
   user-select: none;
   max-width: -webkit-fill-available;
 }
-#bscSettingsPanel input:not([type="color"]) {
+#bscSettingsPanel input:not([data-coloris]) {
   cursor: text;
 }
-#bscSettingsPanel input[type="color"] {
+#bscSettingsPanel input[data-coloris] {
   cursor: pointer;
-  width: 105px;
+/*  width: 105px;
   vertical-align: middle;
   background: none;
-  border-style: none;
+  border-style: none;*/
 }
 #bscSettingsPanel select {
   cursor: pointer;
