@@ -1,6 +1,8 @@
 const HelperWASD = {
   openUserCardName: '',
   isModerator: false,
+  closedViewUrl: 'none',
+  channel_name: 'none',
   loaded() {
     if (new URL(document.URL).searchParams.get('helper-settings')) {
       BetterStreamChat.settingsDiv.style.display = 'block'
@@ -1169,9 +1171,10 @@ const HelperWASD = {
   },
   usercolor(channel_name) {
     // ищем цвет по ласт сообщениям тк у api есть задержка
-    let color;
+    let color = '';
     if (settings.wasd.colorAtTheMention) {
       allNames = document.querySelectorAll('div.info__text__status__name');
+      allMentions = document.querySelectorAll('.chat-message-mention');
       for (let element of allNames) {
         if (element.getAttribute('username')) {
           if (channel_name.split('@').join('').toLowerCase().trim() == element.getAttribute('username').toLowerCase().trim()) {
@@ -1180,8 +1183,21 @@ const HelperWASD = {
           }
         }
       }
-      return color;
+      if (color != '') {
+        for (let element of allMentions) {
+          if (element.getAttribute('username')) {
+            if (channel_name.split('@').join('').toLowerCase().trim() == element.getAttribute('username').split('@').join('').toLowerCase().trim()) {
+              color = element.style.color;
+              break;
+            }
+          }
+
+        }
+      }
+    } else {
+      color = 'inherit'
     }
+    return color;
   },
   createPinMessages() {
     if (!settings.wasd.pinMessage) document.querySelector('wasd-chat .body-container').insertAdjacentHTML("afterbegin", `<pin-chat-messages-ovg style="background: var(--wasd-color-prime);"></pin-chat-messages-ovg>`)
@@ -1273,7 +1289,7 @@ const HelperWASD = {
             return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention' username="${$1}">@${username.trim()}</span>`;
           });
           div.querySelectorAll('.chat-message-mention').forEach(element => {
-            HelperWASD.usercolorapi(element);
+            if (element.style.color == '') HelperWASD.usercolorapi(element);
             bl += element.getAttribute('username').split('@').join('') + ' '
             element.addEventListener('click', ({
               target
@@ -1293,7 +1309,7 @@ const HelperWASD = {
             return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
           });
           divdiv.querySelectorAll('.chat-message-mention.click').forEach(element => {
-            HelperWASD.usercolorapi(element);
+            if (element.style.color == '') HelperWASD.usercolorapi(element);
             bl += element.getAttribute('username').split('@').join('') + ' '
             element.addEventListener('click', ({
               target
@@ -1315,7 +1331,7 @@ const HelperWASD = {
             return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
           });
           div.querySelectorAll('.chat-message-mention.click').forEach(element => {
-            HelperWASD.usercolorapi(element);
+            if (element.style.color == '') HelperWASD.usercolorapi(element);
             bl += element.getAttribute('username').split('@').join('') + ' '
             element.addEventListener('click', ({
               target

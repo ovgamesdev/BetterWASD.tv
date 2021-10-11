@@ -2153,6 +2153,20 @@ main[data-tab="backup"] button {
   color: var(--wasd-color-switch) !important;
 }
 @media screen and (max-width:479px) {
+
+  main.active[data-tab="obschat"] {
+    width: 100%!important;
+    display: block!important;
+    height: 65%!important;
+    margin: 0!important;
+  }
+
+  iframe.obschat {
+    display: block!important;
+    height: calc(35% - 76px)!important;
+    width: 100%!important;
+  }
+
   #bscSettingsPanel {
     margin-top: 0px!important;
     height: 100% !important;
@@ -2869,7 +2883,18 @@ header .logo {
 #bscSettingsPanel header .burger-menu__wrap {
   display: none;
 }
+@media screen and (max-width:479px) {
+  #settingsSearchDiv .wasd-input-wrapper {
+    width: 180px;
+  }
+}
 @media screen and (max-width:650px) {
+  @media screen and (min-width:480px) {
+    main.active[data-tab="obschat"] {
+      width: calc(100% - 250px)!important;
+    }
+  }
+
   #bscSettingsPanel section {
     position: absolute;
     left: 0px;
@@ -2912,11 +2937,6 @@ header .logo {
   
   #bscSettingsPanel header .burger-menu__wrap {
     display: block;
-  }
-}
-@media screen and (max-width:479px) {
-  #settingsSearchDiv .wasd-input-wrapper {
-    width: 180px;
   }
 }
 @media screen and (max-width:370px) {
@@ -3009,4 +3029,23 @@ wasd-input [ovg] .clr-field input {
 }
 #bscSettingsPanel.fullscreen .hide-fullscreen {
   display: none;
+}
+
+/* obs_chat */
+
+main.active[data-tab="obschat"] {
+  width: calc(100% - 420px);
+  display: inline-block !important;
+}
+
+iframe.obschat {
+  height: calc(100% - 76px);
+  width: 250px;
+  display: none;
+  border: none;
+  position: absolute;
+}
+
+main.active[data-tab="obschat"] ~ iframe.obschat {
+  display: inline-block;
 }

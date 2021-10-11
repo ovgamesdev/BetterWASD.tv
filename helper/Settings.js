@@ -78,20 +78,20 @@ const HelperSettings = {
         type: 'select',
         items: [{
             value: 0,
-            label: 'bttv-28px,  ffz-32px,  7tv-32px'
+            label: '28px, 32px, 32px'
           },
           {
             value: 1,
-            label: 'bttv-56px,  ffz-64px,  7tv-48px'
+            label: '56px, 64px, 48px'
           },
           {
             value: 2,
-            label: 'bttv-112px, ffz-128px, 7tv-128px'
+            label: '112px, 128px, 128px'
           }
         ]
       },
       sticker: {
-        title: `Отображение стикеров WASD. ${Helper.tooltip('(i)', "Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")}`,
+        title: `Отображение стикеров WASD. ${Helper.tooltip('(i)', "Мин. (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")}`,
         type: 'select',
         items: [{
             value: 0,
@@ -103,7 +103,7 @@ const HelperSettings = {
           },
           {
             value: 2,
-            label: `Минимизировать (увеличить при наведении)`
+            label: `Мин. (увеличить при наведении)`
           }, // (зависит от 'Вид сообщений в чате - Большой размер стикеров')
           {
             value: 3,
@@ -116,7 +116,7 @@ const HelperSettings = {
         ]
       },
       stickerovg: {
-        title: `Отображение стикеров BTTV, FFZ и 7TV. ${Helper.tooltip('(i)', "Минимизировать (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")}`,
+        title: `Отображение стикеров BTTV, FFZ и 7TV. ${Helper.tooltip('(i)', "Мин. (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")}`,
         type: 'select',
         items: [{
             value: 0,
@@ -128,7 +128,7 @@ const HelperSettings = {
           },
           {
             value: 2,
-            label: `Минимизировать (увеличить при наведении)`
+            label: `Мин. (увеличить при наведении)`
           }, // (зависит от 'Вид сообщений в чате - Большой размер стикеров')
           {
             value: 3,
@@ -315,7 +315,7 @@ const HelperSettings = {
           },
           {
             value: 2,
-            label: 'Показать карточку пользователя'
+            label: 'Карточка пользователя'
           }
         ]
       },
@@ -332,7 +332,7 @@ const HelperSettings = {
           },
           {
             value: 2,
-            label: 'Показать карточку пользователя'
+            label: 'Карточка пользователя'
           }
         ]
       },
@@ -413,7 +413,7 @@ const HelperSettings = {
           },
           {
             value: 'h:mm:ss',
-            label: '12 часов с секундами (2:15:35)'
+            label: '12 часов с сек. (2:15:35)'
           },
           {
             value: 'H:mm',
@@ -421,23 +421,23 @@ const HelperSettings = {
           },
           {
             value: 'H:mm:ss',
-            label: '24 часа с секундами (14:15:35)'
+            label: '24 часа с сек. (14:15:35)'
           },
           {
             value: 'hh:mm',
-            label: 'Дополнительные (02:15)'
+            label: 'Доп. (02:15)'
           },
           {
             value: 'hh:mm:ss',
-            label: 'Дополнительные с секундами (02:15:35)'
+            label: 'Доп. с сек. (02:15:35)'
           },
           {
             value: 'HH:mm',
-            label: 'Дополнительные 24 часа (14:15)'
+            label: 'Доп. 24 часа (14:15)'
           },
           {
             value: 'HH:mm:ss',
-            label: 'Дополнительные 24 часа с секундами (14:15:35)'
+            label: 'Доп. 24 часа с сек. (14:15:35)'
           }
         ]
       },
@@ -678,6 +678,188 @@ const HelperSettings = {
         title: 'Цвет для подписчика канала.',
         type: 'color'
       }
+    },
+    obschat: {
+      theme: {
+        title: `Тема.`,
+        type: 'select',
+        items: [{
+            value: 0,
+            label: 'Светлая'
+          },
+          {
+            value: 1,
+            label: 'Темная'
+          }
+        ]
+      },
+      stime: {
+        title: `Время отправки сообщения.`,
+        type: 'boolean'
+      },
+      simg: {
+        title: `Аватарка пользователя.`,
+        type: 'boolean'
+      },
+      mf: {
+        title: 'Скрыть сообщение о фолловере.',
+        type: 'boolean'
+      },
+      ms: {
+        title: 'Скрыть системные сообщения.',
+        type: 'boolean'
+      },
+      bes: {
+        title: `Разрешение смайликов в чате BTTV, FFZ и 7TV.`,
+        type: 'select',
+        items: [{
+            value: 0,
+            label: '28px, 32px, 32px'
+          },
+          {
+            value: 1,
+            label: '56px, 64px, 48px'
+          },
+          {
+            value: 2,
+            label: '112px, 128px, 128px'
+          }
+        ]
+      },
+      st: {
+        title: `Отображение стикеров WASD.`,
+        type: 'select',
+        items: [{
+            value: 0,
+            label: 'По умолчанию'
+          },
+          {
+            value: 1,
+            label: 'Минимизировать'
+          },
+          {
+            value: 2,
+            label: 'Скрыть сообщение'
+          },
+          {
+            value: 3,
+            label: 'Показать сообщение: Стикер'
+          }
+        ]
+      },
+      frs: {
+        title: 'Размер стикеров WASD.',
+        type: 'select',
+        items: [{
+            value: 0,
+            label: 'Большой'
+          },
+          {
+            value: 1,
+            label: 'Маленький'
+          }
+        ]
+      },
+      ss: {
+        title: 'Разрешение смайликов в чате WASD.',
+        type: 'select',
+        items: [{
+            value: 'large',
+            label: 'original (apng)'
+          },
+          {
+            value: 'medium',
+            label: '128x128 (no apng)'
+          },
+          {
+            value: 'small',
+            label: '64x64 (no apng)'
+          }
+        ]
+      },
+      can: {
+        title: `Двоеточие после никнейма.`,
+        type: 'boolean'
+      },
+      catm: {
+        title: `Отображать упоминания пользователей в чата с их цветом никнейма. ${Helper.BETA}`,
+        type: 'boolean'
+      },
+      hmb: {
+        title: 'Выделять упоминания в чате жирным шрифтом.',
+        type: 'boolean'
+      },
+      sm: {
+        title: 'Скрыть сообщение стримеру (донат).',
+        type: 'boolean'
+      },
+      lc: {
+        title: 'Цвет ссылки.',
+        type: 'color',
+      },
+      fl: {
+        title: `Исправить ссылки в чате.`,
+        type: 'boolean'
+      },
+      fmst: {
+        title: `Формат отметок времени.`,
+        description: 'Отформатировано <a target="_blank" href="https://momentjs.com/">library Moment.js</a>.',
+        type: 'select',
+        items: [{
+            value: 'h:mm',
+            label: '12 часов (2:15)'
+          },
+          {
+            value: 'h:mm:ss',
+            label: '12 часов с сек. (2:15:35)'
+          },
+          {
+            value: 'H:mm',
+            label: '24 часа (14:15)'
+          },
+          {
+            value: 'H:mm:ss',
+            label: '24 часа с сек. (14:15:35)'
+          },
+          {
+            value: 'hh:mm',
+            label: 'Доп. (02:15)'
+          },
+          {
+            value: 'hh:mm:ss',
+            label: 'Доп. с сек. (02:15:35)'
+          },
+          {
+            value: 'HH:mm',
+            label: 'Доп. 24 часа (14:15)'
+          },
+          {
+            value: 'HH:mm:ss',
+            label: 'Доп. 24 часа с сек. (14:15:35)'
+          }
+        ]
+      },
+      cma: {
+        title: `Ник пользователя в действиях это упоминание. ${Helper.tooltip('(i)', 'Избранное, Подписка')}`,
+        type: 'boolean'
+      },
+      fcbc: {
+        title: `Исправить символы ломающие чат. ${Helper.tooltip('(i)', 'Текст Zalgo')}`,
+        description: 'С использованием <a target="_blank" href="https://github.com/mathiasbynens/strip-combining-marks/blob/master/README.md">library strip-combining-marks.js</a>.',
+        type: 'boolean'
+      },
+      bttv: {
+        title: `BTTV эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)}`,
+        type: 'text'
+      },
+      ffz: {
+        title: `FFZ эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)}`,
+        type: 'text'
+      },
+      tv7: {
+        title: `7TV эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)}`,
+        type: 'text'
+      }
     }
   },
   showMessage(message, type = 'success') {
@@ -815,7 +997,7 @@ const HelperSettings = {
   text(name, title, description, defaultValue = '') {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
-        <input type="text" class="optionField" data-name="${name}" value="${defaultValue[1]}" />
+        <input type="text" class="optionField" data-name="${name}" value="${defaultValue}" />
         <!--button class="optionField def" data-name="${name}" option-type="text"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
       </ol>`);
   },

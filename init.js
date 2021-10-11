@@ -185,6 +185,7 @@ function addToMenu() {
       document.querySelector('.header__block__btn > i').click()
       document.body.style.overflowY = "hidden";
       BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
+      BetterStreamChat.openSettings()
     })
   } else {
     document.querySelector("wasd-chat-menu > div.menu #buttonOvG")?.remove()
@@ -442,6 +443,7 @@ function createbuttonovgside() {
           document.querySelector('body').click()
           document.body.style.overflowY = "hidden";
           BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
+          BetterStreamChat.openSettings()
         });
       }
     }

@@ -12,6 +12,22 @@ const BetterStreamChat = {
       removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
     };
     let changelogList = [{
+      version: '1.3.5',
+      date: '2021-10-11',
+      items: [{
+        text: [
+          `Настройки в новом окне.`,
+          `Чат для OBS.`
+        ],
+        label: 'added'
+      }, {
+        text: [
+          `Формат отметок времени для последние сообщения.`,
+          `Нажмите клавишу...`
+        ],
+        label: 'optimized'
+      }]
+    },{
       version: '1.3.4',
       date: '2021-09-30',
       items: [{
@@ -802,6 +818,7 @@ const BetterStreamChat = {
             <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
             <a role="tab" class="item" data-tab="tv7Settings">7TV</a>
             <a role="tab" class="item" data-tab="filtration">Фильтрация</a>
+            <a role="tab" class="item" data-tab="obschat">Чат для OBS (beta)</a>
             <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
             <a role="tab" class="item" data-tab="backup">Бэкап</a>
           </div>
@@ -974,6 +991,14 @@ const BetterStreamChat = {
       <main class="active" data-tab="wasdSettings">
         ${HelperSettings.build('wasd')}
       </main>
+
+      <main data-tab="obschat">
+        <h1 style="padding: 20px 10px 5px 10px;"> Чат для OBS с эмоциями </h1>
+        ${HelperSettings.build('obschat')}
+        <p style="padding: 20px 10px 5px 10px;">Если вы обновите ссылку на закрытую трансляцию, то чат в доступе по ссылке перестанет работать! </p>
+      </main>
+      <iframe src="" class="obschat"></iframe>
+
       <main class="text" data-tab="changelog">
         <h1>Журнал изменений</h1>
         <h4 style="margin-top:10px;padding-left: 10px;padding-right: 0px;margin-bottom: 0px;"> Информацию о будущих версиях можно найти <a href="https://wasd.tv/ovgames/posts">тут</a></h4>
@@ -1506,9 +1531,24 @@ const BetterStreamChat = {
           settingsSearchDiv.classList.add('hidden')
         }
 
+        if (target.getAttribute('data-tab') == 'obschat') {
+          loadObsChat()
+        } else {
+          unloadObsChat()
+        }
+
         target.classList.add('active');
         settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
       });
+    }
+
+    function loadObsChat() {
+      // https://ovgamesdev.github.io/BetterWASD.obs_chat/preview
+      // http://localhost/preview
+      settingsDiv.querySelector('iframe.obschat').src = `https://ovgamesdev.github.io/BetterWASD.obs_chat/preview/?channel_name=${HelperWASD.channel_name}&private-stream=${HelperWASD.closedViewUrl}&settings=${encodeURI(JSON.stringify(settings.obschat)).replace(/#/ig, 'HASH')}`
+    }
+    function unloadObsChat() {
+      if (settingsDiv.querySelector('iframe.obschat').src != '') settingsDiv.querySelector('iframe.obschat').src = ''
     }
 
     settingsDiv.querySelector('.ovg-tabs-wrapper').addEventListener('click', () => {
@@ -1808,6 +1848,22 @@ const BetterStreamChat = {
       for (let term of Object.keys(settings.list.highlightTermList)) {
         HelperWASD.addTermToHighLight(term)
       }
+    }
+  },
+  openSettings() {
+    if (HelperWASD.closedViewUrl  == '' || HelperWASD.channel_name == '') {
+      $.ajax({
+        url: `https://wasd.tv/api/v2/profiles/current/broadcasts/closed-view-url`,
+        success: function(out) {
+          HelperWASD.closedViewUrl = out.result.view_url.replace('https://wasd.tv/private-stream/', '')
+          $.ajax({
+            url: `https://wasd.tv/api/v2/profiles/current`,
+            success: function(out) {
+              HelperWASD.channel_name = out.result.user_profile.user_login
+            }
+          });
+        }
+      });
     }
   }
 }

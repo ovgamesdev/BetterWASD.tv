@@ -473,7 +473,7 @@ const wasd = {
     }
 
     for (let role in settings.highlightRole) {
-      if (settings.highlightRole[role] != '#000000' || settings.highlightRole[role] != '#00000000') cssCode += `.block__messages__item[role*="${role}"], .block__messages__item-ovg[role*="${role}"] {background-color:  ${settings.highlightRole[role]}!important}`
+      if (!(settings.highlightRole[role] == '#000000' || settings.highlightRole[role] == '#00000000')) cssCode += `.block__messages__item[role*="${role}"], .block__messages__item-ovg[role*="${role}"] {background-color:  ${settings.highlightRole[role]}!important}`
     }
 
     for (let user in settings.list.blockUserList) {
@@ -522,6 +522,9 @@ const wasd = {
     if (settings.wasd.hideRaid) {
       cssCode += `.player-info .raid { display: none !important; }`
     }
+
+    var iframe = document.querySelector('iframe.obschat')
+    iframe?.contentWindow?.postMessage(settings.obschat, '*');
 
     if (wasd.style) {
       if (typeof wasd.style.styleSheet !== 'undefined') {

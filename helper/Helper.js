@@ -114,6 +114,31 @@ const Helper = {
         sub: "#00000000",
         owner: "#00000000",
         moderator: "#00000000"
+      },
+      obschat: {
+        theme: 1,
+        mf: false,
+        ms: false,
+        bes: 0, //-
+        st: 1,
+        frs: 1,
+        ss: 'large', // ok "large"(original) "medium" "small"
+        can: false,
+        catm: true,
+        hmb: false,
+        sm: false, //-
+        lc: "rgba(var(--wasd-color-switch--rgb),.88)",
+        fl: true,
+        fmst: "HH:mm",
+        cma: true,
+        acd: 0, //-
+        fcbc: false,
+        stime: false,
+        simg: false,
+
+        bttv: '',
+        ffz: '',
+        tv7: '',
       }
     };
   },
