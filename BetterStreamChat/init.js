@@ -1545,7 +1545,7 @@ const BetterStreamChat = {
     function loadObsChat() {
       // https://ovgamesdev.github.io/BetterWASD.obs_chat/preview
       // http://localhost/preview
-      settingsDiv.querySelector('iframe.obschat').src = `https://ovgamesdev.github.io/BetterWASD.obs_chat/preview/?channel_name=${HelperWASD.channel_name}&private-stream=${HelperWASD.closedViewUrl}&settings=${encodeURI(JSON.stringify(settings.obschat)).replace(/#/ig, 'HASH')}`
+      settingsDiv.querySelector('iframe.obschat').src = `https://ovgamesdev.github.io/BetterWASD.obs_chat/preview/?channel_name=${HelperWASD.channel_name}&private_link=${HelperWASD.closedViewUrl}&settings=${encodeURI(JSON.stringify(settings.obschat)).replace(/#/ig, 'HASH')}`
     }
     function unloadObsChat() {
       if (settingsDiv.querySelector('iframe.obschat').src != '') settingsDiv.querySelector('iframe.obschat').src = ''
@@ -1851,7 +1851,7 @@ const BetterStreamChat = {
     }
   },
   openSettings() {
-    if (HelperWASD.closedViewUrl  == '' || HelperWASD.channel_name == '') {
+    if (HelperWASD.closedViewUrl  == 'none' || HelperWASD.channel_name == 'none') {
       $.ajax({
         url: `https://wasd.tv/api/v2/profiles/current/broadcasts/closed-view-url`,
         success: function(out) {
