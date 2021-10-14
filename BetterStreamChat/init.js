@@ -2,6 +2,7 @@ const BetterStreamChat = {
   activeInstance: null,
   settingsDiv: null,
   isSettingsNewWindow: false,
+  changelog: '',
   async init() {
     //<editor-fold desc="changelog">
     let changelogLabels = {
@@ -1185,6 +1186,7 @@ const BetterStreamChat = {
         Offered by <a href="https://ovgamesdev.github.io/ru/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a>
       </span>`;
     document.body.append(settingsDiv);
+    BetterStreamChat.changelog = changelogList[0]
 
     // bttv events
     bttvAddUserBtn.addEventListener('click', () => {
@@ -1871,7 +1873,17 @@ const BetterStreamChat = {
       url: `https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/info.json`,
       success: function(out) {
         out = JSON.parse(out)
-        console.log(out)
+        let data = out[BetterStreamChat.changelog.version]
+        console.log(out, BetterStreamChat.changelog.version, data)
+        if (data) {
+          console.log(data)
+          for(let info in data.info) {
+            console.log(data[info], info)
+          }
+          for(let info of data) {
+            console.log(info)
+          }
+        }
       }
     });
 
