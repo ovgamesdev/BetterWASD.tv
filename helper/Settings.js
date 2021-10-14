@@ -848,6 +848,69 @@ const HelperSettings = {
         description: 'С использованием <a target="_blank" href="https://github.com/mathiasbynens/strip-combining-marks/blob/master/README.md">library strip-combining-marks.js</a>.',
         type: 'boolean'
       },
+      sdm: {
+        title: `Стиль удаленных сообщений.`,
+        type: 'select',
+        items: [{
+            value: '0',
+            label: 'Скрыть'
+          },
+          {
+            value: '1',
+            label: 'Затемнённое'
+          },
+          {
+            value: '3',
+            label: 'Затемнённое, зачеркнутое'
+          },
+          {
+            value: '2',
+            label: '[сообщение удалено], затемнённое'
+          }
+        ]
+      },
+      acd: {
+        title: 'Искусственная задержка чата.',
+        type: 'select',
+        items: [{
+            value: 0,
+            label: 'По умолчанию'
+          },
+          {
+            value: 300,
+            label: 'Модерация ботов; (0,3 сек.)'
+          },
+          {
+            value: 1200,
+            label: 'Умеренная модерация; (1,2 сек.)'
+          },
+          {
+            value: 5000,
+            label: 'Убрать спойлеры (5 сек.)'
+          },
+          {
+            value: 10000,
+            label: 'Очень большая (10 сек.)'
+          },
+          {
+            value: 15000,
+            label: 'Крайне большая (15 сек.)'
+          },
+          {
+            value: 20000,
+            label: 'Задержать чат (20 сек.)'
+          },
+          {
+            value: 30000,
+            label: 'Полминуты (30 сек.)'
+          },
+          {
+            value: 60000,
+            label: 'Зачем??? (1 мин.)'
+          }
+        ]
+      },
+
       bttv: {
         title: `BTTV эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)}`,
         type: 'text'

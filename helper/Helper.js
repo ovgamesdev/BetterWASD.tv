@@ -135,6 +135,7 @@ const Helper = {
         fcbc: false,
         stime: false,
         simg: false,
+        sdm: 0,
 
         bttv: '',
         ffz: '',

@@ -1866,6 +1866,14 @@ const BetterStreamChat = {
         }
       });
     }
+
+    $.ajax({
+      url: `https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/info.json`,
+      success: function(out) {
+        console.log(out)
+      }
+    });
+
   }
 }
 
