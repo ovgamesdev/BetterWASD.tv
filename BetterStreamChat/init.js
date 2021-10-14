@@ -13,6 +13,22 @@ const BetterStreamChat = {
       removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
     };
     let changelogList = [{
+      version: '1.3.6',
+      date: '2021-10-15',
+      items: [{
+        text: [
+          `Карточка пользователя - Последние сообщения.`,
+          `Карточка пользователя - Стикеры канала.`
+        ],
+        label: 'fixed'
+      }, {
+        text: [
+          `Чат для OBS - Стиль удаленных сообщений.`,
+          `Чат для OBS - Искусственная задержка чата.`
+        ],
+        label: 'added'
+      }]
+    },{
       version: '1.3.5',
       date: '2021-10-11',
       items: [{
@@ -787,6 +803,20 @@ const BetterStreamChat = {
         <div style="width: 100%"></div>
 
         <wasd-button class="ghost-btn ovg head-buttons">
+        <ovg-bell _ngcontent-ljm-c266="" id="ovg_bell__element" _nghost-ljm-c288="">
+          <div _ngcontent-ljm-c288="" wasdclickoutside="" class="bell">
+            <div _ngcontent-ljm-c288="" class="bell__icon-wrap"><i _ngcontent-ljm-c288="" class="bell__icon wasd-icons-bell"></i></div>
+            <div _ngcontent-ljm-c288="" class="bell__info bell-info" hidden="" style="z-index: 5;">
+              <div _ngcontent-ljm-c288="" class="bell-info__title"> Информация </div>
+              <div _ngcontent-ljm-c288="" class="bell-info__hr"></div>
+              <div _ngcontent-ljm-c288="" class="bell-info__list bell-info__list_scroll">
+                <!---->
+                <!---->
+              </div>
+            </div>
+          </div>
+        </ovg-bell>
+
           <button class="basic medium-cube ovg hide-fullscreen fade" type="button">
             <i class="wasd-icons-show"></i>
           </button>
@@ -1802,8 +1832,26 @@ const BetterStreamChat = {
       })
     }
 
+    // bind Тестовое уведомление
     testNotify.addEventListener('click', () => {
       Helper.notify(`Тест`, `Тестовое уведомление`, 'test')
+    })
+
+    // bind Информация
+
+    // document.body.addEventListener('click', () => {
+    //   if (!bell__info.hasAttribute('hidden')) {
+    //     bell__info.setAttribute('hidden', '')
+    //     console.log('hide')
+    //   }
+    // })
+    let bell__info = ovg_bell__element.querySelector('.bell__info')
+    ovg_bell__element.querySelector('.bell__icon-wrap').addEventListener('click', () => {
+      if (bell__info.hasAttribute('hidden')) {
+        bell__info.removeAttribute('hidden')
+      } else {
+        bell__info.setAttribute('hidden', '')
+      }
     })
 
     // load bttv, ffz and 7tv emotes
@@ -1874,15 +1922,20 @@ const BetterStreamChat = {
       success: function(out) {
         out = JSON.parse(out)
         let data = out[BetterStreamChat.changelog.version]
-        console.log(out, BetterStreamChat.changelog.version, data)
         if (data) {
-          console.log(data)
+
+          ovg_bell__element.querySelector('.bell-info__list').innerHTML = ''
+
           for(let info in data.info) {
-            console.log(data[info], info)
+
+            let div = document.createElement('div')
+            div.setAttribute('_ngcontent-ljm-c288', '')
+            div.classList.add('bell-info__elem')
+            div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${data.info[info].text} </div><div _ngcontent-ljm-c288="" class="bell-info__date"> ${data.info[info].date} </div>`
+
+            ovg_bell__element.querySelector('.bell-info__list').appendChild(div)
           }
-          for(let info of data) {
-            console.log(info)
-          }
+
         }
       }
     });
