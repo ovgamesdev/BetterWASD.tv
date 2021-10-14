@@ -3,13 +3,13 @@
   "content_scripts": [
   {
     "css": [
-      "index.css",
-      "jquery.ui.css",
-      "ovg_tooltip.css",
-      "ovg_button.css",
-      "ovg_tabs-wrapper.css",
-      "ovg_burger-toggle.css",
-      "ovg_bell.css",
+      "css/index.css",
+      "css/jquery.ui.css",
+      "css/ovg_tooltip.css",
+      "css/ovg_button.css",
+      "css/ovg_tabs-wrapper.css",
+      "css/ovg_burger-toggle.css",
+      "css/ovg_bell.css",
       "lib/coloris/coloris.min.css"
     ],
     "js": [
