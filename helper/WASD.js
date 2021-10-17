@@ -276,26 +276,6 @@ const HelperWASD = {
 
     HelperWASD.openUserCardName = channel_name.trim()
 
-    card.querySelector("button.bttv-moderator-card-nickname-change-button").addEventListener('click', () => {
-      var newusername;
-      var user_channel_name = channel_name.trim();
-      if (settings.wasd.userNameEdited[user_channel_name]) {
-        newusername = prompt(`Введите обновленный ник для ${user_channel_name} (оставьте поле пустым, чтобы сбросить):`, settings.wasd.userNameEdited[user_channel_name].trim());
-      } else {
-        newusername = prompt(`Введите обновленный ник для ${user_channel_name} (оставьте поле пустым, чтобы сбросить):`, user_channel_name);
-      }
-
-      if (!(newusername == null || newusername == user_channel_name) && newusername != '') {
-        HelperWASD.showChatMessage(`Новый ник ${newusername} пользователя ${user_channel_name}`, 'success');
-        settings.wasd.userNameEdited[user_channel_name] = ` ${newusername} `;
-      } else if (newusername == '') {
-        HelperWASD.showChatMessage(`Новый ник ${user_channel_name} пользователя ${user_channel_name}`, 'success');
-        delete settings.wasd.userNameEdited[user_channel_name];
-      }
-
-      HelperSettings.save([document.querySelector('.optionField')]);
-    });
-
     card.querySelector('wasd-button.flat-btn.ovg > button.ovg')?.addEventListener('mouseover', () => {
       card.querySelector('div.tooltip.tooltip_position-right.tooltip_size-small.ovg').style.display = 'flex';
     });
@@ -327,167 +307,7 @@ const HelperWASD = {
 
         var viewerCard;
         if (data) {
-          // created_at
-          var date = new Date(data.created_at);
-          //ovg.log(data.created_at);
-          if (document.querySelector('.chat-room__viewer-card')) {
-            viewerCard = document.querySelector('.chat-room__viewer-card');
-            viewerCard.querySelector('div.tw-stat__value.channal_created_at').textContent = `${jQuery.timeago(date)} назад`;
-            viewerCard.querySelector('.channal_created_at-title').title = `Канал создан ${date.toLocaleString('ru')}`;
-            // user_login
-            if (settings.wasd.userNameEdited[data.user_login.trim()]) {
-              viewerCard.querySelector('a.tw-link').textContent = settings.wasd.userNameEdited[data.user_login.trim()];
-            } else {
-              viewerCard.querySelector('a.tw-link').textContent = data.user_login;
-            }
-
-            viewerCard.querySelector('a.tw-link').setAttribute('title', data.user_login);
-            // user_id url
-            viewerCard.querySelector('a.tw-link').href = `user/${data.user_id}`;
-            // profile_image
-            viewerCard.querySelector('div.profile-main__avatar').style.backgroundImage = `url(${data.profile_image.large})`;
-            // profile_background
-            viewerCard.querySelector('div.tw-c-background-accent-alt.viewer-card-header__background').style.backgroundImage = `url(${data.profile_background.large})`;
-            // gamepad display
-            viewerCard.querySelector('.wasd-icons-games.ovg').style.display = isLiveDisplay()
-            // stream_total_viewers display
-            viewerCard.querySelector('div.tw-align-items-center.tw-inline-flex.tw-stat.tw-pd-l-1').style.display = isLiveDisplay()
-          }
-
-          function isLiveDisplay() {
-            if (data.profile_is_live) {
-              return 'inline-flex';
-            } else {
-              return 'none';
-            }
-          }
-
-          $.ajax({
-            url: `https://wasd.tv/api/v2/broadcasts/public?channel_id=${data.channel_id}`, // user card broadcast
-            success: function(out) {
-
-              card.classList.remove('loading') // loaded card
-
-              let databroadcasts = out;
-              if (viewerCard) {
-                //ovg.log(out.result);
-                if (out.result.media_container != null) {
-                  // game_name
-                  viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').textContent = ` Стримит ${out.result?.media_container?.game?.game_name? out.result?.media_container?.game?.game_name : ''}`;
-                  viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').title = ` Стримит ${out.result?.media_container?.game?.game_name? out.result?.media_container?.game?.game_name : ''}`;
-                  // stream_total_viewers
-                  viewerCard.querySelector('div.tw-stat__value.viewers').textContent = out.result?.media_container?.media_container_streams[0]?.stream_total_viewers;
-                  viewerCard.querySelector('.viewers-title').title = `Всего зрителей за стрим ${out.result?.media_container?.media_container_streams[0]?.stream_total_viewers}`;
-                  // game_id url
-                  viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').href = `games/${out.result?.media_container?.game?.game_id}`;
-                } else {
-                  // channel_description
-                  let message = out.result?.channel?.channel_description;
-                  if (out.result?.channel?.channel_description) {
-                    viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').innerHTML = HelperWASD.textToURL(message);
-                    viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').title = out.result?.channel?.channel_description;
-                  }
-
-                  // viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').innerHTML = out.result.channel.channel_description;
-                }
-
-                // followers_count
-                viewerCard.querySelector('div.tw-stat__value.channal_followers_count').textContent = out.result?.channel?.followers_count;
-                viewerCard.querySelector('.channal_followers_count-title').title = `${out.result?.channel?.followers_count} фолловеров`;
-
-                $.ajax({
-                  url: `https://wasd.tv/api/v2/profiles/current`,
-                  success: function(out) {
-                    if (typeof out.result?.user_login !== "undefined")
-                      if (!(data.user_login.toLowerCase().trim() == out.result?.user_login?.toLowerCase().trim())) {
-                        let buttonfollow = document.querySelector('div.viewer-card > div.ovg.buttonsdiv > wasd-channel-favorite-btn > wasd-button > button')
-                        let ifollow = document.querySelector('div.viewer-card > div.ovg.buttonsdiv > wasd-channel-favorite-btn > wasd-button > button > i')
-                        let tooltipfollow = document.querySelector('wasd-channel-favorite-btn#selector-channel-favorite-btn-ovg > wasd-button > ovg-tooltip > div.tooltip > div.tooltip-content')
-                        if (buttonfollow) {
-                          buttonfollow.classList.remove('disabled');
-                          if (databroadcasts.result?.channel?.is_user_follower) {
-                            buttonfollow.classList.add('basic'); // add class to unfollow
-                            buttonfollow.classList.remove('primary');
-
-                            ifollow.classList.remove('wasd-icons-like');
-                            ifollow.classList.add('wasd-icons-favorite');
-
-                            tooltipfollow.textContent = ' В избранном ';
-                          } else {
-                            buttonfollow.classList.add('primary'); // add class to follow
-                            buttonfollow.classList.remove('basic');
-
-                            ifollow.classList.remove('wasd-icons-favorite');
-                            ifollow.classList.add('wasd-icons-like');
-
-                            tooltipfollow.textContent = ' Добавить в избранное ';
-                          }
-                        }
-                      }
-
-                  }
-                });
-              }
-
-              let buttonfollow = document.querySelector('div.viewer-card > div.ovg.buttonsdiv > wasd-channel-favorite-btn > wasd-button > button')
-              let ifollow = document.querySelector('div.viewer-card > div.ovg.buttonsdiv > wasd-channel-favorite-btn > wasd-button > button > i')
-              let tooltipfollow = document.querySelector('wasd-channel-favorite-btn#selector-channel-favorite-btn-ovg > wasd-button > ovg-tooltip > div.tooltip > div.tooltip-content')
-
-              buttonfollow?.addEventListener('click', () => {
-
-                if (!buttonfollow.classList.contains('disabled')) {
-
-                  $.ajax({
-                    url: `https://wasd.tv/api/v2/broadcasts/public?channel_id=${data.channel_id}`,
-                    success: function(out) {
-                      if (!out.result.channel.is_user_follower) {
-                        // follow
-
-                        $.ajax({
-                          method: 'PUT',
-                          url: `https://wasd.tv/api/channels/${data.channel_id}/followers/`,
-                          success: function(out) {
-                            if (buttonfollow) {
-                              buttonfollow.classList.add('basic'); // add class to unfollow
-                              buttonfollow.classList.remove('primary');
-                              buttonfollow.classList.remove('disabled');
-
-                              ifollow.classList.remove('wasd-icons-like');
-
-                              ifollow.classList.add('wasd-icons-favorite');
-                              tooltipfollow.textContent = ' В избранном ';
-                            }
-                          }
-                        });
-
-                      } else {
-                        // un follow
-
-                        $.ajax({
-                          method: 'DELETE',
-                          url: `https://wasd.tv/api/channels/${data.channel_id}/followers/`,
-                          success: function(out) {
-                            if (buttonfollow) {
-                              buttonfollow.classList.add('primary'); // add class to follow
-                              buttonfollow.classList.remove('basic');
-                              buttonfollow.classList.remove('disabled');
-
-                              ifollow.classList.remove('wasd-icons-favorite');
-                              ifollow.classList.add('wasd-icons-like');
-
-                              tooltipfollow.textContent = ' Добавить в избранное ';
-                            }
-                          }
-                        });
-
-                      }
-                    }
-                  });
-
-                }
-              });
-            }
-          });
+          viewerCard = document.querySelector('.chat-room__viewer-card');
 
           $.ajax({
             url: `https://wasd.tv/api/v2/profiles/${data.user_id}`,
@@ -495,6 +315,189 @@ const HelperWASD = {
               if (viewerCard && out.result) {
                 viewerCard.querySelector('div.tw-stat__value.profile_level').textContent = out.result.user_xp.profile_level;
                 viewerCard.querySelector('.profile_level-title').title = `${out.result.user_xp.profile_level} уровень канала`;
+
+                var date = new Date(out.result.user_profile.created_at);
+                //ovg.log(out.result.);
+                if (document.querySelector('.chat-room__viewer-card')) {
+                  viewerCard = document.querySelector('.chat-room__viewer-card');
+                  viewerCard.querySelector('div.tw-stat__value.channal_created_at').textContent = `${jQuery.timeago(date)} назад`;
+                  viewerCard.querySelector('.channal_created_at-title').title = `Канал создан ${date.toLocaleString('ru')}`;
+                  // user_login
+                  if (settings.wasd.userNameEdited[out.result.user_profile.user_login.trim()]) {
+                    viewerCard.querySelector('a.tw-link').textContent = settings.wasd.userNameEdited[out.result.user_profile.user_login.trim()];
+                  } else {
+                    viewerCard.querySelector('a.tw-link').textContent = out.result.user_profile.user_login;
+                  }
+
+                  viewerCard.querySelector('a.tw-link').setAttribute('title', out.result.user_profile.user_login);
+                  // user_id url
+                  viewerCard.querySelector('a.tw-link').href = `user/${out.result.user_id}`;
+                  // profile_image
+                  viewerCard.querySelector('div.profile-main__avatar').style.backgroundImage = `url(${out.result.user_profile.profile_image?.large})`;
+                  // profile_background
+                  viewerCard.querySelector('div.tw-c-background-accent-alt.viewer-card-header__background').style.backgroundImage = `url(${out.result.user_profile.profile_background?.large})`;
+                  // gamepad display
+                  viewerCard.querySelector('.wasd-icons-games.ovg').style.display = isLiveDisplay()
+                  // stream_total_viewers display
+                  viewerCard.querySelector('div.tw-align-items-center.tw-inline-flex.tw-stat.tw-pd-l-1').style.display = isLiveDisplay()
+                
+
+                  card.querySelector("button.bttv-moderator-card-nickname-change-button").addEventListener('click', () => {
+                    var newusername;
+                    var user_channel_name = out.result.user_profile.user_login;
+                    if (user_channel_name && settings.wasd.userNameEdited[user_channel_name]) {
+                      newusername = prompt(`Введите обновленный ник для ${user_channel_name} (оставьте поле пустым, чтобы сбросить):`, settings.wasd.userNameEdited[user_channel_name].trim());
+                    } else {
+                      newusername = prompt(`Введите обновленный ник для ${user_channel_name} (оставьте поле пустым, чтобы сбросить):`, user_channel_name);
+                    }
+
+                    if (!(newusername == null || newusername == user_channel_name) && newusername != '') {
+                      HelperWASD.showChatMessage(`Новый ник ${newusername} пользователя ${user_channel_name}`, 'success');
+                      settings.wasd.userNameEdited[user_channel_name] = ` ${newusername} `;
+                    } else if (newusername == '') {
+                      HelperWASD.showChatMessage(`Новый ник ${user_channel_name} пользователя ${user_channel_name}`, 'success');
+                      delete settings.wasd.userNameEdited[user_channel_name];
+                    }
+
+                    HelperSettings.save([document.querySelector('.optionField')]);
+                  });
+                }
+
+                function isLiveDisplay() {
+                  if (out.result.user_profile.profile_is_live) {
+                    return 'inline-flex';
+                  } else {
+                    return 'none';
+                  }
+                }
+
+                $.ajax({
+                  url: `https://wasd.tv/api/v2/broadcasts/public?channel_id=${out.result.user_profile.channel_id}`, // user card broadcast
+                  success: function(out) {
+
+                    card.classList.remove('loading') // loaded card
+
+                    let databroadcasts = out;
+                    if (viewerCard) {
+                      //ovg.log(out.result);
+                      if (out.result.media_container != null) {
+                        // game_name
+                        viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').textContent = ` Стримит ${out.result?.media_container?.game?.game_name? out.result?.media_container?.game?.game_name : ''}`;
+                        viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').title = ` Стримит ${out.result?.media_container?.game?.game_name? out.result?.media_container?.game?.game_name : ''}`;
+                        // stream_total_viewers
+                        viewerCard.querySelector('div.tw-stat__value.viewers').textContent = out.result?.media_container?.media_container_streams[0]?.stream_total_viewers;
+                        viewerCard.querySelector('.viewers-title').title = `Всего зрителей за стрим ${out.result?.media_container?.media_container_streams[0]?.stream_total_viewers}`;
+                        // game_id url
+                        viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').href = `games/${out.result?.media_container?.game?.game_id}`;
+                      } else {
+                        // channel_description
+                        let message = out.result?.channel?.channel_description;
+                        if (out.result?.channel?.channel_description) {
+                          viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').innerHTML = HelperWASD.textToURL(message);
+                          viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').title = out.result?.channel?.channel_description;
+                        }
+
+                        // viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').innerHTML = out.result.channel.channel_description;
+                      }
+
+                      // followers_count
+                      viewerCard.querySelector('div.tw-stat__value.channal_followers_count').textContent = out.result?.channel?.followers_count;
+                      viewerCard.querySelector('.channal_followers_count-title').title = `${out.result?.channel?.followers_count} фолловеров`;
+
+                      $.ajax({
+                        url: `https://wasd.tv/api/v2/profiles/current`,
+                        success: function(out) {
+                          if (typeof out.result?.user_login !== "undefined")
+                            if (!(data.user_login.toLowerCase().trim() == out.result?.user_login?.toLowerCase().trim())) {
+                              let buttonfollow = document.querySelector('div.viewer-card > div.ovg.buttonsdiv > wasd-channel-favorite-btn > wasd-button > button')
+                              let ifollow = document.querySelector('div.viewer-card > div.ovg.buttonsdiv > wasd-channel-favorite-btn > wasd-button > button > i')
+                              let tooltipfollow = document.querySelector('wasd-channel-favorite-btn#selector-channel-favorite-btn-ovg > wasd-button > ovg-tooltip > div.tooltip > div.tooltip-content')
+                              if (buttonfollow) {
+                                buttonfollow.classList.remove('disabled');
+                                if (databroadcasts.result?.channel?.is_user_follower) {
+                                  buttonfollow.classList.add('basic'); // add class to unfollow
+                                  buttonfollow.classList.remove('primary');
+
+                                  ifollow.classList.remove('wasd-icons-like');
+                                  ifollow.classList.add('wasd-icons-favorite');
+
+                                  tooltipfollow.textContent = ' В избранном ';
+                                } else {
+                                  buttonfollow.classList.add('primary'); // add class to follow
+                                  buttonfollow.classList.remove('basic');
+
+                                  ifollow.classList.remove('wasd-icons-favorite');
+                                  ifollow.classList.add('wasd-icons-like');
+
+                                  tooltipfollow.textContent = ' Добавить в избранное ';
+                                }
+                              }
+                            }
+
+                        }
+                      });
+                    }
+
+                    let buttonfollow = document.querySelector('div.viewer-card > div.ovg.buttonsdiv > wasd-channel-favorite-btn > wasd-button > button')
+                    let ifollow = document.querySelector('div.viewer-card > div.ovg.buttonsdiv > wasd-channel-favorite-btn > wasd-button > button > i')
+                    let tooltipfollow = document.querySelector('wasd-channel-favorite-btn#selector-channel-favorite-btn-ovg > wasd-button > ovg-tooltip > div.tooltip > div.tooltip-content')
+
+                    buttonfollow?.addEventListener('click', () => {
+
+                      if (!buttonfollow.classList.contains('disabled')) {
+
+                        $.ajax({
+                          url: `https://wasd.tv/api/v2/broadcasts/public?channel_id=${out.result.user_profile.channel_id}`,
+                          success: function(out) {
+                            if (!out.result.channel.is_user_follower) {
+                              // follow
+
+                              $.ajax({
+                                method: 'PUT',
+                                url: `https://wasd.tv/api/channels/${data.channel_id}/followers/`,
+                                success: function(out) {
+                                  if (buttonfollow) {
+                                    buttonfollow.classList.add('basic'); // add class to unfollow
+                                    buttonfollow.classList.remove('primary');
+                                    buttonfollow.classList.remove('disabled');
+
+                                    ifollow.classList.remove('wasd-icons-like');
+
+                                    ifollow.classList.add('wasd-icons-favorite');
+                                    tooltipfollow.textContent = ' В избранном ';
+                                  }
+                                }
+                              });
+
+                            } else {
+                              // un follow
+
+                              $.ajax({
+                                method: 'DELETE',
+                                url: `https://wasd.tv/api/channels/${data.channel_id}/followers/`,
+                                success: function(out) {
+                                  if (buttonfollow) {
+                                    buttonfollow.classList.add('primary'); // add class to follow
+                                    buttonfollow.classList.remove('basic');
+                                    buttonfollow.classList.remove('disabled');
+
+                                    ifollow.classList.remove('wasd-icons-favorite');
+                                    ifollow.classList.add('wasd-icons-like');
+
+                                    tooltipfollow.textContent = ' Добавить в избранное ';
+                                  }
+                                }
+                              });
+
+                            }
+                          }
+                        });
+
+                      }
+                    });
+                  }
+                });
+
               }
             }
           });
@@ -1073,7 +1076,7 @@ const HelperWASD = {
       if (message.getAttribute('username') == username.trim().split('@').join('')) {
         message.remove()
       } else if (settings.wasd.removeMentionBL) {
-        for (let msg of message.querySelectorAll(`.chat-message-mention[username="@${username.trim().split('@').join('')}"]`)) {
+        for (let msg of message.querySelectorAll(`.chat-message-mention[username="@${username.trim().split('@').join('').toLowerCase()}"]`)) {
           msg.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove()
         }
       }
@@ -1193,27 +1196,36 @@ const HelperWASD = {
     // ищем цвет по ласт сообщениям тк у api есть задержка
     let color = '';
     if (settings.wasd.colorAtTheMention) {
-      allNames = document.querySelectorAll('div.info__text__status__name');
-      allMentions = document.querySelectorAll('.chat-message-mention');
-      for (let element of allNames) {
-        if (element.getAttribute('username')) {
-          if (channel_name.split('@').join('').toLowerCase().trim() == element.getAttribute('username').toLowerCase().trim()) {
-            color = element.style.color;
-            break;
-          }
-        }
-      }
-      if (color != '') {
-        for (let element of allMentions) {
-          if (element.getAttribute('username')) {
-            if (channel_name.split('@').join('').toLowerCase().trim() == element.getAttribute('username').split('@').join('').toLowerCase().trim()) {
-              color = element.style.color;
-              break;
-            }
-          }
 
-        }
+      let u = document.querySelector(`.info__text__status__name[username="${channel_name.trim().toLowerCase().split('@').join('')}"]`)
+      if (u) color = u.style.color;
+      if (color != '') {
+        let m = document.querySelector(`.chat-message-mention[username="${channel_name.trim().toLowerCase()}"]`)
+        if (m) color = m.style.color;
       }
+
+
+      // allNames = document.querySelectorAll('div.info__text__status__name');
+      // allMentions = document.querySelectorAll('.chat-message-mention');
+      // for (let element of allNames) {
+      //   if (element.getAttribute('username')) {
+      //     if (channel_name.split('@').join('').toLowerCase().trim() == element.getAttribute('username').toLowerCase().trim()) {
+      //       color = element.style.color;
+      //       break;
+      //     }
+      //   }
+      // }
+      // if (color != '') {
+      //   for (let element of allMentions) {
+      //     if (element.getAttribute('username')) {
+      //       if (channel_name.split('@').join('').toLowerCase().trim() == element.getAttribute('username').split('@').join('').toLowerCase().trim()) {
+      //         color = element.style.color;
+      //         break;
+      //       }
+      //     }
+
+      //   }
+      // }
     } else {
       color = 'inherit'
     }

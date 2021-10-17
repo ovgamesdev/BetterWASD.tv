@@ -629,7 +629,7 @@ const wasd = {
 
       nicknamediv = node.querySelector('.info__text__status__name');
       if (nicknamediv) {
-        nicknamediv.setAttribute('username', nicknamediv.textContent.trim());
+        nicknamediv.setAttribute('username', nicknamediv.textContent.trim().toLowerCase());
 
         if (settings.wasd.userNameEdited[nicknamediv.textContent.trim()]) {
           nicknamediv.textContent = ` ${settings.wasd.userNameEdited[nicknamediv.textContent.trim()]} `
@@ -650,7 +650,7 @@ const wasd = {
             if (!username) {
               username = $1.trim().split('@').join('')
             }
-            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention' username="${$1}">@${username.trim()}</span>`;
+            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention' username="${$1.toLowerCase()}">@${username.trim()}</span>`;
           });
           node.querySelectorAll('.chat-message-mention').forEach(element => {
             HelperWASD.usercolorapi(element);
@@ -669,7 +669,7 @@ const wasd = {
             if (!username) {
               username = $1.trim().split('@').join('')
             }
-            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
+            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1.toLowerCase()}">@${username.trim()}</span>`;
           });
           node.querySelectorAll('.chat-message-mention.click').forEach(element => {
             HelperWASD.usercolorapi(element);
@@ -690,7 +690,7 @@ const wasd = {
             if (!username) {
               username = $1.trim().split('@').join('')
             }
-            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}">@${username.trim()}</span>`;
+            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1.toLowerCase()}">@${username.trim()}</span>`;
           });
           node.querySelectorAll('.chat-message-mention.click').forEach(element => {
             HelperWASD.usercolorapi(element);

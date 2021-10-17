@@ -148,7 +148,7 @@
     color: rgb(var(--color-switch))
 }
 
-.bell[_ngcontent-ljm-c288] .bell-info__link[_ngcontent-ljm-c288]>span[_ngcontent-ljm-c288] {
+.bell[_ngcontent-ljm-c288] .bell-info__link[_ngcontent-ljm-c288]>a[_ngcontent-ljm-c288] {
     cursor: pointer;
     font-size: 16px;
     line-height: 22px;

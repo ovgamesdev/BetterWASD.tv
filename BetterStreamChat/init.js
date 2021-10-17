@@ -805,7 +805,10 @@ const BetterStreamChat = {
         <wasd-button class="ghost-btn ovg head-buttons">
         <ovg-bell _ngcontent-ljm-c266="" id="ovg_bell__element" _nghost-ljm-c288="">
           <div _ngcontent-ljm-c288="" wasdclickoutside="" class="bell">
-            <div _ngcontent-ljm-c288="" class="bell__icon-wrap"><i _ngcontent-ljm-c288="" class="bell__icon wasd-icons-bell"></i></div>
+            <button _ngcontent-ljm-c288="" class="basic medium-cube ovg bell_button">
+              <i _ngcontent-ljm-c288="" class="bell__icon wasd-icons-notice-fill"></i>
+              <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Информация </div></div></ovg-tooltip>
+            </button>
             <div _ngcontent-ljm-c288="" class="bell__info bell-info" hidden="" style="z-index: 5;">
               <div _ngcontent-ljm-c288="" class="bell-info__title"> Информация </div>
               <div _ngcontent-ljm-c288="" class="bell-info__hr"></div>
@@ -1838,20 +1841,26 @@ const BetterStreamChat = {
     })
 
     // bind Информация
+    let isOpenBell = false
 
-    // document.body.addEventListener('click', () => {
-    //   if (!bell__info.hasAttribute('hidden')) {
-    //     bell__info.setAttribute('hidden', '')
-    //     console.log('hide')
-    //   }
-    // })
-    let bell__info = ovg_bell__element.querySelector('.bell__info')
-    ovg_bell__element.querySelector('.bell__icon-wrap').addEventListener('click', () => {
-      if (bell__info.hasAttribute('hidden')) {
-        bell__info.removeAttribute('hidden')
-      } else {
+    document.body.addEventListener('click', () => {
+      if (isOpenBell) {
         bell__info.setAttribute('hidden', '')
+        console.log('hide')
+        isOpenBell = false
       }
+    })
+    let bell__info = ovg_bell__element.querySelector('.bell__info')
+    ovg_bell__element.querySelector('.bell_button').addEventListener('click', () => {
+      setTimeout(() => {
+        if (!isOpenBell) {
+          bell__info.removeAttribute('hidden')
+          isOpenBell = true
+        } else {
+          bell__info.setAttribute('hidden', '')
+          isOpenBell = false
+        }
+      }, 50)
     })
 
     // load bttv, ffz and 7tv emotes
@@ -1928,10 +1937,13 @@ const BetterStreamChat = {
 
           for(let info in data.info) {
 
-            let div = document.createElement('div')
+            let div = document.createElement('div'), linkhtml = ''
             div.setAttribute('_ngcontent-ljm-c288', '')
             div.classList.add('bell-info__elem')
-            div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${data.info[info].text} </div><div _ngcontent-ljm-c288="" class="bell-info__date"> ${data.info[info].date} </div>`
+            if (data.info[info].link) {
+              linkhtml = `<div _ngcontent-usc-c288="" class="bell-info__link"><a _ngcontent-usc-c288="" href="${link}"> Подробнее </a></div>`
+            }
+            div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${data.info[info].text} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${data.info[info].date} </div>`
 
             ovg_bell__element.querySelector('.bell-info__list').appendChild(div)
           }

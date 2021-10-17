@@ -22,7 +22,7 @@ const HelperSettings = {
         type: 'title'
       },
       messageFollower: {
-        title: 'Скрыть сообщение о фолловере.',
+        title: 'Скрыть сообщение о новом фолловере.',
         type: 'boolean'
       },
       messageSub: {
@@ -30,7 +30,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       messageSystem: {
-        title: 'Скрыть системные сообщения.',
+        title: `Скрыть системные сообщения. ${Helper.tooltip('(i)', `Добро пожаловать, бан пользователя и др.`)}`,
         type: 'boolean'
       },
       messageHover: {
@@ -702,11 +702,11 @@ const HelperSettings = {
         type: 'boolean'
       },
       mf: {
-        title: 'Скрыть сообщение о фолловере.',
+        title: 'Скрыть сообщение о новом фолловере.',
         type: 'boolean'
       },
       ms: {
-        title: 'Скрыть системные сообщения.',
+        title: `Скрыть системные сообщения. ${Helper.tooltip('(i)', `Добро пожаловать, бан пользователя и др.`)}`,
         type: 'boolean'
       },
       bes: {
@@ -860,11 +860,11 @@ const HelperSettings = {
             label: 'Затемнённое'
           },
           {
-            value: '3',
+            value: '2',
             label: 'Затемнённое, зачеркнутое'
           },
           {
-            value: '2',
+            value: '3',
             label: '[сообщение удалено], затемнённое'
           }
         ]
@@ -909,6 +909,56 @@ const HelperSettings = {
             label: 'Зачем??? (1 мин.)'
           }
         ]
+      },
+      sl: {
+        title: `Стиль ссылки.`,
+        type: 'select',
+        items: [{
+            value: '0',
+            label: 'По умолчанию'
+          },
+          {
+            value: '1',
+            label: '[ссылка удалена]'
+          }
+        ]
+      },
+      anim: {
+        title: `Анимация сообщения.`,
+        type: 'select',
+        items: [{
+            value: '0',
+            label: 'Нет'
+          },
+          {
+            value: '1',
+            label: 'fadeInRight and fadeOut '
+          }
+        ]
+      },
+      nma: {
+        title: `Скрыть сообщение после. (ms) ${Helper.tooltip('(i)', '0 - Всегда показывать сообщения')}`,
+        type: 'number'
+      },
+      mtc: {
+        title: 'Цвет текста.',
+        type: 'color',
+      },
+      sbo: {
+        title: `Показать значки создателя`,
+        type: 'boolean'
+      },
+      sbm: {
+        title: `Показать значки модератора`,
+        type: 'boolean'
+      },
+      sbs: {
+        title: `Показать значки подписчика`,
+        type: 'boolean'
+      },
+      sba: {
+        title: `Показать значки администратора`,
+        type: 'boolean'
       },
 
       bttv: {
