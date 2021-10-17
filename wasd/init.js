@@ -2,10 +2,12 @@ const wasd = {
   style: null,
   isObserverEndBind: false,
   isObserverEndBindBody: false,
+  badges: {},
   init() {
     ovg.log("init");
     var observer;
     const chatQuerySelector = 'wasd-chat';
+    HelperWASD.loadBadges()
     const init = (documentElement, target) => {
       if (target !== null) {
         this.document = documentElement;
@@ -1372,6 +1374,11 @@ const wasd = {
 
       if (document.visibilityState != "visible" && isobserver && settings.wasd.notifyOnMention && node.querySelector('.has-mention')) {
         Helper.notify(`Вас упоминул ${node.getAttribute('username')}`, node.getAttribute('message'), node.getAttribute('username'))
+      }
+
+      let badge = HelperWASD.badges[node.getAttribute('username')]
+      if (badge && badge.user_role == 'DEV') {
+        node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", `<div ovg="" class="info__text__status-dev" style="background-color: ${HelperWASD.userColors[badge.user_id % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-dev"></i></div>`) 
       }
 
     }

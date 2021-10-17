@@ -215,7 +215,7 @@ const HelperFFZ = {
         if (typeof ffzUsers[userID] !== 'undefined') return Promise.reject('Пользователь уже в списке');
         return HelperFFZ.updateUserChannelEmotes(userID, data[0].display_name);
       } else {
-        return Promise.reject('Пользователь Twitch не найден');
+        return Promise.reject(`Пользователь Twitch не найден: ${username}`);
       }
     }).then(() => {
       return HelperFFZ.update();

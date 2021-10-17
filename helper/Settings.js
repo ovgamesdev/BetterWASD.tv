@@ -962,15 +962,15 @@ const HelperSettings = {
       },
 
       bttv: {
-        title: `BTTV эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)}`,
+        title: `BTTV эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoBTTV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
         type: 'text'
       },
       ffz: {
-        title: `FFZ эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)}`,
+        title: `FFZ эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoFFZ" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
         type: 'text'
       },
       tv7: {
-        title: `7TV эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)}`,
+        title: `7TV эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="auto7TV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
         type: 'text'
       }
     }

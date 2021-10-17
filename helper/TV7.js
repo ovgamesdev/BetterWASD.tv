@@ -215,7 +215,7 @@ const HelperTV7 = {
         if (typeof tv7Users[userID] !== 'undefined') return Promise.reject('Пользователь уже в списке');
         return HelperTV7.updateUserChannelEmotes(userID, data[0].display_name);
       } else {
-        return Promise.reject('Пользователь Twitch не найден');
+        return Promise.reject(`Пользователь Twitch не найден: ${username}`);
       }
     }).then(() => {
       return HelperTV7.update();

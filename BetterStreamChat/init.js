@@ -1842,11 +1842,9 @@ const BetterStreamChat = {
 
     // bind Информация
     let isOpenBell = false
-
     document.body.addEventListener('click', () => {
       if (isOpenBell) {
         bell__info.setAttribute('hidden', '')
-        console.log('hide')
         isOpenBell = false
       }
     })
@@ -1861,6 +1859,39 @@ const BetterStreamChat = {
           isOpenBell = false
         }
       }, 50)
+    })
+
+    // auto bttv, ffz and 7tv 
+
+    autoBTTV.addEventListener('click', () => {
+      let input = settingsDiv.querySelector('[data-name="obschat_bttv"]')
+      input.value = ''
+      chrome.storage.local.get((items) => {
+        for (let id in items.bttvUsers) {
+          if (items.bttvUsers[id].username) input.value += items.bttvUsers[id].username+';'
+        }
+        HelperSettings.save([input])
+      })
+    })
+    autoFFZ.addEventListener('click', () => {
+      let input = settingsDiv.querySelector('[data-name="obschat_ffz"]')
+      input.value = ''
+      chrome.storage.local.get((items) => {
+        for (let id in items.ffzUsers) {
+          if (items.ffzUsers[id].username) input.value += items.ffzUsers[id].username+';'
+        }
+        HelperSettings.save([input])
+      })
+    })
+    auto7TV.addEventListener('click', () => {
+      let input = settingsDiv.querySelector('[data-name="obschat_tv7"]')
+      input.value = ''
+      chrome.storage.local.get((items) => {
+        for (let id in items.tv7Users) {
+          if (items.tv7Users[id].username) input.value += items.tv7Users[id].username+';'
+        }
+        HelperSettings.save([input])
+      })
     })
 
     // load bttv, ffz and 7tv emotes
@@ -1927,7 +1958,7 @@ const BetterStreamChat = {
     }
 
     $.ajax({
-      url: `https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/info.json`,
+      url: `https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/main/info.json`,
       success: function(out) {
         out = JSON.parse(out)
         let data = out[BetterStreamChat.changelog.version]
