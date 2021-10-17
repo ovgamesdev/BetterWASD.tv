@@ -1941,7 +1941,7 @@ const BetterStreamChat = {
             div.setAttribute('_ngcontent-ljm-c288', '')
             div.classList.add('bell-info__elem')
             if (data.info[info].link) {
-              linkhtml = `<div _ngcontent-usc-c288="" class="bell-info__link"><a _ngcontent-usc-c288="" href="${link}"> Подробнее </a></div>`
+              linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${data.info[info].link}"> Подробнее </a></div>`
             }
             div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${data.info[info].text} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${data.info[info].date} </div>`
 
