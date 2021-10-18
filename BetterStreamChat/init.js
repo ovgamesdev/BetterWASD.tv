@@ -13,6 +13,23 @@ const BetterStreamChat = {
       removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
     };
     let changelogList = [{
+      version: '1.3.7',
+      date: '2021-10-18',
+      items: [{
+        text: [
+          `Чат для OBS - Показать значки...`,
+          `Чат для OBS - Стиль ссылки.`,
+          `BetterWASD значки.`
+        ],
+        label: 'added'
+      }, {
+        text: [
+          `Карточка пользователя.`,
+          `Отображать упоминания пользователей в чата с их цветом никнейма.`
+        ],
+        label: 'optimized'
+      }]
+    }, {
       version: '1.3.6',
       date: '2021-10-15',
       items: [{
