@@ -32,6 +32,7 @@ const wasd = {
               if (mutationtarget) {
                 observer.observe(mutationtarget, config);
                 ovg.log("start observer (CHAT)");
+                socket.initChat()
                 document.querySelector('#bscSettingsPanel .update > i').classList.remove('resetPlayerLoading');
                 HelperWASD.getIsModerator().then((resolve) => {
                   HelperWASD.isModerator = resolve
@@ -50,6 +51,7 @@ const wasd = {
                 //         HelperSocket.stop()
                 //         clearInterval(intervalUpdateStreamTimer);
                 //         ovg.log("disconnect observer (CHAT) leave");
+                //         socket.stop(1000, 'DISCONNECT_OBSERVER')
                 //         HelperWASD.isModerator = false
                 //         if (document.querySelector('.chat-container__wrap')) document.querySelector('.chat-container__wrap').remove()
                 //         if (document.querySelector('wasd-stream-chat')) document.querySelector('wasd-stream-chat').remove()
@@ -67,6 +69,7 @@ const wasd = {
                     //HelperSocket.stop()
                     clearInterval(intervalUpdateStreamTimer);
                     ovg.log("disconnect observer (CHAT) [4 Канал]");
+                    socket.stop(1000, 'DISCONNECT_OBSERVER')
                     HelperWASD.isModerator = false
                     if (document.querySelector('.chat-container__wrap')) document.querySelector('.chat-container__wrap').remove()
                     if (document.querySelector('wasd-stream-chat')) document.querySelector('wasd-stream-chat').remove()
@@ -85,6 +88,7 @@ const wasd = {
                     //HelperSocket.stop()
                     clearInterval(intervalUpdateStreamTimer);
                     ovg.log("disconnect observer (CHAT) [3 Начать стрим]");
+                    socket.stop(1000, 'DISCONNECT_OBSERVER')
                     HelperWASD.isModerator = false
                     if (document.querySelector('.chat-container__wrap')) document.querySelector('.chat-container__wrap').remove()
                     if (document.querySelector('wasd-stream-chat')) document.querySelector('wasd-stream-chat').remove()
@@ -116,6 +120,7 @@ const wasd = {
                       //HelperSocket.stop()
                       clearInterval(intervalUpdateStreamTimer);
                       ovg.log("disconnect observer (CHAT) [2 чат/участники]");
+                      socket.stop(1000, 'DISCONNECT_OBSERVER')
                       HelperWASD.isModerator = false
                       setTimeout(startObserver, 200)
                     });
@@ -131,6 +136,7 @@ const wasd = {
                           //HelperSocket.stop()
                           clearInterval(intervalUpdateStreamTimer);
                           ovg.log("disconnect observer (CHAT) [1]");
+                          socket.stop(1000, 'DISCONNECT_OBSERVER')
                           HelperWASD.isModerator = false
                           setTimeout(startObserver, 200)
                         }

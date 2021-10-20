@@ -13,6 +13,21 @@ const BetterStreamChat = {
       removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
     };
     let changelogList = [{
+      version: '1.3.8',
+      date: '2021-10-21',
+      items: [{
+        text: [
+          `WebSocket`
+        ],
+        label: 'added'
+      }, {
+        text: [
+          `Карточка пользователя.`,
+          `Отображать упоминания пользователей в чата с их цветом никнейма.`
+        ],
+        label: 'optimized'
+      }]
+    }, {
       version: '1.3.7',
       date: '2021-10-18',
       items: [{
