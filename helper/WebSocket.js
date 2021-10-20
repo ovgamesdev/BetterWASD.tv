@@ -37,22 +37,22 @@ const socket = {
           socket.isLiveInited = true
           channel_name = socket.current.channel.channel_owner.user_login
           socket.start(channel_name)
-          console.log('chat inited to channel')
+          ovg.log('chat inited to channel')
         } else if (socket.isLiveInited && !out.result.channel.channel_is_live) {
           socket.isLiveInited = false
           socket.stop(1000, 'LIVE_CLOSED')
-          console.log('chat not inited to channel') //-
+          ovg.log('chat not inited to channel') //-
         } else if (socket.isLiveInited && out.result.channel.channel_is_live) {
-          console.log('chat worked')
+          ovg.log('chat worked')
         } else {
-          console.log('chat not worked')
+          ovg.log('chat not worked')
         }
         setTimeout(() => {
           socket.initChat()
         }, 30000)
       },
       error: function(err) {
-        console.log('err', err)
+        ovg.log('err', err)
         setTimeout(() => {
           socket.initChat()
         }, 30000)
@@ -103,17 +103,28 @@ const socket = {
 
           }).then((out) => {
             if (out) {
+
               if (typeof out.media_container == "undefined") {
                 socket.streamId = out.media_container_streams[0].stream_id
               } else {
                 socket.streamId = out.media_container.media_container_streams[0].stream_id
               }
 
+          		$.ajax({
+	              url: `https://wasd.tv/api/chat/streams/${socket.streamId}/messages?limit=500&offset=0`,
+	              headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
+	              success: function(out) {
+	              	for (let date of out.result.reverse()) {
+	              		if (date.info) socket.addWebSocket_history(date.info.user_login, date.info.user_id, date.info.channel_id)
+                  }
+	              }
+            	})
+
 	            var data = `42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`;
 	            try {
 	              socket.socketd.send(data);
 	            } catch (err) {
-	              console.log('[catch]', err)
+	              ovg.log('[catch]', err)
 	            }
 	            socket.intervalcheck = setInterval(() => {
 	              if (socket.socketd) {
@@ -122,7 +133,7 @@ const socket = {
 	                } catch (err) {
 	                  clearInterval(socket.intervalcheck)
 	                  socket.socketd = null
-	                  console.log('[catch]', err)
+	                  ovg.log('[catch]', err)
 	                  // setTimeout(() => { socket.start() }, 10000)
 	                }
 	              }
@@ -140,11 +151,11 @@ const socket = {
       socket.socketd = null
       socket.isLiveInited = false
       if (e.code == 404) {
-        console.log(`[close] Соединение закрыто чисто, код= ${e.code} причина= ${e.reason}`);
+        ovg.log(`[close] Соединение закрыто чисто, код= ${e.code} причина= ${e.reason}`);
       } else if (e.wasClean) {
-        console.log(`[close] Соединение закрыто чисто, код= ${e.code} причина= ${e.reason}`);
+        ovg.log(`[close] Соединение закрыто чисто, код= ${e.code} причина= ${e.reason}`);
       } else {
-        console.log('[close] Соединение прервано', "код= " + e.code);
+        ovg.log('[close] Соединение прервано', "код= " + e.code);
       }
     };
 
@@ -226,7 +237,7 @@ const socket = {
     this.socketd.onerror = function(error) {
       clearInterval(socket.intervalcheck)
       socket.socketd = null
-      console.log(`[error]`, error);
+      ovg.log(`[error]`, error);
     };
   },
   stop(code, reason) {
