@@ -880,9 +880,9 @@ const BetterStreamChat = {
             <a role="tab" class="item" data-tab="about">О нас</a>
             <a role="tab" class="item" data-tab="general">Общий</a>
             <a role="tab" class="item active" data-tab="wasdSettings">Настройки</a>
+            <a role="tab" class="item" data-tab="tv7Settings">7TV</a>
             <a role="tab" class="item" data-tab="bttvSettings">BTTV</a>
             <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
-            <a role="tab" class="item" data-tab="tv7Settings">7TV</a>
             <a role="tab" class="item" data-tab="filtration">Фильтрация</a>
             <a role="tab" class="item" data-tab="obschat">Чат для OBS (beta)</a>
             <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
@@ -1886,6 +1886,13 @@ const BetterStreamChat = {
         if (!isOpenBell) {
           bell__info.removeAttribute('hidden')
           isOpenBell = true
+          
+          // let bwasd_noitfyreaded = ''
+          // for (let e of document.querySelectorAll('.bell-info__elem.ovg')) {
+          //   bwasd_noitfyreaded += e.getAttribute('bell_id') + ';'
+          // }
+          // Cookies.set('bwasd_noitfyreaded', bwasd_noitfyreaded)
+
         } else {
           bell__info.setAttribute('hidden', '')
           isOpenBell = false
@@ -2003,6 +2010,8 @@ const BetterStreamChat = {
             let div = document.createElement('div'), linkhtml = ''
             div.setAttribute('_ngcontent-ljm-c288', '')
             div.classList.add('bell-info__elem')
+            div.classList.add('ovg')
+            div.setAttribute('bell_id', data.info[info].id)
             if (data.info[info].link) {
               linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${data.info[info].link}"> Подробнее </a></div>`
             }
@@ -2010,6 +2019,10 @@ const BetterStreamChat = {
 
             ovg_bell__element.querySelector('.bell-info__list').appendChild(div)
           }
+
+          // for (let d of Cookies.get('bwasd_noitfyreaded').split(';')) {
+          //   document.querySelector(`.bell-info__elem[bell_id="${d}"]`)
+          // }
 
         }
       }

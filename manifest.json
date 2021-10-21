@@ -20,6 +20,7 @@
       "lib/strip-combining-marks/strip-combining-marks.js",
       "lib/betterwasd.js",
       "lib/coloris/coloris.min.js",
+      "lib/cookie/js.cookie.min.js",
       "helper/Helper.js",
       "helper/Settings.js",
       "helper/Twitch.js",

@@ -646,9 +646,9 @@ const wasd = {
 
       let messageText = node.querySelector('.message-text > span');
       if (messageText) {
+        if (settings.wasd.tv7Emotes) messageText.innerHTML = HelperTV7.replaceText(messageText.innerHTML);
         if (settings.wasd.bttvEmotes) messageText.innerHTML = HelperBTTV.replaceText(messageText.innerHTML)
         if (settings.wasd.ffzEmotes) messageText.innerHTML = HelperFFZ.replaceText(messageText.innerHTML);
-        if (settings.wasd.tv7Emotes) messageText.innerHTML = HelperTV7.replaceText(messageText.innerHTML);
 
         let bl = ' ';
 

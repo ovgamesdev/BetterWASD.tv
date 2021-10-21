@@ -69,35 +69,16 @@ const socket = {
         success: function(out) {
           socket.jwt = out.result
           new Promise((resolve, reject) => {
-            socket.stream_url = `https://wasd.tv/api/v2/broadcasts/public?channel_name=${channel_name}`
+            socket.stream_url = HelperWASD.getStreamBroadcastsUrl()
             $.ajax({
-              url: `https://wasd.tv/api/v2/broadcasts/public?channel_name=${channel_name}`,
+              url: HelperWASD.getStreamBroadcastsUrl(),
               headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
               success: function(out) {
 
                 socket.channelId = out.result.channel.channel_id
 
-
-                $.ajax({
-                  url: `https://wasd.tv/api/v2/media-containers?limit=1&offset=0&media_container_status=RUNNING&channel_id=${out.result.channel.channel_id}`,
-                  headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-                  success: function(out) {
-                    if (out.result[0] && out.result[0].media_container_streams[0]) {
-                      resolve(out.result[0])
-                    } else {
-
-                      $.ajax({
-                        url: `https://wasd.tv/api/v2/media-containers?limit=1&offset=0&media_container_status=RUNNING&channel_id=${out.result.channel.channel_id}`,
-                        headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-                        success: function(out) {
-                          resolve(out.result)
-                        }
-                      });
-
-                    }
-                  }
-                });
-
+                resolve(out.result)
+                
               }
             });
 
@@ -242,12 +223,16 @@ const socket = {
   },
   stop(code, reason) {
     clearInterval(socket.intervalcheck)
-    this.socketd.close(code, reason)
-    this.socketd = null
-    this.streamId = 0
-    this.channelId = 0
-    this.current = null
-    this.stream_url = null
+    try {
+      this.socketd.close(code, reason)
+      this.socketd = null
+      this.streamId = 0
+      this.channelId = 0
+      this.current = null
+      this.stream_url = null
+    } catch (err) {
+      ovg.log('err', err)
+    }
   },
   hash(length) {
     var result = '';
