@@ -181,6 +181,7 @@ const socket = {
               break;
             case "event":
               // console.log(`[${JSData[0]}] ${JSData[1].event_type} - ${JSData[1].payload.user_login} ${JSData[1].message}`, JSData);
+              if (JSData[1].event_type == "NEW_FOLLOWER") socket.addWebSocket_history(JSData[1].payload.user_login, JSData[1].payload.user_id, JSData[1].payload.channel_id)
               break;
             case "giftsV1":
               // console.log(`[${JSData[0]}] ${JSData[1].gift_name}`, JSData);

@@ -2003,7 +2003,6 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
   background: var(--wasd-color-bg-prime);
   max-height: 0;
   transition: max-height 0.2s ease-out;
-  cursor: n-resize;
 }
 .block-ovg::-webkit-scrollbar-track {
   background-color: rgba(var(--wasd-color-switch--rgb), .08);
@@ -3071,4 +3070,9 @@ main.active[data-tab="obschat"] ~ iframe.obschat {
   margin-left: 0;
   margin-right: 0;
   transform: rotate(180deg) translateX(-0.5px);
+}
+
+/* message system  */
+.block__item {
+  margin-right: 8px !important;
 }
