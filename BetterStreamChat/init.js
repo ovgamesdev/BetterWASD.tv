@@ -13,11 +13,37 @@ const BetterStreamChat = {
       removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
     };
     let changelogList = [{
+      version: '1.3.9',
+      date: '2021-10-24',
+      items: [{
+        text: [
+          `Закрытая трансляция - Карточка пользователя - Последние сообщения.`,
+          `Карточка пользователя - Добавить в избранное.`,
+          `Выделять сообщения пользователей с открытыми карточками.`,
+          `Отображать строки с меняющимися цветами фона.`
+        ],
+        label: 'fixed'
+      }, {
+        text: [
+          `WebSocket.`,
+          `Чат для OBS - Фильтрация.`
+        ],
+        label: 'added'
+      }, {
+        text: [
+          `WebSocket.`,
+          `BetterWASD значки.`,
+          `7TV приоритет.`,
+          `Карточка пользователя - Переименовать пользователя.`
+        ],
+        label: 'optimized'
+      }]
+    }, {
       version: '1.3.8',
       date: '2021-10-21',
       items: [{
         text: [
-          `WebSocket`
+          `WebSocket.`
         ],
         label: 'added'
       }, {
@@ -1061,6 +1087,147 @@ const BetterStreamChat = {
       <main data-tab="obschat">
         <h1 style="padding: 20px 10px 5px 10px;"> Чат для OBS с эмоциями </h1>
         ${HelperSettings.build('obschat')}
+
+        <div class="obs_blacklist" style="padding-left: 10px;padding-right: 10px;">
+          <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Пользователи </h3>
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper">
+              <div ovg="" class="wasd-input">
+                <label ovg=""></label>
+                <input id="obs_blacklistAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить пользователя " type="text">
+                <button id="obs_blacklistAddUserBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+              </div>
+            </div>
+          </wasd-input>
+
+          <table class="table-ovg user">
+            <thead class="thead-ovg">
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Имя пользователя</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Время добавления</div>
+              </th>
+              <th class="table-heading-ovg remove">
+                <div class="table-heading-text-ovg">Действия</div>
+              </th>
+            </thead>
+            <tbody class="ovg-items">
+            </tbody>
+          </table>
+
+
+          <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Термины </h3>
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper">
+              <div ovg="" class="wasd-input">
+                <label ovg=""></label>
+                <input id="obs_blacklistAddTerm" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить термин " type="text">
+                <button id="obs_blacklistAddTermBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+              </div>
+            </div>
+          </wasd-input>
+
+          <table class="table-ovg term">
+            <thead class="thead-ovg">
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Термин</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Время добавления</div>
+              </th>
+              <th class="table-heading-ovg remove">
+                <div class="table-heading-text-ovg">Действия</div>
+              </th>
+            </thead>
+            <tbody class="ovg-items">
+            </tbody>
+          </table>
+        </div>
+
+        <div class="obs_highlight" style="padding-left: 10px;padding-right: 10px;">
+          <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Пользователи </h3>
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper">
+              <div ovg="" class="wasd-input">
+                <label ovg=""></label>
+                <input id="obs_highlightAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить пользователя " type="text">
+                <button id="obs_highlightAddUserBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+                <div class="clr-field" style="color: #00000000;">
+                  <button aria-labelledby="clr-open-label"></button>
+                  <input id="obs_highlightAddUserColor" type="text" value="#00000000" data-coloris>
+                </div>
+              </div>
+            </div>
+          </wasd-input>
+
+          <table class="table-ovg user">
+            <thead class="thead-ovg">
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Имя пользователя</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Время добавления</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Цвет</div>
+              </th>
+              <th class="table-heading-ovg remove">
+                <div class="table-heading-text-ovg">Действия</div>
+              </th>
+            </thead>
+            <tbody class="ovg-items">
+            </tbody>
+          </table>
+
+
+          <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Термины </h3>
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper">
+              <div ovg="" class="wasd-input">
+                <label ovg=""></label>
+                <input id="obs_highlightAddTerm" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить термин " type="text">
+                <button id="obs_highlightAddTermBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+                <div class="clr-field" style="color: #00000000;">
+                  <button aria-labelledby="clr-open-label"></button>
+                  <input id="obs_highlightAddTermColor" type="text" value="#00000000" data-coloris>
+                </div>
+              </div>
+            </div>
+          </wasd-input>
+
+          <table class="table-ovg term">
+            <thead class="thead-ovg">
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Термин</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Время добавления</div>
+              </th>
+              <th class="table-heading-ovg">
+                <div class="table-heading-text-ovg">Цвет</div>
+              </th>
+              <th class="table-heading-ovg remove">
+                <div class="table-heading-text-ovg">Действия</div>
+              </th>
+            </thead>
+            <tbody class="ovg-items">
+            </tbody>
+          </table>
+          <!--h3 style="padding: 0 10px 5px 10px;"> Выделение - Роль пользователя </h3>
+          <div style="margin-left: -10px; width: calc(100% + 20px);">
+            ${HelperSettings.build('highlightRole')}
+          </div-->
+        </div>
+
         <p style="padding: 20px 10px 5px 10px;">Если вы обновите ссылку на закрытую трансляцию, то чат в доступе по ссылке перестанет работать! </p>
       </main>
       <iframe src="" class="obschat"></iframe>
@@ -1294,7 +1461,6 @@ const BetterStreamChat = {
       HelperWASD.addUserToBL(text)
     });
 
-
     blacklistAddTermBtn.addEventListener('click', () => {
       text = blacklistAddTerm.value
       if (text != '') HelperWASD.addTermToBL(text)
@@ -1304,7 +1470,6 @@ const BetterStreamChat = {
       text = blacklistAddTerm.value
       HelperWASD.addTermToBL(text)
     });
-
 
     highlightAddUserBtn.addEventListener('click', () => {
       text = highlightAddUser.value
@@ -1316,7 +1481,6 @@ const BetterStreamChat = {
       HelperWASD.addUserToHL(text)
     });
 
-
     highlightAddTermBtn.addEventListener('click', () => {
       text = highlightAddTerm.value
       if (text != '') HelperWASD.addTermToHL(text)
@@ -1326,7 +1490,6 @@ const BetterStreamChat = {
       text = highlightAddTerm.value
       HelperWASD.addTermToHL(text)
     });
-
 
     for (let user of Object.keys(settings.list.blockUserList)) {
       HelperWASD.addUserToBlackList(user)
@@ -1339,6 +1502,61 @@ const BetterStreamChat = {
     }
     for (let term of Object.keys(settings.list.highlightTermList)) {
       HelperWASD.addTermToHighLight(term)
+    }
+
+
+    // obs filtration events
+    obs_blacklistAddUserBtn.addEventListener('click', () => {
+      text = obs_blacklistAddUser.value
+      if (text != '') HelperWASD.obs_addUserToBL(text)
+    });
+    obs_blacklistAddUser.addEventListener('keyup', (event) => {
+      if (event.key !== 'Enter') return;
+      text = obs_blacklistAddUser.value
+      HelperWASD.obs_addUserToBL(text)
+    });
+
+    obs_blacklistAddTermBtn.addEventListener('click', () => {
+      text = obs_blacklistAddTerm.value
+      if (text != '') HelperWASD.obs_addTermToBL(text)
+    });
+    obs_blacklistAddTerm.addEventListener('keyup', (event) => {
+      if (event.key !== 'Enter') return;
+      text = obs_blacklistAddTerm.value
+      HelperWASD.obs_addTermToBL(text)
+    });
+
+    obs_highlightAddUserBtn.addEventListener('click', () => {
+      text = obs_highlightAddUser.value
+      if (text != '') HelperWASD.obs_addUserToHL(text)
+    });
+    obs_highlightAddUser.addEventListener('keyup', (event) => {
+      if (event.key !== 'Enter') return;
+      text = obs_highlightAddUser.value
+      HelperWASD.obs_addUserToHL(text)
+    });
+
+    obs_highlightAddTermBtn.addEventListener('click', () => {
+      text = obs_highlightAddTerm.value
+      if (text != '') HelperWASD.obs_addTermToHL(text)
+    });
+    obs_highlightAddTerm.addEventListener('keyup', (event) => {
+      if (event.key !== 'Enter') return;
+      text = obs_highlightAddTerm.value
+      HelperWASD.obs_addTermToHL(text)
+    });
+
+    for (let user of Object.keys(settings.obschat.list.blockUserList)) {
+      HelperWASD.obs_addUserToBlackList(user)
+    }
+    for (let term of Object.keys(settings.obschat.list.blockTermList)) {
+      HelperWASD.obs_addTermToBlackList(term)
+    }
+    for (let user of Object.keys(settings.obschat.list.highlightUserList)) {
+      HelperWASD.obs_addUserToHighLight(user)
+    }
+    for (let term of Object.keys(settings.obschat.list.highlightTermList)) {
+      HelperWASD.obs_addTermToHighLight(term)
     }
 
 
@@ -1977,6 +2195,27 @@ const BetterStreamChat = {
       $('.highlight .term .ovg-items').empty();
       for (let term of Object.keys(settings.list.highlightTermList)) {
         HelperWASD.addTermToHighLight(term)
+      }
+
+
+      $('.obs_blacklist .user .ovg-items').empty();
+      for (let user of Object.keys(settings.obschat.list.blockUserList)) {
+        HelperWASD.obs_addUserToBlackList(user)
+      }
+
+      $('.obs_blacklist .term .ovg-items').empty();
+      for (let term of Object.keys(settings.obschat.list.blockTermList)) {
+        HelperWASD.obs_addTermToBlackList(term)
+      }
+
+      $('.obs_highlight .user .ovg-items').empty();
+      for (let user of Object.keys(settings.obschat.list.highlightUserList)) {
+        HelperWASD.obs_addUserToHighLight(user)
+      }
+
+      $('.obs_highlight .term .ovg-items').empty();
+      for (let term of Object.keys(settings.obschat.list.highlightTermList)) {
+        HelperWASD.obs_addTermToHighLight(term)
       }
     }
   },

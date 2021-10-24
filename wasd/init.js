@@ -395,7 +395,7 @@ const wasd = {
     }
 
     if (settings.wasd.alternatingColorChatMessages) {
-      cssCode += `div.block__messages__item:nth-child(2n+1) { background-color: ${settings.wasd.alternatingColorChatMessagesColor[1] != '#000000' ? settings.wasd.alternatingColorChatMessagesColor[1]+'!important' : 'var(--wasd-color-prime)!important' }; }`;
+      cssCode += `div.block__messages__item:nth-child(2n+1) { background-color: ${settings.wasd.alternatingColorChatMessagesColor != '#000000' ? settings.wasd.alternatingColorChatMessagesColor+'!important' : 'var(--wasd-color-prime)!important' }; }`;
     }
 
     if (settings.wasd.decorationLink) {
@@ -485,9 +485,9 @@ const wasd = {
     }
 
     for (let user in settings.list.blockUserList) {
-      cssCode += `.block__messages__item[username="${user}"], .block__messages__item-ovg[username="${user}"] {display: none!important;}`
+      cssCode += `.block__messages__item[usernamelc="${user.toLowerCase()}"], .block__messages__item-ovg[usernamelc="${user.toLowerCase()}"] {display: none!important;}`
       if (settings.wasd.removeMentionBL) {
-        cssCode += `.block__messages__item[mention*="${user}"], .block__messages__item-ovg[mention*="${user}"] {display: none!important;}`
+        cssCode += `.block__messages__item[mention*="${user.toLowerCase()}"], .block__messages__item-ovg[mention*="${user.toLowerCase()}"] {display: none!important;}`
       }
     }
 
@@ -598,6 +598,7 @@ const wasd = {
       }
 
       if (usernametext) node.setAttribute('username', usernametext)
+      if (usernametext) node.setAttribute('usernamelc', usernametext.toLowerCase())
 
       if (message) node.setAttribute('message', message)
 
@@ -637,10 +638,14 @@ const wasd = {
 
       nicknamediv = node.querySelector('.info__text__status__name');
       if (nicknamediv) {
-        nicknamediv.setAttribute('username', nicknamediv.textContent.trim().toLowerCase());
+        nicknamediv.setAttribute('username', nicknamediv.textContent.trim());
+        nicknamediv.setAttribute('usernamelc', nicknamediv.textContent.trim().toLowerCase());
 
         if (settings.wasd.userNameEdited[nicknamediv.textContent.trim()]) {
-          nicknamediv.textContent = ` ${settings.wasd.userNameEdited[nicknamediv.textContent.trim()]} `
+          nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
+            return ` ${settings.wasd.userNameEdited[$0.trim()]} `
+          })
+
         }
       }
 
@@ -658,11 +663,11 @@ const wasd = {
             if (!username) {
               username = $1.trim().split('@').join('')
             }
-            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention' username="${$1.toLowerCase()}">@${username.trim()}</span>`;
+            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention' username="${$1}" usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
           });
           node.querySelectorAll('.chat-message-mention').forEach(element => {
             HelperWASD.usercolorapi(element);
-            bl += element.getAttribute('username').split('@').join('') + ' '
+            bl += element.getAttribute('usernamelc').split('@').join('') + ' '
             element.addEventListener('click', ({
               target
             }) => {
@@ -677,11 +682,11 @@ const wasd = {
             if (!username) {
               username = $1.trim().split('@').join('')
             }
-            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1.toLowerCase()}">@${username.trim()}</span>`;
+            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}" usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
           });
           node.querySelectorAll('.chat-message-mention.click').forEach(element => {
             HelperWASD.usercolorapi(element);
-            bl += element.getAttribute('username').split('@').join('') + ' '
+            bl += element.getAttribute('usernamelc').split('@').join('') + ' '
             element.addEventListener('click', ({
               target
             }) => {
@@ -698,11 +703,11 @@ const wasd = {
             if (!username) {
               username = $1.trim().split('@').join('')
             }
-            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1.toLowerCase()}">@${username.trim()}</span>`;
+            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}" usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
           });
           node.querySelectorAll('.chat-message-mention.click').forEach(element => {
             HelperWASD.usercolorapi(element);
-            bl += element.getAttribute('username').split('@').join('') + ' '
+            bl += element.getAttribute('usernamelc').split('@').join('') + ' '
             element.addEventListener('click', ({
               target
             }) => {
@@ -1336,7 +1341,7 @@ const wasd = {
 
         if (settings.wasd.onClickMention.toString() === '0') {
 
-          mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
+          mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention' username="@${mentoinText.textContent.trim()}" usernamelc="${mentoinText.textContent.trim().toLowerCase()}">${mentoinusername}</span>`
           node.querySelectorAll('.chat-message-mention').forEach(element => {
             HelperWASD.usercolorapi(element);
             element.addEventListener('click', ({
@@ -1348,7 +1353,7 @@ const wasd = {
             });
           });
         } else if (settings.wasd.onClickMention.toString() === '1') {
-          mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
+          mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}" usernamelc="${mentoinText.textContent.trim().toLowerCase()}">${mentoinusername}</span>`
           node.querySelectorAll('.chat-message-mention.click').forEach(element => {
             HelperWASD.usercolorapi(element);
             element.addEventListener('click', ({
@@ -1362,7 +1367,7 @@ const wasd = {
             })
           });
         } else if (settings.wasd.onClickMention.toString() === '2') {
-          mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}">${mentoinusername}</span>`
+          mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}" usernamelc="${mentoinText.textContent.trim().toLowerCase()}">${mentoinusername}</span>`
           node.querySelectorAll('.chat-message-mention.click').forEach(element => {
             HelperWASD.usercolorapi(element);
             element.addEventListener('click', ({

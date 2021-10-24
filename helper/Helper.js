@@ -144,10 +144,21 @@ const Helper = {
         sbm: true,
         sbs: true,
         sba: true,
+        mentionSelf: true,
+        cms: "rgba(var(--wasd-color-switch--rgb),.08)",
 
         bttv: '',
         ffz: '',
         tv7: '',
+
+        list: {
+          blockUserList: {},
+          blockTermList: {},
+          highlightUserList: {},
+          highlightTermList: {},
+          blockRoleList: {}
+        },
+        rMBL: true,
       }
     };
   },

@@ -295,11 +295,11 @@ const HelperSettings = {
         type: 'color'
       },
       alternatingColorChatMessages: {
-        title: 'Отображать строки с меняющимеся цветами фона.',
+        title: 'Отображать строки с меняющимися цветами фона.',
         type: 'boolean'
       },
       alternatingColorChatMessagesColor: {
-        title: 'Цвет для опции "Отображать строки с меняющимеся цветами фона".',
+        title: 'Цвет для опции "Отображать строки с меняющимися цветами фона".',
         type: 'color'
       },
       onClickMention: {
@@ -400,7 +400,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       removeMentionBL: {
-        title: `Удалять сообщения упоминающие пользователей в Блокировка - Пользователи.`,
+        title: `Удалять сообщения упоминающие пользователей в Фильтрация - Блокировка - Пользователи.`,
         type: 'boolean'
       },
       formatMessageSentTime: {
@@ -960,7 +960,19 @@ const HelperSettings = {
         title: `Показать значки администратора`,
         type: 'boolean'
       },
+      mentionSelf: {
+        title: `Выделять сообщения, упоминающие вас.`,
+        type: 'boolean'
+      },
+      cms: {
+        title: 'Цвет сообщения, упоминающие вас.',
+        type: 'color'
+      },
 
+      obsemotes: {
+        title: 'Эмоции',
+        type: 'title'
+      },
       bttv: {
         title: `BTTV эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoBTTV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
         type: 'text'
@@ -972,7 +984,16 @@ const HelperSettings = {
       tv7: {
         title: `7TV эмоции. ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="auto7TV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
         type: 'text'
-      }
+      },
+
+      obsfiltration: {
+        title: 'Фильтрация',
+        type: 'title'
+      },
+      rMBL: {
+        title: `Удалять сообщения упоминающие пользователей в Фильтрация - Блокировка - Пользователи.`,
+        type: 'boolean'
+      },
     }
   },
   showMessage(message, type = 'success') {
