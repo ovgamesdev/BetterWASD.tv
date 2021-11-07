@@ -1452,7 +1452,7 @@ const wasd = {
           position: {
             my: "center bottom",
             at: "center top-5",
-            within: $('.chat-content')
+            within: $('wasd-chat')
           }
         });
       }

@@ -54,5 +54,5 @@
   ],
   "minimum_chrome_version": "41",
   "permissions": ["storage", "notifications", "*://*.wasd.tv/*"],
-  "version": "1.4.0"
+  "version": "1.4.0.1"
 }
