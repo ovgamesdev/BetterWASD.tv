@@ -25,8 +25,10 @@ const HelperWASD = {
 
       $( "#bscSettingsPanel" ).draggable({
         containment: "body",
+        handle: "header",
+        snap: ".player-wrapper",
         scroll: false,
-        cursor: "move",
+        grid: [2, 2],
         drag: function( event, ui ) {
           ui.position.left = Math.max( (bscSettingsPanel.clientWidth / 2), ui.position.left );
           ui.position.top = Math.max( (bscSettingsPanel.clientHeight / 2), ui.position.top );
@@ -347,7 +349,7 @@ const HelperWASD = {
 
     removeVC()
 
-    var usercard = `<div class="chat-room__viewer-card loading"><div class="tw-full-height tw-full-width tw-relative tw-z-above viewer-card-layer"><div style="top: ${y_card}px; left: ${x_card}px;" class="tw-border-radius-medium ovg-viewer-card"><div class="tw-full-height tw-full-width"><div class="tw-border-radius-medium tw-c-background-base viewer-card"><div style="" class="tw-c-background-accent-alt viewer-card-header__background" style=""><div class="tw-flex tw-flex-column tw-full-height tw-full-width viewer-card-header__overlay"><div class="tw-align-center tw-align-items-start tw-c-background-overlay tw-c-text-overlay tw-flex tw-flex-row tw-full-width tw-justify-content-start tw-relative viewer-card-header__banner"><div class="tw-inline-flex viewer-card-drag-cancel"><figure class="tw-avatar"><div class="profile-main__avatar" style=""></div></figure></div><div class="tw-align-left viewer-card-header__display-name"><div class="tw-inline-flex viewer-card-drag-cancel"><div class="tw-full-width tw-pd-r-5"><h4 class="tw-c-text-overlay tw-ellipsis tw-line-clamp-2 tw-word-break-all"><a class="tw-link" rel="noopener noreferrer" target="_blank" href=""></a><button class="bttv-moderator-card-nickname-change-button"><span class="buttonIcon"><svg width="16px" height="16px" version="1.1" viewBox="0 0 16 16" x="0px" y="0px" fill="white"><path clip-rule="evenodd" d="M6.414,12.414L3.586,9.586l8-8l2.828,2.828L6.414,12.414z M4.829,14H2l0,0v-2.828l0.586-0.586l2.828,2.828L4.829,14z" fill-rule="evenodd"></path></svg></span></button></h4></div></div><div class="tw-flex"><i _ngcontent-cel-c162="" class="wasd-icons-games ovg" style="font-size:20px;align-items:center;display:flex;justify-content:center"></i><a target="_blank" data-test-selector="viewer_card_game" class="tw-c-text-overlay tw-mg-l-05 tw-mg-t-auto gameurl"></a></div></div></div><div class="bttv-moderator-card-user-stats"><div class="tw-flex tw-full-width"><div style="" class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 viewers-title" title="Всего зрителей за стрим"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-cel-c162="" style="font-size:14px;height:14px;width:14px;align-items:center;display:flex;justify-content:center" class="wasd-icons-viewers-live"></i></div><div class="tw-stat__value viewers"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 channal_followers_count-title" title="Количество фолловеров канала"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-xul-c30="" class="wasd-icons-favorite"></i></div><div class="tw-stat__value channal_followers_count"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 channal_created_at-title" title="Канал создан"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><figure class="tw-svg"><svg class="tw-svg__asset tw-svg__asset--heart tw-svg__asset--inherit" width="16px" height="16px" viewBox="0 0 1792 1792" fill="white"><path d="M1792 1408v384h-1792v-384q45 0 85-14t59-27.5 47-37.5q30-27 51.5-38t56.5-11q24 0 44 7t31 15 33 27q29 25 47 38t58 27 86 14q45 0 85-14.5t58-27 48-37.5q21-19 32.5-27t31-15 43.5-7q35 0 56.5 11t51.5 38q28 24 47 37.5t59 27.5 85 14 85-14 59-27.5 47-37.5q30-27 51.5-38t56.5-11q34 0 55.5 11t51.5 38q28 24 47 37.5t59 27.5 85 14zm0-320v192q-24 0-44-7t-31-15-33-27q-29-25-47-38t-58-27-85-14q-46 0-86 14t-58 27-47 38q-22 19-33 27t-31 15-44 7q-35 0-56.5-11t-51.5-38q-29-25-47-38t-58-27-86-14q-45 0-85 14.5t-58 27-48 37.5q-21 19-32.5 27t-31 15-43.5 7q-35 0-56.5-11t-51.5-38q-28-24-47-37.5t-59-27.5-85-14q-46 0-86 14t-58 27-47 38q-30 27-51.5 38t-56.5 11v-192q0-80 56-136t136-56h64v-448h256v448h256v-448h256v448h256v-448h256v448h64q80 0 136 56t56 136zm-1280-864q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150zm512 0q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150zm512 0q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150z"></path></svg></figure></div><div class="tw-stat__value channal_created_at"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 profile_level-title" title="Уровень канала"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-ykf-c54="" style="font-size:14px;height:14px;width:14px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-lvl"></i></div><div class="tw-stat__value profile_level"></div></div></div></div></div></div><div class="ovg buttonsdiv"><wasd-channel-favorite-btn id="selector-channel-favorite-btn-ovg"><wasd-button class="stroked-btn ovg" wasdtooltip="" style="position: relative;display: inline-block;outline: none;"><button class="medium primary ovg disabled" type="button"><i class="wasd-icons-like ovg"></i> <span></span></button><ovg-tooltip><div class="ovg tooltip tooltip_position-right tooltip_size-small" style="width: 200px;"><div class="tooltip-content tooltip-content_left ovg"> Добавить в избранное </div></div></ovg-tooltip></wasd-button></wasd-channel-favorite-btn><div style="width:100%"></div><div class="item__links-ovg"></div></div><div class="tw-c-background-alt-2 tw-pd-t-05"><div class="paid_title-ovg" style="display:none"> Стикеры канала </div><div class="paidsubs-popup__stickers"></div></div><div class="user_last_messages-ovg"><button class="paid_title-ovg last_messages" style="display: block;padding-bottom: 10px;box-shadow: 0px 2px 2px -2px rgba(var(--wasd-color-switch--rgb),.32);z-index: 2;position: relative;"><div class="accordion-header-wrap-ovg"><span class="accordion-header-ovg"> Последние сообщения </span><div class="accordion-header-arrow-ovg"><i class="wasd-icons-dropdown-top"></i></div></div><div class="accordion-marker-ovg"></div></button><div class="block-ovg"><div class="block__messages-ovg"></div></div></div></div></div><div data-a-target="viewer-card-close-button" class="tw-absolute tw-mg-r-05 tw-mg-t-05 tw-right-0 tw-top-0"><div class="tw-inline-flex viewer-card-drag-cancel"><button class="tw-button-icon tw-button-icon--overlay tw-core-button" aria-label="Скрыть" data-test-selector="close-viewer-card"><i _ngcontent-ykf-c54="" style="font-size:13px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-close"></i></button></div></div></div></div></div>`;
+    var usercard = `<div class="chat-room__viewer-card loading"><div class="tw-full-height tw-full-width tw-relative tw-z-above viewer-card-layer"><div style="top: ${y_card}px; left: ${x_card}px;" class="tw-border-radius-medium ovg-viewer-card"><div class="tw-full-height tw-full-width"><div class="tw-border-radius-medium tw-c-background-base viewer-card"><div style="" class="tw-c-background-accent-alt viewer-card-header__background" style=""><div class="tw-flex tw-flex-column tw-full-height tw-full-width viewer-card-header__overlay"><div class="tw-align-center tw-align-items-start tw-c-background-overlay tw-c-text-overlay tw-flex tw-flex-row tw-full-width tw-justify-content-start tw-relative viewer-card-header__banner"><div class="tw-inline-flex viewer-card-drag-cancel"><figure class="tw-avatar"><div class="profile-main__avatar" style=""></div></figure></div><div class="tw-align-left viewer-card-header__display-name"><div class="tw-inline-flex viewer-card-drag-cancel"><div class="tw-full-width tw-pd-r-5"><h4 class="tw-c-text-overlay tw-ellipsis tw-line-clamp-2 tw-word-break-all"><a class="tw-link" rel="noopener noreferrer" target="_blank" href=""></a><button class="bttv-moderator-card-nickname-change-button"><span class="buttonIcon"><svg width="16px" height="16px" version="1.1" viewBox="0 0 16 16" x="0px" y="0px" fill="white"><path clip-rule="evenodd" d="M6.414,12.414L3.586,9.586l8-8l2.828,2.828L6.414,12.414z M4.829,14H2l0,0v-2.828l0.586-0.586l2.828,2.828L4.829,14z" fill-rule="evenodd"></path></svg></span></button></h4></div></div><div class="tw-flex"><i _ngcontent-cel-c162="" class="wasd-icons-games ovg" style="font-size:20px;align-items:center;display:flex;justify-content:center"></i><a target="_blank" data-test-selector="viewer_card_game" class="tw-c-text-overlay tw-mg-l-05 tw-mg-t-auto gameurl"></a></div></div></div><div class="bttv-moderator-card-user-stats"><div class="tw-flex tw-full-width"><div style="" class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 viewers-title" title="Всего зрителей за стрим"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-cel-c162="" style="font-size:14px;height:14px;width:14px;align-items:center;display:flex;justify-content:center" class="wasd-icons-viewers-live"></i></div><div class="tw-stat__value viewers"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 channal_followers_count-title" title="Количество фолловеров канала"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-xul-c30="" class="wasd-icons-favorite"></i></div><div class="tw-stat__value channal_followers_count"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 channal_created_at-title" title="Канал создан"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><figure class="tw-svg"><svg class="tw-svg__asset tw-svg__asset--heart tw-svg__asset--inherit" width="16px" height="16px" viewBox="0 0 1792 1792" fill="white"><path d="M1792 1408v384h-1792v-384q45 0 85-14t59-27.5 47-37.5q30-27 51.5-38t56.5-11q24 0 44 7t31 15 33 27q29 25 47 38t58 27 86 14q45 0 85-14.5t58-27 48-37.5q21-19 32.5-27t31-15 43.5-7q35 0 56.5 11t51.5 38q28 24 47 37.5t59 27.5 85 14 85-14 59-27.5 47-37.5q30-27 51.5-38t56.5-11q34 0 55.5 11t51.5 38q28 24 47 37.5t59 27.5 85 14zm0-320v192q-24 0-44-7t-31-15-33-27q-29-25-47-38t-58-27-85-14q-46 0-86 14t-58 27-47 38q-22 19-33 27t-31 15-44 7q-35 0-56.5-11t-51.5-38q-29-25-47-38t-58-27-86-14q-45 0-85 14.5t-58 27-48 37.5q-21 19-32.5 27t-31 15-43.5 7q-35 0-56.5-11t-51.5-38q-28-24-47-37.5t-59-27.5-85-14q-46 0-86 14t-58 27-47 38q-30 27-51.5 38t-56.5 11v-192q0-80 56-136t136-56h64v-448h256v448h256v-448h256v448h256v-448h256v448h64q80 0 136 56t56 136zm-1280-864q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150zm512 0q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150zm512 0q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150z"></path></svg></figure></div><div class="tw-stat__value channal_created_at"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 profile_level-title" title="Уровень канала"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-ykf-c54="" style="font-size:14px;height:14px;width:14px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-lvl"></i></div><div class="tw-stat__value profile_level"></div></div></div></div></div></div><div class="ovg buttonsdiv"><wasd-channel-favorite-btn id="selector-channel-favorite-btn-ovg"><wasd-button class="stroked-btn ovg" wasdtooltip="" style="position: relative;display: inline-block;outline: none;"><button class="medium primary ovg disabled" type="button"><i class="wasd-icons-like ovg"></i> <span></span></button><ovg-tooltip><div class="ovg tooltip tooltip_position-right tooltip_size-small" style="width: 200px;"><div class="tooltip-content tooltip-content_left ovg"> Добавить в избранное </div></div></ovg-tooltip></wasd-button></wasd-channel-favorite-btn><div style="width:100%"></div><div class="item__links-ovg"></div></div><div class="tw-c-background-alt-2 tw-pd-t-05 stickers"><div class="paid_title-ovg" style="display:none"> Стикеры канала </div><div class="paidsubs-popup__stickers"></div></div> <div class="tw-c-background-alt-2 tw-pd-t-05 roles" style="display: none;padding: 5px 0;"><div class="paid_title-ovg" style="display: block;"> Значки </div><div class="popup__roles"></div></div> <div class="user_last_messages-ovg"><button class="paid_title-ovg last_messages" style="display: block;padding-bottom: 10px;box-shadow: 0px 2px 2px -2px rgba(var(--wasd-color-switch--rgb),.32);z-index: 2;position: relative;"><div class="accordion-header-wrap-ovg"><span class="accordion-header-ovg"> Последние сообщения </span><div class="accordion-header-arrow-ovg"><i class="wasd-icons-dropdown-top"></i></div></div><div class="accordion-marker-ovg"></div></button><div class="block-ovg"><div class="block__messages-ovg"></div></div></div></div></div><div data-a-target="viewer-card-close-button" class="tw-absolute tw-mg-r-05 tw-mg-t-05 tw-right-0 tw-top-0"><div class="tw-inline-flex viewer-card-drag-cancel"><button class="tw-button-icon tw-button-icon--overlay tw-core-button" aria-label="Скрыть" data-test-selector="close-viewer-card"><i _ngcontent-ykf-c54="" style="font-size:13px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-close"></i></button></div></div></div></div></div>`;
     if (!document.querySelector('#scroll-content') && document.querySelector('.chat-room__viewer-card')) {
       document.querySelector('.chat-room__viewer-card').style.zIndex = '5556'
     }
@@ -371,9 +373,15 @@ const HelperWASD = {
       card.querySelector('div.tooltip.tooltip_position-right.tooltip_size-small.ovg').style.display = '';
     });
 
-    $( ".tw-border-radius-medium.ovg-viewer-card" ).draggable({ containment: ".viewer-card-layer", scroll: false, cursor: "move"});
+    $( ".tw-border-radius-medium.ovg-viewer-card" ).draggable({
+      containment: ".viewer-card-layer",
+      handle: ".viewer-card-header__background",
+      scroll: false,
+      grid: [2, 2]
+    });
 
     ws_user = document.querySelector(`.WebSocket_history .user_ws[user_loginlc="${channel_name.trim().toLowerCase().split('@').join('')}"]`)
+    var viewerCard = document.querySelector('.chat-room__viewer-card');
     
     if (ws_user) {
       UserCard({
@@ -381,6 +389,27 @@ const HelperWASD = {
         channel_id: ws_user.getAttribute('channel_id'),
         user_login: ws_user.getAttribute('user_login')
       })
+      
+      let role = ws_user.getAttribute('role')
+      let badge = HelperWASD.badges[ws_user.getAttribute('user_login')]
+      let htmlroles = viewerCard.querySelector('.roles .popup__roles')
+
+      if (badge && badge.user_role == 'DEV') {
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="info__text__status-dev" style="height: 20px; width: 23px; background-color: ${HelperWASD.userColors[ws_user.getAttribute('user_id') % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-dev dev"></i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> BetterWASD Разработчик </div></div></ovg-tooltip></div>`);
+      }
+      if (role.indexOf('sub') != -1) {
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="info__text__status-dev" style="height: 20px; width: 23px; background-color: ${HelperWASD.userColors[ws_user.getAttribute('user_id') % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-star">   </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Подписчик </div></div></ovg-tooltip></div>`);
+      }
+      if (role.indexOf('owner') != -1) {
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="info__text__status-dev" style="height: 20px; width: 23px; background-color: var(--wasd-color-event3);">   <i badge="" class="icon wasd-icons-owner">      </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>`);
+      }
+      if (role.indexOf('moderator') != -1) {
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="info__text__status-dev" style="height: 20px; width: 23px; background-color: var(--wasd-color-gray2);">    <i badge="" class="icon wasd-icons-moderator">  </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Модератор </div></div></ovg-tooltip></div>`);
+      }
+      if (role.indexOf('admin') != -1) {
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="info__text__status-dev" style="height: 20px; width: 23px; background-color: var(--wasd-color-corp-blue);"><i badge="" class="icon wasd-icons-dev">        </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Администратор </div></div></ovg-tooltip></div>`);
+      }
+
     } else {
       $.ajax({
         url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${channel_name.trim()}`,
@@ -413,9 +442,7 @@ const HelperWASD = {
 
     function UserCard(data) {
 
-      var viewerCard;
       if (data) {
-        viewerCard = document.querySelector('.chat-room__viewer-card');
 
         $.ajax({
           url: `https://wasd.tv/api/v2/profiles/${data.user_id}`,
@@ -484,6 +511,9 @@ const HelperWASD = {
                 success: function(out) {
 
                   card.classList.remove('loading') // loaded card
+                  if (viewerCard.querySelector('.roles .popup__roles').childElementCount != 0) {
+                    viewerCard.querySelector('.roles').style.display = 'block'
+                  }
 
                   let databroadcasts = out;
                   if (viewerCard) {
@@ -624,7 +654,7 @@ const HelperWASD = {
                   for (let value of out.result[0].stickers) {
                     stiscersdiv = document.querySelector('div.paidsubs-popup__stickers');
                     if (stiscersdiv) {
-                      stiscersdiv.insertAdjacentHTML("beforeend", `<div class="sticker-card"><div class="paidsubs-popup__stickers-item" style="background-image: url(${value.sticker_image.large});"></div><ovg-tooltip><div class="tooltip tooltip_position-bottom tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> ${value.sticker_name} </div></div></ovg-tooltip></div>`);
+                      stiscersdiv.insertAdjacentHTML("beforeend", `<div class="sticker-card"><div class="paidsubs-popup__stickers-item" style="background-image: url(${value.sticker_image.large});"></div><ovg-tooltip style="margin-right: 8px;"><div class="tooltip tooltip_position-bottom tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> ${value.sticker_name} </div></div></ovg-tooltip></div>`);
                     }
 
                   }
@@ -703,12 +733,7 @@ const HelperWASD = {
                     for (let message of out.result) {
                       if (message.info.user_id == data.user_id) {
 
-                        let newusername = settings.wasd.userNameEdited[message.info.user_login.trim()];
                         let role = 'user'
-
-                        if (!newusername) {
-                          newusername = message.info.user_login.trim()
-                        }
 
                         let isSub = false
                         if (Array.isArray(message.info.other_roles)) {
@@ -750,7 +775,7 @@ const HelperWASD = {
                         }
                         if (isAdmin) role += ' admin'
 
-                        messagesDiv.appendChild(HelperWASD.createMessage(role, newusername, HelperWASD.userColors[message.info.user_id % (HelperWASD.userColors.length - 1)], message?.info?.message, message?.info?.sticker?.sticker_image?.medium, new Date(message.date_time)))
+                        messagesDiv.appendChild(HelperWASD.createMessage(role, message.info.user_login.trim(), HelperWASD.userColors[message.info.user_id % (HelperWASD.userColors.length - 1)], message?.info?.message, message?.info?.sticker?.sticker_image?.medium, new Date(message.date_time)))
 
                         divMessageDiv.scrollTop = divMessageDiv.scrollHeight;
                       }
@@ -768,43 +793,43 @@ const HelperWASD = {
                 success: function(out) {
                   if (HelperWASD.isModerator) {
                     card.querySelector('.user_last_messages-ovg').insertAdjacentHTML("beforebegin", `
-                                          <div class="moderator disabled">
-                                              <div class="go_ban">
-                                                  <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 10px;">
-                                                      <button class="basic ovg small ban" type="button">
-                                                          <i class="wasd-icons-ban"></i>
-                                                      </button>
-                                                  </wasd-button>
-                                                  <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
-                                                      <button class="basic ovg small timeout1m" type="button">
-                                                          <i class="wasd-icons-sound-off"></i>
-                                                          <span> 1 мин </span>
-                                                      </button>
-                                                  </wasd-button>
-                                                  <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
-                                                      <button class="basic ovg small timeout10m" type="button">
-                                                          <i class="wasd-icons-sound-off"></i>
-                                                          <span> 10 мин </span>
-                                                      </button>
-                                                  </wasd-button>
-                                                  <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
-                                                      <button class="basic ovg small timeout1h" type="button">
-                                                          <i class="wasd-icons-sound-off"></i>
-                                                          <span> 1 час </span>
-                                                      </button>
-                                                  </wasd-button>
-                                              </div>
-                                              <div class="go_unban">
-                                                  <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 10px;">
-                                                      <button class="basic ovg small unban" type="button">
-                                                          <i class="icon wasd-icons-unban"></i>
-                                                      </button>
-                                                  </wasd-button>
-                                              </div>
-                                          </div>
-                                          <div class="tw-c-background-alt-2 tw-pd-t-05">
-                                              <div class="paid_title-ovg" style="display:none"> Стикеры канала </div><div class="paidsubs-popup__stickers"></div>
-                                          </div>`)
+                      <div class="moderator disabled">
+                        <div class="go_ban">
+                          <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 10px;">
+                            <button class="basic ovg small ban" type="button">
+                              <i class="wasd-icons-ban"></i>
+                            </button>
+                          </wasd-button>
+                          <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
+                            <button class="basic ovg small timeout1m" type="button">
+                              <i class="wasd-icons-sound-off"></i>
+                              <span> 1 мин </span>
+                            </button>
+                          </wasd-button>
+                          <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
+                            <button class="basic ovg small timeout10m" type="button">
+                              <i class="wasd-icons-sound-off"></i>
+                              <span> 10 мин </span>
+                            </button>
+                          </wasd-button>
+                          <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
+                            <button class="basic ovg small timeout1h" type="button">
+                              <i class="wasd-icons-sound-off"></i>
+                              <span> 1 час </span>
+                            </button>
+                          </wasd-button>
+                        </div>
+                        <div class="go_unban">
+                          <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 10px;">
+                            <button class="basic ovg small unban" type="button">
+                              <i class="icon wasd-icons-unban"></i>
+                            </button>
+                          </wasd-button>
+                        </div>
+                      </div>
+                      <div class="tw-c-background-alt-2 tw-pd-t-05 stickers">
+                        <div class="paid_title-ovg" style="display:none"> Стикеры канала </div><div class="paidsubs-popup__stickers"></div>
+                      </div>`)
 
                     card.querySelector('.ban').addEventListener('click', () => {
                       fetch(HelperWASD.getStreamBroadcastsUrl())
@@ -1412,6 +1437,10 @@ const HelperWASD = {
       }
     }
 
+    let newusername = settings.wasd.userNameEdited[username];
+    if (!newusername) {
+      newusername = username
+    }
 
     node = document.createElement('div')
     node.classList.add('block__messages__item-ovg')
@@ -1426,7 +1455,7 @@ const HelperWASD = {
             <div class="message__info__text-ovg">
               <div class="info__text__status-ovg">
                 ${isSub ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star"></i></div>` : ``}
-                <div class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''} ${username}</div>
+                <div class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''} ${newusername}</div>
               </div>
               ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
               <div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div>
@@ -1516,9 +1545,24 @@ const HelperWASD = {
       }
     }
 
-    let badge = HelperWASD.badges[node.getAttribute('username')]
+    let badge = HelperWASD.badges[node.getAttribute('username').trim()]
     if (badge && badge.user_role == 'DEV') {
-      node.querySelector('.info__text__status-ovg').insertAdjacentHTML("afterbegin", `<div ovg="" class="info__text__status-dev" style="background-color: ${HelperWASD.userColors[badge.user_id % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-dev"></i></div>`) 
+      node.querySelector('.info__text__status-ovg').insertAdjacentHTML("afterbegin", `<div ovg="" class="info__text__status-dev" style="background-color: ${HelperWASD.userColors[badge.user_id % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-dev dev"></i></div>`) 
+    }
+
+    var tooltips = node.querySelectorAll(".tooltip-wrapper");
+    for (let tooltip of tooltips) {
+      $( tooltip ).tooltip({
+        classes: { "ui-tooltip": "ui-ovg-tooltip" },
+        content: tooltip.title,
+        show: false,
+        hide: false,
+        position: {
+          my: "center bottom",
+          at: "center top-5",
+          within: $('.block__messages-ovg')
+        }
+      });
     }
 
     return node

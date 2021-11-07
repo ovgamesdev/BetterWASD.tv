@@ -188,7 +188,7 @@ button[ovg]:hover i[ovg] {
   box-shadow: 0 2px 2px 0 rgba(var(--wasd-color-black--rgb), .08);
   height: 4.8rem;
   padding-right: 8px;
-  /*cursor: move;*/
+  cursor: move;
 }
 
 main[data-tab="about"]>div.aboutHalf {
@@ -1087,6 +1087,7 @@ div.tw-c-background-accent-alt.viewer-card-header__background {
   flex-grow: 0!important;
   background-color: rgba(0, 0, 0, 0) !important;
   background-position-y: center;
+  cursor: move;
 }
 div.tw-flex.tw-flex-column.tw-full-height.tw-full-width.viewer-card-header__overlay {
   background-color: rgba(0, 0, 0, .6)!important;
@@ -3069,10 +3070,36 @@ main.active[data-tab="obschat"] ~ iframe.obschat {
 .icon[badge]:before {
   margin-left: 0;
   margin-right: 0;
+}
+.icon[badge].dev:before {
   transform: rotate(180deg) translateX(-0.5px);
 }
 
 /* message system  */
 .block__item {
   margin-right: 8px !important;
+}
+
+/* user card */
+.popup__roles {
+  /*display: flex;*/
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 5px 10px 0px;
+}
+.popup__roles.icon {
+  width: 21px;
+  height: 20px;
+}
+
+.icon[role-card] {
+  color: var(--wasd-color-white);
+  display: inline-block;
+  font-size: 14px;
+}
+.info__text__status-paid[role-card] {
+  border-radius: 2px;
+  margin-right: 4px;
+  padding: 0 4px;
 }

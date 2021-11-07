@@ -219,7 +219,8 @@ button:hover ovg-tooltip .tooltip,
 wasd-channel-favorite-btn:hover ovg-tooltip .tooltip,
 .def:hover ovg-tooltip .tooltip,
 a:hover ovg-tooltip .tooltip,
-.tooltip-wrapper:hover .tooltip {
+.tooltip-wrapper:hover .tooltip,
+.tooltip-hover:hover .tooltip {
   display: flex;
 }
 
@@ -242,4 +243,20 @@ a:hover ovg-tooltip .tooltip,
   .def:hover ovg-tooltip .tooltip {
     display: none;
   }
+}
+
+/* ui-tooltip */
+
+.ui-ovg-tooltip {
+  text-align: center;
+  background-color: rgb(var(--color-switch)) !important;
+  color: rgba(var(--color-background), 1) !important;
+  padding: 4px 16px !important;
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  line-height: normal;
+  word-break: break-word;
+  border-radius: 4px;
+  width: fit-content;
 }

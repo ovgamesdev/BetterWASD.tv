@@ -594,7 +594,7 @@ const wasd = {
 
       if (HelperWASD.openUserCardName == usernametext && node.querySelector('wasd-chat-message > .message')) {
         if (settings.wasd.highlightMessagesOpenCard) node.querySelector('wasd-chat-message > .message').classList.add('openCardColor')
-        if (isobserver) HelperWASD.addMessageToCpenCard(roles, usernametext, color, message, sticker)
+        if (isobserver) HelperWASD.addMessageToCpenCard(roles, usernametext.trim(), color, message, sticker)
       }
 
       if (usernametext) node.setAttribute('username', usernametext)
@@ -997,7 +997,9 @@ const wasd = {
                 success: function(out) {
                   var game = 'неизвестно'
                   if (out.result.game != null) game = out.result.game.game_name;
-                  node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.media_container_streams[0].stream_media[0].media_meta.media_preview_images.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.media_container_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.media_container_name}</div><div title="${out.result.media_container_channel.channel_name} играет в ${game}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${out.result.user_id}">${out.result.media_container_channel.channel_name}</a> играет в ${game}</div><div title="${out.result.created_at} - ${out.result.media_container_streams[0].stream_total_viewers} просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${new Date(out.result.created_at).toLocaleDateString()} - ${out.result.media_container_streams[0].stream_total_viewers} просмотров</div></div></div></div>`;
+                  let username = out.result.media_container_channel.channel_name
+                  let usernameed = settings.wasd.userNameEdited[username.trim()];
+                  node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.media_container_streams[0].stream_media[0].media_meta.media_preview_images.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.media_container_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.media_container_name}</div><div title="${usernameed ? usernameed+' ('+username+')' : username} играет в ${game}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${out.result.user_id}">${usernameed ? usernameed : username}</a> играет в ${game}</div><div title="${out.result.created_at} - ${out.result.media_container_streams[0].stream_total_viewers} просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${new Date(out.result.created_at).toLocaleDateString()} - ${out.result.media_container_streams[0].stream_total_viewers} просмотров</div></div></div></div>`;
                 },
                 error: function(out) {
                   node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
@@ -1019,7 +1021,11 @@ const wasd = {
                 url: `https://wasd.tv/api/v2/clips/${new URL(a.href).searchParams.get('clip')}`,
                 success: function(out) {
                   if (!out?.error?.code) {
-                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.clip_data.preview.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.clip_title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.clip_title}</div><div title="${out.result.clip_channel.channel_name} играет в ${out.result.clip_game_name}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${out.result.clip_channel.user_id}">${out.result.clip_channel.channel_name}</a> играет в ${out.result.clip_game_name}</div><div title="Автор клипа: ${out.result.clip_owner_login} - ${out.result.clip_views_count} просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">Автор клипа: <a target="_blank" href="https://wasd.tv/user/${out.result.clip_owner_profile_id}">${out.result.clip_owner_login}</a> - ${out.result.clip_views_count} просмотров</div></div></div></div>`;
+                    let username = out.result.clip_channel.channel_name
+                    let usernameed = settings.wasd.userNameEdited[username.trim()];
+                    let clip_owner_login = out.result.clip_owner_login
+                    let clip_owner_logined = settings.wasd.userNameEdited[clip_owner_login.trim()];
+                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.clip_data.preview.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.clip_title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.clip_title}</div><div title="${usernameed ? usernameed+' ('+username+')' : username} играет в ${out.result.clip_game_name}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${out.result.clip_channel.user_id}">${usernameed ? usernameed : username}</a> играет в ${out.result.clip_game_name}</div><div title="Автор клипа: ${clip_owner_logined ? clip_owner_logined+' ('+clip_owner_login+')' : clip_owner_login} - ${out.result.clip_views_count} просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">Автор клипа: <a target="_blank" href="https://wasd.tv/user/${out.result.clip_owner_profile_id}">${clip_owner_logined ? clip_owner_logined : clip_owner_login}</a> - ${out.result.clip_views_count} просмотров</div></div></div></div>`;
                   } else {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out.error.code}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.error.code}</div></div></div></div>`;
                   }
@@ -1069,7 +1075,9 @@ const wasd = {
                   if (typeof out.error !== 'undefined') {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                   } else {
-                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.channel.channel_image.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.channel.channel_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.channel.channel_name}</div><div title="${out.result.channel.channel_description}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.result.channel.channel_description}</div></div></div></div>`;
+                    let username = out.result.channel.channel_name
+                    let usernameed = settings.wasd.userNameEdited[username.trim()];
+                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.channel.channel_image.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${usernameed ? usernameed+' ('+username+')' : username}" class="tw-ellipsis tw-semibold tw-mg-x-05">${usernameed ? usernameed : username}</div><div title="${out.result.channel.channel_description}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.result.channel.channel_description}</div></div></div></div>`;
                   }
                 },
                 error: function(out) {
@@ -1326,61 +1334,103 @@ const wasd = {
         }
       })
 
-      var mentoinText;
+      var mentoinHtml;
       if (settings.wasd.clickMentionAll && node.querySelector('wasd-chat-follower-message')) {
-        mentoinText = node.querySelector('.message-follower__name')
+        mentoinHtml = node.querySelector('.message-follower__name')
       }
       if (settings.wasd.clickMentionAll && node.querySelector('wasd-chat-subscribe-message')) {
-        mentoinText = node.querySelector('.block__item__title')
+        mentoinHtml = node.querySelector('.block__item__title')
       }
-      if (mentoinText) {
-        let mentoinusername = settings.wasd.userNameEdited[mentoinText.textContent.trim().split('@').join('')];
-        if (!mentoinusername) {
-          mentoinusername = mentoinText.textContent.trim().split('@').join('')
-        }
+
+      if (mentoinHtml) {
+        let username;
+        mentoinHtml.innerHTML = mentoinHtml.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
+          username = $0.trim()
+
+          let out;
+          if (settings.wasd.onClickMention.toString() === '0') {
+
+            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention' username="@${username}" usernamelc="${username.toLowerCase()}">${username}</span>`
+            node.querySelectorAll('.chat-message-mention').forEach(element => {
+              HelperWASD.usercolorapi(element);
+              element.addEventListener('click', ({
+                target
+              }) => {
+                if (target.getAttribute('username')) {
+                  HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
+                }
+              });
+            });
+          } else if (settings.wasd.onClickMention.toString() === '1') {
+            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}">${username}</span>`
+            node.querySelectorAll('.chat-message-mention.click').forEach(element => {
+              HelperWASD.usercolorapi(element);
+              element.addEventListener('click', ({
+                target
+              }) => {
+                if (textarea) {
+                  textarea.value += target.getAttribute('username').trim() + ' ';
+                  textarea.dispatchEvent(new Event('input'));
+                  textarea.focus()
+                }
+              })
+            });
+          } else if (settings.wasd.onClickMention.toString() === '2') {
+            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}">${username}</span>`
+            node.querySelectorAll('.chat-message-mention.click').forEach(element => {
+              HelperWASD.usercolorapi(element);
+              element.addEventListener('click', ({
+                target
+              }) => {
+                if (target.getAttribute('username')) {
+                  if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
+                    HelperWASD.createUserViewerCard(target.getAttribute('username').split('@').join(''));
+                  }
+                }
+              })
+            });
+          }
+          return out
+        })
+        
+        let element = node.querySelector('.chat-message-mention')
 
         if (settings.wasd.onClickMention.toString() === '0') {
+          element.addEventListener('click', ({
+            target
+          }) => {
+            if (target.getAttribute('username')) {
+              HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
+            }
+          });
 
-          mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention' username="@${mentoinText.textContent.trim()}" usernamelc="${mentoinText.textContent.trim().toLowerCase()}">${mentoinusername}</span>`
-          node.querySelectorAll('.chat-message-mention').forEach(element => {
-            HelperWASD.usercolorapi(element);
-            element.addEventListener('click', ({
-              target
-            }) => {
-              if (target.getAttribute('username')) {
-                HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
-              }
-            });
-          });
         } else if (settings.wasd.onClickMention.toString() === '1') {
-          mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}" usernamelc="${mentoinText.textContent.trim().toLowerCase()}">${mentoinusername}</span>`
-          node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-            HelperWASD.usercolorapi(element);
-            element.addEventListener('click', ({
-              target
-            }) => {
-              if (textarea) {
-                textarea.value += target.getAttribute('username').trim() + ' ';
-                textarea.dispatchEvent(new Event('input'));
-                textarea.focus()
-              }
-            })
-          });
+          element.addEventListener('click', ({
+            target
+          }) => {
+            if (textarea) {
+              textarea.value += target.getAttribute('username').trim() + ' ';
+              textarea.dispatchEvent(new Event('input'));
+              textarea.focus()
+            }
+          })
+
         } else if (settings.wasd.onClickMention.toString() === '2') {
-          mentoinText.innerHTML = `<span style='color: ${HelperWASD.usercolor(mentoinText.textContent.trim())};' class='chat-message-mention click' username="@${mentoinText.textContent.trim()}" usernamelc="${mentoinText.textContent.trim().toLowerCase()}">${mentoinusername}</span>`
-          node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-            HelperWASD.usercolorapi(element);
-            element.addEventListener('click', ({
-              target
-            }) => {
-              if (target.getAttribute('username')) {
-                if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
-                  HelperWASD.createUserViewerCard(target.getAttribute('username').split('@').join(''));
-                }
+          element.addEventListener('click', ({
+            target
+          }) => {
+            if (target.getAttribute('username')) {
+              if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
+                HelperWASD.createUserViewerCard(target.getAttribute('username').split('@').join(''));
               }
-            })
-          });
+            }
+          })
         }
+
+        // let mentoinusername = settings.wasd.userNameEdited[mentoinHtml.innerHTML.trim().split('@').join('')];
+        // if (!mentoinusername) {
+        //   mentoinusername = mentoinHtml.innerHTML.trim().split('@').join('')
+        // }
       }
 
       if (document.visibilityState != "visible" && isobserver && settings.wasd.notifyOnMention && node.querySelector('.has-mention')) {
@@ -1389,7 +1439,22 @@ const wasd = {
 
       let badge = HelperWASD.badges[node.getAttribute('username')]
       if (badge && badge.user_role == 'DEV') {
-        node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", `<div ovg="" class="info__text__status-dev" style="background-color: ${HelperWASD.userColors[badge.user_id % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-dev"></i></div>`) 
+        node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", `<div ovg="" class="info__text__status-dev" style="background-color: ${HelperWASD.userColors[badge.user_id % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-dev dev"></i></div>`) 
+      }
+
+      var tooltips = node.querySelectorAll(".tooltip-wrapper");
+      for (let tooltip of tooltips) {
+        $( tooltip ).tooltip({
+          classes: { "ui-tooltip": "ui-ovg-tooltip" },
+          content: tooltip.title,
+          show: false,
+          hide: false,
+          position: {
+            my: "center bottom",
+            at: "center top-5",
+            within: $('.chat-content')
+          }
+        });
       }
 
     }

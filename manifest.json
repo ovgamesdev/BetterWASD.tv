@@ -10,6 +10,7 @@
       "css/ovg_tabs-wrapper.css",
       "css/ovg_burger-toggle.css",
       "css/ovg_bell.css",
+      "css/ovg_checkbox.css",
       "lib/coloris/coloris.min.css"
     ],
     "js": [
@@ -53,5 +54,5 @@
   ],
   "minimum_chrome_version": "41",
   "permissions": ["storage", "notifications", "*://*.wasd.tv/*"],
-  "version": "1.3.9"
+  "version": "1.4.0"
 }

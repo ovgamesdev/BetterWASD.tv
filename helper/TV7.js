@@ -139,7 +139,7 @@ const HelperTV7 = {
             break;
           }
         }
-        word = `<div class="bttv-emote tooltip-wrapper"> <img class="stickerovg tv7 small" style="vertical-align: middle; width: auto!important;" src="https://cdn.7tv.app/emote/${this.emotes[word]}/${size}x" alt="${word}" /> ${!settings.wasd.hoverTooltipEmote ? "" : `<ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Смайл:&nbsp;${word} <br> ${typeof tv7Users[user].username == 'string' ? `Канал: ${tv7Users[user].username} <br> Эмоции на канале 7TV` : 'Общедоступный 7TV'} </div></div></ovg-tooltip>`} <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
+        word = `<div class="bttv-emote tooltip-wrapper" title=" Смайл:&nbsp;${word} <br> ${typeof tv7Users[user].username == 'string' ? `Канал: ${tv7Users[user].username} <br> Эмоции на канале 7TV` : 'Общедоступный 7TV'} "> <img class="stickerovg tv7 small" style="vertical-align: middle; width: auto!important;" src="https://cdn.7tv.app/emote/${this.emotes[word]}/${size}x" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
       }
 
       newText.push(word);

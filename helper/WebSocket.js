@@ -92,25 +92,35 @@ const socket = {
               }
 
           		$.ajax({
-	              url: `https://wasd.tv/api/chat/streams/${socket.streamId}/messages?limit=500&offset=0`,
+	              url: `https://wasd.tv/api/chat/streams/${socket.streamId}/participants?limit=999&offset=0`,
 	              headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
 	              success: function(out) {
-	              	for (let date of out.result.reverse()) {
-	              		if (date.info) socket.addWebSocket_history(date.info.user_login, date.info.user_id, date.info.channel_id)
+	              	for (let date of out.result) {
+	              		if (date) socket.addWebSocket_history(date)
                   }
 	              }
             	})
 
+              $.ajax({
+                url: `https://wasd.tv/api/chat/streams/${socket.streamId}/messages?limit=500&offset=0`,
+                headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
+                success: function(out) {
+                  for (let date of out.result.reverse()) {
+                    if (date.info) socket.addWebSocket_history(date.info)
+                  }
+                }
+              })
+
 	            var data = `42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`;
 	            try {
-	              socket.socketd.send(data);
+                if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send(data);
 	            } catch (err) {
 	              ovg.log('[catch]', err)
 	            }
 	            socket.intervalcheck = setInterval(() => {
 	              if (socket.socketd) {
 	                try {
-	                  socket.socketd.send('2')
+	                  if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send('2')
 	                } catch (err) {
 	                  clearInterval(socket.intervalcheck)
 	                  socket.socketd = null
@@ -131,6 +141,8 @@ const socket = {
       clearInterval(socket.intervalcheck)
       socket.socketd = null
       socket.isLiveInited = false
+      document.querySelector(`.WebSocket_history`)?.remove()
+      document.querySelector('.hidden.info__text__status__name')?.remove()
       if (e.code == 404) {
         ovg.log(`[close] Соединение закрыто чисто, код= ${e.code} причина= ${e.reason}`);
       } else if (e.wasClean) {
@@ -142,7 +154,7 @@ const socket = {
 
     this.socketd.onmessage = function(e) {
       WebSocket_history = document.querySelector('.WebSocket_history')
-      if (WebSocket_history && WebSocket_history.children.length >= 501) {
+      if (WebSocket_history && WebSocket_history.children.length >= 1000) {
         WebSocket_history.firstElementChild.remove()
       }
 
@@ -170,18 +182,18 @@ const socket = {
               break;
             case "message":
               // console.log(`[${JSData[0]}] ${JSData[1].user_login}: ${JSData[1].message}`, JSData)
-              socket.addWebSocket_history(JSData[1].user_login, JSData[1].user_id, JSData[1].channel_id)
+              socket.addWebSocket_history(JSData[1])
               break;
             case "sticker":
               // console.log(`[${JSData[0]}] ${JSData[1].user_login}: ${JSData[1].sticker.sticker_alias}`, JSData);
-              socket.addWebSocket_history(JSData[1].user_login, JSData[1].user_id, JSData[1].channel_id)
+              socket.addWebSocket_history(JSData[1])
               break;
             case "viewers":
               // console.log(`[${JSData[0]}] anon: ${JSData[1].anon} auth: ${JSData[1].auth} total: ${JSData[1].total}`, JSData);
               break;
             case "event":
               // console.log(`[${JSData[0]}] ${JSData[1].event_type} - ${JSData[1].payload.user_login} ${JSData[1].message}`, JSData);
-              if (JSData[1].event_type == "NEW_FOLLOWER") socket.addWebSocket_history(JSData[1].payload.user_login, JSData[1].payload.user_id, JSData[1].payload.channel_id)
+              // if (JSData[1].event_type == "NEW_FOLLOWER") socket.addWebSocket_history(JSData, JSData[1].payload.user_login, JSData[1].payload.user_id, JSData[1].payload.channel_id)
               break;
             case "giftsV1":
               // console.log(`[${JSData[0]}] ${JSData[1].gift_name}`, JSData);
@@ -242,16 +254,69 @@ const socket = {
     for ( var i = 0; i < length; i++ ) { result += characters.charAt(Math.floor(Math.random() * charactersLength)); }
     return result;
   },
-  addWebSocket_history(user_login, user_id, channel_id) {
-  	if (!document.querySelector(`.WebSocket_history .user_ws[user_login="${user_login}"]`)) {
-	  	let user = document.createElement('div')
-			user.classList.add('user_ws')
-			user.setAttribute('user_login', user_login)
-			user.setAttribute('user_loginLC', user_login.toLowerCase())
-			user.setAttribute('user_id', user_id)
-			user.setAttribute('channel_id', channel_id)
-			user.style.display = 'none'
-			document.querySelector('.WebSocket_history')?.append(user)
-  	}
+  addWebSocket_history(JSData) {
+  	let user = document.createElement('div')
+		user.classList.add('user_ws')
+		user.setAttribute('user_login', JSData.user_login)
+		user.setAttribute('user_loginLC', JSData.user_login.toLowerCase())
+		user.setAttribute('user_id', JSData.user_id)
+		user.setAttribute('channel_id', JSData.channel_id)
+
+    function isMod(JSData) {
+      if (JSData) {
+        let role = JSData.user_channel_role == 'CHANNEL_MODERATOR'
+        // if (!role) role = JSData.user_channel_role == 'CHANNEL_MODERATOR'
+        return role
+      } else {
+        return false
+      }
+    }
+    function isSub(JSData) {
+      if (JSData) {
+        let role = false
+        if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'CHANNEL_SUBSCRIBER') role = true } //?
+        if (!role) role = JSData.user_channel_role == 'CHANNEL_SUBSCRIBER'
+
+        return role
+      } else {
+        return false
+      }
+    }
+    function isOwner(JSData) {
+      if (JSData) {
+        let role = false
+        if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'CHANNEL_OWNER') role = true } //?
+        if (!role) role = JSData.user_channel_role == 'CHANNEL_OWNER'
+        return role
+      } else {
+        return false
+      }
+    }
+    function isAdmin(JSData) {
+      if (JSData) {
+        let role = false
+        if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'WASD_ADMIN') role = true } //?
+        if (!role) role = JSData.user_channel_role == 'WASD_ADMIN'
+        return role
+      } else {
+        return false
+      }
+    }
+
+    let role = 'user'
+    if (isOwner(JSData)) role += ' owner'
+    if (isMod(JSData)) role += ' moderator'
+    if (isSub(JSData)) role += ' sub'
+    if (isAdmin(JSData)) role += ' admin'
+    user.setAttribute('role', role)
+		user.style.display = 'none'
+
+    let old = document.querySelector(`.WebSocket_history .user_ws[user_login="${JSData.user_login}"]`)
+    if (old) {
+      old.replaceWith(user)
+    } else {
+      document.querySelector('.WebSocket_history')?.append(user)
+    }
+
   }
 }

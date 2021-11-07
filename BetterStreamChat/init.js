@@ -13,6 +13,26 @@ const BetterStreamChat = {
       removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
     };
     let changelogList = [{
+      version: '1.4.0',
+      date: '2021-11-07',
+      items: [{
+        text: [
+          `Ник пользователя в действиях это упоминание.`
+        ],
+        label: 'fixed'
+      }, {
+        text: [
+          `Карточка пользователя - Значки.`
+        ],
+        label: 'added'
+      }, {
+        text: [
+          `WebSocket.`,
+          `Распознавание ссылок.`
+        ],
+        label: 'optimized'
+      }]
+    },{
       version: '1.3.9',
       date: '2021-10-24',
       items: [{
@@ -192,7 +212,7 @@ const BetterStreamChat = {
         label: 'removed'
       }]
     }, {
-      version: '1.3',
+      version: '1.3.0',
       date: '2021-07-28',
       items: [{
         text: [
