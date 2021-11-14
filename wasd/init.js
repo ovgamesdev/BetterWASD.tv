@@ -1427,10 +1427,6 @@ const wasd = {
           })
         }
 
-        // let mentoinusername = settings.wasd.userNameEdited[mentoinHtml.innerHTML.trim().split('@').join('')];
-        // if (!mentoinusername) {
-        //   mentoinusername = mentoinHtml.innerHTML.trim().split('@').join('')
-        // }
       }
 
       if (document.visibilityState != "visible" && isobserver && settings.wasd.notifyOnMention && node.querySelector('.has-mention')) {
@@ -1455,6 +1451,39 @@ const wasd = {
             within: $('wasd-chat')
           }
         });
+      }
+
+      adminRef = node.querySelector('.is-admin')
+      modRef = node.querySelector('.is-moderator')
+      ownerRef = node.querySelector('.is-owner')
+      subRef = node.querySelector('.info__text__status-paid')
+
+      if (modRef && !settings.wasd.showModeratorBadge) {
+        modRef.classList.remove('is-moderator')
+        modRef.querySelector('.icon.wasd-icons-moderator').remove()
+        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${node.querySelector('.info__text__status__name').getAttribute('username')}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
+        if (c) { node.querySelector('.info__text__status__name').style.color = c
+        } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(modRef) }
+      }
+
+      if (ownerRef && !settings.wasd.showOwnerBadge) {
+        ownerRef.classList.remove('is-owner')
+        ownerRef.querySelector('.icon.wasd-icons-owner').remove()
+        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${node.querySelector('.info__text__status__name').getAttribute('username')}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
+        if (c) { node.querySelector('.info__text__status__name').style.color = c
+        } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(ownerRef) }
+      }
+
+      if (adminRef && !settings.wasd.showAdminBadge) {
+        adminRef.classList.remove('is-admin')
+        adminRef.querySelector('.icon.wasd-icons-dev').remove()
+        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${node.querySelector('.info__text__status__name').getAttribute('username')}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
+        if (c) { node.querySelector('.info__text__status__name').style.color = c
+        } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(adminRef) }
+      }
+
+      if (subRef && !settings.wasd.showSubBadge) {
+        subRef.remove()
       }
 
     }

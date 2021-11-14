@@ -1,8 +1,8 @@
 const Helper = {
-  F5: `<a style="position: relative;">(F5)<ovg-tooltip><div class="tooltip tooltip_position-right tooltip_size-small" style="width: 205px;"><div class="tooltip-content tooltip-content_left"> Eсли отключено 'Автоматически обновлять чат после изменения опции' нажмите дважды 'ОБНОВИТЬ ЧАТ'. </div></div></ovg-tooltip></a>`,
-  BETA: `<a style="position: relative;">(BETA)<ovg-tooltip><div class="tooltip tooltip_position-right tooltip_size-small" style="width: 205px;"><div class="tooltip-content tooltip-content_left"> Эта опция находится в стадии разработки и может работать некорректно. </div></div></ovg-tooltip></a>`,
+  F5: `<a style="position: relative;" class="tooltip-wrapper" title="Eсли отключено 'Автоматически обновлять чат после изменения опции' нажмите дважды 'ОБНОВИТЬ ЧАТ'.">(F5)</a>`,
+  BETA: `<a style="position: relative;" class="tooltip-wrapper" title="Эта опция находится в стадии разработки и может работать некорректно.">(BETA)</a>`,
   tooltip(text, data) {
-    return `<a style="position: relative;">${text}<ovg-tooltip><div class="tooltip tooltip_position-right tooltip_size-small" style="width: 205px;"><div class="tooltip-content tooltip-content_left"> ${data} </div></div></ovg-tooltip></a>`
+    return `<a style="position: relative;" class="tooltip-wrapper" title="${data}">${text}</a>`
   },
   getDefaultSettings() {
     return {
@@ -99,7 +99,12 @@ const Helper = {
         notifyOnMention: false,
         staticGifEmotes: "1",
         pinMessage: true,
-        hoverTooltipEmote: true
+        hoverTooltipEmote: true,
+        limitHistoryUsers: "1000",
+        showOwnerBadge: true,
+        showModeratorBadge: true,
+        showSubBadge: true,
+        showAdminBadge: true
       },
       list: {
         blockUserList: {},

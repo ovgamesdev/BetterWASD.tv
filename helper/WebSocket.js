@@ -7,14 +7,15 @@ const socket = {
   stream_url: null,
   isLiveInited: false,
   intervals: [],
+  WebSocket_history: null,
   initChat() {
-  	let channel_name = '', WebSocket_history
+  	let channel_name = ''
   	if (document.querySelector('.WebSocket_history')) {
-  		WebSocket_history = document.querySelector('.WebSocket_history')
+  		this.WebSocket_history = document.querySelector('.WebSocket_history')
   	} else {
-  		WebSocket_history = document.createElement('div')
-  		WebSocket_history.classList.add('WebSocket_history')
-  		document.body.append(WebSocket_history)
+  		this.WebSocket_history = document.createElement('div')
+  		this.WebSocket_history.classList.add('WebSocket_history')
+  		document.body.append(this.WebSocket_history)
   	}
 
 
@@ -153,10 +154,6 @@ const socket = {
     };
 
     this.socketd.onmessage = function(e) {
-      WebSocket_history = document.querySelector('.WebSocket_history')
-      if (WebSocket_history && WebSocket_history.children.length >= 1000) {
-        WebSocket_history.firstElementChild.remove()
-      }
 
       if (e.data != 3) {
         var JSData;
@@ -255,6 +252,10 @@ const socket = {
     return result;
   },
   addWebSocket_history(JSData) {
+    if (this.WebSocket_history && this.WebSocket_history.children.length >= Number(settings.wasd.limitHistoryUsers) + 1) {
+      this.WebSocket_history.firstElementChild.remove()
+    }
+
   	let user = document.createElement('div')
 		user.classList.add('user_ws')
 		user.setAttribute('user_login', JSData.user_login)
@@ -274,7 +275,7 @@ const socket = {
     function isSub(JSData) {
       if (JSData) {
         let role = false
-        if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'CHANNEL_SUBSCRIBER') role = true } //?
+        if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'CHANNEL_SUBSCRIBER') role = true }
         if (!role) role = JSData.user_channel_role == 'CHANNEL_SUBSCRIBER'
 
         return role
@@ -285,7 +286,7 @@ const socket = {
     function isOwner(JSData) {
       if (JSData) {
         let role = false
-        if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'CHANNEL_OWNER') role = true } //?
+        if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'CHANNEL_OWNER') role = true }
         if (!role) role = JSData.user_channel_role == 'CHANNEL_OWNER'
         return role
       } else {
@@ -295,7 +296,7 @@ const socket = {
     function isAdmin(JSData) {
       if (JSData) {
         let role = false
-        if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'WASD_ADMIN') role = true } //?
+        if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'WASD_ADMIN') role = true }
         if (!role) role = JSData.user_channel_role == 'WASD_ADMIN'
         return role
       } else {
@@ -311,11 +312,11 @@ const socket = {
     user.setAttribute('role', role)
 		user.style.display = 'none'
 
-    let old = document.querySelector(`.WebSocket_history .user_ws[user_login="${JSData.user_login}"]`)
+    let old = this.WebSocket_history.querySelector(`.user_ws[user_login="${JSData.user_login}"]`)
     if (old) {
       old.replaceWith(user)
     } else {
-      document.querySelector('.WebSocket_history')?.append(user)
+      this.WebSocket_history?.append(user)
     }
 
   }

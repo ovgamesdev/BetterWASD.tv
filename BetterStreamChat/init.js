@@ -2124,13 +2124,6 @@ const BetterStreamChat = {
         if (!isOpenBell) {
           bell__info.removeAttribute('hidden')
           isOpenBell = true
-          
-          // let bwasd_noitfyreaded = ''
-          // for (let e of document.querySelectorAll('.bell-info__elem.ovg')) {
-          //   bwasd_noitfyreaded += e.getAttribute('bell_id') + ';'
-          // }
-          // Cookies.set('bwasd_noitfyreaded', bwasd_noitfyreaded)
-
         } else {
           bell__info.setAttribute('hidden', '')
           isOpenBell = false
@@ -2170,6 +2163,21 @@ const BetterStreamChat = {
         HelperSettings.save([input])
       })
     })
+
+    var tooltips = settingsDiv.querySelectorAll(".tooltip-wrapper");
+    for (let tooltip of tooltips) {
+      $( tooltip ).tooltip({
+        classes: { "ui-tooltip": "ui-ovg-tooltip" },
+        content: tooltip.title,
+        show: false,
+        hide: false,
+        position: {
+          my: "center bottom",
+          at: "center top-5",
+          within: $('#bscSettingsPanel')
+        }
+      });
+    }
 
     // load bttv, ffz and 7tv emotes
     await HelperBTTV.update();

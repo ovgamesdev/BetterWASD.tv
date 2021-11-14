@@ -2157,13 +2157,13 @@ main[data-tab="backup"] button {
   main.active[data-tab="obschat"] {
     width: 100%!important;
     display: block!important;
-    height: 65%!important;
+    height: 44%!important;
     margin: 0!important;
   }
 
   iframe.obschat {
     display: block!important;
-    height: calc(35% - 76px)!important;
+    height: calc(56% - 76px)!important;
     width: 100%!important;
   }
 
@@ -2284,7 +2284,8 @@ main[data-tab="backup"] button {
   #bscSettingsPanel .option button.def {
     display: block !important;
   }
-  .head-buttons .newtab {
+  .head-buttons .newtab,
+  .head-buttons .fade {
     display: none !important;
   }
 }
@@ -2888,6 +2889,11 @@ header .logo {
     width: 180px;
   }
 }
+@media screen and (max-width:710px) {
+  #settingsSearchDiv .wasd-input-wrapper {
+    width: 250px;
+  }
+}
 @media screen and (max-width:650px) {
   @media screen and (min-width:480px) {
     main.active[data-tab="obschat"] {
@@ -3034,7 +3040,7 @@ wasd-input [ovg] .clr-field input {
 /* obs_chat */
 
 main.active[data-tab="obschat"] {
-  width: calc(100% - 420px);
+  width: calc(100% - 416px);
   display: inline-block !important;
 }
 

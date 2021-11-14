@@ -668,13 +668,9 @@ function updateStiskers() {
                               img.addEventListener('click', () => {
 
                                 let textareaffz = document.querySelector('.footer > div > textarea')
-                                //saveValuetextareaffz = textareaffz.value;
                                 textareaffz.value += emoteCode + ' ';
                                 textareaffz.focus()
                                 textareaffz.dispatchEvent(new Event('input'));
-
-                                //document.querySelector('.footer__block.footer__block__btn').click();
-                                //textareaffz.value = saveValuetextareaffz;
                               });
 
                             }
@@ -1089,7 +1085,12 @@ const getUpdateSettings = () => {
       notifyOnMention: false,
       staticGifEmotes: "1",
       pinMessage: true,
-      hoverTooltipEmote: true
+      hoverTooltipEmote: true,
+      limitHistoryUsers: "1000",
+      showOwnerBadge: true,
+      showModeratorBadge: true,
+      showSubBadge: true,
+      showAdminBadge: true
     },
     list: {
       blockUserList: settings.wasd.blockUserList[1],

@@ -336,7 +336,6 @@ const HelperWASD = {
         y_card = y - 13;
         x_card = x - 13;
       }
-      // 1815.5px > 1813px
 
       let mobile = document.querySelector('.theatre-mode-mobile');
       if (mobile) {
@@ -452,7 +451,7 @@ const HelperWASD = {
               viewerCard.querySelector('.profile_level-title').title = `${out.result.user_xp.profile_level} уровень канала`;
 
               var date = new Date(out.result.user_profile.created_at);
-              //ovg.log(out.result.);
+
               if (document.querySelector('.chat-room__viewer-card')) {
                 viewerCard = document.querySelector('.chat-room__viewer-card');
                 viewerCard.querySelector('div.tw-stat__value.channal_created_at').textContent = `${jQuery.timeago(date)} назад`;
@@ -517,7 +516,7 @@ const HelperWASD = {
 
                   let databroadcasts = out;
                   if (viewerCard) {
-                    //ovg.log(out.result);
+
                     if (out.result.media_container != null) {
                       // game_name
                       viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').textContent = ` Стримит ${out.result?.media_container?.game?.game_name? out.result?.media_container?.game?.game_name : ''}`;
@@ -535,7 +534,6 @@ const HelperWASD = {
                         viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').title = out.result?.channel?.channel_description;
                       }
 
-                      // viewerCard.querySelector('a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto.gameurl').innerHTML = out.result.channel.channel_description;
                     }
 
                     // followers_count
@@ -706,7 +704,6 @@ const HelperWASD = {
                 success: function(out) {
                   var coll = document.querySelector('button.paid_title-ovg.last_messages')
                   coll?.addEventListener("click", function() {
-                    //coll.querySelector('.accordion-header-arrow-ovg')
                     document.querySelector('.user_last_messages-ovg').classList.toggle("active");
                     var content = coll.nextElementSibling;
                     if (content.style.maxHeight) {
@@ -720,7 +717,6 @@ const HelperWASD = {
                           document.querySelector('.block-ovg').style.maxHeight = document.querySelector('.chat-container__wrap').clientHeight - (64 + document.querySelector('.ovg-viewer-card').clientHeight) + 'px'
                         }
 
-                        //document.querySelector('.block-ovg').style.maxHeight = document.querySelector('.chat-container__wrap').clientHeight - (13 + document.querySelector('.ovg-viewer-card').clientHeight)+'px'
                       } else {
                         content.style.maxHeight = "190px";
                       }
@@ -1413,10 +1409,10 @@ const HelperWASD = {
   },
   createMessage(role, username, color, message, sticker, date_time = new Date()) {
 
-    let isOwner = role.indexOf('owner') != -1
-    let isModer = role.indexOf('moderator') != -1
-    let isSub = role.indexOf('sub') != -1
-    let isAdmin = role.indexOf('admin') != -1
+    let isOwner = role.indexOf('owner')     != -1 && settings.wasd.showOwnerBadge
+    let isModer = role.indexOf('moderator') != -1 && settings.wasd.showModeratorBadge
+    let isSub = role.indexOf('sub')         != -1 && settings.wasd.showSubBadge
+    let isAdmin = role.indexOf('admin')     != -1 && settings.wasd.showAdminBadge
     let blockmessage = message;
     let node;
     let bl = ' '
