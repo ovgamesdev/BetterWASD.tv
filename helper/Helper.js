@@ -2,7 +2,7 @@ const Helper = {
   F5: `<a style="position: relative;" class="tooltip-wrapper" title="Eсли отключено 'Автоматически обновлять чат после изменения опции' нажмите дважды 'ОБНОВИТЬ ЧАТ'.">(F5)</a>`,
   BETA: `<a style="position: relative;" class="tooltip-wrapper" title="Эта опция находится в стадии разработки и может работать некорректно.">(BETA)</a>`,
   tooltip(text, data) {
-    return `<a style="position: relative;" class="tooltip-wrapper" title="${data}">${text}</a>`
+    return `<a style="position: relative;" class="tooltip-wrapper" title='${data}'>${text}</a>`
   },
   getDefaultSettings() {
     return {

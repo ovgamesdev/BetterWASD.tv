@@ -252,7 +252,7 @@ const socket = {
     return result;
   },
   addWebSocket_history(JSData) {
-    if (this.WebSocket_history && this.WebSocket_history.children.length >= Number(settings.wasd.limitHistoryUsers) + 1) {
+    if (this.WebSocket_history && this.WebSocket_history.children.length >= Number(settings.wasd.limitHistoryUsers) + 1 && settings.wasd.limitHistoryUsers != 0) {
       this.WebSocket_history.firstElementChild.remove()
     }
 

@@ -91,7 +91,7 @@ const HelperSettings = {
         ]
       },
       sticker: {
-        title: `Отображение стикеров WASD ${Helper.tooltip('(i)', "Мин. (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")}`,
+        title: `Отображение стикеров WASD ${Helper.tooltip('(i)', "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
         type: 'select',
         items: [{
             value: 0,
@@ -116,7 +116,7 @@ const HelperSettings = {
         ]
       },
       stickerovg: {
-        title: `Отображение стикеров BTTV, FFZ и 7TV ${Helper.tooltip('(i)', "Мин. (увеличить при наведении) зависит от 'Настройки - Вид сообщений в чате - Большой размер стикеров")}`,
+        title: `Отображение стикеров BTTV, FFZ и 7TV ${Helper.tooltip('(i)', "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
         type: 'select',
         items: [{
             value: 0,
@@ -538,7 +538,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       limitHistoryUsers: {
-        title: `Лимит истории пользователей ${Helper.tooltip('(i)', 'от большого кол-ва может лагать а из за маленького может не прогружать некоторых пользователей')}`,
+        title: `Лимит истории пользователей ${Helper.F5} ${Helper.tooltip('(i)', 'рекомендуем \u0022без ограничения\u0022 но если у вас лагает рекотендуем снизить')}`,
         type: 'select',
         items: [{
             value: 500,
@@ -559,6 +559,10 @@ const HelperSettings = {
           {
             value: 10000,
             label: '10000'
+          },
+          {
+            value: 0,
+            label: 'без ограничения'
           },
         ]
       },
@@ -1015,15 +1019,15 @@ const HelperSettings = {
         type: 'title'
       },
       bttv: {
-        title: `BTTV эмоции ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoBTTV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
+        title: `BTTV эмоции ${Helper.tooltip('(i)', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoBTTV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
         type: 'text'
       },
       ffz: {
-        title: `FFZ эмоции ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoFFZ" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
+        title: `FFZ эмоции ${Helper.tooltip('(i)', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoFFZ" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
         type: 'text'
       },
       tv7: {
-        title: `7TV эмоции ${Helper.tooltip('(i)', `Перечисление twitch_username через ';' Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="auto7TV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
+        title: `7TV эмоции ${Helper.tooltip('(i)', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="auto7TV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
         type: 'text'
       },
 
