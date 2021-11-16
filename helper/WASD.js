@@ -11,14 +11,13 @@ const HelperWASD = {
       BetterStreamChat.settingsDiv.classList.add('fullscreen')
 
       setInterval(() => {
-        if(typeof chrome.app.isInstalled!=='undefined') chrome.runtime.sendMessage({
+        if(typeof chrome.app?.isInstalled !== 'undefined') chrome.runtime.sendMessage({
           from: "tab_settings"
         })
       }, 5000)
-
     } else {
       setInterval(() => {
-        if(typeof chrome.app.isInstalled!=='undefined') chrome.runtime.sendMessage({
+        if(typeof chrome.app?.isInstalled !== 'undefined') chrome.runtime.sendMessage({
           from: "tab_content"
         })
       }, 5000)
@@ -35,12 +34,34 @@ const HelperWASD = {
         }
       });
     }
+
     chrome.storage.onChanged.addListener(async function(changes, namespace) {
       if (namespace === 'sync') {
         settings = await Helper.getSettings();
         BetterStreamChat.update();
       }
     });
+
+    $.ajax({
+      url: `https://wasd.tv/api/v2/profiles/current`,
+      success: function(out) {
+
+        $.ajax({
+          url: `https://radiant-basin-27885.herokuapp.com/api/v1/init`,
+          type: "POST",
+          data: {
+            user_login: out.result.user_profile.user_login,
+            user_id: out.result.user_profile.user_id,
+            channel_image: out.result.user_profile.profile_image.large
+          },
+          success: function(out) {
+            ovg.log(out)
+          }
+        })
+
+      }
+    })
+
   },
   addUserToBlackList(username) {
     let html = document.querySelector('.blacklist .user .ovg-items')
@@ -433,7 +454,7 @@ const HelperWASD = {
           UserCard(data)
         },
         error: function(out) {
-          HelperWASD.showChatMessage('не удалось получить информацию о пользователе');
+          HelperWASD.showChatMessage('не удалось получить информацию о пользователе, попробуйте обновить чат');
           card.querySelector('div[data-a-target="viewer-card-close-button"] > div.viewer-card-drag-cancel > button')?.click();
         }
       });
@@ -965,7 +986,7 @@ const HelperWASD = {
           }
         });
       } else {
-        HelperWASD.showChatMessage('не удалось получить информацию о пользователе');
+        HelperWASD.showChatMessage('не удалось получить информацию о пользователе, попробуйте обновить чат');
         card.querySelector('div[data-a-target="viewer-card-close-button"] > div.viewer-card-drag-cancel > button')?.click();
       }
 

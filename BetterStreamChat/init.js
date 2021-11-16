@@ -13,6 +13,19 @@ const BetterStreamChat = {
       removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
     };
     let changelogList = [{
+      version: '1.4.1',
+      date: '2021-11-16',
+      items: [{
+        text: [
+          `Лимит истории пользователей.`,
+          `Показать значки создателя.`,
+          `Показать значки модератора.`,
+          `Показать значки подписчика.`,
+          `Показать значки администратора.`
+        ],
+        label: 'added'
+      }]
+    },{
       version: '1.4.0',
       date: '2021-11-07',
       items: [{

@@ -1110,7 +1110,6 @@ div.tw-align-center.tw-align-items-start.tw-c-background-overlay.tw-c-text-overl
 }
 div.tw-inline-flex.viewer-card-drag-cancel {
   display: inline-flex!important;
-  cursor: auto;
 }
 figure.tw-avatar {
   position: relative;
