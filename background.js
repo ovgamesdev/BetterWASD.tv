@@ -4,7 +4,7 @@ let contentTabId = null;
 let tab_settingsId = null;
 
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
+  (request, sender, sendResponse) => {
     if (request.notify == "create") {
       contentTabId = sender.tab.id;
       username = request.username
@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener(
         buttons: [{
           title: 'Ответить'
         }]
-      }, function(id) {
+      }, (id) => {
         notificationId = id
       })
     }
@@ -47,7 +47,7 @@ chrome.runtime.onMessage.addListener(
   }
 );
 
-chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
+chrome.notifications.onButtonClicked.addListener((notifId, btnIdx) => {
   if (notifId == notificationId) {
     if (btnIdx == 0 && contentTabId) {
       chrome.tabs.sendMessage(contentTabId, {

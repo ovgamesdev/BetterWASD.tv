@@ -52,7 +52,7 @@ const HelperBTTV = {
     }
   },
   loaded() {
-    chrome.storage.onChanged.addListener(async function(changes, namespace) {
+    chrome.storage.onChanged.addListener(async (changes, namespace) => {
       if (namespace === 'local') {
         HelperBTTV.update();
       } else if (namespace === 'sync') {
@@ -68,7 +68,7 @@ const HelperBTTV = {
       if (typeof bttvUsers.global === 'undefined' || Date.now() - bttvUsers.global.lastUpdate > 604800000) {
 
         new Promise((resolve, reject) => {
-          $.ajax(`https://api.betterttv.net/3/cached/emotes/global`).always(function(out, textStatus, xhr) {
+          $.ajax(`https://api.betterttv.net/3/cached/emotes/global`).always((out, textStatus, xhr) => {
             if (xhr.status === 200) {
               return resolve(out);
             } else {
@@ -145,13 +145,13 @@ const HelperBTTV = {
     return newText.join(' ');
   },
   getUserEmotes(userID) {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       $.ajax({
         url: `https://api.betterttv.net/3/cached/users/twitch/${userID}`,
-        success: function(out) {
+        success: (out) => {
           resolve(out)
         },
-        error: function(out) {
+        error: (out) => {
           reject(out?.message)
         }
       });
@@ -281,7 +281,7 @@ const HelperBTTV = {
       for (let userID in items.bttvUsers) {
         HelperBTTV.updateUserChannelEmotes(userID, items.bttvUsers[userID].username).finally(() => {
           i++
-          HelperSettings.showMessage(`BTTV ${i}/${l}`)
+          HelperSettings.showMessage(`BTTV ${i}/${l}`, 'success')
           if (i == l) {
             resolve()
           }

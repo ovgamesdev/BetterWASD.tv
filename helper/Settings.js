@@ -30,7 +30,11 @@ const HelperSettings = {
         type: 'boolean'
       },
       messageSystem: {
-        title: `Скрыть системные сообщения ${Helper.tooltip('(i)', `Добро пожаловать, бан пользователя и др.`)}`,
+        title: `Скрыть системные сообщения ${Helper.tooltip('', `Добро пожаловать, бан пользователя и др.`)}`,
+        type: 'boolean'
+      },
+      messagePromoCodes: {
+        title: `Скрыть промо сообщения ${Helper.tooltip('', `Например: ПОЛУЧИ УНИКАЛЬНЫЙ СТАТУС В ЧАТЕ!`)}`,
         type: 'boolean'
       },
       messageHover: {
@@ -91,7 +95,7 @@ const HelperSettings = {
         ]
       },
       sticker: {
-        title: `Отображение стикеров WASD ${Helper.tooltip('(i)', "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
+        title: `Отображение стикеров WASD ${Helper.tooltip('', "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
         type: 'select',
         items: [{
             value: 0,
@@ -116,7 +120,7 @@ const HelperSettings = {
         ]
       },
       stickerovg: {
-        title: `Отображение стикеров BTTV, FFZ и 7TV ${Helper.tooltip('(i)', "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
+        title: `Отображение стикеров BTTV, FFZ и 7TV ${Helper.tooltip('', "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
         type: 'select',
         items: [{
             value: 0,
@@ -220,11 +224,11 @@ const HelperSettings = {
           type: 'boolean'
       },*/
       colorAtTheMention: {
-        title: `Отображать упоминания пользователей в чата с их цветом никнейма ${Helper.BETA} ${Helper.F5}`,
+        title: `Упоминания пользователей в чата с их цветом никнейма ${Helper.BETA} ${Helper.F5}`,
         type: 'boolean'
       },
       chatWidth: {
-        title: `Размер чата в пикселях ${Helper.tooltip('(i)', "(Ширина)")}`,
+        title: `Размер чата в пикселях ${Helper.tooltip('', "(Ширина)")}`,
         type: 'number',
         min: 200,
         max: 1200
@@ -371,7 +375,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       linkRecognizerWASD: {
-        title: `Распознавание ссылок wasd.tv ${Helper.BETA} ${Helper.tooltip('(i)', '(wasd.tv/username) (wasd.tv/game/id) (wasd.tv/?record=id) (wasd.tv/?clip=id)')} ${Helper.F5}`,
+        title: `Распознавание ссылок wasd.tv ${Helper.BETA} ${Helper.tooltip('', '(wasd.tv/username) (wasd.tv/game/id) (wasd.tv/?record=id) (wasd.tv/?clip=id)')} ${Helper.F5}`,
         type: 'boolean'
       },
       linkRecognitionRights: {
@@ -404,7 +408,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       formatMessageSentTime: {
-        title: `Формат отметок времени ${Helper.tooltip('(i)', 'Для новых сообщений')} ${Helper.F5}`,
+        title: `Формат отметок времени ${Helper.tooltip('', 'Для новых сообщений')} ${Helper.F5}`,
         description: 'Отформатировано <a target="_blank" href="https://momentjs.com/">library Moment.js</a>.',
         type: 'select',
         items: [{
@@ -458,7 +462,7 @@ const HelperSettings = {
         type: 'color'
       },
       clickMentionAll: {
-        title: `Ник пользователя в действиях это упоминание ${Helper.tooltip('(i)', 'Избранное, Подписка')}`,
+        title: `Ник пользователя в действиях это упоминание ${Helper.tooltip('', 'Избранное, Подписка')}`,
         type: 'boolean'
       },
       underlineUsernameAndMention: {
@@ -511,16 +515,16 @@ const HelperSettings = {
         type: 'boolean'
       },
       fixCharactersBreakingChat: {
-        title: `Исправить символы ломающие чат ${Helper.tooltip('(i)', 'Текст Zalgo')}`,
+        title: `Исправить символы ломающие чат ${Helper.tooltip('', 'Текст Zalgo')}`,
         description: 'С использованием <a target="_blank" href="https://github.com/mathiasbynens/strip-combining-marks/blob/master/README.md">library strip-combining-marks.js</a>.',
         type: 'boolean'
       },
       notifyOnMention: {
-        title: `PUSH уведомление при упоминании ${Helper.tooltip('(i)', 'если окно не видно')} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="testNotify" class="basic fade ovg small" type="button"> Показать тестовое уведомление </button></wasd-button>`,
+        title: `PUSH уведомление при упоминании ${Helper.tooltip('', 'если окно не видно')} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="testNotify" class="basic fade ovg small" type="button"> Показать тестовое уведомление </button></wasd-button>`,
         type: 'boolean'
       },
       staticGifEmotes: {
-        title: `Анимированные эмоции ${Helper.F5} ${Helper.tooltip('(i)', 'только BTTV эмоции')}`,
+        title: `Анимированные эмоции ${Helper.F5} ${Helper.tooltip('', 'только BTTV эмоции')}`,
         type: 'select',
         items: [{
             value: 0,
@@ -538,7 +542,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       limitHistoryUsers: {
-        title: `Лимит истории пользователей ${Helper.F5} ${Helper.tooltip('(i)', 'для определения цвета пользователя и его карточки, рекомендуем \u0022без ограничения\u0022 но если у вас лагает рекотендуем снизить')}`,
+        title: `Лимит истории пользователей ${Helper.F5} ${Helper.tooltip('', 'для определения цвета пользователя и его карточки, рекомендуем \u0022без ограничения\u0022 но если у вас лагает рекотендуем снизить')}`,
         type: 'select',
         items: [{
             value: 500,
@@ -582,6 +586,16 @@ const HelperSettings = {
         title: `Показать значки администратора ${Helper.F5}`,
         type: 'boolean'
       },
+      showPromoCodeWin: {
+        title: `Показать промо-значки ${Helper.F5}`,
+        type: 'boolean'
+      },
+      truncateLink: {
+        title: `Лимит символов ссылки ${Helper.F5} ${Helper.tooltip('', 'удаляет символы в URL-адресах, чтобы текст ссылки не превышал указанную длину.')}`,
+        type: 'number',
+        min: 0,
+        max: 240
+      },
 
       playerGeneral: {
         title: 'Проигрыватель',
@@ -593,11 +607,11 @@ const HelperSettings = {
         type: 'boolean'
       },
       giftsWrapperSide: {
-        title: `Cкрыть полосу подарков ${Helper.tooltip('(i)', 'справа и снизу')}`,
+        title: `Cкрыть полосу подарков ${Helper.tooltip('', 'справа и снизу')}`,
         type: 'boolean'
       },
       giftsWrapperTopRight: {
-        title: `Скрыть подарки ${Helper.tooltip('(i)', 'вверху справа')}`,
+        title: `Скрыть подарки ${Helper.tooltip('', 'вверху справа')}`,
         type: 'boolean'
       },
       videoOverlay: {
@@ -698,7 +712,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       chatMobilePlayer: {
-        title: `Чат после проигрывателя ${Helper.tooltip('(i)', 'Мобильные устройства')}`,
+        title: `Чат после проигрывателя ${Helper.tooltip('', 'Мобильные устройства')}`,
         type: 'boolean'
       }
     },
@@ -751,7 +765,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       ms: {
-        title: `Скрыть системные сообщения ${Helper.tooltip('(i)', `Добро пожаловать, бан пользователя и др.`)}`,
+        title: `Скрыть системные сообщения ${Helper.tooltip('', `Добро пожаловать, бан пользователя и др.`)}`,
         type: 'boolean'
       },
       bes: {
@@ -827,7 +841,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       catm: {
-        title: `Отображать упоминания пользователей в чата с их цветом никнейма ${Helper.BETA}`,
+        title: `Упоминания пользователей в чата с их цветом никнейма ${Helper.BETA}`,
         type: 'boolean'
       },
       hmb: {
@@ -885,11 +899,11 @@ const HelperSettings = {
         ]
       },
       cma: {
-        title: `Ник пользователя в действиях это упоминание ${Helper.tooltip('(i)', 'Избранное, Подписка')}`,
+        title: `Ник пользователя в действиях это упоминание ${Helper.tooltip('', 'Избранное, Подписка')}`,
         type: 'boolean'
       },
       fcbc: {
-        title: `Исправить символы ломающие чат ${Helper.tooltip('(i)', 'Текст Zalgo')}`,
+        title: `Исправить символы ломающие чат ${Helper.tooltip('', 'Текст Zalgo')}`,
         description: 'С использованием <a target="_blank" href="https://github.com/mathiasbynens/strip-combining-marks/blob/master/README.md">library strip-combining-marks.js</a>.',
         type: 'boolean'
       },
@@ -982,7 +996,7 @@ const HelperSettings = {
         ]
       },
       nma: {
-        title: `Скрыть сообщение после (ms) ${Helper.tooltip('(i)', '0 - Всегда показывать сообщения')}`,
+        title: `Скрыть сообщение после (ms) ${Helper.tooltip('', '0 - Всегда показывать сообщения')}`,
         type: 'number'
       },
       mtc: {
@@ -1019,15 +1033,15 @@ const HelperSettings = {
         type: 'title'
       },
       bttv: {
-        title: `BTTV эмоции ${Helper.tooltip('(i)', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoBTTV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
+        title: `BTTV эмоции ${Helper.tooltip('', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoBTTV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
         type: 'text'
       },
       ffz: {
-        title: `FFZ эмоции ${Helper.tooltip('(i)', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoFFZ" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
+        title: `FFZ эмоции ${Helper.tooltip('', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoFFZ" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
         type: 'text'
       },
       tv7: {
-        title: `7TV эмоции ${Helper.tooltip('(i)', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="auto7TV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
+        title: `7TV эмоции ${Helper.tooltip('', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="auto7TV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
         type: 'text'
       },
 
@@ -1046,7 +1060,7 @@ const HelperSettings = {
     let statusElement = document.querySelector('#status');
     let textElement = statusElement.querySelector('p');
     textElement.innerHTML = message;
-    textElement.classList.remove(...statusElement.classList);
+    textElement.classList.remove(...textElement.classList);
     textElement.classList.add(type);
     statusElement.classList.add('active');
     let hide = () => {
@@ -1107,31 +1121,24 @@ const HelperSettings = {
 
     setTimeout(() => {
       if (settings.general.autoUpdateChat) {
-        let header_block_menu = document.querySelector('.header > div.header__block__menu')
+        let header_block_menu = document.querySelectorAll('.header > div.header__block__menu div.header__block__menu__item')
         let header_update = document.querySelector('.update > i')
-        if (header_block_menu) {
-          if (header_block_menu.childNodes.length >= 1) {
-            header_update.classList.add('resetPlayerLoading');
-            if (header_block_menu.childNodes[1].nodeName != "#comment") {
-              header_block_menu.childNodes[1].click();
-            } else {
-              header_update.classList.remove('resetPlayerLoading');
-            }
-            if (header_block_menu.childNodes[0].nodeName != "#comment") {
-              header_block_menu.childNodes[0].click();
-            }
-            setTimeout(() => {
-              header_update.classList.remove('resetPlayerLoading');
-            }, 1000);
-          } else {
+
+        if (header_block_menu.length >= 1) {
+          header_block_menu[1].click();
+          header_update.classList.add('resetPlayerLoading');
+          header_block_menu[0].children[0].click()
+
+          setTimeout(() => {
             header_update.classList.remove('resetPlayerLoading');
-          }
+          }, 1000);
         }
+
       }
     }, 50);
 
     chrome.storage[storageType].set(newSettings, () => {
-      this.showMessage('параметры сохранены');
+      this.showMessage('параметры сохранены', 'success');
     });
   },
   build(category) {

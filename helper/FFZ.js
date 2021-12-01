@@ -52,7 +52,7 @@ const HelperFFZ = {
     }
   },
   loaded() {
-    chrome.storage.onChanged.addListener(async function(changes, namespace) {
+    chrome.storage.onChanged.addListener(async (changes, namespace) => {
       if (namespace === 'local') {
         HelperFFZ.update();
       } else if (namespace === 'sync') {
@@ -68,7 +68,7 @@ const HelperFFZ = {
       if (typeof ffzUsers.global === 'undefined' || Date.now() - ffzUsers.global.lastUpdate > 604800000) {
 
         new Promise((resolve, reject) => {
-          $.ajax(`https://api.frankerfacez.com/v1/set/global`).always(function(out, textStatus, xhr) {
+          $.ajax(`https://api.frankerfacez.com/v1/set/global`).always((out, textStatus, xhr) => {
             if (xhr.status === 200) {
               return resolve(out);
             } else {
@@ -147,13 +147,13 @@ const HelperFFZ = {
     return newText.join(' ');
   },
   getUserEmotes(userID) {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       $.ajax({
         url: `https://api.frankerfacez.com/v1/room/id/${userID}`,
-        success: function(out) {
+        success: (out) => {
           resolve(out)
         },
-        error: function(out) {
+        error: (out) => {
           reject(out?.message)
         }
       });
@@ -283,7 +283,7 @@ const HelperFFZ = {
       for (let userID in items.ffzUsers) {
         HelperFFZ.updateUserChannelEmotes(userID, items.ffzUsers[userID].username).finally(() => {
           i++
-          HelperSettings.showMessage(`FFZ ${i}/${l}`)
+          HelperSettings.showMessage(`FFZ ${i}/${l}`, 'success')
           if (i == l) {
             resolve()
           }

@@ -2,205 +2,587 @@ const wasd = {
   style: null,
   isObserverEndBind: false,
   isObserverEndBindBody: false,
+  observer: null,
   badges: {},
   init() {
     ovg.log("init");
-    var observer;
-    const chatQuerySelector = 'wasd-chat';
     HelperWASD.loadBadges()
-    const init = (documentElement, target) => {
-      if (target !== null) {
-        this.document = documentElement;
+    mutationtarget = document.querySelector('wasd-root')
+    const config = {
+      // attributes: true,
+      childList: true,
+      characterData: true,
+      subtree: true
+    }
 
-        function checkchatdiv() {
-          if (document.querySelector('div.block__messages')) {
-            function startObserver() {
-              mutationtarget = document.querySelector('div.block__messages');
-              const config = {
-                attributes: true,
-                childList: true,
-                characterData: true
-              };
-              const callback = function(mutationsList, observer) {
-                for (let mutation of mutationsList) {
-                  for (let node of mutation.addedNodes) {
-                    wasd.handleMessage(node, true);
-                  }
-                }
-              };
-              observer = new MutationObserver(callback);
-              if (mutationtarget) {
-                observer.observe(mutationtarget, config);
-                ovg.log("start observer (CHAT)");
-                socket.initChat()
-                document.querySelector('#bscSettingsPanel .update > i').classList.remove('resetPlayerLoading');
-                HelperWASD.getIsModerator().then((resolve) => {
-                  HelperWASD.isModerator = resolve
-                  wasd.update();
-                })
+    const callback = (mutationsList, observer) => {
+      for (let mutation of mutationsList) {
 
-                wasd.update();
-                isObserverStarted = true;
-                HelperWASD.updateStreamTimer();
-                HelperWASD.createPinMessages();
-                // HelperSocket.start(getChannelName()).then(i => {
-                //     if (i == 'leave') {
-                //         isObserverStarted = false;
-                //         isObserverBinding = false;
-                //         observer.disconnect();
-                //         HelperSocket.stop()
-                //         clearInterval(intervalUpdateStreamTimer);
-                //         ovg.log("disconnect observer (CHAT) leave");
-                //         socket.stop(1000, 'DISCONNECT_OBSERVER')
-                //         HelperWASD.isModerator = false
-                //         if (document.querySelector('.chat-container__wrap')) document.querySelector('.chat-container__wrap').remove()
-                //         if (document.querySelector('wasd-stream-chat')) document.querySelector('wasd-stream-chat').remove()
-                //         setTimeout(startObserver, 200)
-                //     }
-                // });
+        const {
+          addedNodes,
+          removedNodes
+        } = mutation;
 
-                if (!this.isObserverEndBind && document.querySelector('.burger-menu #selector-bm-channel a')) {
-                  document.querySelector('.burger-menu #selector-bm-channel a').addEventListener('click', ({
-                    target
-                  }) => {
-                    isObserverBinding = false;
-                    isObserverStarted = false;
-                    observer.disconnect();
-                    //HelperSocket.stop()
-                    clearInterval(intervalUpdateStreamTimer);
-                    ovg.log("disconnect observer (CHAT) [4 Канал]");
-                    socket.stop(1000, 'DISCONNECT_OBSERVER')
-                    HelperWASD.isModerator = false
-                    if (document.querySelector('.chat-container__wrap')) document.querySelector('.chat-container__wrap').remove()
-                    if (document.querySelector('wasd-stream-chat')) document.querySelector('wasd-stream-chat').remove()
-                    setTimeout(startObserver, 200)
-                  });
-                  this.isObserverEndBind = true;
-                }
+        // if (removedNodes.length != 0) console.log('321 removedNodes', removedNodes)
+        // if (addedNodes.length != 0) console.log('321 addedNodes', addedNodes)
 
-                if (!this.isObserverEndBind && document.querySelector('#selector-header-stream-settings')) {
-                  document.querySelector('#selector-header-stream-settings').addEventListener('click', ({
-                    target
-                  }) => {
-                    isObserverBinding = false;
-                    isObserverStarted = false;
-                    observer.disconnect();
-                    //HelperSocket.stop()
-                    clearInterval(intervalUpdateStreamTimer);
-                    ovg.log("disconnect observer (CHAT) [3 Начать стрим]");
-                    socket.stop(1000, 'DISCONNECT_OBSERVER')
-                    HelperWASD.isModerator = false
-                    if (document.querySelector('.chat-container__wrap')) document.querySelector('.chat-container__wrap').remove()
-                    if (document.querySelector('wasd-stream-chat')) document.querySelector('wasd-stream-chat').remove()
-                    setTimeout(startObserver, 200)
-                  });
-                  this.isObserverEndBind = true;
-                }
+        const add_chat = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('wasd-chat-messages'));
 
-              } else {
-                // ovg.log("observer not started (CHAT)");
-                setTimeout(startObserver, 10)
-                //HelperSocket.stop()
-              }
+        const remove_chat = [...removedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('wasd-chat-messages') || element.matches('wasd-chat-wrapper') || element.matches('wasd-channel') );
 
-              for (let element of this.document.querySelectorAll('div.block__messages__item')) {
-                wasd.handleMessage(element);
-              }
+        const add_player_buttons = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div.media-control.live'));
 
-              if (!isObserverBinding) {
-                function checkheaderdiv() {
-                  let header_block_menu = document.querySelector('.header > div.header__block__menu')
-                  if (header_block_menu) {
-                    header_block_menu.childNodes[1].addEventListener('click', ({
-                      target
-                    }) => {
-                      isObserverStarted = false;
-                      // isObserverBinding = false;
-                      observer.disconnect();
-                      //HelperSocket.stop()
-                      clearInterval(intervalUpdateStreamTimer);
-                      ovg.log("disconnect observer (CHAT) [2 чат/участники]");
-                      socket.stop(1000, 'DISCONNECT_OBSERVER')
-                      HelperWASD.isModerator = false
-                      setTimeout(startObserver, 200)
-                    });
+        const add_settings_button_burger = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div#topDiv.fixed-wrapper'));
 
-                    document.body.addEventListener('click', ({
-                      target
-                    }) => {
-                      if (isObserverStarted) {
-                        if (!document.querySelector('.header > div.header__block__menu')) {
-                          isObserverBinding = false;
-                          isObserverStarted = false;
-                          observer.disconnect();
-                          //HelperSocket.stop()
-                          clearInterval(intervalUpdateStreamTimer);
-                          ovg.log("disconnect observer (CHAT) [1]");
-                          socket.stop(1000, 'DISCONNECT_OBSERVER')
-                          HelperWASD.isModerator = false
-                          setTimeout(startObserver, 200)
-                        }
-                      }
-                    });
-                  } else {
-                    setTimeout(() => {
-                      checkheaderdiv();
-                    }, 200)
-                  }
-                }
-                checkheaderdiv();
-                isObserverBinding = true;
-              }
-            }
-            startObserver();
-          } else {
-            setTimeout(() => {
-              checkchatdiv()
-            }, 10);
-          }
+        const add_wasd_chat_message = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('wasd-chat-message').parentNode || element.matches('div.block__messages__item'));
+
+        const add_emoji_menu = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('wasd-chat-emoji'));
+
+        const add_chat_menu = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div.menu__block.menu__block-header'));
+
+        const add_carousel_container_chromeless = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div.container.chromeless'));
+
+        const add_carousel_pending = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div.pending'));
+
+        const add_uptime = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div.player-info'));
+
+
+
+        if (add_chat.length) {
+          console.log('123 addedNodes wasd-chat-messages', add_chat[0])
+          HelperWASD.loadBadges()
+          socket.initChat()
+          HelperWASD.getIsModerator().then((resolve) => {
+          HelperWASD.isModerator = resolve
+            wasd.update();
+          })
+
+          wasd.update();
+          HelperWASD.createPinMessages();
+
+          document.querySelector('.update > i').classList.remove('resetPlayerLoading');
+        }
+        if (remove_chat.length) {
+          console.log('123 removedNodes wasd-chat-messages', remove_chat[0])
+          socket.stop(1000, 'removedNodes')
+          HelperWASD.isModerator = false
+
+          document.querySelector(`.WebSocket_history`)?.remove()
+          document.querySelector('.hidden.info__text__status__name')?.remove()
         }
 
-        checkchatdiv()
+        if (add_player_buttons.length) {
+          console.log('123 addedNodes media-control', add_player_buttons[0])
+          let textlive = add_player_buttons[0].querySelector('.buttons-container .stream-status-text.live')
+          let buttons  = add_player_buttons[0].querySelector('.buttons-container .buttons-right')
+        }
 
-        let wasdPlayer = document.querySelector('wasd-player')
-        if (wasdPlayer) {
-          wasdPlayer.addEventListener("touchend", handleStart, false);
+        if (add_settings_button_burger.length) {
+          console.log('123 addedNodes burger', add_settings_button_burger[0])
+          let burger = add_settings_button_burger[0].querySelector('header')
+          console.log(burger)
+        }
 
-          function handleStart(evt) {
-            setTimeout(() => {
-              document.querySelector('.media-control').classList.remove('media-control-hide')
-              document.querySelector('.custom-media-control').classList.remove('custom-media-hidden')
-              document.querySelector('.player-streaminfo').classList.remove('custom-media-hidden')
-            }, 10)
-          }
-          wasdPlayer.onmousedown = function(e) {
-            if (settings.wasd.mutePlayerOnMiddleMouse && e.button == 1) {
-              document.querySelector('.player-button.volume-button').click()
-              return false;
+        if (add_wasd_chat_message.length) {
+          // console.log('123 addedNodes wasd-chat-message', add_wasd_chat_message[0])
+          wasd.handleMessage(add_wasd_chat_message[0], !!socket.channelId);
+        }
+
+        if (add_emoji_menu.length) {
+          console.log('123 addedNodes add_emoji_menu', add_emoji_menu[0].querySelector('.emoji__head__options'))
+
+          if (settings.wasd.tv7InChatMenu) {
+            
+            document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option tv7-emoji"> TV7 </div>`)
+            document.querySelector('div.option.tv7-emoji').addEventListener('click', () => {
+
+              document.querySelector('div.emoji__head__options > .active')?.classList?.remove('active');
+
+              document.querySelector('wasd-chat-emoji-smiles-ffz')?.remove();
+              document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
+
+
+              setTimeout(() => {
+                let option_emotestv7 = document.querySelector('div.option.tv7-emoji')
+                if (option_emotestv7) {
+                  if (option_emotestv7.classList) {
+                    option_emotestv7.classList.add('active');
+                  }
+                }
+
+                let emojiSmilestv7 = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
+                if (emojiSmilestv7) {
+                  emojiSmilestv7.style.display = 'none';
+                }
+
+                let emojiStickerstv7 = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
+                if (emojiStickerstv7) {
+                  emojiStickerstv7.style.display = 'none';
+                }
+
+                let emoteBodytv7 = document.querySelector('.emoji__body');
+                if (emoteBodytv7) {
+                  emoteBodytv7.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-tv7><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option tv7emojiSearch-shat" style="background: url(chrome-extension://iiihfpccbafenoaiclhhejfbldcnbmmd/img/search.png) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-tv7>`)
+                  let EmoteListtv7 = emoteBodytv7.querySelector('div.emoji-ovg');
+                  //ovg.log(HelperTV7.emotes);
+
+                  chrome.storage.local.get((items) => {
+                    HelperTV7.fetchGlobalEmotes(items).finally(() => {
+                      tv7Emotes = items.tv7Emotes;
+                      tv7Users = items.tv7Users;
+                      let emotes = {};
+                      for (let userID in items.tv7Emotes) {
+                        if (items.tv7Emotes.hasOwnProperty(userID)) {
+
+                          let splitdev = document.createElement('div');
+                          splitdev.classList.add('stickers__div')
+
+                          splitdev.innerHTML = `<div class="stickers__info"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof tv7Users[userID].username == 'undefined' ? userID : tv7Users[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
+                          EmoteListtv7.append(splitdev);
+
+                          let stickers__line = splitdev.querySelector('.stickers__line')
+                          for (let emoteCode in items.tv7Emotes[userID]) {
+
+                            if (items.tv7Emotes[userID].hasOwnProperty(emoteCode)) {
+
+                              if (typeof emotes[emoteCode] === 'undefined') {
+
+                                emotes[emoteCode] = items.tv7Emotes[userID][emoteCode];
+
+                                let img = document.createElement('img');
+                                img.src = `https://cdn.7tv.app/emote/${HelperTV7.emotes[emoteCode]}/1x`;
+                                img.classList.add('emoji__item-ovg');
+                                img.title = emoteCode;
+                                img.alt = emoteCode;
+
+                                stickers__line.append(img);
+                                img.addEventListener('click', () => {
+
+                                  let textareatv7 = document.querySelector('.footer > div > textarea')
+                                  textareatv7.value += emoteCode + ' ';
+                                  textareatv7.focus()
+                                  textareatv7.dispatchEvent(new Event('input'));
+                                });
+
+                              }
+                            }
+                          }
+
+                        }
+                      }
+                    })
+                  });
+
+                  // bind search emoji chat
+                  var inputtv7, filtertv7, ultv7, optionstv7, titletv7, itv7;
+                  inputtv7 = document.querySelector('input.tv7emojiSearch-shat');
+                  inputtv7.addEventListener('input', () => {
+                    filtertv7 = inputtv7.value.toUpperCase();
+                    ultv7 = document.querySelector("wasd-chat-emoji-smiles-tv7 .emoji-ovg");
+
+                    optionstv7 = ultv7.querySelectorAll("img.emoji__item-ovg");
+                    for (itv7 = 0; itv7 < optionstv7.length; itv7++) {
+                      titletv7 = optionstv7[itv7].title
+                      if (titletv7) {
+                        if (titletv7.toUpperCase().indexOf(filtertv7) != -1) {
+                          optionstv7[itv7].style.display = "";
+                        } else {
+                          optionstv7[itv7].style.display = "none";
+                        }
+                      }
+                    }
+                  });
+                }
+              }, 50)
+
+            });
+
+            for (let optintv7 of document.querySelectorAll('div.emoji__head__options > .option')) {
+              optintv7.addEventListener('click', (element) => {
+                let option_emotestv7 = document.querySelector('div.option.tv7-emoji')
+                option_emotestv7?.classList?.remove('active');
+                element.path[0].classList.add('active')
+
+                document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove(); //btttv
+
+                let emojiSmilestv7 = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
+                if (emojiSmilestv7) {
+                  emojiSmilestv7.style.display = '';
+                }
+
+                let emojiStickerstv7 = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
+                if (emojiStickerstv7) {
+                  emojiStickerstv7.style.display = '';
+                }
+              });
             }
+
           }
+
+          if (settings.wasd.bttvInChatMenu) {
+            
+            document.querySelector('div.emoji__head__options')?.insertAdjacentHTML("beforeend", `<div class="option bttv-emoji"> BTTV </div>`)
+            document.querySelector('div.option.bttv-emoji')?.addEventListener('click', () => {
+
+              document.querySelector('div.emoji__head__options > .active')?.classList?.remove('active');
+
+              document.querySelector('wasd-chat-emoji-smiles-ffz')?.remove();
+              document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove();
+
+              
+              setTimeout(() => {
+                let option_emotesbttv = document.querySelector('div.option.bttv-emoji')
+                if (option_emotesbttv) {
+                  if (option_emotesbttv.classList) {
+                    option_emotesbttv.classList.add('active');
+                  }
+                }
+
+                let emojiSmilesbttv = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
+                if (emojiSmilesbttv) {
+                  emojiSmilesbttv.style.display = 'none';
+                }
+
+                let emojiStickersbttv = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
+                if (emojiStickersbttv) {
+                  emojiStickersbttv.style.display = 'none';
+                }
+
+                let emoteBodybttv = document.querySelector('.emoji__body');
+                if (emoteBodybttv) {
+                  emoteBodybttv.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-bttv><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bttvemojiSearch-shat" style="background: url(chrome-extension://iiihfpccbafenoaiclhhejfbldcnbmmd/img/search.png) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-bttv>`)
+                  let EmoteListbttv = emoteBodybttv.querySelector('div.emoji-ovg');
+                  //ovg.log(HelperBTTV.emotes);
+
+                  chrome.storage.local.get((items) => {
+                    HelperBTTV.fetchGlobalEmotes(items).finally(() => {
+                      bttvEmotes = items.bttvEmotes;
+                      bttvUsers = items.bttvUsers;
+                      let emotes = {};
+                      for (let userID in items.bttvEmotes) {
+                        if (items.bttvEmotes.hasOwnProperty(userID)) {
+
+                          let splitdev = document.createElement('div');
+                          splitdev.classList.add('stickers__div')
+
+                          splitdev.innerHTML = `<div class="stickers__info"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof bttvUsers[userID].username == 'undefined' ? userID : bttvUsers[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
+                          EmoteListbttv.append(splitdev);
+
+                          let stickers__line = splitdev.querySelector('.stickers__line')
+                          for (let emoteCode in items.bttvEmotes[userID]) {
+
+                            if (items.bttvEmotes[userID].hasOwnProperty(emoteCode)) {
+
+                              if (typeof emotes[emoteCode] === 'undefined') {
+
+                                emotes[emoteCode] = items.bttvEmotes[userID][emoteCode];
+
+                                let img = document.createElement('img');
+                                img.src = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[emoteCode]}/1x`;
+                                img.classList.add('emoji__item-ovg');
+                                img.title = emoteCode;
+                                img.alt = emoteCode;
+
+                                stickers__line.append(img);
+                                img.addEventListener('click', () => {
+
+                                  let textareabttv = document.querySelector('.footer > div > textarea')
+                                  textareabttv.value += emoteCode + ' ';
+                                  textareabttv.focus()
+                                  textareabttv.dispatchEvent(new Event('input'));
+                                });
+
+                              }
+                            }
+                          }
+
+                        }
+                      }
+                    })
+                  });
+
+                  // bind search emoji chat
+                  var inputbttv, filterbttv, ulbttv, optionsbttv, titlebttv, ibttv;
+                  inputbttv = document.querySelector('input.bttvemojiSearch-shat');
+                  inputbttv.addEventListener('input', () => {
+                    filterbttv = inputbttv.value.toUpperCase();
+                    ulbttv = document.querySelector("wasd-chat-emoji-smiles-bttv .emoji-ovg");
+
+                    optionsbttv = ulbttv.querySelectorAll("img.emoji__item-ovg");
+                    for (ibttv = 0; ibttv < optionsbttv.length; ibttv++) {
+                      titlebttv = optionsbttv[ibttv].title
+                      if (titlebttv) {
+                        if (titlebttv.toUpperCase().indexOf(filterbttv) != -1) {
+                          optionsbttv[ibttv].style.display = "";
+                        } else {
+                          optionsbttv[ibttv].style.display = "none";
+                        }
+                      }
+                    }
+                  });
+                }
+              }, 50)
+              
+            });
+
+            for (let optinbttv of document.querySelectorAll('div.emoji__head__options > .option')) {
+              optinbttv.addEventListener('click', (element) => {
+                let option_emotesbttv = document.querySelector('div.option.bttv-emoji')
+                option_emotesbttv?.classList?.remove('active');
+                element.path[0].classList.add('active')
+
+                document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
+
+                let emojiSmilesbttv = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
+                if (emojiSmilesbttv) {
+                  emojiSmilesbttv.style.display = '';
+                }
+
+                let emojiStickersbttv = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
+                if (emojiStickersbttv) {
+                  emojiStickersbttv.style.display = '';
+                }
+              });
+            }
+            
+          }
+
+          if (settings.wasd.ffzInChatMenu) {
+
+            document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option ffz-emoji"> FFZ </div>`)
+            document.querySelector('div.option.ffz-emoji').addEventListener('click', () => {
+
+              document.querySelector('div.emoji__head__options > .active')?.classList?.remove('active');
+
+              document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
+              document.querySelector('wasd-chat-emoji-smiles-vt7')?.remove();
+
+
+              setTimeout(() => {
+                document.querySelector('div.option.ffz-emoji')?.classList?.add('active');
+                if (document.querySelector('.emoji__body > wasd-chat-emoji-smiles')) {
+                  document.querySelector('.emoji__body > wasd-chat-emoji-smiles').style.display = 'none';
+                }
+                if (document.querySelector('.emoji__body > wasd-chat-emoji-stickers')) {
+                  document.querySelector('.emoji__body > wasd-chat-emoji-stickers').style.display = 'none';
+                }
+
+                let emoteBodyffz = document.querySelector('.emoji__body');
+                if (emoteBodyffz) {
+                  emoteBodyffz.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-ffz><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option ffzemojiSearch-shat" style="background: url(chrome-extension://iiihfpccbafenoaiclhhejfbldcnbmmd/img/search.png) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-ffz>`)
+                  let EmoteListffz = emoteBodyffz.querySelector('div.emoji-ovg');
+                  //ovg.log(HelperFFZ.emotes);
+
+                  chrome.storage.local.get((items) => {
+                    HelperFFZ.fetchGlobalEmotes(items).finally(() => {
+                      ffzEmotes = items.ffzEmotes;
+                      ffzUsers = items.ffzUsers;
+                      let emotes = {};
+                      for (let userID in items.ffzEmotes) {
+                        if (items.ffzEmotes.hasOwnProperty(userID)) {
+
+                          let splitdev = document.createElement('div');
+                          splitdev.classList.add('stickers__div')
+
+                          let usernameovg;
+                          if (typeof ffzUsers[userID] != 'undefined') {
+                            if (typeof ffzUsers[userID].username != 'undefined') {
+                              usernameovg = ffzUsers[userID].username
+                            } else {
+                              usernameovg = userID
+                            }
+                          } else {
+                            usernameovg = userID
+                          }
+
+                          splitdev.innerHTML = `<div class="stickers__info"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${usernameovg} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
+                          EmoteListffz.append(splitdev);
+
+                          let stickers__line = splitdev.querySelector('.stickers__line')
+                          for (let emoteCode in items.ffzEmotes[userID]) {
+
+                            if (items.ffzEmotes[userID].hasOwnProperty(emoteCode)) {
+
+                              if (typeof emotes[emoteCode] === 'undefined') {
+
+                                emotes[emoteCode] = items.ffzEmotes[userID][emoteCode];
+
+                                let img = document.createElement('img');
+                                img.src = `https://cdn.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]}/1`;
+                                img.classList.add('emoji__item-ovg');
+                                img.title = emoteCode;
+                                img.alt = emoteCode;
+
+                                stickers__line.append(img);
+                                img.addEventListener('click', () => {
+
+                                  let textareaffz = document.querySelector('.footer > div > textarea')
+                                  textareaffz.value += emoteCode + ' ';
+                                  textareaffz.focus()
+                                  textareaffz.dispatchEvent(new Event('input'));
+                                });
+
+                              }
+                            }
+                          }
+
+                        }
+                      }
+                    })
+                  });
+
+                  // bind search emoji chat
+                  var inputffz, filterffz, ulffz, optionsffz, titleffz, iffz;
+                  inputffz = document.querySelector('input.ffzemojiSearch-shat');
+                  inputffz.addEventListener('input', () => {
+                    filterffz = inputffz.value.toUpperCase();
+                    ulffz = document.querySelector("wasd-chat-emoji-smiles-ffz .emoji-ovg");
+
+                    optionsffz = ulffz.querySelectorAll("img.emoji__item-ovg");
+                    for (iffz = 0; iffz < optionsffz.length; iffz++) {
+                      titleffz = optionsffz[iffz].title
+                      if (titleffz) {
+                        if (titleffz.toUpperCase().indexOf(filterffz) != -1) {
+                          optionsffz[iffz].style.display = "";
+                        } else {
+                          optionsffz[iffz].style.display = "none";
+                        }
+                      }
+                    }
+                  });
+                }
+              }, 50)
+
+            });
+
+            for (let optin of document.querySelectorAll('div.emoji__head__options > .option')) {
+              optin.addEventListener('click', (element) => {
+                let option_emotesffz = document.querySelector('div.option.ffz-emoji')
+                if (option_emotesffz) {
+                  if (option_emotesffz.classList) {
+                    option_emotesffz.classList.remove('active');
+                  }
+                }
+                element.path[0].classList.add('active')
+
+                if (document.querySelector('wasd-chat-emoji-smiles-ffz')) {
+                  document.querySelector('wasd-chat-emoji-smiles-ffz').remove();
+                }
+
+                let emojiSmilesffz = document.querySelector('.emoji__body > wasd-chat-emoji-smiles');
+                if (emojiSmilesffz) {
+                  emojiSmilesffz.style.display = '';
+                }
+
+                let emojiStickersffz = document.querySelector('.emoji__body > wasd-chat-emoji-stickers');
+                if (emojiStickersffz) {
+                  emojiStickersffz.style.display = '';
+                }
+              });
+            }
+
+          }
+
+        }
+
+        if (add_chat_menu.length) {
+          // console.log('123 addedNodes add_chat_menu', add_chat_menu[0].parentNode)
+          HelperWASD.addToMenu(add_chat_menu[0].parentNode)
+        }
+
+        if (add_carousel_container_chromeless.length && !settings.wasd.autoPlayStreamersOnMain) {
+          console.log('123 addedNodes add_carousel_container_chromeless', add_carousel_container_chromeless[0])
+          let video = add_carousel_container_chromeless[0].querySelector('video')
+
+          video?.addEventListener('play', () => {
+            video.pause()
+          })
+        }
+        if (add_carousel_pending.length && !settings.wasd.autoPlayStreamersOnMain) {
+          console.log('123 addedNodes add_carousel_pending', add_carousel_pending[0])
+          add_carousel_pending[0].style.display = 'none';
+        }
+
+        if (add_uptime.length) {
+          console.log('123 addedNodes add_uptime', add_uptime[0])
+          add_uptime[0]?.querySelector('wasd-user-plays')?.insertAdjacentHTML('afterend', '<div class="stream-uptime tooltip-hover" style="position:relative;"><i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip></div>')
+          let uptime = document.querySelector('div.stream-uptime')
+          let uptimevalue = document.querySelector('.stream-uptime input.player-info__stat-value')
+          let uptimetooltip = document.querySelector('.stream-uptime div.tooltip > div')
+          
+          uptime.addEventListener('click', () => {
+            uptimevalue.setSelectionRange(0, 20)
+            if (document.execCommand("copy")) {
+              HelperWASD.showChatMessage('Скопировано в буфер обмена', 'success')
+            } else {
+              HelperWASD.showChatMessage('Ошибка')
+            }
+            uptimevalue.setSelectionRange(0, 0)
+          });
+
+          let timerId = setTimeout(function tick() {
+
+            if (settings.wasd.uptimeStream) {
+              if (uptime.innerHTML == '') {
+                uptime.innerHTML = '<i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip>'
+              }
+            } else {
+              uptime.innerHTML = ''
+            }
+
+            let date = new Date(socket.channel?.media_container?.published_at);
+
+            uptimetooltip.innerHTML = ` аптайм трансляции </br> (с ${date.toLocaleString()}) `
+            uptimevalue.value = moment.utc(new Date(new Date() - date)).format('HH:mm:ss');
+
+            timerId = setTimeout(tick, 1000);
+          }, 1000);
         }
 
       }
-    };
+    }
 
-    let target = document.querySelector(chatQuerySelector);
+    const observer = new MutationObserver(callback);
 
-    if (target === null) {
-      let interval = setInterval(() => {
-        let chatFrame = document.querySelector('wasd-chat-body');
-        if (chatFrame) {
-          let documentElement = chatFrame.querySelector('.chat-container__wrap');
-          target = chatFrame;
+    if (mutationtarget) {
+      observer.observe(mutationtarget, config);
+    }
 
-          if (target !== null) {
-            clearInterval(interval);
-            init(document.querySelector('wasd-chat-body'), target);
-          }
+
+    let wasdPlayer = document.querySelector('wasd-player')
+    if (wasdPlayer) {
+      wasdPlayer.addEventListener("touchend", () => setTimeout(() => {
+        document.querySelector('.media-control').classList.remove('media-control-hide')
+        document.querySelector('.custom-media-control').classList.remove('custom-media-hidden')
+        document.querySelector('.player-streaminfo').classList.remove('custom-media-hidden')
+      }, 10), false);
+
+      wasdPlayer.onmousedown = (e) => {
+        if (settings.wasd.mutePlayerOnMiddleMouse && e.button == 1) {
+          document.querySelector('.player-button.volume-button').click()
+          return false;
         }
-      }, 250);
-    } else {
-      init(document, target);
+      }
     }
 
     if (this.style === null) {
@@ -210,7 +592,7 @@ const wasd = {
       wasd.update();
     }
 
-    function fixMobilePlayer() {
+    fixMobilePlayer = () => {
       setTimeout(() => {
         if (document.querySelector('.theatre-mode-mobile')) {
           document.querySelector('.theatre-mode-mobile').classList.remove('theatre-mode-mobile')
@@ -227,6 +609,22 @@ const wasd = {
     }
 
     fixMobilePlayer()
+
+    // add button BetterWASD настройки
+    if (!BetterStreamChat.isSettingsNewWindow) {
+      const buttonovg = `<li id="selector-bm-ovg-settings"><a class="profile-menu__link"><i class="wasd-icons-settings-profile"></i><span> BetterWASD настройки </span></a></li>`
+      document.querySelector('wasd-profile-menu #profile-menu .profile-menu__list #selector-pm-theme')?.insertAdjacentHTML("beforebegin", buttonovg);
+      document.querySelector('li#selector-bm-ovg-settings')?.addEventListener('click', () => {
+        BetterStreamChat.settingsDiv.style.display = 'block'
+        document.querySelector('body').click()
+        document.body.style.overflowY = "hidden";
+        BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
+        BetterStreamChat.openSettings()
+      });
+      // document.querySelector('wasd-header .profile-menu-toggle').addEventListener('click', () => {})
+      // document.querySelector('wasd-header .profile-menu-toggle').addEventListener('click', () => {})
+    }
+
   },
   update() {
     let cssCode = ``;
@@ -241,6 +639,10 @@ const wasd = {
 
     if (settings.wasd.messageSystem) {
       cssCode += `wasd-chat-system-message { display: none!important; }`;
+    }
+
+    if (settings.wasd.messagePromoCodes) {
+      cssCode += `wasd-chat-promo-codes-message { display: none!important; }`;
     }
 
     if (settings.wasd.wasdIconsSmile) {
@@ -420,8 +822,8 @@ const wasd = {
     if (settings.wasd.hideBannerOnHome) {
       cssCode += `wasd-banner .banner { display: none!important; }`;
     }
-    if (settings.wasd.hideSelectorStreamSettings) {
-      cssCode += `#selector-header-stream-settings { display: none!important; }`;
+    if (settings.wasd.hideSelectorStreamSettings && document.querySelector('.header-new__stream-settings-btn')) {
+      cssCode += `.header-new__stream-settings-btn, hr#selector-header-new-buttons-right-hr-first { display: none!important; }`;
     }
     if (settings.wasd.underlineUsernameAndMention) {
       cssCode += `.chat-message-mention:hover, .info__text__status__name:hover { text-decoration: underline!important; }`;
@@ -435,7 +837,7 @@ const wasd = {
     } else {
       bgmc = `background-color: rgba(0, 0, 0, 0)!important`
     }
-    cssCode += `.message.has-mention {${bgmc}}`
+    cssCode += `.message.has-mention, .message-ovg.has-mention {${bgmc}}`
 
     cssCode += `.message.openCardColor {background-color: ${settings.wasd.highlightMessagesOpenCardColor != '#000000' ? settings.wasd.highlightMessagesOpenCardColor+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
 
@@ -446,7 +848,7 @@ const wasd = {
       cssCode += `.message-ovg:hover { background-color: ${settings.wasd.colorMessageHover != '#000000' ? settings.wasd.colorMessageHover+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }; }`;
       cssCode += `.ovg-bg-color-prime:hover { background-color: ${settings.wasd.colorMessageHover != '#000000' ? settings.wasd.colorMessageHover+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }; }`;
     }
-    cssCode += `.paidsubs-popup__stickers-item {cursor: url(${chrome.extension.getURL("img/cursorS.png")}) 4 4, auto}`
+    cssCode += `.paidsubs-popup__stickers-item {cursor: url(${chrome.runtime.getURL("img/cursorS.png")}) 4 4, auto}`
 
     if (settings.wasd.decreaseIndentationStickerMenu) {
       cssCode += 'wasd-chat-emoji-stickers .stickers__body {padding: 6px 0 0 8px!important;}wasd-chat-emoji-stickers .stickers__body__item {min-width: auto!important;padding: 2px!important;margin: 0 8px 8px 0!important;height: 43px!important;width: 43px!important;}wasd-chat-emoji-stickers .stickers__body__item--not-available {width: 18px!important;height: 18px!important;right: 10px!important;bottom: 10px!important;}wasd-chat-emoji-stickers .stickers__body__item--not-available img {height: 11px!important;}'
@@ -477,7 +879,7 @@ const wasd = {
     }
 
     if (settings.wasd.hideGreatRandom) {
-      cssCode += 'li#selector-header-random-stream {display: none!important}'
+      cssCode += '.header-new__random-stream-wrap {display: none!important}'
     }
 
     for (let role in settings.highlightRole) {
@@ -531,6 +933,11 @@ const wasd = {
       cssCode += `.player-info .raid { display: none !important; }`
     }
 
+    /* fix profile-menu height */
+    if (document.querySelector('#selector-bm-ovg-settings')) {
+      cssCode += `.profile-menu.profile-menu--show {height: 176px!important;} .profile-menu.profile-menu--show.profile-menu--logged {height: 336px!important;}`
+    }
+
     var iframe = document.querySelector('iframe.obschat')
     iframe?.contentWindow?.postMessage(settings.obschat, '*');
 
@@ -572,10 +979,11 @@ const wasd = {
         node.style.display = 'block';
       }
 
-      adminRef = node.querySelector('.is-admin')
-      modRef = node.querySelector('.is-moderator')
-      ownerRef = node.querySelector('.is-owner')
-      subRef = node.querySelector('.info__text__status-paid')
+      adminRef       = node.querySelector('.is-admin')
+      modRef         = node.querySelector('.is-moderator')
+      ownerRef       = node.querySelector('.is-owner')
+      subRef         = node.querySelector('.info__text__status-paid')
+      promoCodeWin   = node.querySelector('.message__promocodes')
 
       var usernametext = node.querySelector('.info__text__status__name')?.textContent.trim()
       var message = node.querySelector('.message-text > span')?.textContent.trim()
@@ -584,10 +992,10 @@ const wasd = {
       var sticker = node.querySelector('.sticker')?.src
 
       let roles = 'user'
-      if (node.querySelector('.wasd-icons-owner')) roles += ' owner'
-      if (node.querySelector('.wasd-icons-dev')) roles += ' admin'
-      if (node.querySelector('.wasd-icons-moderator')) roles += ' moderator'
-      if (node.querySelector('.wasd-icons-star')) roles += ' sub'
+      if (node.querySelector('.wasd-icons-owner')) roles       += ' owner'
+      if (node.querySelector('.wasd-icons-dev')) roles         += ' admin'
+      if (node.querySelector('.wasd-icons-moderator')) roles   += ' moderator'
+      if (node.querySelector('.wasd-icons-star')) roles        += ' sub'
       node.setAttribute('role', roles)
 
       if (node.querySelector('img[alt="sticker"]')) node.setAttribute('sticker', node.querySelector('img[alt="sticker"]').src)
@@ -657,68 +1065,38 @@ const wasd = {
 
         let bl = ' ';
 
-        if (settings.wasd.onClickMention.toString() === '0') {
-          messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
-            let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
-            if (!username) {
-              username = $1.trim().split('@').join('')
-            }
-            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention' username="${$1}" usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
-          });
-          node.querySelectorAll('.chat-message-mention').forEach(element => {
-            HelperWASD.usercolorapi(element);
-            bl += element.getAttribute('usernamelc').split('@').join('') + ' '
-            element.addEventListener('click', ({
-              target
-            }) => {
-              if (target.getAttribute('username')) {
-                HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
-              }
-            });
-          });
-        } else if (settings.wasd.onClickMention.toString() === '1') {
-          messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
-            let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
-            if (!username) {
-              username = $1.trim().split('@').join('')
-            }
-            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}" usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
-          });
-          node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-            HelperWASD.usercolorapi(element);
-            bl += element.getAttribute('usernamelc').split('@').join('') + ' '
-            element.addEventListener('click', ({
-              target
-            }) => {
-              if (textarea) {
-                textarea.value += target.getAttribute('username').trim() + ' ';
-                textarea.dispatchEvent(new Event('input'));
-                textarea.focus()
-              }
-            })
-          });
-        } else if (settings.wasd.onClickMention.toString() === '2') {
-          messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, function($1) {
-            let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
-            if (!username) {
-              username = $1.trim().split('@').join('')
-            }
-            return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention click' username="${$1}" usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
-          });
-          node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-            HelperWASD.usercolorapi(element);
-            bl += element.getAttribute('usernamelc').split('@').join('') + ' '
-            element.addEventListener('click', ({
-              target
-            }) => {
-              if (target.getAttribute('username')) {
-                if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
-                  HelperWASD.createUserViewerCard(target.getAttribute('username').split('@').join(''));
+        messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, ($1) => {
+          let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
+          if (!username) {
+            username = $1.trim().split('@').join('')
+          }
+          return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' username="${$1}" usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
+        });
+
+        messageText.innerHTML = messageText.innerHTML.replace(/\+at\+/ig, '@')
+
+        node.querySelectorAll('.chat-message-mention').forEach(element => {
+          if (element.style.color == '') HelperWASD.usercolorapi(element);
+
+          bl += element.getAttribute('usernamelc').split('@').join('') + ' '
+
+          element.addEventListener('click', ({ target }) => {
+            let username = target.getAttribute('username')?.split('@').join('')
+            if (username) {
+              if (settings.wasd.onClickMention.toString() === '1') {
+                if (textarea) {
+                  textarea.value += target.getAttribute('username').trim() + ' ';
+                  textarea.dispatchEvent(new Event('input'));
+                  textarea.focus()
+                }
+              } else if (settings.wasd.onClickMention.toString() === '2') {
+                if (!HelperWASD.addUsernameToTextarea(username)) {
+                  HelperWASD.createUserViewerCard(username);
                 }
               }
-            })
-          });
-        }
+            }
+          })
+        });
 
         node.setAttribute('mention', bl)
 
@@ -735,9 +1113,7 @@ const wasd = {
           nicknamediv.style.textDecoration = 'auto';
           elClone = nicknamediv.cloneNode(true);
           nicknamediv.parentNode.replaceChild(elClone, nicknamediv);
-          nicknamediv.addEventListener('click', ({
-            target
-          }) => {
+          nicknamediv.addEventListener('click', ({ target }) => {
             if (target.getAttribute('username')) {
               HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
             }
@@ -746,9 +1122,7 @@ const wasd = {
           elClone = nicknamediv.cloneNode(true);
           nicknamediv.parentNode.replaceChild(elClone, nicknamediv);
           nicknamediv = node.querySelector('.info__text__status__name');
-          nicknamediv.addEventListener('click', ({
-            target
-          }) => {
+          nicknamediv.addEventListener('click', ({ target }) => {
             if (target.getAttribute('username')) {
               if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
                 HelperWASD.createUserViewerCard(target.getAttribute('username').split('@').join(''));
@@ -772,9 +1146,7 @@ const wasd = {
             loading = node.querySelector('.lds-ring');
           }
 
-          messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.banned').addEventListener('click', ({
-            target
-          }) => {
+          messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.banned').addEventListener('click', ({ target }) => {
             if (node.querySelector('.message__info__icon > i')) {
               node.querySelector('.message__info__icon > i').click();
 
@@ -796,9 +1168,7 @@ const wasd = {
 
                         loading.style.display = 'none'
                       } else {
-                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({
-                          target
-                        }) => {
+                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
                           loading.style.display = 'none'
                         })
                       }
@@ -812,7 +1182,7 @@ const wasd = {
                 }
               }
 
-              function fetch_banned_message() {
+              fetch_banned_message = () => {
                 if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
                   contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
                   banned_message()
@@ -828,9 +1198,7 @@ const wasd = {
             }
           });
 
-          messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.timeout').addEventListener('click', ({
-            target
-          }) => {
+          messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.timeout').addEventListener('click', ({ target }) => {
             if (node.querySelector('.message__info__icon > i')) {
               node.querySelector('.message__info__icon > i').click();
 
@@ -872,9 +1240,7 @@ const wasd = {
 
                         loading.style.display = 'none'
                       } else {
-                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({
-                          target
-                        }) => {
+                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
                           loading.style.display = 'none'
                         })
                       }
@@ -888,7 +1254,7 @@ const wasd = {
                 }
               }
 
-              function fetch_timeout_message() {
+              fetch_timeout_message = () => {
                 if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
                   contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
                   timeout_message()
@@ -904,9 +1270,7 @@ const wasd = {
             }
           });
 
-          messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.remove').addEventListener('click', ({
-            target
-          }) => {
+          messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.remove').addEventListener('click', ({ target }) => {
             if (node.querySelector('.message__info__icon > i')) {
               node.querySelector('.message__info__icon > i').click();
 
@@ -930,9 +1294,7 @@ const wasd = {
                         document.querySelector('wasd-chat-popups > div.block').style.display = 'none';
                         loading.style.display = 'none'
                       } else {
-                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({
-                          target
-                        }) => {
+                        document.querySelector('.block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic').addEventListener('click', ({ target }) => {
                           loading.style.display = 'none'
                         })
                       }
@@ -946,7 +1308,7 @@ const wasd = {
                 }
               }
 
-              function fetch_remove_message() {
+              fetch_remove_message = () => {
                 if (node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu')) {
                   contextMenu = node.querySelector('.message__info > .message__info__icon > wasd-chat-context-menu > .context-menu');
                   remove_message()
@@ -964,25 +1326,8 @@ const wasd = {
         }
       }
 
-      a = node.querySelector('div.message-text a');
-
-      switch (settings.wasd.linkRecognitionRights.toString()) {
-        case '0':
-          if (adminRef || ownerRef) linkRecognizerGo()
-          break;
-        case '1':
-          if (adminRef || ownerRef || modRef) linkRecognizerGo()
-          break;
-        case '2':
-          if (adminRef || ownerRef || modRef || subRef) linkRecognizerGo()
-          break;
-        case '3':
-          linkRecognizerGo()
-          break;
-      }
-
-      function linkRecognizerGo() {
-        if (a) {
+      const linkRecognizerGo = () => {
+        if (a && linkify.test(a.href, 'url')) {
 
           if (new URL(a.href).host == "wasd.tv" && new URL(a.href).searchParams.get('record') != null) {
             if (settings.wasd.linkRecognizerWASD) {
@@ -994,14 +1339,14 @@ const wasd = {
 
               $.ajax({
                 url: `https://wasd.tv/api/v2/media-containers/${new URL(a.href).searchParams.get('record')}`,
-                success: function(out) {
+                success: (out) => {
                   var game = 'неизвестно'
                   if (out.result.game != null) game = out.result.game.game_name;
                   let username = out.result.media_container_channel.channel_name
                   let usernameed = settings.wasd.userNameEdited[username.trim()];
                   node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.media_container_streams[0].stream_media[0].media_meta.media_preview_images.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.media_container_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.media_container_name}</div><div title="${usernameed ? usernameed+' ('+username+')' : username} играет в ${game}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${out.result.user_id}">${usernameed ? usernameed : username}</a> играет в ${game}</div><div title="${out.result.created_at} - ${out.result.media_container_streams[0].stream_total_viewers} просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${new Date(out.result.created_at).toLocaleDateString()} - ${out.result.media_container_streams[0].stream_total_viewers} просмотров</div></div></div></div>`;
                 },
-                error: function(out) {
+                error: (out) => {
                   node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
 
                 }
@@ -1019,7 +1364,7 @@ const wasd = {
 
               $.ajax({
                 url: `https://wasd.tv/api/v2/clips/${new URL(a.href).searchParams.get('clip')}`,
-                success: function(out) {
+                success: (out) => {
                   if (!out?.error?.code) {
                     let username = out.result.clip_channel.channel_name
                     let usernameed = settings.wasd.userNameEdited[username.trim()];
@@ -1030,7 +1375,7 @@ const wasd = {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out.error.code}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.error.code}</div></div></div></div>`;
                   }
                 },
-                error: function(out) {
+                error: (out) => {
                   node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                 }
               });
@@ -1047,14 +1392,14 @@ const wasd = {
 
               $.ajax({
                 url: `https://wasd.tv/api/games/${new URL(a.href).pathname.split('/')[2]}`,
-                success: function(out) {
+                success: (out) => {
                   if (!out?.error?.code) {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.game_icon.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out.result.game_asset_name}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.game_asset_name}</div><div title="${out.result.game_description}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.result.game_description != null ? out.result.game_description : 'Нет описания'}</div></div></div></div>`;
                   } else {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out.error.code}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.error.code}</div></div></div></div>`;
                   }
                 },
-                error: function(out) {
+                error: (out) => {
                   node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                 }
               });
@@ -1071,7 +1416,7 @@ const wasd = {
 
               $.ajax({
                 url: `https://wasd.tv/api/v2/broadcasts/public?channel_name=${new URL(a.href).pathname.split('/')[1]}`,
-                success: function(out) {
+                success: (out) => {
                   if (typeof out.error !== 'undefined') {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                   } else {
@@ -1080,7 +1425,7 @@ const wasd = {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="${out.result.channel.channel_image.small}" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${usernameed ? usernameed+' ('+username+')' : username}" class="tw-ellipsis tw-semibold tw-mg-x-05">${usernameed ? usernameed : username}</div><div title="${out.result.channel.channel_description}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.result.channel.channel_description}</div></div></div></div>`;
                   }
                 },
-                error: function(out) {
+                error: (out) => {
                   node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                 }
               });
@@ -1096,7 +1441,7 @@ const wasd = {
 
               $.ajax({
                 url: `https://api-test.frankerfacez.com/v2/link?url=${a.href}`,
-                success: function(out) {
+                success: (out) => {
                   if (!out.short?.subtitle) {
                     let img = '';
                     let title = out.short.title
@@ -1117,7 +1462,7 @@ const wasd = {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                   }
                 },
-                error: function(out) {
+                error: (out) => {
                   node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                 }
               });
@@ -1133,7 +1478,7 @@ const wasd = {
 
               $.ajax({
                 url: `https://api-test.frankerfacez.com/v2/link?url=${a.href}`,
-                success: function(out) {
+                success: (out) => {
                   let img = '';
                   if (typeof out.short.image != "undefined") img = out.short.image.url;
                   let d = ''
@@ -1148,7 +1493,7 @@ const wasd = {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                   }
                 },
-                error: function(out) {
+                error: (out) => {
                   node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                 }
               });
@@ -1167,7 +1512,7 @@ const wasd = {
 
               $.ajax({
                 url: `https://api-test.frankerfacez.com/v2/link?url=${a.href}`,
-                success: function(out) {
+                success: (out) => {
                   if (out?.error?.phrase) {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="${out?.error?.phrase}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.error?.phrase}</div></div></div></div>`;
                   } else if (new URL(href).host == "youtu.be" || new URL(href).host == "m.youtube.com" || new URL(href).host == "youtube.be" || (new URL(href).host == "www.youtube.com" && new URL(href).pathname == "/watch")) {
@@ -1274,7 +1619,7 @@ const wasd = {
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.base}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.base}</div></div></div></div>`;
                   }
                 },
-                error: function(out) {
+                error: (out) => {
                   node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05"><img src="https://static-cdn.jtvnw.net/emoticons/v1/58765/2.0" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="Произошла ошибка." class="tw-ellipsis tw-semibold tw-mg-x-05">Произошла ошибка.</div><div title="No Information Available" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">No Information Available</div></div></div></div>`;
                 }
               });
@@ -1284,11 +1629,26 @@ const wasd = {
         }
       }
 
+      a = node.querySelector('div.message-text a');
+
+      switch (settings.wasd.linkRecognitionRights.toString()) {
+        case '0':
+          if (adminRef || ownerRef) linkRecognizerGo()
+          break;
+        case '1':
+          if (adminRef || ownerRef || modRef) linkRecognizerGo()
+          break;
+        case '2':
+          if (adminRef || ownerRef || modRef || subRef) linkRecognizerGo()
+          break;
+        case '3':
+          linkRecognizerGo()
+          break;
+      }
+
       node.querySelector('div.message__info__icon > i')?.addEventListener('click', () => {
         let trycreate = 0
-        create_context_block()
-
-        function create_context_block() {
+        create_context_block = () => {
           context_menu = node.querySelector('.context-menu')
           if (context_menu) {
             if (!context_menu.querySelector('.contextBlacklistAddUser')) {
@@ -1296,9 +1656,7 @@ const wasd = {
               item.classList.add(`context-menu__block`)
               item.innerHTML = `<div class="context-menu__block__icon contextBlacklistAddUser"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Добавить в ЧС </div>`;
               context_menu.append(item)
-              item.addEventListener('click', ({
-                target
-              }) => {
+              item.addEventListener('click', ({ target }) => {
                 let username = node.querySelector('.info__text__status__name').getAttribute('username');
                 if (!settings.list.blockUserList[username]) {
                   HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
@@ -1316,9 +1674,7 @@ const wasd = {
               item.classList.add(`context-menu__block`)
               item.innerHTML = `<div class="context-menu__block__icon contextPinMessages"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Закрепить сообщение </div>`;
               context_menu.append(item)
-              item.addEventListener('click', ({
-                target
-              }) => {
+              item.addEventListener('click', ({ target }) => {
                 HelperWASD.addPinMessage(node)
                 node.click()
               })
@@ -1332,9 +1688,11 @@ const wasd = {
             }
           }
         }
+
+        create_context_block()
       })
 
-      var mentoinHtml;
+      var mentoinHtml; // follow / sub 
       if (settings.wasd.clickMentionAll && node.querySelector('wasd-chat-follower-message')) {
         mentoinHtml = node.querySelector('.message-follower__name')
       }
@@ -1353,9 +1711,7 @@ const wasd = {
             out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention' username="@${username}" usernamelc="${username.toLowerCase()}">${username}</span>`
             node.querySelectorAll('.chat-message-mention').forEach(element => {
               HelperWASD.usercolorapi(element);
-              element.addEventListener('click', ({
-                target
-              }) => {
+              element.addEventListener('click', ({ target }) => {
                 if (target.getAttribute('username')) {
                   HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
                 }
@@ -1365,9 +1721,7 @@ const wasd = {
             out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}">${username}</span>`
             node.querySelectorAll('.chat-message-mention.click').forEach(element => {
               HelperWASD.usercolorapi(element);
-              element.addEventListener('click', ({
-                target
-              }) => {
+              element.addEventListener('click', ({ target }) => {
                 if (textarea) {
                   textarea.value += target.getAttribute('username').trim() + ' ';
                   textarea.dispatchEvent(new Event('input'));
@@ -1379,9 +1733,7 @@ const wasd = {
             out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}">${username}</span>`
             node.querySelectorAll('.chat-message-mention.click').forEach(element => {
               HelperWASD.usercolorapi(element);
-              element.addEventListener('click', ({
-                target
-              }) => {
+              element.addEventListener('click', ({ target }) => {
                 if (target.getAttribute('username')) {
                   if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
                     HelperWASD.createUserViewerCard(target.getAttribute('username').split('@').join(''));
@@ -1396,18 +1748,14 @@ const wasd = {
         let element = node.querySelector('.chat-message-mention')
 
         if (settings.wasd.onClickMention.toString() === '0') {
-          element.addEventListener('click', ({
-            target
-          }) => {
+          element.addEventListener('click', ({ target }) => {
             if (target.getAttribute('username')) {
               HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
             }
           });
 
         } else if (settings.wasd.onClickMention.toString() === '1') {
-          element.addEventListener('click', ({
-            target
-          }) => {
+          element.addEventListener('click', ({ target }) => {
             if (textarea) {
               textarea.value += target.getAttribute('username').trim() + ' ';
               textarea.dispatchEvent(new Event('input'));
@@ -1416,9 +1764,7 @@ const wasd = {
           })
 
         } else if (settings.wasd.onClickMention.toString() === '2') {
-          element.addEventListener('click', ({
-            target
-          }) => {
+          element.addEventListener('click', ({ target }) => {
             if (target.getAttribute('username')) {
               if (!HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''))) {
                 HelperWASD.createUserViewerCard(target.getAttribute('username').split('@').join(''));
@@ -1453,10 +1799,11 @@ const wasd = {
         });
       }
 
-      adminRef = node.querySelector('.is-admin')
-      modRef = node.querySelector('.is-moderator')
-      ownerRef = node.querySelector('.is-owner')
-      subRef = node.querySelector('.info__text__status-paid')
+      adminRef       = node.querySelector('.is-admin')
+      modRef         = node.querySelector('.is-moderator')
+      ownerRef       = node.querySelector('.is-owner')
+      subRef         = node.querySelector('.info__text__status-paid')
+      promoCodeWin   = node.querySelector('.message__promocodes')
 
       if (modRef && !settings.wasd.showModeratorBadge) {
         modRef.classList.remove('is-moderator')
@@ -1484,6 +1831,10 @@ const wasd = {
 
       if (subRef && !settings.wasd.showSubBadge) {
         subRef.remove()
+      }
+
+      if (promoCodeWin && !settings.wasd.showPromoCodeWin) {
+        promoCodeWin.remove()
       }
 
     }

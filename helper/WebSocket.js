@@ -3,7 +3,7 @@ const socket = {
   streamId: 0,
   channelId: 0,
   intervalcheck: null,
-  current: null,
+  channel: null,
   stream_url: null,
   isLiveInited: false,
   intervals: [],
@@ -22,38 +22,38 @@ const socket = {
     $.ajax({
       url: HelperWASD.getStreamBroadcastsUrl(),
       headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-      success: function(out) {
-        socket.current = out.result
+      success: (out) => {
+        socket.channel = out.result
         if (!document.querySelector('.hidden.info__text__status__name')) {
           let dd = document.createElement('div')
           dd.classList.add('info__text__status__name')
           dd.classList.add('hidden')
-          dd.setAttribute('username', '@' + socket.current.channel.channel_owner.user_login.toLowerCase())
-          dd.style.color = HelperWASD.userColors[socket.current.channel.channel_owner.user_id % (HelperWASD.userColors.length - 1)]
+          dd.setAttribute('username', '@' + socket.channel.channel.channel_owner.user_login.toLowerCase())
+          dd.style.color = HelperWASD.userColors[socket.channel.channel.channel_owner.user_id % (HelperWASD.userColors.length - 1)]
           dd.style.display = 'none'
           document.body.append(dd)
         }
 
         if (!socket.isLiveInited && out.result.channel.channel_is_live) {
           socket.isLiveInited = true
-          channel_name = socket.current.channel.channel_owner.user_login
+          channel_name = socket.channel.channel.channel_owner.user_login
           socket.start(channel_name)
-          ovg.log('chat inited to channel')
+          ws.log('chat init to channel', channel_name)
         } else if (socket.isLiveInited && !out.result.channel.channel_is_live) {
           socket.isLiveInited = false
           socket.stop(1000, 'LIVE_CLOSED')
-          ovg.log('chat not inited to channel') //-
+          ws.log('chat not inited to channel') //-
         } else if (socket.isLiveInited && out.result.channel.channel_is_live) {
-          ovg.log('chat worked')
+          // ws.log('chat worked')
         } else {
-          ovg.log('chat not worked')
+          ws.log('chat not worked')
+          // setTimeout(() => {
+          //   socket.initChat()
+          // }, 30000)
         }
-        setTimeout(() => {
-          socket.initChat()
-        }, 30000)
       },
-      error: function(err) {
-        ovg.log('err', err)
+      error: (err) => {
+        ws.log('err', err)
         setTimeout(() => {
           socket.initChat()
         }, 30000)
@@ -63,18 +63,18 @@ const socket = {
   start(channel_name) {
     this.socketd = new WebSocket("wss://chat.wasd.tv/socket.io/?EIO=3&transport=websocket");
 
-    this.socketd.onopen = function(e) {
+    this.socketd.onopen = (e) => {
       $.ajax({
         url: `https://wasd.tv/api/auth/chat-token`,
         headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-        success: function(out) {
+        success: (out) => {
           socket.jwt = out.result
           new Promise((resolve, reject) => {
             socket.stream_url = HelperWASD.getStreamBroadcastsUrl()
             $.ajax({
               url: HelperWASD.getStreamBroadcastsUrl(),
               headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-              success: function(out) {
+              success: (out) => {
 
                 socket.channelId = out.result.channel.channel_id
 
@@ -89,15 +89,19 @@ const socket = {
               if (typeof out.media_container == "undefined") {
                 socket.streamId = out.media_container_streams[0].stream_id
               } else {
+                if (typeof out?.media_container?.media_container_streams[0] == 'undefined') return
                 socket.streamId = out.media_container.media_container_streams[0].stream_id
               }
 
           		$.ajax({
 	              url: `https://wasd.tv/api/chat/streams/${socket.streamId}/participants?limit=999&offset=0`,
 	              headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-	              success: function(out) {
+	              success: (out) => {
 	              	for (let date of out.result) {
-	              		if (date) socket.addWebSocket_history(date)
+                    socket.addWebSocket_history(date)
+                    for (let mention of document.querySelectorAll(`.chat-message-mention[style="color: ;"][usernamelc="@${date.user_login.toLowerCase()}"]`)) {
+                      mention.style.color = HelperWASD.userColors[date.user_id % (HelperWASD.userColors.length - 1)]
+                    }
                   }
 	              }
             	})
@@ -105,18 +109,24 @@ const socket = {
               $.ajax({
                 url: `https://wasd.tv/api/chat/streams/${socket.streamId}/messages?limit=500&offset=0`,
                 headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-                success: function(out) {
+                success: (out) => {
                   for (let date of out.result.reverse()) {
-                    if (date.info) socket.addWebSocket_history(date.info)
+                    socket.addWebSocket_history(date.info)
+                    for (let mention of document.querySelectorAll(`.chat-message-mention[style="color: ;"][usernamelc="@${date.info.user_login.toLowerCase()}"]`)) {
+                      mention.style.color = HelperWASD.userColors[date.info.user_id % (HelperWASD.userColors.length - 1)]
+                    }
                   }
                 }
               })
 
 	            var data = `42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`;
 	            try {
-                if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send(data);
-	            } catch (err) {
-	              ovg.log('[catch]', err)
+                if (socket.socketd.readyState === socket.socketd.OPEN) {
+                  socket.socketd.send(data);
+                  ws.log('chat initid to channel', channel_name)
+                } 
+              } catch (err) {
+	              ws.log('[catch]', err)
 	            }
 	            socket.intervalcheck = setInterval(() => {
 	              if (socket.socketd) {
@@ -125,7 +135,7 @@ const socket = {
 	                } catch (err) {
 	                  clearInterval(socket.intervalcheck)
 	                  socket.socketd = null
-	                  ovg.log('[catch]', err)
+	                  ws.log('[catch]', err)
 	                  // setTimeout(() => { socket.start() }, 10000)
 	                }
 	              }
@@ -138,22 +148,21 @@ const socket = {
       });
     };
 
-    this.socketd.onclose = function(e) {
+    this.socketd.onclose = (e) => {
       clearInterval(socket.intervalcheck)
       socket.socketd = null
       socket.isLiveInited = false
-      document.querySelector(`.WebSocket_history`)?.remove()
-      document.querySelector('.hidden.info__text__status__name')?.remove()
+
       if (e.code == 404) {
-        ovg.log(`[close] Соединение закрыто чисто, код= ${e.code} причина= ${e.reason}`);
+        ws.log(`[close] Соединение закрыто чисто, код= ${e.code} причина= ${e.reason}`);
       } else if (e.wasClean) {
-        ovg.log(`[close] Соединение закрыто чисто, код= ${e.code} причина= ${e.reason}`);
+        ws.log(`[close] Соединение закрыто чисто, код= ${e.code} причина= ${e.reason}`);
       } else {
-        ovg.log('[close] Соединение прервано', "код= " + e.code);
+        ws.log('[close] Соединение прервано', "код= " + e.code);
       }
     };
 
-    this.socketd.onmessage = function(e) {
+    this.socketd.onmessage = (e) => {
 
       if (e.data != 3) {
         var JSData;
@@ -225,10 +234,10 @@ const socket = {
       }
     };
 
-    this.socketd.onerror = function(error) {
+    this.socketd.onerror = (error) => {
       clearInterval(socket.intervalcheck)
       socket.socketd = null
-      ovg.log(`[error]`, error);
+      ws.log(`[error]`, error);
     };
   },
   stop(code, reason) {
@@ -238,10 +247,10 @@ const socket = {
       this.socketd = null
       this.streamId = 0
       this.channelId = 0
-      this.current = null
+      this.channel = null
       this.stream_url = null
     } catch (err) {
-      ovg.log('err', err)
+      ws.log('err', err)
     }
   },
   hash(length) {
@@ -256,14 +265,16 @@ const socket = {
       this.WebSocket_history.firstElementChild.remove()
     }
 
+    // console.log(JSData)
+
   	let user = document.createElement('div')
 		user.classList.add('user_ws')
 		user.setAttribute('user_login', JSData.user_login)
 		user.setAttribute('user_loginLC', JSData.user_login.toLowerCase())
 		user.setAttribute('user_id', JSData.user_id)
-		user.setAttribute('channel_id', JSData.channel_id)
+		// user.setAttribute('channel_id', JSData.channel_id)
 
-    function isMod(JSData) {
+    isMod = (JSData) => {
       if (JSData) {
         let role = JSData.user_channel_role == 'CHANNEL_MODERATOR'
         // if (!role) role = JSData.user_channel_role == 'CHANNEL_MODERATOR'
@@ -272,7 +283,7 @@ const socket = {
         return false
       }
     }
-    function isSub(JSData) {
+    isSub = (JSData) => {
       if (JSData) {
         let role = false
         if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'CHANNEL_SUBSCRIBER') role = true }
@@ -283,7 +294,7 @@ const socket = {
         return false
       }
     }
-    function isOwner(JSData) {
+    isOwner = (JSData) => {
       if (JSData) {
         let role = false
         if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'CHANNEL_OWNER') role = true }
@@ -293,11 +304,21 @@ const socket = {
         return false
       }
     }
-    function isAdmin(JSData) {
+    isAdmin = (JSData) => {
       if (JSData) {
         let role = false
         if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'WASD_ADMIN') role = true }
         if (!role) role = JSData.user_channel_role == 'WASD_ADMIN'
+        return role
+      } else {
+        return false
+      }
+    }
+    isPromoCodeWin = (JSData) => {
+      if (JSData) {
+        let role = false
+        if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'PROMO_CODE_WINNER') role = true }
+        if (!role) role = JSData.user_channel_role == 'PROMO_CODE_WINNER'
         return role
       } else {
         return false
@@ -309,6 +330,7 @@ const socket = {
     if (isMod(JSData)) role += ' moderator'
     if (isSub(JSData)) role += ' sub'
     if (isAdmin(JSData)) role += ' admin'
+    if (isPromoCodeWin(JSData)) role += ' promowin'
     user.setAttribute('role', role)
 		user.style.display = 'none'
 

@@ -1,8 +1,8 @@
 const Helper = {
-  F5: `<a style="position: relative;" class="tooltip-wrapper" title="Eсли отключено 'Автоматически обновлять чат после изменения опции' нажмите дважды 'ОБНОВИТЬ ЧАТ'.">(F5)</a>`,
-  BETA: `<a style="position: relative;" class="tooltip-wrapper" title="Эта опция находится в стадии разработки и может работать некорректно.">(BETA)</a>`,
+  F5: `<a style="position: relative;" class="tooltip-wrapper" title="Eсли отключено 'Автоматически обновлять чат после изменения опции' нажмите дважды 'ОБНОВИТЬ ЧАТ'."><i _ngcontent-boj-c248="" class="wasd-icons-record-1" style="font-size: 14px;"></i></a>`,
+  BETA: `<a style="position: relative;" class="tooltip-wrapper" title="Эта опция находится в стадии разработки и может работать некорректно."><i _ngcontent-boj-c248="" class="wasd-icons-beta" style="font-size: 14px;"></i></a>`,
   tooltip(text, data) {
-    return `<a style="position: relative;" class="tooltip-wrapper" title='${data}'>${text}</a>`
+    return `<a style="position: relative;" class="tooltip-wrapper" title='${data}'>${text == '' ? '<i _ngcontent-boj-c248="" class="wasd-icons-notice" style="font-size: 14px;"></i>' : text}</a>`
   },
   getDefaultSettings() {
     return {
@@ -13,6 +13,7 @@ const Helper = {
         messageFollower: false,
         messageSub: false,
         messageSystem: false,
+        messagePromoCodes: false,
         messageHover: true,
         wasdIconsSmile: false,
         wasdIconsCircleRu: false,
@@ -100,11 +101,13 @@ const Helper = {
         staticGifEmotes: "1",
         pinMessage: true,
         hoverTooltipEmote: true,
-        limitHistoryUsers: "1000",
+        limitHistoryUsers: "0",
         showOwnerBadge: true,
         showModeratorBadge: true,
         showSubBadge: true,
-        showAdminBadge: true
+        showAdminBadge: true,
+        showPromoCodeWin: true,
+        truncateLink: 0
       },
       list: {
         blockUserList: {},
@@ -195,7 +198,7 @@ const Helper = {
     });
   },
   varColorToColor(value) {
-    return value.replace(/var\(\D+\)/ig, ($0)=>{
+    return value.replace(/var\(\D+\)/ig, ($0) => {
       data = $0.replace('var(', '').replace(')', '')
       return window.getComputedStyle(document.body).getPropertyValue(data).replace(/ /ig, '')
     })

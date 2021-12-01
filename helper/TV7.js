@@ -52,7 +52,7 @@ const HelperTV7 = {
     }
   },
   loaded() {
-    chrome.storage.onChanged.addListener(async function(changes, namespace) {
+    chrome.storage.onChanged.addListener(async (changes, namespace) => {
       if (namespace === 'local') {
         HelperTV7.update();
       } else if (namespace === 'sync') {
@@ -68,7 +68,7 @@ const HelperTV7 = {
       if (typeof tv7Users.global === 'undefined' || Date.now() - tv7Users.global.lastUpdate > 604800000) {
 
         new Promise((resolve, reject) => {
-          $.ajax(`https://api.7tv.app/v2/emotes/global`).always(function(out, textStatus, xhr) {
+          $.ajax(`https://api.7tv.app/v2/emotes/global`).always((out, textStatus, xhr) => {
             if (xhr.status === 200) {
               return resolve(out);
             } else {
@@ -147,13 +147,13 @@ const HelperTV7 = {
     return newText.join(' ');
   },
   getUserEmotes(username) {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       $.ajax({
         url: `https://api.7tv.app/v2/users/${username}/emotes`,
-        success: function(out) {
+        success: (out) => {
           resolve(out)
         },
-        error: function(out) {
+        error: (out) => {
           reject(out?.message)
         }
       });
@@ -283,7 +283,7 @@ const HelperTV7 = {
       for (let userID in items.tv7Users) {
         HelperTV7.updateUserChannelEmotes(userID, items.tv7Users[userID].username).finally(() => {
           i++
-          HelperSettings.showMessage(`7TV ${i}/${l}`)
+          HelperSettings.showMessage(`7TV ${i}/${l}`, 'success')
           if (i == l) {
             resolve()
           }
