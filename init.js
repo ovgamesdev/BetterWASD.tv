@@ -53,19 +53,12 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-let timeoutmousemove = setInterval(() => {
-  if (document.querySelector('div#scroll-content.wrapper')) {
-    clearInterval(timeoutmousemove);
-    document.querySelector('div#scroll-content.wrapper').onmousemove = (event) => {
-      onmousemoveposition(event)
-    };
+window.addEventListener('mousemove', (e) => {
+  x = e.clientX;
+  y = e.clientY - 45;
+});
 
-    onmousemoveposition = (e) => {
-      x = e.clientX;
-      y = e.clientY - 45;
-    }
-  }
-}, 100);
+
 
 let messageTimeout;
 

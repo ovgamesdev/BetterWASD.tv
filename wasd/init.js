@@ -69,7 +69,7 @@ const wasd = {
 
 
         if (add_chat.length) {
-          console.log('123 addedNodes wasd-chat-messages', add_chat[0])
+          // console.log('123 addedNodes wasd-chat-messages', add_chat[0])
           HelperWASD.loadBadges()
           socket.initChat()
           HelperWASD.getIsModerator().then((resolve) => {
@@ -83,7 +83,7 @@ const wasd = {
           document.querySelector('.update > i').classList.remove('resetPlayerLoading');
         }
         if (remove_chat.length) {
-          console.log('123 removedNodes wasd-chat-messages', remove_chat[0])
+          // console.log('123 removedNodes wasd-chat-messages', remove_chat[0])
           socket.stop(1000, 'removedNodes')
           HelperWASD.isModerator = false
 
@@ -92,24 +92,31 @@ const wasd = {
         }
 
         if (add_player_buttons.length) {
-          console.log('123 addedNodes media-control', add_player_buttons[0])
+          // console.log('123 addedNodes media-control', add_player_buttons[0])
           let textlive = add_player_buttons[0].querySelector('.buttons-container .stream-status-text.live')
           let buttons  = add_player_buttons[0].querySelector('.buttons-container .buttons-right')
         }
 
         if (add_settings_button_burger.length) {
-          console.log('123 addedNodes burger', add_settings_button_burger[0])
+          // console.log('123 addedNodes burger', add_settings_button_burger[0])
           let burger = add_settings_button_burger[0].querySelector('header')
-          console.log(burger)
+          // console.log(burger)
         }
 
         if (add_wasd_chat_message.length) {
           // console.log('123 addedNodes wasd-chat-message', add_wasd_chat_message[0])
-          wasd.handleMessage(add_wasd_chat_message[0], !!socket.channelId);
+          let is = false
+          if (add_wasd_chat_message[0] == document.querySelector('.block__messages').lastElementChild) {
+            is = true
+              if (!!socket.channelId) {
+                is = true
+              }
+          }
+          wasd.handleMessage(add_wasd_chat_message[0], is);
         }
 
         if (add_emoji_menu.length) {
-          console.log('123 addedNodes add_emoji_menu', add_emoji_menu[0].querySelector('.emoji__head__options'))
+          // console.log('123 addedNodes add_emoji_menu', add_emoji_menu[0].querySelector('.emoji__head__options'))
 
           if (settings.wasd.tv7InChatMenu) {
             
@@ -511,7 +518,7 @@ const wasd = {
         }
 
         if (add_carousel_container_chromeless.length && !settings.wasd.autoPlayStreamersOnMain) {
-          console.log('123 addedNodes add_carousel_container_chromeless', add_carousel_container_chromeless[0])
+          // console.log('123 addedNodes add_carousel_container_chromeless', add_carousel_container_chromeless[0])
           let video = add_carousel_container_chromeless[0].querySelector('video')
 
           video?.addEventListener('play', () => {
@@ -519,12 +526,12 @@ const wasd = {
           })
         }
         if (add_carousel_pending.length && !settings.wasd.autoPlayStreamersOnMain) {
-          console.log('123 addedNodes add_carousel_pending', add_carousel_pending[0])
+          // console.log('123 addedNodes add_carousel_pending', add_carousel_pending[0])
           add_carousel_pending[0].style.display = 'none';
         }
 
         if (add_uptime.length) {
-          console.log('123 addedNodes add_uptime', add_uptime[0])
+          // console.log('123 addedNodes add_uptime', add_uptime[0])
           add_uptime[0]?.querySelector('wasd-user-plays')?.insertAdjacentHTML('afterend', '<div class="stream-uptime tooltip-hover" style="position:relative;"><i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip></div>')
           let uptime = document.querySelector('div.stream-uptime')
           let uptimevalue = document.querySelector('.stream-uptime input.player-info__stat-value')

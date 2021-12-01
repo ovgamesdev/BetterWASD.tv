@@ -4,7 +4,6 @@ const BetterStreamChat = {
   isSettingsNewWindow: false,
   changelog: '',
   async init() {
-    //<editor-fold desc="changelog">
     let changelogLabels = {
       added: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Добавлено</span>',
       optimized: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Оптимизировано</span>',
@@ -14,7 +13,7 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
-        version: '1.4.1',
+        version: '1.4.2',
         date: '2021-12-01',
         items: [{
           text: [
@@ -22,18 +21,13 @@ const BetterStreamChat = {
             `Скрыть кнопку "Великий рандом!" в заголовке.`
           ],
           label: 'fixed'
-        },{
+        }, {
           text: [
-            `Лимит истории пользователей.`,
-            `Показать значки создателя.`,
-            `Показать значки модератора.`,
-            `Показать значки подписчика.`,
-            `Показать значки администратора.`,
-            `Показать промо-значки`,
-            `Скрыть промо сообщения`,
-            `Лимит символов ссылки`,
-            `Карточка пользователя - Упоминание`,
-            `Карточка пользователя - Дата отслеживаня`
+            `Показать промо-значки.`,
+            `Скрыть промо сообщения.`,
+            `Лимит символов ссылки.`,
+            `Карточка пользователя - Упоминание.`,
+            `Карточка пользователя - Дата отслеживаня.`
           ],
           label: 'added'
         }, {
@@ -41,17 +35,30 @@ const BetterStreamChat = {
             `Исправить ссылки в чате.`,
           ],
           label: 'changed'
-        }]
-      }, {
+        }, {
           text: [
             `Инициализация чата.`,
             `Меню смайликов.`,
             `Аптайм.`,
-            `Меню смайликов.`
+            `Меню смайликов.`,
+            `Авто-воспроизведение предложенных стримеров на главной странице.`
           ],
           label: 'optimized'
         }]
-      },{
+      }, {
+        version: '1.4.1',
+        date: '2021-11-16',
+        items: [{
+          text: [
+            `Лимит истории пользователей.`,
+            `Показать значки создателя.`,
+            `Показать значки модератора.`,
+            `Показать значки подписчика.`,
+            `Показать значки администратора.`
+          ],
+          label: 'added'
+        }]
+      }, {
         version: '1.4.0',
         date: '2021-11-07',
         items: [{
@@ -864,7 +871,7 @@ const BetterStreamChat = {
         }]
       }
     ];
-    //</editor-fold>
+
     let changelogHtml = '';
     for (let changelog of changelogList) {
       changelogHtml += `<h2 style="color: var(--wasd-color-text-prime);">Version ${changelog.version} (${changelog.date})</h2><ul style="display: grid;padding-inline-start: 4px;margin: 5px 0;">`;
@@ -888,7 +895,6 @@ const BetterStreamChat = {
       changelogHtml += '</ul>';
     }
 
-    //<editor-fold desc="settings div">
     let settingsDiv = document.createElement('div');
     this.settingsDiv = settingsDiv;
     settingsDiv.style.display = 'none';

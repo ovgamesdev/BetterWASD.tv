@@ -328,7 +328,14 @@ const HelperWASD = {
         }
       } else {
         top_card = y - 13;
-        left_card = x - 13;
+        left_card = x - 13 - 50;
+        let content = document.querySelector('#scroll-content')
+        if ((left_card >= (content.offsetWidth - 9) - 180)) {
+          left_card = ((content.offsetWidth - 9) - 181);
+        }
+        if (content.offsetWidth - 9 <= left_card + 370) {
+          left_card = (content.offsetWidth - 9) - 370 - 1;
+        }
       }
 
       let mobile = document.querySelector('.theatre-mode-mobile');
@@ -347,7 +354,8 @@ const HelperWASD = {
       document.querySelector('.chat-room__viewer-card').style.zIndex = '5556'
     }
 
-    document.querySelector('.channel-wrapper').insertAdjacentHTML("beforeend", usercard);
+    document.querySelector('.channel-wrapper')?.insertAdjacentHTML("beforeend", usercard);
+    document.querySelector('.wasd-container')?.insertAdjacentHTML("beforeend", usercard);
 
     let card = document.querySelector('.chat-room__viewer-card')
 

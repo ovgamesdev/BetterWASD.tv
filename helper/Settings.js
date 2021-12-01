@@ -367,6 +367,7 @@ const HelperSettings = {
       },
       fixedLinks: {
         title: `Исправить ссылки в чате ${Helper.F5}`,
+        description: 'Исправлено с использованием <a target="_blank" href="https://linkify.js.org/">API</a>',
         type: 'boolean'
       },
       linkRecognizerall: {
