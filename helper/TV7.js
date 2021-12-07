@@ -14,7 +14,7 @@ const HelperTV7 = {
           if (items.tv7Emotes.hasOwnProperty(userID)) {
             let splitdev = document.createElement('div');
             splitdev.classList.add('stickers__div')
-            splitdev.innerHTML = `<div class="stickers__info"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof tv7Users[userID].username == 'undefined' ? userID : tv7Users[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
+            splitdev.innerHTML = `<div class="stickers__info" style="top:-10px"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof tv7Users[userID].username == 'undefined' ? userID : tv7Users[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
             tv7EmoteList.append(splitdev);
             let stickers__line = splitdev.querySelector('.stickers__line')
             for (let emoteCode in items.tv7Emotes[userID]) {
@@ -35,7 +35,7 @@ const HelperTV7 = {
                 div.append(a);
                 a.append(div_span);
                 a.title = emoteCode;
-                tv7EmoteList.append(div);
+                stickers__line.append(div);
               }
             }
           }

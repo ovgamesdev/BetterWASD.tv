@@ -184,9 +184,10 @@ button[ovg]:hover i[ovg] {
   align-items: center;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  background-color: var(--wasd-color-prime);
-  box-shadow: 0 2px 2px 0 rgba(var(--wasd-color-black--rgb), .08);
-  height: 4.8rem;
+  background: var(--color-second-layer);
+  box-shadow: 0 2px 2px 0 rgba(var(--color-system-black),.08);
+  border-bottom: 1px solid rgba(var(--color-switch),.24);
+  height: 48px;
   padding-right: 8px;
   cursor: move;
 }
@@ -242,7 +243,7 @@ button#backupButton {
 
 #bscSettingsPanel main,
 #bscSettingsPanel .ovg-tabs-wrapper {
-  height: calc(100% - 76px);
+  height: calc(100% - 48px);
 }
 
 
@@ -251,8 +252,8 @@ button#backupButton {
 #bscSettingsPanel main {
   overflow-y: auto;
   display: none;
-  margin-bottom: 35px;
   overflow-x: hidden;
+  margin-left: 52px;
 }
 
 #bscSettingsPanel main.active {
@@ -302,6 +303,14 @@ button#backupButton {
   height: auto;
   min-height: 48px;
   justify-content: space-between;
+}
+
+#bscSettingsPanel main .option.title {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background: var(--wasd-color-prime);
+  z-index: 1;
 }
 
 #bscSettingsPanel main .ovg-option {
@@ -439,17 +448,19 @@ button#backupButton {
 /* footer */
 
 #bscSettingsPanel footer {
+  display: none;
   position: absolute;
   bottom: 0;
   color: #777777;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  background-color: var(--wasd-color-prime);
-  width: 100%;
+  background: var(--wasd-color-corp-prime);
+  margin-left: 52px;
+  width: calc(100% - 52px);
   padding: 5px;
   border-top: 1px solid rgba(var(--wasd-color-black--rgb), .5);
-  z-index: inherit;
-  display: flex;
+  z-index: 3;
+  /*display: flex;*/
   height: 28px;
   justify-content: space-between;
   overflow: auto;
@@ -1589,6 +1600,7 @@ div.stream-uptime>input.player-info__stat-value {
   height: 50px;
   position: relative;
   margin: 8px;
+  max-width: -webkit-fill-available;
 }
 #bscSettingsPanel .emoteCard span {
   display: inline-block;
@@ -1667,7 +1679,7 @@ div.emoji-ovg {
   flex-wrap: wrap;
   height: 186px;
   overflow-y: auto;
-  padding: 10px 0 0 20px;
+  padding-left: 20px;
   justify-content: center;
   overflow-x: hidden;
 }
@@ -2065,6 +2077,12 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
   padding-bottom: 10px;
   width: calc(100% + 20px);
   margin-left: -20px;
+  z-index: 2;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: var(--wasd-color-prime);
+  padding: 10px 0;
 }
 .stickers__line {
   display: flex;
@@ -2265,7 +2283,6 @@ main[data-tab="backup"] button {
   
   #bscSettingsPanel .emoteCard img {
     height: 38px;
-    max-width: -webkit-fill-available;
   }
   
   #bscSettingsPanel .div_emoteCard {
@@ -2807,15 +2824,12 @@ div.inputresult li h2 {
   padding: 2px 5px;
   pointer-events: none;
 }
-#bscSettingsPanel main .option:hover {
+#bscSettingsPanel main .option:not(.title):hover {
   background-color: rgba(var(--wasd-color-switch--rgb), 0.08) !important;
   color: var(--wasd-color-switch) !important;
 }
 #bscSettingsPanel main .option:hover .title {
   color: var(--wasd-color-switch) !important;
-}
-#bscSettingsPanel main .option:hover .titleline {
-  background: none !important;
 }
 @keyframes show_help {
   0% {
@@ -2840,8 +2854,9 @@ ovg-button {
   left: 50%;
   border: solid 1px;
   padding: 80px 110px;
-  transform: translate(-22%, -44%);
+  transform: translate(-40%, -36%);
   transition: opacity .2s;
+  z-index: -1;
 }
 .dragover {
   background-color: rgba(0, 0, 0, 0.5);
@@ -2891,6 +2906,7 @@ header .logo {
   display: flex;
   align-items: center;
   margin: 10px;
+  margin-left: 16px;
 }
 #settingsSearchDiv .wasd-input-wrapper {
   padding: 0;
@@ -2901,7 +2917,7 @@ header .logo {
 .show-section-mobile {
   display: none !important;
 }
-#bscSettingsPanel header .burger-menu__wrap {
+#bscSettingsPanel header .burger-menu__wrap.mobile {
   display: none;
 }
 @media screen and (max-width:479px) {
@@ -2917,11 +2933,20 @@ header .logo {
 @media screen and (max-width:650px) {
   @media screen and (min-width:480px) {
     main.active[data-tab="obschat"] {
-      width: calc(100% - 250px)!important;
+      width: calc(100% - 302px)!important;
     }
   }
 
+  #bscSettingsPanel #nav-sidebar {
+    display: none!important;
+  }
+
+  #bscSettingsPanel main {
+    margin-left: 0px!important;
+  }
+
   #bscSettingsPanel section {
+    display: flex!important;
     position: absolute;
     left: 0px;
     transition: transform .2s, opacity .25s;
@@ -2932,6 +2957,11 @@ header .logo {
     opacity: 0;
   }
   
+  #bscSettingsPanel footer {
+    margin-left: 0px!important;
+    width: 100%!important;
+  }
+
   #bscSettingsPanel section .tabs {
     background: var(--wasd-color-bg-prime);
   }
@@ -2961,7 +2991,7 @@ header .logo {
     width: 210px;
   }
   
-  #bscSettingsPanel header .burger-menu__wrap {
+  #bscSettingsPanel header .burger-menu__wrap.mobile {
     display: block;
   }
 }
@@ -3060,12 +3090,12 @@ wasd-input [ovg] .clr-field input {
 /* obs_chat */
 
 main.active[data-tab="obschat"] {
-  width: calc(100% - 416px);
+  width: calc(100% - 302px);
   display: inline-block !important;
 }
 
 iframe.obschat {
-  height: calc(100% - 76px);
+  height: calc(100% - 48px);
   width: 250px;
   display: none;
   border: none;

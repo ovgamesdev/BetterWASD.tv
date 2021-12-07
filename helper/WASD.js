@@ -6,6 +6,7 @@ const HelperWASD = {
   userColors: ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"],
   badges: {},
   messageTimeout: null,
+  current: null,
   loaded() {
     if (new URL(document.URL).searchParams.get('helper-settings')) {
       BetterStreamChat.settingsDiv.style.display = 'block'
@@ -47,7 +48,10 @@ const HelperWASD = {
       url: `https://wasd.tv/api/v2/profiles/current`,
       success: (out) => {
         if (out.result.user_role != "GUEST") {
+
+          HelperWASD.current = out.result
           HelperWASD.self_channel_name = out.result.user_profile.user_login
+
           $.ajax({
             url: `https://radiant-basin-27885.herokuapp.com/api/v1/init`,
             type: "POST",
@@ -60,6 +64,102 @@ const HelperWASD = {
               ovg.log(out)
             }
           })
+
+          document.querySelector("#nav-sidebar > ul:nth-child(1) > li:nth-child(2)")?.insertAdjacentHTML("afterend", '<div class="recomemded"></div>');
+          document.querySelector("#nav-sidebar > ul:nth-child(1) > li:nth-child(2)")?.insertAdjacentHTML("afterend", '<div class="online_channels"></div>');
+          
+          // add Мои подписки - Стримы онлайн
+          if (document.querySelector('#nav-sidebar .online_channels')) {
+            let online_list = document.querySelector('#nav-sidebar .online_channels')
+            if (online_list) {
+              
+              update_online_list = () => {
+                $.ajax({
+                  url: `https://wasd.tv/api/v2/media-containers?limit=37&offset=0&media_container_status=RUNNING&media_container_type=SINGLE&followed_by=${HelperWASD.current.user_id}`,
+                  success: (res) => {
+
+                    online_list.innerHTML = '<div>O</div>'
+
+                    for (let channel of res.result) {
+                      const online_elem = `
+                        <a ovg="" routerlinkactive="nav-sidebar__link--active" class="nav-sidebar__link" href="/channel/${channel.channel_id}">
+                          <i ovg="" style="background-image: url(${channel.media_container_user.profile_image.small});"></i>
+                          <div ovg="" class="line">
+                            <div ovg="" title="${channel.media_container_user.user_login}">${channel.media_container_user.user_login}</div>
+                            <div ovg="" class="status">
+                              <div class="online-status__online-icon"></div>
+                              <div> ${channel.media_container_streams[0].stream_current_viewers} </div>
+                            </div>
+                          </div>
+                        </a>`
+                      let elem = document.createElement('li')
+                      elem.setAttribute('ovg', '')
+                      elem.innerHTML = online_elem
+                      online_list.append(elem)
+                    }
+
+                  }
+                });
+              }
+
+              update_online_list()
+              setInterval(() => {
+                update_online_list()
+              }, 60000)
+
+            }
+          }
+
+          // add Рекомендуемое
+          if (document.querySelector('#nav-sidebar .recomemded')) {
+            let recomemded_list = document.querySelector('#nav-sidebar .recomemded')
+            if (recomemded_list) {
+              
+              update_recomemded_list = () => {
+                $.ajax({
+                  url: `https://wasd.tv/api/v2/tags?limit=1&offset=0&type=RECOMMENDATION`,
+                  success: (res) => {
+
+                    $.ajax({
+                      url: `https://wasd.tv/api/v2/media-containers?limit=10&offset=0&media_container_status=RUNNING&media_container_type=SINGLE&tag_ids=${res.result[0].tag_id}`,
+                      success: (res) => {
+
+                        recomemded_list.innerHTML = '<div>R</div>'
+
+                        for (let channel of res.result) {
+                          const recomemded_elem = `
+                            <a ovg="" routerlinkactive="nav-sidebar__link--active" class="nav-sidebar__link" href="/channel/${channel.channel_id}">
+                              <i ovg="" style="background-image: url(${channel.media_container_user.profile_image.small});"></i>
+                              <div ovg="" class="line">
+                                <div ovg="" title="${channel.media_container_user.user_login}">${channel.media_container_user.user_login}</div>
+                                <div ovg="" class="status">
+                                  <div class="online-status__online-icon"></div>
+                                  <div> ${channel.media_container_streams[0].stream_current_viewers} </div>
+                                </div>
+                              </div>
+                            </a>`
+                          let elem = document.createElement('li')
+                          elem.setAttribute('ovg', '')
+                          elem.innerHTML = recomemded_elem
+                          recomemded_list.append(elem)
+                        }
+
+                      }
+                    })
+
+
+                  }
+                });
+              }
+
+              update_recomemded_list()
+              setInterval(() => {
+                update_recomemded_list()
+              }, 60000)
+
+            }
+          }
+
         }
       }
     })
@@ -631,10 +731,7 @@ const HelperWASD = {
                   }
                 }
               } else {
-                stiscersdiv = document.querySelector('div.paidsubs-popup__stickers');
-                if (stiscersdiv) {
-                  stiscersdiv.style.display = 'none';
-                }
+                $('div.paidsubs-popup__stickers')?.css("display", "none");
               }
             }
           }
@@ -747,8 +844,7 @@ const HelperWASD = {
                       }
                     }
                     if (document.querySelector('.block__messages-ovg').childNodes.length == 0) {
-                      if (document.querySelector('.user_last_messages-ovg')) document.querySelector('.user_last_messages-ovg').style.display = 'none';
-
+                      $('.user_last_messages-ovg')?.css("display", "none");
                     }
                   }
                 },
@@ -927,11 +1023,11 @@ const HelperWASD = {
               });
 
             } else {
-              if (document.querySelector('.user_last_messages-ovg')) document.querySelector('.user_last_messages-ovg').style.display = 'none';
+              $('.user_last_messages-ovg')?.css("display", "none")
             }
           },
           error: (out) => {
-            if (document.querySelector('.user_last_messages-ovg')) document.querySelector('.user_last_messages-ovg').style.display = 'none';
+            $('.user_last_messages-ovg')?.css("display", "none")
           }
         });
       } else {

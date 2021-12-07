@@ -873,7 +873,7 @@ const BetterStreamChat = {
     ];
 
     let changelogHtml = '';
-    for (let changelog of changelogList) {
+    for (let changelog of changelogList.slice(0, 5)) {
       changelogHtml += `<h2 style="color: var(--wasd-color-text-prime);">Version ${changelog.version} (${changelog.date})</h2><ul style="display: grid;padding-inline-start: 4px;margin: 5px 0;">`;
 
       for (let item of changelog.items) {
@@ -906,7 +906,12 @@ const BetterStreamChat = {
       </div>
       <header>
 
-        <div ovg="" class="burger-menu__wrap" style="width: 1.6rem;padding-left: 6px;"><div ovg="" class="burger-toggle show-section-mobile"><div ovg="" class="burger-toggle__icon icon-default"><i ovg="" class="wasd-icons-menu-burger"></i></div><div ovg="" class="burger-toggle__icon icon-active"><i ovg="" class="wasd-icons-close"></i></div></div></div>
+        <div ovg="" class="burger-menu__wrap mobile" style="width: 1.6rem;padding-left: 6px;"><div ovg="" class="burger-toggle show-section-mobile"><div ovg="" class="burger-toggle__icon icon-default"><i ovg="" class="wasd-icons-menu-burger"></i></div><div ovg="" class="burger-toggle__icon icon-active"><i ovg="" class="wasd-icons-close"></i></div></div></div>
+
+        <div ovg="" class="header-new__nav-sidebar-toggle nav-sidebar-toggle open-nav-sidebar">
+          <i ovg="" class="wasd-icons-sidebar-burgermenu-closed nav-sidebar-toggle__icon-default"></i>
+          <i ovg="" class="wasd-icons-sidebar-burgermenu-opened nav-sidebar-toggle__icon-active"></i>
+        </div>
 
         <div class="logo">
           <img src="${chrome.runtime.getURL("img/icon128.png")}" style="width: 32px; height: 32px;">
@@ -966,7 +971,7 @@ const BetterStreamChat = {
 
       </header>
 
-      <section class="ovg-tabs-wrapper vertical left">
+      <section class="ovg-tabs-wrapper vertical left" style="display:none">
         <div class="tabs">
           <div class="items" style="padding: 10px 0">
             <a role="tab" class="item" data-tab="about">О нас</a>
@@ -983,21 +988,116 @@ const BetterStreamChat = {
         </div>
       </section>
 
-      <main class="text" data-tab="about" style="background-color: var(--wasd-color-bg-prime);">
-        <div class="aboutHalf">
-          <img class="aboutIcon" src="${chrome.runtime.getURL("img/icon128.png")}">
-          <h1>BetterWASD v${changelogList[0].version}</h1>
-          <h2>от ваших друзей в <a href="https://ovgamesdev.github.io/ru/" target="_blank">OvGames</a></h2>
-          <br>
+      <wasd-nav-sidebar ovg="" style="z-index:5">
+        <div ovg="" id="nav-sidebar" class="nav-sidebar" style="height: calc(100% - 48px);z-index: 1;float: left;z-index: 5557;overflow: hidden;">
+          <ul ovg="" class="nav-sidebar__list">
+            <li ovg="">
+              <a ovg="" class="nav-sidebar__link" data-tab="general">
+                <i ovg="" class="wasd-icons-settings"></i>
+                <span ovg="">Общий</span>
+              </a>
+            </li>
+            <li ovg="">
+              <a ovg="" class="nav-sidebar__link nav-sidebar__link--active" data-tab="wasdSettings">
+                <i ovg="" class="wasd-icons-settings-profile"></i>
+                <span ovg="">Настройки</span>
+              </a>
+            </li>
+            <li ovg="">
+              <a ovg="" class="nav-sidebar__link" data-tab="tv7Settings">
+                <i ovg="" class="ovg-icon-tv7"></i>
+                <span ovg="">7TV</span>
+              </a>
+            </li>
+            <li ovg="">
+              <a ovg="" class="nav-sidebar__link" data-tab="bttvSettings">
+                <i ovg="" class="ovg-icon-bttv" style="font-size: 24px;"></i>
+                <span ovg="">BetterTTV</span>
+              </a>
+            </li>
+            <li ovg="">
+              <a ovg="" class="nav-sidebar__link" data-tab="ffzSettings">
+                <i ovg="" class="ovg-icon-ffz"></i>
+                <span ovg="">FrankerFaceZ</span>
+              </a>
+            </li>
+            <li ovg="">
+              <a ovg="" class="nav-sidebar__link" data-tab="filtration">
+                <i ovg="" class="ovg-icon-filter" style="font-size: 18px;"></i>
+                <span ovg="">Фильтрация</span>
+              </a>
+            </li>
+            <li ovg="">
+              <a ovg="" class="nav-sidebar__link" data-tab="obschat">
+                <i ovg="" class="ovg-icon-chat"></i>
+                <span ovg="">Чат для OBS (beta)</span>
+              </a>
+            </li>
+            <li ovg="">
+              <a ovg="" class="nav-sidebar__link" data-tab="changelog">
+                <i ovg="" class="ovg-icon-history"></i>
+                <span ovg="">Журнал изменений</span>
+              </a>
+            </li>
+            <!--li ovg="">
+              <a ovg="" class="nav-sidebar__link" data-tab="backup">
+                <i ovg="" class="ovg-icon-backup"></i>
+                <span ovg="">Бэкап</span>
+              </a>
+            </li-->
+            <li ovg="" style="margin-top: 90px;">
+              <a ovg="" class="nav-sidebar__link" data-tab="about">
+                <i ovg="" class="wasd-icons-sidebar-faq"></i>
+                <span ovg="">О нас</span>
+              </a>
+            </li>
+          </ul>
+      </div>
+      </wasd-nav-sidebar>
+
+      <main class="text" data-tab="about">
+
+        <div style="padding: 10px;">
+          <span style="font-size: 21px;">Напишите отзыв на <a target="_blank" href="https://chrome.google.com/webstore/detail/betterwasd/cokaeiijnnpcfaoehijmdfcgbkpffgbh">Chrome Webstore</a> или скачайте БОТа для вашего WASD канала <a target="_blank" href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb/">Chrome Webstore</a></span>
         </div>
-        <div class="aboutHalf">
-          <h1 style="margin-top: 100px;">Думаете, этот аддон классный?</h1>
-          <br><br><h2>
-          Напишите отзыв на <a target="_blank" href="https://chrome.google.com/webstore/detail/betterwasd/cokaeiijnnpcfaoehijmdfcgbkpffgbh">Chrome Webstore</a>
-          <br><br>
-          или скачайте БОТа для вашего WASD канала <a target="_blank" href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb/">Chrome Webstore</a>
-          </h2><br>
+
+        <div style="padding: 10px;">
+          <h2 style="padding-bottom: 10px;">Настройки</h2>
+          <div class="flat-btn ovg ovg-button-div" style="margin: 0!important;display: inline-grid;">
+            <button style="margin-bottom: 6px;" class="primary medium ovg backup-download">
+              <span class="ovg-button-span">
+                <i class="ovg-icon-download" style="font-size: 20px;"></i>
+              </span>
+              <span> Cкачать резервную копию </span>
+            </button>
+            <button style="margin-bottom: 6px;" class="primary medium ovg backup-upload">
+              <span class="ovg-button-span">
+                <i class="ovg-icon-upload" style="font-size: 20px;"></i>
+              </span>
+              <span> Импортировать настройки </span>
+            </button>
+            <button style="" class="backup-reset medium ovg warning">
+              <span class="ovg-button-span">
+                <i class="wasd-icons-record" style="font-size: 20px;"></i>
+              </span>
+              <span class=""> Сбросить по умолчанию </span>
+              <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> нажмите дважды </div></div></ovg-tooltip>
+            </button>
+          </div>
         </div>
+
+        <div style="padding: 10px;">
+          <span>Offered by <a href="https://ovgamesdev.github.io/ru/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a></span>
+        </div>
+
+        <input id="importInput" type="file" accept=".backup, .backup.txt" style="display: none;">
+        <div id="backupDropContainer" class="drodHere">Drop Here</div>
+
+        <div style="padding: 0 10px;margin-top: 145px;">
+          <span>Version ${changelogList[0].version} (${changelogList[0].date})</span>
+        </div>
+
+
       </main>
       <main id="general" data-tab="general">
         ${HelperSettings.build('general')}
@@ -1151,7 +1251,7 @@ const BetterStreamChat = {
       </main>
 
       <main data-tab="obschat">
-        <h1 style="padding: 20px 10px 5px 10px;"> Чат для OBS с эмоциями </h1>
+        <h1 style="padding: 10px 10px 5px 10px;"> Чат для OBS с эмоциями </h1>
         ${HelperSettings.build('obschat')}
 
         <div class="obs_blacklist" style="padding-left: 10px;padding-right: 10px;">
@@ -1288,10 +1388,6 @@ const BetterStreamChat = {
             <tbody class="ovg-items">
             </tbody>
           </table>
-          <!--h3 style="padding: 0 10px 5px 10px;"> Выделение - Роль пользователя </h3>
-          <div style="margin-left: -10px; width: calc(100% + 20px);">
-            ${HelperSettings.build('highlightRole')}
-          </div-->
         </div>
 
         <p style="padding: 20px 10px 5px 10px;">Если вы обновите ссылку на закрытую трансляцию, то чат в доступе по ссылке перестанет работать! </p>
@@ -1299,40 +1395,9 @@ const BetterStreamChat = {
       <iframe src="" class="obschat"></iframe>
 
       <main class="text" data-tab="changelog">
-        <h1>Журнал изменений</h1>
-        <h4 style="margin-top:10px;padding-left: 10px;padding-right: 0px;margin-bottom: 0px;"> Информацию о будущих версиях можно найти <a href="https://wasd.tv/ovgames/posts">тут</a></h4>
+        <h1>Список последних обновлений и исправлений.</h1>
+        <!--h4 style="margin-top:10px;padding-left: 10px;padding-right: 0px;margin-bottom: 0px;"> Информацию о будущих версиях можно найти <a href="https://wasd.tv/ovgames/posts">тут</a></h4-->
         ${changelogHtml}
-      </main>
-
-      <main class="text" data-tab="backup">
-        <input id="importInput" type="file" accept=".backup, .backup.txt" style="display: none;">
-        <span> Эта функция позволяет вам сохранить и восстановить ваши настройки BetterWASD </span>
-        <div style="padding-top: 10px;">
-          <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
-            <button class="primary medium ovg backup-download">
-              <span class="ovg-button-span">
-                <img style="width: 20px; height: 20px;" src="${chrome.runtime.getURL("img/download.png")}">
-              </span>
-              <span> Сохранить </span>
-            </button>
-          </div>
-          <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
-            <button class="primary medium ovg backup-upload">
-              <span class="ovg-button-span">
-                <img style="width: 20px; height: 20px;" src="${chrome.runtime.getURL("img/upload.png")}">
-              </span>
-              <span> Восстановить </span>
-            </button>
-          </div>
-          <div class="flat-btn ovg ovg-button-div" style="margin: 0px 10px 10px 10px;">
-            <button class="backup-reset medium ovg warning">
-              <span class="ovg-button-span">
-              <i class="wasd-icons-record" style="font-size: 20px;"></i></span><span class=""> Сбросить по умолчанию </span>
-              <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> нажмите дважды </div></div></ovg-tooltip>
-            </button>
-          </div>
-        </div>
-        <div id="backupDropContainer" class="drodHere">Drop Here</div>
       </main>
 
       <main class="text" data-tab="filtration">
@@ -1469,7 +1534,8 @@ const BetterStreamChat = {
                 <div class="table-heading-text-ovg">Действия</div>
               </th>
             </thead>
-            <tbody class="ovg-items">
+            <tbody c
+            lass="ovg-items">
             </tbody>
           </table>
           <h3 style="padding: 0 10px 5px 10px;"> Выделение - Роль пользователя </h3>
@@ -1477,12 +1543,7 @@ const BetterStreamChat = {
             ${HelperSettings.build('highlightRole')}
           </div>
         </div>
-      </main>
-      <footer>
-      <span>BetterWASD ${changelogList[0].version} (${changelogList[0].date})</span>
-      <span>
-        Offered by <a href="https://ovgamesdev.github.io/ru/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a>
-      </span>`;
+      </main>`;
     document.body.append(settingsDiv);
     BetterStreamChat.changelog = changelogList[0]
 
@@ -1864,7 +1925,7 @@ const BetterStreamChat = {
       })
     });
 
-    // navigation
+    // navigation old
     for (let navItem of settingsDiv.querySelectorAll('section .items > a')) {
       navItem.addEventListener('click', ({ target }) => {
         let links = settingsDiv.querySelectorAll('section .items > a');
@@ -1889,6 +1950,50 @@ const BetterStreamChat = {
         settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
       });
     }
+
+    // navigation new
+    for (let navItem of settingsDiv.querySelectorAll('#nav-sidebar .nav-sidebar__link')) {
+      navItem.addEventListener('click', ({ target }) => {
+        let links = settingsDiv.querySelectorAll('#nav-sidebar .nav-sidebar__link');
+        let tabs = settingsDiv.querySelectorAll('main');
+        for (let element of [...tabs]) {
+          element.classList.remove('active');
+        }
+        for (let element of [...links]) {
+          element.classList.remove('nav-sidebar__link--active');
+        }
+
+        if (target.getAttribute('data-tab') == 'wasdSettings') {
+          settingsSearchDiv.classList.remove('hidden')
+        } else {
+          settingsSearchDiv.classList.add('hidden')
+        }
+
+        if (target.getAttribute('data-tab') == 'obschat') {
+          loadObsChat()
+        } else {
+          unloadObsChat()
+        }
+
+        target.classList.add('nav-sidebar__link--active');
+        settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
+      });
+    }
+
+    // open nav sidebar
+    settingsDiv.querySelector('wasd-nav-sidebar').addEventListener('click', () => {
+      if (settingsDiv.querySelector('wasd-nav-sidebar[ovg]').classList.contains('nav-sidebar--expanded')) {
+        settingsDiv.querySelector('wasd-nav-sidebar[ovg]').classList.remove('nav-sidebar--expanded')
+        settingsDiv.querySelector('.open-nav-sidebar').classList.remove('nav-sidebar-toggle--active')
+      }
+    })
+    settingsDiv.querySelector('.open-nav-sidebar').addEventListener('click', () => {
+      settingsDiv.querySelector('wasd-nav-sidebar[ovg]').classList.toggle('nav-sidebar--expanded')
+      settingsDiv.querySelector('.open-nav-sidebar').classList.toggle('nav-sidebar-toggle--active')
+    })
+
+
+
 
     loadObsChat = () => {
       // https://ovgamesdev.github.io/BetterWASD.obs_chat/preview

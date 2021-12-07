@@ -14,7 +14,7 @@ const HelperFFZ = {
           if (items.ffzEmotes.hasOwnProperty(userID)) {
             let splitdev = document.createElement('div');
             splitdev.classList.add('stickers__div')
-            splitdev.innerHTML = `<div class="stickers__info"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof ffzUsers[userID].username == 'undefined' ? userID : ffzUsers[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
+            splitdev.innerHTML = `<div class="stickers__info" style="top:-10px"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof ffzUsers[userID].username == 'undefined' ? userID : ffzUsers[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
             ffzEmoteList.append(splitdev);
             let stickers__line = splitdev.querySelector('.stickers__line')
             for (let emoteCode in items.ffzEmotes[userID]) {
@@ -35,7 +35,7 @@ const HelperFFZ = {
                 div.append(a);
                 a.append(div_span);
                 a.title = emoteCode;
-                ffzEmoteList.append(div);
+                stickers__line.append(div);
               }
             }
           }

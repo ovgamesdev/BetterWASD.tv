@@ -55,14 +55,17 @@ const HelperSettings = {
       },
       bttvEmotes: {
         title: `Смайлики BTTV в чате ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       ffzEmotes: {
         title: `Смайлики FFZ в чате ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       tv7Emotes: {
         title: `Смайлики 7TV в чате ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       bttvInChatMenu: {
@@ -79,6 +82,7 @@ const HelperSettings = {
       },
       bttvEmoteSize: {
         title: `Разрешение смайликов в чате BTTV, FFZ и 7TV ${Helper.F5}`,
+        updateChat: true,
         type: 'select',
         items: [{
             value: 0,
@@ -217,6 +221,7 @@ const HelperSettings = {
       },
       colonAfterNickname: {
         title: `Двоеточие после никнейма ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       /*smallBadges: {
@@ -225,6 +230,7 @@ const HelperSettings = {
       },*/
       colorAtTheMention: {
         title: `Упоминания пользователей в чата с их цветом никнейма ${Helper.BETA} ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       chatWidth: {
@@ -257,6 +263,7 @@ const HelperSettings = {
       },
       moderatorMenu: {
         title: `Меню модератора ${Helper.F5}`,
+        updateChat: true,
         type: 'select',
         items: [{
             value: 0,
@@ -325,6 +332,7 @@ const HelperSettings = {
       },
       onClickUserName: {
         title: `Действие при клике на пользователя ${Helper.F5}`,
+        updateChat: true,
         type: 'select',
         items: [{
             value: 0,
@@ -342,6 +350,7 @@ const HelperSettings = {
       },
       onClickUser: {
         title: `Действие при клике на пользователя или упоминание при зажатой клавише ${Helper.F5}`,
+        updateChat: true,
         type: 'select',
         items: [{
             value: 0,
@@ -367,20 +376,24 @@ const HelperSettings = {
       },
       fixedLinks: {
         title: `Исправить ссылки в чате ${Helper.F5}`,
+        updateChat: true,
         description: 'Исправлено с использованием <a target="_blank" href="https://linkify.js.org/">API</a>',
         type: 'boolean'
       },
       linkRecognizerall: {
         title: `Распознавание всех ссылок ${Helper.BETA} ${Helper.F5}`,
+        updateChat: true,
         description: 'Распознано с использованием <a target="_blank" href="https://github.com/FrankerFaceZ/link-service">API</a>',
         type: 'boolean'
       },
       linkRecognizerWASD: {
         title: `Распознавание ссылок wasd.tv ${Helper.BETA} ${Helper.tooltip('', '(wasd.tv/username) (wasd.tv/game/id) (wasd.tv/?record=id) (wasd.tv/?clip=id)')} ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       linkRecognitionRights: {
         title: `Необходимый уровень пользователя для "Распознавание ссылок" ${Helper.F5}`,
+        updateChat: true,
         type: 'select',
         items: [{
             value: 0,
@@ -410,6 +423,7 @@ const HelperSettings = {
       },
       formatMessageSentTime: {
         title: `Формат отметок времени ${Helper.tooltip('', 'Для новых сообщений')} ${Helper.F5}`,
+        updateChat: true,
         description: 'Отформатировано <a target="_blank" href="https://momentjs.com/">library Moment.js</a>.',
         type: 'select',
         items: [{
@@ -544,6 +558,7 @@ const HelperSettings = {
       },
       limitHistoryUsers: {
         title: `Лимит истории пользователей ${Helper.F5} ${Helper.tooltip('', 'для определения цвета пользователя и его карточки, рекомендуем \u0022без ограничения\u0022 но если у вас лагает рекотендуем снизить')}`,
+        updateChat: true,
         type: 'select',
         items: [{
             value: 500,
@@ -573,26 +588,32 @@ const HelperSettings = {
       },
       showOwnerBadge: {
         title: `Показать значки создателя ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       showModeratorBadge: {
         title: `Показать значки модератора ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       showSubBadge: {
         title: `Показать значки подписчика ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       showAdminBadge: {
         title: `Показать значки администратора ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       showPromoCodeWin: {
         title: `Показать промо-значки ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       truncateLink: {
         title: `Лимит символов ссылки ${Helper.F5} ${Helper.tooltip('', 'удаляет символы в URL-адресах, чтобы текст ссылки не превышал указанную длину.')}`,
+        updateChat: true,
         type: 'number',
         min: 0,
         max: 240
@@ -650,6 +671,7 @@ const HelperSettings = {
       },
       uptimeStream: {
         title: `Аптайм трансляции ${Helper.F5}`,
+        updateChat: true,
         type: 'boolean'
       },
       alwaysOpenVolumeControl: {
@@ -1074,7 +1096,7 @@ const HelperSettings = {
   },
   _basic(title, description, formField, line = false, id) {
     return `
-      <div class="option" id="${id}">
+      <div class="option ${line ? "title" : ""}" ${id ? "id=" + id : ""}>
         <div class="ovg-option" >
           <div class="option-line" >
 
@@ -1092,11 +1114,15 @@ const HelperSettings = {
   },
   save(optionElements) {
     let newSettings = JSON.parse(JSON.stringify(settings));
+    let update = false
+
     for (let option of optionElements) {
       if (!option.dataset.name) continue;
 
       let split = option.dataset.name.split('_');
       let value = null;
+
+      if (typeof option.getAttribute('updatechat') === 'string') update = true
 
       if (option.type === 'radio' && option.classList.contains('botevent')) {
         value = option.checked && option.value === '1';
@@ -1120,23 +1146,11 @@ const HelperSettings = {
       if (typeof onChange === 'function') onChange(value);
     }
 
-    setTimeout(() => {
-      if (settings.general.autoUpdateChat) {
-        let header_block_menu = document.querySelectorAll('.header > div.header__block__menu div.header__block__menu__item')
-        let header_update = document.querySelector('.update > i')
-
-        if (header_block_menu.length >= 1) {
-          header_block_menu[1].click();
-          header_update.classList.add('resetPlayerLoading');
-          header_block_menu[0].children[0].click()
-
-          setTimeout(() => {
-            header_update.classList.remove('resetPlayerLoading');
-          }, 1000);
-        }
-
-      }
-    }, 50);
+    if (settings.general.autoUpdateChat && update) {
+      setTimeout(() => {
+        BetterStreamChat.settingsDiv.querySelector('.update').dispatchEvent(new Event('dblclick'))
+      }, 50);
+    }
 
     chrome.storage[storageType].set(newSettings, () => {
       this.showMessage('параметры сохранены', 'success');
@@ -1151,54 +1165,54 @@ const HelperSettings = {
         let type = setting.type;
         let fieldName = `${category}_${name}`;
         if (type === 'boolean') {
-          html += this.boolean(fieldName, setting.title, setting.description, settings[category][name], 'Вкл', 'Откл');
+          html += this.boolean(fieldName, setting.title, setting.description, settings[category][name], 'Вкл', 'Откл', setting.updateChat);
         } else if (type === 'text') {
-          html += this.text(fieldName, setting.title, setting.description, settings[category][name]);
+          html += this.text(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat);
         } else if (type === 'number') {
-          html += this.number(fieldName, setting.title, setting.description, settings[category][name], setting.min, setting.max);
+          html += this.number(fieldName, setting.title, setting.description, settings[category][name], setting.min, setting.max, setting.updateChat);
         } else if (type === 'select') {
-          html += this.select(fieldName, setting.title, setting.description, setting.items, settings[category][name]);
+          html += this.select(fieldName, setting.title, setting.description, setting.items, settings[category][name], setting.updateChat);
         } else if (type === 'none') {
           html += this.none(fieldName, setting.title, setting.description, settings[category][name]);
         } else if (type === 'title') {
           html += this.title(fieldName, setting.title, setting.description, settings[category][name], setting.id);
         } else if (type === 'color') {
-          html += this.color(fieldName, setting.title, setting.description, settings[category][name]);
+          html += this.color(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat);
         } else if (type === 'botevent') {
-          html += this.botevent(fieldName, setting.title, setting.description, settings[category][name]);
+          html += this.botevent(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat);
         }
       }
     }
     return html;
   },
-  boolean(name, title, description, defaultValue = false, yesButton = 'Вкл', noButton = 'Откл') {
+  boolean(name, title, description, defaultValue = false, yesButton = 'Вкл', noButton = 'Откл', updateChat = false) {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <label class="switch-ovg">
-          <input option-type="boolean" type="checkbox" id="boolean_${name}" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${defaultValue ? 'checked' : ''}>
+          <input option-type="boolean" type="checkbox" id="boolean_${name}" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${defaultValue ? 'checked' : ''}${updateChat ? " updatechat=''" : ""}>
           <span class="slider-ovg"> <div class="switcher_thumb-ovg"></div> </span>
         </label>
         <!--button class="optionField def" data-name="${name}" option-type="boolean"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
       </ol>`);
   },
-  text(name, title, description, defaultValue = '') {
+  text(name, title, description, defaultValue = '', updateChat = false) {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
-        <input type="text" class="optionField" data-name="${name}" value="${defaultValue}" />
+        <input type="text" class="optionField" data-name="${name}" value="${defaultValue}"${updateChat ? " updatechat=''" : ""} />
         <!--button class="optionField def" data-name="${name}" option-type="text"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
       </ol>`);
   },
-  number(name, title, description, defaultValue = '', min = 0, max = 0) {
+  number(name, title, description, defaultValue = '', min = 0, max = 0, updateChat = false) {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <div class="def">
-          <input option-type="number" type="number" class="optionField" data-name="${name}" value="${defaultValue}" ${min ? 'min="' + min + '" ' : ''}${max ? 'max="' + max + '"' : ''}/>
+          <input option-type="number" type="number" class="optionField" data-name="${name}" value="${defaultValue}" ${min ? 'min="' + min + '" ' : ''}${max ? 'max="' + max + '"' : ''}${updateChat ? " updatechat=''" : ""}/>
           <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
         </div>
         <button class="optionField def" data-name="${name}" option-type="number"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
       </ol>`);
   },
-  select(name, title, description, items = [], defaultValue = '') {
+  select(name, title, description, items = [], defaultValue = '', updateChat = false) {
     let selectOptions = '';
     defaultValue = defaultValue.toString();
     for (let item of items) {
@@ -1207,7 +1221,7 @@ const HelperSettings = {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <div class="def">
-          <select option-type="select" class="optionField" data-name="${name}">${selectOptions}</select>
+          <select option-type="select" class="optionField" data-name="${name}"${updateChat ? " updatechat=''" : ""}>${selectOptions}</select>
           <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
         </div>
         <button class="optionField def" data-name="${name}" option-type="select"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
@@ -1219,30 +1233,30 @@ const HelperSettings = {
   title(name, title, description, defaultValue = '', id = '') {
     return this._basic(title, description, ``, true, id);
   },
-  color(name, title, description, defaultValue = '') {
+  color(name, title, description, defaultValue = '', updateChat = false) {
     defaultValue = Helper.varColorToColor(defaultValue)
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <div class="def">
           <div class="clr-field" style="color: ${defaultValue};">
             <button aria-labelledby="clr-open-label"></button>
-            <input type="text" option-type="color" class="optionField" data-name="${name}" value="${defaultValue}" data-coloris>
+            <input type="text" option-type="color" class="optionField" data-name="${name}" value="${defaultValue}" data-coloris${updateChat ? " updatechat=''" : ""}>
           </div>
           <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
         </div>
         <button class="optionField def" data-name="${name}" option-type="color"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
       </ol>`);
   },
-  botevent(name, title, description, defaultValue = ['', false], yesButton = 'Вкл', noButton = 'Откл') {
+  botevent(name, title, description, defaultValue = ['', false], yesButton = 'Вкл', noButton = 'Откл', updateChat = false) {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <input option-type="botevent" type="text" class="optionField botevent" data-name="${name}" value="${defaultValue[0]}"/>
         <li>
-          <input option-type="botevent" type="radio" id="boolean_${name}" name="boolean_${name}" value="1" class="optionField botevent" data-name="${name}" ${defaultValue[1] ? 'checked' : ''}>
+          <input option-type="botevent" type="radio" id="boolean_${name}" name="boolean_${name}" value="1" class="optionField botevent" data-name="${name}" ${defaultValue[1] ? 'checked' : ''}${updateChat ? " updatechat=''" : ""}>
           <label for="boolean_${name}" class="green"><span class="icon16 fa-check"></span> ${yesButton}</label>
         </li>
         <li>
-          <input option-type="botevent" type="radio" id="boolean_${name}_no" name="boolean_${name}" value="0" class="optionField botevent" data-name="${name}" ${!defaultValue[1] ? 'checked' : ''}>
+          <input option-type="botevent" type="radio" id="boolean_${name}_no" name="boolean_${name}" value="0" class="optionField botevent" data-name="${name}" ${!defaultValue[1] ? 'checked' : ''}${updateChat ? " updatechat=''" : ""}>
           <label for="boolean_${name}_no" class="red"><span class="icon16 fa-times"></span> ${noButton}</label>
         </li>
         <!--button class="optionField def" data-name="${name}" option-type="botevent"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->

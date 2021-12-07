@@ -10,6 +10,7 @@ const socket = {
   WebSocket_history: null,
   initChat() {
   	let channel_name = ''
+    $('.websocket_loader[ovg]')?.css('display', 'flex')
   	if (document.querySelector('.WebSocket_history')) {
   		this.WebSocket_history = document.querySelector('.WebSocket_history')
   	} else {
@@ -124,6 +125,7 @@ const socket = {
                 if (socket.socketd.readyState === socket.socketd.OPEN) {
                   socket.socketd.send(data);
                   ws.log('chat initid to channel', channel_name)
+                  $('.websocket_loader[ovg]')?.css('display', 'none')
                 } 
               } catch (err) {
 	              ws.log('[catch]', err)
@@ -199,7 +201,15 @@ const socket = {
               break;
             case "event":
               // console.log(`[${JSData[0]}] ${JSData[1].event_type} - ${JSData[1].payload.user_login} ${JSData[1].message}`, JSData);
-              // if (JSData[1].event_type == "NEW_FOLLOWER") socket.addWebSocket_history(JSData, JSData[1].payload.user_login, JSData[1].payload.user_id, JSData[1].payload.channel_id)
+              if (JSData[1].event_type == "NEW_FOLLOWER") {
+                socket.addWebSocket_history({
+                  user_login: JSData[1].payload.user_login,
+                  user_id: JSData[1].payload.user_id,
+                  channel_id: JSData[1].payload.channel_id,
+                  user_channel_role: '',
+                  other_roles: []
+                })
+              }
               break;
             case "giftsV1":
               // console.log(`[${JSData[0]}] ${JSData[1].gift_name}`, JSData);

@@ -4,6 +4,7 @@
   {
     "css": [
       "css/index.css",
+      "css/fonts/fonts.css",
       "css/jquery.ui.css",
       "css/ovg_tooltip.css",
       "css/ovg_button.css",
@@ -11,6 +12,8 @@
       "css/ovg_burger-toggle.css",
       "css/ovg_bell.css",
       "css/ovg_checkbox.css",
+      "css/ovg_sidebar.css",
+      "css/ovg_nav-sidebar-toggle.css",
       "lib/coloris/coloris.min.css"
     ],
     "js": [
@@ -52,7 +55,8 @@
   "manifest_version": 2,
   "name": "BetterWASD",
   "web_accessible_resources": [
-    "img/*.png"
+    "img/*.png",
+    "css/fonts/*"
   ],
   "minimum_chrome_version": "41",
   "permissions": ["storage", "notifications", "*://*.wasd.tv/*"],
