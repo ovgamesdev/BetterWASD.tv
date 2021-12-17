@@ -13,6 +13,20 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.4.3',
+        date: '2021-12-17',
+        items: [{
+          text: [
+            `Поменять боковые панели местами.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            `Чат слева.`
+          ],
+          label: 'removed'
+        }]
+      }, {
         version: '1.4.2',
         date: '2021-12-01',
         items: [{
@@ -906,68 +920,72 @@ const BetterStreamChat = {
       </div>
       <header>
 
-        <div ovg="" class="burger-menu__wrap mobile" style="width: 1.6rem;padding-left: 6px;"><div ovg="" class="burger-toggle show-section-mobile"><div ovg="" class="burger-toggle__icon icon-default"><i ovg="" class="wasd-icons-menu-burger"></i></div><div ovg="" class="burger-toggle__icon icon-active"><i ovg="" class="wasd-icons-close"></i></div></div></div>
+        <div class="header__left-side">
+          <div ovg="" class="burger-menu__wrap mobile" style="width: 1.6rem;padding-left: 6px;"><div ovg="" class="burger-toggle show-section-mobile"><div ovg="" class="burger-toggle__icon icon-default"><i ovg="" class="wasd-icons-menu-burger"></i></div><div ovg="" class="burger-toggle__icon icon-active"><i ovg="" class="wasd-icons-close"></i></div></div></div>
 
-        <div ovg="" class="header-new__nav-sidebar-toggle nav-sidebar-toggle open-nav-sidebar">
-          <i ovg="" class="wasd-icons-sidebar-burgermenu-closed nav-sidebar-toggle__icon-default"></i>
-          <i ovg="" class="wasd-icons-sidebar-burgermenu-opened nav-sidebar-toggle__icon-active"></i>
-        </div>
-
-        <div class="logo">
-          <img src="${chrome.runtime.getURL("img/icon128.png")}" style="width: 32px; height: 32px;">
-          <div style="padding-left: 10px; font-size: 18px; width: 120px;">BetterWASD</div>
-        </div>
-
-        <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched" id="settingsSearchDiv">
-          <div ovg="" class="wasd-input-wrapper">
-            <div ovg="" class="wasd-input">
-              <input ovg="" id="settingsSearch" class="has-button ng-pristine ng-untouched ng-valid ui-autocomplete-input" placeholder="Поиск настроек" type="text" autocomplete="off" style="margin: 0;">
-              <button ovg="" type="button" class="button-icon" style="top: 4px;">
-                <i ovg="" class="wasd-icons-close"></i>
-              </button>
-            </div>
+          <div ovg="" class="header-new__nav-sidebar-toggle nav-sidebar-toggle open-nav-sidebar">
+            <i ovg="" class="wasd-icons-sidebar-burgermenu-closed nav-sidebar-toggle__icon-default"></i>
+            <i ovg="" class="wasd-icons-sidebar-burgermenu-opened nav-sidebar-toggle__icon-active"></i>
           </div>
-        </wasd-input>
-        
-        <div style="width: 100%"></div>
 
-        <wasd-button class="ghost-btn ovg head-buttons">
-        <ovg-bell _ngcontent-ljm-c266="" id="ovg_bell__element" _nghost-ljm-c288="">
-          <div _ngcontent-ljm-c288="" wasdclickoutside="" class="bell">
-            <button _ngcontent-ljm-c288="" class="basic medium-cube ovg bell_button">
-              <i _ngcontent-ljm-c288="" class="bell__icon wasd-icons-notice-fill"></i>
-              <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Информация </div></div></ovg-tooltip>
-            </button>
-            <div _ngcontent-ljm-c288="" class="bell__info bell-info" hidden="" style="z-index: 5;">
-              <div _ngcontent-ljm-c288="" class="bell-info__title"> Информация </div>
-              <div _ngcontent-ljm-c288="" class="bell-info__hr"></div>
-              <div _ngcontent-ljm-c288="" class="bell-info__list bell-info__list_scroll">
-                <!---->
-                <!---->
+          <a class="logo">
+            <img alt="BetterWASD.TV" src="">
+            <div class="logo__mob" tabindex="0"></div>
+          </a>
+
+          <wasd-input class="ng-valid ng-dirty ng-touched notfocused" id="settingsSearchDiv">
+            <div ovg="" class="wasd-input-wrapper">
+              <div ovg="" class="wasd-input">
+                <input ovg="" id="settingsSearch" class="has-button ng-pristine ng-untouched ng-valid ui-autocomplete-input" placeholder="Поиск настроек" type="text" autocomplete="off" style="margin: 0;">
+                <button ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-search"></i>
+                </button>
               </div>
             </div>
-          </div>
-        </ovg-bell>
+          </wasd-input>
 
-          <button class="basic medium-cube ovg hide-fullscreen fade" type="button">
-            <i class="wasd-icons-show"></i>
-          </button>
-          <button class="basic medium-cube ovg updateemotes" type="button">
-            <i class="wasd-icons-record"></i>
-            <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить эмоции (нажмите дважды) </div></div></ovg-tooltip>
-          </button>
-          <button class="basic medium-cube ovg update" type="button">
-            <i class="wasd-icons-record"></i>
-            <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить чат (нажмите дважды) </div></div></ovg-tooltip>
-          </button>
-          <button class="basic medium-cube ovg hide-fullscreen newtab" type="button">
-            <i class="ovg wasd-icons-extract"></i>
-            <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Открыть настройки в новом окне </div></div></ovg-tooltip>
-          </button>
-          <button class="basic medium-cube ovg hide-fullscreen close" type="button">
-            <i class="ovg wasd-icons-close"></i>
-          </button>
-        </wasd-button>
+          <div class="header__search-btn" tabindex="0" style="display: none">
+            <i class="wasd-icons-search"></i>
+          </div>
+
+        </div>
+
+        <div class="header__right-side">
+          <wasd-button class="ghost-btn ovg head-buttons" style="margin-right: 8px;">
+            <ovg-bell _ngcontent-ljm-c266="" id="ovg_bell__element" _nghost-ljm-c288="">
+              <div _ngcontent-ljm-c288="" wasdclickoutside="" class="bell">
+                <button _ngcontent-ljm-c288="" class="basic medium-cube ovg bell_button">
+                  <i _ngcontent-ljm-c288="" class="bell__icon wasd-icons-notice-fill"></i>
+                  <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Информация </div></div></ovg-tooltip>
+                </button>
+                <div _ngcontent-ljm-c288="" class="bell__info bell-info" hidden="" style="z-index: 5;">
+                  <div _ngcontent-ljm-c288="" class="bell-info__title"> Информация </div>
+                  <div _ngcontent-ljm-c288="" class="bell-info__hr"></div>
+                  <div _ngcontent-ljm-c288="" class="bell-info__list bell-info__list_scroll">
+                    <!---->
+                    <!---->
+                  </div>
+                </div>
+              </div>
+            </ovg-bell>
+
+            <button class="basic medium-cube ovg updateemotes" type="button">
+              <i class="wasd-icons-record"></i>
+              <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить эмоции (нажмите дважды) </div></div></ovg-tooltip>
+            </button>
+            <button class="basic medium-cube ovg update" type="button">
+              <i class="wasd-icons-record"></i>
+              <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить чат (нажмите дважды) </div></div></ovg-tooltip>
+            </button>
+            <button class="basic medium-cube ovg hide-fullscreen newtab" type="button">
+              <i class="ovg wasd-icons-extract"></i>
+              <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Открыть настройки в новом окне </div></div></ovg-tooltip>
+            </button>
+            <button class="basic medium-cube ovg hide-fullscreen close" type="button">
+              <i class="ovg wasd-icons-close"></i>
+            </button>
+          </wasd-button>
+        </div>
 
       </header>
 
@@ -983,14 +1001,13 @@ const BetterStreamChat = {
             <a role="tab" class="item" data-tab="filtration">Фильтрация</a>
             <a role="tab" class="item" data-tab="obschat">Чат для OBS (beta)</a>
             <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
-            <a role="tab" class="item" data-tab="backup">Бэкап</a>
           </div>
         </div>
       </section>
 
       <wasd-nav-sidebar ovg="" style="z-index:5">
         <div ovg="" id="nav-sidebar" class="nav-sidebar" style="height: calc(100% - 48px);z-index: 1;float: left;z-index: 5557;overflow: hidden;">
-          <ul ovg="" class="nav-sidebar__list">
+          <ul ovg="" class="nav-sidebar__list top">
             <li ovg="">
               <a ovg="" class="nav-sidebar__link" data-tab="general">
                 <i ovg="" class="wasd-icons-settings"></i>
@@ -1039,26 +1056,26 @@ const BetterStreamChat = {
                 <span ovg="">Журнал изменений</span>
               </a>
             </li>
-            <!--li ovg="">
-              <a ovg="" class="nav-sidebar__link" data-tab="backup">
-                <i ovg="" class="ovg-icon-backup"></i>
-                <span ovg="">Бэкап</span>
-              </a>
-            </li-->
-            <li ovg="" style="margin-top: 90px;">
+          </ul>
+          <ul ovg="" class="nav-sidebar__list bottom">
+            <li ovg="">
               <a ovg="" class="nav-sidebar__link" data-tab="about">
                 <i ovg="" class="wasd-icons-sidebar-faq"></i>
                 <span ovg="">О нас</span>
               </a>
             </li>
           </ul>
-      </div>
+        </div>
       </wasd-nav-sidebar>
 
-      <main class="text" data-tab="about">
+      <main class="text pod-position" data-tab="about">
 
         <div style="padding: 10px;">
           <span style="font-size: 21px;">Напишите отзыв на <a target="_blank" href="https://chrome.google.com/webstore/detail/betterwasd/cokaeiijnnpcfaoehijmdfcgbkpffgbh">Chrome Webstore</a> или скачайте БОТа для вашего WASD канала <a target="_blank" href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb/">Chrome Webstore</a></span>
+        </div>
+
+        <div style="padding: 10px;">
+          <span>Автор: <a href="https://ovgamesdev.github.io/ru/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a></span>
         </div>
 
         <div style="padding: 10px;">
@@ -1086,22 +1103,18 @@ const BetterStreamChat = {
           </div>
         </div>
 
-        <div style="padding: 10px;">
-          <span>Offered by <a href="https://ovgamesdev.github.io/ru/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a></span>
-        </div>
-
         <input id="importInput" type="file" accept=".backup, .backup.txt" style="display: none;">
         <div id="backupDropContainer" class="drodHere">Drop Here</div>
 
-        <div style="padding: 0 10px;margin-top: 145px;">
+        <div class="bottom" style="margin-bottom: 5px;">
           <span>Version ${changelogList[0].version} (${changelogList[0].date})</span>
         </div>
-
 
       </main>
       <main id="general" data-tab="general">
         ${HelperSettings.build('general')}
       </main>
+
       <main class="text" data-tab="bttvSettings">
         <h1 style="padding-left: 10px; padding-right: 10px;"> BetterTTV  </h1>
         <div>
@@ -1547,6 +1560,17 @@ const BetterStreamChat = {
     document.body.append(settingsDiv);
     BetterStreamChat.changelog = changelogList[0]
 
+    settingsDiv.querySelector('#settingsSearchDiv button').addEventListener('click', () => {
+      settingsSearchDiv.classList.remove('notfocused')
+      settingsSearch.dispatchEvent(new Event('input'))
+      settingsSearch.focus()
+    });
+
+    settingsSearch.addEventListener('blur', () => {
+      settingsSearch.value = ''
+      settingsSearchDiv.classList.add('notfocused')
+    });
+
     // bttv events
     bttvAddUserBtn.addEventListener('click', () => {
       HelperBTTV.tryAddUser();
@@ -1686,14 +1710,6 @@ const BetterStreamChat = {
       HelperWASD.obs_addTermToHighLight(term)
     }
 
-
-    // bind fade settings
-    settingsDiv.querySelector('.fade').addEventListener('click', () => {
-      settingsDiv.classList.toggle('faded')
-      settingsDiv.querySelector('.fade > i').classList.toggle('wasd-icons-show')
-      settingsDiv.querySelector('.fade > i').classList.toggle('wasd-icons-hide')
-    });
-
     // bind close settings 
     settingsDiv.querySelector('.close').addEventListener('click', () => {
       settingsDiv.style.animationName = 'hidebetterpanel';
@@ -1701,9 +1717,6 @@ const BetterStreamChat = {
         settingsDiv.style.display = 'none';
       }, 350);
       document.body.style.overflowY = "";
-      if (settingsDiv.classList.contains('faded')) {
-        settingsDiv.querySelector('.fade').click()
-      }
     });
 
     // bind update chat 
@@ -1992,16 +2005,12 @@ const BetterStreamChat = {
       settingsDiv.querySelector('.open-nav-sidebar').classList.toggle('nav-sidebar-toggle--active')
     })
 
-
-
-
+    let obschat = settingsDiv.querySelector('iframe.obschat')
     loadObsChat = () => {
-      // https://ovgamesdev.github.io/BetterWASD.obs_chat/preview
-      // http://localhost/preview
-      settingsDiv.querySelector('iframe.obschat').src = `https://ovgamesdev.github.io/BetterWASD.obs_chat/preview/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}&settings=${encodeURI(JSON.stringify(settings.obschat)).replace(/#/ig, 'HASH')}`
+      obschat.src = `${true ? 'http://localhost' : 'https://ovgamesdev.github.io/BetterWASD.obs_chat'}/preview/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}&settings=${encodeURI(JSON.stringify(settings.obschat)).replace(/#/ig, 'HASH')}&fade=${settings.general.uiTransparency}`
     }
     unloadObsChat = () => {
-      settingsDiv.querySelector('iframe.obschat').src = ''
+      obschat.src = ''
     }
 
     settingsDiv.querySelector('.ovg-tabs-wrapper').addEventListener('click', () => {
@@ -2436,10 +2445,6 @@ const BetterStreamChat = {
             ovg_bell__element.style.display = ''
           }
 
-          // for (let d of Cookies.get('bwasd_noitfyreaded').split(';')) {
-          //   document.querySelector(`.bell-info__elem[bell_id="${d}"]`)
-          // }
-
         } else {
           ovg_bell__element.style.display = 'none'
         }
@@ -2454,10 +2459,8 @@ const BetterStreamChat = {
 
 $.widget("app.autocomplete", $.ui.autocomplete, {
   _renderItem: (ul, item) => {
-    var result = this._super(ul, item);
-    if (item.logo) {
-      result.find("div").addClass("ui-menu-item-icon").css("background-image", "url(" + item.logo + ")");
-    }
-    return result;
+    return $( "<li>" )
+      .append( `<div class='ui-menu-item-icon' style='background-image: url(${item.logo})'> ${item.label} </div>` )
+      .appendTo( ul );
   }
 });

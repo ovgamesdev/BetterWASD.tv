@@ -8,6 +8,7 @@ const Helper = {
     return {
       general: {
         autoUpdateChat: false,
+        uiTransparency: false,
       },
       wasd: {
         messageFollower: false,

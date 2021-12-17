@@ -167,7 +167,7 @@ button[ovg]:hover i[ovg] {
   height: 500px;
   z-index: 5556;
   border-radius: 4px;
-  border: 1px solid #000000;
+  border: 1px solid #141820;
   background-color: var(--wasd-color-prime);
   box-shadow: 0 2px 4px rgba(var(--wasd-color-black--rgb),0.16);
   display: flex;
@@ -180,8 +180,13 @@ button[ovg]:hover i[ovg] {
 /* header */
 
 #bscSettingsPanel header {
-  display: flex;
-  align-items: center;
+  position: relative;
+  z-index: 5555;
+  width: 100%;
+  height: 48px;
+  box-sizing: border-box;
+  /*display: flex;*/
+  /*align-items: center;*/
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   background: var(--color-second-layer);
@@ -191,6 +196,134 @@ button[ovg]:hover i[ovg] {
   padding-right: 8px;
   cursor: move;
 }
+
+#bscSettingsPanel header .header__right-side,
+#bscSettingsPanel header .header__left-side {
+  position: absolute;
+  display: flex;
+  height: 48px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+#bscSettingsPanel header .header__left-side {
+  left: 0;
+}
+#bscSettingsPanel header .header__right-side {
+  right: 0;
+}
+
+#bscSettingsPanel header .logo {
+  align-items: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-left: 16px;
+}
+#bscSettingsPanel header .logo img {
+  height: 24px;
+  width: 101px;
+  margin-bottom: 8px;
+}
+#bscSettingsPanel header .logo .logo__mob {
+  display: none;
+  width: 32px;
+  height: 32px;
+  background: url(https://static.wasd.tv/assets/fe/images/Wasd_Beta_color_logo_small.svg) no-repeat;
+  background-size: 100%;
+}
+
+#bscSettingsPanel header .header__search-btn {
+  margin-left: 16px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+#bscSettingsPanel header .header__search-btn i {
+  display: flex;
+  font-size: 16px;
+  color: rgba(var(--color-switch),.64);
+}
+#bscSettingsPanel header .header__search-btn i:before {
+  margin: 0;
+}
+#bscSettingsPanel header .header__search-btn:hover {
+  background-color: rgba(var(--color-switch),.08);
+}
+#bscSettingsPanel header .header__search-btn:hover i {
+  color: rgb(var(--color-switch));
+}
+#bscSettingsPanel header .header__search-btn:active {
+  background-color: rgba(var(--color-switch),.16);
+}
+#bscSettingsPanel header .header__search-btn:active i {
+  color: rgb(var(--color-switch));
+}
+
+
+
+#settingsSearchDiv {
+  margin-left: 16px;
+}
+
+#settingsSearchDiv button {
+  top: 4px;
+  cursor: pointer;
+}
+
+#settingsSearchDiv:not(.notfocused) .wasd-input-wrapper {
+  transition: width .2s;
+}
+#settingsSearchDiv.notfocused,
+#settingsSearchDiv.notfocused .wasd-input-wrapper {
+  width: 32px;
+}
+#settingsSearchDiv.notfocused input {
+  margin: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+}
+#settingsSearchDiv.notfocused button {
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+}
+#settingsSearchDiv.notfocused button i {
+  font-size: 16px;
+  color: rgba(var(--color-switch),0.64);
+}
+#settingsSearchDiv.notfocused input::placeholder {
+  color: rgba(0,0,0,0);
+}
+#settingsSearchDiv.notfocused button:hover {
+  background-color: rgba(var(--color-switch),.08);
+}
+#settingsSearchDiv.notfocused button:hover i {
+  color: rgb(var(--color-switch));
+}
+#settingsSearchDiv.notfocused button:active {
+  background-color: rgba(var(--color-switch),.16);
+}
+#settingsSearchDiv.notfocused button:active i {
+  color: rgb(var(--color-switch));
+}
+
+
 
 main[data-tab="about"]>div.aboutHalf {
   background-color: var(--wasd-color-prime);
@@ -309,7 +442,9 @@ button#backupButton {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  background: var(--wasd-color-prime);
+  min-height: 34px;
+  background: rgba(var(--wasd-color-prime--rgb), .5);
+  backdrop-filter: blur(7px);
   z-index: 1;
 }
 
@@ -352,7 +487,7 @@ button#backupButton {
   color: var(--wasd-color-text-second);
   overflow: hidden;
   text-align: center;
-  background-color: var(--wasd-color-prime);
+  background: none;
   padding: 0 9px;
 }
 
@@ -361,7 +496,7 @@ button#backupButton {
   height: 1px;
   margin: 0 -15px 0 -19px;
   position: relative;
-  top: 11.5px;
+  top: 11px;
   z-index: -1;
 }
 
@@ -403,13 +538,13 @@ button#backupButton {
   left: 0;
   opacity: 0;
   pointer-events: none;
-  position: fixed;
+  position: absolute;
   top: 0;
   transform: translateY(-100%);
   transition: visibility 0.12s linear 0.12s, transform 0.12s linear, opacity 0.12s linear;
   visibility: hidden;
   width: 100%;
-  z-index: 460;
+  z-index: 5556;
 }
 
 #bscSettingsPanel #status.active {
@@ -2321,8 +2456,7 @@ main[data-tab="backup"] button {
   #bscSettingsPanel .option button.def {
     display: block !important;
   }
-  .head-buttons .newtab,
-  .head-buttons .fade {
+  .head-buttons .newtab {
     display: none !important;
   }
 }
@@ -2864,12 +2998,6 @@ ovg-button {
 .dragoverbackup .drodHere {
   opacity: 1;
 }
-#bscSettingsPanel.faded {
-  opacity: .5;
-}
-#bscSettingsPanel.faded:hover {
-  opacity: .75;
-}
 
 /******************************/
 
@@ -2879,7 +3007,7 @@ ovg-button {
 #bscSettingsPanel section {
   background: var(--wasd-color-bg-prime);
   float: left;
-  z-index: 2;
+  z-index: 5;
 }
 #bscSettingsPanel section .tabs {
   margin: 0;
@@ -2901,12 +3029,6 @@ ovg-button {
 #settingsSearchDiv {
   animation-duration: .4s;
   animation-name: showSettingsSearch;
-}
-header .logo {
-  display: flex;
-  align-items: center;
-  margin: 10px;
-  margin-left: 16px;
 }
 #settingsSearchDiv .wasd-input-wrapper {
   padding: 0;
@@ -2952,8 +3074,8 @@ header .logo {
     transition: transform .2s, opacity .25s;
     transform: translate(-101%);
     width: inherit;
-    background: rgb(0 0 0 / 50%);
-    backdrop-filter: blur(5px);
+    background: none;
+    /*backdrop-filter: blur(5px);*/
     opacity: 0;
   }
   
@@ -2979,7 +3101,7 @@ header .logo {
     display: flex !important;
   }
   
-  header .logo {
+  #bscSettingsPanel header .logo {
     display: none;
   }
   
@@ -2988,11 +3110,14 @@ header .logo {
   }
   
   #settingsSearchDiv .wasd-input-wrapper {
-    width: 210px;
+    width: 150px;
   }
   
   #bscSettingsPanel header .burger-menu__wrap.mobile {
     display: block;
+  }
+  #bscSettingsPanel header .nav-sidebar-toggle {
+    display: none;
   }
 }
 @media screen and (max-width:370px) {
@@ -3175,4 +3300,20 @@ wasd-chat-subscribe-message .chat-message-mention {
   margin-right: 4px;
   min-width: 20px;
   width: 20px;
+}
+
+/* div pod position  */
+
+.pod-position {
+
+}
+
+.pod-position .top {
+  top: 0;
+  position: absolute;
+}
+
+.pod-position .bottom {
+  bottom: 0;
+  position: absolute;
 }

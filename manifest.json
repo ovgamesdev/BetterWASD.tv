@@ -20,6 +20,7 @@
       "lib/jquery/jquery.min.js",
       "lib/jquery/jquery.timeago.js",
       "lib/jquery/jquery.ui.js",
+      "lib/jquery/attrchange.js",
       "lib/moment/moment.min.js",
       "lib/strip-combining-marks/strip-combining-marks.js",
       "lib/betterwasd.js",
@@ -60,5 +61,5 @@
   ],
   "minimum_chrome_version": "41",
   "permissions": ["storage", "notifications", "*://*.wasd.tv/*"],
-  "version": "1.4.2"
+  "version": "1.4.3"
 }

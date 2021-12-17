@@ -6,6 +6,10 @@ const HelperSettings = {
         title: 'Автоматически обновлять чат после изменения опции',
         type: 'boolean'
       },
+      uiTransparency: {
+        title: 'Прозрачность пользовательского интерфейса',
+        type: 'boolean'
+      },
       BETA: {
         title: `${Helper.BETA} - Эта опция находится в стадии разработки и может работать некорректно`,
         type: 'none'
@@ -715,7 +719,7 @@ const HelperSettings = {
         type: 'title'
       },
       chatOnTheLeft: {
-        title: 'Чат слева',
+        title: 'Поменять боковые панели местами',
         type: 'boolean'
       },
       hidePanelMobile: {
@@ -1103,7 +1107,7 @@ const HelperSettings = {
             <div class="labelField">
               ${line ? '<div class="line"></div>' : ''}
               <span ${line ? 'class="titleline"' : 'class="title"'}> ${title} </span>
-              <span class="description"> ${description || ''}</span>
+              ${description ? `<span class="description"> ${description} </span>` : ''}
             </div>
 
             <div class="formField"> ${formField} </div>
@@ -1192,14 +1196,12 @@ const HelperSettings = {
           <input option-type="boolean" type="checkbox" id="boolean_${name}" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${defaultValue ? 'checked' : ''}${updateChat ? " updatechat=''" : ""}>
           <span class="slider-ovg"> <div class="switcher_thumb-ovg"></div> </span>
         </label>
-        <!--button class="optionField def" data-name="${name}" option-type="boolean"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
       </ol>`);
   },
   text(name, title, description, defaultValue = '', updateChat = false) {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <input type="text" class="optionField" data-name="${name}" value="${defaultValue}"${updateChat ? " updatechat=''" : ""} />
-        <!--button class="optionField def" data-name="${name}" option-type="text"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
       </ol>`);
   },
   number(name, title, description, defaultValue = '', min = 0, max = 0, updateChat = false) {
@@ -1259,7 +1261,6 @@ const HelperSettings = {
           <input option-type="botevent" type="radio" id="boolean_${name}_no" name="boolean_${name}" value="0" class="optionField botevent" data-name="${name}" ${!defaultValue[1] ? 'checked' : ''}${updateChat ? " updatechat=''" : ""}>
           <label for="boolean_${name}_no" class="red"><span class="icon16 fa-times"></span> ${noButton}</label>
         </li>
-        <!--button class="optionField def" data-name="${name}" option-type="botevent"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
       </ol>`);
   }
 }

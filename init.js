@@ -59,9 +59,6 @@ window.addEventListener('mousemove', (e) => {
 });
 
 
-
-let messageTimeout;
-
 let settings = Helper.getDefaultSettings();
 
 // initialization
@@ -81,7 +78,7 @@ let initialize = async () => {
 
 initialize();
 
-//-
+// tr_optimization
 addPipToPlayer = () => {
   if (settings.wasd.pictureInPicture) {
     if (!document.querySelector("button.pip")) {
@@ -111,7 +108,7 @@ addPipToPlayer = () => {
     buttondiv?.remove();
   }
 }
-
+// tr_optimization
 createClipByOvg = () => {
   if (settings.wasd.iframeCreateClip) {
     if (document.querySelector(".clip-button") && !document.querySelector("button.clip-ovg")) {
@@ -175,7 +172,7 @@ createClipByOvg = () => {
   }
 }
 
-//-
+// tr_optimization
 updateVideoPlayerButtons = () => {
   exitfullscreenButton = document.querySelector('.fullscreen>.live>.custom-media-control>.player-controls>.buttons-container>.buttons-right>div>.fullscreen-button > div.tooltip');
   if (exitfullscreenButton) {
@@ -283,206 +280,9 @@ chrome.runtime.onMessage.addListener((msg) => {
     }
   }
   if (msg.from == "background" && msg.update_chat == true) {
-    let header_block_menu = document.querySelector('.header > div.header__block__menu')
-    if (header_block_menu) {
-      if (header_block_menu.childNodes.length >= 1) {
-        if (header_block_menu.childNodes[1].nodeName != "#comment") {
-          header_block_menu.childNodes[1].click();
-        }
-        if (header_block_menu.childNodes[0].nodeName != "#comment") {
-          header_block_menu.childNodes[0].click();
-        }
-      }
-    }
+    BetterStreamChat.settingsDiv.querySelector('.update')?.dispatchEvent(new Event('dblclick'))
   }
   if (msg.from == "background" && msg.location == 'reload') {
     location.reload()
   }
 });
-
-
-
-/* to new settings */
-
-let toNewSettings = async () => {
-  try {
-    settings = await Helper.getSettings();
-    if (typeof settings === 'undefined') {
-      settings = Helper.getDefaultSettings();
-    } else if (settings.general.autoUpdateChat[1] != undefined) {
-      chrome.storage[storageType].set(getUpdateSettings(), () => {
-        location.reload()
-      })
-    }
-  } catch (e) {
-    ovg.log('catch toNewSettings', e);
-  }
-};
-
-toNewSettings()
-
-const getUpdateSettings = () => {
-  return {
-    general: {
-      autoUpdateChat: settings.general.autoUpdateChat[1],
-    },
-    wasd: {
-      messageFollower: settings.wasd.messageFollower[1],
-      messageSub: settings.wasd.messageSub[1],
-      messageSystem: settings.wasd.messageSystem[1],
-      messageHover: settings.wasd.messageHover[1],
-      wasdIconsSmile: settings.wasd.wasdIconsSmile[1],
-      wasdIconsCircleRu: settings.wasd.wasdIconsCircleRu[1],
-      webkitScrollbarWidth: settings.wasd.webkitScrollbarWidth[1],
-      giftsWrapperSide: settings.wasd.giftsWrapperSide[1],
-      giftsWrapperTopRight: settings.wasd.giftsWrapperTopRight[1],
-      sticker: settings.wasd.sticker[1],
-      stickerovg: settings.wasd.stickerovg[1],
-      paddingChatMessage: settings.wasd.paddingChatMessage[1],
-      colonAfterNickname: settings.wasd.colonAfterNickname[1],
-      linkColor: settings.wasd.linkColor[1],
-      colorAtTheMention: settings.wasd.colorAtTheMention[1],
-      chatOnTheLeft: settings.wasd.chatOnTheLeft[1],
-      chatWidth: settings.wasd.chatWidth[1],
-      hideDonationChannelButton: settings.wasd.hideDonationChannelButton[1],
-      hideAmazingChannelButtoan: settings.wasd.hideAmazingChannelButtoan[1],
-      hideGiftButtons: settings.wasd.hideGiftButtons[1],
-      highlightMessagesBold: settings.wasd.highlightMessagesBold[1],
-      streamerMessage: settings.wasd.streamerMessage[1],
-      fontSize: settings.wasd.fontSize[1],
-      topPanel: settings.wasd.topPanel[1],
-      topPanelChallenge: settings.wasd.topPanelChallenge[1],
-      pictureInPicture: settings.wasd.pictureInPicture[1],
-      resetToPlayer: settings.wasd.resetToPlayer[1],
-      moderatorMenu: settings.wasd.moderatorMenu[1],
-      moderatorMenuAutomatic: settings.wasd.moderatorMenuAutomatic[1],
-      autoPlayStreamersOnMain: settings.wasd.autoPlayStreamersOnMain[1],
-      pressedFullScreen: settings.wasd.pressedFullScreen[1],
-      pressedTheater: settings.wasd.pressedTheater[1],
-      pressedPIP: settings.wasd.pressedPIP[1],
-      pressedClip: settings.wasd.pressedClip[1],
-      alternatingColorChatMessages: settings.wasd.alternatingColorChatMessages[1],
-      alternatingColorChatMessagesColor: settings.wasd.alternatingColorChatMessagesColor[1],
-      onClickMention: settings.wasd.onClickMention[1],
-      onClickUserName: settings.wasd.onClickUserName[1],
-      fixedLinks: settings.wasd.fixedLinks[1],
-      uptimeStream: settings.wasd.uptimeStream[1],
-      bttvEmotes: settings.wasd.bttvEmotes[1],
-      bttvInChatMenu: settings.wasd.bttvInChatMenu[1],
-      bttvEmoteSize: settings.wasd.bttvEmoteSize[1],
-      linkRecognizerall: settings.wasd.linkRecognizerall[1],
-      linkRecognizerWASD: settings.wasd.linkRecognizerWASD[1],
-      decorationLink: settings.wasd.decorationLink[1],
-      videoOverlay: settings.wasd.videoOverlay[1],
-      userNameEdited: settings.wasd.userNameEdited,
-      onClickUser: settings.wasd.onClickUser[1],
-      removeMentionBL: settings.wasd.removeMentionBL[1],
-      hidePanelMobile: settings.wasd.hidePanelMobile[1],
-      formatMessageSentTime: settings.wasd.formatMessageSentTime[1],
-      mentionSelf: settings.wasd.mentionSelf[1],
-      colorMentionSelf: settings.wasd.colorMentionSelf[1],
-      highlightMessagesOpenCard: settings.wasd.highlightMessagesOpenCard[1],
-      highlightMessagesOpenCardColor: settings.wasd.highlightMessagesOpenCardColor[1],
-      alwaysOpenVolumeControl: settings.wasd.alwaysOpenVolumeControl[1],
-      colorMessageHover: settings.wasd.colorMessageHover[1],
-      bttvSize: settings.wasd.bttvSize[1],
-      mutePlayerOnMiddleMouse: settings.wasd.mutePlayerOnMiddleMouse[1],
-      hideBannerOnHome: settings.wasd.hideBannerOnHome[1],
-      hideSelectorStreamSettings: settings.wasd.hideSelectorStreamSettings[1],
-      clickMentionAll: settings.wasd.clickMentionAll[1],
-      underlineUsernameAndMention: settings.wasd.underlineUsernameAndMention[1],
-      iframeCreateClip: settings.wasd.iframeCreateClip[1],
-      linkRecognitionRights: settings.wasd.linkRecognitionRights[1],
-      artificialChatDelay: settings.wasd.artificialChatDelay[1],
-      forceResizeStickers: settings.wasd.forceResizeStickers[1],
-      ffzEmotes: settings.wasd.ffzEmotes[1],
-      ffzInChatMenu: settings.wasd.ffzInChatMenu[1],
-      decreaseIndentationStickerMenu: settings.wasd.decreaseIndentationStickerMenu[1],
-      decreaseIndentationSmilesMenu: settings.wasd.decreaseIndentationSmilesMenu[1],
-      decreaseIndentationBTTVandFFZMenu: settings.wasd.decreaseIndentationBTTVandFFZMenu[1],
-      highlightStickersStickerMenu: settings.wasd.highlightStickersStickerMenu[1],
-      hideGreatRandom: settings.wasd.hideGreatRandom[1],
-      moderatorMenuTimeout: settings.wasd.moderatorMenuTimeout[1],
-      keepMessagesTimeout: settings.wasd.keepMessagesTimeout[1],
-      chatMobilePlayer: settings.wasd.chatMobilePlayer[1],
-      colorModOptions: settings.wasd.colorModOptions[1],
-      tv7Emotes: settings.wasd.tv7Emotes[1],
-      tv7InChatMenu: settings.wasd.tv7InChatMenu[1],
-      uptimeStreamMobile: settings.wasd.uptimeStreamMobile[1],
-      highlightingWhenMentionList: settings.wasd.highlightingWhenMentionList,
-      hideWhenMentionList: settings.wasd.hideWhenMentionList,
-      hideRaid: settings.wasd.hideRaid[1],
-      fixCharactersBreakingChat: settings.wasd.fixCharactersBreakingChat[1],
-      notifyOnMention: false,
-      staticGifEmotes: "1",
-      pinMessage: true,
-      hoverTooltipEmote: true,
-      limitHistoryUsers: "0",
-      showOwnerBadge: true,
-      showModeratorBadge: true,
-      showSubBadge: true,
-      showAdminBadge: true,
-      showPromoCodeWin: true,
-      truncateLink: 0
-    },
-    list: {
-      blockUserList: settings.wasd.blockUserList[1],
-      blockTermList: {},
-      highlightUserList: {},
-      highlightTermList: {},
-      blockRoleList: {}
-    },
-    highlightRole: {
-      user: "#00000000",
-      admin: "#00000000",
-      sub: "#00000000",
-      owner: "#00000000",
-      moderator: "#00000000"
-    },
-    obschat: {
-      theme: 1,
-      mf: false,
-      ms: false,
-      bes: 0,
-      st: 1,
-      frs: 1,
-      ss: 'large',
-      can: false,
-      catm: true,
-      hmb: false,
-      sm: false,
-      lc: "rgba(var(--wasd-color-switch--rgb),.88)",
-      fl: true,
-      fmst: "HH:mm",
-      cma: true,
-      acd: 0,
-      fcbc: false,
-      stime: false,
-      simg: false,
-      sdm: 0,
-      sl: 0,
-      anim: 0,
-      nma: 15000,
-      mtc: "rgba(var(--wasd-color-switch--rgb), .88)",
-      sbo: true,
-      sbm: true,
-      sbs: true,
-      sba: true,
-      mentionSelf: true,
-      cms: "rgba(var(--wasd-color-switch--rgb),.08)",
-
-      bttv: '',
-      ffz: '',
-      tv7: '',
-
-      list: {
-        blockUserList: {},
-        blockTermList: {},
-        highlightUserList: {},
-        highlightTermList: {},
-        blockRoleList: {}
-      },
-      rMBL: true, 
-    }
-  };
-}

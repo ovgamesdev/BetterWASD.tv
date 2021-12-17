@@ -74,24 +74,22 @@ const wasd = {
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('div#topDiv.fixed-wrapper'));
 
-
+        const isLive = new URL(document.URL).pathname.split('/')[2] != 'videos' && new URL(document.URL).pathname.split('/')[2] != 'clips' && document.querySelector('wasd-user-plays .user-plays__text')?.textContent != 'стримил'
 
         if (add_chat.length) {
-          // console.log('123 addedNodes wasd-chat-messages', add_chat[0])
           HelperWASD.loadBadges()
           socket.initChat()
+          wasd.update();
           HelperWASD.getIsModerator().then((resolve) => {
           HelperWASD.isModerator = resolve
             wasd.update();
           })
 
-          wasd.update();
           HelperWASD.createPinMessages();
 
           document.querySelector('.update > i').classList.remove('resetPlayerLoading');
         }
         if (remove_chat.length) {
-          // console.log('123 removedNodes wasd-chat-messages', remove_chat[0])
           socket.stop(1000, 'removedNodes')
           HelperWASD.isModerator = false
 
@@ -100,19 +98,15 @@ const wasd = {
         }
 
         if (add_player_buttons.length) {
-          // console.log('123 addedNodes media-control', add_player_buttons[0])
           let textlive = add_player_buttons[0].querySelector('.buttons-container .stream-status-text.live')
           let buttons  = add_player_buttons[0].querySelector('.buttons-container .buttons-right')
         }
 
         if (add_settings_button_burger.length) {
-          // console.log('123 addedNodes burger', add_settings_button_burger[0])
           let burger = add_settings_button_burger[0].querySelector('header')
-          // console.log(burger)
         }
 
         if (add_wasd_chat_message.length) {
-          // console.log('123 addedNodes wasd-chat-message', add_wasd_chat_message[0])
           let is = false
           if (add_wasd_chat_message[0] == document.querySelector('.block__messages')?.lastElementChild) {
             is = true
@@ -124,7 +118,6 @@ const wasd = {
         }
 
         if (add_emoji_menu.length) {
-          // console.log('123 addedNodes add_emoji_menu', add_emoji_menu[0].querySelector('.emoji__head__options'))
 
           if (settings.wasd.tv7InChatMenu) {
             
@@ -491,16 +484,13 @@ const wasd = {
             }
 
           }
-
         }
 
         if (add_chat_menu.length) {
-          // console.log('123 addedNodes add_chat_menu', add_chat_menu[0].parentNode)
           HelperWASD.addToMenu(add_chat_menu[0].parentNode)
         }
 
         if (add_carousel_container_chromeless.length && !settings.wasd.autoPlayStreamersOnMain) {
-          // console.log('123 addedNodes add_carousel_container_chromeless', add_carousel_container_chromeless[0])
           let video = add_carousel_container_chromeless[0].querySelector('video')
 
           video?.addEventListener('play', () => {
@@ -508,12 +498,10 @@ const wasd = {
           })
         }
         if (add_carousel_pending.length && !settings.wasd.autoPlayStreamersOnMain) {
-          // console.log('123 addedNodes add_carousel_pending', add_carousel_pending[0])
           add_carousel_pending[0].style.display = 'none';
         }
 
-        if (add_uptime.length && new URL(document.URL).pathname.split('/')[2] != 'videos' && new URL(document.URL).pathname.split('/')[2] != 'clips') {
-          // console.log('123 addedNodes add_uptime', add_uptime[0])
+        if (add_uptime.length && isLive) {
           add_uptime[0]?.querySelector('wasd-user-plays')?.insertAdjacentHTML('afterend', '<div class="stream-uptime tooltip-hover" style="position:relative;"><i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip></div>')
           let uptime = document.querySelector('div.stream-uptime')
           let uptimevalue = document.querySelector('.stream-uptime input.player-info__stat-value')
@@ -549,11 +537,11 @@ const wasd = {
           }, 1000);
         }
 
-        if (add_wasd_chat_header.length  && new URL(document.URL).pathname.split('/')[2] != 'videos' && new URL(document.URL).pathname.split('/')[2] != 'clips') {
+        if (add_wasd_chat_header.length && isLive) {
           add_wasd_chat_header[0].lastChild.insertAdjacentHTML('beforebegin', `<div class="lds-ring websocket_loader tooltip-hover" style="height: 100%;position: absolute;right: 40px;" ovg=""><svg x="0px" y="0px" viewBox="0 0 150 150" class="icon-pending-ovg"><circle cx="75" cy="75" r="60" class="icon-pending-inner-ovg"></circle></svg><ovg-tooltip style="position: absolute;left: 0px;"><div class="tooltip tooltip_position-left tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Ожидаем подключение WebSocket </div></div></ovg-tooltip></div>`)
         }
 
-        if (add_header.length) {
+        if (add_header.length && isLive) {
           addToHeader()
         }
 
@@ -594,11 +582,9 @@ const wasd = {
       fontStyle.innerHTML = '';
       fontStyle.appendChild(document.createTextNode(`@font-face {
         font-family: 'icomoon';
-        src:  url(${chrome.runtime.getURL("css/fonts/icomoon.eot")}?v094r1);
-        src:  url(${chrome.runtime.getURL("css/fonts/icomoon.eot")}?v094r1#iefix) format('embedded-opentype'),
-          url(${chrome.runtime.getURL("css/fonts/icomoon.ttf")}?v094r1) format('truetype'),
-          url(${chrome.runtime.getURL("css/fonts/icomoon.woff")}?v094r1) format('woff'),
-          url(${chrome.runtime.getURL("css/fonts/icomoon.svg")}?v094r1#icomoon) format('svg');
+        src:  url(${chrome.runtime.getURL("css/fonts/icomoon.ttf")}?ek8nz4) format('truetype'),
+          url(${chrome.runtime.getURL("css/fonts/icomoon.woff")}?ek8nz4) format('woff'),
+          url(${chrome.runtime.getURL("css/fonts/icomoon.svg")}?ek8nz4#icomoon) format('svg');
         font-weight: normal;
         font-style: normal;
         font-display: block;
@@ -623,7 +609,7 @@ const wasd = {
       }, 1)
     }
 
-    fixMobilePlayer()
+    fixMobilePlayer() // tr_optimization
 
     addToHeader = () => {
       // add button BetterWASD настройки
@@ -640,6 +626,49 @@ const wasd = {
         // document.querySelector('wasd-header .profile-menu-toggle').addEventListener('click', () => {})
         // document.querySelector('wasd-header .profile-menu-toggle').addEventListener('click', () => {})
       }
+
+      let toggle = document.querySelector('.header-new__left-side .header-new__nav-sidebar-toggle')
+      document.querySelector('.header-new__right-side')?.append(toggle.cloneNode(true))
+      let newtoggle = document.querySelector('.header-new__right-side .header-new__nav-sidebar-toggle')
+      toggle = document.querySelector('.header-new__left-side .header-new__nav-sidebar-toggle')
+      if (newtoggle) {
+        newtoggle.style.transform = 'rotate(180deg)'
+        newtoggle.addEventListener('click', () => {
+          if (!document.querySelector('#nav-sidebar').classList.contains('nav-sidebar--expanded')) {
+            setTimeout(() => {
+              document.querySelector('.header-new__left-side .header-new__nav-sidebar-toggle').click()
+            }, 25)
+          }
+        })
+
+        $('#nav-sidebar').attrchange({
+          trackValues: true,
+          callback: function (event) {
+            if (event.newValue == "nav-sidebar") {
+              newtoggle.classList.remove('nav-sidebar-toggle--active')
+            } else {
+              newtoggle.classList.add('nav-sidebar-toggle--active')
+            }
+          }
+        });
+      }
+
+      if ($('wasd-header .logo img')?.attr('src')?.match('dark')) {
+        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.png")
+      } else {
+        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo.png")
+      }
+      $('wasd-header .logo img').attrchange({
+        trackValues: true,
+        callback: function (event) {
+          if (event.newValue.match('dark')) {
+            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.png")
+          } else {
+            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo.png")
+          }
+        }
+      });
+
     }
 
     addToHeader()
@@ -761,12 +790,18 @@ const wasd = {
     cssCode += `div.message-text.message-text_deleted > span > a { color: inherit!important; }`;
 
     if (settings.wasd.chatOnTheLeft) {
-      cssCode += `@media screen and (min-width:480px) {wasd-chat-wrapper > div.chat-container { width: ${settings.wasd.chatWidth}px!important }}`;
+      cssCode += `@media screen and (min-width:480px) { wasd-chat-wrapper > div.chat-container { width: ${settings.wasd.chatWidth}px!important } }`;
       cssCode += `wasd-channel > div.channel-wrapper > div#channel-wrapper { order: 1!important; }`;
       cssCode += `div.player-wrapper.theatre-mode { left: ${settings.wasd.chatWidth}px!important; width: calc(100vw - ${settings.wasd.chatWidth}px)!important; }`;
+      cssCode += `#scroll-content { padding-right: 52px!important; padding-left: 0px!important; }`;
+      cssCode += `wasd-header #nav-sidebar { left: auto!important; right: 0!important;}`
+      cssCode += `wasd-header #nav-sidebar { border-left: 1px solid rgba(var(--color-switch),.24)!important; border-right: none!important;}`
+      cssCode += `.header-new__left-side .header-new__nav-sidebar-toggle { display: none!important; }`
+      cssCode += `.profile-menu-toggle { margin-right: 8px!important; }`
     } else {
       cssCode += `@media screen and (min-width:480px) {wasd-chat-wrapper > div.chat-container { width: ${settings.wasd.chatWidth}px!important }}`;
       cssCode += `div.player-wrapper.theatre-mode { width: calc(100vw - ${settings.wasd.chatWidth}px)!important; }`;
+      cssCode += `.header-new__right-side .header-new__nav-sidebar-toggle { display: none!important; }`
     }
     cssCode += 'wasd-chat-wrapper > div.chat-container.close--desktop { width: 0px!important; }';
 
@@ -816,7 +851,7 @@ const wasd = {
     }
 
     if (settings.wasd.alternatingColorChatMessages) {
-      cssCode += `div.block__messages__item:nth-child(2n+1) { background-color: ${settings.wasd.alternatingColorChatMessagesColor != '#000000' ? settings.wasd.alternatingColorChatMessagesColor+'!important' : 'var(--wasd-color-prime)!important' }; }`;
+      cssCode += `div.block__messages__item:nth-child(2n+1), div.block__messages__item-ovg:nth-child(2n+1) { background-color: ${settings.wasd.alternatingColorChatMessagesColor != '#000000' ? settings.wasd.alternatingColorChatMessagesColor+'' : 'var(--wasd-color-prime)' }; }`;
     }
 
     if (settings.wasd.decorationLink) {
@@ -960,7 +995,12 @@ const wasd = {
 
     /* fix profile-menu height */
     if (document.querySelector('#selector-bm-ovg-settings')) {
-      cssCode += `.profile-menu.profile-menu--show {height: 176px!important;} .profile-menu.profile-menu--show.profile-menu--logged {height: 336px!important;}`
+      cssCode += `.profile-menu.profile-menu--show {height: max-content !important;}`
+    }
+
+    if (settings.general.uiTransparency && !new URL(document.URL).searchParams.get('helper-settings')) {
+      cssCode += `#bscSettingsPanel {background: rgba(var(--wasd-color-prime--rgb), 0.25);backdrop-filter: blur(7px);}`
+      cssCode += `#bscSettingsPanel .stickers__info {background: none;backdrop-filter: blur(7px);}`
     }
 
     var iframe = document.querySelector('iframe.obschat')
@@ -1042,7 +1082,6 @@ const wasd = {
       }
 
       if (node.querySelector('div.message-text')) {
-        // node.querySelector('div.message-text')?.html(node.querySelector('div.message-text').innerHTML.replace('</', ' </').replace('>', '> '))
         node.querySelector('div.message-text').innerHTML = node.querySelector('div.message-text').innerHTML.replace('</', ' </').replace('>', '> ');
       }
 
