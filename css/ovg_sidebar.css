@@ -149,7 +149,8 @@ wasd-header .nav-sidebar__item[ovg] .status {
   color: rgba(var(--color-switch), .8) !important
 }
 
-.nav-sidebar__link[ovg]:hover {
+.nav-sidebar__link[ovg]:hover,
+.nav-sidebar__item[ovg]:hover {
   background: rgba(var(--color-switch), .08)
 }
 
