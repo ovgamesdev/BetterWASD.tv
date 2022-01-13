@@ -41,6 +41,18 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
     if (request.from == "tab_content") {
       contentTabId = sender.tab.id;
     }
+    if (request.setUninstall) {
+      chrome.runtime.setUninstallURL(`https://betterwasd-stat.herokuapp.com/api/v1/tv/delete/${request.setUninstall}`,)
+    }
+    if (request.createWindow) {      
+      chrome.windows.create({
+        url: request.createWindow,
+        type: "popup",
+        width: 900,
+        height: 560,
+        focused: true
+      });
+    }
   }
 );
 

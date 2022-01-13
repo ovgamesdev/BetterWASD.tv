@@ -62,6 +62,16 @@ const socket = {
     });
   },
   start(channel_name) {
+
+    $.ajax({
+      url: `https://betterwasd-stat.herokuapp.com/api/v1/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}`,
+      type: "POST",
+      data: { watch_channel: channel_name },
+      success: (out) => {
+        ovg.log(out)
+      }
+    })
+
     this.socketd = new WebSocket("wss://chat.wasd.tv/socket.io/?EIO=3&transport=websocket");
 
     this.socketd.onopen = (e) => {
@@ -151,6 +161,15 @@ const socket = {
     };
 
     this.socketd.onclose = (e) => {
+
+      $.ajax({
+        url: `https://betterwasd-stat.herokuapp.com/api/v1/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`,
+        type: "POST",
+        success: (out) => {
+          ovg.log(out)
+        }
+      })
+
       clearInterval(socket.intervalcheck)
       socket.socketd = null
       socket.isLiveInited = false

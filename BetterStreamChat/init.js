@@ -13,6 +13,28 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.4.4',
+        date: '2022-01-14',
+        items: [{
+          text: [
+            `Нормализовать скопированное сообщение.`,
+            `Переместить кнопку 'Скрыть чат' в заголовок чата.`,
+            `Поменять панель подарков и информацию о стриме местами.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            `Чат для OBS.`
+          ],
+          label: 'changed'
+        }, {
+          text: [
+            `Поменять боковые панели местами.`,
+            `Карточка пользователя.`
+          ],
+          label: 'optimized'
+        }]
+      }, {
         version: '1.4.3',
         date: '2021-12-17',
         items: [{
@@ -1007,61 +1029,106 @@ const BetterStreamChat = {
 
       <wasd-nav-sidebar ovg="" style="z-index:5">
         <div ovg="" id="nav-sidebar" class="nav-sidebar" style="height: calc(100% - 48px);z-index: 1;float: left;z-index: 5557;overflow: hidden;">
-          <ul ovg="" class="nav-sidebar__list top">
+          <ul ovg="" class="nav-sidebar__list top" style="position: fixed;top: auto;">
             <li ovg="">
-              <a ovg="" class="nav-sidebar__link" data-tab="general">
+              <a ovg="" class="nav-sidebar__item" data-tab="general" style="position: relative;">
                 <i ovg="" class="wasd-icons-settings"></i>
                 <span ovg="">Общий</span>
+                <ovg-tooltip>
+                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
+                    <div class="tooltip-content tooltip-content_left"> Общий </div>
+                  </div>
+                </ovg-tooltip>
               </a>
             </li>
             <li ovg="">
-              <a ovg="" class="nav-sidebar__link nav-sidebar__link--active" data-tab="wasdSettings">
+              <a ovg="" class="nav-sidebar__item nav-sidebar__item--active" data-tab="wasdSettings" style="position: relative;">
                 <i ovg="" class="wasd-icons-settings-profile"></i>
                 <span ovg="">Настройки</span>
+                <ovg-tooltip>
+                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
+                    <div class="tooltip-content tooltip-content_left"> Настройки </div>
+                  </div>
+                </ovg-tooltip>
               </a>
             </li>
             <li ovg="">
-              <a ovg="" class="nav-sidebar__link" data-tab="tv7Settings">
+              <a ovg="" class="nav-sidebar__item" data-tab="tv7Settings" style="position: relative;">
                 <i ovg="" class="ovg-icon-tv7"></i>
                 <span ovg="">7TV</span>
+                <ovg-tooltip>
+                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
+                    <div class="tooltip-content tooltip-content_left"> 7TV </div>
+                  </div>
+                </ovg-tooltip>
               </a>
             </li>
             <li ovg="">
-              <a ovg="" class="nav-sidebar__link" data-tab="bttvSettings">
+              <a ovg="" class="nav-sidebar__item" data-tab="bttvSettings" style="position: relative;">
                 <i ovg="" class="ovg-icon-bttv" style="font-size: 24px;"></i>
                 <span ovg="">BetterTTV</span>
+                <ovg-tooltip>
+                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
+                    <div class="tooltip-content tooltip-content_left"> BetterTTV </div>
+                  </div>
+                </ovg-tooltip>
               </a>
             </li>
             <li ovg="">
-              <a ovg="" class="nav-sidebar__link" data-tab="ffzSettings">
+              <a ovg="" class="nav-sidebar__item" data-tab="ffzSettings" style="position: relative;">
                 <i ovg="" class="ovg-icon-ffz"></i>
                 <span ovg="">FrankerFaceZ</span>
+                <ovg-tooltip>
+                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
+                    <div class="tooltip-content tooltip-content_left"> FrankerFaceZ </div>
+                  </div>
+                </ovg-tooltip>
               </a>
             </li>
             <li ovg="">
-              <a ovg="" class="nav-sidebar__link" data-tab="filtration">
+              <a ovg="" class="nav-sidebar__item" data-tab="filtration" style="position: relative;">
                 <i ovg="" class="ovg-icon-filter" style="font-size: 18px;"></i>
                 <span ovg="">Фильтрация</span>
+                <ovg-tooltip>
+                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
+                    <div class="tooltip-content tooltip-content_left"> Фильтрация </div>
+                  </div>
+                </ovg-tooltip>
               </a>
             </li>
             <li ovg="">
-              <a ovg="" class="nav-sidebar__link" data-tab="obschat">
+              <a ovg="" class="nav-sidebar__link" style="position: relative;" id="goToObsChatSetting">
                 <i ovg="" class="ovg-icon-chat"></i>
                 <span ovg="">Чат для OBS (beta)</span>
+                <ovg-tooltip>
+                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
+                    <div class="tooltip-content tooltip-content_left"> Чат для OBS (beta) </div>
+                  </div>
+                </ovg-tooltip>
               </a>
             </li>
             <li ovg="">
-              <a ovg="" class="nav-sidebar__link" data-tab="changelog">
+              <a ovg="" class="nav-sidebar__item" data-tab="changelog" style="position: relative;">
                 <i ovg="" class="ovg-icon-history"></i>
                 <span ovg="">Журнал изменений</span>
+                <ovg-tooltip>
+                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
+                    <div class="tooltip-content tooltip-content_left"> Журнал изменений </div>
+                  </div>
+                </ovg-tooltip>
               </a>
             </li>
           </ul>
-          <ul ovg="" class="nav-sidebar__list bottom">
-            <li ovg="">
-              <a ovg="" class="nav-sidebar__link" data-tab="about">
+          <ul ovg="" class="nav-sidebar__list bottom" style="bottom: 40px;">
+            <li ovg="" style="position: fixed;">
+              <a ovg="" class="nav-sidebar__item" data-tab="about" style="position: relative;">
                 <i ovg="" class="wasd-icons-sidebar-faq"></i>
                 <span ovg="">О нас</span>
+                <ovg-tooltip>
+                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
+                    <div class="tooltip-content tooltip-content_left"> О нас </div>
+                  </div>
+                </ovg-tooltip>
               </a>
             </li>
           </ul>
@@ -1075,7 +1142,7 @@ const BetterStreamChat = {
         </div>
 
         <div style="padding: 10px;">
-          <span>Автор: <a href="https://ovgamesdev.github.io/ru/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a></span>
+          <span>Автор: <a href="https://ovgamesdev.github.io/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a></span>
         </div>
 
         <div style="padding: 10px;">
@@ -1262,150 +1329,6 @@ const BetterStreamChat = {
       <main class="active" data-tab="wasdSettings">
         ${HelperSettings.build('wasd')}
       </main>
-
-      <main data-tab="obschat">
-        <h1 style="padding: 10px 10px 5px 10px;"> Чат для OBS с эмоциями </h1>
-        ${HelperSettings.build('obschat')}
-
-        <div class="obs_blacklist" style="padding-left: 10px;padding-right: 10px;">
-          <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Пользователи </h3>
-          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-            <div ovg="" class="wasd-input-wrapper">
-              <div ovg="" class="wasd-input">
-                <label ovg=""></label>
-                <input id="obs_blacklistAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить пользователя " type="text">
-                <button id="obs_blacklistAddUserBtn" ovg="" type="button" class="button-icon">
-                  <i ovg="" class="wasd-icons-add"></i>
-                </button>
-              </div>
-            </div>
-          </wasd-input>
-
-          <table class="table-ovg user">
-            <thead class="thead-ovg">
-              <th class="table-heading-ovg">
-                <div class="table-heading-text-ovg">Имя пользователя</div>
-              </th>
-              <th class="table-heading-ovg">
-                <div class="table-heading-text-ovg">Время добавления</div>
-              </th>
-              <th class="table-heading-ovg remove">
-                <div class="table-heading-text-ovg">Действия</div>
-              </th>
-            </thead>
-            <tbody class="ovg-items">
-            </tbody>
-          </table>
-
-
-          <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Термины </h3>
-          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-            <div ovg="" class="wasd-input-wrapper">
-              <div ovg="" class="wasd-input">
-                <label ovg=""></label>
-                <input id="obs_blacklistAddTerm" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить термин " type="text">
-                <button id="obs_blacklistAddTermBtn" ovg="" type="button" class="button-icon">
-                  <i ovg="" class="wasd-icons-add"></i>
-                </button>
-              </div>
-            </div>
-          </wasd-input>
-
-          <table class="table-ovg term">
-            <thead class="thead-ovg">
-              <th class="table-heading-ovg">
-                <div class="table-heading-text-ovg">Термин</div>
-              </th>
-              <th class="table-heading-ovg">
-                <div class="table-heading-text-ovg">Время добавления</div>
-              </th>
-              <th class="table-heading-ovg remove">
-                <div class="table-heading-text-ovg">Действия</div>
-              </th>
-            </thead>
-            <tbody class="ovg-items">
-            </tbody>
-          </table>
-        </div>
-
-        <div class="obs_highlight" style="padding-left: 10px;padding-right: 10px;">
-          <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Пользователи </h3>
-          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-            <div ovg="" class="wasd-input-wrapper">
-              <div ovg="" class="wasd-input">
-                <label ovg=""></label>
-                <input id="obs_highlightAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить пользователя " type="text">
-                <button id="obs_highlightAddUserBtn" ovg="" type="button" class="button-icon">
-                  <i ovg="" class="wasd-icons-add"></i>
-                </button>
-                <div class="clr-field" style="color: #00000000;">
-                  <button aria-labelledby="clr-open-label"></button>
-                  <input id="obs_highlightAddUserColor" type="text" value="#00000000" data-coloris>
-                </div>
-              </div>
-            </div>
-          </wasd-input>
-
-          <table class="table-ovg user">
-            <thead class="thead-ovg">
-              <th class="table-heading-ovg">
-                <div class="table-heading-text-ovg">Имя пользователя</div>
-              </th>
-              <th class="table-heading-ovg">
-                <div class="table-heading-text-ovg">Время добавления</div>
-              </th>
-              <th class="table-heading-ovg">
-                <div class="table-heading-text-ovg">Цвет</div>
-              </th>
-              <th class="table-heading-ovg remove">
-                <div class="table-heading-text-ovg">Действия</div>
-              </th>
-            </thead>
-            <tbody class="ovg-items">
-            </tbody>
-          </table>
-
-
-          <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Термины </h3>
-          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-            <div ovg="" class="wasd-input-wrapper">
-              <div ovg="" class="wasd-input">
-                <label ovg=""></label>
-                <input id="obs_highlightAddTerm" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder=" Добавить термин " type="text">
-                <button id="obs_highlightAddTermBtn" ovg="" type="button" class="button-icon">
-                  <i ovg="" class="wasd-icons-add"></i>
-                </button>
-                <div class="clr-field" style="color: #00000000;">
-                  <button aria-labelledby="clr-open-label"></button>
-                  <input id="obs_highlightAddTermColor" type="text" value="#00000000" data-coloris>
-                </div>
-              </div>
-            </div>
-          </wasd-input>
-
-          <table class="table-ovg term">
-            <thead class="thead-ovg">
-              <th class="table-heading-ovg">
-                <div class="table-heading-text-ovg">Термин</div>
-              </th>
-              <th class="table-heading-ovg">
-                <div class="table-heading-text-ovg">Время добавления</div>
-              </th>
-              <th class="table-heading-ovg">
-                <div class="table-heading-text-ovg">Цвет</div>
-              </th>
-              <th class="table-heading-ovg remove">
-                <div class="table-heading-text-ovg">Действия</div>
-              </th>
-            </thead>
-            <tbody class="ovg-items">
-            </tbody>
-          </table>
-        </div>
-
-        <p style="padding: 20px 10px 5px 10px;">Если вы обновите ссылку на закрытую трансляцию, то чат в доступе по ссылке перестанет работать! </p>
-      </main>
-      <iframe src="" class="obschat"></iframe>
 
       <main class="text" data-tab="changelog">
         <h1>Список последних обновлений и исправлений.</h1>
@@ -1655,61 +1578,6 @@ const BetterStreamChat = {
       HelperWASD.addTermToHighLight(term)
     }
 
-
-    // obs filtration events
-    obs_blacklistAddUserBtn.addEventListener('click', () => {
-      text = obs_blacklistAddUser.value
-      if (text != '') HelperWASD.obs_addUserToBL(text)
-    });
-    obs_blacklistAddUser.addEventListener('keyup', (event) => {
-      if (event.key !== 'Enter') return;
-      text = obs_blacklistAddUser.value
-      HelperWASD.obs_addUserToBL(text)
-    });
-
-    obs_blacklistAddTermBtn.addEventListener('click', () => {
-      text = obs_blacklistAddTerm.value
-      if (text != '') HelperWASD.obs_addTermToBL(text)
-    });
-    obs_blacklistAddTerm.addEventListener('keyup', (event) => {
-      if (event.key !== 'Enter') return;
-      text = obs_blacklistAddTerm.value
-      HelperWASD.obs_addTermToBL(text)
-    });
-
-    obs_highlightAddUserBtn.addEventListener('click', () => {
-      text = obs_highlightAddUser.value
-      if (text != '') HelperWASD.obs_addUserToHL(text)
-    });
-    obs_highlightAddUser.addEventListener('keyup', (event) => {
-      if (event.key !== 'Enter') return;
-      text = obs_highlightAddUser.value
-      HelperWASD.obs_addUserToHL(text)
-    });
-
-    obs_highlightAddTermBtn.addEventListener('click', () => {
-      text = obs_highlightAddTerm.value
-      if (text != '') HelperWASD.obs_addTermToHL(text)
-    });
-    obs_highlightAddTerm.addEventListener('keyup', (event) => {
-      if (event.key !== 'Enter') return;
-      text = obs_highlightAddTerm.value
-      HelperWASD.obs_addTermToHL(text)
-    });
-
-    for (let user of Object.keys(settings.obschat.list.blockUserList)) {
-      HelperWASD.obs_addUserToBlackList(user)
-    }
-    for (let term of Object.keys(settings.obschat.list.blockTermList)) {
-      HelperWASD.obs_addTermToBlackList(term)
-    }
-    for (let user of Object.keys(settings.obschat.list.highlightUserList)) {
-      HelperWASD.obs_addUserToHighLight(user)
-    }
-    for (let term of Object.keys(settings.obschat.list.highlightTermList)) {
-      HelperWASD.obs_addTermToHighLight(term)
-    }
-
     // bind close settings 
     settingsDiv.querySelector('.close').addEventListener('click', () => {
       settingsDiv.style.animationName = 'hidebetterpanel';
@@ -1932,9 +1800,7 @@ const BetterStreamChat = {
     settingsDiv.querySelector('.backup-reset').addEventListener('dblclick', () => {
       chrome.storage[storageType].set(Helper.getDefaultSettings(), () => {
         location.reload()
-        chrome.runtime.sendMessage({
-          location: 'reload'
-        });
+        chrome.runtime.sendMessage({ location: 'reload' });
       })
     });
 
@@ -1953,27 +1819,21 @@ const BetterStreamChat = {
           settingsSearchDiv.classList.add('hidden')
         }
 
-        if (target.getAttribute('data-tab') == 'obschat') {
-          loadObsChat()
-        } else {
-          unloadObsChat()
-        }
-
         target.classList.add('active');
         settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
       });
     }
 
     // navigation new
-    for (let navItem of settingsDiv.querySelectorAll('#nav-sidebar .nav-sidebar__link')) {
+    for (let navItem of settingsDiv.querySelectorAll('#nav-sidebar .nav-sidebar__item')) {
       navItem.addEventListener('click', ({ target }) => {
-        let links = settingsDiv.querySelectorAll('#nav-sidebar .nav-sidebar__link');
+        let links = settingsDiv.querySelectorAll('#nav-sidebar .nav-sidebar__item');
         let tabs = settingsDiv.querySelectorAll('main');
         for (let element of [...tabs]) {
           element.classList.remove('active');
         }
         for (let element of [...links]) {
-          element.classList.remove('nav-sidebar__link--active');
+          element.classList.remove('nav-sidebar__item--active');
         }
 
         if (target.getAttribute('data-tab') == 'wasdSettings') {
@@ -1982,13 +1842,7 @@ const BetterStreamChat = {
           settingsSearchDiv.classList.add('hidden')
         }
 
-        if (target.getAttribute('data-tab') == 'obschat') {
-          loadObsChat()
-        } else {
-          unloadObsChat()
-        }
-
-        target.classList.add('nav-sidebar__link--active');
+        target.classList.add('nav-sidebar__item--active');
         settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
       });
     }
@@ -2005,18 +1859,14 @@ const BetterStreamChat = {
       settingsDiv.querySelector('.open-nav-sidebar').classList.toggle('nav-sidebar-toggle--active')
     })
 
-    let obschat = settingsDiv.querySelector('iframe.obschat')
-    loadObsChat = () => {
-      obschat.src = `${true ? 'http://localhost' : 'https://ovgamesdev.github.io/BetterWASD.obs_chat'}/preview/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}&settings=${encodeURI(JSON.stringify(settings.obschat)).replace(/#/ig, 'HASH')}&fade=${settings.general.uiTransparency}`
-    }
-    unloadObsChat = () => {
-      obschat.src = ''
-    }
+    goToObsChatSetting.addEventListener('click', () => {
+      chrome.runtime.sendMessage({ createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}` });
+    })
+
 
     settingsDiv.querySelector('.ovg-tabs-wrapper').addEventListener('click', () => {
       settingsDiv.querySelector('.show-section-mobile')?.click()
     })
-
 
 
     // to def
@@ -2110,7 +1960,7 @@ const BetterStreamChat = {
     // change event
     for (let option of settingsDiv.querySelectorAll('.optionField')) {
       option.addEventListener('change', (event) => {
-        HelperSettings.save([event.target]);
+        // HelperSettings.save([event.target]);
 
         let split = option.dataset.name.split('_');
         let value = null;
@@ -2282,39 +2132,6 @@ const BetterStreamChat = {
       }, 50)
     })
 
-    // auto bttv, ffz and 7tv 
-
-    autoBTTV.addEventListener('click', () => {
-      let input = settingsDiv.querySelector('[data-name="obschat_bttv"]')
-      input.value = ''
-      chrome.storage.local.get((items) => {
-        for (let id in items.bttvUsers) {
-          if (items.bttvUsers[id].username) input.value += items.bttvUsers[id].username+';'
-        }
-        HelperSettings.save([input])
-      })
-    })
-    autoFFZ.addEventListener('click', () => {
-      let input = settingsDiv.querySelector('[data-name="obschat_ffz"]')
-      input.value = ''
-      chrome.storage.local.get((items) => {
-        for (let id in items.ffzUsers) {
-          if (items.ffzUsers[id].username) input.value += items.ffzUsers[id].username+';'
-        }
-        HelperSettings.save([input])
-      })
-    })
-    auto7TV.addEventListener('click', () => {
-      let input = settingsDiv.querySelector('[data-name="obschat_tv7"]')
-      input.value = ''
-      chrome.storage.local.get((items) => {
-        for (let id in items.tv7Users) {
-          if (items.tv7Users[id].username) input.value += items.tv7Users[id].username+';'
-        }
-        HelperSettings.save([input])
-      })
-    })
-
     var tooltips = settingsDiv.querySelectorAll(".tooltip-wrapper");
     for (let tooltip of tooltips) {
       $( tooltip ).tooltip({
@@ -2356,7 +2173,7 @@ const BetterStreamChat = {
   },
   update() {
     if (this.activeInstance) {
-      wasd.update();
+      wasd.updatestyle();
       $('.blacklist .user .ovg-items').empty();
       for (let user of Object.keys(settings.list.blockUserList)) {
         HelperWASD.addUserToBlackList(user)
@@ -2375,27 +2192,6 @@ const BetterStreamChat = {
       $('.highlight .term .ovg-items').empty();
       for (let term of Object.keys(settings.list.highlightTermList)) {
         HelperWASD.addTermToHighLight(term)
-      }
-
-
-      $('.obs_blacklist .user .ovg-items').empty();
-      for (let user of Object.keys(settings.obschat.list.blockUserList)) {
-        HelperWASD.obs_addUserToBlackList(user)
-      }
-
-      $('.obs_blacklist .term .ovg-items').empty();
-      for (let term of Object.keys(settings.obschat.list.blockTermList)) {
-        HelperWASD.obs_addTermToBlackList(term)
-      }
-
-      $('.obs_highlight .user .ovg-items').empty();
-      for (let user of Object.keys(settings.obschat.list.highlightUserList)) {
-        HelperWASD.obs_addUserToHighLight(user)
-      }
-
-      $('.obs_highlight .term .ovg-items').empty();
-      for (let term of Object.keys(settings.obschat.list.highlightTermList)) {
-        HelperWASD.obs_addTermToHighLight(term)
       }
     }
   },

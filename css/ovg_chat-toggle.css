@@ -1,0 +1,18 @@
+.chat-container__btn-open--desktop-ovg {
+	display: block;
+	align-items: center;
+	flex-wrap: nowrap;
+	width: 30px;
+	height: 24px;
+	-webkit-backdrop-filter: blur(17px);
+	cursor: pointer;
+	z-index: 1000;
+	line-height: 1;
+	margin: 18px 0;
+}
+.chat-container__btn-open--desktop-ovg i {
+  transform: rotate(0);
+  
+  font-size: 12px;
+  color: rgba(var(--wasd-color-switch--rgb),.72);
+}

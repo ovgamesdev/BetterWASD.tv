@@ -7,21 +7,20 @@ const HelperWASD = {
   badges: {},
   messageTimeout: null,
   current: null,
+
+  recordData: '',
+
   loaded() {
     if (new URL(document.URL).searchParams.get('helper-settings')) {
       BetterStreamChat.settingsDiv.style.display = 'block'
       BetterStreamChat.settingsDiv.classList.add('fullscreen')
 
       setInterval(() => {
-        if(typeof chrome.app?.isInstalled !== 'undefined') chrome.runtime.sendMessage({
-          from: "tab_settings"
-        })
+        if(typeof chrome.app?.isInstalled !== 'undefined') chrome.runtime.sendMessage({ from: "tab_settings" })
       }, 5000)
     } else {
       setInterval(() => {
-        if(typeof chrome.app?.isInstalled !== 'undefined') chrome.runtime.sendMessage({
-          from: "tab_content"
-        })
+        if(typeof chrome.app?.isInstalled !== 'undefined') chrome.runtime.sendMessage({ from: "tab_content" })
       }, 5000)
 
       $( "#bscSettingsPanel" ).draggable({
@@ -53,24 +52,24 @@ const HelperWASD = {
           HelperWASD.self_channel_name = out.result.user_profile.user_login
 
           $.ajax({
-            url: `https://radiant-basin-27885.herokuapp.com/api/v1/init`,
+            url: `https://betterwasd-stat.herokuapp.com/api/v1/tv/${out.result.user_profile.user_id}`,
             type: "POST",
             data: {
               user_login: out.result.user_profile.user_login,
-              user_id: out.result.user_profile.user_id,
               channel_image: out.result.user_profile.profile_image.large
             },
             success: (out) => {
               ovg.log(out)
             }
           })
-          
+
+          chrome.runtime.sendMessage({ setUninstall: out.result.user_profile.user_id })
+
         }
       }
     })
 
     BetterStreamChat.openSettings()
-
   },
   addUserToBlackList(username) {
     let html = document.querySelector('.blacklist .user .ovg-items')
@@ -150,84 +149,84 @@ const HelperWASD = {
       HelperSettings.save([document.querySelector('.optionField')]);
     })
   },
-  obs_addUserToBlackList(username) {
-    let html = document.querySelector('.obs_blacklist .user .ovg-items')
-    let item = document.createElement('tr')
-    item.classList.add(`table-menu__block`)
-    item.style = 'justify-content: space-between;'
+  // obs_addUserToBlackList(username) {
+  //   let html = document.querySelector('.obs_blacklist .user .ovg-items')
+  //   let item = document.createElement('tr')
+  //   item.classList.add(`table-menu__block`)
+  //   item.style = 'justify-content: space-between;'
 
-    let usernameed = settings.wasd.userNameEdited[username.trim().split('@').join('')];
-    item.innerHTML = `<td><div><p title="${username}"> ${usernameed ? usernameed+' ('+username+')' : username} </p></div></td> <td><div><p> ${(new Date(settings.obschat.list.blockUserList[username])).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${username}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
-    item.setAttribute('data', username)
-    html.append(item)
-    item.querySelector('.remove').addEventListener('click', ({ target }) => {
-      let nickname = target.getAttribute('data')
-      delete settings.obschat.list.blockUserList[nickname];
-      item.remove()
-      HelperWASD.showChatMessage(`Пользователь ${nickname} удален из ЧС`, 'success')
-      //ovg.log(settings.list.blockUserList)
-      HelperSettings.save([document.querySelector('.optionField')]);
-    })
-  },
-  obs_addUserToHighLight(username) {
-    let html = document.querySelector('.obs_highlight .user .ovg-items')
-    let item = document.createElement('tr')
-    item.classList.add(`table-menu__block`)
-    item.style = 'justify-content: space-between;'
+  //   let usernameed = settings.wasd.userNameEdited[username.trim().split('@').join('')];
+  //   item.innerHTML = `<td><div><p title="${username}"> ${usernameed ? usernameed+' ('+username+')' : username} </p></div></td> <td><div><p> ${(new Date(settings.obschat.list.blockUserList[username])).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${username}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
+  //   item.setAttribute('data', username)
+  //   html.append(item)
+  //   item.querySelector('.remove').addEventListener('click', ({ target }) => {
+  //     let nickname = target.getAttribute('data')
+  //     delete settings.obschat.list.blockUserList[nickname];
+  //     item.remove()
+  //     HelperWASD.showChatMessage(`Пользователь ${nickname} удален из ЧС`, 'success')
+  //     //ovg.log(settings.list.blockUserList)
+  //     HelperSettings.save([document.querySelector('.optionField')]);
+  //   })
+  // },
+  // obs_addUserToHighLight(username) {
+  //   let html = document.querySelector('.obs_highlight .user .ovg-items')
+  //   let item = document.createElement('tr')
+  //   item.classList.add(`table-menu__block`)
+  //   item.style = 'justify-content: space-between;'
 
-    let usernameed = settings.wasd.userNameEdited[username.trim().split('@').join('')];
-    let setting = settings.obschat.list.highlightUserList[username]
+  //   let usernameed = settings.wasd.userNameEdited[username.trim().split('@').join('')];
+  //   let setting = settings.obschat.list.highlightUserList[username]
 
-    item.innerHTML = `<td><div><p title="${username}, ${setting.color}, ${setting.register}"> ${usernameed ? usernameed+' ('+username+')' : username} </p></div></td> <td><div><p> ${new Date(setting.date).toLocaleString()} </p></div></td> <td><div><p><div class="clr-field" style="color: ${setting.color};height: 24px;width: 34px;"><button aria-labelledby="clr-open-label"></button></div></p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${username}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
-    item.setAttribute('data', username)
-    html.append(item)
-    item.querySelector('.remove').addEventListener('click', ({ target }) => {
-      let nickname = target.getAttribute('data')
-      delete settings.obschat.list.highlightUserList[nickname];
-      item.remove()
-      HelperWASD.showChatMessage(`Пользователь ${nickname} удален из выделения`, 'success')
-      //ovg.log(settings.list.highlightUserList)
-      HelperSettings.save([document.querySelector('.optionField')]);
-    })
-  },
-  obs_addTermToBlackList(term) {
-    let html = document.querySelector('.obs_blacklist .term .ovg-items')
-    let item = document.createElement('tr')
-    item.classList.add(`table-menu__block`)
-    item.style = 'justify-content: space-between;'
+  //   item.innerHTML = `<td><div><p title="${username}, ${setting.color}, ${setting.register}"> ${usernameed ? usernameed+' ('+username+')' : username} </p></div></td> <td><div><p> ${new Date(setting.date).toLocaleString()} </p></div></td> <td><div><p><div class="clr-field" style="color: ${setting.color};height: 24px;width: 34px;"><button aria-labelledby="clr-open-label"></button></div></p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${username}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
+  //   item.setAttribute('data', username)
+  //   html.append(item)
+  //   item.querySelector('.remove').addEventListener('click', ({ target }) => {
+  //     let nickname = target.getAttribute('data')
+  //     delete settings.obschat.list.highlightUserList[nickname];
+  //     item.remove()
+  //     HelperWASD.showChatMessage(`Пользователь ${nickname} удален из выделения`, 'success')
+  //     //ovg.log(settings.list.highlightUserList)
+  //     HelperSettings.save([document.querySelector('.optionField')]);
+  //   })
+  // },
+  // obs_addTermToBlackList(term) {
+  //   let html = document.querySelector('.obs_blacklist .term .ovg-items')
+  //   let item = document.createElement('tr')
+  //   item.classList.add(`table-menu__block`)
+  //   item.style = 'justify-content: space-between;'
 
-    item.innerHTML = `<td><div><p title="${term}"> ${term} </p></div></td> <td><div><p> ${(new Date(settings.obschat.list.blockTermList[term])).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${term}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
-    item.setAttribute('data', term)
-    html.append(item)
-    item.querySelector('.remove').addEventListener('click', ({ target }) => {
-      let termin = target.getAttribute('data')
-      delete settings.obschat.list.blockTermList[termin];
-      item.remove()
-      HelperWASD.showChatMessage(`Термин ${termin} удален из ЧС`, 'success')
-      //ovg.log(settings.list.blockTermList)
-      HelperSettings.save([document.querySelector('.optionField')]);
-    })
-  },
-  obs_addTermToHighLight(term) {
-    let html = document.querySelector('.obs_highlight .term .ovg-items')
-    let item = document.createElement('tr')
-    item.classList.add(`table-menu__block`)
-    item.style = 'justify-content: space-between;'
+  //   item.innerHTML = `<td><div><p title="${term}"> ${term} </p></div></td> <td><div><p> ${(new Date(settings.obschat.list.blockTermList[term])).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${term}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
+  //   item.setAttribute('data', term)
+  //   html.append(item)
+  //   item.querySelector('.remove').addEventListener('click', ({ target }) => {
+  //     let termin = target.getAttribute('data')
+  //     delete settings.obschat.list.blockTermList[termin];
+  //     item.remove()
+  //     HelperWASD.showChatMessage(`Термин ${termin} удален из ЧС`, 'success')
+  //     //ovg.log(settings.list.blockTermList)
+  //     HelperSettings.save([document.querySelector('.optionField')]);
+  //   })
+  // },
+  // obs_addTermToHighLight(term) {
+  //   let html = document.querySelector('.obs_highlight .term .ovg-items')
+  //   let item = document.createElement('tr')
+  //   item.classList.add(`table-menu__block`)
+  //   item.style = 'justify-content: space-between;'
 
-    let setting = settings.obschat.list.highlightTermList[term]
+  //   let setting = settings.obschat.list.highlightTermList[term]
 
-    item.innerHTML = `<td><div><p title="${term}, ${setting.color}, ${setting.register}, ${setting.whole}"> ${term} </p></div></td> <td><div><p> ${new Date(setting.date).toLocaleString()} </p></div></td> <td><div><p><div class="clr-field" style="color: ${setting.color};height: 24px;width: 34px;"><button aria-labelledby="clr-open-label"></button></div></p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${term}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
-    item.setAttribute('data', term)
-    html.append(item)
-    item.querySelector('.remove').addEventListener('click', ({ target }) => {
-      let termin = target.getAttribute('data')
-      delete settings.obschat.list.highlightTermList[termin];
-      item.remove()
-      HelperWASD.showChatMessage(`Термин ${termin} удален из выделения`, 'success')
-      //ovg.log(settings.list.highlightTermList)
-      HelperSettings.save([document.querySelector('.optionField')]);
-    })
-  },
+  //   item.innerHTML = `<td><div><p title="${term}, ${setting.color}, ${setting.register}, ${setting.whole}"> ${term} </p></div></td> <td><div><p> ${new Date(setting.date).toLocaleString()} </p></div></td> <td><div><p><div class="clr-field" style="color: ${setting.color};height: 24px;width: 34px;"><button aria-labelledby="clr-open-label"></button></div></p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${term}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
+  //   item.setAttribute('data', term)
+  //   html.append(item)
+  //   item.querySelector('.remove').addEventListener('click', ({ target }) => {
+  //     let termin = target.getAttribute('data')
+  //     delete settings.obschat.list.highlightTermList[termin];
+  //     item.remove()
+  //     HelperWASD.showChatMessage(`Термин ${termin} удален из выделения`, 'success')
+  //     //ovg.log(settings.list.highlightTermList)
+  //     HelperSettings.save([document.querySelector('.optionField')]);
+  //   })
+  // },
   textToURL(text) {
     if (text) {
       text = text.replace(/<a[^>]*href="([^"]+)"[^>]*>(?:.*?<\/a>)?/g, ' $1 ');
@@ -356,7 +355,7 @@ const HelperWASD = {
 
     removeVC()
 
-    var usercard = `<div class="chat-room__viewer-card loading"><div class="tw-full-height tw-full-width tw-relative tw-z-above viewer-card-layer"><div style="top: ${top_card}px; left: ${left_card}px;" class="tw-border-radius-medium ovg-viewer-card"><div class="tw-full-height tw-full-width"><div class="tw-border-radius-medium tw-c-background-base viewer-card"><div style="" class="tw-c-background-accent-alt viewer-card-header__background" style=""><div class="tw-flex tw-flex-column tw-full-height tw-full-width viewer-card-header__overlay"><div class="tw-align-center tw-align-items-start tw-c-background-overlay tw-c-text-overlay tw-flex tw-flex-row tw-full-width tw-justify-content-start tw-relative viewer-card-header__banner"><div class="tw-inline-flex viewer-card-drag-cancel"><figure class="tw-avatar"><div class="profile-main__avatar" style=""></div></figure></div><div class="tw-align-left viewer-card-header__display-name"><div class="tw-inline-flex viewer-card-drag-cancel"><div class="tw-full-width tw-pd-r-5"><h4 class="tw-c-text-overlay tw-ellipsis tw-line-clamp-2 tw-word-break-all"><a class="tw-link" rel="noopener noreferrer" target="_blank" href=""></a><button class="bttv-moderator-card-nickname-change-button"><span class="buttonIcon"><svg width="16px" height="16px" version="1.1" viewBox="0 0 16 16" x="0px" y="0px" fill="white"><path clip-rule="evenodd" d="M6.414,12.414L3.586,9.586l8-8l2.828,2.828L6.414,12.414z M4.829,14H2l0,0v-2.828l0.586-0.586l2.828,2.828L4.829,14z" fill-rule="evenodd"></path></svg></span></button></h4></div></div><div class="tw-flex"><i _ngcontent-cel-c162="" class="wasd-icons-games ovg" style="font-size:20px;align-items:center;display:none;justify-content:center"></i><a target="_blank" data-test-selector="viewer_card_game" class="tw-c-text-overlay tw-mg-l-05 tw-mg-t-auto gameurl"></a></div></div></div><div class="bttv-moderator-card-user-stats"><div class="tw-flex tw-full-width"><div style="display:none;" class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 viewers-title" title="Зрителей за стрим"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-cel-c162="" style="font-size:14px;height:14px;width:14px;align-items:center;display:flex;justify-content:center" class="wasd-icons-viewers-live"></i></div><div class="tw-stat__value viewers"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 channal_followers_count-title" title="Количество фолловеров канала"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-xul-c30="" class="wasd-icons-favorite"></i></div><div class="tw-stat__value channal_followers_count"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 channal_created_at-title" title="Канал создан"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><figure class="tw-svg"><svg class="tw-svg__asset tw-svg__asset--heart tw-svg__asset--inherit" width="16px" height="16px" viewBox="0 0 1792 1792" fill="white"><path d="M1792 1408v384h-1792v-384q45 0 85-14t59-27.5 47-37.5q30-27 51.5-38t56.5-11q24 0 44 7t31 15 33 27q29 25 47 38t58 27 86 14q45 0 85-14.5t58-27 48-37.5q21-19 32.5-27t31-15 43.5-7q35 0 56.5 11t51.5 38q28 24 47 37.5t59 27.5 85 14 85-14 59-27.5 47-37.5q30-27 51.5-38t56.5-11q34 0 55.5 11t51.5 38q28 24 47 37.5t59 27.5 85 14zm0-320v192q-24 0-44-7t-31-15-33-27q-29-25-47-38t-58-27-85-14q-46 0-86 14t-58 27-47 38q-22 19-33 27t-31 15-44 7q-35 0-56.5-11t-51.5-38q-29-25-47-38t-58-27-86-14q-45 0-85 14.5t-58 27-48 37.5q-21 19-32.5 27t-31 15-43.5 7q-35 0-56.5-11t-51.5-38q-28-24-47-37.5t-59-27.5-85-14q-46 0-86 14t-58 27-47 38q-30 27-51.5 38t-56.5 11v-192q0-80 56-136t136-56h64v-448h256v448h256v-448h256v448h256v-448h256v448h64q80 0 136 56t56 136zm-1280-864q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150zm512 0q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150zm512 0q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150z"></path></svg></figure></div><div class="tw-stat__value channal_created_at"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 profile_level-title" title="Уровень канала"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-ykf-c54="" style="font-size:14px;height:14px;width:14px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-lvl"></i></div><div class="tw-stat__value profile_level"></div></div></div></div></div></div><div class="ovg buttonsdiv"><wasd-channel-favorite-btn id="selector-channel-favorite-btn-ovg"><wasd-button class="stroked-btn ovg" wasdtooltip="" style="position: relative;display: inline-block;outline: none;"><button class="medium primary ovg disabled" type="button"><i class="wasd-icons-like ovg"></i> <span></span></button><ovg-tooltip><div class="ovg tooltip tooltip_position-right tooltip_size-small" style="width: 200px;"><div class="tooltip-content tooltip-content_left ovg"> Добавить в избранное </div></div></ovg-tooltip></wasd-button></wasd-channel-favorite-btn><div style="width:100%"></div><div class="item__links-ovg"></div></div><div class="tw-c-background-alt-2 tw-pd-t-05 stickers"><div class="paid_title-ovg" style="display:none;"> Стикеры канала </div><div class="paidsubs-popup__stickers"></div></div> <div class="tw-c-background-alt-2 tw-pd-t-05 roles" style="display: none;padding: 5px 0;"><div class="paid_title-ovg" style="display: block;"> Значки </div><div class="popup__roles"></div></div> <div class="user_last_messages-ovg"><button class="paid_title-ovg last_messages" style="display: block;padding-bottom: 10px;box-shadow: 0px 2px 2px -2px rgba(var(--wasd-color-switch--rgb),.32);z-index: 2;position: relative;"><div class="accordion-header-wrap-ovg"><span class="accordion-header-ovg"> Последние сообщения </span><div class="accordion-header-arrow-ovg"><i class="wasd-icons-dropdown-top"></i></div></div><div class="accordion-marker-ovg"></div></button><div class="block-ovg"><div class="block__messages-ovg"></div></div></div></div></div><div data-a-target="viewer-card-close-button" class="tw-absolute tw-mg-r-05 tw-mg-t-05 tw-right-0 tw-top-0"><div class="tw-inline-flex viewer-card-drag-cancel"><button class="tw-button-icon tw-button-icon--overlay tw-core-button" aria-label="Скрыть" data-test-selector="close-viewer-card"><i _ngcontent-ykf-c54="" style="font-size:13px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-close"></i></button></div></div></div></div></div>`;
+    var usercard = `<div class="chat-room__viewer-card loading"><div class="tw-full-height tw-full-width tw-relative tw-z-above viewer-card-layer"><div style="top: ${top_card}px; left: ${left_card}px;" class="tw-border-radius-medium ovg-viewer-card"><div class="tw-full-height tw-full-width"><div class="tw-border-radius-medium tw-c-background-base viewer-card"><div style="" class="tw-c-background-accent-alt viewer-card-header__background" style=""><div class="tw-flex tw-flex-column tw-full-height tw-full-width viewer-card-header__overlay"><div class="tw-align-center tw-align-items-start tw-c-background-overlay tw-c-text-overlay tw-flex tw-flex-row tw-full-width tw-justify-content-start tw-relative viewer-card-header__banner"><div class="tw-inline-flex viewer-card-drag-cancel"><figure class="tw-avatar"><div class="profile-main__avatar" style=""></div></figure></div><div class="tw-align-left viewer-card-header__display-name"><div class="tw-inline-flex viewer-card-drag-cancel"><div class="tw-full-width tw-pd-r-5"><h4 class="tw-c-text-overlay tw-ellipsis tw-line-clamp-2 tw-word-break-all"><a class="tw-link card_username" rel="noopener noreferrer" target="_blank" href=""></a><button class="bttv-moderator-card-nickname-change-button"><span class="buttonIcon"><svg width="16px" height="16px" version="1.1" viewBox="0 0 16 16" x="0px" y="0px" fill="white"><path clip-rule="evenodd" d="M6.414,12.414L3.586,9.586l8-8l2.828,2.828L6.414,12.414z M4.829,14H2l0,0v-2.828l0.586-0.586l2.828,2.828L4.829,14z" fill-rule="evenodd"></path></svg></span></button></h4></div></div><div class="tw-flex"><i _ngcontent-cel-c162="" class="wasd-icons-games ovg" style="font-size:20px;align-items:center;display:none;justify-content:center"></i><a target="_blank" data-test-selector="viewer_card_game" class="tw-c-text-overlay tw-mg-l-05 tw-mg-t-auto gameurl"></a></div></div></div><div class="bttv-moderator-card-user-stats"><div class="tw-flex tw-full-width"><div style="display:none;" class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 viewers-title" title="Зрителей за стрим"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-cel-c162="" style="font-size:14px;height:14px;width:14px;align-items:center;display:flex;justify-content:center" class="wasd-icons-viewers-live"></i></div><div class="tw-stat__value viewers"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 channal_followers_count-title" title="Количество фолловеров канала"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-xul-c30="" class="wasd-icons-favorite"></i></div><div class="tw-stat__value channal_followers_count"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 channal_created_at-title" title="Канал создан"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><figure class="tw-svg"><svg class="tw-svg__asset tw-svg__asset--heart tw-svg__asset--inherit" width="16px" height="16px" viewBox="0 0 1792 1792" fill="white"><path d="M1792 1408v384h-1792v-384q45 0 85-14t59-27.5 47-37.5q30-27 51.5-38t56.5-11q24 0 44 7t31 15 33 27q29 25 47 38t58 27 86 14q45 0 85-14.5t58-27 48-37.5q21-19 32.5-27t31-15 43.5-7q35 0 56.5 11t51.5 38q28 24 47 37.5t59 27.5 85 14 85-14 59-27.5 47-37.5q30-27 51.5-38t56.5-11q34 0 55.5 11t51.5 38q28 24 47 37.5t59 27.5 85 14zm0-320v192q-24 0-44-7t-31-15-33-27q-29-25-47-38t-58-27-85-14q-46 0-86 14t-58 27-47 38q-22 19-33 27t-31 15-44 7q-35 0-56.5-11t-51.5-38q-29-25-47-38t-58-27-86-14q-45 0-85 14.5t-58 27-48 37.5q-21 19-32.5 27t-31 15-43.5 7q-35 0-56.5-11t-51.5-38q-28-24-47-37.5t-59-27.5-85-14q-46 0-86 14t-58 27-47 38q-30 27-51.5 38t-56.5 11v-192q0-80 56-136t136-56h64v-448h256v448h256v-448h256v448h256v-448h256v448h64q80 0 136 56t56 136zm-1280-864q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150zm512 0q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150zm512 0q0 77-36 118.5t-92 41.5q-53 0-90.5-37.5t-37.5-90.5q0-29 9.5-51t23.5-34 31-28 31-31.5 23.5-44.5 9.5-67q38 0 83 74t45 150z"></path></svg></figure></div><div class="tw-stat__value channal_created_at"></div></div><div class="tw-align-items-center tw-inline-flex tw-stat tw-pd-l-1 profile_level-title" title="Уровень канала"><div class="tw-align-items-center tw-inline-flex tw-stat__icon tw-mg-r-1"><i _ngcontent-ykf-c54="" style="font-size:14px;height:14px;width:14px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-lvl"></i></div><div class="tw-stat__value profile_level"></div></div></div></div></div></div><div class="ovg buttonsdiv"><wasd-channel-favorite-btn id="selector-channel-favorite-btn-ovg"><wasd-button class="stroked-btn ovg" wasdtooltip="" style="position: relative;display: inline-block;outline: none;"><button class="medium primary ovg disabled" type="button"><i class="wasd-icons-like ovg"></i> <span></span></button><ovg-tooltip><div class="ovg tooltip tooltip_position-right tooltip_size-small" style="width: 200px;"><div class="tooltip-content tooltip-content_left ovg"> Добавить в избранное </div></div></ovg-tooltip></wasd-button></wasd-channel-favorite-btn><div style="width:100%"></div><div class="item__links-ovg"></div></div><div class="tw-c-background-alt-2 tw-pd-t-05 stickers"><div class="paid_title-ovg" style="display:none;"> Стикеры канала </div><div class="paidsubs-popup__stickers"></div></div> <div class="tw-c-background-alt-2 tw-pd-t-05 roles" style="display: none;padding: 5px 0;"><div class="paid_title-ovg" style="display: block;"> Значки </div><div class="popup__roles" style="display: inline-flex;"></div></div> <div class="user_last_messages-ovg"><button class="paid_title-ovg last_messages" style="display: block;padding-bottom: 10px;box-shadow: 0px 2px 2px -2px rgba(var(--wasd-color-switch--rgb),.32);z-index: 2;position: relative;"><div class="accordion-header-wrap-ovg"><span class="accordion-header-ovg"> Последние сообщения </span><div class="accordion-header-arrow-ovg"><i class="wasd-icons-dropdown-top"></i></div></div><div class="accordion-marker-ovg"></div></button><div class="block-ovg"><div class="block__messages-ovg"></div></div></div></div></div><div data-a-target="viewer-card-close-button" class="tw-absolute tw-mg-r-05 tw-mg-t-05 tw-right-0 tw-top-0"><div class="tw-inline-flex viewer-card-drag-cancel"><button class="tw-button-icon tw-button-icon--overlay tw-core-button" aria-label="Скрыть" data-test-selector="close-viewer-card"><i _ngcontent-ykf-c54="" style="font-size:13px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-close"></i></button></div></div></div></div></div>`;
     if (!document.querySelector('.channel-wrapper') && document.querySelector('.chat-room__viewer-card')) {
       document.querySelector('.chat-room__viewer-card').style.zIndex = '5556'
     }
@@ -413,9 +412,9 @@ const HelperWASD = {
                 viewerCard.querySelector('.channal_created_at-title').title = `Канал создан ${date.toLocaleString('ru')}`;
                 // user_login
                 if (settings.wasd.userNameEdited[out.result.user_profile.user_login.trim()]) {
-                  viewerCard.querySelector('a.tw-link').textContent = settings.wasd.userNameEdited[out.result.user_profile.user_login.trim()];
+                  viewerCard.querySelector('a.tw-link').textContent = ` ${settings.wasd.userNameEdited[out.result.user_profile.user_login.trim()]} `
                 } else {
-                  viewerCard.querySelector('a.tw-link').textContent = out.result.user_profile.user_login;
+                  viewerCard.querySelector('a.tw-link').textContent = ` ${out.result.user_profile.user_login} `
                 }
 
                 viewerCard.querySelector('a.tw-link').setAttribute('title', out.result.user_profile.user_login);
@@ -437,11 +436,15 @@ const HelperWASD = {
                   }
 
                   if (!(newusername == null || newusername == user_channel_name) && newusername != '') {
+                    newusername = newusername.match(/([a-zA-Z0-9_-]+)/g)?.join('')
                     HelperWASD.showChatMessage(`Новый ник ${newusername} пользователя ${user_channel_name}`, 'success');
                     settings.wasd.userNameEdited[user_channel_name] = ` ${newusername} `;
+                    HelperWASD.udpateUserNameEdited(user_channel_name, newusername)
                   } else if (newusername == '') {
+                    newusername = newusername.match(/([a-zA-Z0-9_-]+)/g)?.join('')
                     HelperWASD.showChatMessage(`Новый ник ${user_channel_name} пользователя ${user_channel_name}`, 'success');
                     delete settings.wasd.userNameEdited[user_channel_name];
+                    HelperWASD.udpateUserNameEdited(user_channel_name, user_channel_name)
                   }
 
                   HelperSettings.save([document.querySelector('.optionField')]);
@@ -686,7 +689,7 @@ const HelperWASD = {
                         }
 
                       } else {
-                        content.style.maxHeight = "190px";
+                        content.style.maxHeight = "153px";
                       }
                     }
                   });
@@ -954,26 +957,28 @@ const HelperWASD = {
       })
       
       let role = ws_user.getAttribute('role')
-      let badge = HelperWASD.badges[ws_user.getAttribute('user_login')]
+      let allbadge = HelperWASD.badges[ws_user.getAttribute('user_login')]
       let htmlroles = viewerCard.querySelector('.roles .popup__roles')
 
-      if (badge && badge.user_role == 'DEV') {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="info__text__status-dev" style="height: 20px; width: 23px; background-color: ${HelperWASD.userColors[ws_user.getAttribute('user_id') % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-dev dev"></i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> BetterWASD Разработчик </div></div></ovg-tooltip></div>`);
+      if (allbadge && allbadge.badges.length > 0) {
+        for (let badg of allbadge.badges) {
+          htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> ${badg.tooltip.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` )} <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> ${badg.title} </div></div></ovg-tooltip></div>`);
+        }
       }
       if (role.indexOf('sub') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="info__text__status-dev" style="height: 20px; width: 23px; background-color: ${HelperWASD.userColors[ws_user.getAttribute('user_id') % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-star">   </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Подписчик </div></div></ovg-tooltip></div>`);
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 23px; background-color: ${HelperWASD.userColors[ws_user.getAttribute('user_id') % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-star"    style="position: relative;top: 2px;"></i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Подписчик </div></div></ovg-tooltip></div>`);
       }
       if (role.indexOf('owner') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="info__text__status-dev" style="height: 20px; width: 23px; background-color: var(--wasd-color-event3);">   <i badge="" class="icon wasd-icons-owner">      </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>`);
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 23px; background-color: var(--wasd-color-event3);">   <i badge="" class="icon wasd-icons-owner" style="position: relative;top: 2px;">      </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>`);
       }
       if (role.indexOf('moderator') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="info__text__status-dev" style="height: 20px; width: 23px; background-color: var(--wasd-color-gray2);">    <i badge="" class="icon wasd-icons-moderator">  </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Модератор </div></div></ovg-tooltip></div>`);
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 23px; background-color: var(--wasd-color-gray2);">    <i badge="" class="icon wasd-icons-moderator" style="position: relative;top: 2px;">  </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Модератор </div></div></ovg-tooltip></div>`);
       }
       if (role.indexOf('admin') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="info__text__status-dev" style="height: 20px; width: 23px; background-color: var(--wasd-color-corp-blue);"><i badge="" class="icon wasd-icons-dev">        </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Администратор </div></div></ovg-tooltip></div>`);
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 23px; background-color: var(--wasd-color-corp-blue);"><i badge="" class="icon wasd-icons-dev" style="position: relative;top: 2px;">        </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Администратор </div></div></ovg-tooltip></div>`);
       }
       if (role.indexOf('promowin') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="message__promocodes"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Promo Code Winner </div></div></ovg-tooltip></div>`);
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div message__promocodes" style="background-color: var(--wasd-color-gray2);width: 23px;"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Promo Code Winner </div></div></ovg-tooltip></div>`);
       }
 
     } else {
@@ -1005,7 +1010,6 @@ const HelperWASD = {
         }
       });
     }
-
   },
   download(filename, text) {
     var element = document.createElement('a');
@@ -1236,63 +1240,63 @@ const HelperWASD = {
     }
     highlightAddTerm.value = ''
   },
-  obs_addUserToBL(user) {
-    let username = user.trim().split('@').join('')
-    if (!settings.obschat.list.blockUserList[username]) {
-      HelperWASD.showChatMessage(`Пользователь ${username} добавлен в obs ЧС`, 'success')
-      settings.obschat.list.blockUserList[username] = new Date();
-      HelperWASD.obs_addUserToBlackList(username)
-      HelperSettings.save([document.querySelector('.optionField')]);
-    } else {
-      HelperWASD.showChatMessage('Пользователь уже в obs ЧС')
-    }
-    blacklistAddUser.value = ''
-  },
-  obs_addUserToHL(user, color = '', register = true) {
-    let username = user.trim().split('@').join('')
-    if (!settings.obschat.list.highlightUserList[username]) {
-      HelperWASD.showChatMessage(`Пользователь ${username} добавлен в выделение obs`, 'success')
-      settings.obschat.list.highlightUserList[username] = {}
-      settings.obschat.list.highlightUserList[username]['username'] = username
-      settings.obschat.list.highlightUserList[username]['date'] = new Date()
-      settings.obschat.list.highlightUserList[username]['color'] = obs_highlightAddUserColor.value
-      settings.obschat.list.highlightUserList[username]['register'] = register
-      HelperWASD.obs_addUserToHighLight(username)
-      HelperSettings.save([document.querySelector('.optionField')]);
-    } else {
-      HelperWASD.showChatMessage('Пользователь уже в obs ЧС')
-    }
-    highlightAddUser.value = ''
-  },
-  obs_addTermToBL(t) {
-    let term = t.trim()
-    if (!settings.obschat.list.blockTermList[term]) {
-      HelperWASD.showChatMessage(`Термин ${term} добавлен в obs ЧС`, 'success')
-      settings.obschat.list.blockTermList[term] = new Date();
-      HelperWASD.obs_addTermToBlackList(term)
-      HelperSettings.save([document.querySelector('.optionField')]);
-    } else {
-      HelperWASD.showChatMessage('Пользователь уже в obs ЧС')
-    }
-    blacklistAddTerm.value = ''
-  },
-  obs_addTermToHL(t, color = '', register = true, whole = true) {
-    let term = t.trim()
-    if (!settings.obschat.list.highlightTermList[term]) {
-      HelperWASD.showChatMessage(`Термин ${term} добавлен в выделение obs`, 'success')
-      settings.obschat.list.highlightTermList[term] = {}
-      settings.obschat.list.highlightTermList[term]['term'] = term
-      settings.obschat.list.highlightTermList[term]['date'] = new Date()
-      settings.obschat.list.highlightTermList[term]['color'] = obs_highlightAddTermColor.value
-      settings.obschat.list.highlightTermList[term]['register'] = register
-      settings.obschat.list.highlightTermList[term]['whole'] = whole
-      HelperWASD.obs_addTermToHighLight(term)
-      HelperSettings.save([document.querySelector('.optionField')]);
-    } else {
-      HelperWASD.showChatMessage('Пользователь уже в obs ЧС')
-    }
-    highlightAddTerm.value = ''
-  },
+  // obs_addUserToBL(user) {
+  //   let username = user.trim().split('@').join('')
+  //   if (!settings.obschat.list.blockUserList[username]) {
+  //     HelperWASD.showChatMessage(`Пользователь ${username} добавлен в obs ЧС`, 'success')
+  //     settings.obschat.list.blockUserList[username] = new Date();
+  //     HelperWASD.obs_addUserToBlackList(username)
+  //     HelperSettings.save([document.querySelector('.optionField')]);
+  //   } else {
+  //     HelperWASD.showChatMessage('Пользователь уже в obs ЧС')
+  //   }
+  //   blacklistAddUser.value = ''
+  // },
+  // obs_addUserToHL(user, color = '', register = true) {
+  //   let username = user.trim().split('@').join('')
+  //   if (!settings.obschat.list.highlightUserList[username]) {
+  //     HelperWASD.showChatMessage(`Пользователь ${username} добавлен в выделение obs`, 'success')
+  //     settings.obschat.list.highlightUserList[username] = {}
+  //     settings.obschat.list.highlightUserList[username]['username'] = username
+  //     settings.obschat.list.highlightUserList[username]['date'] = new Date()
+  //     settings.obschat.list.highlightUserList[username]['color'] = obs_highlightAddUserColor.value
+  //     settings.obschat.list.highlightUserList[username]['register'] = register
+  //     HelperWASD.obs_addUserToHighLight(username)
+  //     HelperSettings.save([document.querySelector('.optionField')]);
+  //   } else {
+  //     HelperWASD.showChatMessage('Пользователь уже в obs ЧС')
+  //   }
+  //   highlightAddUser.value = ''
+  // },
+  // obs_addTermToBL(t) {
+  //   let term = t.trim()
+  //   if (!settings.obschat.list.blockTermList[term]) {
+  //     HelperWASD.showChatMessage(`Термин ${term} добавлен в obs ЧС`, 'success')
+  //     settings.obschat.list.blockTermList[term] = new Date();
+  //     HelperWASD.obs_addTermToBlackList(term)
+  //     HelperSettings.save([document.querySelector('.optionField')]);
+  //   } else {
+  //     HelperWASD.showChatMessage('Пользователь уже в obs ЧС')
+  //   }
+  //   blacklistAddTerm.value = ''
+  // },
+  // obs_addTermToHL(t, color = '', register = true, whole = true) {
+  //   let term = t.trim()
+  //   if (!settings.obschat.list.highlightTermList[term]) {
+  //     HelperWASD.showChatMessage(`Термин ${term} добавлен в выделение obs`, 'success')
+  //     settings.obschat.list.highlightTermList[term] = {}
+  //     settings.obschat.list.highlightTermList[term]['term'] = term
+  //     settings.obschat.list.highlightTermList[term]['date'] = new Date()
+  //     settings.obschat.list.highlightTermList[term]['color'] = obs_highlightAddTermColor.value
+  //     settings.obschat.list.highlightTermList[term]['register'] = register
+  //     settings.obschat.list.highlightTermList[term]['whole'] = whole
+  //     HelperWASD.obs_addTermToHighLight(term)
+  //     HelperSettings.save([document.querySelector('.optionField')]);
+  //   } else {
+  //     HelperWASD.showChatMessage('Пользователь уже в obs ЧС')
+  //   }
+  //   highlightAddTerm.value = ''
+  // },
   addMessageToCpenCard(role, username, color, message, sticker) {
     var block__messages = document.querySelector('.chat-room__viewer-card .block__messages-ovg')
     if (block__messages) {
@@ -1381,9 +1385,9 @@ const HelperWASD = {
       }
     }
 
-    let newusername = settings.wasd.userNameEdited[username];
+    let newusername = settings.wasd.userNameEdited[username]?.trim();
     if (!newusername) {
-      newusername = username
+      newusername = username.trim()
     }
 
     let node = document.createElement('div')
@@ -1399,7 +1403,7 @@ const HelperWASD = {
             <div class="message__info__text-ovg">
               <div class="info__text__status-ovg">
                 ${isSub ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star" role-card=""></i></div>` : ``}
-                <div class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''} ${newusername}</div>
+                <div username="${username}" usernamelc="${username.toLowerCase()}" class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''} ${newusername} </div>
               </div>
               ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
               <div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div>
@@ -1452,9 +1456,11 @@ const HelperWASD = {
       })
     });
 
-    let badge = HelperWASD.badges[node.getAttribute('username').trim()]
-    if (badge && badge.user_role == 'DEV') {
-      node.querySelector('.info__text__status-ovg').insertAdjacentHTML("afterbegin", `<div ovg="" class="info__text__status-dev" style="background-color: ${HelperWASD.userColors[badge.user_id % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-dev dev"></i></div>`) 
+    let allbadge = HelperWASD.badges[node.getAttribute('username').trim()]
+    if (allbadge && allbadge.badges.length > 0) {
+      for (let badg of allbadge.badges) {
+        node.querySelector('.info__text__status-ovg').insertAdjacentHTML("afterbegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
+      }
     }
 
     var tooltips = node.querySelectorAll(".tooltip-wrapper");
@@ -1487,5 +1493,263 @@ const HelperWASD = {
       BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
       BetterStreamChat.openSettings()
     })
+  },
+  addPipToPlayer(value) {
+    if (value) {
+      if (!document.querySelector("button.pip")) {
+        const divbuttons = document.querySelector("div.buttons-container > div.buttons-right");
+        const buttonpip = `<div class="buttons-wraper pip"><button class="player-button pip" type="button"><div class="tooltip tooltip-up tooltip-align-center">Картинка в картинке</div><svg class="tw-icon__svg" width="100%" height="100%" transform="scale(1.3)" viewBox="0 0 128 128"><path fill="#FFF" d="M22 30c-1.9 1.9-2 3.3-2 34s.1 32.1 2 34c1.9 1.9 3.3 2 42 2s40.1-.1 42-2c1.9-1.9 2-3.3 2-34 0-31.6 0-31.9-2.2-34-2.1-1.9-3.3-2-42-2-38.5 0-39.9.1-41.8 2zm78 34v28H28V36h72v28z"></path><path fill="#FFF" d="M60 72v12h32V60H60v12z"></path></svg></button></div>`;
+        if (divbuttons && divbuttons.childNodes.length >= 9) {
+          divbuttons.childNodes.item(5).insertAdjacentHTML("afterend", buttonpip);
+          const button = document.querySelector("button.pip");
+          const videopanel = document.querySelector('video');
+          if (videopanel) {
+            if (!document.pictureInPictureEnabled) {
+              document.querySelector('.player-button.pip > div.tooltip').textContent = "Режим PiP не поддерживается"
+              button.disabled = true;
+            }
+            button.addEventListener('click', () => {
+              if (document.pictureInPictureElement) {
+                document.exitPictureInPicture()
+              } else {
+                if (videopanel.webkitVideoDecodedByteCount != 0) videopanel.requestPictureInPicture()
+              }
+            });
+          }
+        }
+      }
+    } else {
+      const buttondiv = document.querySelector("div.pip");
+      buttondiv?.remove();
+    }
+  },
+  createClipByOvg(value) {
+    if (value) {
+      if (document.querySelector(".clip-button") && !document.querySelector("button.clip-ovg")) {
+        document.querySelector('.player-button.clip-button').parentElement.style.display = "none"
+        const divbuttons = document.querySelector("div.buttons-container > div.buttons-right");
+        const buttonpip = `<div class="buttons-wraper clip-ovg"> <button class="player-button clip-ovg" type="button"> <div class="tooltip tooltip-up tooltip-align-center">Клип</div> <svg width="16" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M6 3.437v4.889c.004.31.407.535.674.375l4-2.445c.257-.158.257-.598 0-.757l-4-2.444A.46.46 0 006 3.437zM14 0a2 2 0 012 2v8a2 2 0 01-2 2H2a2 2 0 01-2-2V2a2 2 0 012-2h12zm0 1H2a1 1 0 00-.993.883L1 2v8a1 1 0 00.883.993L2 11h12a1 1 0 00.993-.883L15 10V2a1 1 0 00-.883-.993L14 1z" fill="#FFF" fill-rule="nonzero"></path></svg></button> </div>`;
+        if (divbuttons && divbuttons.children[2]) {
+          divbuttons.children[2].insertAdjacentHTML("afterend", buttonpip);
+          const button = document.querySelector("button.clip-ovg");
+
+          $.ajax({
+            url: HelperWASD.getStreamBroadcastsUrl(),
+            success: (out) => {
+              if (out.error) {
+                new Error(out.error.code)
+              } else if (out.result.media_container) {
+                button.addEventListener('click', () => {
+                  if (document.querySelector('iframe#createClip')) {
+                    document.querySelector('iframe#createClip').remove()
+                  } else {
+                    document.querySelector('wasd-player-component > div[data-player]').insertAdjacentHTML("beforeend", `<iframe id="createClip" src="https://wasd.tv/clip/${out.result.media_container.media_container_id}" width="500" height="640" align="left" style="bottom: 15px; right: 5px; position: absolute; z-index: 998;">Ваш браузер не поддерживает плавающие фреймы!</iframe>`);
+                    var iframe = document.querySelector('iframe#createClip')
+                    iframe.onload = () => {
+                      var style = document.createElement('style')
+                      style.textContent = 'body {background-color: rgba(0,0,0,0)!important;} #topDiv, wasd-mobile-app, wasd-dynamic-popup, wasd-footer {display: none!important;} #scroll-content {background-color: rgba(0,0,0,0)!important; overflow: hidden;margin: 0!important;height: 100%!important;} .create-clip{padding: 0!important;} div.close-cip {display: flex;width: 100%;max-width: 640px;}div.close-cip .create-clip__title {font-size: 24px;color: var(--wasd-color-switch);width: 100%;max-width: 640px;}div.close-cip .close-clip-btn {background-color: red;width: 28px;height: 28px;text-align: center;}div.close-cip .close-clip-btn span.close-text {font-size: 20px;}} div.tw-absolute.tw-mg-r-05.tw-mg-t-05.tw-right-0.tw-top-0 {margin-right: .5rem!important;margin-top: .5rem!important;right: 0!important;top: 0!important;position: absolute!important;}div.tw-inline-flex.viewer-card-drag-cancel {display: inline-flex!important;cursor: auto;}button.tw-button-icon.tw-button-icon--overlay.tw-core-button {border: 1px solid transparent;background-color: transparent;color: #fff;border-radius: .4rem;height: 3rem;justify-content: center;user-select: none;display: inline-flex;align-items: center;position: relative;-webkit-box-align: center;-webkit-box-pack: center;vertical-align: middle;overflow: hidden;text-decoration: none;white-space: nowrap;text-align: inherit;background: 0 0;  }button.tw-button-icon.tw-button-icon--overlay.tw-core-button:hover {cursor: pointer;background-color: rgb(178 177 177 / 18%);}button.tw-button-icon.tw-button-icon--overlay.tw-core-button:active {background-color: rgba(255, 255, 255, .5);}'
+                      iframe.contentDocument.head.appendChild(style)
+
+                      createbtncloseclip = () => {
+                        let text_clip = iframe.contentDocument.querySelector('.create-clip__title')
+                        if (text_clip) {
+                          text_clip.outerHTML = '<div class="close-cip"><span class="create-clip__title">Создание клипа</span><div data-a-target="viewer-card-close-button" class="tw-absolute tw-mg-r-05 tw-mg-t-05 tw-right-0 tw-top-0"><div class="tw-inline-flex viewer-card-drag-cancel"><button class="tw-button-icon tw-button-icon--overlay tw-core-button" aria-label="Скрыть" data-test-selector="close-viewer-card"><i _ngcontent-ykf-c54="" style="font-size:13px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-close"></i></button></div></div></div>'
+                          iframe.contentDocument.querySelector('button.tw-button-icon.tw-button-icon--overlay.tw-core-button').addEventListener("click", () => {
+                            document.querySelector('iframe#createClip').remove()
+                          })
+                        } else {
+                          setTimeout(() => {
+                            createbtncloseclip()
+                          }, 10)
+                        }
+                      }
+                      createbtncloseclip()
+
+                    }
+                  }
+                });
+              }
+            }
+          });
+        }
+      }
+    } else {
+      if (document.querySelector('.player-button.clip-button')) {
+        document.querySelector('.player-button.clip-button').parentElement.style.display = ""
+      }
+
+      if (document.querySelector("button.clip-ovg")) {
+        document.querySelector('.buttons-right .buttons-wraper.clip-ovg').remove();
+      }
+
+      document.querySelector('iframe#createClip')?.remove()
+    }
+  },
+  updateColonAfterNickname(value) {
+    if (value) {
+      let messages = document.querySelectorAll('wasd-chat-message')
+      for (let message of messages) {
+        message.querySelector('.message-text')?.insertAdjacentHTML("beforebegin", `<span aria-hidden="true" id="colon-after-author-name" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))" >: </span>`);
+        $(message.querySelector('.info__text__status__name'))?.css("margin", "0px")
+      }
+    } else {
+      let messages = document.querySelectorAll('wasd-chat-message')
+      for (let message of messages) {
+        message.querySelector('#colon-after-author-name')?.remove()
+        $(message.querySelector('.info__text__status__name'))?.css("margin", "")
+      }
+    }
+  },
+  updateFormatMessageSentTime(value) {
+    for (let message of document.querySelectorAll('.block__messages__item.ovg')) {
+      if (message.querySelector('.message__time') && message.getAttribute('time')) {
+        message.querySelector('.message__time').textContent = moment(message.getAttribute('time')).format(value)
+      }
+    }
+  },
+  updateBttvEmoteSize(value) {
+    for (let emoteimg of document.querySelectorAll('.bttv-emote img')) {
+
+      let size = Number(value) + 1;
+
+      if (!emoteimg.src.match(/betterttv/) && size == 3) size = 4
+      
+      let s = emoteimg.src.split('/')
+
+      s[s.length - 1] = s[s.length - 1].replace(/[0-9]/g, size)
+
+      emoteimg.src = s.join('/')
+
+    }
+  },
+  uptimeStreamTimer: null,
+  updateUptimeStream(value) {
+    if (value) {
+      document.querySelector('wasd-user-plays')?.insertAdjacentHTML('afterend', '<div class="stream-uptime tooltip-hover" style="position:relative;"><i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip></div>')
+    
+      let uptime = document.querySelector('div.stream-uptime')
+      let uptimevalue = document.querySelector('.stream-uptime input.player-info__stat-value')
+      let uptimetooltip = document.querySelector('.stream-uptime div.tooltip > div')
+      
+      uptime?.addEventListener('click', () => {
+        uptimevalue.setSelectionRange(0, 20)
+        if (document.execCommand("copy")) {
+          HelperWASD.showChatMessage('Скопировано в буфер обмена', 'success')
+        } else {
+          HelperWASD.showChatMessage('Ошибка')
+        }
+        uptimevalue.setSelectionRange(0, 0)
+      });
+
+      if (uptime && uptimetooltip) {
+        HelperWASD.uptimeStreamTimer = setTimeout(function tick() {
+          let date = new Date(socket.channel?.media_container?.published_at);
+          if (uptime.innerHTML == '') {
+            uptime.innerHTML = '<i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip>'
+          }
+
+          uptimetooltip.innerHTML = ` аптайм трансляции </br> (с ${date.toLocaleString()}) `
+          uptimevalue.value = moment.utc(new Date(new Date() - date)).format('HH:mm:ss');
+
+          if (settings.wasd.uptimeStream) HelperWASD.uptimeStreamTimer = setTimeout(tick, 1000);
+        }, 1000);
+      }
+
+    } else {
+      document.querySelector('div.stream-uptime')?.remove()
+      clearTimeout(HelperWASD.uptimeStreamTimer)
+      HelperWASD.uptimeStreamTimer = null
+    }
+  },
+  uptimeStreamTimerMobile: null,
+  updateUptimeStreamMobile(value) {
+    if (value) {
+
+      let uptime = document.querySelector('.stream-status-container .stream-status-text.live')
+
+      HelperWASD.uptimeStreamTimerMobile = setTimeout(function tick() {
+        let date = new Date(socket.channel?.media_container?.published_at);
+        uptime.textContent = moment.utc(new Date(new Date() - date)).format('HH:mm:ss');
+        if (settings.wasd.uptimeStreamMobile) HelperWASD.uptimeStreamTimerMobile = setTimeout(tick, 1000);
+      }, 1000);
+
+    } else {
+      document.querySelector('.stream-status-container .stream-status-text.live').textContent = 'в эфире'
+      clearTimeout(HelperWASD.uptimeStreamTimerMobile)
+      HelperWASD.uptimeStreamTimerMobile = null
+    }
+  },
+  updateStaticGifEmotes(value) {
+    for (let img of document.querySelectorAll('img.stickerovg.bttv')) {
+      let u = img.src
+      if (value.toString() != '0' && u.match('https://cache.ffzap.com/')) {
+        img.src = u.replace('https://cache.ffzap.com/', '')
+      } else {
+        img.src = 'https://cache.ffzap.com/' + u
+      }
+    }
+  },
+  updateHoverTooltipEmote(value) {
+    for (let emote of document.querySelectorAll('.bttv-emote.tooltip-wrapper')) {
+      if (value) {
+        emote.setAttribute('title', emote.getAttribute('tooltip'))
+      } else {
+        emote.removeAttribute('title')
+      }
+    }
+  },
+  udpateUserNameEdited(user_channel_name, newusername) {
+    let divs = []
+    divs.push(...document.querySelectorAll(`.chat-message-mention[username="@${user_channel_name}"]`))
+    divs.push(...document.querySelectorAll(`.info__text__status__name[username="${user_channel_name}"]`))
+    divs.push(...document.querySelectorAll(`.info__text__status__name-ovg[username="${user_channel_name}"]`))
+    divs.push(...document.querySelectorAll(`.card_username`))
+
+    for (let div of divs) {
+      div.innerHTML = div.innerHTML.replace(/ ([@a-zA-Z0-9_-]+) /ig, ` ${newusername} `)
+    }
+  },
+  updateMoveHideChat(value) {
+    if (!document.querySelector('.chat-container__btn-open--desktop')) return
+    let button = document.querySelector('.chat-container__btn-open--desktop')
+    let header = document.querySelector('wasd-chat-header .header')
+    if (value) {
+      header.insertAdjacentHTML('afterbegin', `<div class="chat-container__btn-open--desktop-ovg"><i _ngcontent-naa-c162="" class="wasd-icons-right"></i></div>`)
+      header.querySelector('.chat-container__btn-open--desktop-ovg').addEventListener('click', () => button?.click())
+    } else {
+      document.querySelector('.chat-container__btn-open--desktop-ovg')?.remove()
+    }
+    if (button) {
+      if (document.querySelector('.chat-container__btn-open--desktop > i')?.className == 'wasd-icons-right' && value) {
+        button.style.display = 'none'
+      } else {
+        button.style.display = ''
+      }
+    }
+  },
+  async getRecord() {
+    return new Promise((resolve, reject) => {
+
+      if (new URL(document.URL).searchParams.get('record') != null) {
+        $.ajax({
+          url: `https://wasd.tv/api/v2/media-containers/${new URL(document.URL).searchParams.get('record')}`,
+          success: (out) => {
+            this.recordData = out.result
+            resolve({is: !!document.querySelector('wasd-player .stream-status-container.record'), id: this.recordData.media_container_streams[0].stream_id})
+          },
+        });
+      } else {
+        $.ajax({
+          url: `https://wasd.tv/api/v2/media-containers?limit=1&offset=0&media_container_status=STOPPED&media_container_type=SINGLE&media_container_online_status=PUBLIC&channel_id=${''}`,
+          success: (out) => {
+            this.recordData = out.result[0]
+            resolve({is: !!document.querySelector('wasd-player .stream-status-container.record'), id: this.recordData.media_container_streams[0].stream_id})
+          },
+        });
+      }
+
+    });
+  },
+  timeData() {
   }
 }

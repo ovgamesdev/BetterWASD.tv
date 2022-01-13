@@ -137,7 +137,8 @@ const HelperBTTV = {
             break;
           }
         }
-        word = `<div class="bttv-emote tooltip-wrapper" ${settings.wasd.hoverTooltipEmote ? `title=" Смайл:&nbsp;${word} <br> ${typeof bttvUsers[user].username == 'string' ? `Канал: ${bttvUsers[user].username} <br> Эмоции на канале BTTV` : 'Общедоступный BTTV'} "` : `` }> <img class="stickerovg bttv small" style="vertical-align: middle; width: auto!important;" src="${link}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
+        let title = ` Смайл:&nbsp;${word} <br> ${typeof bttvUsers[user].username == 'string' ? `Канал: ${bttvUsers[user].username} <br> Эмоции на канале BTTV` : 'Общедоступный BTTV'} `
+        word = `<div class="bttv-emote tooltip-wrapper" tooltip="${title}" title="${title}"> <img class="stickerovg bttv small" style="vertical-align: middle; width: auto!important;" src="${link}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
       }
 
       newText.push(word);

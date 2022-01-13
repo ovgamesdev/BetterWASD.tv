@@ -139,7 +139,8 @@ const HelperFFZ = {
             break;
           }
         }
-        word = `<div class="bttv-emote tooltip-wrapper" ${settings.wasd.hoverTooltipEmote ? `title=" Смайл:&nbsp;${word} <br> ${typeof ffzUsers[user].username == 'string' ? `Канал: ${ffzUsers[user].username} <br> Эмоции на канале FFZ` : 'Общедоступный FFZ'} "` : `` }> <img class="stickerovg ffz small" style="vertical-align: middle; width: auto!important;" src="https://cdn.frankerfacez.com/emote/${this.emotes[word]}/${size}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
+        let title = ` Смайл:&nbsp;${word} <br> ${typeof ffzUsers[user].username == 'string' ? `Канал: ${ffzUsers[user].username} <br> Эмоции на канале FFZ` : 'Общедоступный FFZ'} `
+        word = `<div class="bttv-emote tooltip-wrapper" tooltip="${title}" title="${title}"> <img class="stickerovg ffz small" style="vertical-align: middle; width: auto!important;" src="https://cdn.frankerfacez.com/emote/${this.emotes[word]}/${size}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
       }
 
       newText.push(word);

@@ -13,18 +13,21 @@ wasd-header #nav-sidebar i[ovg] {
   border-radius: 50px;
   margin: 5px 0px 5px 11px;
 }
-wasd-header #nav-sidebar .nav-sidebar__link > div[ovg] {
+wasd-header #nav-sidebar .nav-sidebar__link > div[ovg],
+wasd-header #nav-sidebar .nav-sidebar__item > div[ovg] {
   display: flex;
   justify-content: space-between !important;
   -webkit-box-pack: justify !important;
   width: calc(100% - 52px);
   padding-right: 10px;
 }
-wasd-header #nav-sidebar.nav-sidebar--expanded .nav-sidebar__link[ovg] .line > div {
+wasd-header #nav-sidebar.nav-sidebar--expanded .nav-sidebar__link[ovg] .line > div,
+wasd-header #nav-sidebar.nav-sidebar--expanded .nav-sidebar__item[ovg] .line > div {
   left: 0;
   opacity: 1;
 }
-wasd-header #nav-sidebar .nav-sidebar__link[ovg] .line > div {
+wasd-header #nav-sidebar .nav-sidebar__link[ovg] .line > div,
+wasd-header #nav-sidebar .nav-sidebar__item[ovg] .line > div {
   position: relative;
   left: -8px;
   width: auto;
@@ -37,15 +40,18 @@ wasd-header #nav-sidebar .nav-sidebar__link[ovg] .line > div {
   overflow: hidden;
 }
 
-wasd-header .nav-sidebar__link[ovg]:hover .line > div {
+wasd-header .nav-sidebar__link[ovg]:hover .line > div,
+wasd-header .nav-sidebar__item[ovg]:hover .line > div {
   color: rgb(var(--color-switch)) !important
 }
 
-wasd-header .nav-sidebar__link[ovg]:active .line > div {
+wasd-header .nav-sidebar__link[ovg]:active .line > div,
+wasd-header .nav-sidebar__item[ovg]:active .line > div {
   color: rgb(var(--color-switch)) !important
 }
 
-wasd-header .nav-sidebar__link[ovg] .online-status__online-icon {
+wasd-header .nav-sidebar__link[ovg] .online-status__online-icon,
+wasd-header .nav-sidebar__item[ovg] .online-status__online-icon {
   margin-right: .5rem;
   width: .8rem;
   height: .8rem;
@@ -54,7 +60,8 @@ wasd-header .nav-sidebar__link[ovg] .online-status__online-icon {
   display: inline-block;
 }
 
-wasd-header .nav-sidebar__link[ovg] .status {
+wasd-header .nav-sidebar__link[ovg] .status,
+wasd-header .nav-sidebar__item[ovg] .status {
   display: flex;
   align-items: center !important;
 }
@@ -68,11 +75,11 @@ wasd-header .nav-sidebar__link[ovg] .status {
   position: absolute;
   top: 0;
   left: 0;
-  height: calc(100% - 48px);
+  height: calc(100vh - 48px);
   width: 52px;
-  margin-top: 48px;
+  margin: 48px 0 0;
   box-sizing: border-box;
-  border-right: 1px solid rgba(var(--color-switch), .24);
+  border-right: 1px solid rgba(var(--color-switch),.24);
   overflow-y: auto;
   overflow-x: hidden;
   white-space: nowrap;
@@ -82,7 +89,7 @@ wasd-header .nav-sidebar__link[ovg] .status {
   -ms-user-select: none;
   user-select: none;
   transition: width .3s linear;
-  background: var(--color-first-layer)
+  background: var(--color-first-layer);
 }
 
 #bscSettingsPanel wasd-nav-sidebar .nav-sidebar[ovg]::-webkit-scrollbar {
@@ -96,6 +103,7 @@ wasd-header .nav-sidebar__link[ovg] .status {
 }
 
 #bscSettingsPanel wasd-nav-sidebar .nav-sidebar__list[ovg] {
+  position: fixed;
   display: block;
   padding: 0;
   margin: 0
@@ -112,7 +120,8 @@ wasd-header .nav-sidebar__link[ovg] .status {
   list-style: none
 }
 
-#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg] {
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg],
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item[ovg] {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -122,14 +131,16 @@ wasd-header .nav-sidebar__link[ovg] .status {
   font-size: 14px;
   line-height: 16px;
   cursor: pointer;
-  transition: width .3s linear
+  transition: width .3s linear;
 }
 
-#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg] * {
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg] *,
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item[ovg] * {
   pointer-events: none;
 }
 
-#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg] span[ovg] {
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg] span[ovg],
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item[ovg] span[ovg] {
   position: relative;
   left: -8px;
   width: 0;
@@ -142,24 +153,28 @@ wasd-header .nav-sidebar__link[ovg] .status {
   background: rgba(var(--color-switch), .08)
 }
 
-#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg]:hover span[ovg] {
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg]:hover span[ovg],
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item[ovg]:hover span[ovg] {
   color: rgb(var(--color-switch)) !important
 }
 
-#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg]:active {
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg]:active,
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item[ovg]:active {
   background: rgba(var(--color-switch), .16)
 }
 
-#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg]:active span[ovg] {
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg]:active span[ovg],
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item[ovg]:active span[ovg] {
   color: rgb(var(--color-switch)) !important
 }
 
-#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link.nav-sidebar__link--active[ovg] {
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link.nav-sidebar__link--active[ovg],
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item.nav-sidebar__item--active[ovg] {
   background: rgb(var(--color-system-blue))
 }
 
 #bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link.nav-sidebar__link--active[ovg] i[ovg],
-#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link.nav-sidebar__link--active[ovg] span[ovg] {
+#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item.nav-sidebar__item--active[ovg] i[ovg] {
   color: rgb(var(--color-system-white)) !important
 }
 
@@ -172,11 +187,13 @@ wasd-header .nav-sidebar__link[ovg] .status {
 }
 
 #bscSettingsPanel wasd-nav-sidebar.nav-sidebar--expanded[ovg] .nav-sidebar,
-#bscSettingsPanel wasd-nav-sidebar.nav-sidebar--expanded[ovg] .nav-sidebar .nav-sidebar__link[ovg] {
+#bscSettingsPanel wasd-nav-sidebar.nav-sidebar--expanded[ovg] .nav-sidebar .nav-sidebar__link[ovg],
+#bscSettingsPanel wasd-nav-sidebar.nav-sidebar--expanded[ovg] .nav-sidebar .nav-sidebar__item[ovg] {
   width: 240px
 }
 
-#bscSettingsPanel wasd-nav-sidebar.nav-sidebar--expanded[ovg] .nav-sidebar .nav-sidebar__link[ovg] span[ovg] {
+#bscSettingsPanel wasd-nav-sidebar.nav-sidebar--expanded[ovg] .nav-sidebar .nav-sidebar__link[ovg] span[ovg],
+#bscSettingsPanel wasd-nav-sidebar.nav-sidebar--expanded[ovg] .nav-sidebar .nav-sidebar__item[ovg] span[ovg] {
   left: 0;
   width: 188px;
   opacity: 1

@@ -74,15 +74,19 @@ const wasd = {
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('div#topDiv.fixed-wrapper'));
 
+        // const add_giftsInfo = [...addedNodes]
+        //   .filter(node => node.nodeType === 1)
+        //   .filter(element => element.matches('div#giftsInfo.gifts-info'));
+
         const isLive = new URL(document.URL).pathname.split('/')[2] != 'videos' && new URL(document.URL).pathname.split('/')[2] != 'clips' && document.querySelector('wasd-user-plays .user-plays__text')?.textContent != 'стримил'
 
         if (add_chat.length) {
           HelperWASD.loadBadges()
           socket.initChat()
-          wasd.update();
+          // wasd.updatestyle();
           HelperWASD.getIsModerator().then((resolve) => {
-          HelperWASD.isModerator = resolve
-            wasd.update();
+            HelperWASD.isModerator = resolve
+            wasd.updatestyle();
           })
 
           HelperWASD.createPinMessages();
@@ -100,6 +104,11 @@ const wasd = {
         if (add_player_buttons.length) {
           let textlive = add_player_buttons[0].querySelector('.buttons-container .stream-status-text.live')
           let buttons  = add_player_buttons[0].querySelector('.buttons-container .buttons-right')
+
+          HelperWASD.addPipToPlayer(settings.wasd.pictureInPicture)
+          HelperWASD.createClipByOvg(settings.wasd.iframeCreateClip)
+
+          HelperWASD.updateUptimeStreamMobile(settings.wasd.uptimeStreamMobile)
         }
 
         if (add_settings_button_burger.length) {
@@ -502,43 +511,21 @@ const wasd = {
         }
 
         if (add_uptime.length && isLive) {
-          add_uptime[0]?.querySelector('wasd-user-plays')?.insertAdjacentHTML('afterend', '<div class="stream-uptime tooltip-hover" style="position:relative;"><i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip></div>')
-          let uptime = document.querySelector('div.stream-uptime')
-          let uptimevalue = document.querySelector('.stream-uptime input.player-info__stat-value')
-          let uptimetooltip = document.querySelector('.stream-uptime div.tooltip > div')
-          
-          uptime?.addEventListener('click', () => {
-            uptimevalue.setSelectionRange(0, 20)
-            if (document.execCommand("copy")) {
-              HelperWASD.showChatMessage('Скопировано в буфер обмена', 'success')
-            } else {
-              HelperWASD.showChatMessage('Ошибка')
-            }
-            uptimevalue.setSelectionRange(0, 0)
-          });
-
-          let timerId = setTimeout(function tick() {
-            if (uptime) {
-              if (settings.wasd.uptimeStream) {
-                if (uptime.innerHTML == '') {
-                  uptime.innerHTML = '<i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip>'
-                }
-              } else {
-                uptime.innerHTML = ''
-              }
-
-              let date = new Date(socket.channel?.media_container?.published_at);
-
-              uptimetooltip.innerHTML = ` аптайм трансляции </br> (с ${date.toLocaleString()}) `
-              uptimevalue.value = moment.utc(new Date(new Date() - date)).format('HH:mm:ss');
-            }
-
-            timerId = setTimeout(tick, 1000);
-          }, 1000);
+          HelperWASD.updateUptimeStream(settings.wasd.uptimeStream)
         }
 
         if (add_wasd_chat_header.length && isLive) {
           add_wasd_chat_header[0].lastChild.insertAdjacentHTML('beforebegin', `<div class="lds-ring websocket_loader tooltip-hover" style="height: 100%;position: absolute;right: 40px;" ovg=""><svg x="0px" y="0px" viewBox="0 0 150 150" class="icon-pending-ovg"><circle cx="75" cy="75" r="60" class="icon-pending-inner-ovg"></circle></svg><ovg-tooltip style="position: absolute;left: 0px;"><div class="tooltip tooltip_position-left tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Ожидаем подключение WebSocket </div></div></ovg-tooltip></div>`)
+          HelperWASD.updateMoveHideChat(settings.wasd.moveHideChat)
+
+          let button = document.querySelector('.chat-container__btn-open--desktop')
+          button?.addEventListener('click', () => {
+            if (document.querySelector('.chat-container__btn-open--desktop > i')?.className == 'wasd-icons-right' && settings.wasd.moveHideChat) {
+              button.style.display = 'none'
+            } else {
+              button.style.display = ''
+            }
+          })
         }
 
         if (add_header.length && isLive) {
@@ -575,16 +562,16 @@ const wasd = {
       this.style = document.createElement('style');
       this.style.type = 'text/css';
       document.body.append(this.style);
-      wasd.update();
+      wasd.updatestyle();
 
       let fontStyle = document.createElement('style');
       fontStyle.type = 'text/css';
       fontStyle.innerHTML = '';
       fontStyle.appendChild(document.createTextNode(`@font-face {
         font-family: 'icomoon';
-        src:  url(${chrome.runtime.getURL("css/fonts/icomoon.ttf")}?ek8nz4) format('truetype'),
-          url(${chrome.runtime.getURL("css/fonts/icomoon.woff")}?ek8nz4) format('woff'),
-          url(${chrome.runtime.getURL("css/fonts/icomoon.svg")}?ek8nz4#icomoon) format('svg');
+        src:  url(${chrome.runtime.getURL("css/fonts/icomoon.ttf")}?hfnfya) format('truetype'),
+          url(${chrome.runtime.getURL("css/fonts/icomoon.woff")}?hfnfya) format('woff'),
+          url(${chrome.runtime.getURL("css/fonts/icomoon.svg")}?hfnfya#icomoon) format('svg');
         font-weight: normal;
         font-style: normal;
         font-display: block;
@@ -674,7 +661,7 @@ const wasd = {
     addToHeader()
 
   },
-  update() {
+  updatestyle() {
     let cssCode = ``;
 
     if (settings.wasd.messageFollower) {
@@ -716,7 +703,9 @@ const wasd = {
       cssCode += '.gifts-wrapper-top-right { display: none!important; }';
     }
 
+    cssCode += '.info__text__status > div[ovg], .info__text__status-ovg > div[ovg] { line-height: inherit; }'
     if (settings.wasd.sticker.toString() === '0') {
+      cssCode += '.info__text__status, .info__text__status-ovg, #colon-after-author-name, #colon-after-author-name-ovg { vertical-align: top; }'
       if (settings.wasd.forceResizeStickers.toString() === '1') {
         cssCode += '.message__info img.sticker { display: block; height: 128px!important; width: 128px!important; margin-top: 8px; }'
       } else if (settings.wasd.forceResizeStickers.toString() === '2') {
@@ -798,6 +787,13 @@ const wasd = {
       cssCode += `wasd-header #nav-sidebar { border-left: 1px solid rgba(var(--color-switch),.24)!important; border-right: none!important;}`
       cssCode += `.header-new__left-side .header-new__nav-sidebar-toggle { display: none!important; }`
       cssCode += `.profile-menu-toggle { margin-right: 8px!important; }`
+
+      // fix скрыть чат
+      if (settings.wasd.moveHideChat) cssCode += `.chat-container__btn-open--desktop-ovg .wasd-icons-right:before {transform: rotate(180deg)!important;}`
+      cssCode += `.chat-container.close--desktop {overflow: hidden!important;}`
+      cssCode += `.chat-container__btn-open--desktop { left: 100%!important;transform: rotate(180deg)!important; }`
+      cssCode += `.chat-container__btn-open--desktop .text { transform: rotate(180deg)!important; }`
+
     } else {
       cssCode += `@media screen and (min-width:480px) {wasd-chat-wrapper > div.chat-container { width: ${settings.wasd.chatWidth}px!important }}`;
       cssCode += `div.player-wrapper.theatre-mode { width: calc(100vw - ${settings.wasd.chatWidth}px)!important; }`;
@@ -993,18 +989,25 @@ const wasd = {
       cssCode += `.player-info .raid { display: none !important; }`
     }
 
-    /* fix profile-menu height */
-    if (document.querySelector('#selector-bm-ovg-settings')) {
-      cssCode += `.profile-menu.profile-menu--show {height: max-content !important;}`
-    }
-
     if (settings.general.uiTransparency && !new URL(document.URL).searchParams.get('helper-settings')) {
       cssCode += `#bscSettingsPanel {background: rgba(var(--wasd-color-prime--rgb), 0.25);backdrop-filter: blur(7px);}`
       cssCode += `#bscSettingsPanel .stickers__info {background: none;backdrop-filter: blur(7px);}`
     }
 
-    var iframe = document.querySelector('iframe.obschat')
-    iframe?.contentWindow?.postMessage(settings.obschat, '*');
+    if (settings.wasd.swapGiftAndInformationPlace) {
+      cssCode += `.content-wrapper__info {display: flex;flex-direction: column;}`
+      cssCode += `.content-wrapper__info > .gifts-info {order: 0;}`
+      cssCode += `.content-wrapper__info > .player-wrapper {order: 1;}`
+      cssCode += `.content-wrapper__info > .stream-info {order: 2;}`
+      cssCode += `.content-wrapper__info > .container {order: 3;}`
+
+      // fix tooltip
+      cssCode += `.gifts-info__buttons .tooltip.tooltip_position-top {left: 50%;margin-top: 8px;top: 100%;transform: translateX(-50%) translateZ(0);bottom: unset;margin-bottom: unset;}`
+      cssCode += `.gifts-info__buttons .tooltip.tooltip_position-top .tooltip-content:before {border-bottom: unset;top: unset;border: 4px solid transparent;border-bottom: 4px solid rgb(var(--color-switch));border-top: none;bottom: 100%;content: "";height: 0;left: 50%;margin-left: -4px;position: absolute;transition: all .3s ease;}`
+
+      cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topRight {right: 0;margin-top: 8px;top: 100%;bottom: unset;margin-bottom: unset;}`
+      cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topRight .tooltip-content:before {top: unset; border: 4px solid transparent; border-bottom: 4px solid rgb(var(--color-switch)); border-top: none; bottom: 100%; content: ""; margin-left: -2px; position: absolute; transition: all .3s ease; right: 20px;}`
+    }
 
     if (wasd.style) {
       if (typeof wasd.style.styleSheet !== 'undefined') {
@@ -1019,7 +1022,7 @@ const wasd = {
     } else {
       ovg.log('style undefined')
       setTimeout(() => {
-        wasd.update()
+        wasd.updatestyle()
       }, 50)
     }
   },
@@ -1056,7 +1059,8 @@ const wasd = {
       if (subRef) color = subRef?.style?.backgroundColor
       var sticker = node.querySelector('.sticker')?.src
 
-      let roles = 'user'
+      let roles = ''
+      if (node.querySelector('wasd-chat-message')) roles       += 'user'
       if (node.querySelector('.wasd-icons-owner')) roles       += ' owner'
       if (node.querySelector('.wasd-icons-dev')) roles         += ' admin'
       if (node.querySelector('.wasd-icons-moderator')) roles   += ' moderator'
@@ -1077,8 +1081,13 @@ const wasd = {
 
       if (sticker) node.querySelector('img.sticker').insertAdjacentHTML("afterend", `<span class="chat-message-text stickertext sticker_text">Стикер</span>`)
 
-      if (isobserver && node.querySelector('.message__time')) {
-        node.querySelector('.message__time').textContent = moment().format(settings.wasd.formatMessageSentTime)
+      if (isobserver) node.setAttribute('time', moment())
+      if (node.querySelector('.message__time')) {
+        if (isobserver) {
+          node.querySelector('.message__time').textContent = moment().format(settings.wasd.formatMessageSentTime)
+        } else {
+          // node.querySelector('.message__time').textContent = timeData(node.querySelector('.message__time').textContent)
+        }
       }
 
       if (node.querySelector('div.message-text')) {
@@ -1109,9 +1118,7 @@ const wasd = {
         nicknamediv.setAttribute('usernamelc', nicknamediv.textContent.trim().toLowerCase());
 
         if (settings.wasd.userNameEdited[nicknamediv.textContent.trim()]) {
-          nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
-            return ` ${settings.wasd.userNameEdited[$0.trim()]} `
-          })
+          nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ` ${settings.wasd.userNameEdited[$0.trim()]} `)
         }
       }
 
@@ -1128,7 +1135,7 @@ const wasd = {
           if (!username) {
             username = $1.trim().split('@').join('')
           }
-          return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' username="${$1}" usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
+          return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' username="${$1}" usernamelc="${$1.toLowerCase()}"> @${username.trim()} </span>`;
         });
 
         messageText.innerHTML = messageText.innerHTML.replace(/\+at\+/ig, '@')
@@ -1605,7 +1612,7 @@ const wasd = {
                               <div class="ffz--header-image-h tw-mg-x-05"></div>
                               <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
                                 ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
-                                ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out.short.subtitle.content.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
+                                ${out?.short?.subtitle?.content?.channel ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}">${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div>` : ``}
                               </div>
                             </div>
                             ${out?.full?.[2]?.content ? `<div class="tw-white-space-pre-wrap ffz--line-clamp tw-mg-y-05" title="${out.full?.[2].content}" style="--ffz-lines:5;">${out.full?.[2].content}</div>` : ``}
@@ -1620,7 +1627,7 @@ const wasd = {
                     imgdiv = ``
                     node.querySelector('.ffz--header-image').innerHTML = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05 ffz--header-aspect" style="width:8.8rem">${img}</div>`
 
-                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div><div title="${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out?.short?.subtitle?.content?.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}  • 👎 ${out?.short?.subtitle?.content?.dislikes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div><div title="${out?.short?.extra?.[1]} ${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><span class="ffz-i-youtube-play"></span>${out?.short?.extra?.[1]}<time datetime="${out?.short?.extra?.[2]?.attrs?.datetime}" class="">${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}</time></div></div></div></div>`;
+                    node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div><div title="${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div><div title="${out?.short?.extra?.[1]} ${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><span class="ffz-i-youtube-play"></span>${out?.short?.extra?.[1]}<time datetime="${out?.short?.extra?.[2]?.attrs?.datetime}" class="">${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}</time></div></div></div></div>`;
                   } else if (out?.short?.title) {
                     if (typeof out.error == 'undefined') {
                       if (!out?.short?.subtitle) {
@@ -1766,7 +1773,7 @@ const wasd = {
           let out;
           if (settings.wasd.onClickMention.toString() === '0') {
 
-            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention' username="@${username}" usernamelc="${username.toLowerCase()}">${username}</span>`
+            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span>`
             node.querySelectorAll('.chat-message-mention').forEach(element => {
               HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
@@ -1776,7 +1783,7 @@ const wasd = {
               });
             });
           } else if (settings.wasd.onClickMention.toString() === '1') {
-            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}">${username}</span>`
+            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span>`
             node.querySelectorAll('.chat-message-mention.click').forEach(element => {
               HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
@@ -1788,7 +1795,7 @@ const wasd = {
               })
             });
           } else if (settings.wasd.onClickMention.toString() === '2') {
-            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}">${username}</span>`
+            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span>`
             node.querySelectorAll('.chat-message-mention.click').forEach(element => {
               HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
@@ -1837,9 +1844,11 @@ const wasd = {
         Helper.notify(`Вас упоминул ${node.getAttribute('username')}`, node.getAttribute('message'), node.getAttribute('username'))
       }
 
-      let badge = HelperWASD.badges[node.getAttribute('username')]
-      if (badge && badge.user_role == 'DEV') {
-        node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", `<div ovg="" class="info__text__status-dev" style="background-color: ${HelperWASD.userColors[badge.user_id % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-dev dev"></i></div>`) 
+      let allbadge = HelperWASD.badges[node.getAttribute('username')]
+      if (allbadge && allbadge.badges.length > 0) {
+        for (let badg of allbadge.badges) {
+          node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
+        }
       }
 
       var tooltips = node.querySelectorAll(".tooltip-wrapper");
@@ -1856,6 +1865,7 @@ const wasd = {
           }
         });
       }
+      HelperWASD.updateHoverTooltipEmote(settings.wasd.hoverTooltipEmote)
 
       adminRef       = node.querySelector('.is-admin')
       modRef         = node.querySelector('.is-moderator')
@@ -1894,6 +1904,17 @@ const wasd = {
       if (promoCodeWin && !settings.wasd.showPromoCodeWin) {
         promoCodeWin.remove()
       }
+
+      $(node.querySelector('.message-text')).attrchange({
+        trackValues: true,
+        callback: function (event) {
+          if (event.newValue == 'message-text message-text_deleted') {
+            node.setAttribute('state', 'removed')
+          } else if (event.newValue == 'message-text') {
+            node.setAttribute('state', '')
+          }
+        }
+      })
 
     }
   },

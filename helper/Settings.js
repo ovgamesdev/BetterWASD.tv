@@ -85,10 +85,10 @@ const HelperSettings = {
         type: 'boolean'
       },
       bttvEmoteSize: {
-        title: `Разрешение смайликов в чате BTTV, FFZ и 7TV ${Helper.F5}`,
-        updateChat: true,
+        title: `Разрешение смайликов в чате BTTV, FFZ и 7TV`,
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: '28px, 32px, 32px'
           },
@@ -100,12 +100,14 @@ const HelperSettings = {
             value: 2,
             label: '112px, 128px, 128px'
           }
-        ]
+        ],
+        onChange: (value) => HelperWASD.updateBttvEmoteSize(value)
       },
       sticker: {
         title: `Отображение стикеров WASD ${Helper.tooltip('', "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: 'По умолчанию'
           },
@@ -130,7 +132,8 @@ const HelperSettings = {
       stickerovg: {
         title: `Отображение стикеров BTTV, FFZ и 7TV ${Helper.tooltip('', "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: 'По умолчанию'
           },
@@ -155,7 +158,8 @@ const HelperSettings = {
       bttvSize: {
         title: 'Размер стикеров BTTV, FFZ и 7TV',
         type: 'select',
-        items: [{
+        items: [
+          {
             value: '128px',
             label: 'Большой'
           },
@@ -168,7 +172,8 @@ const HelperSettings = {
       forceResizeStickers: {
         title: 'Принудиельно изменять размер стикеров WASD',
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: 'Нет'
           },
@@ -201,7 +206,8 @@ const HelperSettings = {
       paddingChatMessage: {
         title: 'Заполнение сообщений чата',
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: 'Twitch (5px 20px)'
           },
@@ -224,9 +230,9 @@ const HelperSettings = {
         ]
       },
       colonAfterNickname: {
-        title: `Двоеточие после никнейма ${Helper.F5}`,
-        updateChat: true,
-        type: 'boolean'
+        title: `Двоеточие после никнейма`,
+        type: 'boolean',
+        onChange: (value) => HelperWASD.updateColonAfterNickname(value)
       },
       /*smallBadges: {
           title: `'`Маленькие значки. ${Helper.BETA}`'`,
@@ -238,7 +244,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       chatWidth: {
-        title: `Размер чата в пикселях ${Helper.tooltip('', "(Ширина)")}`,
+        title: `Размер чата в пикселях ${Helper.tooltip('', "(Ширина) </br> не работает в СТРИМИНГОВАЯ")}`,
         type: 'number',
         min: 200,
         max: 1200
@@ -269,7 +275,8 @@ const HelperSettings = {
         title: `Меню модератора ${Helper.F5}`,
         updateChat: true,
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: 'Нет'
           },
@@ -287,7 +294,8 @@ const HelperSettings = {
       moderatorMenuTimeout: {
         title: 'Срок блока (Меню модератора - Временно заблокировать)',
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 1,
             label: '1 минута'
           },
@@ -320,7 +328,8 @@ const HelperSettings = {
       onClickMention: {
         title: 'Действие при клике на упоминание пользователя',
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: 'Нет'
           },
@@ -338,7 +347,8 @@ const HelperSettings = {
         title: `Действие при клике на пользователя ${Helper.F5}`,
         updateChat: true,
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: 'Нет'
           },
@@ -353,10 +363,11 @@ const HelperSettings = {
         ]
       },
       onClickUser: {
-        title: `Действие при клике на пользователя или упоминание при зажатой клавише ${Helper.F5}`,
+        title: `Действие при клике на пользователя или упоминание при зажатой клавише`,
         updateChat: true,
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: 'Нет'
           },
@@ -399,7 +410,8 @@ const HelperSettings = {
         title: `Необходимый уровень пользователя для "Распознавание ссылок" ${Helper.F5}`,
         updateChat: true,
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: 'Стример'
           },
@@ -426,11 +438,11 @@ const HelperSettings = {
         type: 'boolean'
       },
       formatMessageSentTime: {
-        title: `Формат отметок времени ${Helper.tooltip('', 'Для новых сообщений')} ${Helper.F5}`,
-        updateChat: true,
+        title: `Формат отметок времени ${Helper.tooltip('', 'Для новых сообщений')}`,
         description: 'Отформатировано <a target="_blank" href="https://momentjs.com/">library Moment.js</a>.',
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 'h:mm',
             label: '12 часов (2:15)'
           },
@@ -462,7 +474,8 @@ const HelperSettings = {
             value: 'HH:mm:ss',
             label: 'Доп. 24 часа с сек. (14:15:35)'
           }
-        ]
+        ],
+        onChange: (value) => HelperWASD.updateFormatMessageSentTime(value)
       },
       mentionSelf: {
         title: `Выделять сообщения, упоминающие вас`,
@@ -491,7 +504,8 @@ const HelperSettings = {
       artificialChatDelay: {
         title: 'Искусственная задержка чата',
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: 'По умолчанию'
           },
@@ -531,7 +545,8 @@ const HelperSettings = {
       },
       uptimeStreamMobile: {
         title: `Заменить надпись 'в эфире' на аптайм трансляции`,
-        type: 'boolean'
+        type: 'boolean',
+        onChange: (value) => HelperWASD.updateUptimeStreamMobile(value)
       },
       fixCharactersBreakingChat: {
         title: `Исправить символы ломающие чат ${Helper.tooltip('', 'Текст Zalgo')}`,
@@ -543,9 +558,10 @@ const HelperSettings = {
         type: 'boolean'
       },
       staticGifEmotes: {
-        title: `Анимированные эмоции ${Helper.F5} ${Helper.tooltip('', 'только BTTV эмоции')}`,
+        title: `Анимированные эмоции ${Helper.tooltip('', 'только BTTV эмоции')}`,
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 0,
             label: 'Отключено'
           },
@@ -554,17 +570,20 @@ const HelperSettings = {
             label: 'Включено'
           },
           // { value: 2, label: 'Включено при наведении' }
-        ]
+        ],
+        onChange: (value) => HelperWASD.updateStaticGifEmotes(value)
       },
       hoverTooltipEmote: {
-        title: `Подсказка для эмоций BTTV, FFZ и 7TV при наведении ${Helper.F5}`,
-        type: 'boolean'
+        title: `Подсказка для эмоций BTTV, FFZ и 7TV при наведении`,
+        type: 'boolean',
+        onChange: (value) => HelperWASD.updateHoverTooltipEmote(value)
       },
       limitHistoryUsers: {
         title: `Лимит истории пользователей ${Helper.F5} ${Helper.tooltip('', 'для определения цвета пользователя и его карточки, рекомендуем \u0022без ограничения\u0022 но если у вас лагает рекотендуем снизить')}`,
         updateChat: true,
         type: 'select',
-        items: [{
+        items: [
+          {
             value: 500,
             label: '500'
           },
@@ -622,6 +641,15 @@ const HelperSettings = {
         min: 0,
         max: 240
       },
+      normalizeCopiedMessage: {
+        title: `Нормализовать скопированное сообщение`,
+        type: 'boolean'
+      },
+      moveHideChat: {
+        title: `Переместить кнопку 'Скрыть чат' в заголовок чата`,
+        type: 'boolean',
+        onChange: (value) => HelperWASD.updateMoveHideChat(value)
+      },
 
       playerGeneral: {
         title: 'Проигрыватель',
@@ -646,7 +674,8 @@ const HelperSettings = {
       },
       pictureInPicture: {
         title: "Добавить кнопку 'Картинка в картинке' к управлению проигрывателем (PIP)",
-        type: 'boolean'
+        type: 'boolean',
+        onChange: (value) => HelperWASD.addPipToPlayer(value)
       },
       /*resetToPlayer: {
           title: `Add button `Reset player` to player control. ${Helper.BETA}`,
@@ -674,9 +703,9 @@ const HelperSettings = {
         type: 'boolean'
       },
       uptimeStream: {
-        title: `Аптайм трансляции ${Helper.F5}`,
-        updateChat: true,
-        type: 'boolean'
+        title: `Аптайм трансляции`,
+        type: 'boolean',
+        onChange: (value) => HelperWASD.updateUptimeStream(value)
       },
       alwaysOpenVolumeControl: {
         title: 'Всегда раскрывать регулятор громкости',
@@ -688,10 +717,15 @@ const HelperSettings = {
       },
       iframeCreateClip: {
         title: 'Создавать клипы в проигрывателе а не новом окне',
-        type: 'boolean'
+        type: 'boolean',
+        onChange: (value) => HelperWASD.createClipByOvg(value)
       },
       hideRaid: {
         title: 'Скрыть рейд',
+        type: 'boolean'
+      },
+      swapGiftAndInformationPlace: {
+        title: `Поменять панель подарков и информацию о стриме местами`,
         type: 'boolean'
       },
 
@@ -764,322 +798,6 @@ const HelperSettings = {
         title: 'Цвет для подписчика канала',
         type: 'color'
       }
-    },
-    obschat: {
-      theme: {
-        title: `Тема`,
-        type: 'select',
-        items: [{
-            value: 0,
-            label: 'Светлая'
-          },
-          {
-            value: 1,
-            label: 'Темная'
-          }
-        ]
-      },
-      stime: {
-        title: `Время отправки сообщения`,
-        type: 'boolean'
-      },
-      simg: {
-        title: `Аватарка пользователя`,
-        type: 'boolean'
-      },
-      mf: {
-        title: 'Скрыть сообщение о новом фолловере',
-        type: 'boolean'
-      },
-      ms: {
-        title: `Скрыть системные сообщения ${Helper.tooltip('', `Добро пожаловать, бан пользователя и др.`)}`,
-        type: 'boolean'
-      },
-      bes: {
-        title: `Разрешение смайликов в чате BTTV, FFZ и 7TV`,
-        type: 'select',
-        items: [{
-            value: 0,
-            label: '28px, 32px, 32px'
-          },
-          {
-            value: 1,
-            label: '56px, 64px, 48px'
-          },
-          {
-            value: 2,
-            label: '112px, 128px, 128px'
-          }
-        ]
-      },
-      st: {
-        title: `Отображение стикеров WASD`,
-        type: 'select',
-        items: [{
-            value: 0,
-            label: 'По умолчанию'
-          },
-          {
-            value: 1,
-            label: 'Минимизировать'
-          },
-          {
-            value: 2,
-            label: 'Скрыть сообщение'
-          },
-          {
-            value: 3,
-            label: 'Показать сообщение: Стикер'
-          }
-        ]
-      },
-      frs: {
-        title: 'Размер стикеров WASD',
-        type: 'select',
-        items: [{
-            value: 0,
-            label: 'Большой'
-          },
-          {
-            value: 1,
-            label: 'Маленький'
-          }
-        ]
-      },
-      ss: {
-        title: 'Разрешение смайликов в чате WASD',
-        type: 'select',
-        items: [{
-            value: 'large',
-            label: 'original (apng)'
-          },
-          {
-            value: 'medium',
-            label: '128x128 (no apng)'
-          },
-          {
-            value: 'small',
-            label: '64x64 (no apng)'
-          }
-        ]
-      },
-      can: {
-        title: `Двоеточие после никнейма`,
-        type: 'boolean'
-      },
-      catm: {
-        title: `Упоминания пользователей в чата с их цветом никнейма ${Helper.BETA}`,
-        type: 'boolean'
-      },
-      hmb: {
-        title: 'Выделять упоминания в чате жирным шрифтом',
-        type: 'boolean'
-      },
-      sm: {
-        title: 'Скрыть сообщение стримеру (донат)',
-        type: 'boolean'
-      },
-      lc: {
-        title: 'Цвет ссылки',
-        type: 'color',
-      },
-      fl: {
-        title: `Исправить ссылки в чате`,
-        type: 'boolean'
-      },
-      fmst: {
-        title: `Формат отметок времени`,
-        description: 'Отформатировано <a target="_blank" href="https://momentjs.com/">library Moment.js</a>',
-        type: 'select',
-        items: [{
-            value: 'h:mm',
-            label: '12 часов (2:15)'
-          },
-          {
-            value: 'h:mm:ss',
-            label: '12 часов с сек. (2:15:35)'
-          },
-          {
-            value: 'H:mm',
-            label: '24 часа (14:15)'
-          },
-          {
-            value: 'H:mm:ss',
-            label: '24 часа с сек. (14:15:35)'
-          },
-          {
-            value: 'hh:mm',
-            label: 'Доп. (02:15)'
-          },
-          {
-            value: 'hh:mm:ss',
-            label: 'Доп. с сек. (02:15:35)'
-          },
-          {
-            value: 'HH:mm',
-            label: 'Доп. 24 часа (14:15)'
-          },
-          {
-            value: 'HH:mm:ss',
-            label: 'Доп. 24 часа с сек. (14:15:35)'
-          }
-        ]
-      },
-      cma: {
-        title: `Ник пользователя в действиях это упоминание ${Helper.tooltip('', 'Избранное, Подписка')}`,
-        type: 'boolean'
-      },
-      fcbc: {
-        title: `Исправить символы ломающие чат ${Helper.tooltip('', 'Текст Zalgo')}`,
-        description: 'С использованием <a target="_blank" href="https://github.com/mathiasbynens/strip-combining-marks/blob/master/README.md">library strip-combining-marks.js</a>.',
-        type: 'boolean'
-      },
-      sdm: {
-        title: `Стиль удаленных сообщений`,
-        type: 'select',
-        items: [{
-            value: '0',
-            label: 'Скрыть'
-          },
-          {
-            value: '1',
-            label: 'Затемнённое'
-          },
-          {
-            value: '2',
-            label: 'Затемнённое, зачеркнутое'
-          },
-          {
-            value: '3',
-            label: '[сообщение удалено], затемнённое'
-          }
-        ]
-      },
-      acd: {
-        title: 'Искусственная задержка чата',
-        type: 'select',
-        items: [{
-            value: 0,
-            label: 'По умолчанию'
-          },
-          {
-            value: 300,
-            label: 'Модерация ботов; (0,3 сек.)'
-          },
-          {
-            value: 1200,
-            label: 'Умеренная модерация; (1,2 сек.)'
-          },
-          {
-            value: 5000,
-            label: 'Убрать спойлеры (5 сек.)'
-          },
-          {
-            value: 10000,
-            label: 'Очень большая (10 сек.)'
-          },
-          {
-            value: 15000,
-            label: 'Крайне большая (15 сек.)'
-          },
-          {
-            value: 20000,
-            label: 'Задержать чат (20 сек.)'
-          },
-          {
-            value: 30000,
-            label: 'Полминуты (30 сек.)'
-          },
-          {
-            value: 60000,
-            label: 'Зачем??? (1 мин.)'
-          }
-        ]
-      },
-      sl: {
-        title: `Стиль ссылки`,
-        type: 'select',
-        items: [{
-            value: '0',
-            label: 'По умолчанию'
-          },
-          {
-            value: '1',
-            label: '[ссылка удалена]'
-          }
-        ]
-      },
-      anim: {
-        title: `Анимация сообщения`,
-        type: 'select',
-        items: [{
-            value: '0',
-            label: 'Нет'
-          },
-          {
-            value: '1',
-            label: 'fadeInRight and fadeOut '
-          }
-        ]
-      },
-      nma: {
-        title: `Скрыть сообщение после (ms) ${Helper.tooltip('', '0 - Всегда показывать сообщения')}`,
-        type: 'number'
-      },
-      mtc: {
-        title: 'Цвет текста',
-        type: 'color',
-      },
-      sbo: {
-        title: `Показать значки создателя`,
-        type: 'boolean'
-      },
-      sbm: {
-        title: `Показать значки модератора`,
-        type: 'boolean'
-      },
-      sbs: {
-        title: `Показать значки подписчика`,
-        type: 'boolean'
-      },
-      sba: {
-        title: `Показать значки администратора`,
-        type: 'boolean'
-      },
-      mentionSelf: {
-        title: `Выделять сообщения, упоминающие вас`,
-        type: 'boolean'
-      },
-      cms: {
-        title: 'Цвет сообщения, упоминающие вас',
-        type: 'color'
-      },
-
-      obsemotes: {
-        title: 'Эмоции',
-        type: 'title'
-      },
-      bttv: {
-        title: `BTTV эмоции ${Helper.tooltip('', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoBTTV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
-        type: 'text'
-      },
-      ffz: {
-        title: `FFZ эмоции ${Helper.tooltip('', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="autoFFZ" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
-        type: 'text'
-      },
-      tv7: {
-        title: `7TV эмоции ${Helper.tooltip('', `Перечисление twitch_username через \u0022;\u0022 Пример: twitch;username;`)} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="auto7TV" class="basic fade ovg small" type="button"> auto </button></wasd-button>`,
-        type: 'text'
-      },
-
-      obsfiltration: {
-        title: 'Фильтрация',
-        type: 'title'
-      },
-      rMBL: {
-        title: `Удалять сообщения упоминающие пользователей в Фильтрация - Блокировка - Пользователи`,
-        type: 'boolean'
-      },
     }
   },
   showMessage(message, type = 'success') {

@@ -1638,7 +1638,7 @@ div.stream-uptime {
   font-size: 14px;
   line-height: 1.43;
   letter-spacing: .2px;
-  cursor: default;
+  cursor: pointer;
 }
 div.stream-uptime>input.player-info__stat-value {
   color: var(--wasd-color-text-fourth);
@@ -1646,6 +1646,7 @@ div.stream-uptime>input.player-info__stat-value {
   background: none;
   border: none;
   width: 65px;
+  cursor: pointer;
 }
 .ovg-button-div {
   line-height: 2rem;
@@ -2327,7 +2328,7 @@ main[data-tab="backup"] button {
 }
 @media screen and (max-width:479px) {
 
-  main.active[data-tab="obschat"] {
+ /* main.active[data-tab="obschat"] {
     width: 100%!important;
     display: block!important;
     height: 44%!important;
@@ -2338,7 +2339,7 @@ main[data-tab="backup"] button {
     display: block!important;
     height: calc(56% - 76px)!important;
     width: 100%!important;
-  }
+  }*/
 
   #bscSettingsPanel {
     margin-top: 0px!important;
@@ -3053,11 +3054,11 @@ ovg-button {
   }
 }
 @media screen and (max-width:650px) {
-  @media screen and (min-width:480px) {
+/*  @media screen and (min-width:480px) {
     main.active[data-tab="obschat"] {
       width: calc(100% - 302px)!important;
     }
-  }
+  }*/
 
   #bscSettingsPanel #nav-sidebar {
     display: none!important;
@@ -3215,24 +3216,20 @@ wasd-input [ovg] .clr-field input {
 /* obs_chat */
 
 main.active[data-tab="obschat"] {
-  width: calc(100% - 302px);
+  width: calc(100% - 52px);
   display: inline-block !important;
 }
 
 iframe.obschat {
   height: calc(100% - 48px);
-  width: 250px;
-  display: none;
+  width: calc(100% - 52px);
+  display: inline-block;
   border: none;
   position: absolute;
 }
 
-main.active[data-tab="obschat"] ~ iframe.obschat {
-  display: inline-block;
-}
-
 /* badges */
-.info__text__status-dev[ovg] {
+.badge_div[ovg] {
   border-radius: 2px;
   margin-right: 4px;
   padding: 0 4px;
@@ -3254,6 +3251,15 @@ main.active[data-tab="obschat"] ~ iframe.obschat {
 }
 .icon[badge].dev:before {
   transform: rotate(180deg) translateX(-0.5px);
+}
+
+.badge_div[ovg] img.badge {
+  display: inline-block;
+  max-height: 14px;
+  max-width: 14px;
+  vertical-align: middle;
+  transform: translateY(-1.5px);
+  user-select: none;
 }
 
 /* message system  */
@@ -3316,4 +3322,19 @@ wasd-chat-subscribe-message .chat-message-mention {
 .pod-position .bottom {
   bottom: 0;
   position: absolute;
+}
+
+/* message removed */
+.block__messages__item[state="removed"] .ffz--chat-card {
+  filter: grayscale(1);
+  color: rgba(var(--color-switch),.4);
+}
+
+
+/* fix header profile-menu height */
+.profile-menu.profile-menu--show {
+  height: max-content !important;
+}
+.burger-qr {
+  margin-bottom: 18px !important;
 }
