@@ -1744,6 +1744,7 @@ const wasd = {
             if (!context_menu.querySelector('.contextBlacklistAddUser')) {
               let item = document.createElement('div')
               item.classList.add(`context-menu__block`)
+              item.setAttribute('ovg', '')
               item.innerHTML = `<div class="context-menu__block__icon contextBlacklistAddUser"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Добавить в ЧС </div>`;
               context_menu.append(item)
               item.addEventListener('click', ({ target }) => {

@@ -9,10 +9,20 @@ const BetterStreamChat = {
       optimized: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Оптимизировано</span>',
       changed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Изменено</span>',
       fixed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено</span>',
-      removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
+      removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>',
+      fixedwasd: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено (Мешает работе wasd.tv)</span>'
     };
     let changelogList = [
       {
+        version: '1.4.5.1',
+        date: '2022-01-15',
+        items: [{
+          text: [
+            `Не действительна кнопка 'Пожаловаться'.`
+          ],
+          label: 'fixedwasd'
+        }]
+      }, {
         version: '1.4.5',
         date: '2022-01-14',
         items: [{

@@ -2226,30 +2226,30 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
 .ovg-bg-color-prime {
   background-color: var(--wasd-color-prime);
 }
-.context-menu__block {
+.context-menu__block[ovg] {
   align-items: center;
   cursor: pointer;
   display: flex;
   flex-direction: row;
   height: 48px;
 }
-.context-menu__block:hover {
+.context-menu__block[ovg]:hover {
   background-color: rgba(var(--wasd-color-switch--rgb), .08);
 }
-.context-menu__block:active {
+.context-menu__block[ovg]:active {
   background-color: rgba(var(--wasd-color-switch--rgb), .16);
 }
-.context-menu__block__icon {
+.context-menu__block[ovg] .context-menu__block__icon {
   color: rgba(var(--wasd-color-switch--rgb), .64);
   font-size: 12px;
   padding: 0 10px 0 12px;
 }
-.icon {
+.context-menu__block[ovg] .icon {
   display: block;
   width: 100%;
   height: 100%;
 }
-.context-menu__block__text {
+.context-menu__block[ovg] .context-menu__block__text {
   color: rgba(var(--wasd-color-switch--rgb), .64);
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -2259,7 +2259,7 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
   padding: 0 12px 0 0;
   user-select: none;
 }
-.context-menu {
+.context-menu__block[ovg] .context-menu {
   z-index: 2!important;
 }
 .table-ovg {
