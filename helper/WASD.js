@@ -1625,6 +1625,9 @@ const HelperWASD = {
   uptimeStreamTimer: null,
   updateUptimeStream(value) {
     if (value) {
+
+      if (document.querySelector('div.stream-uptime')) return
+
       document.querySelector('wasd-user-plays')?.insertAdjacentHTML('afterend', '<div class="stream-uptime tooltip-hover" style="position:relative;"><i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip></div>')
     
       let uptime = document.querySelector('div.stream-uptime')
@@ -1751,5 +1754,26 @@ const HelperWASD = {
     });
   },
   timeData() {
+  },
+  timerAboutStat: null,
+  startTimerStatData() {
+    const update = () => {
+      $.ajax({
+        url: `https://betterwasd-stat.herokuapp.com/api/v1/tv/stat`,
+        data: { channel_name: socket.channel?.channel?.channel_owner?.user_login },
+        success: (data) => {
+          document.querySelector('[data-tab="about"] .activeUsers').textContent = data.activeUsers// + '/' + data.users
+          // document.querySelector('[data-tab="about"] .activeChannelUsers').textContent = data.activeChannelUsers
+          // document.querySelector('[data-tab="about"] .activeChannel').textContent = socket.channel?.channel?.channel_owner?.user_login
+        }
+      });
+    }
+    update()
+    if (this.timerAboutStat != null) return
+    this.timerAboutStat = setInterval(update, 5000)
+  },
+  stopTimerStatData() {
+    clearInterval(this.timerAboutStat)
+    this.timerAboutStat = null
   }
 }

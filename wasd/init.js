@@ -34,7 +34,7 @@ const wasd = {
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('wasd-chat-messages') || element.matches('wasd-chat-wrapper') || element.matches('wasd-channel') );
 
-        const add_player_buttons = [...addedNodes]
+        const add_player_buttons_stream = [...addedNodes]
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('div.media-control.live'));
 
@@ -64,7 +64,7 @@ const wasd = {
 
         const add_uptime = [...addedNodes]
           .filter(node => node.nodeType === 1)
-          .filter(element => element.matches('div.player-info'));
+          .filter(element => element.matches('div.player-info') || element.matches('div.stream-viewers'));
 
         const add_wasd_chat_header = [...addedNodes]
           .filter(node => node.nodeType === 1)
@@ -77,6 +77,15 @@ const wasd = {
         // const add_giftsInfo = [...addedNodes]
         //   .filter(node => node.nodeType === 1)
         //   .filter(element => element.matches('div#giftsInfo.gifts-info'));
+
+        const remove_uptime = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div.player-info__stat-value'));
+
+        const add_streaming_player = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div.container'));
+
 
         const isLive = new URL(document.URL).pathname.split('/')[2] != 'videos' && new URL(document.URL).pathname.split('/')[2] != 'clips' && document.querySelector('wasd-user-plays .user-plays__text')?.textContent != 'стримил'
 
@@ -101,9 +110,9 @@ const wasd = {
           document.querySelector('.hidden.info__text__status__name')?.remove()
         }
 
-        if (add_player_buttons.length) {
-          let textlive = add_player_buttons[0].querySelector('.buttons-container .stream-status-text.live')
-          let buttons  = add_player_buttons[0].querySelector('.buttons-container .buttons-right')
+        if (add_player_buttons_stream.length) {
+          let textlive = add_player_buttons_stream[0].querySelector('.buttons-container .stream-status-text.live')
+          let buttons  = add_player_buttons_stream[0].querySelector('.buttons-container .buttons-right')
 
           HelperWASD.addPipToPlayer(settings.wasd.pictureInPicture)
           HelperWASD.createClipByOvg(settings.wasd.iframeCreateClip)
@@ -503,15 +512,19 @@ const wasd = {
           let video = add_carousel_container_chromeless[0].querySelector('video')
 
           video?.addEventListener('play', () => {
-            video.pause()
+            if (!settings.wasd.autoPlayStreamersOnMain) video.pause()
           })
         }
         if (add_carousel_pending.length && !settings.wasd.autoPlayStreamersOnMain) {
           add_carousel_pending[0].style.display = 'none';
         }
 
-        if (add_uptime.length && isLive) {
+        if (add_uptime.length) {
           HelperWASD.updateUptimeStream(settings.wasd.uptimeStream)
+        }
+
+        if (remove_uptime.length) {
+          HelperWASD.updateUptimeStream(false)
         }
 
         if (add_wasd_chat_header.length && isLive) {
@@ -530,6 +543,18 @@ const wasd = {
 
         if (add_header.length && isLive) {
           addToHeader()
+        }
+
+        if (add_streaming_player.length && document.querySelector('wasd-stream-preview') && !settings.wasd.autoPlayPreviewOnStreaming) {
+          let video = add_streaming_player[0].querySelector('video')
+          let i = 0
+          video?.addEventListener('play', () => {
+            if (i == 0 && !settings.wasd.autoPlayPreviewOnStreaming) {
+              video.pause();
+              i++;
+              document.querySelector('.stream-preview__placeholder')?.remove()
+            }
+          })
         }
 
       }

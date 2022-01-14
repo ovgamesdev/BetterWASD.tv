@@ -683,8 +683,26 @@ const HelperSettings = {
           type: 'boolean'
       },*/
       autoPlayStreamersOnMain: {
-        title: 'Авто-воспроизведение предложенных стримеров на главной странице',
-        type: 'boolean'
+        title: 'Автовоспроизведение предложенных стримеров на главной странице',
+        type: 'boolean',
+        onChange: (value) => {
+          if (value) {
+            document.querySelector('.carousel__slide-body__player video')?.play()
+          } else {
+            document.querySelector('.carousel__slide-body__player video')?.pause()
+          }
+        }
+      },
+      autoPlayPreviewOnStreaming: {
+        title: 'Автовоспроизведение предпросмотра стримера в стриминговой',
+        type: 'boolean',
+        onChange: (value) => {
+          if (value) {
+            document.querySelector('wasd-stream-preview video')?.play()
+          } else {
+            document.querySelector('wasd-stream-preview video')?.pause()
+          }
+        }
       },
       pressedFullScreen: {
         title: "Нажмите клавишу 'f' чтобы переключить режим 'На весь экран'",

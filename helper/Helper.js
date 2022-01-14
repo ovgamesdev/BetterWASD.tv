@@ -111,7 +111,8 @@ const Helper = {
         truncateLink: 0,
         swapGiftAndInformationPlace: false,
         normalizeCopiedMessage: false,
-        moveHideChat: false
+        moveHideChat: false,
+        autoPlayPreviewOnStreaming: true
       },
       list: {
         blockUserList: {},

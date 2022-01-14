@@ -325,33 +325,18 @@ button[ovg]:hover i[ovg] {
 
 
 
-main[data-tab="about"]>div.aboutHalf {
-  background-color: var(--wasd-color-prime);
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(var(--wasd-color-black--rgb),.16);
-  box-sizing: border-box;
-  display: inline-block;
-  float: left;
-  height: 94.226%;
-  margin: 12px;
-  padding: 5px;
-  text-align: center;
-  width: calc(50% - 24px);
+main[data-tab="about"] .footer {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% - 70px );
+  align-items: flex-end;
 }
 
-main[data-tab="about"]>div.aboutHalf>img.aboutIcon {
-  margin-top: 90px;
-  vertical-align: top;
-}
-
-main[data-tab="about"]>div.aboutHalf>h1 {
-  font-size: 20px!important;
-  padding-top: 0!important;
-}
-
-main[data-tab="about"]>div.aboutHalf>h2 {
-  font-size: 16px!important;
-  padding-top: 0!important;
+main[data-tab="about"] .footer .right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 main[data-tab="backup"] {
@@ -3337,4 +3322,22 @@ wasd-chat-subscribe-message .chat-message-mention {
 }
 .burger-qr {
   margin-bottom: 18px !important;
+}
+
+/* record status */
+.active-tech-status-ovg {
+  width: .8rem;
+  height: .8rem;
+  border-radius: .4rem;
+  margin-right: .4rem;
+  background-color: var(--wasd-color-success);
+}
+.tech-info-ovg {
+  background-color: rgba(var(--wasd-color-switch--rgb),.08);
+  padding: 0 4px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 16px;
+  border-radius: 2px;
 }

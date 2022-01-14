@@ -13,6 +13,20 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.4.5',
+        date: '2022-01-14',
+        items: [{
+          text: [
+            `Автовоспроизведение предпросмотра стримера в стриминговой.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            `Аптайм трансляции.`
+          ],
+          label: 'changed'
+        }]
+      }, {
         version: '1.4.4',
         date: '2022-01-14',
         items: [{
@@ -1173,8 +1187,15 @@ const BetterStreamChat = {
         <input id="importInput" type="file" accept=".backup, .backup.txt" style="display: none;">
         <div id="backupDropContainer" class="drodHere">Drop Here</div>
 
-        <div class="bottom" style="margin-bottom: 5px;">
+        <div class="bottom footer">
           <span>Version ${changelogList[0].version} (${changelogList[0].date})</span>
+          <div class="right tooltip-hover" style="position: relative;">
+            <div class="active-tech-status-ovg"></div>
+            <span class="activeUsers tech-info-ovg">0</span>
+            <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;left: 60%;"><div class="tooltip-content tooltip-content_left"> Активных пользователей </div></div></ovg-tooltip>
+            
+            <!--div><span class="activeChannelUsers">0</span><span> пользователей просматривающие канал </span><span  class="activeChannel"></span></div-->
+          </div>
         </div>
 
       </main>
@@ -1581,6 +1602,7 @@ const BetterStreamChat = {
     // bind close settings 
     settingsDiv.querySelector('.close').addEventListener('click', () => {
       settingsDiv.style.animationName = 'hidebetterpanel';
+      HelperWASD.stopTimerStatData()
       setTimeout(() => {
         settingsDiv.style.display = 'none';
       }, 350);
@@ -1591,9 +1613,9 @@ const BetterStreamChat = {
     settingsDiv.querySelector('.update').addEventListener('dblclick', () => {
       let header_block_menu = document.querySelectorAll('.header > div.header__block__menu div.header__block__menu__item')
       if (header_block_menu.length >= 1) {
-        header_block_menu[1].click();
+        header_block_menu[1]?.click();
         settingsDiv.querySelector('.update > i').classList.add('resetPlayerLoading');
-        header_block_menu[0].children[0].click()
+        header_block_menu[0]?.children[0]?.click()
       } else {
         if (settingsDiv.classList.contains('fullscreen')) {
           chrome.runtime.sendMessage({
@@ -1819,6 +1841,12 @@ const BetterStreamChat = {
           settingsSearchDiv.classList.add('hidden')
         }
 
+        if (target.getAttribute('data-tab') == 'about') {
+          HelperWASD.startTimerStatData()
+        } else {
+          HelperWASD.stopTimerStatData()
+        }
+
         target.classList.add('active');
         settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
       });
@@ -1840,6 +1868,12 @@ const BetterStreamChat = {
           settingsSearchDiv.classList.remove('hidden')
         } else {
           settingsSearchDiv.classList.add('hidden')
+        }
+
+        if (target.getAttribute('data-tab') == 'about') {
+          HelperWASD.startTimerStatData()
+        } else {
+          HelperWASD.stopTimerStatData()
         }
 
         target.classList.add('nav-sidebar__item--active');
@@ -2246,6 +2280,10 @@ const BetterStreamChat = {
         }
       }
     });
+
+    if (document.querySelector('main.active[data-tab="about"]')) {
+      HelperWASD.startTimerStatData()
+    }
 
   }
 }
