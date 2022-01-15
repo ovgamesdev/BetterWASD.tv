@@ -28,7 +28,7 @@
       "lib/coloris/coloris.min.js",
       "lib/cookie/js.cookie.min.js",
       "lib/linkify/linkify.min.js",
-      "lib/linkify/linkify-html.min.js",
+      "lib/linkify/linkify-string.min.js",
       "helper/Helper.js",
       "helper/Settings.js",
       "helper/Twitch.js",

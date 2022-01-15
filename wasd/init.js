@@ -1115,25 +1115,11 @@ const wasd = {
         }
       }
 
-      if (node.querySelector('div.message-text')) {
-        node.querySelector('div.message-text').innerHTML = node.querySelector('div.message-text').innerHTML.replace('</', ' </').replace('>', '> ');
-      }
-
-      if (node.querySelector('div.message-text') && settings.wasd.fixCharactersBreakingChat) {
-        node.querySelector('div.message-text').innerHTML = stripCombiningMarks(node.querySelector('div.message-text').innerHTML)
-      }
-
-      // fix link
-      if (settings.wasd.fixedLinks && node.querySelector('div.message-text')) {
-        let message = node.querySelector('div.message-text');
-        message.innerHTML = HelperWASD.textToURL(message.innerHTML);
-      }
-
       let nicknamediv = node.querySelector('.info__text__status__name');
       if (settings.wasd.colonAfterNickname) {
         let message = node.querySelector('.message-text');
 
-        message?.insertAdjacentHTML("beforebegin", `<span aria-hidden="true" id="colon-after-author-name" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))" >: </span>`);
+        message?.insertAdjacentHTML("beforebegin", `<span aria-hidden="true" id="colon-after-author-name" style=" margin-right: 4px; color: rgbа(var(--wasd-color-switch--rgb),.88);" >: </span>`);
         $(nicknamediv)?.css("margin", "0px")
       }
 
@@ -1147,15 +1133,26 @@ const wasd = {
         }
       }
 
-      let messageText = node.querySelector('.message-text > span');
-      if (messageText) {
-        $(messageText).html(HelperTV7.replaceText(messageText.innerHTML))
-        $(messageText).html(HelperBTTV.replaceText(messageText.innerHTML))
-        $(messageText).html(HelperFFZ.replaceText(messageText.innerHTML))
+      let messageHTML = node.querySelector('.message-text > span');
+      if (messageHTML) {
+        // Исправить символы ломающие чат 
+        if (settings.wasd.fixCharactersBreakingChat) messageHTML.innerHTML = stripCombiningMarks(messageHTML.innerHTML)
+
+        for (let link of messageHTML.querySelectorAll('a')) {
+          link.outerHTML = link.outerHTML.replace(/@/g, '+at+')
+        }
+
+        // fix link
+        if (settings.wasd.fixedLinks) messageHTML.innerHTML = HelperWASD.textToURL(messageHTML.innerHTML);
+
+        // emotes
+        if (settings.wasd.tv7Emotes) messageHTML.innerHTML = HelperTV7.replaceText(messageHTML.innerHTML)
+        if (settings.wasd.bttvEmotes) messageHTML.innerHTML = HelperBTTV.replaceText(messageHTML.innerHTML)
+        if (settings.wasd.ffzEmotes) messageHTML.innerHTML = HelperFFZ.replaceText(messageHTML.innerHTML)
 
         let bl = ' ';
 
-        messageText.innerHTML = messageText.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, ($1) => {
+        messageHTML.innerHTML = messageHTML.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, ($1) => {
           let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
           if (!username) {
             username = $1.trim().split('@').join('')
@@ -1163,7 +1160,7 @@ const wasd = {
           return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' username="${$1}" usernamelc="${$1.toLowerCase()}"> @${username.trim()} </span>`;
         });
 
-        messageText.innerHTML = messageText.innerHTML.replace(/\+at\+/ig, '@')
+        messageHTML.innerHTML = messageHTML.innerHTML.replace(/\+at\+/ig, '@')
 
         node.querySelectorAll('.chat-message-mention').forEach(element => {
           if (element.style.color == '') HelperWASD.usercolorapi(element);

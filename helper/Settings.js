@@ -549,7 +549,7 @@ const HelperSettings = {
         onChange: (value) => HelperWASD.updateUptimeStreamMobile(value)
       },
       fixCharactersBreakingChat: {
-        title: `Исправить символы ломающие чат ${Helper.tooltip('', 'Текст Zalgo')}`,
+        title: `Исправить символы ломающие чат ${Helper.F5} ${Helper.tooltip('', 'Текст Zalgo')}`,
         description: 'С использованием <a target="_blank" href="https://github.com/mathiasbynens/strip-combining-marks/blob/master/README.md">library strip-combining-marks.js</a>.',
         type: 'boolean'
       },
