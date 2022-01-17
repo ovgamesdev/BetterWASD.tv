@@ -1298,18 +1298,16 @@ const HelperWASD = {
 
     if (message == undefined) blockmessage = ''
     if (blockmessage != '') {
+      // Исправить символы ломающие чат 
+      if (settings.wasd.fixCharactersBreakingChat) blockmessage = stripCombiningMarks(blockmessage)
+
+      // fix link
+      if (settings.wasd.fixedLinks) blockmessage = HelperWASD.textToURL(blockmessage)
+
+      // emotes
       if (settings.wasd.tv7Emotes) blockmessage = HelperTV7.replaceText(blockmessage);
       if (settings.wasd.bttvEmotes) blockmessage = HelperBTTV.replaceText(blockmessage);
       if (settings.wasd.ffzEmotes) blockmessage = HelperFFZ.replaceText(blockmessage);
-
-      // fix link
-      if (settings.wasd.fixedLinks) {
-        blockmessage = HelperWASD.textToURL(blockmessage)
-      }
-
-      if (settings.wasd.fixCharactersBreakingChat) {
-        blockmessage = stripCombiningMarks(blockmessage)
-      }
     }
 
     let newusername = settings.wasd.userNameEdited[username]?.trim();
