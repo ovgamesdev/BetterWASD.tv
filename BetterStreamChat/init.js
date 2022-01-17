@@ -15,12 +15,17 @@ const BetterStreamChat = {
     let changelogList = [
       {
         version: '1.4.5.1',
-        date: '2022-01-15',
+        date: '2022-01-17',
         items: [{
           text: [
             `Не действительна кнопка 'Пожаловаться'.`
           ],
           label: 'fixedwasd'
+        }, {
+          text: [
+            `WebSocket.`
+          ],
+          label: 'optimized'
         }]
       }, {
         version: '1.4.5',

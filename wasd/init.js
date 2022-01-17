@@ -93,6 +93,7 @@ const wasd = {
           HelperWASD.loadBadges()
           socket.initChat()
           // wasd.updatestyle();
+          HelperWASD.isModerator = false
           HelperWASD.getIsModerator().then((resolve) => {
             HelperWASD.isModerator = resolve
             wasd.updatestyle();
@@ -103,8 +104,7 @@ const wasd = {
           document.querySelector('.update > i').classList.remove('resetPlayerLoading');
         }
         if (remove_chat.length) {
-          socket.stop(1000, 'removedNodes')
-          HelperWASD.isModerator = false
+          socket.socketd.close(1000, 'removedNodes')
 
           document.querySelector(`.WebSocket_history`)?.remove()
           document.querySelector('.hidden.info__text__status__name')?.remove()
@@ -921,7 +921,7 @@ const wasd = {
 
     cssCode += `.message.openCardColor {background-color: ${settings.wasd.highlightMessagesOpenCardColor != '#000000' ? settings.wasd.highlightMessagesOpenCardColor+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
 
-    cssCode += `.info__text__status-paid-ovg {display: ${HelperWASD.isModerator ? '' : 'none!important;'}}`
+    cssCode += `.ovg-moderator-tools {display: ${HelperWASD.isModerator ? '' : 'none!important;'}}`
 
     if (settings.wasd.messageHover) {
       cssCode += `.message:hover { background-color: ${settings.wasd.colorMessageHover != '#000000' ? settings.wasd.colorMessageHover+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }; }`;
@@ -1008,7 +1008,7 @@ const wasd = {
       cssCode += `.stream-status-container .stream-status-text { top: 1px; position: relative; }`
     }
 
-    cssCode += `.info__text__status-paid-ovg {background-color: ${settings.wasd.colorModOptions != '#000000' ? settings.wasd.colorModOptions+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
+    cssCode += `.ovg-moderator-tools {background-color: ${settings.wasd.colorModOptions != '#000000' ? settings.wasd.colorModOptions+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
 
     if (settings.wasd.hideRaid) {
       cssCode += `.player-info .raid { display: none !important; }`
@@ -1134,7 +1134,7 @@ const wasd = {
       }
 
       let messageHTML = node.querySelector('.message-text > span');
-      if (messageHTML) {
+      if (messageHTML && messageHTML.innerHTML != '') {
         // Исправить символы ломающие чат 
         if (settings.wasd.fixCharactersBreakingChat) messageHTML.innerHTML = stripCombiningMarks(messageHTML.innerHTML)
 
@@ -1223,9 +1223,9 @@ const wasd = {
         let loading;
         let messageInfoStatus = node.querySelector('div.info__text__status')
         if (messageInfoStatus && !ownerRef && node.querySelector('div.message__info__icon')) {
-          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button banned"><i class="icon-ovg wasd-icons-ban"></i></div>`);
-          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button timeout"><i class="icon-ovg wasd-icons-sound-off"></i></div>`);
-          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg button remove"><i class="icon-ovg wasd-icons-delete"></i></div>`);
+          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-moderator-tools button banned"><i class="icon-ovg wasd-icons-ban"></i></div>`);
+          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-moderator-tools button timeout"><i class="icon-ovg wasd-icons-sound-off"></i></div>`);
+          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-moderator-tools button remove"><i class="icon-ovg wasd-icons-delete"></i></div>`);
 
           messageInfo = node.querySelector('div.message__info');
           if (messageInfo) {
@@ -1647,7 +1647,7 @@ const wasd = {
                         </div>
                       </div></div>`
                     imgdiv = ``
-                    node.querySelector('.ffz--header-image').innerHTML = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05 ffz--header-aspect" style="width:8.8rem">${img}</div>`
+                    if (img != '') node.querySelector('.ffz--header-image').innerHTML = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05 ffz--header-aspect" style="width:8.8rem">${img}</div>`
 
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div><div title="${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div><div title="${out?.short?.extra?.[1]} ${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><span class="ffz-i-youtube-play"></span>${out?.short?.extra?.[1]}<time datetime="${out?.short?.extra?.[2]?.attrs?.datetime}" class="">${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}</time></div></div></div></div>`;
                   } else if (out?.short?.title) {
