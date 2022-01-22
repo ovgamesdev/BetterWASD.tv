@@ -13,10 +13,10 @@ const HelperFFZ = {
         for (let userID in items.ffzEmotes) {
           if (items.ffzEmotes.hasOwnProperty(userID)) {
             let splitdev = document.createElement('div');
-            splitdev.classList.add('stickers__div')
-            splitdev.innerHTML = `<div class="stickers__info" style="top:-10px"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof ffzUsers[userID].username == 'undefined' ? userID : ffzUsers[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
+            splitdev.classList.add('stickers__div-ovg')
+            splitdev.innerHTML = `<div class="stickers__info-ovg" style="top:-10px"><div class="stickers__info__line-ovg"></div><div class="stickers__info__text-ovg"> ${typeof ffzUsers[userID].username == 'undefined' ? userID : ffzUsers[userID].username} </div><div class="stickers__info__line-ovg"></div></div><div class="stickers__line-ovg"></div>`
             ffzEmoteList.append(splitdev);
-            let stickers__line = splitdev.querySelector('.stickers__line')
+            let stickers__line = splitdev.querySelector('.stickers__line-ovg')
             for (let emoteCode in items.ffzEmotes[userID]) {
               if (items.ffzEmotes[userID].hasOwnProperty(emoteCode)) {
                 let div = document.createElement('div');
@@ -25,7 +25,7 @@ const HelperFFZ = {
                 let div_span = document.createElement('div');
                 let span = document.createElement('span');
                 div.classList.add('div_emoteCard');
-                span.innerText = emoteCode;
+                span.innerText = HTML.decode(emoteCode);
                 img.src = `https://cdn.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]}/2`;
                 a.href = `https://www.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]}`
                 a.target = '_blank'
@@ -34,7 +34,7 @@ const HelperFFZ = {
                 div_span.append(span);
                 div.append(a);
                 a.append(div_span);
-                a.title = emoteCode;
+                a.title = HTML.decode(emoteCode);
                 stickers__line.append(div);
               }
             }
@@ -291,5 +291,130 @@ const HelperFFZ = {
         })
       }
     });
+  },
+  addToChatMenu() {
+    document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option ffz-emoji"><i ovg="" class="ovg-icon-ffz" style="pointer-events: none;"></i></div>`)
+    
+    let ffzEmotes
+    let ffzUsers
+    chrome.storage.local.get((items) => {
+      HelperFFZ.fetchGlobalEmotes(items).finally(() => {
+        ffzEmotes = items.ffzEmotes;
+        ffzUsers = items.ffzUsers;
+      })
+    });
+
+    document.querySelector('div.option.ffz-emoji').addEventListener('click', () => {
+
+      $('div.emoji__head__options > .active')?.removeClass( "active" );
+
+      let timerId = setTimeout(function tick() {
+        $('.emoji__body > wasd-chat-emoji-smiles')?.css("display", "none")
+        $('.emoji__body > wasd-chat-emoji-stickers')?.css("display", "none")
+
+        let emoteBodyffz = document.querySelector('.emoji__body');
+        if (emoteBodyffz) {
+          document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
+          document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove();
+          document.querySelector('wasd-chat-emoji-smiles-bwasd')?.remove();
+
+          emoteBodyffz.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-ffz><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option ffzemojiSearch-shat" style="background: url(${chrome.runtime.getURL("img/search.png")}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-ffz>`)
+          let EmoteListffz = emoteBodyffz.querySelector('div.emoji-ovg');
+          //ovg.log(HelperFFZ.emotes);
+
+          if (EmoteListffz) {
+
+            let emotes = {};
+            for (let userID in ffzEmotes) {
+              if (ffzEmotes.hasOwnProperty(userID)) {
+
+                let splitdev = document.createElement('div');
+                splitdev.classList.add('stickers__div-ovg')
+
+                let usernameovg;
+                if (typeof ffzUsers[userID] != 'undefined') {
+                  if (typeof ffzUsers[userID].username != 'undefined') {
+                    usernameovg = ffzUsers[userID].username
+                  } else {
+                    usernameovg = userID
+                  }
+                } else {
+                  usernameovg = userID
+                }
+
+                splitdev.innerHTML = `<div class="stickers__info-ovg"><div class="stickers__info__line-ovg"></div><div class="stickers__info__text-ovg"> ${usernameovg} </div><div class="stickers__info__line-ovg"></div></div><div class="stickers__line-ovg"></div>`
+                EmoteListffz.append(splitdev);
+
+                let stickers__line = splitdev.querySelector('.stickers__line-ovg')
+                for (let emoteCode in ffzEmotes[userID]) {
+
+                  if (ffzEmotes[userID].hasOwnProperty(emoteCode)) {
+
+                    if (typeof emotes[emoteCode] === 'undefined') {
+
+                      emotes[emoteCode] = ffzEmotes[userID][emoteCode];
+
+                      let img = document.createElement('img');
+                      img.src = `https://cdn.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]}/1`;
+                      img.classList.add('emoji__item-ovg');
+                      img.title = HTML.decode(emoteCode);
+                      img.alt = HTML.decode(emoteCode);
+
+                      stickers__line.append(img);
+                      img.addEventListener('click', () => {
+
+                        let textareaffz = document.querySelector('.footer > div > textarea')
+                        textareaffz.value += HTML.decode(emoteCode) + ' ';
+                        textareaffz.focus()
+                        textareaffz.dispatchEvent(new Event('input'));
+                      });
+
+                    }
+                  }
+                }
+
+              }
+            }
+
+            // bind search emoji chat
+            var inputffz, filterffz, ulffz, optionsffz, titleffz, iffz;
+            inputffz = document.querySelector('input.ffzemojiSearch-shat');
+            inputffz.addEventListener('input', () => {
+              filterffz = inputffz.value.toUpperCase();
+              ulffz = document.querySelector("wasd-chat-emoji-smiles-ffz .emoji-ovg");
+
+              optionsffz = ulffz.querySelectorAll("img.emoji__item-ovg");
+              for (iffz = 0; iffz < optionsffz.length; iffz++) {
+                titleffz = optionsffz[iffz].title
+                if (titleffz) {
+                  if (titleffz.toUpperCase().indexOf(filterffz) != -1) {
+                    optionsffz[iffz].style.display = "";
+                  } else {
+                    optionsffz[iffz].style.display = "none";
+                  }
+                }
+              }
+            });
+
+          } else {
+            timerId = setTimeout(tick, 2000);
+          }
+        }
+      }, 1);
+
+    });
+
+    for (let optin of document.querySelectorAll('div.emoji__head__options > .option')) {
+      optin.addEventListener('click', (element) => {
+
+        $('div.option.ffz-emoji')?.removeClass( "active" );
+        element.path[0].classList.add('active')
+
+        document.querySelector('wasd-chat-emoji-smiles-ffz')?.remove();
+
+        $('.emoji__body > wasd-chat-emoji-smiles')?.css("display", "")
+        $('.emoji__body > wasd-chat-emoji-stickers')?.css("display", "")
+      });
+    }
   }
 }

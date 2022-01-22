@@ -112,7 +112,9 @@ const Helper = {
         swapGiftAndInformationPlace: false,
         normalizeCopiedMessage: false,
         moveHideChat: false,
-        autoPlayPreviewOnStreaming: true
+        autoPlayPreviewOnStreaming: true,
+        bwasdEmotes: true,
+        bwasdInChatMenu: true
       },
       list: {
         blockUserList: {},

@@ -15,6 +15,8 @@
       "css/ovg_sidebar.css",
       "css/ovg_nav-sidebar-toggle.css",
       "css/ovg_chat-toggle.css",
+      "css/ovg_accordion.css",
+      "css/ovg_viewer-user-card.css",
       "lib/coloris/coloris.min.css"
     ],
     "js": [
@@ -28,7 +30,8 @@
       "lib/coloris/coloris.min.js",
       "lib/cookie/js.cookie.min.js",
       "lib/linkify/linkify.min.js",
-      "lib/linkify/linkify-string.min.js",
+      "lib/linkify/linkify-element.min.js",
+      "lib/code-mnem/code-mnem.js",
       "helper/Helper.js",
       "helper/Settings.js",
       "helper/Twitch.js",
@@ -36,6 +39,7 @@
       "helper/BTTV.js",
       "helper/TV7.js",
       "helper/WASD.js",
+      "helper/BWASD.js",
       "helper/WebSocket.js",
       "wasd/init.js",
       "BetterStreamChat/init.js",
@@ -58,9 +62,10 @@
   "name": "BetterWASD",
   "web_accessible_resources": [
     "img/*.png",
+    "img/*.svg",
     "css/fonts/*"
   ],
   "minimum_chrome_version": "41",
   "permissions": ["storage", "notifications", "*://*.wasd.tv/*"],
-  "version": "1.4.5.1"
+  "version": "1.4.6"
 }

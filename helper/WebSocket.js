@@ -9,6 +9,7 @@ const socket = {
   isLiveInited: false,
   intervals: [],
   WebSocket_history: null,
+  isJoined: false,
   initChat() {
     $('.websocket_loader[ovg]')?.css('display', 'flex')
   	if (document.querySelector('.WebSocket_history')) {
@@ -25,6 +26,9 @@ const socket = {
       headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
       success: (out) => {
         socket.channel = out.result
+
+        HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login)
+
         if (!document.querySelector('.hidden.info__text__status__name')) {
           let dd = document.createElement('div')
           dd.classList.add('info__text__status__name')
@@ -65,15 +69,6 @@ const socket = {
     });
   },
   start(channel_name) {
-    if (HelperWASD.current?.user_profile?.user_id) $.ajax({
-      url: `https://betterwasd-stat.herokuapp.com/api/v1/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}`,
-      type: "POST",
-      data: { watch_channel: channel_name },
-      success: (out) => {
-        ovg.log(out)
-      }
-    })
-
     socket.isLiveInited = true
 
     this.socketd = new WebSocket("wss://chat.wasd.tv/socket.io/?EIO=3&transport=websocket");
@@ -138,23 +133,31 @@ const socket = {
     };
 
     this.socketd.onclose = (e) => {
+      if (HelperWASD.current?.user_profile?.user_id && socket.isJoined) {
+        socket.isJoined = false
+        $.ajax({
+          url: `https://betterwasd.herokuapp.com/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`,
+          type: "POST",
+          success: (out) => {
+            ovg.log(out)
+          }
+        })
+      }
 
-      if (HelperWASD.current?.user_profile?.user_id) $.ajax({
-        url: `https://betterwasd-stat.herokuapp.com/api/v1/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`,
-        type: "POST",
-        success: (out) => {
-          ovg.log(out)
-        }
-      })
+      HelperBWASD.removeUsers()
 
       clearInterval(socket.intervalcheck)
       clearInterval(socket.intervalSave)
       socket.socketd = null
       // socket.isLiveInited = false
       socket.streamId = 0
-      if (e.code == 404 || e.wasClean) {
+
+      if (e.code == 1005) {
+        ws.log('[close] Соединение прервано');
+        socket.start()
+      } else if (e.code == 404 || e.wasClean) {
         ws.log(`[close] Соединение закрыто чисто, код =`, e.code, `причина =`, e.reason);
-      }else {
+      } else {
         ws.log('[close] Соединение прервано');
         socket.start()
       }
@@ -180,6 +183,15 @@ const socket = {
           switch (JSData[0]) {
             case "joined":
               // console.log(`[${JSData[0]}] ${JSData[1].user_channel_role}`, JSData);
+              socket.isJoined = true
+              if (HelperWASD.current?.user_profile?.user_id) $.ajax({
+                url: `https://betterwasd.herokuapp.com/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}`,
+                type: "POST",
+                data: { watch_channel: channel_name },
+                success: (out) => {
+                  ovg.log(out)
+                }
+              })
               break;
             case "system_message":
               // console.log(`[${JSData[0]}] ${JSData[1].message}`, JSData);

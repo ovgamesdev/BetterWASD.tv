@@ -14,6 +14,31 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.4.6',
+        date: '2022-01-22',
+        items: [{
+          text: [
+            `Съехала кнопка 'Лайк' в постах.`
+          ],
+          label: 'fixedwasd'
+        }, {
+          text: [
+            `WebSocket.`
+          ],
+          label: 'optimized'
+        },{
+          text: [
+            `Смайлики BWASD в чате.`,
+            `Опция BWASD в меню смайликов в чате.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            `Исправить ссылки в чате.`
+          ],
+          label: 'changed'
+        }]
+      }, {
         version: '1.4.5.1',
         date: '2022-01-17',
         items: [{
@@ -1046,6 +1071,7 @@ const BetterStreamChat = {
             <a role="tab" class="item" data-tab="about">О нас</a>
             <a role="tab" class="item" data-tab="general">Общий</a>
             <a role="tab" class="item active" data-tab="wasdSettings">Настройки</a>
+            <a role="tab" class="item" data-tab="bwasdSettings">BetterWASD</a>
             <a role="tab" class="item" data-tab="tv7Settings">7TV</a>
             <a role="tab" class="item" data-tab="bttvSettings">BTTV</a>
             <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
@@ -1077,6 +1103,17 @@ const BetterStreamChat = {
                 <ovg-tooltip>
                   <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
                     <div class="tooltip-content tooltip-content_left"> Настройки </div>
+                  </div>
+                </ovg-tooltip>
+              </a>
+            </li>
+            <li ovg="">
+              <a ovg="" class="nav-sidebar__item" data-tab="bwasdSettings" style="position: relative;">
+                <i ovg="" class="ovg-icon-bwasd" style="font-size: 24px;"></i>
+                <span ovg="">BetterWASD</span>
+                <ovg-tooltip>
+                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
+                    <div class="tooltip-content tooltip-content_left"> BetterWASD </div>
                   </div>
                 </ovg-tooltip>
               </a>
@@ -1207,7 +1244,7 @@ const BetterStreamChat = {
           <div class="right tooltip-hover" style="position: relative;">
             <div class="active-tech-status-ovg"></div>
             <span class="activeUsers tech-info-ovg">0</span>
-            <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;left: 60%;"><div class="tooltip-content tooltip-content_left"> Активных пользователей </div></div></ovg-tooltip>
+            <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;right: -4px;"><div class="tooltip-content tooltip-content_left"> Активных пользователей </div></div></ovg-tooltip>
             
             <!--div><span class="activeChannelUsers">0</span><span> пользователей просматривающие канал </span><span  class="activeChannel"></span></div-->
           </div>
@@ -1216,6 +1253,39 @@ const BetterStreamChat = {
       </main>
       <main id="general" data-tab="general">
         ${HelperSettings.build('general')}
+      </main>
+
+      <main class="text" data-tab="bwasdSettings">
+        <h1 style="padding-left: 10px; padding-right: 10px;"> BetterWASD </h1>
+        <!--div>
+            
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+            <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
+              <label ovg=""></label>
+              <input id="wasdAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
+                <button id="wasdAddUserBtn" ovg="" type="button" class="button-icon">
+                  <i ovg="" class="wasd-icons-add"></i>
+                </button>
+              </div>
+            </div>
+          </wasd-input>
+        </div-->
+
+        <h2> Доступные эмоции BetterWASD <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfeR-ASq3bQBE6t3F5lIutvfcJkh8bUxAWqls80Q1WMNAEivQ/viewform?usp=sf_link">Предложить эмоцию</a> </h2>
+
+        <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
+          <div ovg="" class="wasd-input-wrapper">
+            <div ovg="" class="wasd-input">
+              <label ovg=""></label>
+              <input id="bwasdemojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
+              <button ovg="" type="button" class="button-icon">
+                <i ovg="" class="wasd-icons-close"></i>
+              </button>
+            </div>
+          </div>
+        </wasd-input>
+
+        <ul id="bwasdEmoteList"></ul>
       </main>
 
       <main class="text" data-tab="bttvSettings">
@@ -1668,6 +1738,7 @@ const BetterStreamChat = {
       HelperBTTV.updateEmotesBttv();
       HelperFFZ.updateEmotesFfz()
       HelperTV7.updateEmotesTv7()
+      HelperBWASD.updateEmotesBwasd()
     });
 
     // bind search settings
@@ -1698,6 +1769,23 @@ const BetterStreamChat = {
     });
 
     // bind search emoji
+    var bwasdfilter, bwasdul, bwasdoptions, bwasdtitle, bwasdtitleline, bwasdi;
+    bwasdemojiSearch.addEventListener('input', () => {
+      bwasdfilter = bwasdemojiSearch.value.toUpperCase();
+      bwasdul = document.querySelector("main[data-tab='bwasdSettings'] > #bwasdEmoteList");
+      bwasdoptions = bwasdul.querySelectorAll(".div_emoteCard");
+      for (bwasdi = 0; bwasdi < bwasdoptions.length; bwasdi++) {
+        bwasdtitle = bwasdoptions[bwasdi].querySelector("span");
+        if (bwasdtitle) {
+          if (bwasdtitle.textContent.toUpperCase().indexOf(bwasdfilter) != -1) {
+            bwasdoptions[bwasdi].style.display = "";
+          } else {
+            bwasdoptions[bwasdi].style.display = "none";
+          }
+        }
+      }
+    });
+
     var bttvfilter, bttvul, bttvoptions, bttvtitle, bttvtitleline, bttvi;
     bttvemojiSearch.addEventListener('input', () => {
       bttvfilter = bttvemojiSearch.value.toUpperCase();
@@ -2198,7 +2286,10 @@ const BetterStreamChat = {
 
     this.install();
 
-    // load bttv, ffz and 7tv emotes
+    // load bwasd, bttv, ffz and 7tv emotes
+    await HelperBWASD.update();
+    HelperBWASD.loaded();
+
     await HelperBTTV.update();
     HelperBTTV.loaded();
 
@@ -2276,9 +2367,7 @@ const BetterStreamChat = {
             div.classList.add('bell-info__elem')
             div.classList.add('ovg')
             div.setAttribute('bell_id', data.info[info].id)
-            if (data.info[info].link) {
-              linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${data.info[info].link}"> Подробнее </a></div>`
-            }
+            if (data.info[info].link) linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${data.info[info].link}"> ${data.info[info].linkText ? data.info[info].linkText : "Подробнее"} </a></div>`
             div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${data.info[info].text} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${data.info[info].date} </div>`
 
             ovg_bell__element.querySelector('.bell-info__list').appendChild(div)

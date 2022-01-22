@@ -104,7 +104,7 @@ const wasd = {
           document.querySelector('.update > i').classList.remove('resetPlayerLoading');
         }
         if (remove_chat.length) {
-          socket.socketd.close(1000, 'removedNodes')
+          socket.socketd?.close(1000, 'removedNodes')
 
           document.querySelector(`.WebSocket_history`)?.remove()
           document.querySelector('.hidden.info__text__status__name')?.remove()
@@ -136,372 +136,10 @@ const wasd = {
         }
 
         if (add_emoji_menu.length) {
-
-          if (settings.wasd.tv7InChatMenu) {
-            
-            document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option tv7-emoji"> TV7 </div>`)
-
-            let tv7Emotes
-            let tv7Users
-            chrome.storage.local.get((items) => {
-              HelperTV7.fetchGlobalEmotes(items).finally(() => {
-                tv7Emotes = items.tv7Emotes;
-                tv7Users = items.tv7Users;
-              })
-            });
-
-            document.querySelector('div.option.tv7-emoji').addEventListener('click', () => {
-
-              $('div.emoji__head__options > .active')?.removeClass( "active" );
-
-              let timerId = setTimeout(function tick() {
-
-                $('div.option.tv7-emoji')?.addClass( "active" );
-
-                $('.emoji__body > wasd-chat-emoji-smiles')?.css("display", "none")
-                $('.emoji__body > wasd-chat-emoji-stickers')?.css("display", "none")
-
-                let emoteBodytv7 = document.querySelector('.emoji__body');
-                if (emoteBodytv7) {
-                  document.querySelector('wasd-chat-emoji-smiles-ffz')?.remove();
-                  document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
-                  
-                  emoteBodytv7.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-tv7><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option tv7emojiSearch-shat" style="background: url(${chrome.runtime.getURL("img/search.png")}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-tv7>`)
-                  let EmoteListtv7 = emoteBodytv7.querySelector('div.emoji-ovg');
-                  //ovg.log(HelperTV7.emotes);
-                  if (EmoteListtv7) {
-
-                    let emotes = {};
-                    for (let userID in tv7Emotes) {
-                      if (tv7Emotes.hasOwnProperty(userID)) {
-
-                        let splitdev = document.createElement('div');
-                        splitdev.classList.add('stickers__div')
-
-                        splitdev.innerHTML = `<div class="stickers__info"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof tv7Users[userID].username == 'undefined' ? userID : tv7Users[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
-                        EmoteListtv7.append(splitdev);
-
-                        let stickers__line = splitdev.querySelector('.stickers__line')
-                        for (let emoteCode in tv7Emotes[userID]) {
-
-                          if (tv7Emotes[userID].hasOwnProperty(emoteCode)) {
-
-                            if (typeof emotes[emoteCode] === 'undefined') {
-
-                              emotes[emoteCode] = tv7Emotes[userID][emoteCode];
-
-                              let img = document.createElement('img');
-                              img.src = `https://cdn.7tv.app/emote/${HelperTV7.emotes[emoteCode]}/1x`;
-                              img.classList.add('emoji__item-ovg');
-                              img.title = emoteCode;
-                              img.alt = emoteCode;
-
-                              stickers__line.append(img);
-                              img.addEventListener('click', () => {
-
-                                let textareatv7 = document.querySelector('.footer > div > textarea')
-                                textareatv7.value += emoteCode + ' ';
-                                textareatv7.focus()
-                                textareatv7.dispatchEvent(new Event('input'));
-                              });
-
-                            }
-                          }
-                        }
-
-                      }
-                    }
-
-                    // bind search emoji chat
-                    var inputtv7, filtertv7, ultv7, optionstv7, titletv7, itv7;
-                    inputtv7 = document.querySelector('input.tv7emojiSearch-shat');
-                    inputtv7.addEventListener('input', () => {
-                      filtertv7 = inputtv7.value.toUpperCase();
-                      ultv7 = document.querySelector("wasd-chat-emoji-smiles-tv7 .emoji-ovg");
-
-                      optionstv7 = ultv7.querySelectorAll("img.emoji__item-ovg");
-                      for (itv7 = 0; itv7 < optionstv7.length; itv7++) {
-                        titletv7 = optionstv7[itv7].title
-                        if (titletv7) {
-                          if (titletv7.toUpperCase().indexOf(filtertv7) != -1) {
-                            optionstv7[itv7].style.display = "";
-                          } else {
-                            optionstv7[itv7].style.display = "none";
-                          }
-                        }
-                      }
-                    });
-
-                  } else {
-                    timerId = setTimeout(tick, 2000);
-                  }
-                }
-
-              }, 1);
-
-            });
-
-            for (let optintv7 of document.querySelectorAll('div.emoji__head__options > .option')) {
-              optintv7.addEventListener('click', (element) => {
-
-                $('div.option.tv7-emoji')?.removeClass( "active" );
-                element.path[0].classList.add('active')
-
-                document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove(); //btttv
-
-                $('.emoji__body > wasd-chat-emoji-smiles')?.css("display", "")
-                $('.emoji__body > wasd-chat-emoji-stickers')?.css("display", "")
-              });
-            }
-
-          }
-
-          if (settings.wasd.bttvInChatMenu) {
-            
-            document.querySelector('div.emoji__head__options')?.insertAdjacentHTML("beforeend", `<div class="option bttv-emoji"> BTTV </div>`)
-            
-            let bttvEmotes
-            let bttvUsers
-            chrome.storage.local.get((items) => {
-              HelperBTTV.fetchGlobalEmotes(items).finally(() => {
-                bttvEmotes = items.bttvEmotes;
-                bttvUsers = items.bttvUsers;
-              })
-            });
-
-            document.querySelector('div.option.bttv-emoji')?.addEventListener('click', () => {
-
-              $('div.emoji__head__options > .active')?.removeClass( "active" );
-
-              let timerId = setTimeout(function tick() {
-
-                $('div.option.bttv-emoji')?.addClass( "active" );
-
-                $('.emoji__body > wasd-chat-emoji-smiles')?.css("display", "none")
-                $('.emoji__body > wasd-chat-emoji-stickers')?.css("display", "none")
-
-                let emoteBodybttv = document.querySelector('.emoji__body');
-                if (emoteBodybttv) {
-                  document.querySelector('wasd-chat-emoji-smiles-ffz')?.remove();
-                  document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove();
-
-                  emoteBodybttv.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-bttv><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bttvemojiSearch-shat" style="background: url(${chrome.runtime.getURL("img/search.png")}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-bttv>`)
-                  let EmoteListbttv = emoteBodybttv.querySelector('div.emoji-ovg');
-                  //ovg.log(HelperBTTV.emotes);
-
-                  if (EmoteListbttv) {
-
-                    let emotes = {};
-                    for (let userID in bttvEmotes) {
-                      if (bttvEmotes.hasOwnProperty(userID)) {
-
-                        let splitdev = document.createElement('div');
-                        splitdev.classList.add('stickers__div')
-
-                        splitdev.innerHTML = `<div class="stickers__info"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof bttvUsers[userID].username == 'undefined' ? userID : bttvUsers[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
-                        EmoteListbttv.append(splitdev);
-
-                        let stickers__line = splitdev.querySelector('.stickers__line')
-                        for (let emoteCode in bttvEmotes[userID]) {
-
-                          if (bttvEmotes[userID].hasOwnProperty(emoteCode)) {
-
-                            if (typeof emotes[emoteCode] === 'undefined') {
-
-                              emotes[emoteCode] = bttvEmotes[userID][emoteCode];
-
-                              let img = document.createElement('img');
-                              img.src = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[emoteCode]}/1x`;
-                              img.classList.add('emoji__item-ovg');
-                              img.title = emoteCode;
-                              img.alt = emoteCode;
-
-                              stickers__line.append(img);
-                              img.addEventListener('click', () => {
-
-                                let textareabttv = document.querySelector('.footer > div > textarea')
-                                textareabttv.value += emoteCode + ' ';
-                                textareabttv.focus()
-                                textareabttv.dispatchEvent(new Event('input'));
-                              });
-
-                            }
-                          }
-                        }
-
-                      }
-                    }
-
-                    // bind search emoji chat
-                    var inputbttv, filterbttv, ulbttv, optionsbttv, titlebttv, ibttv;
-                    inputbttv = document.querySelector('input.bttvemojiSearch-shat');
-                    inputbttv.addEventListener('input', () => {
-                      filterbttv = inputbttv.value.toUpperCase();
-                      ulbttv = document.querySelector("wasd-chat-emoji-smiles-bttv .emoji-ovg");
-
-                      optionsbttv = ulbttv.querySelectorAll("img.emoji__item-ovg");
-                      for (ibttv = 0; ibttv < optionsbttv.length; ibttv++) {
-                        titlebttv = optionsbttv[ibttv].title
-                        if (titlebttv) {
-                          if (titlebttv.toUpperCase().indexOf(filterbttv) != -1) {
-                            optionsbttv[ibttv].style.display = "";
-                          } else {
-                            optionsbttv[ibttv].style.display = "none";
-                          }
-                        }
-                      }
-                    });
-
-                  } else {
-                    timerId = setTimeout(tick, 2000);
-                  }
-
-                }
-              }, 1);
-              
-            });
-
-            for (let optinbttv of document.querySelectorAll('div.emoji__head__options > .option')) {
-              optinbttv.addEventListener('click', (element) => {
-
-                $('div.option.bttv-emoji')?.removeClass( "active" );
-                element.path[0].classList.add('active')
-
-                document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
-
-                $('.emoji__body > wasd-chat-emoji-smiles')?.css("display", "")
-                $('.emoji__body > wasd-chat-emoji-stickers')?.css("display", "")
-              });
-            }
-            
-          }
-
-          if (settings.wasd.ffzInChatMenu) {
-
-            document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option ffz-emoji"> FFZ </div>`)
-            
-            let ffzEmotes
-            let ffzUsers
-            chrome.storage.local.get((items) => {
-              HelperFFZ.fetchGlobalEmotes(items).finally(() => {
-                ffzEmotes = items.ffzEmotes;
-                ffzUsers = items.ffzUsers;
-              })
-            });
-
-            document.querySelector('div.option.ffz-emoji').addEventListener('click', () => {
-
-              $('div.emoji__head__options > .active')?.removeClass( "active" );
-
-              let timerId = setTimeout(function tick() {
-                $('.emoji__body > wasd-chat-emoji-smiles')?.css("display", "none")
-                $('.emoji__body > wasd-chat-emoji-stickers')?.css("display", "none")
-
-                let emoteBodyffz = document.querySelector('.emoji__body');
-                if (emoteBodyffz) {
-                  document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
-                  document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove();
-
-                  emoteBodyffz.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-ffz><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option ffzemojiSearch-shat" style="background: url(${chrome.runtime.getURL("img/search.png")}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-ffz>`)
-                  let EmoteListffz = emoteBodyffz.querySelector('div.emoji-ovg');
-                  //ovg.log(HelperFFZ.emotes);
-
-                  if (EmoteListffz) {
-
-                    let emotes = {};
-                    for (let userID in ffzEmotes) {
-                      if (ffzEmotes.hasOwnProperty(userID)) {
-
-                        let splitdev = document.createElement('div');
-                        splitdev.classList.add('stickers__div')
-
-                        let usernameovg;
-                        if (typeof ffzUsers[userID] != 'undefined') {
-                          if (typeof ffzUsers[userID].username != 'undefined') {
-                            usernameovg = ffzUsers[userID].username
-                          } else {
-                            usernameovg = userID
-                          }
-                        } else {
-                          usernameovg = userID
-                        }
-
-                        splitdev.innerHTML = `<div class="stickers__info"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${usernameovg} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
-                        EmoteListffz.append(splitdev);
-
-                        let stickers__line = splitdev.querySelector('.stickers__line')
-                        for (let emoteCode in ffzEmotes[userID]) {
-
-                          if (ffzEmotes[userID].hasOwnProperty(emoteCode)) {
-
-                            if (typeof emotes[emoteCode] === 'undefined') {
-
-                              emotes[emoteCode] = ffzEmotes[userID][emoteCode];
-
-                              let img = document.createElement('img');
-                              img.src = `https://cdn.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]}/1`;
-                              img.classList.add('emoji__item-ovg');
-                              img.title = emoteCode;
-                              img.alt = emoteCode;
-
-                              stickers__line.append(img);
-                              img.addEventListener('click', () => {
-
-                                let textareaffz = document.querySelector('.footer > div > textarea')
-                                textareaffz.value += emoteCode + ' ';
-                                textareaffz.focus()
-                                textareaffz.dispatchEvent(new Event('input'));
-                              });
-
-                            }
-                          }
-                        }
-
-                      }
-                    }
-
-                    // bind search emoji chat
-                    var inputffz, filterffz, ulffz, optionsffz, titleffz, iffz;
-                    inputffz = document.querySelector('input.ffzemojiSearch-shat');
-                    inputffz.addEventListener('input', () => {
-                      filterffz = inputffz.value.toUpperCase();
-                      ulffz = document.querySelector("wasd-chat-emoji-smiles-ffz .emoji-ovg");
-
-                      optionsffz = ulffz.querySelectorAll("img.emoji__item-ovg");
-                      for (iffz = 0; iffz < optionsffz.length; iffz++) {
-                        titleffz = optionsffz[iffz].title
-                        if (titleffz) {
-                          if (titleffz.toUpperCase().indexOf(filterffz) != -1) {
-                            optionsffz[iffz].style.display = "";
-                          } else {
-                            optionsffz[iffz].style.display = "none";
-                          }
-                        }
-                      }
-                    });
-
-                  } else {
-                    timerId = setTimeout(tick, 2000);
-                  }
-                }
-              }, 1);
-
-            });
-
-            for (let optin of document.querySelectorAll('div.emoji__head__options > .option')) {
-              optin.addEventListener('click', (element) => {
-
-                $('div.option.ffz-emoji')?.removeClass( "active" );
-                element.path[0].classList.add('active')
-
-                document.querySelector('wasd-chat-emoji-smiles-ffz')?.remove();
-
-                $('.emoji__body > wasd-chat-emoji-smiles')?.css("display", "")
-                $('.emoji__body > wasd-chat-emoji-stickers')?.css("display", "")
-              });
-            }
-
-          }
+          if (settings.wasd.bwasdInChatMenu) HelperBWASD.addToChatMenu()
+          if (settings.wasd.tv7InChatMenu) HelperTV7.addToChatMenu()
+          if (settings.wasd.bttvInChatMenu) HelperBTTV.addToChatMenu()
+          if (settings.wasd.ffzInChatMenu) HelperFFZ.addToChatMenu()
         }
 
         if (add_chat_menu.length) {
@@ -593,10 +231,10 @@ const wasd = {
       fontStyle.type = 'text/css';
       fontStyle.innerHTML = '';
       fontStyle.appendChild(document.createTextNode(`@font-face {
-        font-family: 'icomoon';
-        src:  url(${chrome.runtime.getURL("css/fonts/icomoon.ttf")}?hfnfya) format('truetype'),
-          url(${chrome.runtime.getURL("css/fonts/icomoon.woff")}?hfnfya) format('woff'),
-          url(${chrome.runtime.getURL("css/fonts/icomoon.svg")}?hfnfya#icomoon) format('svg');
+        font-family: 'ovg-icons';
+        src:  url(${chrome.runtime.getURL("css/fonts/ovg-icons.ttf")}?1nnyeh) format('truetype'),
+          url(${chrome.runtime.getURL("css/fonts/ovg-icons.woff")}?1nnyeh) format('woff'),
+          url(${chrome.runtime.getURL("css/fonts/ovg-icons.svg")}?1nnyeh#ovg-icons) format('svg');
         font-weight: normal;
         font-style: normal;
         font-display: block;
@@ -666,17 +304,17 @@ const wasd = {
       }
 
       if ($('wasd-header .logo img')?.attr('src')?.match('dark')) {
-        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.png")
+        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.svg")
       } else {
-        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo.png")
+        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo.svg")
       }
       $('wasd-header .logo img').attrchange({
         trackValues: true,
         callback: function (event) {
           if (event.newValue.match('dark')) {
-            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.png")
+            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.svg")
           } else {
-            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo.png")
+            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo.svg")
           }
         }
       });
@@ -1016,7 +654,7 @@ const wasd = {
 
     if (settings.general.uiTransparency && !new URL(document.URL).searchParams.get('helper-settings')) {
       cssCode += `#bscSettingsPanel {background: rgba(var(--wasd-color-prime--rgb), 0.25);backdrop-filter: blur(7px);}`
-      cssCode += `#bscSettingsPanel .stickers__info {background: none;backdrop-filter: blur(7px);}`
+      cssCode += `#bscSettingsPanel .stickers__info-ovg {background: none;backdrop-filter: blur(7px);}`
     }
 
     if (settings.wasd.swapGiftAndInformationPlace) {
@@ -1032,6 +670,11 @@ const wasd = {
 
       cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topRight {right: 0;margin-top: 8px;top: 100%;bottom: unset;margin-bottom: unset;}`
       cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topRight .tooltip-content:before {top: unset; border: 4px solid transparent; border-bottom: 4px solid rgb(var(--color-switch)); border-top: none; bottom: 100%; content: ""; margin-left: -2px; position: absolute; transition: all .3s ease; right: 20px;}`
+    }
+
+    if (!settings.wasd.colonAfterNickname) {
+      cssCode += `.message-text {margin-left: 4px;}`
+      cssCode += `.message__info__text .info__text__status__name {margin-right: 4px !important;}`
     }
 
     if (wasd.style) {
@@ -1143,12 +786,13 @@ const wasd = {
         }
 
         // fix link
-        if (settings.wasd.fixedLinks) messageHTML.innerHTML = HelperWASD.textToURL(messageHTML.innerHTML);
+        if (settings.wasd.fixedLinks) HelperWASD.elementToURL(messageHTML)
 
         // emotes
         if (settings.wasd.tv7Emotes) messageHTML.innerHTML = HelperTV7.replaceText(messageHTML.innerHTML)
         if (settings.wasd.bttvEmotes) messageHTML.innerHTML = HelperBTTV.replaceText(messageHTML.innerHTML)
         if (settings.wasd.ffzEmotes) messageHTML.innerHTML = HelperFFZ.replaceText(messageHTML.innerHTML)
+        if (settings.wasd.bwasdEmotes) messageHTML.innerHTML = HelperBWASD.replaceText(messageHTML.innerHTML)
 
         let bl = ' ';
 

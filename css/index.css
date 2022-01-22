@@ -1114,7 +1114,7 @@ span.fade.helpTitleHover>img.fade {
   align-items: center;
   height: 40px;
   flex-direction: row;
-  width: 264px;
+  width: 294px;
   box-sizing: border-box;
   font-size: 14px;
   line-height: 16px;
@@ -1140,7 +1140,7 @@ span.fade.helpTitleHover>img.fade {
 #selector-bm-ovg-settings>a>span {
   position: relative;
   display: flex;
-  width: 212px;
+  width: 242px;
   white-space: nowrap;
 }
 #selector-bm-ovg-settings>a:hover {
@@ -1191,288 +1191,8 @@ div.viewer-card-layer__draggable--dragging {
   -ms-user-select: none;
   user-select: none;
 }
-div.chat-room__viewer-card {
-  position: absolute!important;
-  height: 100%!important;
-  width: 100%!important;
-  pointer-events: none;
-  z-index: 5556;
-}
-div.tw-full-height.tw-z-above.viewer-card-layer {
-  z-index: 10!important;
-  position: relative!important;
-  height: 100%!important;
-  width: 100%!important;
-}
-div.tw-full-height.tw-z-above.viewer-card-layer>div.tw-border-radius-medium {
-  top: 349px;
-  left: 5px;
-  position: absolute!important;
-  border-radius: .4rem!important;
-  width: 310px;
-  pointer-events: all;
-  margin: 5px 5px 55px 5px;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
-div.tw-full-height.tw-full-width {
-  height: 100%!important;
-  width: 100%!important;
-}
-div.tw-border-radius-medium.tw-c-background-base.viewer-card {
-  flex-direction: column!important;
-  display: flex!important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, .4), 0 0 4px rgba(0, 0, 0, .4)!important;
-  background-color: var(--wasd-color-prime)!important;
-  border-radius: .4rem!important;
-}
-div.tw-c-background-accent-alt.viewer-card-header__background {
-  background-position: center top;
-  background-size: cover;
-  border-top-left-radius: .4rem;
-  border-top-right-radius: .4rem;
-  overflow: hidden;
-  flex-shrink: 0!important;
-  flex-grow: 0!important;
-  background-color: rgba(0, 0, 0, 0) !important;
-  background-position-y: center;
-  cursor: move;
-}
-div.tw-flex.tw-flex-column.tw-full-height.tw-full-width.viewer-card-header__overlay {
-  background-color: rgba(0, 0, 0, .6)!important;
-  flex-direction: column!important;
-  display: flex!important;
-  height: 100%!important;
-  width: 100%!important;
-}
-div.tw-align-center.tw-align-items-start.tw-c-background-overlay.tw-c-text-overlay.tw-flex.tw-flex-row.tw-full-width.tw-justify-content-start.tw-relative.viewer-card-header__banner {
-  padding: 1rem!important;
-  position: relative!important;
-  flex-grow: 1!important;
-  justify-content: flex-start!important;
-  align-items: flex-start!important;
-  flex-direction: row!important;
-  width: 100%!important;
-  color: #fff!important;
-  text-align: center!important;
-  display: flex!important;
-}
-div.tw-inline-flex.viewer-card-drag-cancel {
-  display: inline-flex!important;
-}
-figure.tw-avatar {
-  position: relative;
-  background-color: inherit;
-  width: 5rem;
-  height: 5rem;
-  display: block;
-  margin: 0;
-}
-figure>div.profile-main__avatar {
-  width: 100%;
-  display: block !important;
-  border-width: initial;
-  border-style: none;
-  border-color: initial;
-  border-image: initial;
-  border-radius: 8px !important;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-size: cover;
-}
-div.tw-align-left.viewer-card-header__display-name {
-  margin-left: 1rem!important;
-  margin-right: 1rem!important;
-  text-align: left!important;
-  min-width: 0;
-  color: #fff!important;
-}
-div.tw-full-width.tw-pd-r-5 {
-  padding-right: 5rem!important;
-  width: 100%!important;
-}
-h4.tw-c-text-overlay.tw-ellipsis.tw-line-clamp-2.tw-word-break-all {
-  word-break: break-all!important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  display: flex;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  color: #fff!important;
-  font-size: 1.8rem;
-  line-height: 1.5;
-  font-weight: 600;
-  margin: 0;
-  cursor: move;
-  max-width: 205px;
-  width: 205px;
-}
-a.tw-link {
-  text-decoration: none;
-  color: inherit;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-div.tw-flex .gameurl>a {
-  color: var(--wasd-color-corp-blue);
-  text-decoration: underline;
-  cursor: pointer;
-}
-div.tw-flex .gameurl>a:hover {
-  text-decoration: none;
-}
-div.tw-flex.tw-full-width.tw-overflow-hidden.tw-justify-content-center.tw-flex-column a:hover {
-  text-decoration: underline;
-}
-div. {
-  display: flex!important;
-}
-figure.tw-svg {
-  -webkit-box-align: center;
-  align-items: center;
-  display: inline-flex;
-  margin: 0;
-}
-figure.tw-svg>svg {
-  fill: white;
-}
-a.tw-c-text-overlay.tw-mg-l-05.tw-mg-t-auto {
-  margin-left: .5rem!important;
-  margin-top: auto!important;
-  color: #fff!important;
-  font-size: 1.3rem;
-  line-height: 1.5;
-  margin: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  vertical-align: middle;
-}
-div.bttv-moderator-card-user-stats {
-  color: #fff;
-  padding-bottom: 10px;
-}
-div.tw-flex.tw-full-width {
-  display: flex!important;
-  width: 100%!important;
-}
-div.tw-align-items-center.tw-inline-flex.tw-stat.tw-pd-l-1 {
-  padding-left: 1rem!important;
-  align-items: center!important;
-  display: inline-flex;
-}
-div.tw-align-items-center.tw-inline-flex.tw-stat__icon.tw-mg-r-1 {
-  margin-right: 1rem!important;
-  align-items: center!important;
-  display: inline-flex!important;
-}
-div.tw-c-background-alt-2.tw-pd-t-05 {
-  padding-top: .5rem!important;
-  background-color: var(--wasd-color-prime) !important;
-}
-div.tw-absolute.tw-mg-r-05.tw-mg-t-05.tw-right-0.tw-top-0 {
-  margin-right: .5rem!important;
-  margin-top: .5rem!important;
-  right: 0!important;
-  top: 0!important;
-  position: absolute!important;
-}
-button.tw-button-icon.tw-button-icon--overlay.tw-core-button {
-  border: 1px solid transparent;
-  background-color: transparent;
-  color: #fff;
-  border-radius: .4rem;
-  height: 3rem;
-  justify-content: center;
-  user-select: none;
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-  -webkit-box-align: center;
-  -webkit-box-pack: center;
-  vertical-align: middle;
-  overflow: hidden;
-  text-decoration: none;
-  white-space: nowrap;
-  text-align: inherit;
-  background: 0 0;
-}
-button.tw-button-icon.tw-button-icon--overlay.tw-core-button:hover {
-  cursor: pointer;
-  background-color: rgb(178 177 177 / 18%);
-}
-button.tw-button-icon.tw-button-icon--overlay.tw-core-button:active {
-  background-color: rgba(255, 255, 255, .5);
-}
-span.tw-button-icon__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-div.tw-icon {
-  display: inline-flex;
-  -webkit-box-align: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-}
-div.tw-aspect {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-div.tw-aspect>div {
-  padding-bottom: 100%;
-}
-svg.ScIconSVG-sc-1bgeryd-1 {
-  position: absolute;
-  left: 0px;
-  width: 100%;
-  min-height: 100%;
-  top: 0px;
-  fill: currentcolor;
-}
-.bttv-moderator-card-nickname-change-button {
-  position: relative;
-  align-items: center;
-  background-color: var(--color-background-button-icon-overlay-default);
-  border: var(--border-width-default) solid transparent;
-  border-radius: var(--border-radius-medium);
-  color: var(--color-text-button-overlay);
-  display: inline-flex;
-  height: var(--button-size-default);
-  justify-content: center;
-  margin-top: -4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  text-align: inherit;
-  background: 0 0;
-  width: 27.5px;
-  border-radius: .4rem;
-  height: 3rem;
-  border: 1px solid transparent;
-}
-.bttv-moderator-card-nickname-change-button .buttonIcon {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-.bttv-moderator-card-nickname-change-button:hover {
-  cursor: pointer;
-  background-color: rgba(178, 177, 177, 0.18);
-}
-.bttv-moderator-card-nickname-change-button:active {
-  background-color: rgba(255, 255, 255, .5);
-}
-div.info__text__status__name {
+
+/*div.info__text__status__name {
   background-color: transparent;
   border-radius: 0;
   cursor: pointer;
@@ -1484,7 +1204,7 @@ div.info__text__status__name {
   margin: 0px;
   line-height: 1.43;
   word-break: break-word;
-}
+}*/
 div.nofify-message-ovg {
   display: none;
   font-size: 12px;
@@ -1505,53 +1225,7 @@ div.nofify-message-ovg.success {
 div.nofify-message-ovg.active {
   display: block;
 }
-div.paid_title-ovg {
-  padding-left: 10px;
-  font-size: 16px;
-  font-family: Roboto, sans-serif;
-}
-button.paid_title-ovg {
-  background: none;
-  color: var(--wasd-color-text-prime);
-  cursor: pointer;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  padding-left: 10px!important;
-  padding-right: 15px;
-  font-size: 16px!important;
-  font-family: Roboto, sans-serif!important;
-}
-wasd-channel-favorite-btn#selector-channel-favorite-btn-ovg {
-  margin-left: 10px;
-}
-wasd-button.flat-btn.ovg {
-  position: relative;
-  display: inline-block;
-  outline: none;
-}
-i.wasd-icons-like.ovg {
-  font-size: 14px;
-  height: 14px;
-  width: 14px;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-i.wasd-icons-favorite {
-  font-size: 14px;
-  height: 14px;
-  width: 14px;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-div.ovg.buttonsdiv {
-  margin-top: 10px;
-  margin-bottom: 5px;
-  display: inline-flex;
-}
+
 @media screen and (min-width: 1024px) {
   div.gifts-info__gift_buttons>wasd-channel-amazing-btn>div.button__container>wasd-tooltip>div.tooltip.tooltip_position-bottomRight {
     left: -225px;
@@ -1664,7 +1338,8 @@ div.stream-uptime>input.player-info__stat-value {
 }
 #bscSettingsPanel #tv7EmoteList,
 #bscSettingsPanel #bttvEmoteList,
-#bscSettingsPanel #ffzEmoteList {
+#bscSettingsPanel #ffzEmoteList,
+#bscSettingsPanel #bwasdEmoteList {
   display: flex;
   flex-wrap: wrap;
   margin: 5px 0 0;
@@ -1745,19 +1420,22 @@ div.stream-uptime>input.player-info__stat-value {
 }
 #bscSettingsPanel #tv7UserList,
 #bscSettingsPanel #bttvUserList,
-#bscSettingsPanel #ffzUserList {
+#bscSettingsPanel #ffzUserList,
+#bscSettingsPanel #bwasdUserList {
   list-style: disc;
   padding-left: 20px;
 }
 #bscSettingsPanel #tv7UserList a,
 #bscSettingsPanel #bttvUserList a,
-#bscSettingsPanel #ffzUserList a {
+#bscSettingsPanel #ffzUserList a,
+#bscSettingsPanel #bwasdUserList a {
   font-size: 12px;
   list-style: disc;
 }
 #bscSettingsPanel #tv7UserList li.tv7User,
 #bscSettingsPanel #bttvUserList li.bttvUser,
-#bscSettingsPanel #ffzUserList li.ffzUser {
+#bscSettingsPanel #ffzUserList li.ffzUser,
+#bscSettingsPanel #bwasdUserList li.bwasdUser {
   display: flex;
 }
 .ovg-button {
@@ -1817,13 +1495,14 @@ div.emoji-ovg::-webkit-scrollbar-track {
   background-color: rgba(var(--wasd-color-switch--rgb), .08);
   border-radius: 4px;
 }
-img.emoji__item-ovg {
+.emoji__item-ovg {
   -moz-user-select: none;
   -webkit-user-select: none;
   align-items: center;
   cursor: pointer;
   display: flex;
-  font-size: 24px;
+  font-size: 14px;
+  color: var(--wasd-color-text-second);
   height: 24px;
   justify-content: center;
   margin-bottom: 20px;
@@ -2009,9 +1688,11 @@ div.item__links-ovg>.link>.plus {
 wasd-chat-emoji-smiles-tv7 .tv7emojiSearch-shat,
 wasd-chat-emoji-smiles-bttv .bttvemojiSearch-shat,
 wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
+wasd-chat-emoji-smiles-bwasd .bwasdemojiSearch-shat,
 #bscSettingsPanel>main[data-tab='tv7Settings'] .tv7emojiSearch,
 #bscSettingsPanel>main[data-tab='bttvSettings'] .bttvemojiSearch,
-#bscSettingsPanel>main[data-tab='ffzSettings'] .ffzemojiSearch {
+#bscSettingsPanel>main[data-tab='ffzSettings'] .ffzemojiSearch,
+#bscSettingsPanel>main[data-tab='bwasdSettings'] .bwasdemojiSearch {
   border: none;
   outline: none;
   padding-left: 45px!important;
@@ -2186,11 +1867,11 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
   margin-top: 8px;
   width: 128px;
 }
-.stickers__div {
+.stickers__div-ovg {
   display: block;
   width: 100%;
 }
-.stickers__info {
+.stickers__info-ovg {
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -2205,18 +1886,18 @@ wasd-chat-emoji-smiles-ffz .ffzemojiSearch-shat,
   background-color: var(--wasd-color-prime);
   padding: 10px 0;
 }
-.stickers__line {
+.stickers__line-ovg {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
 }
-.stickers__info__line {
+.stickers__info__line-ovg {
   background-color: rgba(var(--wasd-color-switch--rgb), .16);
   height: 1px;
   width: 100%
 }
-.stickers__info__text {
+.stickers__info__text-ovg {
   color: var(--wasd-color-text-prime);
   font-size: 10px;
   line-height: 1.2;
@@ -2394,7 +2075,8 @@ main[data-tab="backup"] button {
   
   #bscSettingsPanel #tv7UserList li,
   #bscSettingsPanel #bttvUserList li,
-  #bscSettingsPanel #ffzUserList li {
+  #bscSettingsPanel #ffzUserList li,
+  #bscSettingsPanel #bwasdUserList li {
     font-size: 13px !important;
   }
   
@@ -2534,42 +2216,6 @@ div.sticker-card:hover div.paidsubs-popup__stickers-item {
   background-color: var(--wasd-color-prime);
   border-radius: 4px;
   box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb), .16);
-}
-.user_last_messages-ovg .accordion-header-wrap-ovg {
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  font-size: 16px;
-  justify-content: space-between;
-  user-select: none;
-}
-.user_last_messages-ovg .accordion-header-ovg {
-  font-size: 16px;
-  line-height: 22px;
-}
-.user_last_messages-ovg .accordion-header-arrow-ovg {
-  transform: scaleY(-1);
-  transition: transform .3s;
-}
-.user_last_messages-ovg.active .accordion-header-arrow-ovg {
-  transform: scaleY(1);
-  transition: transform .3s;
-}
-.user_last_messages-ovg:hover .last_messages {
-  color: var(--wasd-color-corp-blue);
-}
-.user_last_messages-ovg.active .accordion-marker-ovg {
-  display: block;
-  background: var(--wasd-color-corp-blue);
-  border-bottom-right-radius: 4px;
-  border-top-right-radius: 4px;
-  height: 24px;
-  left: 0;
-  position: absolute;
-  width: 4px;
-  top: 1px;
 }
 #bscSettingsPanel .option .tooltip-ovg {
   background-color: rgb(var(--color-switch));
@@ -2725,6 +2371,7 @@ div.sticker-card:hover div.paidsubs-popup__stickers-item {
 [data-tab='tv7Settings'] *,
 [data-tab='bttvSettings'] *,
 [data-tab='ffzSettings'] *,
+[data-tab='bwasdSettings'] *,
 .emoji-ovg *,
 div.chat-room__viewer-card * {
   text-rendering: optimizeSpeed!important;
@@ -3170,16 +2817,6 @@ wasd-input [ovg] .clr-field input {
   display: none;
 }
 
-/* ___ */
-.chat-room__viewer-card.loading .viewer-card-header__banner,
-.chat-room__viewer-card.loading .bttv-moderator-card-user-stats {
-  visibility: hidden;
-}
-.chat-room__viewer-card.loading .ovg.buttonsdiv,
-.chat-room__viewer-card.loading .tw-c-background-alt-2,
-.chat-room__viewer-card.loading .user_last_messages-ovg {
-  display: none;
-}
 
 
 .head-buttons {

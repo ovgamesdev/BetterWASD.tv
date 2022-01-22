@@ -42,7 +42,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
       contentTabId = sender.tab.id;
     }
     if (request.setUninstall) {
-      chrome.runtime.setUninstallURL(`https://betterwasd-stat.herokuapp.com/api/v1/tv/delete/${request.setUninstall}`,)
+      chrome.runtime.setUninstallURL(`https://betterwasd.herokuapp.com/api/v1/stat/tv/delete/${request.setUninstall}`,)
     }
     if (request.createWindow) {      
       chrome.windows.create({

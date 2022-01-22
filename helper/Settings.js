@@ -57,6 +57,11 @@ const HelperSettings = {
         title: 'Скрыть поддержать в панели ввода текста',
         type: 'boolean'
       },
+      bwasdEmotes: {
+        title: `Смайлики BWASD в чате ${Helper.F5}`,
+        updateChat: true,
+        type: 'boolean'
+      },
       bttvEmotes: {
         title: `Смайлики BTTV в чате ${Helper.F5}`,
         updateChat: true,
@@ -72,6 +77,10 @@ const HelperSettings = {
         updateChat: true,
         type: 'boolean'
       },
+      bwasdInChatMenu: {
+        title: 'Опция BWASD в меню смайликов в чате',
+        type: 'boolean'
+      },
       bttvInChatMenu: {
         title: 'Опция BTTV в меню смайликов в чате',
         type: 'boolean'
@@ -85,20 +94,20 @@ const HelperSettings = {
         type: 'boolean'
       },
       bttvEmoteSize: {
-        title: `Разрешение смайликов в чате BTTV, FFZ и 7TV`,
+        title: `Разрешение смайликов в чате BWASD, BTTV, FFZ и 7TV`,
         type: 'select',
         items: [
           {
             value: 0,
-            label: '28px, 32px, 32px'
+            label: '~32px, 28px, 32px, 32px'
           },
           {
             value: 1,
-            label: '56px, 64px, 48px'
+            label: '~64px, 56px, 64px, 48px'
           },
           {
             value: 2,
-            label: '112px, 128px, 128px'
+            label: '~128px, 112px, 128px, 128px'
           }
         ],
         onChange: (value) => HelperWASD.updateBttvEmoteSize(value)
@@ -130,7 +139,7 @@ const HelperSettings = {
         ]
       },
       stickerovg: {
-        title: `Отображение стикеров BTTV, FFZ и 7TV ${Helper.tooltip('', "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
+        title: `Отображение стикеров BWASD, BTTV, FFZ и 7TV ${Helper.tooltip('', "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
         type: 'select',
         items: [
           {
@@ -156,7 +165,7 @@ const HelperSettings = {
         ]
       },
       bttvSize: {
-        title: 'Размер стикеров BTTV, FFZ и 7TV',
+        title: 'Размер стикеров BWASD, BTTV, FFZ и 7TV',
         type: 'select',
         items: [
           {
@@ -196,11 +205,11 @@ const HelperSettings = {
           type: 'boolean'
       },
       decreaseIndentationBTTVandFFZMenu: {
-          title: 'Уменьшить отступ в меню смайликов - BTTV, FFZ и 7TV.',
+          title: 'Уменьшить отступ в меню смайликов - BWASD, BTTV, FFZ и 7TV.',
           type: 'boolean'
       },
       highlightStickersStickerMenu: {
-          title: 'Подсвечивать СМАЙЛЫ, BTTV, FFZ и 7TV эмоции в меню стикеров.',
+          title: 'Подсвечивать СМАЙЛЫ, BWASD, BTTV, FFZ и 7TV эмоции в меню стикеров.',
           type: 'boolean'
       },*/
       paddingChatMessage: {
@@ -574,7 +583,7 @@ const HelperSettings = {
         onChange: (value) => HelperWASD.updateStaticGifEmotes(value)
       },
       hoverTooltipEmote: {
-        title: `Подсказка для эмоций BTTV, FFZ и 7TV при наведении`,
+        title: `Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении`,
         type: 'boolean',
         onChange: (value) => HelperWASD.updateHoverTooltipEmote(value)
       },
@@ -635,7 +644,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       truncateLink: {
-        title: `Лимит символов ссылки ${Helper.F5} ${Helper.tooltip('', 'удаляет символы в URL-адресах, чтобы текст ссылки не превышал указанную длину.')}`,
+        title: `Лимит символов ссылки ${Helper.F5} ${Helper.tooltip('', 'работает при включенном \u0022Исправить ссылки в чате\u0022 </br> удаляет символы в URL-адресах, чтобы текст ссылки не превышал указанную длину.')}`,
         updateChat: true,
         type: 'number',
         min: 0,

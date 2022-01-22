@@ -13,10 +13,10 @@ const HelperBTTV = {
         for (let userID in items.bttvEmotes) {
           if (items.bttvEmotes.hasOwnProperty(userID)) {
             let splitdev = document.createElement('div');
-            splitdev.classList.add('stickers__div')
-            splitdev.innerHTML = `<div class="stickers__info" style="top:-10px"><div class="stickers__info__line"></div><div class="stickers__info__text"> ${typeof bttvUsers[userID].username == 'undefined' ? userID : bttvUsers[userID].username} </div><div class="stickers__info__line"></div></div><div class="stickers__line"></div>`
+            splitdev.classList.add('stickers__div-ovg')
+            splitdev.innerHTML = `<div class="stickers__info-ovg" style="top:-10px"><div class="stickers__info__line-ovg"></div><div class="stickers__info__text-ovg"> ${typeof bttvUsers[userID].username == 'undefined' ? userID : bttvUsers[userID].username} </div><div class="stickers__info__line-ovg"></div></div><div class="stickers__line-ovg"></div>`
             bttvEmoteList.append(splitdev);
-            let stickers__line = splitdev.querySelector('.stickers__line')
+            let stickers__line = splitdev.querySelector('.stickers__line-ovg')
             for (let emoteCode in items.bttvEmotes[userID]) {
               if (items.bttvEmotes[userID].hasOwnProperty(emoteCode)) {
                 let div = document.createElement('div');
@@ -25,7 +25,7 @@ const HelperBTTV = {
                 let div_span = document.createElement('div');
                 let span = document.createElement('span');
                 div.classList.add('div_emoteCard');
-                span.innerText = emoteCode;
+                span.innerText = HTML.decode(emoteCode);
                 img.src = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[emoteCode]}/2x`;
                 a.href = `https://betterttv.com/emotes/${HelperBTTV.emotes[emoteCode]}`;
                 a.target = '_blank';
@@ -34,7 +34,7 @@ const HelperBTTV = {
                 div_span.append(span);
                 div.append(a);
                 a.append(div_span);
-                a.title = emoteCode;
+                a.title = HTML.decode(emoteCode);
                 stickers__line.append(div);
               }
             }
@@ -289,5 +289,123 @@ const HelperBTTV = {
         })
       }
     });
+  },
+  addToChatMenu() {
+    document.querySelector('div.emoji__head__options')?.insertAdjacentHTML("beforeend", `<div class="option bttv-emoji"><i ovg="" class="ovg-icon-bttv" style="pointer-events: none;"></i></div>`)
+    
+    let bttvEmotes
+    let bttvUsers
+    chrome.storage.local.get((items) => {
+      HelperBTTV.fetchGlobalEmotes(items).finally(() => {
+        bttvEmotes = items.bttvEmotes;
+        bttvUsers = items.bttvUsers;
+      })
+    });
+
+    document.querySelector('div.option.bttv-emoji')?.addEventListener('click', () => {
+
+      $('div.emoji__head__options > .active')?.removeClass( "active" );
+
+      let timerId = setTimeout(function tick() {
+
+        $('div.option.bttv-emoji')?.addClass( "active" );
+
+        $('.emoji__body > wasd-chat-emoji-smiles')?.css("display", "none")
+        $('.emoji__body > wasd-chat-emoji-stickers')?.css("display", "none")
+
+        let emoteBodybttv = document.querySelector('.emoji__body');
+        if (emoteBodybttv) {
+          document.querySelector('wasd-chat-emoji-smiles-ffz')?.remove();
+          document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove();
+          document.querySelector('wasd-chat-emoji-smiles-bwasd')?.remove();
+
+          emoteBodybttv.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-bttv><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bttvemojiSearch-shat" style="background: url(${chrome.runtime.getURL("img/search.png")}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-bttv>`)
+          let EmoteListbttv = emoteBodybttv.querySelector('div.emoji-ovg');
+          //ovg.log(HelperBTTV.emotes);
+
+          if (EmoteListbttv) {
+
+            let emotes = {};
+            for (let userID in bttvEmotes) {
+              if (bttvEmotes.hasOwnProperty(userID)) {
+
+                let splitdev = document.createElement('div');
+                splitdev.classList.add('stickers__div-ovg')
+
+                splitdev.innerHTML = `<div class="stickers__info-ovg"><div class="stickers__info__line-ovg"></div><div class="stickers__info__text-ovg"> ${typeof bttvUsers[userID].username == 'undefined' ? userID : bttvUsers[userID].username} </div><div class="stickers__info__line-ovg"></div></div><div class="stickers__line-ovg"></div>`
+                EmoteListbttv.append(splitdev);
+
+                let stickers__line = splitdev.querySelector('.stickers__line-ovg')
+                for (let emoteCode in bttvEmotes[userID]) {
+
+                  if (bttvEmotes[userID].hasOwnProperty(emoteCode)) {
+
+                    if (typeof emotes[emoteCode] === 'undefined') {
+
+                      emotes[emoteCode] = bttvEmotes[userID][emoteCode];
+
+                      let img = document.createElement('img');
+                      img.src = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[emoteCode]}/1x`;
+                      img.classList.add('emoji__item-ovg');
+                      img.title = HTML.decode(emoteCode);
+                      img.alt = HTML.decode(emoteCode);
+
+                      stickers__line.append(img);
+                      img.addEventListener('click', () => {
+
+                        let textareabttv = document.querySelector('.footer > div > textarea')
+                        textareabttv.value += HTML.decode(emoteCode) + ' ';
+                        textareabttv.focus()
+                        textareabttv.dispatchEvent(new Event('input'));
+                      });
+
+                    }
+                  }
+                }
+
+              }
+            }
+
+            // bind search emoji chat
+            var inputbttv, filterbttv, ulbttv, optionsbttv, titlebttv, ibttv;
+            inputbttv = document.querySelector('input.bttvemojiSearch-shat');
+            inputbttv.addEventListener('input', () => {
+              filterbttv = inputbttv.value.toUpperCase();
+              ulbttv = document.querySelector("wasd-chat-emoji-smiles-bttv .emoji-ovg");
+
+              optionsbttv = ulbttv.querySelectorAll("img.emoji__item-ovg");
+              for (ibttv = 0; ibttv < optionsbttv.length; ibttv++) {
+                titlebttv = optionsbttv[ibttv].title
+                if (titlebttv) {
+                  if (titlebttv.toUpperCase().indexOf(filterbttv) != -1) {
+                    optionsbttv[ibttv].style.display = "";
+                  } else {
+                    optionsbttv[ibttv].style.display = "none";
+                  }
+                }
+              }
+            });
+
+          } else {
+            timerId = setTimeout(tick, 2000);
+          }
+
+        }
+      }, 1);
+      
+    });
+
+    for (let optinbttv of document.querySelectorAll('div.emoji__head__options > .option')) {
+      optinbttv.addEventListener('click', (element) => {
+
+        $('div.option.bttv-emoji')?.removeClass( "active" );
+        element.path[0].classList.add('active')
+
+        document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
+
+        $('.emoji__body > wasd-chat-emoji-smiles')?.css("display", "")
+        $('.emoji__body > wasd-chat-emoji-stickers')?.css("display", "")
+      });
+    }
   }
 }
