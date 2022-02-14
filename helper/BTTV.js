@@ -367,7 +367,7 @@ const HelperBTTV = {
             }
 
             // bind search emoji chat
-            var inputbttv, filterbttv, ulbttv, optionsbttv, titlebttv, ibttv;
+            let inputbttv, filterbttv, ulbttv, optionsbttv, titlebttv, ibttv;
             inputbttv = document.querySelector('input.bttvemojiSearch-shat');
             inputbttv.addEventListener('input', () => {
               filterbttv = inputbttv.value.toUpperCase();

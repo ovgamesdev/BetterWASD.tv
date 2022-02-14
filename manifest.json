@@ -1,7 +1,6 @@
 {
   "author":"ovgamesdev@gmail.com",
-  "content_scripts": [
-  {
+  "content_scripts": [{
     "css": [
       "css/index.css",
       "css/fonts/fonts.css",
@@ -17,6 +16,7 @@
       "css/ovg_chat-toggle.css",
       "css/ovg_accordion.css",
       "css/ovg_viewer-user-card.css",
+      "css/ovg_username.css",
       "lib/coloris/coloris.min.css"
     ],
     "js": [
@@ -51,7 +51,7 @@
     "scripts": ["background.js"],
     "persistent": false
   },
-  "description": "Некоторые настройки для wasd.tv",
+  "description": "Набор для улучшения WASD.TV",
   "icons":
   {
     "128": "img/icon128.png",
@@ -67,5 +67,5 @@
   ],
   "minimum_chrome_version": "41",
   "permissions": ["storage", "notifications", "*://*.wasd.tv/*"],
-  "version": "1.4.6"
+  "version": "1.4.7"
 }

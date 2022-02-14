@@ -10,6 +10,10 @@ const HelperSettings = {
         title: 'Прозрачность пользовательского интерфейса',
         type: 'boolean'
       },
+      saveCardPosition: {
+        title: 'Сохранять последнюю позицию карточки пользователя',
+        type: 'boolean'
+      },
       BETA: {
         title: `${Helper.BETA} - Эта опция находится в стадии разработки и может работать некорректно`,
         type: 'none'
@@ -323,7 +327,7 @@ const HelperSettings = {
         type: 'boolean'
       },
       colorModOptions: {
-        title: 'Цвет для опции (Меню модератора)',
+        title: 'Цвет для значка (Меню модератора, Скопировать сообщение)',
         type: 'color'
       },
       alternatingColorChatMessages: {
@@ -650,14 +654,14 @@ const HelperSettings = {
         min: 0,
         max: 240
       },
-      normalizeCopiedMessage: {
-        title: `Нормализовать скопированное сообщение`,
-        type: 'boolean'
-      },
       moveHideChat: {
         title: `Переместить кнопку 'Скрыть чат' в заголовок чата`,
         type: 'boolean',
         onChange: (value) => HelperWASD.updateMoveHideChat(value)
+      },
+      copyMessage: {
+        title: `Добавить значок скопировать сообщение`,
+        type: 'boolean'
       },
 
       playerGeneral: {

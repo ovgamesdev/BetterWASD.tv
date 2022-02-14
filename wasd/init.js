@@ -3,10 +3,9 @@ const wasd = {
   isObserverEndBind: false,
   isObserverEndBindBody: false,
   observer: null,
-  badges: {},
   init() {
     ovg.log("init");
-    HelperWASD.loadBadges()
+    HelperWASD.loadBwasdData()
     mutationtarget = document.querySelector('wasd-root')
     const config = {
       // attributes: true,
@@ -90,7 +89,7 @@ const wasd = {
         const isLive = new URL(document.URL).pathname.split('/')[2] != 'videos' && new URL(document.URL).pathname.split('/')[2] != 'clips' && document.querySelector('wasd-user-plays .user-plays__text')?.textContent != 'стримил'
 
         if (add_chat.length) {
-          HelperWASD.loadBadges()
+          HelperWASD.loadBwasdData()
           socket.initChat()
           // wasd.updatestyle();
           HelperWASD.isModerator = false
@@ -232,9 +231,9 @@ const wasd = {
       fontStyle.innerHTML = '';
       fontStyle.appendChild(document.createTextNode(`@font-face {
         font-family: 'ovg-icons';
-        src:  url(${chrome.runtime.getURL("css/fonts/ovg-icons.ttf")}?1nnyeh) format('truetype'),
-          url(${chrome.runtime.getURL("css/fonts/ovg-icons.woff")}?1nnyeh) format('woff'),
-          url(${chrome.runtime.getURL("css/fonts/ovg-icons.svg")}?1nnyeh#ovg-icons) format('svg');
+        src:  url(${chrome.runtime.getURL("css/fonts/ovg-icons.ttf")}?6w1vn5) format('truetype'),
+          url(${chrome.runtime.getURL("css/fonts/ovg-icons.woff")}?6w1vn5) format('woff'),
+          url(${chrome.runtime.getURL("css/fonts/ovg-icons.svg")}?6w1vn5#ovg-icons) format('svg');
         font-weight: normal;
         font-style: normal;
         font-display: block;
@@ -487,7 +486,7 @@ const wasd = {
     }
 
     if (settings.wasd.fontSize) {
-      cssCode += `.info__text__status__name, info__text__status__name-ovg { font-size: ${settings.wasd.fontSize}px!important; display: contents!important;}`;
+      cssCode += `.info__text__status__name, info__text__status__name-ovg { font-size: ${settings.wasd.fontSize}px!important;}`; // display: contents!important;
       cssCode += `.info__text__status__name.is-admin, info__text__status__name-ovg.is-admin { display: inline!important; }`;
       cssCode += `.info__text__status__name.is-moderator, info__text__status__name-ovg.is-moderator { display: inline!important; }`;
       cssCode += `.info__text__status__name.is-owner, info__text__status__name-ovg.is-owner { display: inline!important; }`;
@@ -646,7 +645,7 @@ const wasd = {
       cssCode += `.stream-status-container .stream-status-text { top: 1px; position: relative; }`
     }
 
-    cssCode += `.ovg-moderator-tools {background-color: ${settings.wasd.colorModOptions != '#000000' ? settings.wasd.colorModOptions+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
+    cssCode += `.ovg-moderator-tools, .ovg-copy-tools {background-color: ${settings.wasd.colorModOptions != '#000000' ? settings.wasd.colorModOptions+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
 
     if (settings.wasd.hideRaid) {
       cssCode += `.player-info .raid { display: none !important; }`
@@ -658,10 +657,10 @@ const wasd = {
     }
 
     if (settings.wasd.swapGiftAndInformationPlace) {
-      cssCode += `.content-wrapper__info {display: flex;flex-direction: column;}`
-      cssCode += `.content-wrapper__info > .gifts-info {order: 0;}`
-      cssCode += `.content-wrapper__info > .player-wrapper {order: 1;}`
-      cssCode += `.content-wrapper__info > .stream-info {order: 2;}`
+      cssCode += `.content-wrapper__info, .placeholder-player {display: flex;flex-direction: column;}`
+      cssCode += `.content-wrapper__info > .gifts-info, .placeholder-player__buttons {order: 0;}`
+      cssCode += `.content-wrapper__info > .player-wrapper, .placeholder-player__screen {order: 1;}`
+      cssCode += `.content-wrapper__info > .stream-info, .placeholder-player__stream-info {order: 2;}`
       cssCode += `.content-wrapper__info > .container {order: 3;}`
 
       // fix tooltip
@@ -670,11 +669,18 @@ const wasd = {
 
       cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topRight {right: 0;margin-top: 8px;top: 100%;bottom: unset;margin-bottom: unset;}`
       cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topRight .tooltip-content:before {top: unset; border: 4px solid transparent; border-bottom: 4px solid rgb(var(--color-switch)); border-top: none; bottom: 100%; content: ""; margin-left: -2px; position: absolute; transition: all .3s ease; right: 20px;}`
+      
+      cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topLeft {margin-top: 8px;top: 100%;bottom: unset;margin-bottom: unset;}`
+      cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topLeft .tooltip-content:before {top: unset; border: 4px solid transparent; border-bottom: 4px solid rgb(var(--color-switch)); border-top: none; bottom: 100%; content: ""; margin-left: -2px; position: absolute; transition: all .3s ease; right: 20px;}`
     }
 
     if (!settings.wasd.colonAfterNickname) {
       cssCode += `.message-text {margin-left: 4px;}`
       cssCode += `.message__info__text .info__text__status__name {margin-right: 4px !important;}`
+    }
+
+    if (!settings.wasd.copyMessage) {
+      cssCode += `.ovg-copy-tools {display: none !important;}`
     }
 
     if (wasd.style) {
@@ -721,11 +727,11 @@ const wasd = {
       subRef         = node.querySelector('.info__text__status-paid')
       promoCodeWin   = node.querySelector('.message__promocodes')
 
-      var usernametext = node.querySelector('.info__text__status__name')?.textContent.trim()
-      var message = node.querySelector('.message-text > span')?.textContent.trim()
-      var color = node.querySelector('.info__text__status__name')?.style?.color
+      let usernametext = node.querySelector('.info__text__status__name')?.textContent.trim()
+      let message = node.querySelector('.message-text > span')?.textContent.trim()
+      let color = node.querySelector('.info__text__status__name')?.style?.color
       if (subRef) color = subRef?.style?.backgroundColor
-      var sticker = node.querySelector('.sticker')?.src
+      let sticker = node.querySelector('.sticker')?.src
 
       let roles = ''
       if (node.querySelector('wasd-chat-message')) roles       += 'user'
@@ -772,7 +778,15 @@ const wasd = {
         nicknamediv.setAttribute('usernamelc', nicknamediv.textContent.trim().toLowerCase());
 
         if (settings.wasd.userNameEdited[nicknamediv.textContent.trim()]) {
-          nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ` ${settings.wasd.userNameEdited[$0.trim()]} `)
+          nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
+            let paint = HelperWASD.paints[$0.trim()]
+            return `<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''}> ${settings.wasd.userNameEdited[$0.trim()]} </span>`
+          })
+        } else {
+          nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
+            let paint = HelperWASD.paints[$0.trim()]
+            return `<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''}> ${$0.trim()} </span>`
+          })
         }
       }
 
@@ -801,7 +815,7 @@ const wasd = {
           if (!username) {
             username = $1.trim().split('@').join('')
           }
-          return `<span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' username="${$1}" usernamelc="${$1.toLowerCase()}"> @${username.trim()} </span>`;
+          return `<span><span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' username="${$1}" usernamelc="${$1.toLowerCase()}"> @${username.trim()} </span></span>`;
         });
 
         messageHTML.innerHTML = messageHTML.innerHTML.replace(/\+at\+/ig, '@')
@@ -908,7 +922,7 @@ const wasd = {
                   }
                   if (i == 9) {
                     document.querySelector('.message__info').click();
-                    HelperWASD.showChatMessage('Вы не можете этого сделать');
+                    HelperWASD.showChatMessage('Вы не можете этого сделать', 'warning');
                   }
                 }
               }
@@ -925,7 +939,7 @@ const wasd = {
               }
               fetch_banned_message()
             } else {
-              HelperWASD.showChatMessage('Вы не можете этого сделать');
+              HelperWASD.showChatMessage('Вы не можете этого сделать', 'warning');
             }
           });
 
@@ -980,7 +994,7 @@ const wasd = {
                   }
                   if (i == 9) {
                     document.querySelector('.message__info').click();
-                    HelperWASD.showChatMessage('Вы не можете этого сделать');
+                    HelperWASD.showChatMessage('Вы не можете этого сделать', 'warning');
                   }
                 }
               }
@@ -997,7 +1011,7 @@ const wasd = {
               }
               fetch_timeout_message()
             } else {
-              HelperWASD.showChatMessage('Вы не можете этого сделать');
+              HelperWASD.showChatMessage('Вы не можете этого сделать', 'warning');
             }
           });
 
@@ -1010,7 +1024,7 @@ const wasd = {
                 let edited = false;
                 for (i = 0; i < 10; i++) {
                   if (contextMenuBlocks[i]) {
-                    if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Удалить сообщения ") {
+                    if (contextMenuBlocks[i].querySelector('div.context-menu__block__text').textContent == " Удалить сообщениe ") {
                       contextMenuBlocks[i].click();
                       //ovg.log('remove channal author');
                       document.querySelector('.message__info').click();
@@ -1034,7 +1048,7 @@ const wasd = {
                   }
                   if (i == 9) {
                     document.querySelector('.message__info').click();
-                    HelperWASD.showChatMessage('Вы не можете этого сделать');
+                    HelperWASD.showChatMessage('Вы не можете этого сделать', 'warning');
                   }
                 }
               }
@@ -1051,7 +1065,26 @@ const wasd = {
               }
               fetch_remove_message()
             } else {
-              HelperWASD.showChatMessage('Вы не можете этого сделать');
+              HelperWASD.showChatMessage('Вы не можете этого сделать', 'warning');
+            }
+          });
+        }
+      }
+
+      if (settings.wasd.copyMessage) {
+        let messageInfoStatus = node.querySelector('div.info__text__status')
+        if (messageInfoStatus) {
+          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-copy-tools button copy"><i class="icon-ovg wasd-icons-copy"></i></div>`);
+
+          messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.copy').addEventListener('click', ({ target }) => {
+            // console.log(node, node.getAttribute('message'))
+
+            let message = node.getAttribute('message')
+            if (message) {
+              copyTextToClipboard(message)
+              HelperWASD.showChatMessage('Сообщение скопировано', 'success');
+            } else {
+              HelperWASD.showChatMessage('Не удалось скопировать сообщение', 'warning');
             }
           });
         }
@@ -1071,7 +1104,7 @@ const wasd = {
               $.ajax({
                 url: `https://wasd.tv/api/v2/media-containers/${new URL(a.href).searchParams.get('record')}`,
                 success: (out) => {
-                  var game = 'неизвестно'
+                  let game = 'неизвестно'
                   if (out.result.game != null) game = out.result.game.game_name;
                   let username = out.result.media_container_channel.channel_name
                   let usernameed = settings.wasd.userNameEdited[username.trim()];
@@ -1253,8 +1286,8 @@ const wasd = {
                     } else {
                       img = ''
                     }
-                    var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value) * 1000)
-                    var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
+                    let dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value) * 1000)
+                    let textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
                     node.querySelector('.lrhiver').innerHTML = `<div class="lrhiverimg">
                       <div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
                         <div>
@@ -1302,8 +1335,8 @@ const wasd = {
                         } else {
                           img = ''
                         }
-                        var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value) * 1000)
-                        var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
+                        let dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value) * 1000)
+                        let textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
 
                         let title = out?.short?.title
                         if (typeof title == 'object' && typeof title?.phrase == 'string') title = title?.phrase
@@ -1315,8 +1348,8 @@ const wasd = {
                         } else {
                           img = ''
                         }
-                        var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value) * 1000)
-                        var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
+                        let dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value) * 1000)
+                        let textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
 
                         let subtitle = out.short.subtitle
                         if (typeof subtitle == 'object') subtitle = subtitle[0]
@@ -1344,8 +1377,8 @@ const wasd = {
                     } else {
                       img = ''
                     }
-                    var dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value) * 1000)
-                    var textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
+                    let dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value) * 1000)
+                    let textdate = `${(dater.getUTCHours() < 10) ? '0' + dater.getUTCHours() : ((dater.getUTCDate()*24) + dater.getUTCHours())}:${(dater.getUTCMinutes() < 10) ? '0' + dater.getUTCMinutes() : dater.getUTCMinutes()}:${(dater.getUTCSeconds() < 10) ? '0' + dater.getUTCSeconds() : dater.getUTCSeconds()}`
 
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header">${img}<div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.base}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.base}</div></div></div></div>`;
                   }
@@ -1396,7 +1429,7 @@ const wasd = {
                   HelperWASD.addUserToBlackList(username)
                   HelperSettings.save([document.querySelector('.optionField')]);
                 } else {
-                  HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!')
+                  HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!', 'warning')
                 }
                 node.click()
               })
@@ -1424,7 +1457,7 @@ const wasd = {
         create_context_block()
       })
 
-      var mentoinHtml; // follow / sub 
+      let mentoinHtml; // follow / sub
       if (settings.wasd.clickMentionAll && node.querySelector('wasd-chat-follower-message')) {
         mentoinHtml = node.querySelector('.message-follower__name')
       }
@@ -1440,7 +1473,7 @@ const wasd = {
           let out;
           if (settings.wasd.onClickMention.toString() === '0') {
 
-            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span>`
+            out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
             node.querySelectorAll('.chat-message-mention').forEach(element => {
               HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
@@ -1450,7 +1483,7 @@ const wasd = {
               });
             });
           } else if (settings.wasd.onClickMention.toString() === '1') {
-            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span>`
+            out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
             node.querySelectorAll('.chat-message-mention.click').forEach(element => {
               HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
@@ -1462,7 +1495,7 @@ const wasd = {
               })
             });
           } else if (settings.wasd.onClickMention.toString() === '2') {
-            out = `<span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span>`
+            out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
             node.querySelectorAll('.chat-message-mention.click').forEach(element => {
               HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
@@ -1518,7 +1551,16 @@ const wasd = {
         }
       }
 
-      var tooltips = node.querySelectorAll(".tooltip-wrapper");
+      for (let paint in HelperWASD.paints) {
+        for (let user of document.querySelectorAll(`.chat-message-mention[username="@${paint}"]`)) {
+          user.dataset.betterwasdPaint = HelperWASD.paints[paint]
+        }
+      }
+
+      let paint = HelperWASD.paints[node.getAttribute('username')]
+      if (paint) node.querySelector('.info__text__status__name > span').dataset.betterwasdPaint = paint
+
+      let tooltips = node.querySelectorAll(".tooltip-wrapper");
       for (let tooltip of tooltips) {
         $( tooltip ).tooltip({
           classes: { "ui-tooltip": "ui-ovg-tooltip" },

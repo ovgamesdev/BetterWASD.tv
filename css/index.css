@@ -1227,70 +1227,168 @@ div.nofify-message-ovg.active {
 }
 
 @media screen and (min-width: 1024px) {
-  div.gifts-info__gift_buttons>wasd-channel-amazing-btn>div.button__container>wasd-tooltip>div.tooltip.tooltip_position-bottomRight {
+  wasd-channel-amazing-btn .tooltip_position-topLeft {
     left: -225px;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-amazing-btn>div.button__container>wasd-tooltip>div.tooltip.tooltip_position-top {
+  wasd-channel-amazing-btn .tooltip_position-top {
     left: -45px;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-amazing-btn>div.button__container>wasd-tooltip>div.tooltip>div.tooltip-content:before {
+  wasd-channel-amazing-btn .tooltip-content:before {
     left: 83%!important;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-gift-btn>div#selector-channel-amazing-btn-gift_1>wasd-tooltip>div.tooltip.tooltip_position-bottomRight {
+  #selector-channel-amazing-btn-gift_1>wasd-tooltip>.tooltip.tooltip_position-topLeft {
     left: -355px;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-gift-btn>div#selector-channel-amazing-btn-gift_1>wasd-tooltip>div.tooltip.tooltip_position-top {
+  #selector-channel-amazing-btn-gift_1>wasd-tooltip>.tooltip.tooltip_position-top {
     left: -160px;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-gift-btn>div#selector-channel-amazing-btn-gift_1>wasd-tooltip>div.tooltip>div.tooltip-content:before {
+  #selector-channel-amazing-btn-gift_1>wasd-tooltip>div>.tooltip-content:before {
     left: 370px!important;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-gift-btn>div#selector-channel-amazing-btn-league7_gift_5>wasd-tooltip>div.tooltip {
+  #selector-channel-amazing-btn-league7_gift_5>div>wasd-tooltip .tooltip {
     left: -50px;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-gift-btn>div#selector-channel-amazing-btn-league7_gift_5>wasd-tooltip>div.tooltip>div.tooltip-content:before {
+  #selector-channel-amazing-btn-league7_gift_5>div>wasd-tooltip .tooltip-content:before {
     left: 225px!important;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-gift-btn>div#selector-channel-amazing-btn-league7_gift_4>wasd-tooltip>div.tooltip {
+  #selector-channel-amazing-btn-league7_gift_4>div>wasd-tooltip .tooltip {
     left: -20px;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-gift-btn>div#selector-channel-amazing-btn-league7_gift_4>wasd-tooltip>div.tooltip>div.tooltip-content:before {
+  #selector-channel-amazing-btn-league7_gift_4>div>wasd-tooltip .tooltip-content:before {
     left: 190px!important;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-gift-btn>div#selector-channel-amazing-btn-gift_4>wasd-tooltip>div.tooltip.tooltip_position-bottomRight {
+  #selector-channel-amazing-btn-gift_4>wasd-tooltip>.tooltip.tooltip_position-topLeft {
     left: -355px;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-gift-btn>div#selector-channel-amazing-btn-gift_4>wasd-tooltip>div.tooltip.tooltip_position-top {
+  #selector-channel-amazing-btn-gift_4>wasd-tooltip>.tooltip.tooltip_position-top {
     left: -160px;
   }
   
-  div.gifts-info__gift_buttons>wasd-channel-gift-btn>div#selector-channel-amazing-btn-gift_4>wasd-tooltip>div.tooltip>div.tooltip-content:before {
+  #selector-channel-amazing-btn-gift_4>wasd-tooltip>div>.tooltip-content:before {
     left: 370px!important;
   }
   
-  wasd-channel-amazing-btn#selector-channel-amazing-btn>div>wasd-tooltip>div.tooltip.tooltip_position-bottomRight {
+  #selector-channel-amazing-btn>div>wasd-tooltip .tooltip_position-topLeft {
     left: -228px;
   }
   
-  wasd-channel-amazing-btn#selector-channel-amazing-btn>div>wasd-tooltip>div.tooltip.tooltip_position-top {
+  #selector-channel-amazing-btn>div>wasd-tooltip .tooltip_position-top {
     left: -59px;
   }
   
-  wasd-channel-amazing-btn#selector-channel-amazing-btn>div>wasd-tooltip>div.tooltip>div.tooltip-content:before {
+  #selector-channel-amazing-btn>div>wasd-tooltip .tooltip-content:before {
     left: 168px!important;
   }
+
+  #selector-channel-amazing-btn-gift_5>wasd-tooltip>.tooltip_position-topLeft {
+    left: -330px;
+  }
+  
+  #selector-channel-amazing-btn-gift_5>wasd-tooltip>.tooltip_position-top {
+    left: -145px;
+  }
+  
+  #selector-channel-amazing-btn-gift_5>wasd-tooltip>div>.tooltip-content:before {
+    left: 345px!important;
+  }
 }
+
+@media screen and (max-width: 1024px) {
+  wasd-channel-amazing-btn .tooltip_position-topLeft {
+    left: -500%;
+  }
+  
+  wasd-channel-amazing-btn .tooltip_position-top {
+    left: -45px;
+  }
+  
+  wasd-channel-amazing-btn .tooltip-content:before {
+    left: unset !important;
+    right: 45% !important;
+  }
+  
+  #selector-channel-amazing-btn-gift_1>wasd-tooltip>.tooltip.tooltip_position-topLeft {
+    left: -500%;
+  }
+  
+  #selector-channel-amazing-btn-gift_1>wasd-tooltip>.tooltip.tooltip_position-top {
+    left: -160px;
+  }
+  
+  #selector-channel-amazing-btn-gift_1>wasd-tooltip>div>.tooltip-content:before {
+    left: unset !important;
+    right: 45% !important;
+  }
+  
+  #selector-channel-amazing-btn-league7_gift_5>div>wasd-tooltip .tooltip {
+    left: -50px;
+  }
+  
+  #selector-channel-amazing-btn-league7_gift_5>div>wasd-tooltip .tooltip-content:before {
+    left: unset !important;
+    right: 45% !important;
+  }
+  
+  #selector-channel-amazing-btn-league7_gift_4>div>wasd-tooltip .tooltip {
+    left: -20px;
+  }
+  
+  #selector-channel-amazing-btn-league7_gift_4>div>wasd-tooltip .tooltip-content:before {
+    left: unset !important;
+    right: 45% !important;
+  }
+  
+  #selector-channel-amazing-btn-gift_4>wasd-tooltip>.tooltip.tooltip_position-topLeft {
+    left: -500%;
+  }
+  
+  #selector-channel-amazing-btn-gift_4>wasd-tooltip>.tooltip.tooltip_position-top {
+    left: -160px;
+  }
+  
+  #selector-channel-amazing-btn-gift_4>wasd-tooltip>div>.tooltip-content:before {
+    left: unset !important;
+    right: 45% !important;
+  }
+  
+  #selector-channel-amazing-btn>div>wasd-tooltip .tooltip_position-topLeft {
+    left: -500%;
+  }
+  
+  #selector-channel-amazing-btn>div>wasd-tooltip .tooltip_position-top {
+    left: -59px;
+  }
+  
+  #selector-channel-amazing-btn>div>wasd-tooltip .tooltip-content:before {
+    left: unset !important;
+    right: 45% !important;
+  }
+
+  #selector-channel-amazing-btn-gift_5>wasd-tooltip>.tooltip_position-topLeft {
+    left: -500%;
+  }
+  
+  #selector-channel-amazing-btn-gift_5>wasd-tooltip>.tooltip_position-top {
+    left: -145px;
+  }
+  
+  #selector-channel-amazing-btn-gift_5>wasd-tooltip>div>.tooltip-content:before {
+    left: unset !important;
+    right: 45% !important;
+  }
+}
+
 div.stream-uptime {
   display: flex;
   align-items: center;
@@ -2125,6 +2223,9 @@ main[data-tab="backup"] button {
     display: block !important;
   }
   .head-buttons .newtab {
+    display: none !important;
+  }
+  wasd-chat-header .header .chat-container__btn-open--desktop-ovg {
     display: none !important;
   }
 }

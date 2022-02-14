@@ -10,10 +10,38 @@ const BetterStreamChat = {
       changed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Изменено</span>',
       fixed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено</span>',
       removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>',
-      fixedwasd: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено (Мешает работе wasd.tv)</span>'
+      fixedwasd: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено (Мешает работе WASD.TV)</span>'
     };
     let changelogList = [
       {
+        version: '1.4.7',
+        date: '2022-02-14',
+        items: [{
+          text: [
+            `Поменять панель подарков и информацию о стриме местами.`
+          ],
+          label: 'fixed'
+        }, {
+          text: [
+            `BWASD значок пользователя.`,
+            `Переместить кнопку 'Скрыть чат' в заголовок чата.`
+          ],
+          label: 'optimized'
+        },{
+          text: [
+            `Карточка пользователя - Монеты.`,
+            `BWASD цвет имени пользователя.`,
+            `Сохранять последнюю позицию карточки пользователя.`,
+            `Добавить значок скопировать сообщение.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            `Нормализовать скопированное сообщение.`
+          ],
+          label: 'removed'
+        }]
+      }, {
         version: '1.4.6',
         date: '2022-01-22',
         items: [{
@@ -1604,7 +1632,7 @@ const BetterStreamChat = {
     bttvAddUserBtn.addEventListener('click', () => {
       HelperBTTV.tryAddUser();
     });
-    var bttvAddUser = settingsDiv.querySelector('#bttvAddUser')
+    let bttvAddUser = settingsDiv.querySelector('#bttvAddUser')
     bttvAddUser.addEventListener('keyup', (event) => {
       if (event.key !== 'Enter') return;
       HelperBTTV.tryAddUser();
@@ -1614,7 +1642,7 @@ const BetterStreamChat = {
     ffzAddUserBtn.addEventListener('click', () => {
       HelperFFZ.tryAddUser();
     });
-    var ffzAddUser = settingsDiv.querySelector('#ffzAddUser')
+    let ffzAddUser = settingsDiv.querySelector('#ffzAddUser')
     ffzAddUser.addEventListener('keyup', (event) => {
       if (event.key !== 'Enter') return;
       HelperFFZ.tryAddUser();
@@ -1703,9 +1731,7 @@ const BetterStreamChat = {
         header_block_menu[0]?.children[0]?.click()
       } else {
         if (settingsDiv.classList.contains('fullscreen')) {
-          chrome.runtime.sendMessage({
-            update_chat: true
-          });
+          chrome.runtime.sendMessage({ update_chat: true });
         } else {
           HelperSettings.showMessage(`Чат не найден.`, 'error');
         }
@@ -1716,7 +1742,7 @@ const BetterStreamChat = {
     settingsDiv.querySelector('.newtab').addEventListener('click', () => {
       let settings_window = window.open('https://wasd.tv/chat?helper-settings=settings', '_blank', 'location=yes,height=500,width=800')
       BetterStreamChat.isSettingsNewWindow = true
-      var timer_settings_window = setInterval(() => { 
+      let timer_settings_window = setInterval(() => { 
         if(settings_window.closed) {
           clearInterval(timer_settings_window);
           BetterStreamChat.isSettingsNewWindow = false
@@ -1742,7 +1768,7 @@ const BetterStreamChat = {
     });
 
     // bind search settings
-    var filter1, ul1, options1, title1, titleline1, i1;
+    let filter1, ul1, options1, title1, titleline1, i1;
     settingsSearch.addEventListener('input', () => {
       filter1 = settingsSearch.value.toUpperCase();
       ul1 = document.querySelector("main[data-tab='wasdSettings']");
@@ -1769,7 +1795,7 @@ const BetterStreamChat = {
     });
 
     // bind search emoji
-    var bwasdfilter, bwasdul, bwasdoptions, bwasdtitle, bwasdtitleline, bwasdi;
+    let bwasdfilter, bwasdul, bwasdoptions, bwasdtitle, bwasdtitleline, bwasdi;
     bwasdemojiSearch.addEventListener('input', () => {
       bwasdfilter = bwasdemojiSearch.value.toUpperCase();
       bwasdul = document.querySelector("main[data-tab='bwasdSettings'] > #bwasdEmoteList");
@@ -1786,7 +1812,7 @@ const BetterStreamChat = {
       }
     });
 
-    var bttvfilter, bttvul, bttvoptions, bttvtitle, bttvtitleline, bttvi;
+    let bttvfilter, bttvul, bttvoptions, bttvtitle, bttvtitleline, bttvi;
     bttvemojiSearch.addEventListener('input', () => {
       bttvfilter = bttvemojiSearch.value.toUpperCase();
       bttvul = document.querySelector("main[data-tab='bttvSettings'] > #bttvEmoteList");
@@ -1803,7 +1829,7 @@ const BetterStreamChat = {
       }
     });
 
-    var ffzfilter, ffzul, ffzoptions, ffztitle, ffztitleline, ffzi;
+    let ffzfilter, ffzul, ffzoptions, ffztitle, ffztitleline, ffzi;
     ffzemojiSearch.addEventListener('input', () => {
       ffzfilter = ffzemojiSearch.value.toUpperCase();
       ffzul = document.querySelector("main[data-tab='ffzSettings'] > #ffzEmoteList");
@@ -1820,7 +1846,7 @@ const BetterStreamChat = {
       }
     });
 
-    var tv7filter, tv7ul, tv7options, tv7title, tv7titleline, tv7i;
+    let tv7filter, tv7ul, tv7options, tv7title, tv7titleline, tv7i;
     tv7emojiSearch.addEventListener('input', () => {
       tv7filter = tv7emojiSearch.value.toUpperCase();
       tv7ul = document.querySelector("main[data-tab='tv7Settings'] > #tv7EmoteList");
@@ -1844,7 +1870,7 @@ const BetterStreamChat = {
 
     settingsDiv.querySelector('input#importInput').onchange = (() => {
       let files = settingsDiv.querySelector('input#importInput').files[0]
-      var reader = new FileReader()
+      let reader = new FileReader()
       reader.onload = processFile(files)
       if (files.name.indexOf('.backup') == files.name.length - 7 || files.name.indexOf('.backup.txt') == files.name.length - 11) {
         reader.readAsText(files)
@@ -1857,9 +1883,7 @@ const BetterStreamChat = {
       return (e) => {
         chrome.storage[storageType].set(JSON.parse(e.target.result), () => {
           location.reload()
-          chrome.runtime.sendMessage({
-            location: 'reload'
-          });
+          chrome.runtime.sendMessage({ location: 'reload' });
           HelperSettings.showMessage(`reload`, 'success')
         })
       }
@@ -1905,7 +1929,7 @@ const BetterStreamChat = {
     backupDropContainer.ondrop = (e) => {
       e.preventDefault();
       backupDropContainer.classList.remove('dragover');
-      var reader = new FileReader();
+      let reader = new FileReader();
       reader.onload = processFile(e.dataTransfer.files[0]);
       let n = e.dataTransfer?.files[0]?.name
 
@@ -2116,12 +2140,7 @@ const BetterStreamChat = {
           value = option.value;
         }
 
-        chrome.runtime.sendMessage({
-          update_save: {
-            split: split,
-            value: value
-          }
-        })
+        chrome.runtime.sendMessage({ update_save: { split: split, value: value } })
 
       });
     }
@@ -2269,7 +2288,7 @@ const BetterStreamChat = {
       }, 50)
     })
 
-    var tooltips = settingsDiv.querySelectorAll(".tooltip-wrapper");
+    let tooltips = settingsDiv.querySelectorAll(".tooltip-wrapper");
     for (let tooltip of tooltips) {
       $( tooltip ).tooltip({
         classes: { "ui-tooltip": "ui-ovg-tooltip" },

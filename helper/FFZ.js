@@ -377,7 +377,7 @@ const HelperFFZ = {
             }
 
             // bind search emoji chat
-            var inputffz, filterffz, ulffz, optionsffz, titleffz, iffz;
+            let inputffz, filterffz, ulffz, optionsffz, titleffz, iffz;
             inputffz = document.querySelector('input.ffzemojiSearch-shat');
             inputffz.addEventListener('input', () => {
               filterffz = inputffz.value.toUpperCase();

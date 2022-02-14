@@ -1,5 +1,5 @@
 let storageType = 'sync';
-var isPressedAlt, isPressedShift, isPressedControl, isPressedFullScreen, isPressedTheater, isPressedPIP, isPressedClip;
+let isPressedAlt, isPressedShift, isPressedControl, isPressedFullScreen, isPressedTheater, isPressedPIP, isPressedClip;
 
 window.addEventListener('keyup', (e) => {
   isPressedAlt = false;
@@ -58,17 +58,15 @@ window.addEventListener('mousemove', (e) => {
   y = e.clientY - 45;
 });
 
-document.addEventListener('copy', (event) => {
-  if (settings.wasd.normalizeCopiedMessage) {
-    const selection = document.getSelection();
-    for (let p of event.path) {
-      if (p.className == 'block__messages__item ovg' || p.className == 'block__messages__item-ovg') {
-        event.clipboardData.setData('text/plain', selection.toString().replace(/\r?\n/g, "").trim());
-        event.preventDefault();
-      }
-    }
-  }
-});
+function copyTextToClipboard(text) {
+  let $temp = $("<textarea>");
+  $("body").append($temp);
+  $temp.val( text )
+  $temp.val( $temp.val().replace(/\r?\n/g, "").trim() ).select();
+  // console.log( $temp.val() )
+  document.execCommand("copy");
+  $temp.remove();
+}
 
 let settings = Helper.getDefaultSettings();
 
@@ -146,7 +144,7 @@ updateVideoPlayerButtons = () => {
   }
 
 
-  var clipButton;
+  let clipButton;
   if (settings.wasd.iframeCreateClip) {
     clipButton = document.querySelector('.player-button.clip-ovg > div.tooltip')
   } else {
@@ -198,6 +196,11 @@ chrome.runtime.onMessage.addListener((msg) => {
   }
   if (msg.from == "background" && msg.location == 'reload') {
     location.reload()
+  }
+  if (msg.from == "background" && msg.coinUsers) {
+    document.querySelector('.chat-room__viewer-card div.tw-stat__value.profile_coins').textContent = msg.coinUsers.count;
+    document.querySelector('.chat-room__viewer-card .profile_coins-title').title = `${msg.coinUsers.count} монет`;
+    document.querySelector('.chat-room__viewer-card .profile_coins-title').style.display = ''
   }
 });
 

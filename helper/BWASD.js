@@ -27,7 +27,7 @@ const HelperBWASD = {
             div.classList.add('div_emoteCard');
             span.innerText = HTML.decode(emoteCode);
             img.src = `${HelperBWASD.host}/cached/emote/${HelperBWASD.emotes[emoteCode]}/2x`;
-            // a.href = `${HelperBWASD.emotes[emoteCode]}`;
+            a.href = `https://ovgamesdev.github.io/#/emotes/${HelperBWASD.emotes[emoteCode]}`;
             a.target = '_blank';
             a.classList.add('emoteCard');
             a.append(img);
@@ -61,6 +61,25 @@ const HelperBWASD = {
         });
       }
       HelperWASD.updateHoverTooltipEmote(settings.wasd.hoverTooltipEmote)
+    }
+
+    for (let element of document.querySelectorAll('wasd-chat-message .message-text > span .chat-message-mention')) {
+      element.addEventListener('click', ({ target }) => {
+        let username = target.getAttribute('username')?.split('@').join('')
+        if (username) {
+          if (settings.wasd.onClickMention.toString() === '1') {
+            if (textarea) {
+              textarea.value += target.getAttribute('username').trim() + ' ';
+              textarea.dispatchEvent(new Event('input'));
+              textarea.focus()
+            }
+          } else if (settings.wasd.onClickMention.toString() === '2') {
+            if (!HelperWASD.addUsernameToTextarea(username)) {
+              HelperWASD.createUserViewerCard(username);
+            }
+          }
+        }
+      })
     }
 
   },
@@ -169,6 +188,7 @@ const HelperBWASD = {
   },
   tryAddUser(user_id, user_login) {
     if (HelperBWASD.isBusy) return
+    HelperBWASD.removeUsers()
 
     HelperBWASD.isBusy = true;
     let beforeEmotes = Object.keys(HelperBWASD.emotes).length;
@@ -288,7 +308,7 @@ const HelperBWASD = {
             }
 
             // bind search emoji chat
-            var inputbwasd, filterbwasd, ulbwasd, optionsbwasd, titlebwasd, ibwasd;
+            let inputbwasd, filterbwasd, ulbwasd, optionsbwasd, titlebwasd, ibwasd;
             inputbwasd = document.querySelector('input.bwasdemojiSearch-shat');
             inputbwasd.addEventListener('input', () => {
               filterbwasd = inputbwasd.value.toUpperCase();

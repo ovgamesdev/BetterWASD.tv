@@ -9,6 +9,8 @@ const Helper = {
       general: {
         autoUpdateChat: false,
         uiTransparency: false,
+        saveCardPosition: false,
+        cardPosition: {x: 0, y: 0},
       },
       wasd: {
         messageFollower: false,
@@ -110,11 +112,11 @@ const Helper = {
         showPromoCodeWin: true,
         truncateLink: 0,
         swapGiftAndInformationPlace: false,
-        normalizeCopiedMessage: false,
         moveHideChat: false,
         autoPlayPreviewOnStreaming: true,
         bwasdEmotes: true,
-        bwasdInChatMenu: true
+        bwasdInChatMenu: true,
+        copyMessage: false
       },
       list: {
         blockUserList: {},
