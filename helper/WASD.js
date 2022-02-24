@@ -53,11 +53,12 @@ const HelperWASD = {
           HelperWASD.self_channel_name = out.result.user_profile.user_login
 
           $.ajax({
-            url: `https://betterwasd.herokuapp.com/api/v1/stat/tv/${out.result.user_profile.user_id}`,
+            url: `${HelperBWASD.host}/api/v1/stat/tv/${out.result.user_profile.user_id}`,
             type: "POST",
             data: {
               user_login: out.result.user_profile.user_login,
-              channel_image: out.result.user_profile.profile_image.large
+              channel_image: out.result.user_profile.profile_image.large,
+              version: chrome.runtime.getManifest().version
             },
             success: (out) => {
               ovg.log(out)
@@ -1147,7 +1148,6 @@ const HelperWASD = {
     } catch (err) {
       return 'https://wasd.tv/error/4xx'
     }
-
   },
   getChannelName() {
     if (document.querySelector('#selector-sp-stream-links .wasd-input input[placeholder="Чат"]'))return new URL(document.querySelector('#selector-sp-stream-links .wasd-input input[placeholder="Чат"]').value.trim().toLowerCase()).searchParams.get('channel_name')
@@ -1679,7 +1679,7 @@ const HelperWASD = {
   startTimerStatData() {
     const update = () => {
       $.ajax({
-        url: `https://betterwasd.herokuapp.com/api/v1/stat/tv`,
+        url: `${HelperBWASD.host}/api/v1/stat/tv`,
         data: { channel_name: socket.channel?.channel?.channel_owner?.user_login },
         success: (data) => {
           document.querySelector('[data-tab="about"] .activeUsers').textContent = data.activeUsers// + '/' + data.users

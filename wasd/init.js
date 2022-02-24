@@ -85,6 +85,10 @@ const wasd = {
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('div.container'));
 
+        const add_wasd_player = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('wasd-player#player.player'));
+
 
         const isLive = new URL(document.URL).pathname.split('/')[2] != 'videos' && new URL(document.URL).pathname.split('/')[2] != 'clips' && document.querySelector('wasd-user-plays .user-plays__text')?.textContent != 'стримил'
 
@@ -194,6 +198,21 @@ const wasd = {
           })
         }
 
+        if (add_wasd_player.length) {
+          add_wasd_player[0].addEventListener("touchend", () => setTimeout(() => {
+            document.querySelector('.media-control').classList.remove('media-control-hide')
+            document.querySelector('.custom-media-control').classList.remove('custom-media-hidden')
+            document.querySelector('.player-streaminfo').classList.remove('custom-media-hidden')
+          }, 10), false);
+
+          add_wasd_player[0].onmousedown = (e) => {
+            if (settings.wasd.mutePlayerOnMiddleMouse && e.button == 1) {
+              document.querySelector('.player-button.volume-button').click()
+              return false;
+            }
+          }
+        }
+        
       }
     }
 
@@ -203,22 +222,6 @@ const wasd = {
       observer.observe(mutationtarget, config);
     }
 
-
-    let wasdPlayer = document.querySelector('wasd-player')
-    if (wasdPlayer) {
-      wasdPlayer.addEventListener("touchend", () => setTimeout(() => {
-        document.querySelector('.media-control').classList.remove('media-control-hide')
-        document.querySelector('.custom-media-control').classList.remove('custom-media-hidden')
-        document.querySelector('.player-streaminfo').classList.remove('custom-media-hidden')
-      }, 10), false);
-
-      wasdPlayer.onmousedown = (e) => {
-        if (settings.wasd.mutePlayerOnMiddleMouse && e.button == 1) {
-          document.querySelector('.player-button.volume-button').click()
-          return false;
-        }
-      }
-    }
 
     if (this.style === null) {
       this.style = document.createElement('style');
@@ -518,6 +521,7 @@ const wasd = {
 
     if (settings.wasd.videoOverlay) {
       cssCode += `wasd-player-overlay-video { display: none!important; }`;
+      cssCode += `wasd-player-overlay-events { display: none!important; }`;
     }
 
     if (settings.wasd.hidePanelMobile) {
@@ -548,13 +552,13 @@ const wasd = {
 
     cssCode += `.message__time, .message__time-ovg {min-width: auto!important; overflow: unset!important; width: auto!important;}`
 
-    let bgmc = ''
-    if (settings.wasd.mentionSelf) {
-      bgmc = `background-color: ${settings.wasd.colorMentionSelf != '#000000' ? settings.wasd.colorMentionSelf+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }`
-    } else {
-      bgmc = `background-color: rgba(0, 0, 0, 0)!important`
-    }
-    cssCode += `.message.has-mention, .message-ovg.has-mention {${bgmc}}`
+    // let bgmc = ''
+    // if (settings.wasd.mentionSelf) {
+    //   bgmc = `background-color: ${settings.wasd.colorMentionSelf != '#000000' ? settings.wasd.colorMentionSelf+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }`
+    // } else {
+    //   bgmc = `background-color: rgba(0, 0, 0, 0)!important`
+    // }
+    // cssCode += `.message.has-mention, .message-ovg.has-mention {${bgmc}}`
 
     cssCode += `.message.openCardColor {background-color: ${settings.wasd.highlightMessagesOpenCardColor != '#000000' ? settings.wasd.highlightMessagesOpenCardColor+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
 

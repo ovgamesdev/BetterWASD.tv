@@ -872,7 +872,6 @@ yt-live-chat-header-renderer {
 .chat-message-mention {
   color: rgba(var(--wasd-color-switch--rgb), .88);
   font-size: 14px;
-  line-height: 1.43;
   word-break: break-word;
   font-family: Roboto, sans-serif;
   letter-spacing: normal;
@@ -1302,6 +1301,19 @@ div.nofify-message-ovg.active {
   #selector-channel-amazing-btn-gift_5>wasd-tooltip>div>.tooltip-content:before {
     left: 345px!important;
   }
+
+  /*23 февраля*/
+  #selector-channel-amazing-btn-event_gift_23feb>wasd-tooltip>.tooltip_position-topLeft {
+    left: -248px;
+  }
+  
+  #selector-channel-amazing-btn-event_gift_23feb>wasd-tooltip>.tooltip_position-top {
+    left: -105px;
+  }
+  
+  #selector-channel-amazing-btn-event_gift_23feb>wasd-tooltip>div>.tooltip-content:before {
+    left: 262px!important;
+  }
 }
 
 @media screen and (max-width: 1024px) {
@@ -1384,6 +1396,20 @@ div.nofify-message-ovg.active {
   }
   
   #selector-channel-amazing-btn-gift_5>wasd-tooltip>div>.tooltip-content:before {
+    left: unset !important;
+    right: 45% !important;
+  }
+  
+  /*23 февраля*/
+  #selector-channel-amazing-btn-event_gift_23feb>wasd-tooltip>.tooltip_position-topLeft {
+    left: -365%;
+  }
+  
+  #selector-channel-amazing-btn-event_gift_23feb>wasd-tooltip>.tooltip_position-top {
+    left: -105px;
+  }
+
+  #selector-channel-amazing-btn-event_gift_23feb>wasd-tooltip>div>.tooltip-content:before {
     left: unset !important;
     right: 45% !important;
   }

@@ -137,7 +137,7 @@ const socket = {
       if (HelperWASD.current?.user_profile?.user_id && socket.isJoined) {
         socket.isJoined = false
         $.ajax({
-          url: `https://betterwasd.herokuapp.com/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`,
+          url: `${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`,
           type: "POST",
           success: (out) => {
             ovg.log(out)

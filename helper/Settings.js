@@ -490,14 +490,14 @@ const HelperSettings = {
         ],
         onChange: (value) => HelperWASD.updateFormatMessageSentTime(value)
       },
-      mentionSelf: {
-        title: `Выделять сообщения, упоминающие вас`,
-        type: 'boolean'
-      },
-      colorMentionSelf: {
-        title: 'Цвет сообщения, упоминающие вас',
-        type: 'color'
-      },
+      // mentionSelf: {
+      //   title: `Выделять сообщения, упоминающие вас`,
+      //   type: 'boolean'
+      // },
+      // colorMentionSelf: {
+      //   title: 'Цвет сообщения, упоминающие вас',
+      //   type: 'color'
+      // },
       highlightMessagesOpenCard: {
         title: 'Выделять сообщения пользователей с открытыми карточками',
         type: 'boolean'
@@ -563,6 +563,7 @@ const HelperSettings = {
       },
       fixCharactersBreakingChat: {
         title: `Исправить символы ломающие чат ${Helper.F5} ${Helper.tooltip('', 'Текст Zalgo')}`,
+        updateChat: true,
         description: 'С использованием <a target="_blank" href="https://github.com/mathiasbynens/strip-combining-marks/blob/master/README.md">library strip-combining-marks.js</a>.',
         type: 'boolean'
       },

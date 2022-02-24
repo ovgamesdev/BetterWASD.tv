@@ -204,4 +204,4 @@ chrome.runtime.onMessage.addListener((msg) => {
   }
 });
 
-window.addEventListener('unload', () => navigator.sendBeacon(`https://betterwasd.herokuapp.com/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`));
+window.addEventListener('unload', () => navigator.sendBeacon(`${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`));

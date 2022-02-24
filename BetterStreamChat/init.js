@@ -14,6 +14,27 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.4.9',
+        date: '2022-02-24',
+        items: [{
+          text: [
+            `Выделять сообщения, упоминающие вас.`,
+            `Цвет сообщения, упоминающие вас.`
+          ],
+          label: 'removed'
+        }]
+      }, {
+        version: '1.4.8',
+        date: '2022-02-23',
+        items: [{
+          text: [
+            `Карточка пользователя - Монеты.`,
+            `Скрыть оверлей над проигрывателем.`,
+            `Заглушить или включить звук проигрывателя путём щелчка по средней кнопке мыши.`
+          ],
+          label: 'fixed'
+        }]
+      }, {
         version: '1.4.7',
         date: '2022-02-14',
         items: [{
@@ -1007,7 +1028,7 @@ const BetterStreamChat = {
           }
         }
         if (item.issueID) {
-          item.text += ` (<a target="_blank" href="https://github.com/ovgamesdev/WASD_TV/issues/${item.issueID}">#${item.issueID}</a>)`;
+          item.text += ` (<a target="_blank" href="https://github.com/ovgamesdev/BetterWASD.tv/issues/${item.issueID}">#${item.issueID}</a>)`;
         }
       }
       changelogHtml += '</ul>';

@@ -3,7 +3,7 @@ const HelperBWASD = {
   isBusy: false,
   emotes: {},
   host: 'https://betterwasd.herokuapp.com',
-  // host: 'https://localhost:5000',
+  // host: 'http://localhost:5000',
   updateSettings() {
     let bwasdEmoteList = BetterStreamChat.settingsDiv.querySelector('#bwasdEmoteList');
     bwasdEmoteList.innerText = '';

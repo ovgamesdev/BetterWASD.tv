@@ -47,7 +47,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
     }
 
     if (request.from == "betterwasd_tv" && request.getCoinUsers) {
-      let port = chrome.runtime.connect("nieblejndnlodncpeekopcmpiaahnfch")
+      let port = chrome.runtime.connect("fdgepfaignbakmmbiafocfjcnaejgldb")
       port.postMessage({ from: 'betterwasd_tv', getCoinUsers: request.getCoinUsers });
     }
 
