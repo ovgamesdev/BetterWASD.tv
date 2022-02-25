@@ -47,58 +47,152 @@ const HelperSettings = {
       },
       messageHover: {
         title: 'Подсвечивать сообщениие при наведении',
-        type: 'boolean'
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          if (value) {
+            document.querySelector('#colorMessageHover').classList.remove('disabled')
+          } else {
+            document.querySelector('#colorMessageHover').classList.add('disabled')
+          }
+        }
       },
       colorMessageHover: {
         title: 'Цвет для опции "Подсвечивать сообщениие при наведении"',
+        id: 'colorMessageHover',
         type: 'color'
       },
       wasdIconsSmile: {
-        title: 'Cкрыть стикеры / смайлы в панели ввода текста',
+        title: 'Cкрыть "стикеры / смайлы" в панели ввода текста',
         type: 'boolean'
       },
       wasdIconsCircleRu: {
-        title: 'Скрыть поддержать в панели ввода текста',
+        title: 'Скрыть "поддержать" в панели ввода текста',
         type: 'boolean'
       },
       bwasdEmotes: {
         title: `Смайлики BWASD в чате ${Helper.F5}`,
         updateChat: true,
-        type: 'boolean'
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          if (value) {
+            document.querySelector('#bwasdInChatMenu').classList.remove('disabled')
+          } else {
+            document.querySelector('#bwasdInChatMenu').classList.add('disabled')
+          }
+
+          if (value || settings.wasd.bttvEmotes ||  settings.wasd.ffzEmotes || settings.wasd.tv7Emotes) {
+            document.querySelector('#bttvEmoteSize').classList.remove('disabled')
+            document.querySelector('#stickerovg').classList.remove('disabled')
+            document.querySelector('#bttvSize').classList.remove('disabled')
+            document.querySelector('#hoverTooltipEmote').classList.remove('disabled')
+          } else {
+            document.querySelector('#bttvEmoteSize').classList.add('disabled')
+            document.querySelector('#stickerovg').classList.add('disabled')
+            document.querySelector('#bttvSize').classList.add('disabled')
+            document.querySelector('#hoverTooltipEmote').classList.add('disabled')
+          }
+        }
       },
       bttvEmotes: {
         title: `Смайлики BTTV в чате ${Helper.F5}`,
         updateChat: true,
-        type: 'boolean'
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          if (value) {
+            document.querySelector('#bttvInChatMenu').classList.remove('disabled')
+          } else {
+            document.querySelector('#bttvInChatMenu').classList.add('disabled')
+          }
+
+          if (settings.wasd.bwasdEmotes || value ||  settings.wasd.ffzEmotes || settings.wasd.tv7Emotes) {
+            document.querySelector('#bttvEmoteSize').classList.remove('disabled')
+            document.querySelector('#stickerovg').classList.remove('disabled')
+            document.querySelector('#bttvSize').classList.remove('disabled')
+            document.querySelector('#hoverTooltipEmote').classList.remove('disabled')
+          } else {
+            document.querySelector('#bttvEmoteSize').classList.add('disabled')
+            document.querySelector('#stickerovg').classList.add('disabled')
+            document.querySelector('#bttvSize').classList.add('disabled')
+            document.querySelector('#hoverTooltipEmote').classList.add('disabled')
+          }
+        }
       },
       ffzEmotes: {
         title: `Смайлики FFZ в чате ${Helper.F5}`,
         updateChat: true,
-        type: 'boolean'
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          if (value) {
+            document.querySelector('#ffzInChatMenu').classList.remove('disabled')
+          } else {
+            document.querySelector('#ffzInChatMenu').classList.add('disabled')
+          }
+
+          if (settings.wasd.bwasdEmotes || settings.wasd.bttvEmotes ||  value || settings.wasd.tv7Emotes) {
+            document.querySelector('#bttvEmoteSize').classList.remove('disabled')
+            document.querySelector('#stickerovg').classList.remove('disabled')
+            document.querySelector('#bttvSize').classList.remove('disabled')
+            document.querySelector('#hoverTooltipEmote').classList.remove('disabled')
+          } else {
+            document.querySelector('#bttvEmoteSize').classList.add('disabled')
+            document.querySelector('#stickerovg').classList.add('disabled')
+            document.querySelector('#bttvSize').classList.add('disabled')
+            document.querySelector('#hoverTooltipEmote').classList.add('disabled')
+          }
+        }
       },
       tv7Emotes: {
         title: `Смайлики 7TV в чате ${Helper.F5}`,
         updateChat: true,
-        type: 'boolean'
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          if (value) {
+            document.querySelector('#tv7InChatMenu').classList.remove('disabled')
+          } else {
+            document.querySelector('#tv7InChatMenu').classList.add('disabled')
+          }
+
+          if (settings.wasd.bwasdEmotes || settings.wasd.bttvEmotes ||  settings.wasd.ffzEmotes || value) {
+            document.querySelector('#bttvEmoteSize').classList.remove('disabled')
+            document.querySelector('#stickerovg').classList.remove('disabled')
+            document.querySelector('#bttvSize').classList.remove('disabled')
+            document.querySelector('#hoverTooltipEmote').classList.remove('disabled')
+          } else {
+            document.querySelector('#bttvEmoteSize').classList.add('disabled')
+            document.querySelector('#stickerovg').classList.add('disabled')
+            document.querySelector('#bttvSize').classList.add('disabled')
+            document.querySelector('#hoverTooltipEmote').classList.add('disabled')
+          }
+        }
       },
       bwasdInChatMenu: {
         title: 'Опция BWASD в меню смайликов в чате',
+        id: 'bwasdInChatMenu',
         type: 'boolean'
       },
       bttvInChatMenu: {
         title: 'Опция BTTV в меню смайликов в чате',
+        id: 'bttvInChatMenu',
         type: 'boolean'
       },
       ffzInChatMenu: {
         title: 'Опция FFZ в меню смайликов в чате',
+        id: 'ffzInChatMenu',
         type: 'boolean'
       },
       tv7InChatMenu: {
         title: 'Опция 7TV в меню смайликов в чате',
+        id: 'tv7InChatMenu',
         type: 'boolean'
       },
       bttvEmoteSize: {
         title: `Разрешение смайликов в чате BWASD, BTTV, FFZ и 7TV`,
+        id: 'bttvEmoteSize',
         type: 'select',
         items: [
           {
@@ -144,6 +238,7 @@ const HelperSettings = {
       },
       stickerovg: {
         title: `Отображение стикеров BWASD, BTTV, FFZ и 7TV ${Helper.tooltip('', "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
+        id: 'stickerovg',
         type: 'select',
         items: [
           {
@@ -170,6 +265,7 @@ const HelperSettings = {
       },
       bttvSize: {
         title: 'Размер стикеров BWASD, BTTV, FFZ и 7TV',
+        id: 'bttvSize',
         type: 'select',
         items: [
           {
@@ -298,14 +394,28 @@ const HelperSettings = {
             value: 2,
             label: 'Twitch'
           }
-        ]
+        ],
+        inInitChange: true,
+        onChange: (value) => {
+          if (value.toString() === '2') {
+            document.querySelector('#moderatorMenuAutomatic').classList.remove('disabled')
+            document.querySelector('#moderatorMenuTimeout').classList.remove('disabled')
+            document.querySelector('#keepMessagesTimeout').classList.remove('disabled')
+          } else {
+            document.querySelector('#moderatorMenuAutomatic').classList.add('disabled')
+            document.querySelector('#moderatorMenuTimeout').classList.add('disabled')
+            document.querySelector('#keepMessagesTimeout').classList.add('disabled')
+          }
+        }
       },
       moderatorMenuAutomatic: {
         title: 'Автоматически подтверждать бан/таймаут/удаление (Меню модератора)',
+        id: 'moderatorMenuAutomatic',
         type: 'boolean'
       },
       moderatorMenuTimeout: {
         title: 'Срок блока (Меню модератора - Временно заблокировать)',
+        id: 'moderatorMenuTimeout',
         type: 'select',
         items: [
           {
@@ -324,6 +434,7 @@ const HelperSettings = {
       },
       keepMessagesTimeout: {
         title: 'Удалить все сообщения (Меню модератора - Временно заблокировать)',
+        id: 'keepMessagesTimeout',
         type: 'boolean'
       },
       colorModOptions: {
@@ -332,10 +443,19 @@ const HelperSettings = {
       },
       alternatingColorChatMessages: {
         title: 'Отображать строки с меняющимися цветами фона',
-        type: 'boolean'
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          if (value) {
+            document.querySelector('#alternatingColorChatMessagesColor').classList.remove('disabled')
+          } else {
+            document.querySelector('#alternatingColorChatMessagesColor').classList.add('disabled')
+          }
+        }
       },
       alternatingColorChatMessagesColor: {
         title: 'Цвет для опции "Отображать строки с меняющимися цветами фона"',
+        id: 'alternatingColorChatMessagesColor',
         type: 'color'
       },
       onClickMention: {
@@ -406,21 +526,46 @@ const HelperSettings = {
         title: `Исправить ссылки в чате ${Helper.F5}`,
         updateChat: true,
         description: 'Исправлено с использованием <a target="_blank" href="https://linkify.js.org/">API</a>',
-        type: 'boolean'
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          if (value) {
+            document.querySelector('#truncateLink').classList.remove('disabled')
+          } else {
+            document.querySelector('#truncateLink').classList.add('disabled')
+          }
+        }
       },
       linkRecognizerall: {
         title: `Распознавание всех ссылок ${Helper.BETA} ${Helper.F5}`,
         updateChat: true,
         description: 'Распознано с использованием <a target="_blank" href="https://github.com/FrankerFaceZ/link-service">API</a>',
-        type: 'boolean'
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          if (value || settings.wasd.linkRecognizerWASD) {
+            document.querySelector('#linkRecognitionRights').classList.remove('disabled')
+          } else {
+            document.querySelector('#linkRecognitionRights').classList.add('disabled')
+          }
+        }
       },
       linkRecognizerWASD: {
         title: `Распознавание ссылок wasd.tv ${Helper.BETA} ${Helper.tooltip('', '(wasd.tv/username) (wasd.tv/game/id) (wasd.tv/?record=id) (wasd.tv/?clip=id)')} ${Helper.F5}`,
         updateChat: true,
-        type: 'boolean'
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          if (value || settings.wasd.linkRecognizerall) {
+            document.querySelector('#linkRecognitionRights').classList.remove('disabled')
+          } else {
+            document.querySelector('#linkRecognitionRights').classList.add('disabled')
+          }
+        }
       },
       linkRecognitionRights: {
         title: `Необходимый уровень пользователя для "Распознавание ссылок" ${Helper.F5}`,
+        id: 'linkRecognitionRights',
         updateChat: true,
         type: 'select',
         items: [
@@ -490,20 +635,21 @@ const HelperSettings = {
         ],
         onChange: (value) => HelperWASD.updateFormatMessageSentTime(value)
       },
-      // mentionSelf: {
-      //   title: `Выделять сообщения, упоминающие вас`,
-      //   type: 'boolean'
-      // },
-      // colorMentionSelf: {
-      //   title: 'Цвет сообщения, упоминающие вас',
-      //   type: 'color'
-      // },
       highlightMessagesOpenCard: {
         title: 'Выделять сообщения пользователей с открытыми карточками',
-        type: 'boolean'
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          if (value) {
+            document.querySelector('#highlightMessagesOpenCardColor').classList.remove('disabled')
+          } else {
+            document.querySelector('#highlightMessagesOpenCardColor').classList.add('disabled')
+          }
+        }
       },
       highlightMessagesOpenCardColor: {
         title: 'Цвет выделения сообщения пользователя с открытой карточкой',
+        id: 'highlightMessagesOpenCardColor',
         type: 'color'
       },
       clickMentionAll: {
@@ -571,24 +717,9 @@ const HelperSettings = {
         title: `PUSH уведомление при упоминании ${Helper.tooltip('', 'если окно не видно')} <wasd-button class="flat-btn ovg" style="display: inline-block;padding: 5px 0 5px 10px;"><button id="testNotify" class="basic fade ovg small" type="button"> Показать тестовое уведомление </button></wasd-button>`,
         type: 'boolean'
       },
-      staticGifEmotes: {
-        title: `Анимированные эмоции ${Helper.tooltip('', 'только BTTV эмоции')}`,
-        type: 'select',
-        items: [
-          {
-            value: 0,
-            label: 'Отключено'
-          },
-          {
-            value: 1,
-            label: 'Включено'
-          },
-          // { value: 2, label: 'Включено при наведении' }
-        ],
-        onChange: (value) => HelperWASD.updateStaticGifEmotes(value)
-      },
       hoverTooltipEmote: {
         title: `Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении`,
+        id: 'hoverTooltipEmote',
         type: 'boolean',
         onChange: (value) => HelperWASD.updateHoverTooltipEmote(value)
       },
@@ -648,8 +779,13 @@ const HelperSettings = {
         updateChat: true,
         type: 'boolean'
       },
+      showPartnerIcon: {
+        title: `Показать значки партнера`,
+        type: 'boolean'
+      },
       truncateLink: {
-        title: `Лимит символов ссылки ${Helper.F5} ${Helper.tooltip('', 'работает при включенном \u0022Исправить ссылки в чате\u0022 </br> удаляет символы в URL-адресах, чтобы текст ссылки не превышал указанную длину.')}`,
+        title: `Лимит символов ссылки ${Helper.F5} ${Helper.tooltip('', 'Удаляет символы в URL-адресах, чтобы текст ссылки не превышал указанную длину.')}`,
+        id: 'truncateLink',
         updateChat: true,
         type: 'number',
         min: 0,
@@ -663,6 +799,38 @@ const HelperSettings = {
       copyMessage: {
         title: `Добавить значок скопировать сообщение`,
         type: 'boolean'
+      },
+      mentionSelf: {
+        title: `Вид сообщения, упоминающие вас ${Helper.F5}`,
+        updateChat: true,
+        type: 'select',
+        items: [
+          {
+            value: false,
+            label: 'Нет'
+          },
+          {
+            value: true,
+            label: 'По умолчанию'
+          },
+          {
+            value: 1,
+            label: 'Выделить сообщение'
+          }
+        ],
+        inInitChange: true,
+        onChange: (value) => {
+          if (value == '1') {
+            document.querySelector('#colorMentionSelf').classList.remove('disabled')
+          } else {
+            document.querySelector('#colorMentionSelf').classList.add('disabled')
+          }
+        },
+      },
+      colorMentionSelf: {
+        title: 'Цвет сообщения, упоминающие вас',
+        id: 'colorMentionSelf',
+        type: 'color'
       },
 
       playerGeneral: {
@@ -919,42 +1087,42 @@ const HelperSettings = {
         let type = setting.type;
         let fieldName = `${category}_${name}`;
         if (type === 'boolean') {
-          html += this.boolean(fieldName, setting.title, setting.description, settings[category][name], 'Вкл', 'Откл', setting.updateChat);
+          html += this.boolean(fieldName, setting.title, setting.description, settings[category][name], 'Вкл', 'Откл', setting.updateChat, setting.id);
         } else if (type === 'text') {
-          html += this.text(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat);
+          html += this.text(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat, setting.id);
         } else if (type === 'number') {
-          html += this.number(fieldName, setting.title, setting.description, settings[category][name], setting.min, setting.max, setting.updateChat);
+          html += this.number(fieldName, setting.title, setting.description, settings[category][name], setting.min, setting.max, setting.updateChat, setting.id);
         } else if (type === 'select') {
-          html += this.select(fieldName, setting.title, setting.description, setting.items, settings[category][name], setting.updateChat);
+          html += this.select(fieldName, setting.title, setting.description, setting.items, settings[category][name], setting.updateChat, setting.id);
         } else if (type === 'none') {
           html += this.none(fieldName, setting.title, setting.description, settings[category][name]);
         } else if (type === 'title') {
           html += this.title(fieldName, setting.title, setting.description, settings[category][name], setting.id);
         } else if (type === 'color') {
-          html += this.color(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat);
+          html += this.color(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat, setting.id);
         } else if (type === 'botevent') {
-          html += this.botevent(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat);
+          html += this.botevent(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat, setting.id);
         }
       }
     }
     return html;
   },
-  boolean(name, title, description, defaultValue = false, yesButton = 'Вкл', noButton = 'Откл', updateChat = false) {
+  boolean(name, title, description, defaultValue = false, yesButton = 'Вкл', noButton = 'Откл', updateChat = false, id = '') {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <label class="switch-ovg">
           <input option-type="boolean" type="checkbox" id="boolean_${name}" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${defaultValue ? 'checked' : ''}${updateChat ? " updatechat=''" : ""}>
           <span class="slider-ovg"> <div class="switcher_thumb-ovg"></div> </span>
         </label>
-      </ol>`);
+      </ol>`, false, id);
   },
-  text(name, title, description, defaultValue = '', updateChat = false) {
+  text(name, title, description, defaultValue = '', updateChat = false, id = '') {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <input type="text" class="optionField" data-name="${name}" value="${defaultValue}"${updateChat ? " updatechat=''" : ""} />
-      </ol>`);
+      </ol>`, false, id);
   },
-  number(name, title, description, defaultValue = '', min = 0, max = 0, updateChat = false) {
+  number(name, title, description, defaultValue = '', min = 0, max = 0, updateChat = false, id = '') {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <div class="def">
@@ -962,9 +1130,9 @@ const HelperSettings = {
           <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
         </div>
         <button class="optionField def" data-name="${name}" option-type="number"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
-      </ol>`);
+      </ol>`, false, id);
   },
-  select(name, title, description, items = [], defaultValue = '', updateChat = false) {
+  select(name, title, description, items = [], defaultValue = '', updateChat = false, id = '') {
     let selectOptions = '';
     defaultValue = defaultValue.toString();
     for (let item of items) {
@@ -977,7 +1145,7 @@ const HelperSettings = {
           <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
         </div>
         <button class="optionField def" data-name="${name}" option-type="select"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
-      </ol>`);
+      </ol>`, false, id);
   },
   none(name, title, description, defaultValue = '') {
     return this._basic(title, description, ``, false);
@@ -985,7 +1153,7 @@ const HelperSettings = {
   title(name, title, description, defaultValue = '', id = '') {
     return this._basic(title, description, ``, true, id);
   },
-  color(name, title, description, defaultValue = '', updateChat = false) {
+  color(name, title, description, defaultValue = '', updateChat = false, id = '') {
     defaultValue = Helper.varColorToColor(defaultValue)
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
@@ -997,9 +1165,9 @@ const HelperSettings = {
           <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
         </div>
         <button class="optionField def" data-name="${name}" option-type="color"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
-      </ol>`);
+      </ol>`, false, id);
   },
-  botevent(name, title, description, defaultValue = ['', false], yesButton = 'Вкл', noButton = 'Откл', updateChat = false) {
+  botevent(name, title, description, defaultValue = ['', false], yesButton = 'Вкл', noButton = 'Откл', updateChat = false, id = '') {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <input option-type="botevent" type="text" class="optionField botevent" data-name="${name}" value="${defaultValue[0]}"/>
@@ -1011,6 +1179,6 @@ const HelperSettings = {
           <input option-type="botevent" type="radio" id="boolean_${name}_no" name="boolean_${name}" value="0" class="optionField botevent" data-name="${name}" ${!defaultValue[1] ? 'checked' : ''}${updateChat ? " updatechat=''" : ""}>
           <label for="boolean_${name}_no" class="red"><span class="icon16 fa-times"></span> ${noButton}</label>
         </li>
-      </ol>`);
+      </ol>`, false, id);
   }
 }

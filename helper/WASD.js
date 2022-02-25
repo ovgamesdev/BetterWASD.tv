@@ -12,6 +12,16 @@ const HelperWASD = {
   recordData: '',
 
   loaded() {
+
+    for (let as in HelperSettings.availableSettings) {
+      for (let s in HelperSettings.availableSettings[as]) {
+        if (HelperSettings.availableSettings[as][s].inInitChange) {
+          let onChange = HelperSettings.availableSettings[as][s].onChange;
+          if (typeof onChange === 'function') onChange(settings[as][s]);
+        }
+      }
+    }
+
     if (new URL(document.URL).searchParams.get('helper-settings')) {
       BetterStreamChat.settingsDiv.style.display = 'block'
       BetterStreamChat.settingsDiv.classList.add('fullscreen')
@@ -711,6 +721,16 @@ const HelperWASD = {
                         }
                         if (isPromoCodeWin) role += ' promowin'
 
+                        let isPartner = false
+                        if (Array.isArray(message.info.other_roles)) {
+                          for (let role of message.info.other_roles) {
+                            if (!isPartner) isPartner = (role == 'WASD_PARTNER')
+                          }
+                        } else {
+                          if (!isPartner) isPartner = (message.info.other_roles == 'WASD_PARTNER')
+                        }
+                        if (isPartner) role += ' partner'
+
                         messagesDiv.appendChild(HelperWASD.createMessage(role, message.info.user_login.trim(), HelperWASD.userColors[message.info.user_id % (HelperWASD.userColors.length - 1)], message?.info?.message, message?.info?.sticker?.sticker_image?.medium, new Date(message.date_time)))
 
                         divMessageDiv.scrollTop = divMessageDiv.scrollHeight;
@@ -940,6 +960,9 @@ const HelperWASD = {
       }
       if (role.indexOf('promowin') != -1) {
         htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div message__promocodes" style="background-color: var(--wasd-color-gray2);width: 23px;"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Promo Code Winner </div></div></ovg-tooltip></div>`);
+      }
+      if (role.indexOf('partner') != -1) {
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div message__partner" style="background-color: var(--wasd-color-gray2);width: 23px;"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> WASD PARTNER </div></div></ovg-tooltip></div>`);
       }
     } else {
       $.ajax({
@@ -1280,12 +1303,13 @@ const HelperWASD = {
   },
   createMessage(role, username, color, message, sticker, date_time = new Date()) {
 
-    let isOwner = role.indexOf('owner')               != -1 && settings.wasd.showOwnerBadge
-    let isModer = role.indexOf('moderator')           != -1 && settings.wasd.showModeratorBadge
-    let isSub = role.indexOf('sub')                   != -1 && settings.wasd.showSubBadge
-    let isAdmin = role.indexOf('admin')               != -1 && settings.wasd.showAdminBadge
-    let isPromoCodeWin = role.indexOf('promowin')     != -1 && settings.wasd.showPromoCodeWin
-    let blockmessage = message;
+    let isOwner          = false // role.indexOf('owner')        != -1 && settings.wasd.showOwnerBadge
+    let isModer          = false // role.indexOf('moderator')    != -1 && settings.wasd.showModeratorBadge
+    let isSub            = false // role.indexOf('sub')          != -1 && settings.wasd.showSubBadge
+    let isAdmin          = false // role.indexOf('admin')        != -1 && settings.wasd.showAdminBadge
+    let isPromoCodeWin   = false // role.indexOf('promowin')     != -1 && settings.wasd.showPromoCodeWin
+    let isPartner        = false // role.indexOf('partner')      != -1 && settings.wasd.showPartnerIcon
+    let blockmessage     = message;
     let bl = ' '
 
     if (message == undefined) blockmessage = ''
@@ -1310,6 +1334,7 @@ const HelperWASD = {
               <div class="info__text__status-ovg">
                 ${isSub ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star" role-card=""></i></div>` : ``}
                 <div username="${username}" usernamelc="${username.toLowerCase()}" class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''}<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''}> ${newusername} </span></div>
+                ${isPartner ? '<!--div class="message__partner-ovg"></div-->' : ''}
               </div>
               ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: var(--yt-live-chat-primary-text-color, rgba(var(--wasd-color-switch--rgb),.88))">: </span>` : '' }
               <div class="message-text-ovg"><span>${(blockmessage == 'Стикер') ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage }</span></div>
@@ -1376,12 +1401,12 @@ const HelperWASD = {
       })
     });
 
-    let allbadge = HelperWASD.badges[node.getAttribute('username').trim()]
-    if (allbadge && allbadge.badges.length > 0) {
-      for (let badg of allbadge.badges) {
-        node.querySelector('.info__text__status-ovg').insertAdjacentHTML("afterbegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
-      }
-    }
+    // let allbadge = HelperWASD.badges[node.getAttribute('username').trim()]
+    // if (allbadge && allbadge.badges.length > 0) {
+    //   for (let badg of allbadge.badges) {
+    //     node.querySelector('.info__text__status-ovg').insertAdjacentHTML("afterbegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
+    //   }
+    // }
 
     let tooltips = node.querySelectorAll(".tooltip-wrapper");
     for (let tooltip of tooltips) {
@@ -1600,16 +1625,6 @@ const HelperWASD = {
       document.querySelector('.stream-status-container .stream-status-text.live').textContent = 'в эфире'
       clearTimeout(HelperWASD.uptimeStreamTimerMobile)
       HelperWASD.uptimeStreamTimerMobile = null
-    }
-  },
-  updateStaticGifEmotes(value) {
-    for (let img of document.querySelectorAll('img.stickerovg.bttv')) {
-      let u = img.src
-      if (value.toString() != '0' && u.match('https://cache.ffzap.com/')) {
-        img.src = u.replace('https://cache.ffzap.com/', '')
-      } else {
-        img.src = 'https://cache.ffzap.com/' + u
-      }
     }
   },
   updateHoverTooltipEmote(value) {

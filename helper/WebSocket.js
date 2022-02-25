@@ -341,6 +341,16 @@ const socket = {
         return false
       }
     }
+    isPartner = (JSData) => {
+      if (JSData) {
+        let role = false
+        if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'WASD_PARTNER') role = true }
+        if (!role) role = JSData.user_channel_role == 'WASD_PARTNER'
+        return role
+      } else {
+        return false
+      }
+    }
 
     let role = 'user'
     if (isOwner(JSData)) role += ' owner'
@@ -348,6 +358,7 @@ const socket = {
     if (isSub(JSData)) role += ' sub'
     if (isAdmin(JSData)) role += ' admin'
     if (isPromoCodeWin(JSData)) role += ' promowin'
+    if (isPartner(JSData)) role += ' partner'
     user.setAttribute('role', role)
 		user.style.display = 'none'
 

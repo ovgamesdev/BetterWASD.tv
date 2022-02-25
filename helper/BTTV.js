@@ -127,7 +127,6 @@ const HelperBTTV = {
     for (let word of split) {
       size = Number(settings.wasd.bttvEmoteSize) + 1;
       let link = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[word]}/${size}x`
-      if (settings.wasd.staticGifEmotes.toString() === '0') link = `https://cache.ffzap.com/${link}`
 
       if (HelperBTTV.emotes[word]) {
         let user

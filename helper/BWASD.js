@@ -113,7 +113,6 @@ const HelperBWASD = {
 
 
       let link = `${HelperBWASD.host}/cached/emote/${HelperBWASD.emotes[word]}/${size}x`
-      // if (settings.wasd.staticGifEmotes.toString() === '0') link = `https://cache.ffzap.com/${link}`
 
       if (HelperBWASD.emotes[word]) {
         let user

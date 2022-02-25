@@ -66,8 +66,6 @@ const Helper = {
         removeMentionBL: true,
         hidePanelMobile: true,
         formatMessageSentTime: "HH:mm",
-        // mentionSelf: true,
-        // colorMentionSelf: "rgba(var(--wasd-color-switch--rgb),.08)",
         highlightMessagesOpenCard: false,
         highlightMessagesOpenCardColor: "rgba(var(--wasd-color-switch--rgb),.08)",
         alwaysOpenVolumeControl: false,
@@ -101,7 +99,6 @@ const Helper = {
         hideRaid: false,
         fixCharactersBreakingChat: false,
         notifyOnMention: false,
-        staticGifEmotes: "1",
         pinMessage: true,
         hoverTooltipEmote: true,
         limitHistoryUsers: "0",
@@ -116,7 +113,10 @@ const Helper = {
         autoPlayPreviewOnStreaming: true,
         bwasdEmotes: true,
         bwasdInChatMenu: true,
-        copyMessage: false
+        copyMessage: false,
+        showPartnerIcon: true,
+        mentionSelf: false,
+        colorMentionSelf: "rgba(var(--wasd-color-switch--rgb),.08)"
       },
       list: {
         blockUserList: {},

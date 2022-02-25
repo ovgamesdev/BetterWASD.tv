@@ -139,10 +139,10 @@ const wasd = {
         }
 
         if (add_emoji_menu.length) {
-          if (settings.wasd.bwasdInChatMenu) HelperBWASD.addToChatMenu()
-          if (settings.wasd.tv7InChatMenu) HelperTV7.addToChatMenu()
-          if (settings.wasd.bttvInChatMenu) HelperBTTV.addToChatMenu()
-          if (settings.wasd.ffzInChatMenu) HelperFFZ.addToChatMenu()
+          if (settings.wasd.bwasdEmotes && settings.wasd.bwasdInChatMenu) HelperBWASD.addToChatMenu()
+          if (settings.wasd.bttvEmotes  && settings.wasd.tv7InChatMenu)   HelperTV7.addToChatMenu()
+          if (settings.wasd.ffzEmotes   && settings.wasd.bttvInChatMenu)  HelperBTTV.addToChatMenu()
+          if (settings.wasd.tv7Emotes   && settings.wasd.ffzInChatMenu)   HelperFFZ.addToChatMenu()
         }
 
         if (add_chat_menu.length) {
@@ -346,11 +346,11 @@ const wasd = {
     }
 
     if (settings.wasd.wasdIconsSmile) {
-      cssCode += `.wasd-icons-smile { display: none!important; }`;
+      cssCode += `.footer__block__icons > :nth-child(1) { display: none!important; }`;
     }
 
     if (settings.wasd.wasdIconsCircleRu) {
-      cssCode += `.wasd-icons-circle-ru { display: none!important; }`;
+      cssCode += `.footer__block__icons > :nth-child(2) { display: none!important; }`;
     }
 
     if (settings.wasd.webkitScrollbarWidth) {
@@ -552,13 +552,13 @@ const wasd = {
 
     cssCode += `.message__time, .message__time-ovg {min-width: auto!important; overflow: unset!important; width: auto!important;}`
 
-    // let bgmc = ''
-    // if (settings.wasd.mentionSelf) {
-    //   bgmc = `background-color: ${settings.wasd.colorMentionSelf != '#000000' ? settings.wasd.colorMentionSelf+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }`
-    // } else {
-    //   bgmc = `background-color: rgba(0, 0, 0, 0)!important`
-    // }
-    // cssCode += `.message.has-mention, .message-ovg.has-mention {${bgmc}}`
+    let bgmc = ''
+    if (settings.wasd.mentionSelf) {
+      bgmc = `background-color: ${settings.wasd.colorMentionSelf != '#000000' ? settings.wasd.colorMentionSelf+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }`
+    } else {
+      bgmc = `background-color: rgba(0, 0, 0, 0)!important`
+    }
+    cssCode += `.message.has-mention-ovg, .message-ovg.has-mention {${bgmc}}`
 
     cssCode += `.message.openCardColor {background-color: ${settings.wasd.highlightMessagesOpenCardColor != '#000000' ? settings.wasd.highlightMessagesOpenCardColor+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
 
@@ -681,10 +681,17 @@ const wasd = {
     if (!settings.wasd.colonAfterNickname) {
       cssCode += `.message-text {margin-left: 4px;}`
       cssCode += `.message__info__text .info__text__status__name {margin-right: 4px !important;}`
+      cssCode += `.message__info__text .message__partner {margin-right: 0px !important;}`
+    } else {
+      cssCode += `.message__info__text .message__partner {margin-right: 0px !important; margin-left: 4px !important;}`
     }
 
     if (!settings.wasd.copyMessage) {
       cssCode += `.ovg-copy-tools {display: none !important;}`
+    }
+
+    if (!settings.wasd.showPartnerIcon) {
+      cssCode += `.message__info__text .message__partner {display: none !important;}`
     }
 
     if (wasd.style) {
@@ -743,6 +750,7 @@ const wasd = {
       if (node.querySelector('.wasd-icons-dev')) roles         += ' admin'
       if (node.querySelector('.wasd-icons-moderator')) roles   += ' moderator'
       if (node.querySelector('.wasd-icons-star')) roles        += ' sub'
+      if (node.querySelector('.message__partner')) roles       += ' partner'
       node.setAttribute('role', roles)
 
       if (node.querySelector('img[alt="sticker"]')) node.setAttribute('sticker', node.querySelector('img[alt="sticker"]').src)
@@ -1544,8 +1552,16 @@ const wasd = {
 
       }
 
-      if (document.visibilityState != "visible" && isobserver && settings.wasd.notifyOnMention && node.querySelector('.has-mention')) {
+      if (settings.wasd.notifyOnMention && isobserver && document.visibilityState != "visible" && node.querySelector('.has-mention')) {
         Helper.notify(`Вас упоминул ${node.getAttribute('username')}`, node.getAttribute('message'), node.getAttribute('username'))
+      }
+
+      if (settings.wasd.mentionSelf.toString() == 'false' && node.querySelector('.has-mention')) {
+        node.querySelector('.has-mention').classList.remove('has-mention')
+      }
+      if (settings.wasd.mentionSelf.toString() == '1' && node.querySelector('.has-mention')) {
+        node.querySelector('.has-mention').classList.remove('has-mention')
+        node.querySelector('.message').classList.add('has-mention-ovg')
       }
 
       let allbadge = HelperWASD.badges[node.getAttribute('username')]
