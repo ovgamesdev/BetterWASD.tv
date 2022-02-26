@@ -168,8 +168,7 @@ const wasd = {
           HelperWASD.updateUptimeStream(false)
         }
 
-        if (add_wasd_chat_header.length && isLive) {
-          add_wasd_chat_header[0].lastChild.insertAdjacentHTML('beforebegin', `<div class="lds-ring websocket_loader tooltip-hover" style="height: 100%;position: absolute;right: 40px;" ovg=""><svg x="0px" y="0px" viewBox="0 0 150 150" class="icon-pending-ovg"><circle cx="75" cy="75" r="60" class="icon-pending-inner-ovg"></circle></svg><ovg-tooltip style="position: absolute;left: 0px;"><div class="tooltip tooltip_position-left tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Ожидаем подключение WebSocket </div></div></ovg-tooltip></div>`)
+        if (add_wasd_chat_header.length) {
           HelperWASD.updateMoveHideChat(settings.wasd.moveHideChat)
 
           let button = document.querySelector('.chat-container__btn-open--desktop')
@@ -180,6 +179,10 @@ const wasd = {
               button.style.display = ''
             }
           })
+        }
+
+        if (add_wasd_chat_header.length && isLive) {
+          add_wasd_chat_header[0].lastChild.insertAdjacentHTML('beforebegin', `<div class="lds-ring websocket_loader tooltip-hover" style="height: 100%;position: absolute;right: 40px;" ovg=""><svg x="0px" y="0px" viewBox="0 0 150 150" class="icon-pending-ovg"><circle cx="75" cy="75" r="60" class="icon-pending-inner-ovg"></circle></svg><ovg-tooltip style="position: absolute;left: 0px;"><div class="tooltip tooltip_position-left tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Ожидаем подключение WebSocket </div></div></ovg-tooltip></div>`)
         }
 
         if (add_header.length && isLive) {
