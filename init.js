@@ -203,6 +203,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     document.querySelector('.chat-room__viewer-card .profile_coins-title').style.display = ''
   }
 
+  sendResponse({message: 'ok'})
   return true;
 });
 

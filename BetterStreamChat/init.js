@@ -18,21 +18,21 @@ const BetterStreamChat = {
         date: '2022-03-19',
         items: [{
           text: [
-            `Выделение - Термины`,
-            `Значки подписчика`
+            `Выделение - Термины.`,
+            `Значки подписчика.`
           ],
           label: 'fixed'
         }, {
           text: [
-            `Разделитель строк в чате`,
-            `Добавить в контекст меню сообщения "Добавить в ЧС"`
+            `Разделитель строк в чате.`,
+            `Добавить в контекст меню сообщения "Добавить в ЧС".`
           ],
           label: 'added'
         }, {
           text: [
             `Фильтрация.`,
-            `Значки`,
-            `WebSocket`
+            `Значки.`,
+            `WebSocket.`
           ],
           label: 'optimized'
         }]
@@ -2043,7 +2043,7 @@ const BetterStreamChat = {
       }
     })
 
-     processFile = (theFile) => {
+    processFile = (theFile) => {
       return (e) => {
         chrome.storage[storageType].set(JSON.parse(e.target.result), () => {
           location.reload()

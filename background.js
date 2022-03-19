@@ -1,4 +1,5 @@
-let notificationId = null;
+let notificationReplyId = null;
+let notificationWhatsNewId = null;
 let username = null;
 let contentTabId = null;
 let tab_settingsId = null;
@@ -16,7 +17,7 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
       buttons: [{
         title: 'Ответить'
       }]
-    }, (id) => { notificationId = id })
+    }, (id) => { notificationReplyId = id })
   }
   if (request.update_save) {
     if (contentTabId) chrome.tabs.sendMessage(contentTabId, { from: "background", update_save: request.update_save });
@@ -59,13 +60,23 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
   //   });
   // }
 
-  // return true;
+  sendResponse({message: 'ok'});
+  return true
 
 });
 
 chrome.notifications.onButtonClicked.addListener((notifId, btnIdx) => {
-  if (notifId == notificationId && btnIdx == 0 && contentTabId) {
+  if (notifId == notificationReplyId && btnIdx == 0 && contentTabId) {
     chrome.tabs.sendMessage(contentTabId, { from: "background", username: username });
+  }
+  if (notifId == notificationWhatsNewId && btnIdx == 0) {
+    // chrome.windows.create({
+    //   url: "popup.html?type=updated",
+    //   type: "popup",
+    //   width: 900,
+    //   height: 560,
+    //   focused: false
+    // });
   }
 });
 
@@ -83,4 +94,20 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
     return true;
   });
 
+});
+
+chrome.runtime.onInstalled.addListener(function(details) {
+  // if (details.reason == "install") {
+  // }
+  if (details.reason == "update") {
+    chrome.notifications.create({
+      type: "basic",
+      iconUrl: "img/icon128.png",
+      title: "BetterWASD",
+      message: "Расширение обновлено",
+      // buttons: [{
+      //   title: 'Что нового'
+      // }]
+    }, (id) => { notificationWhatsNewId = id })
+  }
 });

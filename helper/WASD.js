@@ -27,11 +27,11 @@ const HelperWASD = {
       BetterStreamChat.settingsDiv.classList.add('fullscreen')
 
       setInterval(() => {
-        if(typeof chrome.app?.isInstalled !== 'undefined') chrome.runtime.sendMessage({ from: "tab_settings" })
+        chrome.runtime.sendMessage({ from: "tab_settings" })
       }, 5000)
     } else {
       setInterval(() => {
-        if(typeof chrome.app?.isInstalled !== 'undefined') chrome.runtime.sendMessage({ from: "tab_content" })
+        chrome.runtime.sendMessage({ from: "tab_content" })
       }, 5000)
 
       $( "#bscSettingsPanel" ).draggable({
