@@ -14,6 +14,17 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.5.2',
+        date: '2022-03-19',
+        items: [{
+          text: [
+            `7TV.`,
+            `BetterTTV.`,
+            `FrankerFaceZ.`
+          ],
+          label: 'fixed'
+        }]
+      }, {
         version: '1.5.1',
         date: '2022-03-19',
         items: [{
@@ -1128,6 +1139,12 @@ const BetterStreamChat = {
 
         <div class="header__right-side">
           <wasd-button class="ghost-btn ovg head-buttons" style="margin-right: 8px;">
+
+            <button class="basic medium-cube ovg twitch_authorize_public" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" focusable="false" width="14px" height="14px" fit="" viewBox="0 0 1600 1664"><path d="M800 434v434H655V434h145zm398 0v434h-145V434h145zm0 760l253-254V145H257v1049h326v217l217-217h398zM1596 0v1013l-434 434H836l-217 217H402v-217H4V289L113 0h1483z" fill="currentColor"></path></svg>
+              <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Авторизоваться Twicth </div></div></ovg-tooltip>
+            </button>
+
             <ovg-bell _ngcontent-ljm-c266="" id="ovg_bell__element" _nghost-ljm-c288="">
               <div _ngcontent-ljm-c288="" wasdclickoutside="" class="bell">
                 <button _ngcontent-ljm-c288="" class="basic medium-cube ovg bell_button">
@@ -1601,7 +1618,6 @@ const BetterStreamChat = {
           </div>
 
         </div>
-
       </main>
 
       <main class="text" data-tab="filtrationBlockUser">
@@ -1777,6 +1793,10 @@ const BetterStreamChat = {
             ${HelperSettings.build('highlightRole')}
           </div>
         </div>
+      </main>
+
+      <main class="text" data-tab="twitch_authorize_public">
+        <p class="twitch_authorize_content">
       </main>`;
     document.body.append(settingsDiv);
     BetterStreamChat.changelog = changelogList[0]
@@ -1929,6 +1949,16 @@ const BetterStreamChat = {
       HelperFFZ.updateEmotesFfz()
       HelperTV7.updateEmotesTv7()
       HelperBWASD.updateEmotesBwasd()
+    });
+
+    if (Cookies.get('BetterWASD_access_token')) {
+      settingsDiv.querySelector('.twitch_authorize_public').setAttribute('disabled', '')
+      settingsDiv.querySelector('.twitch_authorize_public .tooltip-content').textContent = 'Авторизовано: ' + Cookies.get('BetterWASD_twitch_display_name')
+    }
+
+    // bind twitch_authorize_public
+    settingsDiv.querySelector('.twitch_authorize_public').addEventListener('click', () => {
+      window.open('https://id.twitch.tv/oauth2/authorize?client_id=' + HelperTwitch['Client-ID'] + '&redirect_uri=' + encodeURIComponent('https://wasd.tv/') + '&response_type=token')
     });
 
     // bind search settings
@@ -2369,17 +2399,17 @@ const BetterStreamChat = {
     $("#bttvAddUser").autocomplete({
       source: (request, response) => {
         $.ajax({
-          url: `https://api.twitch.tv/kraken/search/channels?query=${bttvAddUser.value.toLowerCase()}&limit=5`,
+          url: `https://api.twitch.tv/helix/search/channels?query=${bttvAddUser.value.toLowerCase()}&first=5`,
           headers: {
-            'Client-ID': 'iteua36t3bn764geiij8px2tr5w5bl',
-            Accept: 'application/vnd.twitchtv.v5+json'
+            'Client-ID': HelperTwitch['Client-ID'],
+            'Authorization': 'Bearer ' + Cookies.get('BetterWASD_access_token')
           },
           success: (data) => {
-            response($.map(data.channels, (item) => {
+            response($.map(data.data, (item) => {
               return {
                 label: item.display_name,
                 value: item.display_name,
-                logo: item.logo
+                logo: item.thumbnail_url
               }
             }));
           }
@@ -2390,17 +2420,17 @@ const BetterStreamChat = {
     $("#ffzAddUser").autocomplete({
       source: (request, response) => {
         $.ajax({
-          url: `https://api.twitch.tv/kraken/search/channels?query=${ffzAddUser.value.toLowerCase()}&limit=5`,
+          url: `https://api.twitch.tv/helix/search/channels?query=${ffzAddUser.value.toLowerCase()}&first=5`,
           headers: {
-            'Client-ID': 'iteua36t3bn764geiij8px2tr5w5bl',
-            Accept: 'application/vnd.twitchtv.v5+json'
+            'Client-ID': HelperTwitch['Client-ID'],
+            'Authorization': 'Bearer ' + Cookies.get('BetterWASD_access_token')
           },
           success: (data) => {
-            response($.map(data.channels, (item) => {
+            response($.map(data.data, (item) => {
               return {
                 label: item.display_name,
                 value: item.display_name,
-                logo: item.logo
+                logo: item.thumbnail_url
               }
             }));
           }
@@ -2411,17 +2441,17 @@ const BetterStreamChat = {
     $("#tv7AddUser").autocomplete({
       source: (request, response) => {
         $.ajax({
-          url: `https://api.twitch.tv/kraken/search/channels?query=${tv7AddUser.value.toLowerCase()}&limit=5`,
+          url: `https://api.twitch.tv/helix/search/channels?query=${tv7AddUser.value.toLowerCase()}&first=5`,
           headers: {
-            'Client-ID': 'iteua36t3bn764geiij8px2tr5w5bl',
-            Accept: 'application/vnd.twitchtv.v5+json'
+            'Client-ID': HelperTwitch['Client-ID'],
+            'Authorization': 'Bearer ' + Cookies.get('BetterWASD_access_token')
           },
           success: (data) => {
-            response($.map(data.channels, (item) => {
+            response($.map(data.data, (item) => {
               return {
                 label: item.display_name,
                 value: item.display_name,
-                logo: item.logo
+                logo: item.thumbnail_url
               }
             }));
           }

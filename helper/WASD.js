@@ -47,6 +47,82 @@ const HelperWASD = {
       });
     }
 
+
+    if (document.location.hash && document.location.hash != '') {
+      var parsedHash = new URLSearchParams(window.location.hash.slice(1));
+      if (parsedHash.get('access_token')) {
+        var access_token = parsedHash.get('access_token');
+        window.history.pushState('page', 'Title', '/');
+
+        document.querySelector('#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item--active').classList.remove('nav-sidebar__item--active')
+        BetterStreamChat.settingsDiv.style.display = 'block'
+        document.querySelector('body').click()
+        document.body.style.overflowY = "hidden";
+        BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
+        BetterStreamChat.openSettings()
+        document.querySelector('#bscSettingsPanel main.active').classList.remove('active')
+        document.querySelector('#bscSettingsPanel [data-tab="twitch_authorize_public"]').classList.add('active')
+
+        Cookies.set('BetterWASD_access_token', access_token)
+
+        document.querySelector('.twitch_authorize_public').setAttribute('disabled', '')
+        document.querySelector('#bscSettingsPanel .twitch_authorize_content').textContent = 'Авторизовано'
+
+
+        if (!Cookies.get('BetterWASD_twitch_display_name')) {
+          $.ajax({
+            headers: {
+              'Client-ID': HelperTwitch['Client-ID'],
+              'Authorization': 'Bearer ' + Cookies.get('BetterWASD_access_token')
+            },
+            url: `https://api.twitch.tv/helix/users`,
+            success: (out) => {
+              Cookies.set('BetterWASD_twitch_display_name', out.data[0].display_name)
+              document.querySelector('.twitch_authorize_public .tooltip-content').textContent = 'Авторизовано: ' + out.data[0].display_name
+              document.querySelector('#bscSettingsPanel .twitch_authorize_content').textContent = 'Авторизовано: ' + out.data[0].display_name
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+              console.log(jqXHR)
+            }
+          });
+        } else {
+          document.querySelector('.twitch_authorize_public .tooltip-content').textContent = 'Авторизовано: ' + Cookies.get('BetterWASD_twitch_display_name')
+        }
+
+
+      }
+    } else if (document.location.search && document.location.search != '') {
+      var parsedParams = new URLSearchParams(window.location.search);
+      if (parsedParams.get('error_description')) {
+        document.querySelector('#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item--active').classList.remove('nav-sidebar__item--active')
+        BetterStreamChat.settingsDiv.style.display = 'block'
+        document.querySelector('body').click()
+        document.body.style.overflowY = "hidden";
+        BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
+        BetterStreamChat.openSettings()
+        document.querySelector('#bscSettingsPanel main.active').classList.remove('active')
+        document.querySelector('#bscSettingsPanel [data-tab="twitch_authorize_public"]').classList.add('active')
+        document.querySelector('#bscSettingsPanel .twitch_authorize_content').textContent = parsedParams.get('error') + ' - ' + parsedParams.get('error_description');
+
+        Helper.setUnauthorization()
+      }
+    }
+
+    $.ajax({
+      headers: {
+        'Client-ID': HelperTwitch['Client-ID'],
+        'Authorization': 'Bearer ' + Cookies.get('BetterWASD_access_token')
+      },
+      url: `https://api.twitch.tv/helix/users`,
+      error: (jqXHR, textStatus, errorThrown) => {
+        document.querySelector('.twitch_authorize_public').removeAttribute('disabled')
+        document.querySelector('.twitch_authorize_public .tooltip-content').textContent = ' Авторизоваться Twicth '
+
+        Helper.setUnauthorization()
+      }
+    });
+
+
     chrome.storage.onChanged.addListener(async (changes, namespace) => {
       if (namespace === 'sync') {
         settings = await Helper.getSettings();

@@ -168,5 +168,25 @@ const Helper = {
       data = $0.replace('var(', '').replace(')', '')
       return window.getComputedStyle(document.body).getPropertyValue(data).replace(/ /ig, '')
     })
+  },
+  setUnauthorization() {
+    tv7AddUser.disabled = true
+    tv7AddUser.placeholder = `Авторизуйтесь с помощью Twicth`
+
+    bttvAddUser.disabled = true
+    bttvAddUser.placeholder = `Авторизуйтесь с помощью Twicth`
+
+    ffzAddUser.disabled = true
+    ffzAddUser.placeholder = `Авторизуйтесь с помощью Twicth`
+  },
+  setAuthorization() {
+    tv7AddUser.disabled = false
+    tv7AddUser.placeholder = `Добавить новый канал (Twitch username)`
+
+    bttvAddUser.disabled = false
+    bttvAddUser.placeholder = `Добавить новый канал (Twitch username)`
+
+    ffzAddUser.disabled = false
+    ffzAddUser.placeholder = `Добавить новый канал (Twitch username)`
   }
 }

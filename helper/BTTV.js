@@ -208,7 +208,7 @@ const HelperBTTV = {
     let userID;
     HelperTwitch.getUserID(username).then((data) => {
       if (data.length) {
-        userID = data[0]._id;
+        userID = data[0].id;
         username = data[0].display_name;
         if (typeof bttvUsers[userID] !== 'undefined') return Promise.reject('Пользователь уже в списке');
         return HelperBTTV.updateUserChannelEmotes(userID, data[0].display_name);
