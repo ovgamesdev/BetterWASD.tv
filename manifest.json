@@ -48,24 +48,22 @@
     "matches": ["*://*.wasd.tv/*"]
   }],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
   "description": "Набор для улучшения WASD.TV",
-  "icons":
-  {
+  "icons": {
     "128": "img/icon128.png",
     "16": "img/icon16.png",
     "48": "img/icon48.png"
   },
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "BetterWASD",
-  "web_accessible_resources": [
-    "img/*.png",
-    "img/*.svg",
-    "css/fonts/*"
-  ],
+  "web_accessible_resources": [{
+    "resources": ["img/*.png", "img/*.svg", "css/fonts/*"],
+    "matches": ["*://*.wasd.tv/*"]
+  }],
   "minimum_chrome_version": "41",
-  "permissions": ["storage", "notifications", "*://*.wasd.tv/*"],
-  "version": "1.5.0.1"
+  "permissions": ["storage", "notifications"],
+  "host_permissions": ["*://*.wasd.tv/*"],
+  "version": "1.5.1"
 }

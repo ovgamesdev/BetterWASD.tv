@@ -14,6 +14,29 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.5.1',
+        date: '2022-03-19',
+        items: [{
+          text: [
+            `Выделение - Термины`,
+            `Значки подписчика`
+          ],
+          label: 'fixed'
+        }, {
+          text: [
+            `Разделитель строк в чате`,
+            `Добавить в контекст меню сообщения "Добавить в ЧС"`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            `Фильтрация.`,
+            `Значки`,
+            `WebSocket`
+          ],
+          label: 'optimized'
+        }]
+      }, {
         version: '1.5.0',
         date: '2022-02-25',
         items: [{
@@ -1242,10 +1265,10 @@ const BetterStreamChat = {
             <li ovg="">
               <a ovg="" class="nav-sidebar__link" style="position: relative;" id="goToObsChatSetting">
                 <i ovg="" class="ovg-icon-chat"></i>
-                <span ovg="">Чат для OBS (beta)</span>
+                <span ovg="">Чат для OBS (beta) <i class="icon wasd-icons-extract" style="padding-left: 5px;"></i></span>
                 <ovg-tooltip>
                   <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
-                    <div class="tooltip-content tooltip-content_left"> Чат для OBS (beta) </div>
+                    <div class="tooltip-content tooltip-content_left"> Чат для OBS (beta) <i class="icon wasd-icons-extract" style="padding-left: 5px;"></i> </div>
                   </div>
                 </ovg-tooltip>
               </a>
@@ -1519,11 +1542,75 @@ const BetterStreamChat = {
         ${changelogHtml}
       </main>
 
-      <main class="text" data-tab="filtration">
-        <h1 style="padding-left: 10px; padding-right: 10px;"> Фильтрация </h1>
-        
+      <main class="" data-tab="filtration">
+
+        <div style="display: flex;justify-content: space-between;">
+          <h1 style="padding-left: 10px;padding-top: 10px;"> Фильтрация </h1>
+        </div>
+
+        <div class="links_to">
+
+          <div class="option link_to" data-tab="filtrationBlockUser">
+            <div class="ovg-option">
+              <div class="option-line">
+                <div class="labelField">
+                  <span class="title"> Блокировка - Пользователи </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="option link_to" data-tab="filtrationBlockTerm" >
+            <div class="ovg-option">
+              <div class="option-line">
+                <div class="labelField">
+                  <span class="title"> Блокировка - Термины </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="option link_to" data-tab="filtrationHighlightUser" >
+            <div class="ovg-option">
+              <div class="option-line">
+                <div class="labelField">
+                  <span class="title"> Выделение - Пользователи </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="option link_to" data-tab="filtrationHighlightTerm" >
+            <div class="ovg-option">
+              <div class="option-line">
+                <div class="labelField">
+                  <span class="title"> Выделение - Термины </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="option link_to" data-tab="filtrationHighlightUserRole" >
+            <div class="ovg-option">
+              <div class="option-line">
+                <div class="labelField">
+                  <span class="title"> Выделение - Роль пользователя </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+      <main class="text" data-tab="filtrationBlockUser">
+        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
+          <button style="margin-right: 10px;" data-tab="filtration" class="link_to ovg basic show small"> назад </button>
+          <p style="margin: 5px 0 0 0;"> Блокировка - Пользователи </p>
+        </ovg-button>
+
         <div class="blacklist">
-          <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Пользователи </h3>
           <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
             <div ovg="" class="wasd-input-wrapper">
               <div ovg="" class="wasd-input">
@@ -1551,9 +1638,16 @@ const BetterStreamChat = {
             <tbody class="ovg-items">
             </tbody>
           </table>
+        </div>
+      </main>
 
+      <main class="text" data-tab="filtrationBlockTerm">
+        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
+          <button style="margin-right: 10px;" data-tab="filtration" class="link_to ovg basic show small"> назад </button>
+          <p style="margin: 5px 0 0 0;"> Блокировка - Термины </p>
+        </ovg-button>
 
-          <h3 style="padding-left: 10px; padding-right: 10px;"> Блокировка - Термины </h3>
+        <div class="blacklist">
           <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
             <div ovg="" class="wasd-input-wrapper">
               <div ovg="" class="wasd-input">
@@ -1582,9 +1676,15 @@ const BetterStreamChat = {
             </tbody>
           </table>
         </div>
+      </main>
+
+      <main class="text" data-tab="filtrationHighlightUser">
+        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
+          <button style="margin-right: 10px;" data-tab="filtration" class="link_to ovg basic show small"> назад </button>
+          <p style="margin: 5px 0 0 0;"> Выделение - Пользователи </p>
+        </ovg-button>
 
         <div class="highlight">
-          <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Пользователи </h3>
           <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
             <div ovg="" class="wasd-input-wrapper">
               <div ovg="" class="wasd-input">
@@ -1619,9 +1719,16 @@ const BetterStreamChat = {
             <tbody class="ovg-items">
             </tbody>
           </table>
+        </div>
+      </main>
 
+      <main class="text" data-tab="filtrationHighlightTerm">
+        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
+          <button style="margin-right: 10px;" data-tab="filtration" class="link_to ovg basic show small"> назад </button>
+          <p style="margin: 5px 0 0 0;"> Выделение - Термины </p>
+        </ovg-button>
 
-          <h3 style="padding-left: 10px; padding-right: 10px;"> Выделение - Термины </h3>
+        <div class="highlight">
           <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
             <div ovg="" class="wasd-input-wrapper">
               <div ovg="" class="wasd-input">
@@ -1653,11 +1760,19 @@ const BetterStreamChat = {
                 <div class="table-heading-text-ovg">Действия</div>
               </th>
             </thead>
-            <tbody c
-            lass="ovg-items">
+            <tbody class="ovg-items">
             </tbody>
           </table>
-          <h3 style="padding: 0 10px 5px 10px;"> Выделение - Роль пользователя </h3>
+        </div>
+      </main>
+
+      <main class="text" data-tab="filtrationHighlightUserRole">
+        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
+          <button style="margin-right: 10px;" data-tab="filtration" class="link_to ovg basic show small"> назад </button>
+          <p style="margin: 5px 0 0 0;"> Выделение - Роль пользователя </p>
+        </ovg-button>
+
+        <div class="highlight">
           <div style="margin-left: -10px; width: calc(100% + 20px);">
             ${HelperSettings.build('highlightRole')}
           </div>
@@ -2001,6 +2116,29 @@ const BetterStreamChat = {
         chrome.runtime.sendMessage({ location: 'reload' });
       })
     });
+
+    // link to navigation
+    for (let link of settingsDiv.querySelectorAll('.links_to .link_to')) {
+      link.addEventListener('click', ({ target }) => {
+
+        // console.log(target.classList.value)
+        if (target.classList.value == 'slider-ovg' || target.classList.value == 'optionField') return
+
+        let tabs = settingsDiv.querySelectorAll('main');
+        for (let element of [...tabs]) {
+          element.classList.remove('active');
+        }
+
+        if (target.getAttribute('data-tab') == 'bot') {
+          settingsSearchDiv.classList.remove('hidden')
+        } else {
+          settingsSearchDiv.classList.add('hidden')
+        }
+
+        settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
+
+      });
+    }
 
     // navigation old
     for (let navItem of settingsDiv.querySelectorAll('section .items > a')) {

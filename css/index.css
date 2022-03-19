@@ -286,6 +286,11 @@ button[ovg]:hover i[ovg] {
 #settingsSearchDiv:not(.notfocused) .wasd-input-wrapper {
   transition: width .2s;
 }
+
+#settingsSearchDiv:not(.notfocused) input {
+  background-color: var(--color-lowest-layer);
+}
+
 #settingsSearchDiv.notfocused,
 #settingsSearchDiv.notfocused .wasd-input-wrapper {
   width: 32px;
@@ -296,6 +301,7 @@ button[ovg]:hover i[ovg] {
   height: 32px;
   padding: 0;
   border: 0;
+  background-color: transparent!important;
 }
 #settingsSearchDiv.notfocused button {
   top: 0;
@@ -1145,7 +1151,7 @@ span.fade.helpTitleHover>img.fade {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: rgba(var(--color-switch),.64)!important;
+  color: rgba(var(--color-switch),.8)!important;
 }
 #selector-bm-ovg-settings>a>i {
   width: 52px;
@@ -1154,6 +1160,9 @@ span.fade.helpTitleHover>img.fade {
   justify-content: center;
   align-items: center;
   height: 40px;
+}
+#selector-bm-ovg-settings>a>i {
+  color: rgb(var(--color-system-blue));
 }
 #selector-bm-ovg-settings>a>i:before {
   margin: 0;
@@ -3015,6 +3024,9 @@ iframe.obschat {
   font-size: 14px;
   line-height: 1.2;
   word-break: break-word;
+
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .icon[badge] {
@@ -3143,4 +3155,14 @@ wasd-chat-subscribe-message .chat-message-mention {
   width: fit-content;
   height: 16px;
   border-radius: 2px;
+}
+
+
+/* links_to */
+.links_to .link_to.option *:not(.slider-ovg) {
+  pointer-events: none;
+}
+
+.links_to .link_to {
+    cursor: pointer;
 }

@@ -164,7 +164,7 @@ setInterval(() => {
   updateVideoPlayerButtons();
 }, 1000);
 
-chrome.runtime.onMessage.addListener((msg) => {
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   // console.log(msg)
   if (msg.from == "background" && msg.username) {
     window.focus()
@@ -202,6 +202,8 @@ chrome.runtime.onMessage.addListener((msg) => {
     document.querySelector('.chat-room__viewer-card .profile_coins-title').title = `${msg.coinUsers.count} монет`;
     document.querySelector('.chat-room__viewer-card .profile_coins-title').style.display = ''
   }
+
+  return true;
 });
 
 window.addEventListener('unload', () => navigator.sendBeacon(`${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`));

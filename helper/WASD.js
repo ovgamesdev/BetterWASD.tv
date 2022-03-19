@@ -941,28 +941,62 @@ const HelperWASD = {
       let allbadge = HelperWASD.badges[ws_user.getAttribute('user_login')]
       let htmlroles = viewerCard.querySelector('.roles .popup__roles')
 
+
+      let _currentPeriod = {iconUrl: ""}
+      let _currentPeriodText = {text: ""}
+      const subscriptionPeriods = [{
+        startDays: 0,
+        iconUrl: "https://static.wasd.tv/images/subscribers/1mon.png"
+      }, {
+        startDays: 60,
+        iconUrl: "https://static.wasd.tv/images/subscribers/3mon.png"
+      }, {
+        startDays: 150,
+        iconUrl: "https://static.wasd.tv/images/subscribers/6mon.png"
+      }, {
+        startDays: 240,
+        iconUrl: "https://static.wasd.tv/images/subscribers/9mon.png"
+      }, {
+        startDays: 330,
+        iconUrl: "https://static.wasd.tv/images/subscribers/12mon.png"
+      }, {
+        startDays: 510,
+        iconUrl: "https://static.wasd.tv/images/subscribers/18mon.png"
+      }, {
+        startDays: 690,
+        iconUrl: "https://static.wasd.tv/images/subscribers/24mon.png"
+      }]
+
+      let days_as_sub = ws_user.getAttribute('days_as_sub') ? Number(ws_user.getAttribute('days_as_sub'))+1 : null
+
+      if (days_as_sub) {
+        subscriptionPeriods.every(t => !(t.startDays > days_as_sub || (_currentPeriod = t, 0)))
+      }
+
+      let subtext = `${ws_user.getAttribute('days_as_sub')} дней подписки`
+
       if (allbadge && allbadge.badges.length > 0) {
         for (let badg of allbadge.badges) {
           htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> ${badg.tooltip.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` )} <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> ${badg.title} </div></div></ovg-tooltip></div>`);
         }
       }
       if (role.indexOf('sub') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 23px; background-color: ${HelperWASD.userColors[ws_user.getAttribute('user_id') % (HelperWASD.userColors.length - 1)]};"><i badge="" class="icon wasd-icons-star"    style="position: relative;top: 2px;"></i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Подписчик </div></div></ovg-tooltip></div>`);
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-image: url(${_currentPeriod.iconUrl});"><!--i badge="" class="icon wasd-icons-star"    style="position: relative;top: 2px;"></i--></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> ${subtext} </div></div></ovg-tooltip></div>`);
       }
       if (role.indexOf('owner') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 23px; background-color: var(--wasd-color-event3);">   <i badge="" class="icon wasd-icons-owner" style="position: relative;top: 2px;">      </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>`);
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-color: var(--wasd-color-event3);">   <i badge="" class="icon wasd-icons-owner" style="position: relative;top: 2px;">      </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>`);
       }
       if (role.indexOf('moderator') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 23px; background-color: var(--wasd-color-gray2);">    <i badge="" class="icon wasd-icons-moderator" style="position: relative;top: 2px;">  </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Модератор </div></div></ovg-tooltip></div>`);
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-color: var(--wasd-color-gray2);">    <i badge="" class="icon wasd-icons-moderator" style="position: relative;top: 2px;">  </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Модератор </div></div></ovg-tooltip></div>`);
       }
       if (role.indexOf('admin') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 23px; background-color: var(--wasd-color-corp-blue);"><i badge="" class="icon wasd-icons-dev" style="position: relative;top: 2px;">        </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Администратор </div></div></ovg-tooltip></div>`);
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-color: var(--wasd-color-corp-blue);"><i badge="" class="icon wasd-icons-dev" style="position: relative;top: 2px;">        </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Администратор </div></div></ovg-tooltip></div>`);
       }
       if (role.indexOf('promowin') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div message__promocodes" style="background-color: var(--wasd-color-gray2);width: 23px;"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Promo Code Winner </div></div></ovg-tooltip></div>`);
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div message__promocodes" style="background-color: var(--wasd-color-gray2);width: 20px;"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Promo Code Winner </div></div></ovg-tooltip></div>`);
       }
       if (role.indexOf('partner') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div message__partner" style="background-color: var(--wasd-color-gray2);width: 23px;"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> WASD PARTNER </div></div></ovg-tooltip></div>`);
+        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div message__partner" style="background-color: var(--wasd-color-gray2);width: 20px;"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Партнёр WASD.TV </div></div></ovg-tooltip></div>`);
       }
     } else {
       $.ajax({
@@ -1496,7 +1530,7 @@ const HelperWASD = {
                       iframe.contentDocument.head.appendChild(style)
 
                       createbtncloseclip = () => {
-                        let text_clip = iframe.contentDocument.querySelector('.create-clip__title')
+                        let text_clip = iframe?.contentDocument?.querySelector('.create-clip__title')
                         if (text_clip) {
                           text_clip.outerHTML = '<div class="close-cip"><span class="create-clip__title">Создание клипа</span><div data-a-target="viewer-card-close-button" class="tw-absolute tw-mg-r-05 tw-mg-t-05 tw-right-0 tw-top-0"><div class="viewer-card-drag-cancel"><button class="tw-button-icon tw-button-icon--overlay tw-core-button" aria-label="Скрыть" data-test-selector="close-viewer-card"><i _ngcontent-ykf-c54="" style="font-size:13px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-close"></i></button></div></div></div>'
                           iframe.contentDocument.querySelector('button.tw-button-icon.tw-button-icon--overlay.tw-core-button').addEventListener("click", () => {

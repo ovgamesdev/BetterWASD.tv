@@ -832,6 +832,36 @@ const HelperSettings = {
         id: 'colorMentionSelf',
         type: 'color'
       },
+      сhatLineSeparator: {
+        title: `Разделитель строк в чате`,
+        type: 'select',
+        items: [
+          {
+            value: 0,
+            label: 'Выключено'
+          },
+          {
+            value: 1,
+            label: 'Обычная линия (1п. сплошная)'
+          },
+          {
+            value: 2,
+            label: '3D линия (2п. канавка)'
+          },
+          {
+            value: 3,
+            label: '3D линия (2п. канавка со вставкой)'
+          },
+          {
+            value: 4,
+            label: 'Широкая линия (2п. сплошная)'
+          }
+        ]
+      },
+      addContextBlacklistAddUser: {
+        title: `Добавить в контекст меню сообщения "Добавить в ЧС"`,
+        type: 'boolean'
+      },
 
       playerGeneral: {
         title: 'Проигрыватель',

@@ -202,15 +202,15 @@ const socket = {
               break;
             case "event":
               // console.log(`[${JSData[0]}] ${JSData[1].event_type} - ${JSData[1].payload.user_login} ${JSData[1].message}`, JSData);
-              if (JSData[1].event_type == "NEW_FOLLOWER") {
-                socket.addWebSocket_history({
-                  user_login: JSData[1].payload.user_login,
-                  user_id: JSData[1].payload.user_id,
-                  channel_id: JSData[1].payload.channel_id,
-                  user_channel_role: '',
-                  other_roles: []
-                })
-              }
+              // if (JSData[1].event_type == "NEW_FOLLOWER") {
+              //   socket.addWebSocket_history({
+              //     user_login: JSData[1].payload.user_login,
+              //     user_id: JSData[1].payload.user_id,
+              //     channel_id: JSData[1].payload.channel_id,
+              //     user_channel_role: '',
+              //     other_roles: []
+              //   })
+              // }
               break;
             case "giftsV1":
               // console.log(`[${JSData[0]}] ${JSData[1].gift_name}`, JSData);
@@ -289,7 +289,7 @@ const socket = {
 		user.setAttribute('user_login', JSData.user_login)
 		user.setAttribute('user_loginLC', JSData.user_login.toLowerCase())
 		user.setAttribute('user_id', JSData.user_id)
-		// user.setAttribute('channel_id', JSData.channel_id)
+		if (typeof JSData.meta?.days_as_sub == 'number') user.setAttribute('days_as_sub', JSData.meta.days_as_sub)
 
     isMod = (JSData) => {
       if (JSData) {
@@ -378,15 +378,15 @@ const socket = {
         success: (out) => {
           if (socket.streamId == 0) return
 
-          for (let data of out.result) {
-            socket.addWebSocket_history({
-              user_login: data.user_login,
-              user_id: data.user_id,
-              channel_id: 0,
-              user_channel_role: data.user_channel_role,
-              other_roles: []
-            })
-          }
+          // for (let data of out.result) {
+          //   socket.addWebSocket_history({
+          //     user_login: data.user_login,
+          //     user_id: data.user_id,
+          //     channel_id: 0,
+          //     user_channel_role: data.user_channel_role,
+          //     other_roles: []
+          //   })
+          // }
 
           if(out.result.length == limit) {
             getall(limit, offset+1)

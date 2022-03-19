@@ -308,12 +308,12 @@ const wasd = {
         });
       }
 
-      if ($('wasd-header .logo img')?.attr('src')?.match('dark')) {
+      if ($('wasd-header .header__logo img')?.attr('src')?.match('dark')) {
         BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.svg")
       } else {
         BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo.svg")
       }
-      $('wasd-header .logo img').attrchange({
+      $('wasd-header .header__logo img').attrchange({
         trackValues: true,
         callback: function (event) {
           if (event.newValue.match('dark')) {
@@ -697,6 +697,16 @@ const wasd = {
       cssCode += `.message__info__text .message__partner {display: none !important;}`
     }
 
+    if (settings.wasd.сhatLineSeparator.toString() === '1') {
+      cssCode += `.block__messages__item {border-bottom: 1px solid rgba(var(--wasd-color-switch--rgb), .1);}`
+    } else if (settings.wasd.сhatLineSeparator.toString() === '2') {
+      cssCode += `.block__messages__item {border-bottom: 1px solid #000; border-top: 1px solid rgba(255,255,255,0.1);}`
+    } else if (settings.wasd.сhatLineSeparator.toString() === '3') {
+      cssCode += `.block__messages__item {border-bottom: 1px solid rgba(255,255,255,0.1); border-top: 1px solid #000;}`
+    } else if (settings.wasd.сhatLineSeparator.toString() === '4') {
+      cssCode += `.block__messages__item {border-bottom: 1px solid rgba(var(--wasd-color-switch--rgb), .1); border-top: 1px solid rgba(var(--wasd-color-switch--rgb), .1);}`
+    }
+
     if (wasd.style) {
       if (typeof wasd.style.styleSheet !== 'undefined') {
         wasd.style.styleSheet.cssText = cssCode;
@@ -748,12 +758,12 @@ const wasd = {
       let sticker = node.querySelector('.sticker')?.src
 
       let roles = ''
-      if (node.querySelector('wasd-chat-message')) roles       += 'user'
-      if (node.querySelector('.wasd-icons-owner')) roles       += ' owner'
-      if (node.querySelector('.wasd-icons-dev')) roles         += ' admin'
-      if (node.querySelector('.wasd-icons-moderator')) roles   += ' moderator'
-      if (node.querySelector('.wasd-icons-star')) roles        += ' sub'
-      if (node.querySelector('.message__partner')) roles       += ' partner'
+      if (node.querySelector('wasd-chat-message')) roles             += 'user'
+      if (node.querySelector('.wasd-icons-owner')) roles             += ' owner'
+      if (node.querySelector('.wasd-icons-dev')) roles               += ' admin'
+      if (node.querySelector('.wasd-icons-moderator')) roles         += ' moderator'
+      if (node.querySelector('.info__text__status-paid')) roles      += ' sub'
+      if (node.querySelector('.message__partner')) roles             += ' partner'
       node.setAttribute('role', roles)
 
       if (node.querySelector('img[alt="sticker"]')) node.setAttribute('sticker', node.querySelector('img[alt="sticker"]').src)
@@ -1430,7 +1440,7 @@ const wasd = {
         create_context_block = () => {
           context_menu = node.querySelector('.context-menu')
           if (context_menu) {
-            if (!context_menu.querySelector('.contextBlacklistAddUser')) {
+            if (!context_menu.querySelector('.contextBlacklistAddUser') && settings.wasd.addContextBlacklistAddUser) {
               let item = document.createElement('div')
               item.classList.add(`context-menu__block`)
               item.setAttribute('ovg', '')
@@ -1449,16 +1459,16 @@ const wasd = {
                 node.click()
               })
             }
-            if (!context_menu.querySelector('.contextPinMessages') && !settings.wasd.pinMessage) { // -!2
-              let item = document.createElement('div')
-              item.classList.add(`context-menu__block`)
-              item.innerHTML = `<div class="context-menu__block__icon contextPinMessages"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Закрепить сообщение </div>`;
-              context_menu.append(item)
-              item.addEventListener('click', ({ target }) => {
-                HelperWASD.addPinMessage(node)
-                node.click()
-              })
-            }
+            // if (!context_menu.querySelector('.contextPinMessages') && !settings.wasd.pinMessage) { // -!2
+            //   let item = document.createElement('div')
+            //   item.classList.add(`context-menu__block`)
+            //   item.innerHTML = `<div class="context-menu__block__icon contextPinMessages"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Закрепить сообщение </div>`;
+            //   context_menu.append(item)
+            //   item.addEventListener('click', ({ target }) => {
+            //     HelperWASD.addPinMessage(node)
+            //     node.click()
+            //   })
+            // }
           } else {
             trycreate++
             if (trycreate < 999) {

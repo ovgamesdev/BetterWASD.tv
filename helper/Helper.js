@@ -115,8 +115,10 @@ const Helper = {
         bwasdInChatMenu: true,
         copyMessage: false,
         showPartnerIcon: true,
-        mentionSelf: false,
-        colorMentionSelf: "rgba(var(--wasd-color-switch--rgb),.08)"
+        mentionSelf: true,
+        colorMentionSelf: "rgba(var(--wasd-color-switch--rgb),.08)",
+        сhatLineSeparator: 0,
+        addContextBlacklistAddUser: true
       },
       list: {
         blockUserList: {},
