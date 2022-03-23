@@ -450,6 +450,9 @@ button#backupButton {
 #bscSettingsPanel main .option.disabled .switch-ovg {
   pointer-events: none !important;
 }
+#bscSettingsPanel main .option.disabled [aria-labelledby="clr-open-label"] {
+  filter: brightness(0.5);
+}
 
 #bscSettingsPanel main .option.title {
   position: -webkit-sticky;
@@ -458,7 +461,7 @@ button#backupButton {
   min-height: 34px;
   background: rgba(var(--wasd-color-prime--rgb), .5);
   backdrop-filter: blur(7px);
-  z-index: 1;
+  z-index: 2;
 }
 
 #bscSettingsPanel main .ovg-option {
@@ -704,26 +707,103 @@ button#backupButton {
   color: var(--wasd-color-white);
 }
 
-.flexibleButtonGroup>input[type="checkbox"].def {
-  width: 20px!important;
-  height: 20px!important;
-  min-width: auto!important;
-  margin-left: 20px!important;
+wasd-input[ovg] {
+  width: 100%;
 }
 
-.flexibleButtonGroup input,
-.flexibleButtonGroup select {
-  background: var(--wasd-color-corp-gray);
-  color: var(--wasd-color-text-prime);
+.wasd-input-wrapper[ovg] {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  font-family: Roboto, sans-serif;
+  justify-content: space-between;
+  /*padding: 8px 0;*/
+  width: 100%;
 }
 
-.flexibleButtonGroup input:not([type="color"]),
-.flexibleButtonGroup select {
-  padding: 0 5px 0 5px;
+.wasd-input-wrapper[ovg] .wasd-input[ovg] {
+  caret-color: var(--wasd-color-corp-blue);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
 }
 
-.flexibleButtonGroup input[type="color"] {
-  padding: 0;
+.wasd-input-wrapper[ovg] .wasd-input[ovg] label[ovg] {
+  align-items: center;
+  color: rgba(var(--wasd-color-switch--rgb), .64);
+  display: flex;
+  font-size: 12px;
+  height: 14px;
+  opacity: 0;
+  transition: opacity .5s;
+}
+
+.wasd-input-wrapper[ovg] .wasd-input[ovg] input.has-button[ovg] {
+  padding-right: 28px;
+}
+
+.wasd-input-wrapper[ovg] .wasd-input[ovg] input[ovg],
+.wasd-input-wrapper[ovg] .wasd-input[ovg] textarea[ovg],
+.wasd-input-wrapper[ovg] .wasd-input[ovg] select {
+  background-color: var(--color-second-layer);
+  border: 1px solid var(--wasd-color-text-fourth);
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: var(--wasd-color-switch);
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  height: 32px;
+  margin: 4px 0 0;
+  outline: none;
+  padding: 0 8px;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  resize: vertical;
+}
+
+.wasd-input-wrapper[ovg] .wasd-input[ovg] input[ovg],
+.wasd-input-wrapper[ovg] .wasd-input[ovg] textarea[ovg] {
+  padding: 10px;
+}
+
+.wasd-input-wrapper[ovg] .wasd-input[ovg] button[ovg] {
+  height: 24px;
+  left: auto;
+  position: absolute;
+  right: 4px;
+  top: 22px;
+  width: 24px;
+}
+
+button.button-icon[ovg] {
+  cursor: auto;
+  padding: unset;
+  background: none;
+}
+
+i[ovg] {
+  color: rgba(var(--wasd-color-switch--rgb), .64);
+  font-size: 12px;
+}
+
+.wasd-input-wrapper[ovg] .wasd-input[ovg] input[ovg]:active,
+.wasd-input-wrapper[ovg] .wasd-input[ovg] input[ovg]:focus,
+
+.wasd-input-wrapper[ovg] .wasd-input[ovg] select:active,
+.wasd-input-wrapper[ovg] .wasd-input[ovg] select:focus,
+
+.wasd-input-wrapper[ovg] .wasd-input[ovg] textarea[ovg]:active,
+.wasd-input-wrapper[ovg] .wasd-input[ovg] textarea[ovg]:focus {
+  border: 1px solid var(--wasd-color-corp-blue) !important;
+  box-shadow: 0 0 0 2px rgba(var(--wasd-color-corp-blue--rgb), .48) !important;
+}
+
+.wasd-input-wrapper[ovg] .wasd-input[ovg] input[ovg]:hover,
+.wasd-input-wrapper[ovg] .wasd-input[ovg] select:hover,
+.wasd-input-wrapper[ovg] .wasd-input[ovg] textarea[ovg]:hover {
+  border: 1px solid var(--wasd-color-text-prime);
 }
 
 @keyframes BetterStreamChatFadeInOpacity {
@@ -1048,6 +1128,29 @@ span.chat-message-text.stickertext {
 
 span.chat-message-text.stickertext {
   color: rgba(var(--color-switch), .4)!important;
+}
+
+@keyframes hidebetterpanel_sidebar {
+  0% {
+    height: 449.778px;
+  }
+  100% {
+    height: 0px;
+    color-rendering: optimizespeed;
+    shape-rendering: optimizespeed;
+    text-rendering: optimizespeed;
+  }
+}
+@keyframes showbetterpanel_sidebar {
+  0% {
+    height: 0px;
+    color-rendering: optimizespeed;
+    shape-rendering: optimizespeed;
+    text-rendering: optimizespeed;
+  }
+  100% {
+    height: 449.778px;
+  }
 }
 
 @media screen and (min-width:800px) {
@@ -1654,7 +1757,6 @@ div.emoji-ovg::-webkit-scrollbar-track {
   -moz-user-select: none;
   -webkit-user-select: none;
   align-items: center;
-  cursor: pointer;
   display: flex;
   font-size: 14px;
   color: var(--wasd-color-text-second);
@@ -1664,6 +1766,9 @@ div.emoji-ovg::-webkit-scrollbar-track {
   margin-right: 24px;
   user-select: none;
   max-width: -webkit-fill-available;
+}
+img.emoji__item-ovg {
+  cursor: pointer;
 }
 #bscSettingsPanel input:not([data-coloris]) {
   cursor: text;
@@ -2969,12 +3074,20 @@ wasd-input [ovg] .clr-field {
   pointer-events: auto;
   z-index: 1;
   border-style: none;
-  display: inline-table;
+  /*display: inline-table;*/
+  display: contents !important;
 }
 wasd-input [ovg] .clr-field input {
   width: 30px;
 }
-
+wasd-input [ovg] .clr-field button {
+  z-index: 1;
+  margin-right: 1px;
+  width: 40px;
+  height: 30px;
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
 
 .stickerovg_text,
 .sticker_text {
@@ -3164,5 +3277,29 @@ wasd-chat-subscribe-message .chat-message-mention {
 }
 
 .links_to .link_to {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+/* badge */
+
+.info__text__status-ovg-badge {
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 2px;
+  height: 20px;
+  margin-right: 4px;
+  padding: 0;
+  width: 20px;
+}
+
+.twitch_authorize_public:not(.disabled) {
+  color: #fff;
+  background-color: #6441a5;
+  border-color: #573499;
+  border: 1px solid transparent;
+}
+
+.twitch_authorize_public.disabled {
+  background: none !important;
+  color: rgba(var(--wasd-color-switch--rgb), 0.25)  !important;
 }

@@ -271,15 +271,7 @@ const wasd = {
       if (!BetterStreamChat.isSettingsNewWindow && !document.querySelector('li#selector-bm-ovg-settings')) {
         const buttonovg = `<li id="selector-bm-ovg-settings"><a class="profile-menu__link"><i class="wasd-icons-settings-profile"></i><span> BetterWASD настройки </span></a></li>`
         document.querySelector('wasd-profile-menu #profile-menu .profile-menu__list #selector-pm-theme')?.insertAdjacentHTML("beforebegin", buttonovg);
-        document.querySelector('li#selector-bm-ovg-settings')?.addEventListener('click', () => {
-          BetterStreamChat.settingsDiv.style.display = 'block'
-          document.querySelector('body').click()
-          document.body.style.overflowY = "hidden";
-          BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
-          BetterStreamChat.openSettings()
-        });
-        // document.querySelector('wasd-header .profile-menu-toggle').addEventListener('click', () => {})
-        // document.querySelector('wasd-header .profile-menu-toggle').addEventListener('click', () => {})
+        document.querySelector('li#selector-bm-ovg-settings')?.addEventListener('click', Helper.showSettings);
       }
 
       let toggle = document.querySelector('.header-new__left-side .header-new__nav-sidebar-toggle')
@@ -309,17 +301,17 @@ const wasd = {
       }
 
       if ($('wasd-header .header__logo img')?.attr('src')?.match('dark')) {
-        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.svg")
+        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime?.id ? chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.svg") : BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src
       } else {
-        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo.svg")
+        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime?.id ? chrome.runtime.getURL("img/Wasd_Better_color_logo.svg") : BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src
       }
       $('wasd-header .header__logo img').attrchange({
         trackValues: true,
         callback: function (event) {
           if (event.newValue.match('dark')) {
-            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.svg")
+            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime?.id ? chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.svg") : BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src
           } else {
-            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime.getURL("img/Wasd_Better_color_logo.svg")
+            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime?.id ? chrome.runtime.getURL("img/Wasd_Better_color_logo.svg") : BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src
           }
         }
       });

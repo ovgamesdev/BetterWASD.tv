@@ -1,4 +1,4 @@
-.user_last_messages-ovg .accordion-header-wrap-ovg {
+.accordion-header-wrap-ovg {
   -moz-user-select: none;
   -webkit-user-select: none;
   align-items: center;
@@ -8,14 +8,15 @@
   justify-content: space-between;
   user-select: none;
 }
-.user_last_messages-ovg .accordion-header-ovg {
+.accordion-header-ovg {
   font-size: 16px;
   line-height: 22px;
 }
-.user_last_messages-ovg .accordion-header-arrow-ovg {
+.accordion-header-arrow-ovg {
   transform: scaleY(-1);
   transition: transform .3s;
 }
+select.active + .accordion-header-arrow-ovg,
 .user_last_messages-ovg.active .accordion-header-arrow-ovg {
   transform: scaleY(1);
   transition: transform .3s;
@@ -35,3 +36,10 @@
   top: 1px;
 }
 
+select + .accordion-header-arrow-ovg {
+  position: absolute;
+  right: 8px;
+  top: 12px;
+  z-index: 1;
+  pointer-events: none;
+}

@@ -90,6 +90,7 @@ wasd-header .nav-sidebar__item[ovg] .status {
   user-select: none;
   transition: width .3s linear;
   background: var(--color-first-layer);
+  pointer-events: none;
 }
 
 #bscSettingsPanel wasd-nav-sidebar .nav-sidebar[ovg]::-webkit-scrollbar {
@@ -111,6 +112,9 @@ wasd-header .nav-sidebar__item[ovg] .status {
 #bscSettingsPanel wasd-nav-sidebar .nav-sidebar__list[ovg].top {
   top: 0;
   position: absolute;
+  overflow: hidden;
+  width: 500px;
+  height: auto;
 }
 #bscSettingsPanel wasd-nav-sidebar .nav-sidebar__list[ovg].bottom {
   bottom: 0;
@@ -132,6 +136,7 @@ wasd-header .nav-sidebar__item[ovg] .status {
   line-height: 16px;
   cursor: pointer;
   transition: width .3s linear;
+  pointer-events: all;
 }
 
 #bscSettingsPanel wasd-nav-sidebar .nav-sidebar__link[ovg] *,

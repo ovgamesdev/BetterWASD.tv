@@ -3,11 +3,11 @@ const HelperTV7 = {
   emotes: {},
 
   updateSettings() {
-    let tv7EmoteList = BetterStreamChat.settingsDiv.querySelector(' #tv7EmoteList');
-    tv7EmoteList.innerText = '';
-
-    chrome.storage.local.get((items) => {
+    if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       HelperTV7.fetchGlobalEmotes(items).finally(() => {
+        let tv7EmoteList = BetterStreamChat.settingsDiv.querySelector(' #tv7EmoteList');
+        tv7EmoteList.innerText = '';
+
         tv7Emotes = items.tv7Emotes;
         tv7Users = items.tv7Users;
         for (let userID in items.tv7Emotes) {
@@ -86,7 +86,7 @@ const HelperTV7 = {
           };
           items.tv7Users = tv7Users;
           items.tv7Emotes = tv7Emotes;
-          chrome.storage.local.set({
+          if (chrome.runtime?.id) chrome.storage.local.set({
             tv7Users,
             tv7Emotes
           }, () => resolve());
@@ -98,7 +98,7 @@ const HelperTV7 = {
   },
   update() {
     return new Promise((resolve) => {
-      chrome.storage.local.get((items) => {
+      if (chrome.runtime?.id) chrome.storage.local.get((items) => {
         HelperTV7.fetchGlobalEmotes(items).finally(() => {
           tv7Emotes = items.tv7Emotes;
           tv7Users = items.tv7Users;
@@ -190,7 +190,7 @@ const HelperTV7 = {
         username,
         lastUpdate: Date.now()
       };
-      chrome.storage.local.set({
+      if (chrome.runtime?.id) chrome.storage.local.set({
         tv7Users,
         tv7Emotes
       }, () => {
@@ -222,9 +222,9 @@ const HelperTV7 = {
       return HelperTV7.update();
     }).then(() => {
       let newEmotes = Object.keys(HelperTV7.emotes).length - beforeEmotes;
-      HelperSettings.showMessage(`Пользователь ${username} и ${newEmotes} уникальные эмоции добавлены.`, 'success');
+      alertify.success(`Пользователь ${username} и ${newEmotes} уникальные эмоции добавлены.`, 3);
     }).catch((err) => {
-      HelperSettings.showMessage(err, 'error');
+      alertify.error(err, 5);
     }).finally(() => {
       tv7AddUser.value = '';
       tv7AddUser.removeAttribute('disabled');
@@ -254,13 +254,13 @@ const HelperTV7 = {
   removeUser(userID) {
     delete tv7Users[userID]
     delete tv7Emotes[userID]
-    chrome.storage.local.set({
+    if (chrome.runtime?.id) chrome.storage.local.set({
       tv7Users,
       tv7Emotes
     });
   },
   updateEmotesTv7() {
-    chrome.storage.local.get((items) => {
+    if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       for (let userID in items.tv7Emotes) {
         HelperTV7.updateUserChannelEmotes(userID, items.tv7Users[userID].username)
       }
@@ -269,7 +269,7 @@ const HelperTV7 = {
   restoreSettings(items) {
     return new Promise((resolve, reject) => {
 
-      chrome.storage.local.set({
+      if (chrome.runtime?.id) chrome.storage.local.set({
         tv7Users: items.tv7Users,
         tv7Emotes: {}
       });
@@ -297,7 +297,7 @@ const HelperTV7 = {
 
     let tv7Emotes
     let tv7Users
-    chrome.storage.local.get((items) => {
+    if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       HelperTV7.fetchGlobalEmotes(items).finally(() => {
         tv7Emotes = items.tv7Emotes;
         tv7Users = items.tv7Users;
@@ -321,7 +321,7 @@ const HelperTV7 = {
           document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
           document.querySelector('wasd-chat-emoji-smiles-bwasd')?.remove();
           
-          emoteBodytv7.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-tv7><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option tv7emojiSearch-shat" style="background: url(${chrome.runtime.getURL("img/search.png")}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-tv7>`)
+          emoteBodytv7.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-tv7><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option tv7emojiSearch-shat" style="background: url(${chrome.runtime?.id ? chrome.runtime.getURL("img/search.png") : ''}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-tv7>`)
           let EmoteListtv7 = emoteBodytv7.querySelector('div.emoji-ovg');
           //ovg.log(HelperTV7.emotes);
           if (EmoteListtv7) {

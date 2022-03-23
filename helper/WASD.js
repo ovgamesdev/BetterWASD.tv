@@ -23,15 +23,18 @@ const HelperWASD = {
     }
 
     if (new URL(document.URL).searchParams.get('helper-settings')) {
+      if (new URL(document.URL).searchParams.get('type') == 'whatsNew') {
+        BetterStreamChat.settingsDiv.querySelector('wasd-nav-sidebar [data-tab="changelog"]').click()
+      }
       BetterStreamChat.settingsDiv.style.display = 'block'
       BetterStreamChat.settingsDiv.classList.add('fullscreen')
 
       setInterval(() => {
-        chrome.runtime.sendMessage({ from: "tab_settings" })
+        Helper.trySendMessage({ from: "tab_settings" })
       }, 5000)
     } else {
       setInterval(() => {
-        chrome.runtime.sendMessage({ from: "tab_content" })
+        Helper.trySendMessage({ from: "tab_content" })
       }, 5000)
 
       $( "#bscSettingsPanel" ).draggable({
@@ -55,11 +58,7 @@ const HelperWASD = {
         window.history.pushState('page', 'Title', '/');
 
         document.querySelector('#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item--active').classList.remove('nav-sidebar__item--active')
-        BetterStreamChat.settingsDiv.style.display = 'block'
-        document.querySelector('body').click()
-        document.body.style.overflowY = "hidden";
-        BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
-        BetterStreamChat.openSettings()
+        Helper.showSettings()
         document.querySelector('#bscSettingsPanel main.active').classList.remove('active')
         document.querySelector('#bscSettingsPanel [data-tab="twitch_authorize_public"]').classList.add('active')
 
@@ -95,11 +94,7 @@ const HelperWASD = {
       var parsedParams = new URLSearchParams(window.location.search);
       if (parsedParams.get('error_description')) {
         document.querySelector('#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item--active').classList.remove('nav-sidebar__item--active')
-        BetterStreamChat.settingsDiv.style.display = 'block'
-        document.querySelector('body').click()
-        document.body.style.overflowY = "hidden";
-        BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
-        BetterStreamChat.openSettings()
+        Helper.showSettings()
         document.querySelector('#bscSettingsPanel main.active').classList.remove('active')
         document.querySelector('#bscSettingsPanel [data-tab="twitch_authorize_public"]').classList.add('active')
         document.querySelector('#bscSettingsPanel .twitch_authorize_content').textContent = parsedParams.get('error') + ' - ' + parsedParams.get('error_description');
@@ -151,7 +146,7 @@ const HelperWASD = {
             }
           })
 
-          chrome.runtime.sendMessage({ setUninstall: out.result.user_profile.user_id })
+          Helper.trySendMessage({ setUninstall: out.result.user_profile.user_id })
 
         }
       }
@@ -1000,7 +995,7 @@ const HelperWASD = {
           }
         });
 
-        if (socket?.channel?.channel?.channel_owner?.user_id == HelperWASD.current?.user_profile?.user_id) chrome.runtime.sendMessage({ from: 'betterwasd_tv', getCoinUsers: data.user_id });
+        if (socket?.channel?.channel?.channel_owner?.user_id == HelperWASD.current?.user_profile?.user_id) Helper.trySendMessage({ from: 'betterwasd_tv', getCoinUsers: data.user_id });
       } else {
         HelperWASD.showChatMessage('не удалось получить информацию о пользователе, попробуйте обновить чат', 'warning');
         card.querySelector('div[data-a-target="viewer-card-close-button"] > div.viewer-card-drag-cancel > button')?.click();
@@ -1541,13 +1536,7 @@ const HelperWASD = {
 
     node.querySelectorAll('div.menu__block')[0].insertAdjacentHTML("afterend", switcher);
 
-    document.querySelector('#buttonOvG')?.addEventListener('click', () => {
-      BetterStreamChat.settingsDiv.style.display = 'block'
-      document.querySelector('.header__block__btn > i').click()
-      document.body.style.overflowY = "hidden";
-      BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
-      BetterStreamChat.openSettings()
-    })
+    document.querySelector('#buttonOvG')?.addEventListener('click', Helper.showSettings)
   },
   addPipToPlayer(value) {
     if (value) {
@@ -1767,13 +1756,7 @@ const HelperWASD = {
     } else {
       document.querySelector('.chat-container__btn-open--desktop-ovg')?.remove()
     }
-    if (button) {
-      if (document.querySelector('.chat-container__btn-open--desktop > i')?.className == 'wasd-icons-right' && value) {
-        button.style.display = 'none'
-      } else {
-        button.style.display = ''
-      }
-    }
+    if (button) button.style.display = document.querySelector('.chat-container__btn-open--desktop > i')?.className == 'wasd-icons-right' && value ? 'none' : ''
   },
   async getRecord() {
     return new Promise((resolve, reject) => {

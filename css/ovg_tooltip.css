@@ -9,6 +9,7 @@ ovg-tooltip .tooltip {
   transform: translateZ(0);
   z-index: 1;
   font-weight: normal;
+  opacity: 0;
 }
 
 ovg-tooltip .tooltip_visible {
@@ -217,11 +218,29 @@ ovg-button:hover ovg-tooltip .tooltip,
 button:hover ovg-tooltip .tooltip,
 .sticker-card:hover ovg-tooltip .tooltip,
 wasd-channel-favorite-btn:hover ovg-tooltip .tooltip,
-.def:hover ovg-tooltip .tooltip,
 a:hover ovg-tooltip .tooltip,
 .tooltip-wrapper:hover .tooltip,
 .tooltip-hover:hover .tooltip {
   display: flex;
+  opacity: 1;
+}
+
+.def ovg-tooltip .tooltip {
+  display: flex !important;
+}
+.def ovg-tooltip {
+  pointer-events: none;
+}
+
+.option.disabled ovg-tooltip {
+  display: none;
+}
+
+.def:hover ovg-tooltip .tooltip {
+  opacity: 1;
+
+  transition: opacity .2s;
+  transition-delay: 1s;
 }
 
 .nav-sidebar--expanded ovg-tooltip .tooltip {

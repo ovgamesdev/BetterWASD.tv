@@ -14,6 +14,20 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.5.3',
+        date: '2022-03-22',
+        items: [{
+          text: [
+            `Выделение - Роль пользователя - Цвет для WASD партнёра.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            `BetterWASD.`
+          ],
+          label: 'optimized'
+        }]
+      }, {
         version: '1.5.2',
         date: '2022-03-19',
         items: [{
@@ -1147,16 +1161,16 @@ const BetterStreamChat = {
 
             <ovg-bell _ngcontent-ljm-c266="" id="ovg_bell__element" _nghost-ljm-c288="">
               <div _ngcontent-ljm-c288="" wasdclickoutside="" class="bell">
-                <button _ngcontent-ljm-c288="" class="basic medium-cube ovg bell_button">
-                  <i _ngcontent-ljm-c288="" class="bell__icon wasd-icons-notice-fill"></i>
-                  <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Информация </div></div></ovg-tooltip>
+                <button _ngcontent-ljm-c288="" class="bell__icon-wrap bell_button basic medium-cube ovg">
+                  <i _ngcontent-ljm-c288="" class="bell__icon wasd-icons-bell bell__icon--animation">
+                    <svg _ngcontent-ljm-c288="" viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg" class="bell__icon-background" style="display: none;"><path _ngcontent-ljm-c288="" fill-rule="evenodd" clip-rule="evenodd" d="M4.83952 1.50457C4.83364 1.48211 4.82838 1.45935 4.82375 1.4363C4.69316 0.786707 5.11402 0.15427 5.76363 0.0237462C6.41323 -0.10679 7.04571 0.313967 7.17628 0.963696C7.21244 1.1438 7.20623 1.32259 7.16453 1.48973C9.0087 2.00916 10.3587 3.76186 10.3587 5.83425V7.29605C10.3587 7.89446 10.6116 8.45966 11.045 8.8377L11.297 9.05753C11.7439 9.44743 12 10.0197 12 10.6206V10.6343C12 11.7502 11.1241 12.6666 10.0281 12.6666H7.88621C7.61167 13.4435 6.87085 14 6 14C5.12914 14 4.38833 13.4435 4.11379 12.6666H1.9719C0.875916 12.6666 0 11.7501 0 10.6343C0 10.0219 0.266038 9.43977 0.72786 9.05002L0.986731 8.83149C1.43413 8.45393 1.69677 7.87929 1.69677 7.26951V5.83425C1.69677 3.78116 3.02171 2.04185 4.83952 1.50457Z" fill="#141820"></path></svg>
+                  </i>
+                  <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Уведомления </div></div></ovg-tooltip>
                 </button>
                 <div _ngcontent-ljm-c288="" class="bell__info bell-info" hidden="" style="z-index: 5;">
-                  <div _ngcontent-ljm-c288="" class="bell-info__title"> Информация </div>
+                  <div _ngcontent-ljm-c288="" class="bell-info__title"> Уведомления </div>
                   <div _ngcontent-ljm-c288="" class="bell-info__hr"></div>
-                  <div _ngcontent-ljm-c288="" class="bell-info__list bell-info__list_scroll">
-                    <!---->
-                    <!---->
+                  <div _ngcontent-ljm-c288="" class="bell-info__list bell-info__list--scroll">
                   </div>
                 </div>
               </div>
@@ -1201,7 +1215,7 @@ const BetterStreamChat = {
 
       <wasd-nav-sidebar ovg="" style="z-index:5">
         <div ovg="" id="nav-sidebar" class="nav-sidebar" style="height: calc(100% - 48px);z-index: 1;float: left;z-index: 5557;overflow: hidden;">
-          <ul ovg="" class="nav-sidebar__list top" style="position: fixed;top: auto;">
+          <ul ovg="" class="nav-sidebar__list top" style="position: fixed;top: auto;animation-duration: .5s;">
             <li ovg="">
               <a ovg="" class="nav-sidebar__item" data-tab="general" style="position: relative;">
                 <i ovg="" class="wasd-icons-settings"></i>
@@ -1709,9 +1723,9 @@ const BetterStreamChat = {
                 <button id="highlightAddUserBtn" ovg="" type="button" class="button-icon">
                   <i ovg="" class="wasd-icons-add"></i>
                 </button>
-                <div class="clr-field" style="color: #00000000;">
-                  <button aria-labelledby="clr-open-label"></button>
-                  <input id="highlightAddUserColor" type="text" value="#00000000" data-coloris>
+                <div class="clr-field" style="color: #00000000;display: flex !important;">
+                  <button aria-labelledby="clr-open-label" style="margin-right: -9px;border-radius: 0;"></button>
+                  <input id="highlightAddUserColor" type="text" value="#00000000" data-coloris style="width: 40px;height: 29px;">
                 </div>
               </div>
             </div>
@@ -1753,9 +1767,9 @@ const BetterStreamChat = {
                 <button id="highlightAddTermBtn" ovg="" type="button" class="button-icon">
                   <i ovg="" class="wasd-icons-add"></i>
                 </button>
-                <div class="clr-field" style="color: #00000000;">
-                  <button aria-labelledby="clr-open-label"></button>
-                  <input id="highlightAddTermColor" type="text" value="#00000000" data-coloris>
+                <div class="clr-field" style="color: #00000000;display: flex !important;">
+                  <button aria-labelledby="clr-open-label"style="margin-right: -9px;border-radius: 0;"></button>
+                  <input id="highlightAddTermColor" type="text" value="#00000000" data-coloris style="width: 40px;height: 29px;">
                 </div>
               </div>
             </div>
@@ -1898,12 +1912,7 @@ const BetterStreamChat = {
 
     // bind close settings 
     settingsDiv.querySelector('.close').addEventListener('click', () => {
-      settingsDiv.style.animationName = 'hidebetterpanel';
-      HelperWASD.stopTimerStatData()
-      setTimeout(() => {
-        settingsDiv.style.display = 'none';
-      }, 350);
-      document.body.style.overflowY = "";
+      Helper.hideSettings()
     });
 
     // bind update chat 
@@ -1915,9 +1924,9 @@ const BetterStreamChat = {
         header_block_menu[0]?.children[0]?.click()
       } else {
         if (settingsDiv.classList.contains('fullscreen')) {
-          chrome.runtime.sendMessage({ update_chat: true });
+          Helper.trySendMessage({ update_chat: true })
         } else {
-          HelperSettings.showMessage(`Чат не найден.`, 'error');
+          alertify.error(`Чат не найден.`)
         }
       }
     });
@@ -1936,7 +1945,7 @@ const BetterStreamChat = {
       settingsDiv.querySelector('.close').click()
     });
 
-    // bind update emotes 
+    // bind update emotes
     settingsDiv.querySelector('.updateemotes').addEventListener('dblclick', () => {
       let header_block_menu = document.querySelector('.header > div.header__block__menu')
 
@@ -1946,9 +1955,8 @@ const BetterStreamChat = {
       }, 1000);
 
       HelperBTTV.updateEmotesBttv();
-      HelperFFZ.updateEmotesFfz()
-      HelperTV7.updateEmotesTv7()
-      HelperBWASD.updateEmotesBwasd()
+      HelperFFZ.updateEmotesFfz();
+      HelperTV7.updateEmotesTv7();
     });
 
     if (Cookies.get('BetterWASD_access_token')) {
@@ -2069,7 +2077,7 @@ const BetterStreamChat = {
       if (files.name.indexOf('.backup') == files.name.length - 7 || files.name.indexOf('.backup.txt') == files.name.length - 11) {
         reader.readAsText(files)
       } else {
-        HelperSettings.showMessage(`только .backup файлы`, 'error');
+        alertify.warning(`только .backup файлы`, 3)
       }
     })
 
@@ -2077,8 +2085,8 @@ const BetterStreamChat = {
       return (e) => {
         chrome.storage[storageType].set(JSON.parse(e.target.result), () => {
           location.reload()
-          chrome.runtime.sendMessage({ location: 'reload' });
-          HelperSettings.showMessage(`reload`, 'success')
+          Helper.trySendMessage({ location: 'reload' });
+          alertify.warning(`Перезагрузка страницы`, 5)
         })
       }
     }
@@ -2130,7 +2138,7 @@ const BetterStreamChat = {
       if (n && n.indexOf('.backup') == n.length - 7 || n && n.indexOf('.backup.txt') == n.length - 11) {
         reader.readAsText(e.dataTransfer.files[0]);
       } else {
-        HelperSettings.showMessage(`только .backup файлы`, 'error');
+        alertify.warning(`только .backup файлы`, 3);
       }
     };
 
@@ -2143,7 +2151,7 @@ const BetterStreamChat = {
     settingsDiv.querySelector('.backup-reset').addEventListener('dblclick', () => {
       chrome.storage[storageType].set(Helper.getDefaultSettings(), () => {
         location.reload()
-        chrome.runtime.sendMessage({ location: 'reload' });
+        Helper.trySendMessage({ location: 'reload' });
       })
     });
 
@@ -2238,7 +2246,7 @@ const BetterStreamChat = {
     })
 
     goToObsChatSetting.addEventListener('click', () => {
-      chrome.runtime.sendMessage({ createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}` });
+      Helper.trySendMessage({ createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}` });
     })
 
 
@@ -2357,7 +2365,7 @@ const BetterStreamChat = {
           value = option.value;
         }
 
-        chrome.runtime.sendMessage({ update_save: { split: split, value: value } })
+        Helper.trySendMessage({ update_save: { split: split, value: value } })
 
       });
     }
@@ -2465,11 +2473,11 @@ const BetterStreamChat = {
       let input = wasdinput.querySelector('input[ovg]')
       let text = input?.placeholder
       if (label) label.textContent = text
-      wasdinput.querySelector('input').addEventListener('focus', () => {
+      wasdinput.querySelector('input')?.addEventListener('focus', () => {
         label?.classList.add('show')
         input.placeholder = ''
       })
-      wasdinput.querySelector('input').addEventListener('blur', () => {
+      wasdinput.querySelector('input')?.addEventListener('blur', () => {
         label?.classList.remove('show')
         input.placeholder = text
       })
@@ -2484,24 +2492,28 @@ const BetterStreamChat = {
       Helper.notify(`Тест`, `Тестовое уведомление`, 'test')
     })
 
-    // bind Информация
+    // bind Уведомления
     let isOpenBell = false
-    document.body.addEventListener('click', () => {
-      if (isOpenBell) {
+    let bell__info = ovg_bell__element.querySelector('.bell__info')
+    let bell_button = ovg_bell__element.querySelector('.bell_button')
+    document.body.addEventListener('click', (e) => {
+      if (!e.target.className.match('bell') && isOpenBell) {
+        Helper.setNotifyReaded()
         bell__info.setAttribute('hidden', '')
         isOpenBell = false
       }
-    })
-    let bell__info = ovg_bell__element.querySelector('.bell__info')
-    ovg_bell__element.querySelector('.bell_button').addEventListener('click', () => {
-      setTimeout(() => {
-        if (!isOpenBell) {
-          bell__info.removeAttribute('hidden')
-          isOpenBell = true
-        } else {
+      if (e.target.className.match('bell__icon') && isOpenBell) {
+        setTimeout(() => {
+          Helper.setNotifyReaded()
           bell__info.setAttribute('hidden', '')
           isOpenBell = false
-        }
+        }, 50)
+      }
+    })
+    bell_button.addEventListener('click', () => {
+      setTimeout(() => {
+        bell__info.removeAttribute('hidden')
+        isOpenBell = true
       }, 50)
     })
 
@@ -2518,6 +2530,13 @@ const BetterStreamChat = {
           within: $('#bscSettingsPanel')
         }
       });
+    }
+
+    for (let select of settingsDiv.querySelectorAll('select')) {
+      select.onfocus = (e) => e.target.classList.add('active')
+      select.onblur = (e) => e.target.classList.remove('active')
+
+      select.onchange = (e) => e.target.blur()
     }
 
     this.install();
@@ -2587,39 +2606,7 @@ const BetterStreamChat = {
       });
     }
 
-    $.ajax({
-      url: `https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/main/info.json`,
-      success: (out) => {
-        out = JSON.parse(out)
-        let data = out[BetterStreamChat.changelog.version]
-        if (data) {
-
-          ovg_bell__element.querySelector('.bell-info__list').innerHTML = ''
-
-          for(let info in data.info) {
-
-            let div = document.createElement('div'), linkhtml = ''
-            div.setAttribute('_ngcontent-ljm-c288', '')
-            div.classList.add('bell-info__elem')
-            div.classList.add('ovg')
-            div.setAttribute('bell_id', data.info[info].id)
-            if (data.info[info].link) linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${data.info[info].link}"> ${data.info[info].linkText ? data.info[info].linkText : "Подробнее"} </a></div>`
-            div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${data.info[info].text} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${data.info[info].date} </div>`
-
-            ovg_bell__element.querySelector('.bell-info__list').appendChild(div)
-          }
-
-          if (data.info.length == 0) {
-            ovg_bell__element.style.display = 'none'
-          } else {
-            ovg_bell__element.style.display = ''
-          }
-
-        } else {
-          ovg_bell__element.style.display = 'none'
-        }
-      }
-    });
+    Helper.buildBell()
 
     if (document.querySelector('main.active[data-tab="about"]')) {
       HelperWASD.startTimerStatData()

@@ -38,6 +38,14 @@ const HelperBWASD = {
             stickers__line.append(div);
           }
         }
+
+        if (Object.keys(items.bwasdEmotes[userID]).length == 0) {
+          let div = document.createElement('div');
+          div.classList.add('emoji__item-ovg');
+          div.innerText = 'У пользователя нет BetterWASD'
+
+          stickers__line.append(div);
+        }
       }
     }
   },
@@ -251,7 +259,7 @@ const HelperBWASD = {
           document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove();
           document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
 
-          emoteBodybwasd.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-bwasd><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bwasdemojiSearch-shat" style="background: url(${chrome.runtime.getURL("img/search.png")}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-bwasd>`)
+          emoteBodybwasd.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-bwasd><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bwasdemojiSearch-shat" style="background: url(${chrome.runtime?.id ? chrome.runtime.getURL("img/search.png") : ''}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-bwasd>`)
           let EmoteListbwasd = emoteBodybwasd.querySelector('div.emoji-ovg');
           //ovg.log(HelperBWASD.emotes);
 

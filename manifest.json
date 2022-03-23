@@ -17,7 +17,8 @@
       "css/ovg_accordion.css",
       "css/ovg_viewer-user-card.css",
       "css/ovg_username.css",
-      "lib/coloris/coloris.min.css"
+      "lib/coloris/coloris.min.css",
+      "lib/alertify/css/alertify.css"
     ],
     "js": [
       "lib/jquery/jquery.min.js",
@@ -32,6 +33,7 @@
       "lib/linkify/linkify.min.js",
       "lib/linkify/linkify-element.min.js",
       "lib/code-mnem/code-mnem.js",
+      "lib/alertify/alertify.min.js",
       "helper/Helper.js",
       "helper/Settings.js",
       "helper/Twitch.js",
@@ -65,5 +67,5 @@
   "minimum_chrome_version": "88",
   "permissions": ["storage", "notifications"],
   "host_permissions": ["*://*.wasd.tv/*"],
-  "version": "1.5.2"
+  "version": "1.5.3"
 }

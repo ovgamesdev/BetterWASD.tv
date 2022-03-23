@@ -3,11 +3,11 @@ const HelperFFZ = {
   emotes: {},
 
   updateSettings() {
-    let ffzEmoteList = BetterStreamChat.settingsDiv.querySelector(' #ffzEmoteList');
-    ffzEmoteList.innerText = '';
-
-    chrome.storage.local.get((items) => {
+    if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       HelperFFZ.fetchGlobalEmotes(items).finally(() => {
+        let ffzEmoteList = BetterStreamChat.settingsDiv.querySelector(' #ffzEmoteList');
+        ffzEmoteList.innerText = '';
+
         ffzEmotes = items.ffzEmotes;
         ffzUsers = items.ffzUsers;
         for (let userID in items.ffzEmotes) {
@@ -86,7 +86,7 @@ const HelperFFZ = {
           };
           items.ffzUsers = ffzUsers;
           items.ffzEmotes = ffzEmotes;
-          chrome.storage.local.set({
+          if (chrome.runtime?.id) chrome.storage.local.set({
             ffzUsers,
             ffzEmotes
           }, () => resolve());
@@ -98,7 +98,7 @@ const HelperFFZ = {
   },
   update() {
     return new Promise((resolve) => {
-      chrome.storage.local.get((items) => {
+      if (chrome.runtime?.id) chrome.storage.local.get((items) => {
         HelperFFZ.fetchGlobalEmotes(items).finally(() => {
           ffzEmotes = items.ffzEmotes;
           ffzUsers = items.ffzUsers;
@@ -190,7 +190,7 @@ const HelperFFZ = {
         username,
         lastUpdate: Date.now()
       };
-      chrome.storage.local.set({
+      if (chrome.runtime?.id) chrome.storage.local.set({
         ffzUsers,
         ffzEmotes
       }, () => {
@@ -222,9 +222,9 @@ const HelperFFZ = {
       return HelperFFZ.update();
     }).then(() => {
       let newEmotes = Object.keys(HelperFFZ.emotes).length - beforeEmotes;
-      HelperSettings.showMessage(`Пользователь ${username} и ${newEmotes} уникальные эмоции добавлены.`, 'success');
+      alertify.success(`Пользователь ${username} и ${newEmotes} уникальные эмоции добавлены.`, 3);
     }).catch((err) => {
-      HelperSettings.showMessage(err, 'error');
+      alertify.error(err, 5);
     }).finally(() => {
       ffzAddUser.value = '';
       ffzAddUser.removeAttribute('disabled');
@@ -254,13 +254,13 @@ const HelperFFZ = {
   removeUser(userID) {
     delete ffzUsers[userID]
     delete ffzEmotes[userID]
-    chrome.storage.local.set({
+    if (chrome.runtime?.id) chrome.storage.local.set({
       ffzUsers,
       ffzEmotes
     });
   },
   updateEmotesFfz() {
-    chrome.storage.local.get((items) => {
+    if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       for (let userID in items.ffzEmotes) {
         HelperFFZ.updateUserChannelEmotes(userID, items.ffzUsers[userID].username)
       }
@@ -269,7 +269,7 @@ const HelperFFZ = {
   restoreSettings(items) {
     return new Promise((resolve, reject) => {
 
-      chrome.storage.local.set({
+      if (chrome.runtime?.id) chrome.storage.local.set({
         ffzUsers: items.ffzUsers,
         ffzEmotes: {}
       });
@@ -297,7 +297,7 @@ const HelperFFZ = {
     
     let ffzEmotes
     let ffzUsers
-    chrome.storage.local.get((items) => {
+    if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       HelperFFZ.fetchGlobalEmotes(items).finally(() => {
         ffzEmotes = items.ffzEmotes;
         ffzUsers = items.ffzUsers;
@@ -318,7 +318,7 @@ const HelperFFZ = {
           document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove();
           document.querySelector('wasd-chat-emoji-smiles-bwasd')?.remove();
 
-          emoteBodyffz.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-ffz><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option ffzemojiSearch-shat" style="background: url(${chrome.runtime.getURL("img/search.png")}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-ffz>`)
+          emoteBodyffz.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-ffz><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option ffzemojiSearch-shat" style="background: url(${chrome.runtime?.id ? chrome.runtime.getURL("img/search.png") : ''}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-ffz>`)
           let EmoteListffz = emoteBodyffz.querySelector('div.emoji-ovg');
           //ovg.log(HelperFFZ.emotes);
 

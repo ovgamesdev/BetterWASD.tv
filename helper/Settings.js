@@ -3,7 +3,7 @@ const HelperSettings = {
   availableSettings: {
     general: {
       autoUpdateChat: {
-        title: 'Автоматически обновлять чат после изменения опции',
+        title: 'Автоматическое обновление чата после изменения опций',
         type: 'boolean'
       },
       uiTransparency: {
@@ -14,6 +14,10 @@ const HelperSettings = {
         title: 'Сохранять последнюю позицию карточки пользователя',
         type: 'boolean'
       },
+      // extensionUpdated: {
+      //   title: 'Получать уведомление, когда расширение получает новую версию',
+      //   type: 'boolean'
+      // },
       BETA: {
         title: `${Helper.BETA} - Эта опция находится в стадии разработки и может работать некорректно`,
         type: 'none'
@@ -1012,20 +1016,24 @@ const HelperSettings = {
         title: 'Цвет для пользователя',
         type: 'color'
       },
+      partner: {
+        title: 'Цвет для WASD партнёра',
+        type: 'color'
+      },
       admin: {
         title: 'Цвет для администратора WASD',
         type: 'color'
       },
-      owner: {
-        title: 'Цвет для создателя канала',
+      sub: {
+        title: 'Цвет для подписчика канала',
         type: 'color'
       },
       moderator: {
         title: 'Цвет для модератора канала',
         type: 'color'
       },
-      sub: {
-        title: 'Цвет для подписчика канала',
+      owner: {
+        title: 'Цвет для создателя канала',
         type: 'color'
       }
     }
@@ -1044,6 +1052,8 @@ const HelperSettings = {
       this.messageTimeout = null;
     };
     statusElement.addEventListener('click', hide);
+    if (message == 'Расширение было обновлено | Перезагрузите страницу')statusElement.addEventListener('click', () => {location.reload()});
+
     this.messageTimeout = setTimeout(hide, 2000);
   },
   _basic(title, description, formField, line = false, id) {
@@ -1105,7 +1115,7 @@ const HelperSettings = {
     }
 
     chrome.storage[storageType].set(newSettings, () => {
-      this.showMessage('параметры сохранены', 'success');
+      alertify.success('параметры сохранены', 1.25);
     });
   },
   build(category) {
@@ -1156,13 +1166,19 @@ const HelperSettings = {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <div class="def">
-          <input option-type="number" type="number" class="optionField" data-name="${name}" value="${defaultValue}" ${min ? 'min="' + min + '" ' : ''}${max ? 'max="' + max + '"' : ''}${updateChat ? " updatechat=''" : ""}/>
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-dirty ng-touched ng-valid">
+            <div ovg="" class="wasd-input-wrapper" style="padding: 0 0 4px 0;">
+              <div ovg="" class="wasd-input">
+                <input ovg="" option-type="number" type="number" class="ng-pristine optionField ng-untouched ng-valid" data-name="${name}" value="${defaultValue}" ${min ? 'min="' + min + '" ' : ''}${max ? 'max="' + max + '"' : ''}${updateChat ? " updatechat=''" : ""}/>
+              </div>
+            </div>
+          </wasd-input>
           <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
         </div>
-        <button class="optionField def" data-name="${name}" option-type="number"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
+        <!--button class="optionField def" data-name="${name}" option-type="number"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
       </ol>`, false, id);
   },
-  select(name, title, description, items = [], defaultValue = '', updateChat = false, id = '') {
+  select(name, title, description, items = [1], defaultValue = '', updateChat = false, id = '') {
     let selectOptions = '';
     defaultValue = defaultValue.toString();
     for (let item of items) {
@@ -1171,10 +1187,16 @@ const HelperSettings = {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <div class="def">
-          <select option-type="select" class="optionField" data-name="${name}"${updateChat ? " updatechat=''" : ""}>${selectOptions}</select>
-          <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-dirty ng-touched ng-valid">
+            <div ovg="" class="wasd-input-wrapper" style="padding: 0 0 4px 0;">
+              <div ovg="" class="wasd-input">
+                <select option-type="select" class="optionField" data-name="${name}"${updateChat ? " updatechat=''" : ""} style="padding-right: 35px;">${selectOptions}</select> <div class="accordion-header-arrow-ovg"><i class="wasd-icons-dropdown-top"></i></div>
+                <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
+              </div>
+            </div>
+          </wasd-input>
         </div>
-        <button class="optionField def" data-name="${name}" option-type="select"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>
+        <!--button class="optionField def" data-name="${name}" option-type="select"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button-->
       </ol>`, false, id);
   },
   none(name, title, description, defaultValue = '') {
@@ -1188,10 +1210,14 @@ const HelperSettings = {
     return this._basic(title, description, `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <div class="def">
-          <div class="clr-field" style="color: ${defaultValue};">
-            <button aria-labelledby="clr-open-label"></button>
-            <input type="text" option-type="color" class="optionField" data-name="${name}" value="${defaultValue}" data-coloris${updateChat ? " updatechat=''" : ""}>
-          </div>
+          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-dirty ng-touched ng-valid">
+            <div ovg="" class="wasd-input-wrapper" style="padding: 0 0 4px 0;">
+              <div ovg="" class="wasd-input clr-field" style="color: ${defaultValue};">
+                <input ovg="" option-type="color" type="text" class="ng-pristine optionField ng-untouched ng-valid" data-name="${name}" value="${defaultValue}" data-coloris${updateChat ? " updatechat=''" : ""}/>
+                <button aria-labelledby="clr-open-label"></button>
+              </div>
+            </div>
+          </wasd-input>
           <ovg-tooltip><div class="tooltip tooltip_position-topRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Правая кнопка мыши для сброса </div></div></ovg-tooltip>
         </div>
         <button class="optionField def" data-name="${name}" option-type="color"><div class="tooltip-ovg"> Сбросить по умолчанию </div><i _ngcontent-khk-c259="" class="wasd-icons-close"></i></button>

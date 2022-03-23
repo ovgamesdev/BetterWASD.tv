@@ -3,11 +3,11 @@ const HelperBTTV = {
   emotes: {},
 
   updateSettings() {
-    let bttvEmoteList = BetterStreamChat.settingsDiv.querySelector('#bttvEmoteList');
-    bttvEmoteList.innerText = '';
-
-    chrome.storage.local.get((items) => {
+    if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       HelperBTTV.fetchGlobalEmotes(items).finally(() => {
+        let bttvEmoteList = BetterStreamChat.settingsDiv.querySelector('#bttvEmoteList');
+        bttvEmoteList.innerText = '';
+        
         bttvEmotes = items.bttvEmotes;
         bttvUsers = items.bttvUsers;
         for (let userID in items.bttvEmotes) {
@@ -86,7 +86,7 @@ const HelperBTTV = {
           };
           items.bttvUsers = bttvUsers;
           items.bttvEmotes = bttvEmotes;
-          chrome.storage.local.set({
+          if (chrome.runtime?.id) chrome.storage.local.set({
             bttvUsers,
             bttvEmotes
           }, () => resolve());
@@ -98,7 +98,7 @@ const HelperBTTV = {
   },
   update() {
     return new Promise((resolve) => {
-      chrome.storage.local.get((items) => {
+      if (chrome.runtime?.id) chrome.storage.local.get((items) => {
         HelperBTTV.fetchGlobalEmotes(items).finally(() => {
           bttvEmotes = items.bttvEmotes;
           bttvUsers = items.bttvUsers;
@@ -187,7 +187,7 @@ const HelperBTTV = {
         username,
         lastUpdate: Date.now()
       };
-      chrome.storage.local.set({
+      if (chrome.runtime?.id) chrome.storage.local.set({
         bttvUsers,
         bttvEmotes
       }, () => {
@@ -219,9 +219,9 @@ const HelperBTTV = {
       return HelperBTTV.update();
     }).then(() => {
       let newEmotes = Object.keys(HelperBTTV.emotes).length - beforeEmotes;
-      HelperSettings.showMessage(`Пользователь ${username} и ${newEmotes} уникальные эмоции добавлены.`, 'success');
+      alertify.success(`Пользователь ${username} и ${newEmotes} уникальные эмоции добавлены.`, 3);
     }).catch((err) => {
-      HelperSettings.showMessage(err, 'error');
+      alertify.error(err, 5);
     }).finally(() => {
       bttvAddUser.value = '';
       bttvAddUser.removeAttribute('disabled');
@@ -251,13 +251,13 @@ const HelperBTTV = {
   removeUser(userID) {
     delete bttvUsers[userID]
     delete bttvEmotes[userID]
-    chrome.storage.local.set({
+    if (chrome.runtime?.id) chrome.storage.local.set({
       bttvUsers,
       bttvEmotes
     });
   },
   updateEmotesBttv() {
-    chrome.storage.local.get((items) => {
+    if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       for (let userID in items.bttvEmotes) {
         HelperBTTV.updateUserChannelEmotes(userID, items.bttvUsers[userID].username)
       }
@@ -266,7 +266,7 @@ const HelperBTTV = {
   restoreSettings(items) {
     return new Promise((resolve, reject) => {
 
-      chrome.storage.local.set({
+      if (chrome.runtime?.id) chrome.storage.local.set({
         bttvUsers: items.bttvUsers,
         bttvEmotes: {}
       });
@@ -294,7 +294,7 @@ const HelperBTTV = {
     
     let bttvEmotes
     let bttvUsers
-    chrome.storage.local.get((items) => {
+    if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       HelperBTTV.fetchGlobalEmotes(items).finally(() => {
         bttvEmotes = items.bttvEmotes;
         bttvUsers = items.bttvUsers;
@@ -318,7 +318,7 @@ const HelperBTTV = {
           document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove();
           document.querySelector('wasd-chat-emoji-smiles-bwasd')?.remove();
 
-          emoteBodybttv.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-bttv><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bttvemojiSearch-shat" style="background: url(${chrome.runtime.getURL("img/search.png")}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-bttv>`)
+          emoteBodybttv.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-bttv><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bttvemojiSearch-shat" style="background: url(${chrome.runtime?.id ? chrome.runtime.getURL("img/search.png") : ''}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-bttv>`)
           let EmoteListbttv = emoteBodybttv.querySelector('div.emoji-ovg');
           //ovg.log(HelperBTTV.emotes);
 

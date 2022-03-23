@@ -70,13 +70,13 @@ chrome.notifications.onButtonClicked.addListener((notifId, btnIdx) => {
     chrome.tabs.sendMessage(contentTabId, { from: "background", username: username });
   }
   if (notifId == notificationWhatsNewId && btnIdx == 0) {
-    // chrome.windows.create({
-    //   url: "popup.html?type=updated",
-    //   type: "popup",
-    //   width: 900,
-    //   height: 560,
-    //   focused: false
-    // });
+    chrome.windows.create({
+      url: "https://wasd.tv/chat?helper-settings=settings&type=whatsNew",
+      type: "popup",
+      width: 900,
+      height: 560,
+      focused: true
+    });
   }
 });
 
@@ -105,9 +105,9 @@ chrome.runtime.onInstalled.addListener(function(details) {
       iconUrl: "img/icon128.png",
       title: "BetterWASD",
       message: "Расширение обновлено",
-      // buttons: [{
-      //   title: 'Что нового'
-      // }]
+      buttons: [{
+        title: 'Что нового'
+      }]
     }, (id) => { notificationWhatsNewId = id })
   }
 });

@@ -11,6 +11,7 @@ const Helper = {
         uiTransparency: false,
         saveCardPosition: false,
         cardPosition: {x: 0, y: 0},
+        // extensionUpdated: true
       },
       wasd: {
         messageFollower: false,
@@ -129,10 +130,11 @@ const Helper = {
       },
       highlightRole: {
         user: "#00000000",
+        partner: "#00000000",
         admin: "#00000000",
         sub: "#00000000",
-        owner: "#00000000",
-        moderator: "#00000000"
+        moderator: "#00000000",
+        owner: "#00000000"
       }
     };
   },
@@ -156,7 +158,7 @@ const Helper = {
     });
   },
   notify(title, body, username) {
-    chrome.runtime.sendMessage({
+    Helper.trySendMessage({
       notify: "create",
       title: title,
       message: body,
@@ -188,5 +190,94 @@ const Helper = {
 
     ffzAddUser.disabled = false
     ffzAddUser.placeholder = `Добавить новый канал (Twitch username)`
+  },
+  trySendMessage(arg) {
+    if (chrome.runtime?.id) {
+      chrome.runtime.sendMessage(arg);
+    } else {
+      let msg = alertify.warning(`Расширение было обновлено</br>Перезагрузите страницу`, 4.5)
+      msg.callback = (isClicked) => {if (isClicked) location.reload()}
+    }
+  },
+  buildBell() {
+    $.ajax({
+      url: `https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/main/info.json`,
+      success: (out) => {
+        out = JSON.parse(out)
+        let data = out[BetterStreamChat.changelog.version]
+        if (data) {
+
+          ovg_bell__element.querySelector('.bell-info__list').innerHTML = ''
+
+          for(let info in data.info) {
+
+            let div = document.createElement('div'), linkhtml = ''
+            div.setAttribute('_ngcontent-ljm-c288', '')
+            div.classList.add('bell-info__elem')
+            div.classList.add('ovg')
+            div.setAttribute('bell_id', data.info[info].id)
+            if (data.info[info].link) linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${data.info[info].link}"> ${data.info[info].linkText ? data.info[info].linkText : "Подробнее"} </a></div>`
+            div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${data.info[info].text} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${data.info[info].date} </div>`
+
+            ovg_bell__element.querySelector('.bell-info__list').appendChild(div)
+          }
+
+          if (data.info.length == 0) {
+            ovg_bell__element.style.display = 'none'
+          } else {
+            ovg_bell__element.style.display = ''
+          }
+
+          let wrap = document.querySelector('#bscSettingsPanel .bell__icon-wrap')
+          if (Helper.isNotifyReaded()) {
+            wrap.classList.remove('bell__icon-wrap--animation')
+            wrap.classList.remove('bell__icon-wrap--new-msg')
+          } else {
+            wrap.classList.add('bell__icon-wrap--animation')
+            wrap.classList.add('bell__icon-wrap--new-msg')
+          }
+
+        } else {
+          ovg_bell__element.style.display = 'none'
+        }
+      }
+    });
+  },
+  setNotifyReaded() {
+    let list = document.querySelector('#bscSettingsPanel .bell-info__list')
+    let notifyReaded = ''
+    for (let node of list.childNodes) {
+      notifyReaded += node.getAttribute('bell_id') + '&'
+    }
+    Cookies.set('BetterWASD_notify_readed', notifyReaded)
+
+    let wrap = document.querySelector('#bscSettingsPanel .bell__icon-wrap')
+    wrap.classList.remove('bell__icon-wrap--animation')
+    wrap.classList.remove('bell__icon-wrap--new-msg')
+  },
+  isNotifyReaded() {
+    let list = document.querySelector('#bscSettingsPanel .bell-info__list')
+    let notifyReaded = ''
+    for (let node of list.childNodes) {
+      notifyReaded += node.getAttribute('bell_id') + '&'
+    }
+    return Cookies.get('BetterWASD_notify_readed') == notifyReaded
+  },
+  showSettings() {
+    BetterStreamChat.settingsDiv.style.display = 'block'
+    document.body.click()
+    document.body.style.overflowY = "hidden";
+    BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
+    BetterStreamChat.settingsDiv.querySelector('.nav-sidebar__list.top').style.animationName = 'showbetterpanel_sidebar';
+    BetterStreamChat.openSettings()
+  },
+  hideSettings() {
+    BetterStreamChat.settingsDiv.style.animationName = 'hidebetterpanel';
+    BetterStreamChat.settingsDiv.querySelector('.nav-sidebar__list.top').style.animationName = 'hidebetterpanel_sidebar';
+    HelperWASD.stopTimerStatData()
+    setTimeout(() => {
+      BetterStreamChat.settingsDiv.style.display = 'none';
+    }, 350);
+    document.body.style.overflowY = "";
   }
 }
