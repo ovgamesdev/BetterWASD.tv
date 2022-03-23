@@ -558,10 +558,19 @@ const HelperSettings = {
 
       copyMessage: {
         title: `Добавить значок скопировать сообщение`,
-        type: 'boolean'
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          if (value) {
+            document.querySelector('#colorCopuOptions').classList.remove('disabled')
+          } else {
+            document.querySelector('#colorCopuOptions').classList.add('disabled')
+          }
+        }
       },
       colorCopuOptions: {
         title: 'Фон для значка (Скопировать сообщение)',
+        id: 'colorCopuOptions',
         type: 'color'
       },
 
@@ -893,10 +902,12 @@ const HelperSettings = {
             document.querySelector('#moderatorMenuAutomatic').classList.remove('disabled')
             document.querySelector('#moderatorMenuTimeout').classList.remove('disabled')
             document.querySelector('#keepMessagesTimeout').classList.remove('disabled')
+            document.querySelector('#colorModOptions').classList.remove('disabled')
           } else {
             document.querySelector('#moderatorMenuAutomatic').classList.add('disabled')
             document.querySelector('#moderatorMenuTimeout').classList.add('disabled')
             document.querySelector('#keepMessagesTimeout').classList.add('disabled')
+            document.querySelector('#colorModOptions').classList.add('disabled')
           }
         }
       },
@@ -931,6 +942,7 @@ const HelperSettings = {
       },
       colorModOptions: {
         title: 'Фон для значка',
+        id: 'colorModOptions',
         type: 'color'
       },
 
