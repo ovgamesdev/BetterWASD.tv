@@ -24,7 +24,7 @@ const Helper = {
         webkitScrollbarWidth: false,
         giftsWrapperSide: false,
         giftsWrapperTopRight: false,
-        sticker: "2",
+        sticker: "0",
         stickerovg: "1",
         paddingChatMessage: "4",
         colonAfterNickname: false,
@@ -119,7 +119,8 @@ const Helper = {
         mentionSelf: true,
         colorMentionSelf: "rgba(var(--wasd-color-switch--rgb),.08)",
         сhatLineSeparator: 0,
-        addContextBlacklistAddUser: true
+        addContextBlacklistAddUser: true,
+        colorCopuOptions: "rgba(var(--wasd-color-switch--rgb),.08)"
       },
       list: {
         blockUserList: {},
@@ -279,5 +280,17 @@ const Helper = {
       BetterStreamChat.settingsDiv.style.display = 'none';
     }, 350);
     document.body.style.overflowY = "";
+  },
+  loginTwitchUI(username = '') {
+    document.querySelector('.twitch_authorize_public').classList.add('disable')
+    document.querySelector('.twitch_authorize_public').classList.add('medium')
+    document.querySelector('.twitch_authorize_public').classList.remove('medium-cube')
+    document.querySelector('.twitch_authorize_public .username').textContent = username
+  },
+  logoutTwitchUI() {
+    document.querySelector('.twitch_authorize_public').classList.remove('disable')
+    document.querySelector('.twitch_authorize_public').classList.remove('medium')
+    document.querySelector('.twitch_authorize_public').classList.add('medium-cube')
+    document.querySelector('.twitch_authorize_public .username').textContent = ''
   }
 }

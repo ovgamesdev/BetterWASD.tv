@@ -53,20 +53,13 @@ const HelperWASD = {
 
     if (document.location.hash && document.location.hash != '') {
       var parsedHash = new URLSearchParams(window.location.hash.slice(1));
+      window.history.pushState('page', 'Title', '/');
       if (parsedHash.get('access_token')) {
         var access_token = parsedHash.get('access_token');
-        window.history.pushState('page', 'Title', '/');
-
-        document.querySelector('#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item--active').classList.remove('nav-sidebar__item--active')
         Helper.showSettings()
-        document.querySelector('#bscSettingsPanel main.active').classList.remove('active')
-        document.querySelector('#bscSettingsPanel [data-tab="twitch_authorize_public"]').classList.add('active')
-
         Cookies.set('BetterWASD_access_token', access_token)
-
-        document.querySelector('.twitch_authorize_public').setAttribute('disabled', '')
-        document.querySelector('#bscSettingsPanel .twitch_authorize_content').textContent = 'Авторизовано'
-
+        let notify = alertify.success('Авторизовано', 0);
+        Helper.loginTwitchUI()
 
         if (!Cookies.get('BetterWASD_twitch_display_name')) {
           $.ajax({
@@ -76,29 +69,26 @@ const HelperWASD = {
             },
             url: `https://api.twitch.tv/helix/users`,
             success: (out) => {
+              window.history.pushState('page', 'Title', '/');
               Cookies.set('BetterWASD_twitch_display_name', out.data[0].display_name)
-              document.querySelector('.twitch_authorize_public .tooltip-content').textContent = 'Авторизовано: ' + out.data[0].display_name
-              document.querySelector('#bscSettingsPanel .twitch_authorize_content').textContent = 'Авторизовано: ' + out.data[0].display_name
+              Helper.loginTwitchUI(out.data[0].display_name)
+              notify.setContent('Авторизовано: ' + out.data[0].display_name)
+              setTimeout(() => {notify.dismiss()}, 10000)
             },
-            error: (jqXHR, textStatus, errorThrown) => {
-              console.log(jqXHR)
+            error: (e) => {
+              window.history.pushState('page', 'Title', '/');
+              console.log(e)
             }
           });
-        } else {
-          document.querySelector('.twitch_authorize_public .tooltip-content').textContent = 'Авторизовано: ' + Cookies.get('BetterWASD_twitch_display_name')
         }
-
-
       }
     } else if (document.location.search && document.location.search != '') {
       var parsedParams = new URLSearchParams(window.location.search);
+      window.history.pushState('page', 'Title', '/');
       if (parsedParams.get('error_description')) {
-        document.querySelector('#bscSettingsPanel wasd-nav-sidebar .nav-sidebar__item--active').classList.remove('nav-sidebar__item--active')
         Helper.showSettings()
-        document.querySelector('#bscSettingsPanel main.active').classList.remove('active')
-        document.querySelector('#bscSettingsPanel [data-tab="twitch_authorize_public"]').classList.add('active')
-        document.querySelector('#bscSettingsPanel .twitch_authorize_content').textContent = parsedParams.get('error') + ' - ' + parsedParams.get('error_description');
-
+        notify.dismiss();
+        alertify.error(parsedParams.get('error') + ' - ' + parsedParams.get('error_description'), 5);
         Helper.setUnauthorization()
       }
     }
@@ -109,10 +99,10 @@ const HelperWASD = {
         'Authorization': 'Bearer ' + Cookies.get('BetterWASD_access_token')
       },
       url: `https://api.twitch.tv/helix/users`,
-      error: (jqXHR, textStatus, errorThrown) => {
-        document.querySelector('.twitch_authorize_public').removeAttribute('disabled')
-        document.querySelector('.twitch_authorize_public .tooltip-content').textContent = ' Авторизоваться Twicth '
-
+      error: () => {
+        Cookies.remove('BetterWASD_access_token')
+        Cookies.remove('BetterWASD_twitch_display_name')
+        Helper.logoutTwitchUI()
         Helper.setUnauthorization()
       }
     });

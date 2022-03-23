@@ -17,6 +17,7 @@
       "css/ovg_accordion.css",
       "css/ovg_viewer-user-card.css",
       "css/ovg_username.css",
+      "css/ovg_dropdown.css",
       "lib/coloris/coloris.min.css",
       "lib/alertify/css/alertify.css"
     ],
@@ -67,5 +68,5 @@
   "minimum_chrome_version": "88",
   "permissions": ["storage", "notifications"],
   "host_permissions": ["*://*.wasd.tv/*"],
-  "version": "1.5.3"
+  "version": "1.5.4"
 }

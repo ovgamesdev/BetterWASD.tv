@@ -237,9 +237,9 @@ const wasd = {
       fontStyle.innerHTML = '';
       fontStyle.appendChild(document.createTextNode(`@font-face {
         font-family: 'ovg-icons';
-        src:  url(${chrome.runtime.getURL("css/fonts/ovg-icons.ttf")}?6w1vn5) format('truetype'),
-          url(${chrome.runtime.getURL("css/fonts/ovg-icons.woff")}?6w1vn5) format('woff'),
-          url(${chrome.runtime.getURL("css/fonts/ovg-icons.svg")}?6w1vn5#ovg-icons) format('svg');
+        src:  url(${chrome.runtime.getURL("css/fonts/ovg-icons.ttf")}?batw30) format('truetype'),
+          url(${chrome.runtime.getURL("css/fonts/ovg-icons.woff")}?batw30) format('woff'),
+          url(${chrome.runtime.getURL("css/fonts/ovg-icons.svg")}?batw30#ovg-icons) format('svg');
         font-weight: normal;
         font-style: normal;
         font-display: block;
@@ -274,16 +274,16 @@ const wasd = {
         document.querySelector('li#selector-bm-ovg-settings')?.addEventListener('click', Helper.showSettings);
       }
 
-      let toggle = document.querySelector('.header-new__left-side .header-new__nav-sidebar-toggle')
-      document.querySelector('.header-new__right-side')?.append(toggle.cloneNode(true))
-      let newtoggle = document.querySelector('.header-new__right-side .header-new__nav-sidebar-toggle')
-      toggle = document.querySelector('.header-new__left-side .header-new__nav-sidebar-toggle')
+      let toggle = document.querySelector('.header__left-side .header__nav-sidebar-toggle')
+      if (toggle) document.querySelector('.header__right-side')?.append(toggle.cloneNode(true))
+      let newtoggle = document.querySelector('.header__right-side .header__nav-sidebar-toggle')
+      toggle = document.querySelector('.header__left-side .header__nav-sidebar-toggle')
       if (newtoggle) {
         newtoggle.style.transform = 'rotate(180deg)'
         newtoggle.addEventListener('click', () => {
           if (!document.querySelector('#nav-sidebar').classList.contains('nav-sidebar--expanded')) {
             setTimeout(() => {
-              document.querySelector('.header-new__left-side .header-new__nav-sidebar-toggle').click()
+              document.querySelector('.header__left-side .header__nav-sidebar-toggle').click()
             }, 25)
           }
         })
@@ -445,8 +445,9 @@ const wasd = {
       cssCode += `#scroll-content { padding-right: 52px!important; padding-left: 0px!important; }`;
       cssCode += `wasd-header #nav-sidebar { left: auto!important; right: 0!important;}`
       cssCode += `wasd-header #nav-sidebar { border-left: 1px solid rgba(var(--color-switch),.24)!important; border-right: none!important;}`
-      cssCode += `.header-new__left-side .header-new__nav-sidebar-toggle { display: none!important; }`
+      cssCode += `.header__left-side .header__nav-sidebar-toggle { display: none!important; }`
       cssCode += `.profile-menu-toggle { margin-right: 8px!important; }`
+      cssCode += `#profile-menu { z-index: 1; }`
 
       // fix скрыть чат
       if (settings.wasd.moveHideChat) cssCode += `.chat-container__btn-open--desktop-ovg .wasd-icons-right:before {transform: rotate(180deg)!important;}`
@@ -457,7 +458,7 @@ const wasd = {
     } else {
       cssCode += `@media screen and (min-width:480px) {wasd-chat-wrapper > div.chat-container { width: ${settings.wasd.chatWidth}px!important }}`;
       cssCode += `div.player-wrapper.theatre-mode { width: calc(100vw - ${settings.wasd.chatWidth}px)!important; }`;
-      cssCode += `.header-new__right-side .header-new__nav-sidebar-toggle { display: none!important; }`
+      cssCode += `.header__right-side .header__nav-sidebar-toggle { display: none!important; }`
     }
     cssCode += 'wasd-chat-wrapper > div.chat-container.close--desktop { width: 0px!important; }';
 
@@ -531,11 +532,11 @@ const wasd = {
     }
 
     if (settings.wasd.hideBannerOnHome) {
-      cssCode += `wasd-banner .banner { display: none!important; }`;
+      cssCode += `wasd-home wasd-banner { display: none!important; }`;
     }
 
-    if (settings.wasd.hideSelectorStreamSettings && document.querySelector('.header-new__stream-settings-btn')) { //new
-      cssCode += `.header-new__stream-settings-btn, hr#selector-header-new-buttons-right-hr-first { display: none!important; }`;
+    if (settings.wasd.hideSelectorStreamSettings && document.querySelector('.header__stream-settings-btn')) { //new
+      cssCode += `.header__stream-settings-btn, hr#selector-header-buttons-right-hr-first { display: none!important; }`;
     }
     if (settings.wasd.hideSelectorStreamSettings) { //old
       cssCode += `#selector-header-stream-settings { display: none!important; }`;
@@ -595,7 +596,7 @@ const wasd = {
     }
 
     if (settings.wasd.hideGreatRandom) {
-      cssCode += '.header-new__random-stream-wrap {display: none!important}' //new
+      cssCode += '.header__random-stream-wrap {display: none!important}' //new
       cssCode += '.li#selector-header-random-stream {display: none!important}' //old
     }
 
@@ -644,7 +645,8 @@ const wasd = {
       cssCode += `.stream-status-container .stream-status-text { top: 1px; position: relative; }`
     }
 
-    cssCode += `.ovg-moderator-tools, .ovg-copy-tools {background-color: ${settings.wasd.colorModOptions != '#000000' ? settings.wasd.colorModOptions+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
+    cssCode += `.ovg-moderator-tools {background-color: ${settings.wasd.colorModOptions != '#000000' ? settings.wasd.colorModOptions+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
+    cssCode += `.ovg-copy-tools {background-color: ${settings.wasd.colorCopuOptions != '#000000' ? settings.wasd.colorCopuOptions+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }}`
 
     if (settings.wasd.hideRaid) {
       cssCode += `.player-info .raid { display: none !important; }`

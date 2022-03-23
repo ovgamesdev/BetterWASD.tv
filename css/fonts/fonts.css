@@ -13,6 +13,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.ovg-icon-twitch:before {
+  content: "\e921";
+}
+.ovg-icon-lab:before {
+  content: "\e920";
+}
+.ovg-icon-question:before {
+  content: "\e919";
+}
 .ovg-icon-coin:before {
   content: "\e918";
 }

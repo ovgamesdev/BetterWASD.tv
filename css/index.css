@@ -503,7 +503,8 @@ button#backupButton {
   color: var(--wasd-color-text-second);
   overflow: hidden;
   text-align: center;
-  background: none;
+  /*background: none;*/
+  background-color: var(--wasd-color-prime);
   padding: 0 9px;
 }
 
@@ -2854,7 +2855,7 @@ div.inputresult li h2 {
   padding: 2px 5px;
   pointer-events: none;
 }
-#bscSettingsPanel main .option:not(.title):hover {
+#bscSettingsPanel main .option:not(.title):not(.podtitle):hover {
   background-color: rgba(var(--wasd-color-switch--rgb), 0.08) !important;
   color: var(--wasd-color-switch) !important;
 }
@@ -2934,7 +2935,7 @@ ovg-button {
 }
 #settingsSearchDiv .wasd-input-wrapper {
   padding: 0;
-  width: 320px;
+  width: 310px;
 }
 
 /******** mobile *********/
@@ -2944,6 +2945,11 @@ ovg-button {
 #bscSettingsPanel header .burger-menu__wrap.mobile {
   display: none;
 }
+@media screen and (max-width:800px) {
+  #settingsSearchDiv .wasd-input-wrapper {
+    width: 285px;
+  }
+}
 @media screen and (max-width:479px) {
   #settingsSearchDiv .wasd-input-wrapper {
     width: 180px;
@@ -2951,7 +2957,7 @@ ovg-button {
 }
 @media screen and (max-width:710px) {
   #settingsSearchDiv .wasd-input-wrapper {
-    width: 250px;
+    width: 215px;
   }
 }
 @media screen and (max-width:650px) {
@@ -2963,6 +2969,15 @@ ovg-button {
 
   #bscSettingsPanel #nav-sidebar {
     display: none!important;
+  }
+
+  #bscSettingsPanel .alertify-notifier {
+    left: 0px!important;
+    width: 100%;
+  }
+
+  main[data-tab="about"] .footer {
+    width: calc(100% - 20px);
   }
 
   #bscSettingsPanel main {
@@ -2979,6 +2994,7 @@ ovg-button {
     background: none;
     /*backdrop-filter: blur(5px);*/
     opacity: 0;
+    z-index: 1985;
   }
   
   #bscSettingsPanel footer {
@@ -3012,7 +3028,7 @@ ovg-button {
   }
   
   #settingsSearchDiv .wasd-input-wrapper {
-    width: 150px;
+    width: 130px;
   }
   
   #bscSettingsPanel header .burger-menu__wrap.mobile {
@@ -3292,14 +3308,21 @@ wasd-chat-subscribe-message .chat-message-mention {
   width: 20px;
 }
 
-.twitch_authorize_public:not(.disabled) {
-  color: #fff;
+.twitch_authorize_public:not(.disable) {
+  color: #fff !important;
   background-color: #6441a5;
   border-color: #573499;
   border: 1px solid transparent;
 }
 
-.twitch_authorize_public.disabled {
+.twitch_authorize_public.disable {
   background: none !important;
-  color: rgba(var(--wasd-color-switch--rgb), 0.25)  !important;
+  color: rgba(var(--wasd-color-switch--rgb), 1) !important;
+  max-width: 130px;
+}
+
+.twitch_authorize_public .username {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
 }

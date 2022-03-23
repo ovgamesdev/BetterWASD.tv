@@ -14,6 +14,28 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.5.4',
+        date: '2022-03-23',
+        items: [{
+          text: [
+            `Скрыть баннер на главной странице.`,
+            `Поменять боковые панели местами.`,
+            `Скрыть кнопку "Начать стрим" в заголовке.`,
+            `Скрыть кнопку "Великий рандом!" в заголовке.`
+          ],
+          label: 'fixed'
+        }, {
+          text: [
+            `Фон для значка (Скопировать сообщение).`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            `Отображение стикеров WASD.`
+          ],
+          label: 'optimized'
+        }]
+      }, {
         version: '1.5.3',
         date: '2022-03-22',
         items: [{
@@ -1154,10 +1176,20 @@ const BetterStreamChat = {
         <div class="header__right-side">
           <wasd-button class="ghost-btn ovg head-buttons" style="margin-right: 8px;">
 
-            <button class="basic medium-cube ovg twitch_authorize_public" type="button">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" focusable="false" width="14px" height="14px" fit="" viewBox="0 0 1600 1664"><path d="M800 434v434H655V434h145zm398 0v434h-145V434h145zm0 760l253-254V145H257v1049h326v217l217-217h398zM1596 0v1013l-434 434H836l-217 217H402v-217H4V289L113 0h1483z" fill="currentColor"></path></svg>
-              <ovg-tooltip><div class="tooltip tooltip_position-bottomRight tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Авторизоваться Twicth </div></div></ovg-tooltip>
-            </button>
+            <ovg-dropdown class="">
+              <div class="dropdown-ovg is-action medium login">
+                <button class="basic medium-cube ovg twitch_authorize_public" type="button">
+                  <i class="ovg-icon-twitch"></i>
+                  <span class="username"></span>
+                </button>
+                <div class="dropdown-list">
+                  <div class="dropdown-list__item logout">
+                    <span>Выйти</span>
+                  </div>
+                </div>
+              </div>
+            </ovg-dropdown>
+
 
             <ovg-bell _ngcontent-ljm-c266="" id="ovg_bell__element" _nghost-ljm-c288="">
               <div _ngcontent-ljm-c288="" wasdclickoutside="" class="bell">
@@ -1207,7 +1239,7 @@ const BetterStreamChat = {
             <a role="tab" class="item" data-tab="bttvSettings">BTTV</a>
             <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
             <a role="tab" class="item" data-tab="filtration">Фильтрация</a>
-            <a role="tab" class="item" data-tab="obschat">Чат для OBS (beta)</a>
+            <a class="item" id="goToObsChatSetting2">Чат для OBS (beta) <i class="icon wasd-icons-extract" style="padding-left: 5px;"></i></a>
             <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
           </div>
         </div>
@@ -1807,10 +1839,6 @@ const BetterStreamChat = {
             ${HelperSettings.build('highlightRole')}
           </div>
         </div>
-      </main>
-
-      <main class="text" data-tab="twitch_authorize_public">
-        <p class="twitch_authorize_content">
       </main>`;
     document.body.append(settingsDiv);
     BetterStreamChat.changelog = changelogList[0]
@@ -1959,14 +1987,30 @@ const BetterStreamChat = {
       HelperTV7.updateEmotesTv7();
     });
 
-    if (Cookies.get('BetterWASD_access_token')) {
-      settingsDiv.querySelector('.twitch_authorize_public').setAttribute('disabled', '')
-      settingsDiv.querySelector('.twitch_authorize_public .tooltip-content').textContent = 'Авторизовано: ' + Cookies.get('BetterWASD_twitch_display_name')
-    }
+    if (Cookies.get('BetterWASD_access_token')) Helper.loginTwitchUI(Cookies.get('BetterWASD_twitch_display_name'))
 
-    // bind twitch_authorize_public
-    settingsDiv.querySelector('.twitch_authorize_public').addEventListener('click', () => {
-      window.open('https://id.twitch.tv/oauth2/authorize?client_id=' + HelperTwitch['Client-ID'] + '&redirect_uri=' + encodeURIComponent('https://wasd.tv/') + '&response_type=token')
+    document.body.addEventListener('click', (value) => {
+      if (!value.target.className.match('twitch_authorize_public')) {
+        document.querySelectorAll('.dropdown-ovg.is-open').forEach((i) => { i.classList.remove('is-open') })
+      }
+    })
+
+    settingsDiv.querySelector('.dropdown-ovg.login').addEventListener('click', () => {
+      if (Cookies.get('BetterWASD_twitch_display_name')) {
+        settingsDiv.querySelector('.dropdown-ovg.login').classList.toggle('is-open')
+      } else {
+        window.open('https://id.twitch.tv/oauth2/authorize?client_id=' + HelperTwitch['Client-ID'] + '&redirect_uri=' + encodeURIComponent('https://wasd.tv/') + '&response_type=token')
+      }
+    })
+
+    // bind twitch_authorize logout
+    settingsDiv.querySelector('.dropdown-ovg .logout').addEventListener('click', () => {
+      Helper.logoutTwitchUI()
+      Helper.setUnauthorization()
+      setTimeout(() => {
+        Cookies.remove('BetterWASD_access_token')
+        Cookies.remove('BetterWASD_twitch_display_name')
+      }, 50)
     });
 
     // bind search settings
@@ -2181,6 +2225,8 @@ const BetterStreamChat = {
     // navigation old
     for (let navItem of settingsDiv.querySelectorAll('section .items > a')) {
       navItem.addEventListener('click', ({ target }) => {
+        if (target.getAttribute('role') !== 'tab') return
+
         let links = settingsDiv.querySelectorAll('section .items > a');
         let tabs = settingsDiv.querySelectorAll('main');
         for (let element of [...tabs, ...links]) {
@@ -2245,6 +2291,9 @@ const BetterStreamChat = {
       settingsDiv.querySelector('.open-nav-sidebar').classList.toggle('nav-sidebar-toggle--active')
     })
 
+    goToObsChatSetting2.addEventListener('click', () => {
+      Helper.trySendMessage({ createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}` });
+    })
     goToObsChatSetting.addEventListener('click', () => {
       Helper.trySendMessage({ createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}` });
     })
