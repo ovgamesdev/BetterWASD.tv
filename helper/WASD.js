@@ -6,6 +6,7 @@ const HelperWASD = {
   userColors: ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"],
   badges: {},
   paints: {},
+  subscribers: {},
   messageTimeout: null,
   current: null,
 
@@ -1213,6 +1214,30 @@ const HelperWASD = {
       }
     });
   },
+  loadSubscribersData(channel_id) {
+    HelperWASD.subscribers = {}
+    const getall = (limit, offset) => {
+
+      $.ajax({
+        url: `https://wasd.tv/api/channels/${channel_id}/subscribers?limit=${limit}&offset=${offset}`,
+        headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
+        success: (out) => {
+          if (channel_id == 0) return
+          for (let sub of out.result) {
+            HelperWASD.subscribers[sub.profile.user_login] = sub.subscription
+          }
+          if(out.result.length == limit) {
+            setTimeout(() => {getall(limit, offset+limit)}, 50)
+          }
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      });
+
+    }
+    getall(50, 0)
+  },
   scrollChatMessage(message, scrollend = 200, scrollstart = -1) {
     messagess = document.querySelector('.block')
     if (messagess && message) {
@@ -1661,6 +1686,7 @@ const HelperWASD = {
     if (value) {
 
       if (document.querySelector('div.stream-uptime')) return
+      if (document.querySelector('.clip-author')) return
 
       document.querySelector('wasd-user-plays')?.insertAdjacentHTML('afterend', '<div class="stream-uptime tooltip-hover" style="position:relative;"><i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip></div>')
     
@@ -1686,7 +1712,8 @@ const HelperWASD = {
           }
 
           uptimetooltip.innerHTML = ` аптайм трансляции </br> (с ${date.toLocaleString()}) `
-          uptimevalue.value = moment.utc(new Date(new Date() - date)).format('HH:mm:ss');
+          let value = moment.utc(new Date(new Date() - date)).format('HH:mm:ss')
+          uptimevalue.value = value ? value : '00:00:00'
 
           if (settings.wasd.uptimeStream) HelperWASD.uptimeStreamTimer = setTimeout(tick, 1000);
         }, 1000);

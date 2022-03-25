@@ -27,8 +27,10 @@ const socket = {
       headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
       success: (out) => {
         socket.channel = out.result
+        socket.channelId = out.result.channel.channel_id
 
         HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login)
+        HelperWASD.loadSubscribersData(socket.channelId)
 
         if (!document.querySelector('.hidden.info__text__status__name')) {
           let dd = document.createElement('div')
@@ -85,13 +87,7 @@ const socket = {
             $.ajax({
               url: HelperWASD.getStreamBroadcastsUrl(),
               headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-              success: (out) => {
-
-                socket.channelId = out.result.channel.channel_id
-
-                resolve(out.result)
-                
-              }
+              success: (out) => { resolve(out.result) }
             });
 
           }).then((out) => {
@@ -370,41 +366,41 @@ const socket = {
     }
   },
   saveUserList() {
-    getall = (limit, offset) => {
+    // const getall = (limit, offset) => {
 
-      $.ajax({
-        url: `https://wasd.tv/api/chat/streams/${socket.streamId}/participants?limit=${limit}&offset=${offset}`,
-        headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-        success: (out) => {
-          if (socket.streamId == 0) return
+    //   $.ajax({
+    //     url: `https://wasd.tv/api/chat/streams/${socket.streamId}/participants?limit=${limit}&offset=${offset}`,
+    //     headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
+    //     success: (out) => {
+    //       if (socket.streamId == 0) return
 
-          // for (let data of out.result) {
-          //   socket.addWebSocket_history({
-          //     user_login: data.user_login,
-          //     user_id: data.user_id,
-          //     channel_id: 0,
-          //     user_channel_role: data.user_channel_role,
-          //     other_roles: []
-          //   })
-          // }
+    //       // for (let data of out.result) {
+    //       //   socket.addWebSocket_history({
+    //       //     user_login: data.user_login,
+    //       //     user_id: data.user_id,
+    //       //     channel_id: 0,
+    //       //     user_channel_role: data.user_channel_role,
+    //       //     other_roles: []
+    //       //   })
+    //       // }
 
-          if(out.result.length == limit) {
-            getall(limit, offset+1)
-          }
-          // else {
-          //   console.log('saveUserList')
-          // }
-        },
-        error: (err) => {
-          console.log(err)
-        }
-      });
+    //       if(out.result.length == limit) {
+    //         getall(limit, offset+1)
+    //       }
+    //       // else {
+    //       //   console.log('saveUserList')
+    //       // }
+    //     },
+    //     error: (err) => {
+    //       console.log(err)
+    //     }
+    //   });
 
-    }
-    getall(10000, 0)
+    // }
+    // getall(10000, 0)
   },
   saveMessagesList() {
-    getall = (limit, offset) => {
+    const getall = (limit, offset) => {
 
       $.ajax({
         url: `https://wasd.tv/api/chat/streams/${socket.streamId}/messages?limit=${limit}&offset=${offset}`,
@@ -417,8 +413,8 @@ const socket = {
               mention.style.color = HelperWASD.userColors[data.info.user_id % (HelperWASD.userColors.length - 1)]
             }
           }
-          if(out.result.length == limit) {
-            getall(limit, offset+1)
+          if(out.result.length == limit && offset < 10000) {
+            setTimeout(() => {getall(limit, offset+limit)}, 50)
           }
           // else {
           //   console.log('saveMessagesList')
@@ -436,7 +432,7 @@ const socket = {
     if (!HelperWASD.current?.user_profile?.user_id) return
     if (!socket.channel?.channel?.channel_owner?.user_login) return
     $.ajax({
-      url: `https://betterwasd.herokuapp.com/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}`,
+      url: `${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}`,
       type: "POST",
       data: { watch_channel: socket.channel.channel.channel_owner.user_login },
       success: (out) => {

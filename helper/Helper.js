@@ -10,8 +10,7 @@ const Helper = {
         autoUpdateChat: false,
         uiTransparency: false,
         saveCardPosition: false,
-        cardPosition: {x: 0, y: 0},
-        // extensionUpdated: true
+        cardPosition: {x: 0, y: 0}
       },
       wasd: {
         messageFollower: false,
@@ -120,7 +119,8 @@ const Helper = {
         colorMentionSelf: "rgba(var(--wasd-color-switch--rgb),.08)",
         сhatLineSeparator: 0,
         addContextBlacklistAddUser: true,
-        colorCopuOptions: "rgba(var(--wasd-color-switch--rgb),.08)"
+        colorCopuOptions: "rgba(var(--wasd-color-switch--rgb),.08)",
+        subscriberOnUserList: false
       },
       list: {
         blockUserList: {},
@@ -136,6 +136,67 @@ const Helper = {
         sub: "#00000000",
         moderator: "#00000000",
         owner: "#00000000"
+      },
+      colors: {
+        enabled: false,
+        wasdcolorblack: '#000000',
+        wasdcolorwhite: '#ffffff',
+        wasdcolorcorpprime: '#1A202C',
+        wasdcolorcorpgray: '#848CA0',
+        wasdcolordarkblue: '#483cb8',
+        wasdcolorcorpblue: '#258fe5',
+        wasdcolorwarning: '#d85252',
+        wasdcolorsuccess: '#6ba131',
+        wasdcolorevent1: '#913CA7',
+        wasdcolorevent2: '#5BC3C1',
+        wasdcolorevent3: '#F5A623',
+        wasdcolorxp: '#9013fe',
+        wasdcolorbordo: '#a5276d',
+        wasdcolorprime: '#1A202C',
+        wasdcolorswitch: '#ffffff',
+        wasdcolorsecond: '#141820',
+        wasdcolorthird: '#0c1014',
+        wasdcolorgray1: '#242830',
+        wasdcolorgray2: '#444858',
+        wasdcolorgray3: '#848ca0',
+        wasdcolortextprime: '#ffffffff',
+        wasdcolortextsecond: '#ffffffcc',
+        wasdcolortextthird: '#ffffffa3',
+        wasdcolortextfourth: '#ffffff7a',
+        wasdcolortextdisabled: '#ffffff3d',
+        wasdcolorbgprime: '#141820',
+        wasdcolorbgsecond: '#0c1014',
+        colorlowestlayer: '#00000033',
+        colorbackground: '#141820',
+        colorfirstlayer: '#1A212D',
+        colorsecondlayer: '#1D2736',
+        colorupperlayer: '#212D3F',
+        colorswitch: '#f6f7f8',
+        colorshadow: '#090909',
+        colorsystemblue: '#008fec',
+        colorsystemdarkblue: '#0d6ec80',
+        colorsystemwhite: '#ffffff',
+        colorsystemblack: '#000000',
+        colorsystemwarning: '#fc4d64',
+        colorsystemattention: '#f3ad38',
+        colorsystemsuccess: '#3ebd41',
+        colorsystemxp: '#9013fe',
+        coloradditionalyellowlight: '#F0DF47',
+        coloradditionalyellowdark: '#DBC92A',
+        coloradditionalyelloworange: '#F8B23E',
+        coloradditionalorange: '#E88021',
+        coloradditionalred: '#D03F3F',
+        coloradditionalpink: '#CD317C',
+        coloradditionallilac: '#952BA7',
+        coloradditionalviolet: '#6227E0',
+        coloradditionalblue: '#2264E3',
+        coloradditionalbluelight: '#27B4E0',
+        coloradditionalaquamarine: '#00CBBF',
+        coloradditionalbluegreen: '#27E087',
+        coloradditionalgreenacid: '#2BE027',
+        coloradditionalgreen: '#139520',
+        coloradditionalgreenlight: '#A6D323',
+        coloradditionalgray: '#898989'
       }
     };
   },
@@ -167,6 +228,8 @@ const Helper = {
     });
   },
   varColorToColor(value) {
+    if (!value) return ''
+
     return value.replace(/var\(\D+\)/ig, ($0) => {
       data = $0.replace('var(', '').replace(')', '')
       return window.getComputedStyle(document.body).getPropertyValue(data).replace(/ /ig, '')

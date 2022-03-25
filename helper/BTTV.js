@@ -290,7 +290,7 @@ const HelperBTTV = {
     });
   },
   addToChatMenu() {
-    document.querySelector('div.emoji__head__options')?.insertAdjacentHTML("beforeend", `<div class="option bttv-emoji"><i ovg="" class="ovg-icon-bttv" style="pointer-events: none;"></i></div>`)
+    document.querySelector('div.emoji__head__options')?.insertAdjacentHTML("beforeend", `<div class="option bttv-emoji"><i class="ovg-icon-bttv" style="pointer-events: none;"></i></div>`)
     
     let bttvEmotes
     let bttvUsers

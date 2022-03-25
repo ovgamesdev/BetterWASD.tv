@@ -238,7 +238,7 @@ const HelperBWASD = {
     });
   },
   addToChatMenu() {
-    document.querySelector('div.emoji__head__options')?.insertAdjacentHTML("beforeend", `<div class="option bwasd-emoji"> <i ovg="" class="ovg-icon-bwasd" style="pointer-events: none;"></i> </div>`)
+    document.querySelector('div.emoji__head__options')?.insertAdjacentHTML("beforeend", `<div class="option bwasd-emoji"> <i class="ovg-icon-bwasd" style="pointer-events: none;"></i> </div>`)
     let bwasdEmotes = HelperBWASD.items.bwasdEmotes;
     let bwasdUsers = HelperBWASD.items.bwasdUsers;
 

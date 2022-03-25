@@ -293,7 +293,7 @@ const HelperTV7 = {
     });
   },
   addToChatMenu() {
-    document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option tv7-emoji"><i ovg="" class="ovg-icon-tv7" style="pointer-events: none;"></i></div>`)
+    document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option tv7-emoji"><i class="ovg-icon-tv7" style="pointer-events: none;"></i></div>`)
 
     let tv7Emotes
     let tv7Users

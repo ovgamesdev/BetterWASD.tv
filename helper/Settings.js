@@ -14,10 +14,6 @@ const HelperSettings = {
         title: 'Сохранять последнюю позицию карточки пользователя',
         type: 'boolean'
       },
-      // extensionUpdated: {
-      //   title: 'Получать уведомление, когда расширение получает новую версию',
-      //   type: 'boolean'
-      // },
       BETA: {
         title: `${Helper.BETA} - Эта опция находится в стадии разработки и может работать некорректно`,
         type: 'none'
@@ -30,7 +26,7 @@ const HelperSettings = {
     wasd: {
 
       q: {
-        title: 'Чат',
+        title: 'Чат » Общие',
         id: 'ovg_settings_chat',
         type: 'title'
       },
@@ -90,8 +86,8 @@ const HelperSettings = {
 
 
       qq: {
-        title: 'Строки в чате',
-        type: 'podtitle'
+        title: 'Чат » Строки в чате',
+        type: 'title'
       },
 
       alternatingColorChatMessages: {
@@ -228,8 +224,8 @@ const HelperSettings = {
 
 
       qw: {
-        title: 'Сообщество',
-        type: 'podtitle'
+        title: 'Чат » Сообщество',
+        type: 'title'
       },
 
       topPanel: {
@@ -243,8 +239,8 @@ const HelperSettings = {
 
 
       qe: {
-        title: 'Смайлы',
-        type: 'podtitle'
+        title: 'Чат » Смайлы',
+        type: 'title'
       },
 
       bwasdEmotes: {
@@ -464,8 +460,8 @@ const HelperSettings = {
 
 
       qr: {
-        title: 'Встраиваемый контент',
-        type: 'podtitle'
+        title: 'Чат » Встраиваемый контент',
+        type: 'title'
       },
 
       linkRecognizerall: {
@@ -522,8 +518,8 @@ const HelperSettings = {
 
 
       qt: {
-        title: 'Значки',
-        type: 'podtitle'
+        title: 'Чат » Значки',
+        type: 'title'
       },
 
       showOwnerBadge: {
@@ -574,10 +570,15 @@ const HelperSettings = {
         type: 'color'
       },
 
+      subscriberOnUserList: {
+        title: `Значок подписчика в списке пользователей`,
+        type: 'boolean'
+      },
+
 
       qy: {
-        title: 'Поведение',
-        type: 'podtitle'
+        title: 'Чат » Поведение',
+        type: 'title'
       },
 
       artificialChatDelay: {
@@ -740,8 +741,8 @@ const HelperSettings = {
 
 
       qu: {
-        title: 'Ссылки',
-        type: 'podtitle'
+        title: 'Чат » Ссылки',
+        type: 'title'
       },
 
       linkColor: {
@@ -777,8 +778,8 @@ const HelperSettings = {
 
 
       qi: {
-        title: 'Меню смайлов',
-        type: 'podtitle'
+        title: 'Чат » Меню смайлов',
+        type: 'title'
       },
 
       bwasdInChatMenu: {
@@ -804,8 +805,8 @@ const HelperSettings = {
 
 
       qo: {
-        title: 'Фильтрация » Общие',
-        type: 'podtitle'
+        title: 'Чат » Фильтрация',
+        type: 'title'
       },
 
       highlightMessagesBold: {
@@ -853,8 +854,8 @@ const HelperSettings = {
 
 
       qp: {
-        title: 'Карточки пользователей',
-        type: 'podtitle'
+        title: 'Чат » Карточки пользователей',
+        type: 'title'
       },
 
       highlightMessagesOpenCardColor: {
@@ -877,8 +878,8 @@ const HelperSettings = {
 
 
       qa: {
-        title: 'Меню модератора',
-        type: 'podtitle'
+        title: 'Чат » Меню модератора',
+        type: 'title'
       },
 
       moderatorMenu: {
@@ -948,7 +949,7 @@ const HelperSettings = {
 
 
       playerGeneral: {
-        title: 'Проигрыватель',
+        title: 'Проигрыватель » Общие',
         id: 'ovg_settings_player',
         type: 'title'
       },
@@ -967,8 +968,8 @@ const HelperSettings = {
 
 
       w: {
-        title: 'Воспроизведение',
-        type: 'podtitle'
+        title: 'Проигрыватель » Воспроизведение',
+        type: 'title'
       },
 
       autoPlayStreamersOnMain: {
@@ -995,8 +996,8 @@ const HelperSettings = {
       },
 
       wq: {
-        title: 'Громкость',
-        type: 'podtitle'
+        title: 'Проигрыватель » Громкость',
+        type: 'title'
       },
 
       mutePlayerOnMiddleMouse: {
@@ -1009,8 +1010,8 @@ const HelperSettings = {
       },
 
       ww: {
-        title: 'Управление',
-        type: 'podtitle'
+        title: 'Проигрыватель » Управление',
+        type: 'title'
       },
 
       pressedFullScreen: {
@@ -1031,14 +1032,9 @@ const HelperSettings = {
       },
 
       channelAppearance: {
-        title: 'Внешний вид',
+        title: 'Внешний вид » Канал',
         id: 'ovg_settings_appearance',
         type: 'title'
-      },
-
-      e: {
-        title: 'Канал',
-        type: 'podtitle'
       },
 
       uptimeStream: {
@@ -1091,8 +1087,8 @@ const HelperSettings = {
       },
 
       eq: {
-        title: 'Главная',
-        type: 'podtitle'
+        title: 'Внешний вид » Главная',
+        type: 'title'
       },
 
       hideBannerOnHome: {
@@ -1101,8 +1097,8 @@ const HelperSettings = {
       },
 
       ew: {
-        title: 'Боковая навигация',
-        type: 'podtitle'
+        title: 'Внешний вид » Боковая навигация',
+        type: 'title'
       },
 
       chatOnTheLeft: {
@@ -1111,8 +1107,8 @@ const HelperSettings = {
       },
 
       ee: {
-        title: 'Верхняя навигация',
-        type: 'podtitle'
+        title: 'Внешний вид » Верхняя навигация',
+        type: 'title'
       },
 
       hideSelectorStreamSettings: {
@@ -1125,8 +1121,8 @@ const HelperSettings = {
       },
 
       er: {
-        title: 'Мобильные устройства',
-        type: 'podtitle'
+        title: 'Внешний вид » Мобильные устройства',
+        type: 'title'
       },
 
       hidePanelMobile: {
@@ -1163,6 +1159,246 @@ const HelperSettings = {
         title: 'Цвет для создателя канала',
         type: 'color'
       }
+    },
+    colors: {
+
+      enabled: {
+        title: 'Включено',
+        type: 'boolean'
+      },
+
+      wasdcolorblack: {
+        title: 'wasd цвет черный',
+        type: 'color'
+      },
+      wasdcolorwhite: {
+        title: 'wasd цвет белый',
+        type: 'color'
+      },
+      wasdcolorcorpprime: {
+        title: 'wasd цвет корп прайм',
+        type: 'color'
+      },
+      wasdcolorcorpgray: {
+        title: 'wasd цвет корп серый',
+        type: 'color'
+      },
+      wasdcolordarkblue: {
+        title: 'wasd цвет темно-синий',
+        type: 'color'
+      },
+      wasdcolorcorpblue: {
+        title: 'wasd цвет корп синий',
+        type: 'color'
+      },
+      wasdcolorwarning: {
+        title: 'wasd цвет предупреждения',
+        type: 'color'
+      },
+      wasdcolorsuccess: {
+        title: 'wasd цвет успеха',
+        type: 'color'
+      },
+      wasdcolorevent1: {
+        title: 'wasd цвет событие 1',
+        type: 'color'
+      },
+      wasdcolorevent2: {
+        title: 'wasd цвет событие 2',
+        type: 'color'
+      },
+      wasdcolorevent3: {
+        title: 'wasd цвет событие 3',
+        type: 'color'
+      },
+      wasdcolorxp: {
+        title: 'wasd цвет хп',
+        type: 'color'
+      },
+      wasdcolorbordo: {
+        title: 'wasd цвет бордо',
+        type: 'color'
+      },
+      wasdcolorprime: {
+        title: 'wasd цвет прайм',
+        type: 'color'
+      },
+      wasdcolorswitch: {
+        title: 'wasd цвет переход',
+        type: 'color'
+      },
+      wasdcolorsecond: {
+        title: 'wasd цвет второй',
+        type: 'color'
+      },
+      wasdcolorthird: {
+        title: 'wasd цвет третий',
+        type: 'color'
+      },
+      wasdcolorgray1: {
+        title: 'wasd цвет серый 1',
+        type: 'color'
+      },
+      wasdcolorgray2: {
+        title: 'wasd цвет серый 2',
+        type: 'color'
+      },
+      wasdcolorgray3: {
+        title: 'wasd цвет серый 3',
+        type: 'color'
+      },
+      wasdcolortextprime: {
+        title: 'wasd цвет текста прайм',
+        type: 'color'
+      },
+      wasdcolortextsecond: {
+        title: 'wasd цвет текста второй',
+        type: 'color'
+      },
+      wasdcolortextthird: {
+        title: 'wasd цвет текста третий',
+        type: 'color'
+      },
+      wasdcolortextfourth: {
+        title: 'wasd цвет текста четвертый',
+        type: 'color'
+      },
+      wasdcolortextdisabled: {
+        title: 'wasd цвет текста отключен',
+        type: 'color'
+      },
+      wasdcolorbgprime: {
+        title: 'wasd цвет bg прайм',
+        type: 'color'
+      },
+      wasdcolorbgsecond: {
+        title: 'wasd цвет bg второй',
+        type: 'color'
+      },
+      colorlowestlayer: {
+        title: 'цвет самого низкого слоя',
+        type: 'color'
+      },
+      colorbackground: {
+        title: 'цвет фона',
+        type: 'color'
+      },
+      colorfirstlayer: {
+        title: 'цвет первого слоя',
+        type: 'color'
+      },
+      colorsecondlayer: {
+        title: 'цвет второго слоя',
+        type: 'color'
+      },
+      colorupperlayer: {
+        title: 'цвет верхнего слоя',
+        type: 'color'
+      },
+      colorswitch: {
+        title: 'цвет переход',
+        type: 'color'
+      },
+      colorshadow: {
+        title: 'цвет тени',
+        type: 'color'
+      },
+      colorsystemblue: {
+        title: 'цвет системы синий',
+        type: 'color'
+      },
+      colorsystemdarkblue: {
+        title: 'цвет системы темно-синий',
+        type: 'color'
+      },
+      colorsystemwhite: {
+        title: 'цвет системы белый',
+        type: 'color'
+      },
+      colorsystemblack: {
+        title: 'цвет системы черный',
+        type: 'color'
+      },
+      colorsystemwarning: {
+        title: 'цвет системы предупреждение',
+        type: 'color'
+      },
+      colorsystemattention: {
+        title: 'цвет системы вниманиe',
+        type: 'color'
+      },
+      colorsystemsuccess: {
+        title: 'цвет системы успех',
+        type: 'color'
+      },
+      colorsystemxp: {
+        title: 'цвет системы xp',
+        type: 'color'
+      },
+      coloradditionalyellowlight: {
+        title: 'цвет дополнительный желтый светлый',
+        type: 'color'
+      },
+      coloradditionalyellowdark: {
+        title: 'цвет дополнительный желтый темный',
+        type: 'color'
+      },
+      coloradditionalyelloworange: {
+        title: 'цвет дополнительный желто-оранжевый',
+        type: 'color'
+      },
+      coloradditionalorange: {
+        title: 'цвет дополнительный оранжевый',
+        type: 'color'
+      },
+      coloradditionalred: {
+        title: 'цвет дополнительный красный',
+        type: 'color'
+      },
+      coloradditionalpink: {
+        title: 'цвет дополнительный розовый',
+        type: 'color'
+      },
+      coloradditionallilac: {
+        title: 'цвет дополнительный сиреневый',
+        type: 'color'
+      },
+      coloradditionalviolet: {
+        title: 'цвет дополнительный фиолетовый',
+        type: 'color'
+      },
+      coloradditionalblue: {
+        title: 'цвет дополнительный синий',
+        type: 'color'
+      },
+      coloradditionalbluelight: {
+        title: 'цвет_дополнительный голубой',
+        type: 'color'
+      },
+      coloradditionalaquamarine: {
+        title: 'цвет дополнительный аквамарин',
+        type: 'color'
+      },
+      coloradditionalbluegreen: {
+        title: 'цвет дополнительный сине-зеленый',
+        type: 'color'
+      },
+      coloradditionalgreenacid: {
+        title: 'цвет дополнительный зелено-кислотный',
+        type: 'color'
+      },
+      coloradditionalgreen: {
+        title: 'цвет дополнительный зеленый',
+        type: 'color'
+      },
+      coloradditionalgreenlight: {
+        title: 'цвет дополнительный зеленый светлый',
+        type: 'color'
+      },
+      coloradditionalgray: {
+        title: 'цвет дополнительный серый',
+        type: 'color'
+      }
     }
   },
   showMessage(message, type = 'success') {
@@ -1192,24 +1428,6 @@ const HelperSettings = {
             <div class="labelField">
               ${line ? '<div class="line"></div>' : ''}
               <span ${line ? 'class="titleline"' : 'class="title"'}> ${title} </span>
-              ${description ? `<span class="description"> ${description} </span>` : ''}
-            </div>
-
-            <div class="formField"> ${formField} </div>
-
-          </div>
-        </div>
-      </div>`;
-  },
-  _podtitle(title, description, formField, line = false, id) {
-    return `
-      <div class="option podtitle" ${id ? "id=" + id : ""} style="min-height: 20px;">
-        <div class="ovg-option" >
-          <div class="option-line" >
-
-            <div class="labelField">
-              <div class="line"></div>
-              <span class="titleline"> ${title} </span>
               ${description ? `<span class="description"> ${description} </span>` : ''}
             </div>
 
@@ -1287,8 +1505,6 @@ const HelperSettings = {
           html += this.color(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat, setting.id);
         } else if (type === 'botevent') {
           html += this.botevent(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat, setting.id);
-        } else if (type === 'podtitle') {
-          html += this.podtitle(fieldName, setting.title, setting.description, settings[category][name], setting.id);
         }
       }
     }
@@ -1383,8 +1599,5 @@ const HelperSettings = {
           <label for="boolean_${name}_no" class="red"><span class="icon16 fa-times"></span> ${noButton}</label>
         </li>
       </ol>`, false, id);
-  },
-  podtitle(name, title, description, defaultValue = '', id = '') {
-    return this._podtitle(title, description, ``, ``, id);
   }
 }

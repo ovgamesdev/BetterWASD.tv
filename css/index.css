@@ -471,6 +471,13 @@ button#backupButton {
   padding: 0 10px 0 24px;
   width: 100%;
 }
+#bscSettingsPanel main .ovg-option.icon {
+  display: flex !important;
+}
+#bscSettingsPanel main .ovg-option.icon > i {
+  padding-right: 10px;
+  font-size: 20px;
+}
 
 #bscSettingsPanel main .option-line {
   display: flex;
@@ -1714,10 +1721,10 @@ div.sticker-item--img {
 .emoji__head__options>div.option {
   -moz-user-select: none;
   -webkit-user-select: none;
-  color: rgba(var(--wasd-color-switch--rgb), .72);
+  color: rgba(var(--color-switch),.64);
   cursor: pointer;
   font-family: Roboto-Bold, sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: .4px;
   line-height: 1.2;
   margin-right: 4px;

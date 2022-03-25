@@ -293,7 +293,7 @@ const HelperFFZ = {
     });
   },
   addToChatMenu() {
-    document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option ffz-emoji"><i ovg="" class="ovg-icon-ffz" style="pointer-events: none;"></i></div>`)
+    document.querySelector('div.emoji__head__options').insertAdjacentHTML("beforeend", `<div class="option ffz-emoji"><i class="ovg-icon-ffz" style="pointer-events: none;"></i></div>`)
     
     let ffzEmotes
     let ffzUsers

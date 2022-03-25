@@ -14,6 +14,26 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.5.5',
+        date: '2022-03-25',
+        items: [{
+          text: [
+            `Аптайм трансляции.`
+          ],
+          label: 'fixed'
+        }, {
+          text: [
+            `Оформление.`,
+            `Значок подписчика в списке пользователей.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            `WebSocket.`
+          ],
+          label: 'optimized'
+        }]
+      }, {
         version: '1.5.4',
         date: '2022-03-23',
         items: [{
@@ -1184,6 +1204,7 @@ const BetterStreamChat = {
                 </button>
                 <div class="dropdown-list">
                   <div class="dropdown-list__item logout">
+                    <i class="wasd-icons-exit"></i>
                     <span>Выйти</span>
                   </div>
                 </div>
@@ -1234,10 +1255,8 @@ const BetterStreamChat = {
             <a role="tab" class="item" data-tab="about">О нас</a>
             <a role="tab" class="item" data-tab="general">Общий</a>
             <a role="tab" class="item active" data-tab="wasdSettings">Настройки</a>
-            <a role="tab" class="item" data-tab="bwasdSettings">BetterWASD</a>
-            <a role="tab" class="item" data-tab="tv7Settings">7TV</a>
-            <a role="tab" class="item" data-tab="bttvSettings">BTTV</a>
-            <a role="tab" class="item" data-tab="ffzSettings">FFZ</a>
+            <a role="tab" class="item" data-tab="appearanceDesign">Оформление (beta)</a>
+            <a role="tab" class="item" data-tab="emotes">Эмоции</a>
             <a role="tab" class="item" data-tab="filtration">Фильтрация</a>
             <a class="item" id="goToObsChatSetting2">Чат для OBS (beta) <i class="icon wasd-icons-extract" style="padding-left: 5px;"></i></a>
             <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
@@ -1271,45 +1290,23 @@ const BetterStreamChat = {
               </a>
             </li>
             <li ovg="">
-              <a ovg="" class="nav-sidebar__item" data-tab="bwasdSettings" style="position: relative;">
-                <i ovg="" class="ovg-icon-bwasd" style="font-size: 24px;"></i>
-                <span ovg="">BetterWASD</span>
+              <a ovg="" class="nav-sidebar__item" data-tab="appearanceDesign" style="position: relative;">
+                <i ovg="" class="ovg-icon-paint"></i>
+                <span ovg="">Оформление (beta)</span>
                 <ovg-tooltip>
                   <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
-                    <div class="tooltip-content tooltip-content_left"> BetterWASD </div>
+                    <div class="tooltip-content tooltip-content_left"> Оформление (beta) </div>
                   </div>
                 </ovg-tooltip>
               </a>
             </li>
             <li ovg="">
-              <a ovg="" class="nav-sidebar__item" data-tab="tv7Settings" style="position: relative;">
-                <i ovg="" class="ovg-icon-tv7"></i>
-                <span ovg="">7TV</span>
+              <a ovg="" class="nav-sidebar__item" data-tab="emotes" style="position: relative;">
+                <i ovg="" class="wasd-icons-smile"></i>
+                <span ovg="">Эмоции</span>
                 <ovg-tooltip>
                   <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
-                    <div class="tooltip-content tooltip-content_left"> 7TV </div>
-                  </div>
-                </ovg-tooltip>
-              </a>
-            </li>
-            <li ovg="">
-              <a ovg="" class="nav-sidebar__item" data-tab="bttvSettings" style="position: relative;">
-                <i ovg="" class="ovg-icon-bttv" style="font-size: 24px;"></i>
-                <span ovg="">BetterTTV</span>
-                <ovg-tooltip>
-                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
-                    <div class="tooltip-content tooltip-content_left"> BetterTTV </div>
-                  </div>
-                </ovg-tooltip>
-              </a>
-            </li>
-            <li ovg="">
-              <a ovg="" class="nav-sidebar__item" data-tab="ffzSettings" style="position: relative;">
-                <i ovg="" class="ovg-icon-ffz"></i>
-                <span ovg="">FrankerFaceZ</span>
-                <ovg-tooltip>
-                  <div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;">
-                    <div class="tooltip-content tooltip-content_left"> FrankerFaceZ </div>
+                    <div class="tooltip-content tooltip-content_left"> Эмоции </div>
                   </div>
                 </ovg-tooltip>
               </a>
@@ -1418,21 +1415,66 @@ const BetterStreamChat = {
         ${HelperSettings.build('general')}
       </main>
 
-      <main class="text" data-tab="bwasdSettings">
-        <h1 style="padding-left: 10px; padding-right: 10px;"> BetterWASD </h1>
-        <!--div>
-            
-          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-            <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-              <label ovg=""></label>
-              <input id="wasdAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
-                <button id="wasdAddUserBtn" ovg="" type="button" class="button-icon">
-                  <i ovg="" class="wasd-icons-add"></i>
-                </button>
+      <main class="" data-tab="emotes">
+        <div style="display: flex;justify-content: space-between;">
+          <h1 style="padding-left: 10px;padding-top: 10px;"> Эмоции </h1>
+        </div>
+
+        <div class="links_to">
+
+          <div class="option link_to" data-tab="bwasdSettings">
+            <div class="ovg-option icon">
+              <i class="ovg-icon-bwasd"></i>
+              <div class="option-line">
+                <div class="labelField">
+                  <span class="title"> BetterWASD </span>
+                </div>
               </div>
             </div>
-          </wasd-input>
-        </div-->
+          </div>
+
+          <div class="option link_to" data-tab="tv7Settings" >
+            <div class="ovg-option icon">
+              <i class="ovg-icon-tv7"></i>
+              <div class="option-line">
+                <div class="labelField">
+                  <span class="title"> 7TV </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="option link_to" data-tab="bttvSettings" >
+            <div class="ovg-option icon">
+              <i class="ovg-icon-bttv"></i>
+              <div class="option-line">
+                <div class="labelField">
+                  <span class="title"> BetterTTV </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="option link_to" data-tab="ffzSettings" >
+            <div class="ovg-option icon">
+              <i class="ovg-icon-ffz"></i>
+              <div class="option-line">
+                <div class="labelField">
+                  <span class="title"> FrankerFaceZ </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+
+
+      <main class="text" data-tab="bwasdSettings">
+        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
+          <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
+          <p style="margin: 5px 0 0 0;"> BetterWASD </p>
+        </ovg-button>
 
         <h2> Доступные эмоции BetterWASD <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfeR-ASq3bQBE6t3F5lIutvfcJkh8bUxAWqls80Q1WMNAEivQ/viewform?usp=sf_link">Предложить эмоцию</a> </h2>
 
@@ -1452,7 +1494,10 @@ const BetterStreamChat = {
       </main>
 
       <main class="text" data-tab="bttvSettings">
-        <h1 style="padding-left: 10px; padding-right: 10px;"> BetterTTV  </h1>
+        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
+          <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
+          <p style="margin: 5px 0 0 0;"> BetterTTV </p>
+        </ovg-button>
         <div>
             
           <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
@@ -1500,7 +1545,10 @@ const BetterStreamChat = {
       </main>
 
       <main class="text" data-tab="ffzSettings">
-        <h1 style="padding-left: 10px; padding-right: 10px;"> FrankerFaceZ </h1>
+        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
+          <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
+          <p style="margin: 5px 0 0 0;"> FrankerFaceZ </p>
+        </ovg-button>
         <div>
 
           <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
@@ -1548,7 +1596,10 @@ const BetterStreamChat = {
       </main>
 
       <main class="text" data-tab="tv7Settings">
-        <h1 style="padding-left: 10px; padding-right: 10px;"> 7TV </h1>
+        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
+          <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
+          <p style="margin: 5px 0 0 0;"> 7TV </p>
+        </ovg-button>
         <div>
 
           <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
@@ -1599,6 +1650,11 @@ const BetterStreamChat = {
         ${HelperSettings.build('wasd')}
       </main>
 
+      <main class="" data-tab="appearanceDesign">
+        <h1 style="padding-left: 10px;padding-top: 10px;"> Оформление (beta) </h1>
+        ${HelperSettings.build('colors')}
+      </main>
+
       <main class="text" data-tab="changelog">
         <h1>Список последних обновлений и исправлений.</h1>
         <!--h4 style="margin-top:10px;padding-left: 10px;padding-right: 0px;margin-bottom: 0px;"> Информацию о будущих версиях можно найти <a href="https://wasd.tv/ovgames/posts">тут</a></h4-->
@@ -1606,7 +1662,6 @@ const BetterStreamChat = {
       </main>
 
       <main class="" data-tab="filtration">
-
         <div style="display: flex;justify-content: space-between;">
           <h1 style="padding-left: 10px;padding-top: 10px;"> Фильтрация </h1>
         </div>

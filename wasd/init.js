@@ -25,6 +25,91 @@ const wasd = {
         // if (removedNodes.length != 0) console.log('321 removedNodes', removedNodes)
         // if (addedNodes.length != 0) console.log('321 addedNodes', addedNodes)
 
+        // work
+        // const a2 = [...addedNodes]
+        //   .filter(node => node.nodeType === 1)
+        //   .filter(element => element.matches('div.card-wrapper-content'));
+        //   // .post-item__image > img
+        //   // https://wasd.tv/subscriptions/posts пост
+        // if (a2.length) {
+        //   let icon = a2[0].querySelector('.card-wrapper-content__img > img')
+        //   let username = a2[0].querySelector('.card-wrapper-content__login').textContent
+
+        //   if (username.trim() == 'EmTorn') icon.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png'
+        //   // console.log('пост', icon, username)
+
+        //   // $(icon).attrchange({
+        //   //   trackValues: true,
+        //   //   callback: function (event) {
+        //   //     console.log(event)
+        //   //   }
+        //   // });
+        // }
+
+
+        // const a3 = [...addedNodes]
+        //   .filter(node => node.nodeType === 1)
+        //   .filter(element => element.matches('a.comment-item__avatar'));
+        //   // img
+        //   // https://wasd.tv/subscriptions/posts комент поста
+        // if (a3.length) {
+        //   let icon = a3[0].querySelector('img')
+        //   // let username = a3[0].querySelector('.comment-info__login').textContent
+        //   // icon.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png'
+        //   // console.log('комент поста', icon, username)
+        // }
+
+    // post self icon
+
+        // work
+        // const a4 = [...addedNodes]
+        //   .filter(node => node.nodeType === 1)
+        //   .filter(element => element.matches('div.clip-card-list__item') || element.matches('div.clip-card'));
+        //   // .clip-card__info--avatar > img
+        //   // https://wasd.tv/subscriptions/clips клип
+        // if (a4.length) {
+        //   let icon = a4[0].querySelector('.clip-card__info--avatar > img')
+        //   let username = a4[0].querySelector('.clip-card__info--descr__channel').textContent
+
+        //   if (username.trim() == 'TwistAssist') icon.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png'
+        //   // console.log('клип', icon, username)
+          
+        //   $(icon).attrchange({
+        //     trackValues: true,
+        //     callback: function (event) {
+        //       if (event.attributeName == 'src' && event.newValue.match('st.wasd.tv') && username.trim() == 'TwistAssist') icon.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png'
+        //     }
+        //   });
+        // }
+
+        // const a5 = [...addedNodes]
+        //   .filter(node => node.nodeType === 1)
+        //   .filter(element => element.matches('div.streams-layout__card'));
+        //   // .stream-card__avatar > img
+        //   // https://wasd.tv/subscriptions/videos видео
+        // if (a5.length) {
+        //   let icon = a5[0].querySelector('.stream-card__avatar > img')
+        //   // let username = a5[0].querySelector('.user-plays  a:nth-child(1)').textContent
+        //   // icon.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png'
+        //   // console.log('видео', icon, username)
+        // }
+        // не всегда прогружает аватарки
+
+        // const a6 = [...addedNodes]
+        //   .filter(node => node.nodeType === 1)
+        //   .filter(element => element.matches('div.channel-preview'));
+        //   // .channel-preview__img // background-image: url()
+        //   // https://wasd.tv/subscriptions/favorites пользователь
+        // if (a6.length) {
+        //   let icon = a6[0].querySelector('.channel-preview__img')
+        //   // let username = a6[0].querySelector('.channel-preview__name').textContent
+        //   // if (username == 'Beerqules') icon.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png'
+        //   console.log('пользователь', icon, a6[0])
+        // }
+
+
+
+
         const add_chat = [...addedNodes]
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('wasd-chat-messages'));
@@ -65,6 +150,26 @@ const wasd = {
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('div.player-info') || element.matches('div.stream-viewers'));
 
+        const add_playerInfo = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div.player-info'));
+
+        const add_channelInfo = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div.channel-info-wrap'));
+
+        const add_profileHead = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('section.section-profile-head'));
+
+        const add_channelProfile = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div.channel-preview'));
+
+        const add_channelHeader = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('wasd-channel-header'));
+
         const add_wasd_chat_header = [...addedNodes]
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('div.header'));
@@ -89,8 +194,105 @@ const wasd = {
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('wasd-player#player.player'));
 
+        const add_user_item = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div.users__item.item--hover'));
+
+
+        // if (add_playerInfo.length) {
+        //   let icon = add_playerInfo[0].querySelector('.channel__avatar')
+        //   let username = add_playerInfo[0].querySelector('.user-plays  a:nth-child(1)').textContent
+
+        //   icon.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png'
+        //   console.log(icon, username)
+        // }
+
+        // if (add_channelInfo.length) {
+        //   let icon = add_channelInfo[0].querySelector('.channel-info__avatar > img')
+        //   let username = add_channelInfo[0].querySelector('.channel-name > h3').textContent
+
+        //   if (username.trim() == 'OvGames') icon.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png'
+        //   console.log(icon, username)
+        // }
+
+        // if (add_channelHeader.length) {
+        //   let icon = add_channelHeader[0].querySelector('img.channel-image')
+        //   let username = add_channelHeader[0].querySelector('.channel-info__name').textContent
+
+        //   if (username.trim() == 'OvGames') icon.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png'
+        //   console.log(icon, username)
+        // }
+
+        // if (add_profileHead.length) {
+        //   let icon = add_profileHead[0].querySelector('.profile-main__avatar')
+        //   let username = add_profileHead[0].querySelector('.profile-main__name').textContent
+
+        //   if (username.trim() == 'OvGames') icon.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png)'
+        //   console.log(icon, username)
+        // }
+
+        // if (add_channelProfile.length) {
+        //   let icon = add_channelProfile[0].querySelector('.channel-preview__img')
+        //   let username = add_channelProfile[0].querySelector('.channel-preview__name').textContent
+
+        //   if (username.trim() == 'OvGames') icon.style.backgroundImage = 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png)'
+        //   console.log(icon, username)
+        // }
 
         const isLive = new URL(document.URL).pathname.split('/')[2] != 'videos' && new URL(document.URL).pathname.split('/')[2] != 'clips' && document.querySelector('wasd-user-plays .user-plays__text')?.textContent != 'стримил'
+
+        if (add_user_item.length) {
+          let username = add_user_item[0].querySelector('.item') ? add_user_item[0].querySelector('.users__item-name') : null
+          if (username) {
+            
+            let allbadge = HelperWASD.badges[username.textContent.trim()]
+            if (allbadge && allbadge.badges.length > 0) {
+              for (let badg of allbadge.badges) {
+                add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
+              }
+            }
+
+
+            let userPaint = HelperWASD.paints[username.textContent.trim()]
+            if (userPaint) username.innerHTML = username.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => { return `<span data-betterwasd-paint="${userPaint}">${$0}</span>` })
+          
+
+            let userSub = HelperWASD.subscribers[username.textContent.trim()]
+            if (userSub && settings.wasd.subscriberOnUserList) {
+              let _currentPeriod = {iconUrl: ""}
+              const subscriptionPeriods = [
+                {
+                  startDays: 0,
+                  iconUrl: "https://static.wasd.tv/images/subscribers/1mon.png"
+                }, {
+                  startDays: 60,
+                  iconUrl: "https://static.wasd.tv/images/subscribers/3mon.png"
+                }, {
+                  startDays: 150,
+                  iconUrl: "https://static.wasd.tv/images/subscribers/6mon.png"
+                }, {
+                  startDays: 240,
+                  iconUrl: "https://static.wasd.tv/images/subscribers/9mon.png"
+                }, {
+                  startDays: 330,
+                  iconUrl: "https://static.wasd.tv/images/subscribers/12mon.png"
+                }, {
+                  startDays: 510,
+                  iconUrl: "https://static.wasd.tv/images/subscribers/18mon.png"
+                }, {
+                  startDays: 690,
+                  iconUrl: "https://static.wasd.tv/images/subscribers/24mon.png"
+                }
+              ]
+
+              subscriptionPeriods.every(t => !(t.startDays > userSub.meta.days_as_sub+1 || (_currentPeriod = t, 0)))
+
+              let subtext = `${userSub.meta.days_as_sub} дней подписки`
+
+              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", `<div class="tooltip-hover" style="display: flex;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-image: url(${_currentPeriod.iconUrl});"><!--i badge="" class="icon wasd-icons-star"    style="position: relative;top: 2px;"></i--></div> <ovg-tooltip style="position: relative;pointer-events: none;"><div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> ${subtext} </div></div></ovg-tooltip></div>`);
+            }
+          }
+        }
 
         if (add_chat.length) {
           HelperWASD.loadBwasdData()
@@ -565,7 +767,7 @@ const wasd = {
       cssCode += `.message-ovg:hover { background-color: ${settings.wasd.colorMessageHover != '#000000' ? settings.wasd.colorMessageHover+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }; }`;
       cssCode += `.ovg-bg-color-prime:hover { background-color: ${settings.wasd.colorMessageHover != '#000000' ? settings.wasd.colorMessageHover+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }; }`;
     }
-    cssCode += `.paidsubs-popup__stickers-item {cursor: url(${chrome.runtime.getURL("img/cursorS.png")}) 4 4, auto}`
+    cssCode += `.paidsubs-popup__stickers-item {cursor: url(${chrome.runtime?.id ? chrome.runtime.getURL("img/cursorS.png") : ''}) 4 4, auto}`
 
     if (settings.wasd.decreaseIndentationStickerMenu) {
       cssCode += 'wasd-chat-emoji-stickers .stickers__body {padding: 6px 0 0 8px!important;}wasd-chat-emoji-stickers .stickers__body__item {min-width: auto!important;padding: 2px!important;margin: 0 8px 8px 0!important;height: 43px!important;width: 43px!important;}wasd-chat-emoji-stickers .stickers__body__item--not-available {width: 18px!important;height: 18px!important;right: 10px!important;bottom: 10px!important;}wasd-chat-emoji-stickers .stickers__body__item--not-available img {height: 11px!important;}'
@@ -700,6 +902,76 @@ const wasd = {
     } else if (settings.wasd.сhatLineSeparator.toString() === '4') {
       cssCode += `.block__messages__item {border-bottom: 1px solid rgba(var(--wasd-color-switch--rgb), .1); border-top: 1px solid rgba(var(--wasd-color-switch--rgb), .1);}`
     }
+
+    if (settings.colors.enabled) cssCode +=`body {
+      --wasd-color-black: ${settings.colors.wasdcolorblack} !important;
+      --wasd-color-black--rgb: ${hexRgb(settings.colors.wasdcolorblack).red}, ${hexRgb(settings.colors.wasdcolorblack).green}, ${hexRgb(settings.colors.wasdcolorblack).blue} !important;
+      --wasd-color-white: ${settings.colors.wasdcolorwhite} !important;
+      --wasd-color-white--rgb: ${hexRgb(settings.colors.wasdcolorwhite).red}, ${hexRgb(settings.colors.wasdcolorwhite).green}, ${hexRgb(settings.colors.wasdcolorwhite).blue} !important;
+      --wasd-color-corp-prime: ${settings.colors.wasdcolorcorpprime} !important;
+      --wasd-color-corp-prime--rgb: ${hexRgb(settings.colors.wasdcolorcorpprime).red}, ${hexRgb(settings.colors.wasdcolorcorpprime).green}, ${hexRgb(settings.colors.wasdcolorcorpprime).blue} !important;
+      --wasd-color-corp-gray: ${settings.colors.wasdcolorcorpgray} !important;
+      --wasd-color-corp-gray--rgb: ${hexRgb(settings.colors.wasdcolorcorpgray).red}, ${hexRgb(settings.colors.wasdcolorcorpgray).green}, ${hexRgb(settings.colors.wasdcolorcorpgray).blue} !important;
+      --wasd-color-dark-blue: ${settings.colors.wasdcolordarkblue} !important;
+      --wasd-color-corp-blue: ${settings.colors.wasdcolorcorpblue} !important;
+      --wasd-color-corp-blue--rgb: ${hexRgb(settings.colors.wasdcolorcorpblue).red}, ${hexRgb(settings.colors.wasdcolorcorpblue).green}, ${hexRgb(settings.colors.wasdcolorcorpblue).blue} !important;
+      --wasd-color-warning: ${settings.colors.wasdcolorwarning} !important;
+      --wasd-color-warning--rgb: ${hexRgb(settings.colors.wasdcolorwarning).red}, ${hexRgb(settings.colors.wasdcolorwarning).green}, ${hexRgb(settings.colors.wasdcolorwarning).blue} !important;
+      --wasd-color-success: ${settings.colors.wasdcolorsuccess} !important;
+      --wasd-color-success--rgb: ${hexRgb(settings.colors.wasdcolorsuccess).red}, ${hexRgb(settings.colors.wasdcolorsuccess).green}, ${hexRgb(settings.colors.wasdcolorsuccess).blue} !important;
+      --wasd-color-event1: ${settings.colors.wasdcolorevent1} !important;
+      --wasd-color-event2: ${settings.colors.wasdcolorevent2} !important;
+      --wasd-color-event3: ${settings.colors.wasdcolorevent3} !important;
+      --wasd-color-xp: ${settings.colors.wasdcolorxp} !important;
+      --wasd-color-bordo: ${settings.colors.wasdcolorbordo} !important;
+      --wasd-color-prime: ${settings.colors.wasdcolorprime} !important;
+      --wasd-color-prime--rgb: ${hexRgb(settings.colors.wasdcolorprime).red}, ${hexRgb(settings.colors.wasdcolorprime).green}, ${hexRgb(settings.colors.wasdcolorprime).blue} !important;
+      --wasd-color-switch: ${settings.colors.wasdcolorswitch} !important;
+      --wasd-color-switch--rgb: ${hexRgb(settings.colors.wasdcolorswitch).red}, ${hexRgb(settings.colors.wasdcolorswitch).green}, ${hexRgb(settings.colors.wasdcolorswitch).blue} !important;
+      --wasd-color-second: ${settings.colors.wasdcolorsecond} !important;
+      --wasd-color-third: ${settings.colors.wasdcolorthird} !important;
+      --wasd-color-gray1: ${settings.colors.wasdcolorgray1} !important;
+      --wasd-color-gray2: ${settings.colors.wasdcolorgray2} !important;
+      --wasd-color-gray3: ${settings.colors.wasdcolorgray3} !important;
+      --wasd-color-text-prime: rgba(${hexRgb(settings.colors.wasdcolortextprime).red}, ${hexRgb(settings.colors.wasdcolortextprime).green}, ${hexRgb(settings.colors.wasdcolortextprime).blue}, ${hexRgb(settings.colors.wasdcolortextprime).alpha}) !important;
+      --wasd-color-text-second: rgba(${hexRgb(settings.colors.wasdcolortextsecond).red}, ${hexRgb(settings.colors.wasdcolortextsecond).green}, ${hexRgb(settings.colors.wasdcolortextsecond).blue}, ${hexRgb(settings.colors.wasdcolortextsecond).alpha}) !important;
+      --wasd-color-text-third: rgba(${hexRgb(settings.colors.wasdcolortextthird).red}, ${hexRgb(settings.colors.wasdcolortextthird).green}, ${hexRgb(settings.colors.wasdcolortextthird).blue}, ${hexRgb(settings.colors.wasdcolortextthird).alpha}) !important;
+      --wasd-color-text-fourth: rgba(${hexRgb(settings.colors.wasdcolortextfourth).red}, ${hexRgb(settings.colors.wasdcolortextfourth).green}, ${hexRgb(settings.colors.wasdcolortextfourth).blue}, ${hexRgb(settings.colors.wasdcolortextfourth).alpha}) !important;
+      --wasd-color-text-disabled: rgba(${hexRgb(settings.colors.wasdcolortextdisabled).red}, ${hexRgb(settings.colors.wasdcolortextdisabled).green}, ${hexRgb(settings.colors.wasdcolortextdisabled).blue}, ${hexRgb(settings.colors.wasdcolortextdisabled).alpha}) !important;
+      --wasd-color-bg-prime: ${settings.colors.wasdcolorbgprime} !important;
+      --wasd-color-bg-second: ${settings.colors.wasdcolorbgsecond} !important;
+      --color-lowest-layer: rgba(${hexRgb(settings.colors.colorlowestlayer).red}, ${hexRgb(settings.colors.colorlowestlayer).green}, ${hexRgb(settings.colors.colorlowestlayer).blue}, ${hexRgb(settings.colors.colorlowestlayer).alpha}) !important;
+      --color-background: ${hexRgb(settings.colors.colorbackground).red}, ${hexRgb(settings.colors.colorbackground).green}, ${hexRgb(settings.colors.colorbackground).blue} !important;
+      --color-first-layer: ${settings.colors.colorfirstlayer} !important;
+      --color-second-layer: ${settings.colors.colorsecondlayer} !important;
+      --color-upper-layer: ${settings.colors.colorupperlayer} !important;
+      --color-switch: ${hexRgb(settings.colors.colorswitch).red}, ${hexRgb(settings.colors.colorswitch).green}, ${hexRgb(settings.colors.colorswitch).blue} !important;
+      --color-shadow: ${hexRgb(settings.colors.colorshadow).red}, ${hexRgb(settings.colors.colorshadow).green}, ${hexRgb(settings.colors.colorshadow).blue} !important;
+      --color-system-blue: ${hexRgb(settings.colors.colorsystemblue).red}, ${hexRgb(settings.colors.colorsystemblue).green}, ${hexRgb(settings.colors.colorsystemblue).blue} !important;
+      --color-system-dark-blue: ${hexRgb(settings.colors.colorsystemdarkblue).red}, ${hexRgb(settings.colors.colorsystemdarkblue).green}, ${hexRgb(settings.colors.colorsystemdarkblue).blue} !important;
+      --color-system-white: ${hexRgb(settings.colors.colorsystemwhite).red}, ${hexRgb(settings.colors.colorsystemwhite).green}, ${hexRgb(settings.colors.colorsystemwhite).blue} !important;
+      --color-system-black: ${hexRgb(settings.colors.colorsystemblack).red}, ${hexRgb(settings.colors.colorsystemblack).green}, ${hexRgb(settings.colors.colorsystemblack).blue} !important;
+      --color-system-warning: ${hexRgb(settings.colors.colorsystemwarning).red}, ${hexRgb(settings.colors.colorsystemwarning).green}, ${hexRgb(settings.colors.colorsystemwarning).blue} !important;
+      --color-system-attention: ${hexRgb(settings.colors.colorsystemattention).red}, ${hexRgb(settings.colors.colorsystemattention).green}, ${hexRgb(settings.colors.colorsystemattention).blue} !important;
+      --color-system-success: ${hexRgb(settings.colors.colorsystemsuccess).red}, ${hexRgb(settings.colors.colorsystemsuccess).green}, ${hexRgb(settings.colors.colorsystemsuccess).blue} !important;
+      --color-system-xp: ${hexRgb(settings.colors.colorsystemxp).red}, ${hexRgb(settings.colors.colorsystemxp).green}, ${hexRgb(settings.colors.colorsystemxp).blue} !important;
+      --color-additional-yellow-light: ${settings.colors.coloradditionalyellowlight} !important;
+      --color-additional-yellow-dark: ${settings.colors.coloradditionalyellowdark} !important;
+      --color-additional-yellow-orange: ${settings.colors.coloradditionalyelloworange} !important;
+      --color-additional-orange: ${settings.colors.coloradditionalorange} !important;
+      --color-additional-red: ${settings.colors.coloradditionalred} !important;
+      --color-additional-pink: ${settings.colors.coloradditionalpink} !important;
+      --color-additional-lilac: ${settings.colors.coloradditionallilac} !important;
+      --color-additional-violet: ${settings.colors.coloradditionalviolet} !important;
+      --color-additional-blue: ${settings.colors.coloradditionalblue} !important;
+      --color-additional-blue-light: ${settings.colors.coloradditionalbluelight} !important;
+      --color-additional-aquamarine: ${settings.colors.coloradditionalaquamarine} !important;
+      --color-additional-blue-green: ${settings.colors.coloradditionalbluegreen} !important;
+      --color-additional-green-acid: ${settings.colors.coloradditionalgreenacid} !important;
+      --color-additional-green: ${settings.colors.coloradditionalgreen} !important;
+      --color-additional-green-light: ${settings.colors.coloradditionalgreenlight} !important;
+      --color-additional-gray: ${settings.colors.coloradditionalgray} !important;
+    }`
 
     if (wasd.style) {
       if (typeof wasd.style.styleSheet !== 'undefined') {
