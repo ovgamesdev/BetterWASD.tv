@@ -75,15 +75,13 @@ const HelperBWASD = {
       element.addEventListener('click', ({ target }) => {
         let username = target.getAttribute('username')?.split('@').join('')
         if (username) {
-          if (settings.wasd.onClickMention.toString() === '1') {
-            if (textarea) {
-              textarea.value += target.getAttribute('username').trim() + ' ';
-              textarea.dispatchEvent(new Event('input'));
-              textarea.focus()
-            }
+          if (settings.wasd.onClickMention.toString() === '1' && textarea) {
+            textarea.value += target.getAttribute('username').trim() + ' ';
+            textarea.dispatchEvent(new Event('input'));
+            textarea.focus()
           } else if (settings.wasd.onClickMention.toString() === '2') {
             if (!HelperWASD.addUsernameToTextarea(username)) {
-              HelperWASD.createUserViewerCard(username);
+              HelperWASD.createUserViewerCard(username, false, element.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement);
             }
           }
         }

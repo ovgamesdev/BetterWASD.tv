@@ -14,6 +14,27 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.5.6',
+        date: '2022-03-28',
+        items: [{
+          text: [
+            `Карточка пользователя - Последние сообщения.`
+          ],
+          label: 'fixed'
+        }, {
+          text: [
+            `Проигрыватель » Режим кинотеатра.`,
+          ],
+          label: 'added'
+        }, {
+          text: [
+            `Карточка пользователя - Стикеры.`,
+            `Добавить кнопку 'Картинка в картинке' к управлению проигрывателем (PIP).`,
+            `Фильтрация - Выделение - Роль пользователя.`
+          ],
+          label: 'optimized'
+        }]
+      }, {
         version: '1.5.5',
         date: '2022-03-25',
         items: [{
@@ -1884,10 +1905,13 @@ const BetterStreamChat = {
       </main>
 
       <main class="text" data-tab="filtrationHighlightUserRole">
-        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
+        <ovg-button class="flat-btn links_to ovg" style="display: flex;align-items: center;margin: 0 0 8px;">
           <button style="margin-right: 10px;" data-tab="filtration" class="link_to ovg basic show small"> назад </button>
           <p style="margin: 5px 0 0 0;"> Выделение - Роль пользователя </p>
         </ovg-button>
+
+        <p style="margin: 0 0 5px 0;">Используете <span class="tech-info-ovg">#000000</span> или <span class="tech-info-ovg">#00000000</span> чтобы сбросить цвет. </p>
+        <p style="margin: 0 0 5px 0;">Если вам нужен <span class="tech-info-ovg">#000000</span> вы можете использовать ближний к нему цвет. <span class="tech-info-ovg">#010101</span> </p>
 
         <div class="highlight">
           <div style="margin-left: -10px; width: calc(100% + 20px);">
@@ -2040,6 +2064,7 @@ const BetterStreamChat = {
       HelperBTTV.updateEmotesBttv();
       HelperFFZ.updateEmotesFfz();
       HelperTV7.updateEmotesTv7();
+      HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login)
     });
 
     if (Cookies.get('BetterWASD_access_token')) Helper.loginTwitchUI(Cookies.get('BetterWASD_twitch_display_name'))
@@ -2642,6 +2667,22 @@ const BetterStreamChat = {
 
       select.onchange = (e) => e.target.blur()
     }
+
+    for (let option of document.querySelectorAll('input[data-coloris]')) {
+      if (!option.dataset.name) continue;
+      let split = option.dataset.name.split('_');
+
+      let swatches = HelperSettings.availableSettings[split[0]][split[1]].swatches;
+      option.addEventListener('focus', () => {
+        if (typeof swatches === 'object') {
+          Coloris({swatches:[option.value, ...swatches]})
+        } else {
+          Coloris({swatches:[option.value]})
+        }
+      })
+    }
+
+    Coloris({ clearButton: {show: false}, formatToggle: false })
 
     this.install();
 

@@ -120,7 +120,14 @@ const Helper = {
         сhatLineSeparator: 0,
         addContextBlacklistAddUser: true,
         colorCopuOptions: "rgba(var(--wasd-color-switch--rgb),.08)",
-        subscriberOnUserList: false
+        subscriberOnUserList: false,
+        theaterModeNoFS: false,
+        theaterModeShowGifts: false,
+        theaterModeShowContainer: false,
+        theaterModeStreamInfo: "1",
+        theaterModeChatWidth: 320,
+        theaterModeGifts: false,
+        theaterModeAutoOnChannel: false
       },
       list: {
         blockUserList: {},
@@ -257,7 +264,11 @@ const Helper = {
   },
   trySendMessage(arg) {
     if (chrome.runtime?.id) {
-      chrome.runtime.sendMessage(arg);
+      try {
+        chrome.runtime.sendMessage(arg);
+      } catch (err) {
+        alertify.error(err, 3)
+      }
     } else {
       let msg = alertify.warning(`Расширение было обновлено</br>Перезагрузите страницу`, 4.5)
       msg.callback = (isClicked) => {if (isClicked) location.reload()}

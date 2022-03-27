@@ -18,7 +18,7 @@ window.addEventListener('keydown', (e) => {
   if (e.key == "f" || e.key == "а") {
     if (settings.wasd.pressedFullScreen && !isPressedFullScreen && !isPressedControl) {
       if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
-        if (document.querySelector('button.player-button.fullscreen-button')) document.querySelector('button.player-button.fullscreen-button').click();
+        document.querySelector('button.player-button.fullscreen-button')?.click();
         isPressedFullScreen = true;
       }
     }
@@ -26,7 +26,11 @@ window.addEventListener('keydown', (e) => {
   if (e.key == "t" || e.key == "е") {
     if (settings.wasd.pressedTheater    && !isPressedTheater    && !isPressedControl) {
       if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
-        if (document.querySelector('button.player-button.theater-button')) document.querySelector('button.player-button.theater-button').click();
+        if (settings.wasd.theaterModeNoFS) {
+          document.querySelector('button.player-button.theaterModeNoFS')?.click();
+        } else {
+          document.querySelector('button.player-button.theater-button')?.click();
+        }
         isPressedTheater = true;
       }
     }
@@ -34,7 +38,7 @@ window.addEventListener('keydown', (e) => {
   if (e.key == "i" || e.key == "ш") {
     if (settings.wasd.pressedPIP        && !isPressedPIP        && !isPressedControl) {
       if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
-        if (document.querySelector('button.player-button.pip')) document.querySelector('button.player-button.pip').click();
+        document.querySelector('button.player-button.pip')?.click();
         isPressedPIP = true;
       }
     }
@@ -43,9 +47,9 @@ window.addEventListener('keydown', (e) => {
     if (settings.wasd.pressedClip       && !isPressedClip       && !isPressedControl) {
       if (!(document.activeElement.nodeName == 'TEXTAREA' || document.activeElement.nodeName == 'INPUT')) {
         if (settings.wasd.iframeCreateClip) {
-          if (document.querySelector('button.player-button.clip-ovg')) document.querySelector('button.player-button.clip-ovg').click()
+          document.querySelector('button.player-button.clip-ovg')?.click()
         } else {
-          if (document.querySelector('button.player-button.clip-button')) document.querySelector('button.player-button.clip-button').click();
+          document.querySelector('button.player-button.clip-button')?.click();
         }
         isPressedClip = true;
       }
@@ -108,8 +112,9 @@ updateVideoPlayerButtons = () => {
   }
 
   isTheaterMode = document.querySelector('div.player-wrapper.theatre-mode');
-  if (isTheaterMode) {
+  if (isTheaterMode || HelperWASD.isTheaterModeNoFS) {
     theaterButton = document.querySelector('.player-button.theater-button > div.tooltip');
+    theaterNoFSButton = document.querySelector('.player-button.theaterModeNoFS > div.tooltip');
     if (theaterButton) {
       if (settings.wasd.pressedTheater) {
         theaterButton.textContent = "Выйти из театрального режима (t)"
@@ -117,13 +122,28 @@ updateVideoPlayerButtons = () => {
         theaterButton.textContent = "Выйти из театрального режима"
       }
     }
+    if (theaterNoFSButton) {
+      if (settings.wasd.pressedTheater) {
+        theaterNoFSButton.textContent = "Выйти из режима кинотеатра (t)"
+      } else {
+        theaterNoFSButton.textContent = "Выйти из режима кинотеатра"
+      }
+    }
   } else {
     theaterButton = document.querySelector('.player-button.theater-button > div.tooltip');
+    theaterNoFSButton = document.querySelector('.player-button.theaterModeNoFS > div.tooltip');
     if (theaterButton) {
       if (settings.wasd.pressedTheater) {
         theaterButton.textContent = "Театральный режим (t)"
       } else {
         theaterButton.textContent = "Театральный режим"
+      }
+    }
+    if (theaterNoFSButton) {
+      if (settings.wasd.pressedTheater) {
+        theaterNoFSButton.textContent = "Режим кинотеатра (t)"
+      } else {
+        theaterNoFSButton.textContent = "Режим кинотеатра"
       }
     }
   }
@@ -142,7 +162,6 @@ updateVideoPlayerButtons = () => {
       pipButton.textContent = "Режим PiP не поддерживается"
     }
   }
-
 
   let clipButton;
   if (settings.wasd.iframeCreateClip) {
@@ -208,3 +227,46 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 });
 
 window.addEventListener('unload', () => navigator.sendBeacon(`${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`));
+
+const resizeTheaterModeNoFS = (moreUpdate = true) => {
+  if (HelperWASD.isTheaterModeNoFS) {
+    let streamInfo = document.querySelector('#streamInfo')
+    let giftsInfo = document.querySelector('#giftsInfo')
+    let playerWrapper = document.querySelector('.player-wrapper')
+
+    let height = (settings.wasd.theaterModeStreamInfo.toString() == '2' ? streamInfo?.offsetHeight : 0) + (settings.wasd.theaterModeShowGifts ? giftsInfo?.offsetHeight : 0)
+
+    const update = () => {
+      if (HelperWASD.isTheaterModeNoFS && playerWrapper) {
+        playerWrapper.style.height = `calc(100vh - ${height}px)`
+        if (settings.wasd.theaterModeStreamInfo.toString() !== '2' && streamInfo) {
+          streamInfo.style.width = `calc(${playerWrapper.offsetWidth}px - 60px)`
+        } else if (settings.wasd.theaterModeStreamInfo.toString() !== '3' && streamInfo) {
+          streamInfo.style.width = ``
+        }
+      }
+    }
+
+    update()
+    if (moreUpdate) {
+      setTimeout(() => update(), 250)
+      setTimeout(() => update(), 1000)
+      setTimeout(() => update(), 2000)
+    }
+  }
+}
+window.addEventListener("resize", resizeTheaterModeNoFS, false);
+
+document.onfullscreenchange = (v) => {
+  let button = document.querySelector("button.theaterModeNoFS");
+  if (document.fullscreen && HelperWASD.isTheaterModeNoFS) {
+    HelperWASD.isTheaterModeNoFS = false
+    document.querySelector('style.theaterModeNoFS')?.remove()
+    let svg = button.querySelector('svg')
+    let tooltip = button.querySelector('.tooltip')
+    if (svg) svg.outerHTML = `<svg width="16" height="16" viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path fill="#FFF" d="M15 0a1 1 0 011 1v8a1 1 0 01-1 1h-1a1 1 0 01-1-1V1a1 1 0 011-1h1zm-4 0a1 1 0 011 1v8a1 1 0 01-1 1H1a1 1 0 01-1-1V1a1 1 0 011-1h10z"></path></svg>`
+    if (tooltip) tooltip.textContent = `Режим кинотеатра`
+    document.querySelector('.chat-container').classList.remove('theaterModeNoFS')
+    document.querySelector('.content-wrapper').classList.remove('theaterModeNoFS')
+  }
+}

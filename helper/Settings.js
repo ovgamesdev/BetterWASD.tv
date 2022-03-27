@@ -748,6 +748,12 @@ const HelperSettings = {
       linkColor: {
         title: 'Цвет ссылки',
         type: 'color',
+        swatches: [
+          '#0a82fae0',
+          '#0a2efae5',
+          '#8ab4f8',
+          '#1a0dab'
+        ]
       },
       truncateLink: {
         title: `Лимит символов ссылки ${Helper.F5} ${Helper.tooltip('', 'Удаляет символы в URL-адресах, чтобы текст ссылки не превышал указанную длину.')}`,
@@ -849,7 +855,10 @@ const HelperSettings = {
       colorMentionSelf: {
         title: 'Цвет сообщения, упоминающие вас',
         id: 'colorMentionSelf',
-        type: 'color'
+        type: 'color',
+        swatches: [
+          '#ff00002d'
+        ]
       },
 
 
@@ -965,7 +974,98 @@ const HelperSettings = {
         onChange: (value) => HelperWASD.createClipByOvg(value)
       },
 
+      qd: {
+        title: 'Проигрыватель » Режим кинотеатра',
+        type: 'title'
+      },
 
+      theaterModeNoFS: {
+        title: "Заменить 'Театральный режим' на 'Режим кинотеатра'",
+        type: 'boolean',
+        inInitChange: true,
+        onChange: (value) => {
+          HelperWASD.addTheaterModeNoFSToPlayer(value)
+          if (value) {
+            document.querySelector('#theaterModeShowGifts').classList.remove('disabled')
+            document.querySelector('#theaterModeShowContainer').classList.remove('disabled')
+            document.querySelector('#theaterModeStreamInfo').classList.remove('disabled')
+            document.querySelector('#theaterModeChatWidth').classList.remove('disabled')
+            document.querySelector('#theaterModeGifts').classList.remove('disabled')
+            document.querySelector('#theaterModeAutoOnChannel').classList.remove('disabled')
+          } else {
+            document.querySelector('#theaterModeShowGifts').classList.add('disabled')
+            document.querySelector('#theaterModeShowContainer').classList.add('disabled')
+            document.querySelector('#theaterModeStreamInfo').classList.add('disabled')
+            document.querySelector('#theaterModeChatWidth').classList.add('disabled')
+            document.querySelector('#theaterModeGifts').classList.add('disabled')
+            document.querySelector('#theaterModeAutoOnChannel').classList.add('disabled')
+          }
+        }
+      },
+      theaterModeShowGifts: {
+        title: "Показать кнопки подарков",
+        id: 'theaterModeShowGifts',
+        type: 'boolean',
+        onChange: (value) => {
+          setTimeout(() => {
+            HelperWASD.updateStyleTheaterModeNoFS()
+            resizeTheaterModeNoFS(false)
+          }, 50)
+        }
+      },
+      theaterModeShowContainer: {
+        title: "Показать информацию о канале",
+        id: 'theaterModeShowContainer',
+        type: 'boolean',
+        onChange: (value) => {
+          setTimeout(() => {
+            HelperWASD.updateStyleTheaterModeNoFS()
+            resizeTheaterModeNoFS(false)
+          }, 50)
+        }
+      },
+      theaterModeStreamInfo: {
+        title: "Информация о стриме",
+        id: 'theaterModeStreamInfo',
+        type: 'select',
+        items: [
+          {
+            value: 0,
+            label: 'Нет'
+          },
+          {
+            value: 1,
+            label: 'В плеере'
+          },
+          {
+            value: 2,
+            label: 'По умолчанию'
+          }
+        ],
+        onChange: (value) => {
+          setTimeout(() => {
+            HelperWASD.updateStyleTheaterModeNoFS()
+            resizeTheaterModeNoFS(false)
+          }, 50)
+        }
+      },
+      theaterModeChatWidth: {
+        title: `Размер чата в пикселях`,
+        id: 'theaterModeChatWidth',
+        type: 'number',
+        min: 200,
+        max: 1200
+      },
+      theaterModeGifts: {
+        title: `Скрыть подарки`,
+        id: 'theaterModeGifts',
+        type: 'boolean'
+      },
+      theaterModeAutoOnChannel: {
+        title: `Автоматически открывать режим кинотеатра при посещении канала ${Helper.BETA}`,
+        id: 'theaterModeAutoOnChannel',
+        type: 'boolean'
+      },
 
       w: {
         title: 'Проигрыватель » Воспроизведение',
@@ -1137,27 +1237,63 @@ const HelperSettings = {
     highlightRole: {
       user: {
         title: 'Цвет для пользователя',
-        type: 'color'
+        type: 'color',
+        swatches: [
+          '#00d0ff26',
+          '#6600ff26',
+          '#00ff1a26',
+          '#deed0926'
+        ]
       },
       partner: {
         title: 'Цвет для WASD партнёра',
-        type: 'color'
+        type: 'color',
+        swatches: [
+          '#00d0ff26',
+          '#6600ff26',
+          '#00ff1a26',
+          '#deed0926'
+        ]
       },
       admin: {
         title: 'Цвет для администратора WASD',
-        type: 'color'
+        type: 'color',
+        swatches: [
+          '#00d0ff26',
+          '#6600ff26',
+          '#00ff1a26',
+          '#deed0926'
+        ]
       },
       sub: {
         title: 'Цвет для подписчика канала',
-        type: 'color'
+        type: 'color',
+        swatches: [
+          '#00d0ff26',
+          '#6600ff26',
+          '#00ff1a26',
+          '#deed0926'
+        ]
       },
       moderator: {
         title: 'Цвет для модератора канала',
-        type: 'color'
+        type: 'color',
+        swatches: [
+          '#00d0ff26',
+          '#6600ff26',
+          '#00ff1a26',
+          '#deed0926'
+        ]
       },
       owner: {
         title: 'Цвет для создателя канала',
-        type: 'color'
+        type: 'color',
+        swatches: [
+          '#00d0ff26',
+          '#6600ff26',
+          '#00ff1a26',
+          '#deed0926'
+        ]
       }
     },
     colors: {

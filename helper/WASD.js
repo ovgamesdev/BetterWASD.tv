@@ -9,6 +9,7 @@ const HelperWASD = {
   subscribers: {},
   messageTimeout: null,
   current: null,
+  isTheaterModeNoFS: false,
 
   recordData: '',
 
@@ -293,7 +294,7 @@ const HelperWASD = {
       return message;
     }
   },
-  createUserViewerCard(channel_name, positionself = false) {
+  createUserViewerCard(channel_name, positionself = false, node) {
     const removeVC = () => {
       if (document.querySelector('.chat-room__viewer-card')) {
         HelperWASD.highlightMessagesRemove()
@@ -306,45 +307,41 @@ const HelperWASD = {
     let left_card = 0;
     let data;
 
+    let rect = node.getBoundingClientRect();
+
     if (!settings.general.saveCardPosition) {
       if (!positionself) {
-        if (document.querySelector('div.chat-container')) {
-          let content = document.querySelector('#scroll-content')
-          if (!settings.wasd.chatOnTheLeft) {
-            top_card = y - 13;
-            left_card = content.offsetWidth - document.querySelector('div.chat-container').offsetWidth + 5;
-          } else {
-            top_card = y - 13;
-            left_card = 0;
+
+        if (document.querySelector('.content-wrapper.theaterModeNoFS')) {
+          top_card = rect.top
+          left_card = rect.left
+
+          let c = document.querySelector('.chat-content')
+          let s = document.querySelector('.content-wrapper')
+          let r = document.querySelector('.router-wrapper')
+
+          if (top_card > c.offsetHeight - 398) {
+            top_card = c.offsetHeight - 398
           }
 
-          if (content.offsetWidth - 9 <= left_card + 362) {
-            left_card = (content.offsetWidth - 9) - 362 - 1;
-          }
-          if (!(left_card <= 9)) {
-            if ((left_card >= (content.offsetWidth - 9) - 180)) {
-              left_card = ((content.offsetWidth - 9) - 181);
-            }
-          } else {
-            left_card = 0;
+          if ((left_card + 320) > r.offsetWidth) {
+            left_card = r.offsetWidth - 320
           }
 
-          if (!(top_card <= 9)) {
-            if ((top_card >= (content.offsetHeight - 9) - 476)) {
-              top_card = ((content.offsetHeight - 9) - 477);
-            }
-          } else {
-            top_card = 10;
-          }
         } else {
-          top_card = y - 13;
-          left_card = x - 13 - 50;
-          let content = document.querySelector('#scroll-content')
-          if ((left_card >= (content.offsetWidth - 9) - 180)) {
-            left_card = ((content.offsetWidth - 9) - 181);
+          top_card = rect.top - 48
+          left_card = rect.left - 52
+
+          let c = document.querySelector('.chat-content')
+          let s = document.querySelector('.content-wrapper')
+          let r = document.querySelector('.router-wrapper')
+
+          if (top_card > c.offsetHeight - 398) {
+            top_card = c.offsetHeight - 398
           }
-          if (content.offsetWidth - 9 <= left_card + 370) {
-            left_card = (content.offsetWidth - 9) - 370 - 1;
+
+          if ((left_card + 320) > r.offsetWidth) {
+            left_card = r.offsetWidth - 320
           }
         }
 
@@ -661,13 +658,12 @@ const HelperWASD = {
               if (out.result) {
                 // paid_title-ovg display
                 if (out.result.length >= 1 && out.result[0].stickers.length != 0) {
-                  viewerCard.querySelector('div.paid_title-ovg').style.display = 'block';
-                  for (let value of out.result[0].stickers) {
-                    stiscersdiv = document.querySelector('div.paidsubs-popup__stickers');
-                    if (stiscersdiv) {
-                      stiscersdiv.insertAdjacentHTML("beforeend", `<div class="sticker-card"><div class="paidsubs-popup__stickers-item" style="background-image: url(${value.sticker_image.large});"></div><ovg-tooltip style="margin-right: 8px;"><div class="tooltip tooltip_position-bottom tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> ${value.sticker_name} </div></div></ovg-tooltip></div>`);
+                  if (out.result[0].sticker_pack_status == 'RESOLVED') {
+                    viewerCard.querySelector('div.paid_title-ovg').style.display = 'block';
+                    for (let value of out.result[0].stickers) {
+                      stiscersdiv = document.querySelector('div.paidsubs-popup__stickers');
+                      stiscersdiv?.insertAdjacentHTML("beforeend", `<div class="sticker-card"><div class="paidsubs-popup__stickers-item" style="background-image: url(${value.sticker_image.large});"></div><ovg-tooltip style="margin-right: 8px;"><div class="tooltip tooltip_position-bottom tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> ${value.sticker_name} </div></div></ovg-tooltip></div>`);
                     }
-
                   }
                 } else {
                   stiscersdiv = document.querySelector('div.paidsubs-popup__stickers');
@@ -722,6 +718,7 @@ const HelperWASD = {
                       } else {
                         content.style.maxHeight = "153px";
                       }
+                      document.querySelector('.block__messages-ovg')?.firstChild?.scrollIntoView()
                     }
                   });
 
@@ -794,8 +791,6 @@ const HelperWASD = {
                         if (isPartner) role += ' partner'
 
                         messagesDiv.appendChild(HelperWASD.createMessage(role, message.info.user_login.trim(), HelperWASD.userColors[message.info.user_id % (HelperWASD.userColors.length - 1)], message?.info?.message, message?.info?.sticker?.sticker_image?.medium, new Date(message.date_time)))
-
-                        divMessageDiv.scrollTop = divMessageDiv.scrollHeight;
                       }
                     }
                     if (document.querySelector('.block__messages-ovg').childNodes.length == 0) {
@@ -1514,7 +1509,7 @@ const HelperWASD = {
             }
           } else if (settings.wasd.onClickMention.toString() === '2') {
             if (!HelperWASD.addUsernameToTextarea(username)) {
-              HelperWASD.createUserViewerCard(username, true);
+              HelperWASD.createUserViewerCard(username, true, node);
             }
           }
         }
@@ -1580,6 +1575,90 @@ const HelperWASD = {
     } else {
       const buttondiv = document.querySelector("div.pip");
       buttondiv?.remove();
+    }
+  },
+  addTheaterModeNoFSToPlayer(value) {
+    let playerWrapper = document.querySelector('.player-wrapper')
+    let streamInfo = document.querySelector('#streamInfo')
+    let theaterButton = document.querySelector('.media-control .theater-button')
+    if (value) {
+      if (!document.querySelector("button.theaterModeNoFS")) {
+        const divbuttons = document.querySelector("div.buttons-container > div.buttons-right");
+        let html = ''
+        if (HelperWASD.isTheaterModeNoFS) {
+          html = `<div class="buttons-wraper theaterModeNoFS"><button class="player-button theaterModeNoFS" type="button"><div class="tooltip tooltip-up tooltip-align-center">Выйти из режима кинотеатра</div><svg width="16" height="16" viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path fill="#FFF" d="M15 0a1 1 0 011 1v8a1 1 0 01-1 1h-1a1 1 0 01-1-1V1a1 1 0 011-1h1zm-4 0a1 1 0 011 1v8a1 1 0 01-1 1H1a1 1 0 01-1-1V1a1 1 0 011-1h10z"></path></svg></button></div>`;
+        } else {
+          html = `<div class="buttons-wraper theaterModeNoFS"><button class="player-button theaterModeNoFS" type="button"><div class="tooltip tooltip-up tooltip-align-center">Режим кинотеатра</div><svg width="16" height="16" viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path fill="#FFF" d="M15 0a1 1 0 011 1v8a1 1 0 01-1 1h-1a1 1 0 01-1-1V1a1 1 0 011-1h1zm-4 0a1 1 0 011 1v8a1 1 0 01-1 1H1a1 1 0 01-1-1V1a1 1 0 011-1h10z"></path></svg></button></div>`;
+        }
+
+        if (divbuttons && divbuttons.childNodes.length >= 9) {
+          divbuttons.childNodes.item(document.querySelector("button.pip") ? 6 : 5).insertAdjacentHTML("afterend", html);
+          const button = document.querySelector("button.theaterModeNoFS");
+          theaterButton.parentElement.style.display = 'none'
+          const videopanel = document.querySelector('video');
+          if (videopanel) {
+            button.addEventListener('click', () => {
+              if (HelperWASD.isTheaterModeNoFS) {
+                HelperWASD.isTheaterModeNoFS = false
+                document.querySelector('style.theaterModeNoFS')?.remove()
+                playerWrapper.style.height = ''
+                streamInfo.style.width = ''
+                let svg = button.querySelector('svg')
+                let tooltip = button.querySelector('.tooltip')
+                if (svg) svg.outerHTML = `<svg width="16" height="16" viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path fill="#FFF" d="M15 0a1 1 0 011 1v8a1 1 0 01-1 1h-1a1 1 0 01-1-1V1a1 1 0 011-1h1zm-4 0a1 1 0 011 1v8a1 1 0 01-1 1H1a1 1 0 01-1-1V1a1 1 0 011-1h10z"></path></svg>`
+                if (tooltip) tooltip.textContent = `Режим кинотеатра`
+                document.querySelector('.chat-container').classList.remove('theaterModeNoFS')
+                document.querySelector('.content-wrapper').classList.remove('theaterModeNoFS')
+              } else {
+                if (document.fullscreen || document.webkitIsFullScreen) { if (document.exitFullscreen) { document.exitFullscreen() } else if (document.webkitExitFullscreen) { document.webkitExitFullscreen() } }
+                HelperWASD.isTheaterModeNoFS = true
+                HelperWASD.updateStyleTheaterModeNoFS()
+                let svg = button.querySelector('svg')
+                let tooltip = button.querySelector('.tooltip')
+                if (svg) svg.outerHTML = `<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#FFF" d="M.447.431c.26-.258.691-.277 1.016.051l13.963 13.944c.328.325.244.763 0 1.004-.243.242-.644.345-.99 0L.5 1.48C.16 1.14.188.69.447.432zM1.998 3l9.71 9.707A.997.997 0 0111 13H1a1 1 0 01-1-1V4a1 1 0 011-1h.998zM15 3a1 1 0 011 1v8a.997.997 0 01-.292.706L13 9.998V4a1 1 0 011-1h1zm-4 0a1 1 0 011 1v5L5.999 3H11z"></path></svg>`
+                if (tooltip) tooltip.textContent = `Выйти из режима кинотеатра`
+                resizeTheaterModeNoFS()
+                document.querySelector('.chat-container').classList.add('theaterModeNoFS')
+                document.querySelector('.content-wrapper').classList.add('theaterModeNoFS')
+              }
+            });
+          }
+        }
+      }
+    } else {
+      HelperWASD.isTheaterModeNoFS = false
+      document.querySelector('style.theaterModeNoFS')?.remove()
+      if (playerWrapper && streamInfo) {
+        playerWrapper.style.height = ''
+        streamInfo.style.width = ''
+      }
+
+      document.querySelector('.chat-container')?.classList?.remove('theaterModeNoFS')
+      document.querySelector('.content-wrapper')?.classList?.remove('theaterModeNoFS')
+
+      const buttondiv = document.querySelector("div.theaterModeNoFS");
+      buttondiv?.remove();
+      if (theaterButton) theaterButton.parentElement.style.display = ''
+    }
+  },
+  updateStyleTheaterModeNoFS() {
+    if (HelperWASD.isTheaterModeNoFS) {
+      let text = `
+        #scroll-content {position: fixed;z-index: 99;top: 0;left: 0;margin: 0;padding: 0!important;bottom: 0;width: 100%;height: 100%;}
+        ${!settings.wasd.theaterModeShowContainer ? '#channel-wrapper {overflow: hidden;} .container {display: none;}' : ''}
+        .player-wrapper {height: calc(100vh - 152px);max-height: none !important;}
+        .content-wrapper__footer {display: none !important;}
+        ${settings.wasd.theaterModeStreamInfo.toString() == '1' ? '.player-streaminfo {opacity: 1;pointer-events: all!important;}' : ''}
+        ${settings.wasd.theaterModeStreamInfo.toString() == '2' ? '' : '#streamInfo {position: fixed;top: 100vh;}'}
+        ${settings.wasd.theaterModeShowGifts ? '' : '#giftsInfo {display: none !important}'}`
+      if (document.querySelector('style.theaterModeNoFS')) {
+        document.querySelector('style.theaterModeNoFS').innerHTML = text
+      } else {
+        let style = document.createElement('style')
+        style.classList.add('theaterModeNoFS')
+        style.innerHTML = text
+        document.body.appendChild(style)
+      }
     }
   },
   createClipByOvg(value) {
