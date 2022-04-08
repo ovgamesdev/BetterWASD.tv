@@ -505,9 +505,9 @@ const wasd = {
       fontStyle.innerHTML = '';
       fontStyle.appendChild(document.createTextNode(`@font-face {
         font-family: 'ovg-icons';
-        src:  url(${chrome.runtime.getURL("css/fonts/ovg-icons.ttf")}?batw30) format('truetype'),
-          url(${chrome.runtime.getURL("css/fonts/ovg-icons.woff")}?batw30) format('woff'),
-          url(${chrome.runtime.getURL("css/fonts/ovg-icons.svg")}?batw30#ovg-icons) format('svg');
+        src:  url(${git_url + "css/fonts/ovg-icons.ttf"}?batw30) format('truetype'),
+          url(${git_url + "css/fonts/ovg-icons.woff"}?batw30) format('woff'),
+          url(${git_url + "css/fonts/ovg-icons.svg"}?batw30#ovg-icons) format('svg');
         font-weight: normal;
         font-style: normal;
         font-display: block;
@@ -569,18 +569,18 @@ const wasd = {
       }
 
       if ($('wasd-header .header__logo img')?.attr('src')?.match('dark')) {
-        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime?.id ? chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.svg") : BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src
+        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = git_url + "img/Wasd_Better_color_logo_dark.svg"
       } else {
-        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime?.id ? chrome.runtime.getURL("img/Wasd_Better_color_logo.svg") : BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src
+        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = git_url + "img/Wasd_Better_color_logo.svg"
       }
 
       $('wasd-header .header__logo img').attrchange({
         trackValues: true,
         callback: function (event) {
           if (event.newValue.match('dark')) {
-            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime?.id ? chrome.runtime.getURL("img/Wasd_Better_color_logo_dark.svg") : BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src
+            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = git_url + "img/Wasd_Better_color_logo_dark.svg"
           } else {
-            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime?.id ? chrome.runtime.getURL("img/Wasd_Better_color_logo.svg") : BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src
+            BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = git_url + "img/Wasd_Better_color_logo.svg"
           }
         }
       });
@@ -829,7 +829,7 @@ const wasd = {
       cssCode += `.message-ovg:hover { background-color: ${settings.wasd.colorMessageHover != '#000000' ? settings.wasd.colorMessageHover+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }; }`;
       cssCode += `.ovg-bg-color-prime:hover { background-color: ${settings.wasd.colorMessageHover != '#000000' ? settings.wasd.colorMessageHover+'!important' : 'rgba(var(--wasd-color-switch--rgb),.08)!important' }; }`;
     }
-    cssCode += `.paidsubs-popup__stickers-item {cursor: url(${chrome.runtime?.id ? chrome.runtime.getURL("img/cursorS.png") : ''}) 4 4, auto}`
+    cssCode += `.paidsubs-popup__stickers-item {cursor: url(${git_url + "img/cursorS.png"}) 4 4, auto}`
 
     if (settings.wasd.decreaseIndentationStickerMenu) {
       cssCode += 'wasd-chat-emoji-stickers .stickers__body {padding: 6px 0 0 8px!important;}wasd-chat-emoji-stickers .stickers__body__item {min-width: auto!important;padding: 2px!important;margin: 0 8px 8px 0!important;height: 43px!important;width: 43px!important;}wasd-chat-emoji-stickers .stickers__body__item--not-available {width: 18px!important;height: 18px!important;right: 10px!important;bottom: 10px!important;}wasd-chat-emoji-stickers .stickers__body__item--not-available img {height: 11px!important;}'

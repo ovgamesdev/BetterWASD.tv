@@ -8,13 +8,8 @@
 // @version 1.5.7
 // ==/UserScript==
 
-function bwasd_init()
-{
-	var git = 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/release/'
-
-	if ( localStorage.bwasdDebugMode == "true" ) git = 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/'
-
-	let content_scripts = [{
+function bwasd_init() {
+	let content_scripts = {
     "css": [
       "css/index.css",
       "css/fonts/fonts.css",
@@ -63,21 +58,42 @@ function bwasd_init()
       "BetterStreamChat/init.js",
       "init.js"
     ]
-  }]
+  }
 
-  content_scripts["js"].forEach((value) => {
+	async function loadData(index) {
 		var script = document.createElement('script');
 		script.type = 'text/javascript';
-		script.src = git + value;
+		script.innerHTML = await getResponseText(content_scripts["js"][index]);
 		document.head.appendChild(script);
-  })
+		if (!content_scripts["js"][index]) return
+		loadData(index+1)
+	}
 
-  content_scripts["css"].forEach((value) => {
+	loadData(0)
+
+  content_scripts["css"].forEach(async (url) => {
 		var style = document.createElement('style');
 		style.type = 'text/css';
-		style.src = git + value;
+		style.innerHTML = await getResponseText(url);
 		document.head.appendChild(style);
   })
+
+	async function getResponseText(url) {
+		var git = 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/release/'
+		if ( localStorage.bwasdDebugMode == "true" ) git = 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/'
+
+		return new Promise((resolve, reject) => {
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", git + url, true);
+			xhr.onload = function(e) {
+				resolve(xhr.responseText)
+			};
+			xhr.onerror = function(e) {
+				reject(e)
+			};
+			xhr.send(null);
+		})
+	}
 }
 
 bwasd_init();
