@@ -1,9 +1,7 @@
 let storageType = 'sync';
 let isPressedAlt, isPressedShift, isPressedControl, isPressedFullScreen, isPressedTheater, isPressedPIP, isPressedClip;
 
-var git_url = 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/release/'
-if ( localStorage.bwasdDebugMode == "true" ) git_url = 'https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/main/'
-
+let git_url = `https://raw.githubusercontent.com/ovgamesdev/BetterWASD.tv/${ localStorage.bwasdDebugMode == "true" ? 'main' : 'release'}/`
 
 window.addEventListener('keyup', (e) => {
   isPressedAlt = false;

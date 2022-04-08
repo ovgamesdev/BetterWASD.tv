@@ -9,6 +9,7 @@ const HelperWASD = {
   current: null,
   isTheaterModeNoFS: false,
   TMChannel: '',
+  subscriptionPeriods: [{ startDays: 0, iconUrl: "https://static.wasd.tv/images/subscribers/1mon.png" }, { startDays: 60, iconUrl: "https://static.wasd.tv/images/subscribers/3mon.png" }, { startDays: 150, iconUrl: "https://static.wasd.tv/images/subscribers/6mon.png" }, { startDays: 240, iconUrl: "https://static.wasd.tv/images/subscribers/9mon.png" }, { startDays: 330, iconUrl: "https://static.wasd.tv/images/subscribers/12mon.png" }, { startDays: 510, iconUrl: "https://static.wasd.tv/images/subscribers/18mon.png" }, { startDays: 690, iconUrl: "https://static.wasd.tv/images/subscribers/24mon.png" }],
 
   recordData: '',
 
@@ -1000,51 +1001,25 @@ const HelperWASD = {
       let allbadge = HelperBWASD.badges[ws_user.getAttribute('user_login')]
       let htmlroles = viewerCard.querySelector('.roles .popup__roles')
 
-
-      let _currentPeriod = {iconUrl: ""}
-      let _currentPeriodText = {text: ""}
-      const subscriptionPeriods = [{
-        startDays: 0,
-        iconUrl: "https://static.wasd.tv/images/subscribers/1mon.png"
-      }, {
-        startDays: 60,
-        iconUrl: "https://static.wasd.tv/images/subscribers/3mon.png"
-      }, {
-        startDays: 150,
-        iconUrl: "https://static.wasd.tv/images/subscribers/6mon.png"
-      }, {
-        startDays: 240,
-        iconUrl: "https://static.wasd.tv/images/subscribers/9mon.png"
-      }, {
-        startDays: 330,
-        iconUrl: "https://static.wasd.tv/images/subscribers/12mon.png"
-      }, {
-        startDays: 510,
-        iconUrl: "https://static.wasd.tv/images/subscribers/18mon.png"
-      }, {
-        startDays: 690,
-        iconUrl: "https://static.wasd.tv/images/subscribers/24mon.png"
-      }]
-
-      let days_as_sub = ws_user.getAttribute('days_as_sub') ? Number(ws_user.getAttribute('days_as_sub'))+1 : null
-
-      if (days_as_sub) subscriptionPeriods.every(t => !(t.startDays > days_as_sub || (_currentPeriod = t, 0)))
-
-      let subtext = `${ws_user.getAttribute('days_as_sub')} дней подписки`
-
-      let icon = `url(${_currentPeriod.iconUrl})`
-
-      for (let badge in HelperBWASD.subBadges) {
-        if (icon.match(badge)) icon = HelperBWASD.subBadges[badge]
-      }
-
       if (allbadge && allbadge.badges.length > 0) {
         for (let badg of allbadge.badges) {
           htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> ${badg.tooltip.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` )} <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> ${badg.title} </div></div></ovg-tooltip></div>`);
         }
       }
-      if (role.indexOf('sub') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-image: ${icon};"><!--i badge="" class="icon wasd-icons-star"    style="position: relative;top: 2px;"></i--></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> ${subtext} </div></div></ovg-tooltip></div>`);
+      let _currentPeriod = {iconUrl: ""}
+      let userSub = HelperWASD.subscribers[ws_user.getAttribute('user_login')]
+      if (userSub) {
+        HelperWASD.subscriptionPeriods.every(t => !(t.startDays > userSub.meta.days_as_sub+1 || (_currentPeriod = t, 0)))
+        let subtext = `${userSub.meta.days_as_sub} дней подписки`
+        let icon = `url(${_currentPeriod.iconUrl})`
+
+        for (let badge in HelperBWASD.subBadges) {
+          if (icon.match(badge)) icon = HelperBWASD.subBadges[badge]
+        }
+
+        if (role.indexOf('sub') != -1) {
+          htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-image: ${icon};"><!--i badge="" class="icon wasd-icons-star"    style="position: relative;top: 2px;"></i--></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> ${subtext} </div></div></ovg-tooltip></div>`);
+        }
       }
       if (role.indexOf('owner') != -1) {
         htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-color: var(--wasd-color-event3);">   <i badge="" class="icon wasd-icons-owner" style="position: relative;top: 2px;">      </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>`);
@@ -1659,7 +1634,7 @@ const HelperWASD = {
   updateStyleTheaterModeNoFS() {
     if (HelperWASD.isTheaterModeNoFS) {
       let text = `
-        #scroll-content {position: fixed;z-index: 99;top: 0;left: 0;margin: 0;padding: 0!important;bottom: 0;width: 100%;height: 100%;}
+        #scroll-content {position: fixed!important;z-index: 99!important;top: 0!important;left: 0!important;margin: 0!important;padding: 0!important;bottom: 0!important;width: 100%!important;height: 100%!important;}
         ${!settings.wasd.theaterModeShowContainer ? '#channel-wrapper {overflow: hidden;} .container {display: none;}' : ''}
         .player-wrapper {height: calc(100vh - 152px);max-height: none !important;}
         .content-wrapper__footer {display: none !important;}

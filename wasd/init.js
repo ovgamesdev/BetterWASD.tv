@@ -300,33 +300,7 @@ const wasd = {
             let userSub = HelperWASD.subscribers[username.textContent.trim()]
             if (userSub && settings.wasd.subscriberOnUserList) {
               let _currentPeriod = {iconUrl: ""}
-              const subscriptionPeriods = [
-                {
-                  startDays: 0,
-                  iconUrl: "https://static.wasd.tv/images/subscribers/1mon.png"
-                }, {
-                  startDays: 60,
-                  iconUrl: "https://static.wasd.tv/images/subscribers/3mon.png"
-                }, {
-                  startDays: 150,
-                  iconUrl: "https://static.wasd.tv/images/subscribers/6mon.png"
-                }, {
-                  startDays: 240,
-                  iconUrl: "https://static.wasd.tv/images/subscribers/9mon.png"
-                }, {
-                  startDays: 330,
-                  iconUrl: "https://static.wasd.tv/images/subscribers/12mon.png"
-                }, {
-                  startDays: 510,
-                  iconUrl: "https://static.wasd.tv/images/subscribers/18mon.png"
-                }, {
-                  startDays: 690,
-                  iconUrl: "https://static.wasd.tv/images/subscribers/24mon.png"
-                }
-              ]
-
-              subscriptionPeriods.every(t => !(t.startDays > userSub.meta.days_as_sub+1 || (_currentPeriod = t, 0)))
-
+              HelperWASD.subscriptionPeriods.every(t => !(t.startDays > userSub.meta.days_as_sub+1 || (_currentPeriod = t, 0)))
               let subtext = `${userSub.meta.days_as_sub} дней подписки`
               let icon = `url(${_currentPeriod.iconUrl})`
 

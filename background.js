@@ -4,66 +4,66 @@ let username = null;
 let contentTabId = null;
 let tab_settingsId = null;
 
-// chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 
-//   if (request.notify == "create") {
-//     contentTabId = sender.tab.id;
-//     username = request.username
-//     chrome.notifications.create({
-//       type: "basic",
-//       iconUrl: "img/icon128.png",
-//       title: request.title,
-//       message: request.message,
-//       buttons: [{
-//         title: 'Ответить'
-//       }]
-//     }, (id) => { notificationReplyId = id })
-//   }
-//   if (request.update_save) {
-//     if (contentTabId) chrome.tabs.sendMessage(contentTabId, { from: "background", update_save: request.update_save });
-//   }
-//   if (request.update_chat) {
-//     if (contentTabId) chrome.tabs.sendMessage(contentTabId, { from: "background", update_chat: request.update_chat });
-//   }
-//   if (request.location) {
-//     if (contentTabId) chrome.tabs.sendMessage(contentTabId, { from: "background", location: request.location });
-//   }
-//   if (request.from == "tab_settings") {
-//     tab_settingsId = sender.tab.id;
-//   }
-//   if (request.from == "tab_content") {
-//     contentTabId = sender.tab.id;
-//   }
-//   if (request.setUninstall) {
-//     chrome.runtime.setUninstallURL(`https://betterwasd.herokuapp.com/api/v1/stat/tv/delete/${request.setUninstall}`,)
-//   }
-//   if (request.createWindow) {
-//     chrome.windows.create({
-//       url: request.createWindow,
-//       type: "popup",
-//       width: 900,
-//       height: 560,
-//       focused: true
-//     });
-//   }
+  if (request.notify == "create") {
+    contentTabId = sender.tab.id;
+    username = request.username
+    chrome.notifications.create({
+      type: "basic",
+      iconUrl: "img/icon128.png",
+      title: request.title,
+      message: request.message,
+      buttons: [{
+        title: 'Ответить'
+      }]
+    }, (id) => { notificationReplyId = id })
+  }
+  if (request.update_save) {
+    if (contentTabId) chrome.tabs.sendMessage(contentTabId, { from: "background", update_save: request.update_save });
+  }
+  if (request.update_chat) {
+    if (contentTabId) chrome.tabs.sendMessage(contentTabId, { from: "background", update_chat: request.update_chat });
+  }
+  if (request.location) {
+    if (contentTabId) chrome.tabs.sendMessage(contentTabId, { from: "background", location: request.location });
+  }
+  if (request.from == "tab_settings") {
+    tab_settingsId = sender.tab.id;
+  }
+  if (request.from == "tab_content") {
+    contentTabId = sender.tab.id;
+  }
+  if (request.setUninstall) {
+    chrome.runtime.setUninstallURL(`https://betterwasd.herokuapp.com/api/v1/stat/tv/delete/${request.setUninstall}`,)
+  }
+  if (request.createWindow) {
+    chrome.windows.create({
+      url: request.createWindow,
+      type: "popup",
+      width: 900,
+      height: 560,
+      focused: true
+    });
+  }
 
-//   // permissions: management
-//   // if (request.from == "betterwasd_tv" && request.getCoinUsers) {
-//   //   chrome.management.getAll((info) => {
-//   //     for (let extension of info) {
-//   //       if (extension.id == "fdgepfaignbakmmbiafocfjcnaejgldb") {
-//   //         chrome.runtime.connect("fdgepfaignbakmmbiafocfjcnaejgldb").postMessage({ from: 'betterwasd_tv', getCoinUsers: request.getCoinUsers });
-//   //       } else if (extension.id == "nieblejndnlodncpeekopcmpiaahnfch") {
-//   //         chrome.runtime.connect("nieblejndnlodncpeekopcmpiaahnfch").postMessage({ from: 'betterwasd_tv', getCoinUsers: request.getCoinUsers });
-//   //       }
-//   //     }
-//   //   });
-//   // }
+  // permissions: management
+  // if (request.from == "betterwasd_tv" && request.getCoinUsers) {
+  //   chrome.management.getAll((info) => {
+  //     for (let extension of info) {
+  //       if (extension.id == "fdgepfaignbakmmbiafocfjcnaejgldb") {
+  //         chrome.runtime.connect("fdgepfaignbakmmbiafocfjcnaejgldb").postMessage({ from: 'betterwasd_tv', getCoinUsers: request.getCoinUsers });
+  //       } else if (extension.id == "nieblejndnlodncpeekopcmpiaahnfch") {
+  //         chrome.runtime.connect("nieblejndnlodncpeekopcmpiaahnfch").postMessage({ from: 'betterwasd_tv', getCoinUsers: request.getCoinUsers });
+  //       }
+  //     }
+  //   });
+  // }
 
-//   sendResponse({message: 'ok'});
-//   return true
+  sendResponse({message: 'ok'});
+  return true
 
-// });
+});
 
 chrome.notifications.onButtonClicked.addListener((notifId, btnIdx) => {
   if (notifId == notificationReplyId && btnIdx == 0 && contentTabId) {
