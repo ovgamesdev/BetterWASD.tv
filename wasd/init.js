@@ -479,9 +479,9 @@ const wasd = {
       fontStyle.innerHTML = '';
       fontStyle.appendChild(document.createTextNode(`@font-face {
         font-family: 'ovg-icons';
-        src:  url(${git_url + "css/fonts/ovg-icons.ttf"}?batw30) format('truetype'),
-          url(${git_url + "css/fonts/ovg-icons.woff"}?batw30) format('woff'),
-          url(${git_url + "css/fonts/ovg-icons.svg"}?batw30#ovg-icons) format('svg');
+        src:  url(${chrome.runtime.getURL("css/fonts/ovg-icons.ttf")}?batw30) format('truetype'),
+          url(${chrome.runtime.getURL("css/fonts/ovg-icons.woff")}?batw30) format('woff'),
+          url(${chrome.runtime.getURL("css/fonts/ovg-icons.svg")}?batw30#ovg-icons) format('svg');
         font-weight: normal;
         font-style: normal;
         font-display: block;

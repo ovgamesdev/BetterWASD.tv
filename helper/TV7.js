@@ -321,7 +321,7 @@ const HelperTV7 = {
           document.querySelector('wasd-chat-emoji-smiles-bttv')?.remove();
           document.querySelector('wasd-chat-emoji-smiles-bwasd')?.remove();
           
-          emoteBodytv7.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-tv7><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option tv7emojiSearch-shat" style="background: url(${chrome.runtime?.id ? chrome.runtime.getURL("img/search.png") : ''}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-tv7>`)
+          emoteBodytv7.insertAdjacentHTML("beforeend", `<wasd-chat-emoji-smiles-tv7><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option tv7emojiSearch-shat" style="background: url(${git_url + "img/search.png"}) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-tv7>`)
           let EmoteListtv7 = emoteBodytv7.querySelector('div.emoji-ovg');
           //ovg.log(HelperTV7.emotes);
           if (EmoteListtv7) {
