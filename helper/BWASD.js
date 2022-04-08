@@ -2,8 +2,12 @@ const HelperBWASD = {
 	items: { bwasdEmotes: {}, bwasdUsers: {} },
   isBusy: false,
   emotes: {},
+  badges: {},
+  subBadges: {},
+  paints: {},
   host: 'https://betterwasd.herokuapp.com',
   // host: 'http://localhost:5000',
+  ws: 'ws://localhost:9000/',
   updateSettings() {
     let bwasdEmoteList = BetterStreamChat.settingsDiv.querySelector('#bwasdEmoteList');
     bwasdEmoteList.innerText = '';
@@ -50,25 +54,26 @@ const HelperBWASD = {
     }
   },
   loaded() {
-    if (!settings.wasd.bwasdEmotes) return
-    for (let msg of document.querySelectorAll('wasd-chat-message .message-text > span')) {
-      msg.innerHTML = HelperBWASD.replaceText(msg.innerHTML);
-      
-      var tooltips = msg.querySelectorAll(".tooltip-wrapper");
-      for (let tooltip of tooltips) {
-        $( tooltip ).tooltip({
-          classes: { "ui-tooltip": "ui-ovg-tooltip" },
-          content: tooltip.title,
-          show: false,
-          hide: false,
-          position: {
-            my: "center bottom",
-            at: "center top-5",
-            within: $('wasd-chat')
-          }
-        });
+    if (settings.wasd.bwasdEmotes) {
+      for (let msg of document.querySelectorAll('wasd-chat-message .message-text > span')) {
+        msg.innerHTML = HelperBWASD.replaceText(msg.innerHTML);
+        
+        var tooltips = msg.querySelectorAll(".tooltip-wrapper");
+        for (let tooltip of tooltips) {
+          $( tooltip ).tooltip({
+            classes: { "ui-tooltip": "ui-ovg-tooltip" },
+            content: tooltip.title,
+            show: false,
+            hide: false,
+            position: {
+              my: "center bottom",
+              at: "center top-5",
+              within: $('wasd-chat')
+            }
+          });
+        }
+        HelperWASD.updateHoverTooltipEmote(settings.wasd.hoverTooltipEmote)
       }
-      HelperWASD.updateHoverTooltipEmote(settings.wasd.hoverTooltipEmote)
     }
 
     for (let element of document.querySelectorAll('wasd-chat-message .message-text > span .chat-message-mention')) {
@@ -88,6 +93,11 @@ const HelperBWASD = {
       })
     }
 
+    for (let element of (document.querySelectorAll('wasd-chat-message .info__text__status-paid'))) {
+      for (let badge in HelperBWASD.subBadges) {
+        if (element.style.backgroundImage.match(badge)) element.style.backgroundImage = HelperBWASD.subBadges[badge]
+      }
+    }
   },
   update() {
     return new Promise((resolve) => {
@@ -139,7 +149,7 @@ const HelperBWASD = {
   getUserEmotes(userID) {
     return new Promise((resolve, reject) => {
       $.ajax({
-        url: `${HelperBWASD.host}/api/v1/emote/userwithglobal/${userID}`,
+        url: `${HelperBWASD.host}/api/v1/data/all/user/${userID}`,
         success: (out) => {
           resolve(out)
         },
@@ -151,6 +161,7 @@ const HelperBWASD = {
   },
   updateUserChannelEmotes(userID, username) {
     return HelperBWASD.getUserEmotes(userID).then((bwasdData) => {
+      HelperBWASD.subBadges = bwasdData.subBadges ? bwasdData.subBadges : {}
       return HelperBWASD.updateEmotes(userID, bwasdData);
     }).then(() => {
       return HelperBWASD.addUser(userID, username);
@@ -211,6 +222,7 @@ const HelperBWASD = {
     });
   },
   removeUsers() {
+    HelperBWASD.subBadges = {}
     HelperBWASD.emotes = {}
     HelperBWASD.items = { bwasdEmotes: {}, bwasdUsers: {} }
   },

@@ -3,6 +3,7 @@ const wasd = {
   isObserverEndBind: false,
   isObserverEndBindBody: false,
   observer: null,
+  href: '',
   init() {
     ovg.log("init");
     HelperWASD.loadBwasdData()
@@ -59,7 +60,7 @@ const wasd = {
         //   // console.log('комент поста', icon, username)
         // }
 
-    // post self icon
+        // post self icon
 
         // work
         // const a4 = [...addedNodes]
@@ -202,6 +203,32 @@ const wasd = {
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('wasd-player-component'));
 
+        const add_wasd_chat_footer = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('div#chat-footer-block.footer'));
+
+
+
+        if (add_wasd_chat_footer.length) {
+          let div = document.createElement('div')
+          div.classList.add('footer__block__icons__item')
+          div.classList.add('gifts')
+          div.setAttribute('ovg', '')
+          div.innerHTML = `<i class="icon wasd-icons-xp"></i>`
+          add_wasd_chat_footer[0].querySelector('.footer__block__icons').appendChild(div)
+
+          div.addEventListener('click', () => {
+            let giftsInfo = document.querySelector('#giftsInfo')
+            if (!giftsInfo) return
+            if (giftsInfo.style.display == '') {
+              giftsInfo.style.display = 'flex'
+            } else {
+              giftsInfo.style.display = ''
+            }
+            HelperWASD.updateStyleTheaterModeNoFS()
+            resizeTheaterModeNoFS(false)
+          })
+        }
 
         // if (add_playerInfo.length) {
         //   let icon = add_playerInfo[0].querySelector('.channel__avatar')
@@ -249,8 +276,8 @@ const wasd = {
           HelperWASD.isTheaterModeNoFS = true
           HelperWASD.updateStyleTheaterModeNoFS()
           resizeTheaterModeNoFS()
-          document.querySelector('.chat-container').classList.add('theaterModeNoFS')
-          document.querySelector('.content-wrapper').classList.add('theaterModeNoFS')
+          document.querySelector('.chat-container')?.classList.add('theaterModeNoFS')
+          document.querySelector('.content-wrapper')?.classList.add('theaterModeNoFS')
           let button = document.querySelector("button.theaterModeNoFS");
           if (button) button.querySelector('svg').outerHTML = `<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#FFF" d="M.447.431c.26-.258.691-.277 1.016.051l13.963 13.944c.328.325.244.763 0 1.004-.243.242-.644.345-.99 0L.5 1.48C.16 1.14.188.69.447.432zM1.998 3l9.71 9.707A.997.997 0 0111 13H1a1 1 0 01-1-1V4a1 1 0 011-1h.998zM15 3a1 1 0 011 1v8a.997.997 0 01-.292.706L13 9.998V4a1 1 0 011-1h1zm-4 0a1 1 0 011 1v5L5.999 3H11z"></path></svg>`
           if (button) button.querySelector('.tooltip').textContent = `Выйти из режима кинотеатра`
@@ -260,17 +287,15 @@ const wasd = {
           let username = add_user_item[0].querySelector('.item') ? add_user_item[0].querySelector('.users__item-name') : null
           if (username) {
             
-            let allbadge = HelperWASD.badges[username.textContent.trim()]
+            let allbadge = HelperBWASD.badges[username.textContent.trim()]
             if (allbadge && allbadge.badges.length > 0) {
               for (let badg of allbadge.badges) {
                 add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
               }
             }
 
-
-            let userPaint = HelperWASD.paints[username.textContent.trim()]
+            let userPaint = HelperBWASD.paints[username.textContent.trim()]
             if (userPaint) username.innerHTML = username.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => { return `<span data-betterwasd-paint="${userPaint}">${$0}</span>` })
-          
 
             let userSub = HelperWASD.subscribers[username.textContent.trim()]
             if (userSub && settings.wasd.subscriberOnUserList) {
@@ -303,8 +328,13 @@ const wasd = {
               subscriptionPeriods.every(t => !(t.startDays > userSub.meta.days_as_sub+1 || (_currentPeriod = t, 0)))
 
               let subtext = `${userSub.meta.days_as_sub} дней подписки`
+              let icon = `url(${_currentPeriod.iconUrl})`
 
-              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", `<div class="tooltip-hover" style="display: flex;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-image: url(${_currentPeriod.iconUrl});"><!--i badge="" class="icon wasd-icons-star"    style="position: relative;top: 2px;"></i--></div> <ovg-tooltip style="position: relative;pointer-events: none;"><div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> ${subtext} </div></div></ovg-tooltip></div>`);
+              for (let badge in HelperBWASD.subBadges) {
+                if (icon.match(badge)) icon = HelperBWASD.subBadges[badge]
+              }
+
+              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", `<div class="tooltip-hover" style="display: flex;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-image: ${icon};"><!--i badge="" class="icon wasd-icons-star"    style="position: relative;top: 2px;"></i--></div> <ovg-tooltip style="position: relative;pointer-events: none;"><div class="tooltip tooltip_position-right tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> ${subtext} </div></div></ovg-tooltip></div>`);
             }
           }
         }
@@ -312,7 +342,10 @@ const wasd = {
         if (add_chat.length) {
           HelperWASD.loadBwasdData()
           socket.initChat()
-          // wasd.updatestyle();
+
+          HelperBWASD.emotes = {}
+          HelperBWASD.subBadges = {}
+
           HelperWASD.isModerator = false
           HelperWASD.getIsModerator().then((resolve) => {
             HelperWASD.isModerator = resolve
@@ -419,12 +452,6 @@ const wasd = {
         }
 
         if (add_wasd_player.length) {
-          add_wasd_player[0].addEventListener("touchend", () => setTimeout(() => {
-            document.querySelector('.media-control').classList.remove('media-control-hide')
-            document.querySelector('.custom-media-control').classList.remove('custom-media-hidden')
-            document.querySelector('.player-streaminfo').classList.remove('custom-media-hidden')
-          }, 10), false);
-
           add_wasd_player[0].onmousedown = (e) => {
             if (settings.wasd.mutePlayerOnMiddleMouse && e.button == 1) {
               document.querySelector('.player-button.volume-button').click()
@@ -433,6 +460,30 @@ const wasd = {
           }
         }
         
+      }
+
+      if (location.href !== wasd.href) {
+        wasd.href = location.href;
+
+        if (location.href.indexOf(HelperWASD.TMChannel) == -1) {
+          let playerWrapper = document.querySelector('.player-wrapper')
+          let streamInfo = document.querySelector('#streamInfo')
+          let button = document.querySelector("button.theaterModeNoFS");
+          let svg = button?.querySelector('svg')
+          let tooltip = button?.querySelector('.tooltip')
+
+          if (document.fullscreen || document.webkitIsFullScreen) { if (document.exitFullscreen) { document.exitFullscreen() } else if (document.webkitExitFullscreen) { document.webkitExitFullscreen() } }
+          HelperWASD.isTheaterModeNoFS = false
+          HelperWASD.updateStyleTheaterModeNoFS()
+          if (playerWrapper) playerWrapper.style.height = ''
+          if (streamInfo) streamInfo.style.width = ''
+          if (svg) svg.outerHTML = `<svg width="16" height="16" viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path fill="#FFF" d="M15 0a1 1 0 011 1v8a1 1 0 01-1 1h-1a1 1 0 01-1-1V1a1 1 0 011-1h1zm-4 0a1 1 0 011 1v8a1 1 0 01-1 1H1a1 1 0 01-1-1V1a1 1 0 011-1h10z"></path></svg>`
+          if (tooltip) tooltip.textContent = `Режим кинотеатра`
+          document.querySelector('.chat-container')?.classList.remove('theaterModeNoFS')
+          document.querySelector('.content-wrapper')?.classList.remove('theaterModeNoFS')
+          if (document.querySelector('#giftsInfo')) document.querySelector('#giftsInfo').style.display = ''
+        }
+
       }
     }
 
@@ -485,9 +536,9 @@ const wasd = {
 
     addToHeader = () => {
       // add button BetterWASD настройки
-      if (!BetterStreamChat.isSettingsNewWindow && !document.querySelector('li#selector-bm-ovg-settings')) {
-        const buttonovg = `<li id="selector-bm-ovg-settings"><a class="profile-menu__link"><i class="wasd-icons-settings-profile"></i><span> BetterWASD настройки </span></a></li>`
-        document.querySelector('wasd-profile-menu #profile-menu .profile-menu__list #selector-pm-theme')?.insertAdjacentHTML("beforebegin", buttonovg);
+      let selectorSettings = document.querySelector('li#selector-bm-ovg-settings')
+      if (!BetterStreamChat.isSettingsNewWindow && !selectorSettings) {
+        document.querySelector('wasd-profile-menu #profile-menu .profile-menu__list #selector-pm-theme')?.insertAdjacentHTML("beforebegin", `<li id="selector-bm-ovg-settings"><a class="profile-menu__link"><i class="wasd-icons-settings-profile"></i><span> BetterWASD настройки </span></a></li>`);
         document.querySelector('li#selector-bm-ovg-settings')?.addEventListener('click', Helper.showSettings);
       }
 
@@ -522,6 +573,7 @@ const wasd = {
       } else {
         BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = chrome.runtime?.id ? chrome.runtime.getURL("img/Wasd_Better_color_logo.svg") : BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src
       }
+
       $('wasd-header .header__logo img').attrchange({
         trackValues: true,
         callback: function (event) {
@@ -562,7 +614,7 @@ const wasd = {
     }
 
     if (settings.wasd.wasdIconsCircleRu) {
-      cssCode += `.footer__block__icons > :nth-child(2) { display: none!important; }`;
+      cssCode += `#chat-footer-icon-money { display: none!important; }`;
     }
 
     if (settings.wasd.webkitScrollbarWidth) {
@@ -615,19 +667,12 @@ const wasd = {
     }
 
     if (settings.wasd.stickerovg.toString() === '0') {
-      cssCode += `.message__info .stickerovg, .message__info-ovg .stickerovg {max-width: -webkit-fill-available; display: block; height: ${settings.wasd.bttvSize}; margin-top: 8px; }`
-    } else if (settings.wasd.stickerovg.toString() === '1') {
-      cssCode += '.stickerovg {max-width: -webkit-fill-available; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
+      cssCode += `.message__info .stickerovg, .message__info-ovg .stickerovg {max-width: -webkit-fill-available; display: block; height: ${settings.wasd.bttvSize}; min-width: ${settings.wasd.bttvSize}; margin-top: 8px; }`
+    } else if (settings.wasd.stickerovg.toString() === '1' || settings.wasd.stickerovg.toString() === '2') {
+      cssCode += '.stickerovg {max-width: -webkit-fill-available; width: 28px!important; min-width: 28px; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
     }
-    if (settings.wasd.stickerovg.toString() === '2') {
-      cssCode += 'div.block__messages__item:hover { z-index: 1; }';
-      cssCode += 'div.block__messages__item-ovg:hover { z-index: 1; }';
-      cssCode += '.stickerovg {max-width: -webkit-fill-available; transition: transform .2s; width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }';
-      cssCode += `.stickerovg:hover { transform: scale(${settings.wasd.bttvSize == '128px'? '4.4' : '2.2'}) translateY(-8px); background-color: var(--wasd-color-prime); border-radius: 4px; box-shadow: 0 0 4px 0 rgba(var(--wasd-color-switch--rgb),.16); }`;
-      cssCode += '.block__new-messages { z-index: 1; }';
 
-      cssCode += `.tooltip-wrapper .tooltip { bottom: ${settings.wasd.bttvSize == '128px'? '103px' : '57px'}; }`
-    } else if (settings.wasd.stickerovg.toString() === '3') {
+    if (settings.wasd.stickerovg.toString() === '3') {
       cssCode += '[stickersovg*=" "] { display: none!important; }';
     } else if (settings.wasd.stickerovg.toString() === '4') {
       cssCode += 'img.stickerovg { display: none!important; }';
@@ -656,7 +701,7 @@ const wasd = {
     cssCode += `div.message-text.message-text_deleted > span > a { color: inherit!important; }`;
 
     if (settings.wasd.chatOnTheLeft) {
-      cssCode += `@media screen and (min-width:480px) { wasd-chat-wrapper > div.chat-container:not(.theaterModeNoFS) { width: ${settings.wasd.chatWidth}px!important } }`;
+      cssCode += `@media screen and (min-width:481px) { wasd-chat-wrapper > div.chat-container:not(.theaterModeNoFS) { width: ${settings.wasd.chatWidth}px!important } }`;
       cssCode += `wasd-chat-wrapper > div.chat-container.theaterModeNoFS { width: ${settings.wasd.theaterModeChatWidth}px!important }`;
       cssCode += `wasd-channel > div.channel-wrapper > div#channel-wrapper { order: 1!important; }`;
       cssCode += `div.player-wrapper.theatre-mode { left: ${settings.wasd.chatWidth}px!important; width: calc(100vw - ${settings.wasd.chatWidth}px)!important; }`;
@@ -674,7 +719,7 @@ const wasd = {
       cssCode += `.chat-container__btn-open--desktop .text { transform: rotate(180deg)!important; }`
 
     } else {
-      cssCode += `@media screen and (min-width:480px) {wasd-chat-wrapper > div.chat-container:not(.theaterModeNoFS) { width: ${settings.wasd.chatWidth}px!important }}`;
+      cssCode += `@media screen and (min-width:481px) {wasd-chat-wrapper > div.chat-container:not(.theaterModeNoFS) { width: ${settings.wasd.chatWidth}px!important }}`;
       cssCode += `wasd-chat-wrapper > div.chat-container.theaterModeNoFS { width: ${settings.wasd.theaterModeChatWidth}px!important }`;
       cssCode += `div.player-wrapper.theatre-mode { width: calc(100vw - ${settings.wasd.chatWidth}px)!important; }`;
       cssCode += `.header__right-side .header__nav-sidebar-toggle { display: none!important; }`
@@ -846,17 +891,15 @@ const wasd = {
 
     if (settings.wasd.chatMobilePlayer) {
       if (settings.wasd.hidePanelMobile) {
-        cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc(100% - 97px)!important; }}`
-
-        cssCode += `@media screen and (max-width:480px){.visible--mobile{width:100%!important}.theatre-mode-mobile{position:fixed!important;top:48px;z-index:999}}`
-        cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc((100% - 97px) - 56vw)!important; }}`
+        cssCode += `@media screen and (max-width:480px) {.visible--mobile { width:100%!important}.theatre-mode-mobile{position:fixed!important;top:48px;z-index:999}}`
+        cssCode += `@media screen and (max-width:480px) {.visible--mobile { height: calc((100% - 145px) - 56vw)!important; }}`
       } else {
-        cssCode += `@media screen and (max-width:480px){.visible--mobile{width:100%!important}.theatre-mode-mobile{position:fixed!important;top:97px;z-index:999}}`
-        cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc((100% - 145px) - 56vw)!important; }}`
+        cssCode += `@media screen and (max-width:480px) {.visible--mobile { width:100%!important}.theatre-mode-mobile{position:fixed!important;top:97px;z-index:999}}`
+        cssCode += `@media screen and (max-width:480px) {.visible--mobile { height: calc((100% - 195px) - 56vw)!important; }}`
       }
     } else {
       if (settings.wasd.hidePanelMobile) {
-        cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc(100% - 97px)!important; }}`
+        cssCode += ` @media screen and (max-width:480px) {.visible--mobile { height: calc(100% - 145px)!important; }}`
       }
     }
 
@@ -911,17 +954,13 @@ const wasd = {
     }
 
     if (settings.wasd.сhatLineSeparator.toString() === '1') {
-      cssCode += `.block__messages__item {border-bottom: 1px solid rgba(var(--wasd-color-switch--rgb), .1);}`
+      cssCode += `.block__messages__item, .block__messages__item-ovg {border-bottom: 1px solid rgba(var(--wasd-color-switch--rgb), .1);}`
     } else if (settings.wasd.сhatLineSeparator.toString() === '2') {
-      cssCode += `.block__messages__item {border-bottom: 1px solid #000; border-top: 1px solid rgba(255,255,255,0.1);}`
+      cssCode += `.block__messages__item, .block__messages__item-ovg {border-bottom: 1px solid #000; border-top: 1px solid rgba(255,255,255,0.1);}`
     } else if (settings.wasd.сhatLineSeparator.toString() === '3') {
-      cssCode += `.block__messages__item {border-bottom: 1px solid rgba(255,255,255,0.1); border-top: 1px solid #000;}`
+      cssCode += `.block__messages__item, .block__messages__item-ovg {border-bottom: 1px solid rgba(255,255,255,0.1); border-top: 1px solid #000;}`
     } else if (settings.wasd.сhatLineSeparator.toString() === '4') {
-      cssCode += `.block__messages__item {border-bottom: 1px solid rgba(var(--wasd-color-switch--rgb), .1); border-top: 1px solid rgba(var(--wasd-color-switch--rgb), .1);}`
-    }
-
-    if (settings.wasd.theaterModeGifts) {
-      cssCode += '.theaterModeNoFS wasd-player-overlay-gifts { display: none!important; }';
+      cssCode += `.block__messages__item, .block__messages__item-ovg {border-bottom: 1px solid rgba(var(--wasd-color-switch--rgb), .1); border-top: 1px solid rgba(var(--wasd-color-switch--rgb), .1);}`
     }
 
     if (settings.colors.enabled) cssCode +=`body {
@@ -993,6 +1032,9 @@ const wasd = {
       --color-additional-green-light: ${settings.colors.coloradditionalgreenlight} !important;
       --color-additional-gray: ${settings.colors.coloradditionalgray} !important;
     }`
+
+    if (settings.wasd.chatMobilePlayer) cssCode += `.theatre-mode-mobile .player-streaminfo {opacity: 1;pointer-events: all !important;}`
+    if (settings.wasd.theaterModeShowGifts.toString() != '2') cssCode += `.footer__block__icons__item.gifts {display: none!important}`
 
     if (wasd.style) {
       if (typeof wasd.style.styleSheet !== 'undefined') {
@@ -1091,12 +1133,12 @@ const wasd = {
 
         if (settings.wasd.userNameEdited[nicknamediv.textContent.trim()]) {
           nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
-            let paint = HelperWASD.paints[$0.trim()]
+            let paint = HelperBWASD.paints[$0.trim()]
             return `<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''}> ${settings.wasd.userNameEdited[$0.trim()]} </span>`
           })
         } else {
           nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
-            let paint = HelperWASD.paints[$0.trim()]
+            let paint = HelperBWASD.paints[$0.trim()]
             return `<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''}> ${$0.trim()} </span>`
           })
         }
@@ -1105,7 +1147,7 @@ const wasd = {
       let messageHTML = node.querySelector('.message-text > span');
       if (messageHTML && messageHTML.innerHTML != '') {
         // Исправить символы ломающие чат 
-        if (settings.wasd.fixCharactersBreakingChat) messageHTML.innerHTML = stripCombiningMarks(messageHTML.innerHTML)
+        if (settings.wasd.fixCharactersBreakingChat) messageHTML.innerHTML = messageHTML.innerHTML.replace(/\p{Diacritic}/gu, "")
 
         for (let link of messageHTML.querySelectorAll('a')) {
           link.outerHTML = link.outerHTML.replace(/@/g, '+at+')
@@ -1177,7 +1219,7 @@ const wasd = {
           nicknamediv = node.querySelector('.info__text__status__name');
           nicknamediv.addEventListener('click', ({ target }) => {
             let username = target.getAttribute('username')
-            if (!HelperWASD.addUsernameToTextarea(username.split('@').join('')) && username) {
+            if (username && !HelperWASD.addUsernameToTextarea(username.split('@').join(''))) {
               HelperWASD.createUserViewerCard(username.split('@').join(''), false, node);
             }
           });
@@ -1384,8 +1426,6 @@ const wasd = {
           messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-copy-tools button copy"><i class="icon-ovg wasd-icons-copy"></i></div>`);
 
           messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.copy').addEventListener('click', ({ target }) => {
-            // console.log(node, node.getAttribute('message'))
-
             let message = node.getAttribute('message')
             if (message) {
               copyTextToClipboard(message)
@@ -1631,7 +1671,7 @@ const wasd = {
                         </div>
                       </div></div>`
                     imgdiv = ``
-                    if (img != '') node.querySelector('.ffz--header-image').innerHTML = `<div class="ffz--header-image tw-flex-shrink-0 tw-mg-x-05 ffz--header-aspect" style="width:8.8rem">${img}</div>`
+                    if (img != '') node.querySelector('.ffz--header-image').innerHTML = `<div class="ffz--header-image tw-flex-shrink-0 ffz--header-aspect" style="width:8.8rem; margin-left: 0 !important; margin-right: 1rem !important;">${img}</div>`
 
                     node.querySelector('div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center').innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${out?.short?.title}" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div><div title="${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}</div><div title="${out?.short?.extra?.[1]} ${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><span class="ffz-i-youtube-play"></span>${out?.short?.extra?.[1]}<time datetime="${out?.short?.extra?.[2]?.attrs?.datetime}" class="">${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}</time></div></div></div></div>`;
                   } else if (out?.short?.title) {
@@ -1779,7 +1819,6 @@ const wasd = {
 
           let out;
           if (settings.wasd.onClickMention.toString() === '0') {
-
             out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
             node.querySelectorAll('.chat-message-mention').forEach(element => {
               HelperWASD.usercolorapi(element);
@@ -1807,7 +1846,7 @@ const wasd = {
               HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
                 let username = target.getAttribute('username')
-                if (!HelperWASD.addUsernameToTextarea(username.split('@').join('')) && username) {
+                if (username && !HelperWASD.addUsernameToTextarea(username.split('@').join(''))) {
                   HelperWASD.createUserViewerCard(username.split('@').join(''), false, node);
                 }
               })
@@ -1824,7 +1863,6 @@ const wasd = {
               HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
             }
           });
-
         } else if (settings.wasd.onClickMention.toString() === '1') {
           element.addEventListener('click', ({ target }) => {
             if (textarea) {
@@ -1833,16 +1871,14 @@ const wasd = {
               textarea.focus()
             }
           })
-
         } else if (settings.wasd.onClickMention.toString() === '2') {
           element.addEventListener('click', ({ target }) => {
             let username = target.getAttribute('username')
-            if (!HelperWASD.addUsernameToTextarea(username.split('@').join('')) && username) {
+            if (username && !HelperWASD.addUsernameToTextarea(username.split('@').join(''))) {
               HelperWASD.createUserViewerCard(username.split('@').join(''), false, node);
             }
           })
         }
-
       }
 
       if (settings.wasd.notifyOnMention && isobserver && document.visibilityState != "visible" && node.querySelector('.has-mention')) {
@@ -1857,20 +1893,20 @@ const wasd = {
         node.querySelector('.message').classList.add('has-mention-ovg')
       }
 
-      let allbadge = HelperWASD.badges[node.getAttribute('username')]
+      let allbadge = HelperBWASD.badges[node.getAttribute('username')]
       if (allbadge && allbadge.badges.length > 0) {
         for (let badg of allbadge.badges) {
           node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
         }
       }
 
-      for (let paint in HelperWASD.paints) {
+      for (let paint in HelperBWASD.paints) {
         for (let user of document.querySelectorAll(`.chat-message-mention[username="@${paint}"]`)) {
-          user.dataset.betterwasdPaint = HelperWASD.paints[paint]
+          user.dataset.betterwasdPaint = HelperBWASD.paints[paint]
         }
       }
 
-      let paint = HelperWASD.paints[node.getAttribute('username')]
+      let paint = HelperBWASD.paints[node.getAttribute('username')]
       if (paint) node.querySelector('.info__text__status__name > span').dataset.betterwasdPaint = paint
 
       let tooltips = node.querySelectorAll(".tooltip-wrapper");
@@ -1925,6 +1961,12 @@ const wasd = {
 
       if (promoCodeWin && !settings.wasd.showPromoCodeWin) {
         promoCodeWin.remove()
+      }
+
+      if (subRef) {
+        for (let badge in HelperBWASD.subBadges) {
+          if (subRef.style.backgroundImage.match(badge)) subRef.style.backgroundImage = HelperBWASD.subBadges[badge]
+        }
       }
 
       $(node.querySelector('.message-text')).attrchange({

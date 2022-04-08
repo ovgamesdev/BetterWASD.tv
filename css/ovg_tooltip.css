@@ -227,6 +227,7 @@ a:hover ovg-tooltip .tooltip,
 
 .def ovg-tooltip .tooltip {
   display: flex !important;
+  z-index: 3;
 }
 .def ovg-tooltip {
   pointer-events: none;

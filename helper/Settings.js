@@ -403,10 +403,10 @@ const HelperSettings = {
             value: 1,
             label: 'Минимизировать'
           },
-          {
-            value: 2,
-            label: `Мин. (увеличить при наведении)`
-          }, // (зависит от 'Вид сообщений в чате - Большой размер стикеров')
+          // {
+          //   value: 2,
+          //   label: `Мин. (увеличить при наведении)`
+          // }, // (зависит от 'Вид сообщений в чате - Большой размер стикеров')
           {
             value: 3,
             label: 'Скрыть сообщение'
@@ -634,11 +634,10 @@ const HelperSettings = {
       fixCharactersBreakingChat: {
         title: `Исправить символы ломающие чат ${Helper.F5} ${Helper.tooltip('', 'Текст Zalgo')}`,
         updateChat: true,
-        description: 'С использованием <a target="_blank" href="https://github.com/mathiasbynens/strip-combining-marks/blob/master/README.md">library strip-combining-marks.js</a>.',
         type: 'boolean'
       },
       limitHistoryUsers: {
-        title: `Лимит истории пользователей ${Helper.F5} ${Helper.tooltip('', 'для определения цвета пользователя и его карточки, рекомендуем \u0022без ограничения\u0022 но если у вас лагает рекотендуем снизить')}`,
+        title: `Лимит истории пользователей ${Helper.F5} ${Helper.tooltip('', 'для определения цвета пользователя и его карточки, по умолчанию \u0022без ограничения\u0022 но если у вас лагает рекомендуем снизить')}`,
         updateChat: true,
         type: 'select',
         items: [
@@ -992,6 +991,7 @@ const HelperSettings = {
             document.querySelector('#theaterModeChatWidth').classList.remove('disabled')
             document.querySelector('#theaterModeGifts').classList.remove('disabled')
             document.querySelector('#theaterModeAutoOnChannel').classList.remove('disabled')
+            document.querySelector('#theaterModeFullScreen').classList.remove('disabled')
           } else {
             document.querySelector('#theaterModeShowGifts').classList.add('disabled')
             document.querySelector('#theaterModeShowContainer').classList.add('disabled')
@@ -999,14 +999,35 @@ const HelperSettings = {
             document.querySelector('#theaterModeChatWidth').classList.add('disabled')
             document.querySelector('#theaterModeGifts').classList.add('disabled')
             document.querySelector('#theaterModeAutoOnChannel').classList.add('disabled')
+            document.querySelector('#theaterModeFullScreen').classList.add('disabled')
           }
         }
+      },
+      theaterModeFullScreen: {
+        title: "В полноэкранном режиме",
+        id: 'theaterModeFullScreen',
+        type: 'boolean',
       },
       theaterModeShowGifts: {
         title: "Показать кнопки подарков",
         id: 'theaterModeShowGifts',
-        type: 'boolean',
+        type: 'select',
+        items: [
+          {
+            value: false,
+            label: 'Скрыть'
+          },
+          {
+            value: true,
+            label: 'Показать'
+          },
+          {
+            value: 2,
+            label: 'Добавить в чат кнопку переключения'
+          }
+        ],
         onChange: (value) => {
+          if (document.querySelector('#giftsInfo')) document.querySelector('#giftsInfo').style.display = ''
           setTimeout(() => {
             HelperWASD.updateStyleTheaterModeNoFS()
             resizeTheaterModeNoFS(false)
@@ -1059,7 +1080,27 @@ const HelperSettings = {
       theaterModeGifts: {
         title: `Скрыть подарки`,
         id: 'theaterModeGifts',
-        type: 'boolean'
+        type: 'select',
+        items: [
+          {
+            value: false,
+            label: 'Скрыть'
+          },
+          {
+            value: true,
+            label: 'Показывать всегда'
+          },
+          {
+            value: 2,
+            label: 'Показать когда видны кнопки подарков'
+          }
+        ],
+        onChange: (value) => {
+          setTimeout(() => {
+            HelperWASD.updateStyleTheaterModeNoFS()
+            resizeTheaterModeNoFS(false)
+          }, 50)
+        }
       },
       theaterModeAutoOnChannel: {
         title: `Автоматически открывать режим кинотеатра при посещении канала ${Helper.BETA}`,

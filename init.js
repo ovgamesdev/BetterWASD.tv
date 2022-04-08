@@ -76,7 +76,6 @@ let settings = Helper.getDefaultSettings();
 
 // initialization
 let initialize = async () => {
-  // do non settings page stuff
   try {
     settings = await Helper.getSettings();
     if (typeof settings === 'undefined') {
@@ -85,7 +84,6 @@ let initialize = async () => {
   } catch (e) {
     ovg.log('catch', e);
   }
-  // init wasd
   BetterStreamChat.init();
 };
 
@@ -179,15 +177,13 @@ updateVideoPlayerButtons = () => {
   }
 }
 
-setInterval(() => {
-  updateVideoPlayerButtons();
-}, 1000);
+setInterval(() => updateVideoPlayerButtons(), 1000);
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   // console.log(msg)
   if (msg.from == "background" && msg.username) {
     window.focus()
-    let textarea = document.querySelector('.footer > div >textarea');
+    let textarea = document.querySelector('.footer > div > textarea');
     if (textarea) {
       textarea.value += "@" + msg.username + ' ';
       textarea.dispatchEvent(new Event('input'));
@@ -203,8 +199,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
     if (option.type === 'checkbox') {
       option.checked = value
-    } else if (option.dataset.type === 'number' || option.type === 'number') {
-      option.value = value
     } else {
       option.value = value
     }
@@ -216,11 +210,11 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.from == "background" && msg.location == 'reload') {
     location.reload()
   }
-  if (msg.from == "background" && msg.coinUsers) {
-    document.querySelector('.chat-room__viewer-card div.tw-stat__value.profile_coins').textContent = msg.coinUsers.count;
-    document.querySelector('.chat-room__viewer-card .profile_coins-title').title = `${msg.coinUsers.count} монет`;
-    document.querySelector('.chat-room__viewer-card .profile_coins-title').style.display = ''
-  }
+  // if (msg.from == "background" && msg.coinUsers) {
+  //   document.querySelector('.chat-room__viewer-card div.tw-stat__value.profile_coins').textContent = msg.coinUsers.count;
+  //   document.querySelector('.chat-room__viewer-card .profile_coins-title').title = `${msg.coinUsers.count} монет`;
+  //   document.querySelector('.chat-room__viewer-card .profile_coins-title').style.display = ''
+  // }
 
   sendResponse({message: 'ok'})
   return true;
@@ -228,13 +222,19 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
 window.addEventListener('unload', () => navigator.sendBeacon(`${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`));
 
-const resizeTheaterModeNoFS = (moreUpdate = true) => {
+const resizeTheaterModeNoFS = (moreUpdate = true, isClick) => {
   if (HelperWASD.isTheaterModeNoFS) {
     let streamInfo = document.querySelector('#streamInfo')
     let giftsInfo = document.querySelector('#giftsInfo')
     let playerWrapper = document.querySelector('.player-wrapper')
 
-    let height = (settings.wasd.theaterModeStreamInfo.toString() == '2' ? streamInfo?.offsetHeight : 0) + (settings.wasd.theaterModeShowGifts ? giftsInfo?.offsetHeight : 0)
+    let height = (settings.wasd.theaterModeStreamInfo.toString() == '2' ? streamInfo?.offsetHeight : 0)
+
+    if (theaterModeShowGifts.toString() == 'false' && document.querySelector('.content-wrapper.theaterModeNoFS')) {
+      height += giftsInfo?.offsetHeight
+    } else {
+      height += (settings.wasd.theaterModeShowGifts ? giftsInfo?.offsetHeight : 0)
+    }
 
     const update = () => {
       if (HelperWASD.isTheaterModeNoFS && playerWrapper) {
@@ -251,7 +251,7 @@ const resizeTheaterModeNoFS = (moreUpdate = true) => {
     if (moreUpdate) {
       setTimeout(() => update(), 250)
       setTimeout(() => update(), 1000)
-      setTimeout(() => update(), 2000)
+      // setTimeout(() => update(), 2000)
     }
   }
 }
@@ -259,7 +259,7 @@ window.addEventListener("resize", resizeTheaterModeNoFS, false);
 
 document.onfullscreenchange = (v) => {
   let button = document.querySelector("button.theaterModeNoFS");
-  if (document.fullscreen && HelperWASD.isTheaterModeNoFS) {
+  if (document.fullscreen && HelperWASD.isTheaterModeNoFS && !settings.wasd.theaterModeFullScreen) {
     HelperWASD.isTheaterModeNoFS = false
     document.querySelector('style.theaterModeNoFS')?.remove()
     let svg = button.querySelector('svg')

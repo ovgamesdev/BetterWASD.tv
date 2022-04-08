@@ -65,9 +65,7 @@ const socket = {
       },
       error: (err) => {
         ws.log('err', err)
-        setTimeout(() => {
-          socket.initChat()
-        }, 30000)
+        setTimeout(() => socket.initChat(), 30000)
       }
     });
   },
@@ -87,7 +85,7 @@ const socket = {
             $.ajax({
               url: HelperWASD.getStreamBroadcastsUrl(),
               headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-              success: (out) => { resolve(out.result) }
+              success: (out) => resolve(out.result)
             });
 
           }).then((out) => {
@@ -100,9 +98,8 @@ const socket = {
                 socket.streamId = out.media_container.media_container_streams[0].stream_id
               }
 
-	            let data = `42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`;
 	            try {
-                if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send(data);
+                if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send(`42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`);
               } catch (err) {
 	              ws.log('[catch]', err)
 	            }
@@ -114,10 +111,7 @@ const socket = {
 	                try {
 	                  if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send('2')
 	                } catch (err) {
-	                  // clearInterval(socket.intervalcheck)
-	                  // socket.socketd = null
 	                  ws.log('[catch]', err)
-	                  // setTimeout(() => { socket.start() }, 10000)
 	                }
 	              }
 	            }, 5000)
@@ -135,9 +129,7 @@ const socket = {
         $.ajax({
           url: `${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`,
           type: "POST",
-          success: (out) => {
-            ovg.log(out)
-          }
+          success: (out) => ovg.log(out)
         })
       }
 
@@ -145,7 +137,6 @@ const socket = {
       clearInterval(socket.intervalSave)
       clearInterval(socket.intervalWatchChannel)
       socket.socketd = null
-      // socket.isLiveInited = false
       socket.streamId = 0
 
       if (e.code == 1005) {
@@ -160,7 +151,6 @@ const socket = {
     };
 
     this.socketd.onmessage = (e) => {
-
       if (e.data != 3) {
         let JSData;
         if (e.data.indexOf('[') != -1 && e.data.indexOf('[') < e.data.indexOf('{')) {
@@ -175,72 +165,73 @@ const socket = {
           JSData = null;
           code = e.data;
         }
-        if (JSData) {
-          switch (JSData[0]) {
-            case "joined":
-              // console.log(`[${JSData[0]}] ${JSData[1].user_channel_role}`, JSData);
-              socket.isJoined = true
-              socket.watchChannelInterval()
+
+        if (!JSData) return
+
+        switch (JSData[0]) {
+          case "joined":
+            // console.log(`[${JSData[0]}] ${JSData[1].user_channel_role}`, JSData);
+            socket.isJoined = true
+            socket.watchChannelInterval()
+            break;
+          case "system_message":
+            // console.log(`[${JSData[0]}] ${JSData[1].message}`, JSData);
+            break;
+          case "message":
+            // console.log(`[${JSData[0]}] ${JSData[1].user_login}: ${JSData[1].message}`, JSData)
+            socket.addWebSocket_history(JSData[1])
+            break;
+          case "sticker":
+            // console.log(`[${JSData[0]}] ${JSData[1].user_login}: ${JSData[1].sticker.sticker_alias}`, JSData);
+            socket.addWebSocket_history(JSData[1])
+            break;
+          case "viewers":
+            // console.log(`[${JSData[0]}] anon: ${JSData[1].anon} auth: ${JSData[1].auth} total: ${JSData[1].total}`, JSData);
+            break;
+          case "event":
+            // console.log(`[${JSData[0]}] ${JSData[1].event_type} - ${JSData[1].payload.user_login} ${JSData[1].message}`, JSData);
+            // if (JSData[1].event_type == "NEW_FOLLOWER") {
+            //   socket.addWebSocket_history({
+            //     user_login: JSData[1].payload.user_login,
+            //     user_id: JSData[1].payload.user_id,
+            //     channel_id: JSData[1].payload.channel_id,
+            //     user_channel_role: '',
+            //     other_roles: []
+            //   })
+            // }
+            break;
+          case "giftsV1":
+            // console.log(`[${JSData[0]}] ${JSData[1].gift_name}`, JSData);
+            break;
+          case "yadonat":
+            // console.log(`[${JSData[0]}] ${JSData[1].donator} - ${JSData[1].donation} - ${JSData[1].msg}`, JSData);
+            break;
+          case "messageDeleted":
+            // console.log(`[${JSData[0]}] ${JSData[1].ids}`, JSData);
+            break;
+          case "subscribe":
+            // console.log(`[${JSData[0]}] ${JSData[1].user_login} - ${JSData[1].product_name}`, JSData);
               break;
-            case "system_message":
-              // console.log(`[${JSData[0]}] ${JSData[1].message}`, JSData);
-              break;
-            case "message":
-              // console.log(`[${JSData[0]}] ${JSData[1].user_login}: ${JSData[1].message}`, JSData)
-              socket.addWebSocket_history(JSData[1])
-              break;
-            case "sticker":
-              // console.log(`[${JSData[0]}] ${JSData[1].user_login}: ${JSData[1].sticker.sticker_alias}`, JSData);
-              socket.addWebSocket_history(JSData[1])
-              break;
-            case "viewers":
-              // console.log(`[${JSData[0]}] anon: ${JSData[1].anon} auth: ${JSData[1].auth} total: ${JSData[1].total}`, JSData);
-              break;
-            case "event":
-              // console.log(`[${JSData[0]}] ${JSData[1].event_type} - ${JSData[1].payload.user_login} ${JSData[1].message}`, JSData);
-              // if (JSData[1].event_type == "NEW_FOLLOWER") {
-              //   socket.addWebSocket_history({
-              //     user_login: JSData[1].payload.user_login,
-              //     user_id: JSData[1].payload.user_id,
-              //     channel_id: JSData[1].payload.channel_id,
-              //     user_channel_role: '',
-              //     other_roles: []
-              //   })
-              // }
-              break;
-            case "giftsV1":
-              // console.log(`[${JSData[0]}] ${JSData[1].gift_name}`, JSData);
-              break;
-            case "yadonat":
-              // console.log(`[${JSData[0]}] ${JSData[1].donator} - ${JSData[1].donation} - ${JSData[1].msg}`, JSData);
-              break;
-            case "messageDeleted":
-              // console.log(`[${JSData[0]}] ${JSData[1].ids}`, JSData);
-              break;
-            case "subscribe":
-              // console.log(`[${JSData[0]}] ${JSData[1].user_login} - ${JSData[1].product_name}`, JSData);
-                break;
-            case "_system":
-              // console.log(`[${JSData[0]}] ${JSData[1]}`, JSData);
-              break;
-            case "leave":
-              // console.log(`[${JSData[0]}] ${JSData[1].streamId}`, JSData);
-              socket.socketd.close(1000, 'leave')
-              break;
-            case "user_ban":
-              // console.log(`[${JSData[0]}] ${JSData[1].payload.user_login}`, JSData);
-              break;
-            case "settings_update":
-              // console.log(`[${JSData[0]}] ${JSData[1]}`, JSData);
-              break
-            case "streamStopped":
-              // console.log(`[${JSData[0]}] ${JSData[1].streamId}`, JSData);
-              socket.socketd.close(1000, 'streamStopped')
-              break
-            default:
-              // console.log('def', code, JSData);
-              break;
-          }
+          case "_system":
+            // console.log(`[${JSData[0]}] ${JSData[1]}`, JSData);
+            break;
+          case "leave":
+            // console.log(`[${JSData[0]}] ${JSData[1].streamId}`, JSData);
+            socket.socketd.close(1000, 'leave')
+            break;
+          case "user_ban":
+            // console.log(`[${JSData[0]}] ${JSData[1].payload.user_login}`, JSData);
+            break;
+          case "settings_update":
+            // console.log(`[${JSData[0]}] ${JSData[1]}`, JSData);
+            break
+          case "streamStopped":
+            // console.log(`[${JSData[0]}] ${JSData[1].streamId}`, JSData);
+            socket.socketd.close(1000, 'streamStopped')
+            break
+          default:
+            // console.log('def', code, JSData);
+            break;
         }
 
       }
@@ -264,12 +255,8 @@ const socket = {
   },
   onOpen() {
     $('.websocket_loader[ovg]')?.css('display', 'none')
-    socket.intervalSave = setInterval(() => {
-      socket.saveUserList()
-    }, 30000)
-    socket.intervalWatchChannel = setInterval(() => {
-      socket.watchChannelInterval()
-    }, 300000)
+    socket.intervalSave = setInterval(() => socket.saveUserList(), 30000)
+    socket.intervalWatchChannel = setInterval(() => socket.watchChannelInterval(), 300000)
     socket.saveUserList()
     socket.saveMessagesList()
   },
@@ -289,9 +276,7 @@ const socket = {
 
     isMod = (JSData) => {
       if (JSData) {
-        let role = JSData.user_channel_role == 'CHANNEL_MODERATOR'
-        // if (!role) role = JSData.user_channel_role == 'CHANNEL_MODERATOR'
-        return role
+        return JSData.user_channel_role == 'CHANNEL_MODERATOR'
       } else {
         return false
       }
@@ -301,7 +286,6 @@ const socket = {
         let role = false
         if (JSData.other_roles) for (let rol of JSData.other_roles) { if (rol == 'CHANNEL_SUBSCRIBER') role = true }
         if (!role) role = JSData.user_channel_role == 'CHANNEL_SUBSCRIBER'
-
         return role
       } else {
         return false
@@ -391,9 +375,7 @@ const socket = {
     //       //   console.log('saveUserList')
     //       // }
     //     },
-    //     error: (err) => {
-    //       console.log(err)
-    //     }
+    //     error: (err) => console.log(err)
     //   });
 
     // }
@@ -414,15 +396,10 @@ const socket = {
             }
           }
           if(out.result.length == limit && offset < 10000) {
-            setTimeout(() => {getall(limit, offset+limit)}, 50)
+            setTimeout(() => getall(limit, offset+limit), 50)
           }
-          // else {
-          //   console.log('saveMessagesList')
-          // }
         },
-        error: (err) => {
-          console.log(err)
-        }
+        error: (err) => console.log(err)
       });
 
     }

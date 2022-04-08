@@ -74,7 +74,7 @@ const Helper = {
         mutePlayerOnMiddleMouse: false,
         hideBannerOnHome: false,
         hideSelectorStreamSettings: false,
-        clickMentionAll: true,
+        clickMentionAll: false,
         underlineUsernameAndMention: true,
         iframeCreateClip: false,
         linkRecognitionRights: "3",
@@ -127,7 +127,8 @@ const Helper = {
         theaterModeStreamInfo: "1",
         theaterModeChatWidth: 320,
         theaterModeGifts: false,
-        theaterModeAutoOnChannel: false
+        theaterModeAutoOnChannel: false,
+        theaterModeFullScreen: false
       },
       list: {
         blockUserList: {},
@@ -243,24 +244,16 @@ const Helper = {
     })
   },
   setUnauthorization() {
-    tv7AddUser.disabled = true
-    tv7AddUser.placeholder = `Авторизуйтесь с помощью Twicth`
-
-    bttvAddUser.disabled = true
-    bttvAddUser.placeholder = `Авторизуйтесь с помощью Twicth`
-
-    ffzAddUser.disabled = true
-    ffzAddUser.placeholder = `Авторизуйтесь с помощью Twicth`
+    for (let node of [tv7AddUser, bttvAddUser, ffzAddUser]) {
+      node.disabled = true
+      node.placeholder = `Авторизуйтесь с помощью Twicth`
+    }
   },
   setAuthorization() {
-    tv7AddUser.disabled = false
-    tv7AddUser.placeholder = `Добавить новый канал (Twitch username)`
-
-    bttvAddUser.disabled = false
-    bttvAddUser.placeholder = `Добавить новый канал (Twitch username)`
-
-    ffzAddUser.disabled = false
-    ffzAddUser.placeholder = `Добавить новый канал (Twitch username)`
+    for (let node of [tv7AddUser, bttvAddUser, ffzAddUser]) {
+      node.disabled = false
+      node.placeholder = `Добавить новый канал (Twitch username)`
+    }
   },
   trySendMessage(arg) {
     if (chrome.runtime?.id) {
@@ -270,34 +263,28 @@ const Helper = {
         alertify.error(err, 3)
       }
     } else {
-      let msg = alertify.warning(`Расширение было обновлено</br>Перезагрузите страницу`, 4.5)
-      msg.callback = (isClicked) => {if (isClicked) location.reload()}
+      alertify.warning(`Расширение было обновлено</br>Перезагрузите страницу`, 4.5).callback = (isClicked) => {if (isClicked) location.reload()}
     }
   },
   buildBell() {
     $.ajax({
-      url: `https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/main/info.json`,
-      success: (out) => {
-        out = JSON.parse(out)
-        let data = out[BetterStreamChat.changelog.version]
+      url: `${HelperBWASD.host}/api/v1/data/${BetterStreamChat.changelog.version}/bell`,
+      success: (data) => {
         if (data) {
-
           ovg_bell__element.querySelector('.bell-info__list').innerHTML = ''
-
-          for(let info in data.info) {
-
+          
+          for(let info in data) {
             let div = document.createElement('div'), linkhtml = ''
             div.setAttribute('_ngcontent-ljm-c288', '')
             div.classList.add('bell-info__elem')
             div.classList.add('ovg')
-            div.setAttribute('bell_id', data.info[info].id)
-            if (data.info[info].link) linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${data.info[info].link}"> ${data.info[info].linkText ? data.info[info].linkText : "Подробнее"} </a></div>`
-            div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${data.info[info].text} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${data.info[info].date} </div>`
-
+            div.setAttribute('bell_id', data[info]._id)
+            if (data[info].link) linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${data[info].link}"> ${data[info].linkText ? data[info].linkText : "Подробнее"} </a></div>`
+            div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${data[info].text} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${moment(data[info].date).format('DD.MM.YYYY')} </div>`
             ovg_bell__element.querySelector('.bell-info__list').appendChild(div)
           }
 
-          if (data.info.length == 0) {
+          if (data.length == 0) {
             ovg_bell__element.style.display = 'none'
           } else {
             ovg_bell__element.style.display = ''
@@ -319,9 +306,8 @@ const Helper = {
     });
   },
   setNotifyReaded() {
-    let list = document.querySelector('#bscSettingsPanel .bell-info__list')
     let notifyReaded = ''
-    for (let node of list.childNodes) {
+    for (let node of document.querySelector('#bscSettingsPanel .bell-info__list').childNodes) {
       notifyReaded += node.getAttribute('bell_id') + '&'
     }
     Cookies.set('BetterWASD_notify_readed', notifyReaded)
@@ -331,17 +317,21 @@ const Helper = {
     wrap.classList.remove('bell__icon-wrap--new-msg')
   },
   isNotifyReaded() {
-    let list = document.querySelector('#bscSettingsPanel .bell-info__list')
-    let notifyReaded = ''
-    for (let node of list.childNodes) {
-      notifyReaded += node.getAttribute('bell_id') + '&'
+    let notifyReaded = Cookies.get('BetterWASD_notify_readed')
+    let is = true
+    if (!notifyReaded) return is
+    for (let node of document.querySelector('#bscSettingsPanel .bell-info__list').childNodes) {
+      let isR = !notifyReaded.match( node.getAttribute('bell_id') )
+      if (isR) {
+        is = false
+        break;
+      }
     }
-    return Cookies.get('BetterWASD_notify_readed') == notifyReaded
+    return is
   },
   showSettings() {
     BetterStreamChat.settingsDiv.style.display = 'block'
-    document.body.click()
-    document.body.style.overflowY = "hidden";
+    if (document.querySelector('wasd-chat-menu')) document.querySelector('.new-chat .header__block__btn .icon')?.click()
     BetterStreamChat.settingsDiv.style.animationName = 'showbetterpanel';
     BetterStreamChat.settingsDiv.querySelector('.nav-sidebar__list.top').style.animationName = 'showbetterpanel_sidebar';
     BetterStreamChat.openSettings()
@@ -353,18 +343,19 @@ const Helper = {
     setTimeout(() => {
       BetterStreamChat.settingsDiv.style.display = 'none';
     }, 350);
-    document.body.style.overflowY = "";
   },
   loginTwitchUI(username = '') {
-    document.querySelector('.twitch_authorize_public').classList.add('disable')
-    document.querySelector('.twitch_authorize_public').classList.add('medium')
-    document.querySelector('.twitch_authorize_public').classList.remove('medium-cube')
-    document.querySelector('.twitch_authorize_public .username').textContent = username
+    let tap = document.querySelector('.twitch_authorize_public')
+    tap.classList.add('disable')
+    tap.classList.add('medium')
+    tap.classList.remove('medium-cube')
+    tap.querySelector('.username').textContent = username
   },
   logoutTwitchUI() {
-    document.querySelector('.twitch_authorize_public').classList.remove('disable')
-    document.querySelector('.twitch_authorize_public').classList.remove('medium')
-    document.querySelector('.twitch_authorize_public').classList.add('medium-cube')
-    document.querySelector('.twitch_authorize_public .username').textContent = ''
+    let tap = document.querySelector('.twitch_authorize_public')
+    tap.classList.remove('disable')
+    tap.classList.remove('medium')
+    tap.classList.add('medium-cube')
+    tap.querySelector('.username').textContent = ''
   }
 }

@@ -1456,11 +1456,23 @@ div.nofify-message-ovg.active {
   #selector-channel-amazing-btn-event_gift_23feb>wasd-tooltip>div>.tooltip-content:before {
     left: 262px!important;
   }
+
+  #selector-channel-amazing-btn-event_gift_goodbye_beta>wasd-tooltip>.tooltip_position-topLeft {
+    left: -330px;
+  }
+  
+  #selector-channel-amazing-btn-event_gift_goodbye_beta>wasd-tooltip>.tooltip_position-top {
+    left: -145px;
+  }
+  
+  #selector-channel-amazing-btn-event_gift_goodbye_beta>wasd-tooltip>div>.tooltip-content:before {
+    left: 357px!important;
+  }
 }
 
 @media screen and (max-width: 1024px) {
   wasd-channel-amazing-btn .tooltip_position-topLeft {
-    left: -500%;
+    left: -115px;
   }
   
   wasd-channel-amazing-btn .tooltip_position-top {
@@ -1473,7 +1485,7 @@ div.nofify-message-ovg.active {
   }
   
   #selector-channel-amazing-btn-gift_1>wasd-tooltip>.tooltip.tooltip_position-topLeft {
-    left: -500%;
+    left: -115px;
   }
   
   #selector-channel-amazing-btn-gift_1>wasd-tooltip>.tooltip.tooltip_position-top {
@@ -1504,7 +1516,7 @@ div.nofify-message-ovg.active {
   }
   
   #selector-channel-amazing-btn-gift_4>wasd-tooltip>.tooltip.tooltip_position-topLeft {
-    left: -500%;
+    left: -115px;
   }
   
   #selector-channel-amazing-btn-gift_4>wasd-tooltip>.tooltip.tooltip_position-top {
@@ -1517,7 +1529,7 @@ div.nofify-message-ovg.active {
   }
   
   #selector-channel-amazing-btn>div>wasd-tooltip .tooltip_position-topLeft {
-    left: -500%;
+    left: -80px;
   }
   
   #selector-channel-amazing-btn>div>wasd-tooltip .tooltip_position-top {
@@ -1530,7 +1542,7 @@ div.nofify-message-ovg.active {
   }
 
   #selector-channel-amazing-btn-gift_5>wasd-tooltip>.tooltip_position-topLeft {
-    left: -500%;
+    left: -115px;
   }
   
   #selector-channel-amazing-btn-gift_5>wasd-tooltip>.tooltip_position-top {
@@ -1552,6 +1564,19 @@ div.nofify-message-ovg.active {
   }
 
   #selector-channel-amazing-btn-event_gift_23feb>wasd-tooltip>div>.tooltip-content:before {
+    left: unset !important;
+    right: 45% !important;
+  }
+
+  #selector-channel-amazing-btn-event_gift_goodbye_beta>wasd-tooltip>.tooltip_position-topLeft {
+    left: -115px;
+  }
+  
+  #selector-channel-amazing-btn-event_gift_goodbye_beta>wasd-tooltip>.tooltip_position-top {
+    left: -145px;
+  }
+  
+  #selector-channel-amazing-btn-event_gift_goodbye_beta>wasd-tooltip>div>.tooltip-content:before {
     left: unset !important;
     right: 45% !important;
   }
@@ -1774,6 +1799,8 @@ div.emoji-ovg::-webkit-scrollbar-track {
   margin-right: 24px;
   user-select: none;
   max-width: -webkit-fill-available;
+  min-width: 24px;
+  min-height: 24px;
 }
 img.emoji__item-ovg {
   cursor: pointer;
@@ -1879,8 +1906,8 @@ div.item__links-ovg>.link>.plus {
 }
 .ffz--header-image.ffz--header-aspect img {
   object-fit: cover;
-  width: 100%;
-  max-width: 80px;
+  width: 85px;
+  max-width: 85px;
 }
 .ffz--header-image img {
   object-fit: contain;
@@ -2260,9 +2287,17 @@ main[data-tab="backup"] button {
   background-color: rgba(var(--wasd-color-switch--rgb), 0.08) !important;
   color: var(--wasd-color-switch) !important;
 }
-@media screen and (max-width:479px) {
 
- /* main.active[data-tab="obschat"] {
+@media screen and (max-width:479px) {
+  .buttons-wraper.theaterModeNoFS,
+  .buttons-wraper.pip {
+    display: none;
+  }
+}
+
+@media screen and (max-width:480px) {
+
+  /* main.active[data-tab="obschat"] {
     width: 100%!important;
     display: block!important;
     height: 44%!important;
@@ -3332,4 +3367,37 @@ wasd-chat-subscribe-message .chat-message-mention {
   text-overflow: ellipsis;
   overflow: hidden;
   display: block;
+}
+
+
+/* wasd - footer - item */
+.chat-container:not(.theaterModeNoFS) .footer__block__icons__item.gifts[ovg],
+.settings-page .footer__block__icons__item.gifts[ovg] {
+  display: none;
+}
+
+.footer__block__icons__item[ovg] {
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  font-size: 19px;
+  height: 32px;
+  justify-content: center;
+  position: relative;
+  width: 32px;
+}
+
+.footer__block__icons__item.gifts[ovg] {
+  color: rgba(var(--color-switch),.64);
+}
+
+.footer__block__icons__item.gifts[ovg]:hover {
+  background-color: rgba(var(--color-switch),.08);
+  color: var(--color-additional-yellow-orange);
+}
+
+.footer__block__icons__item.gifts[ovg]:active {
+  background-color: rgba(var(--color-switch),.16);
+  color: var(--color-additional-yellow-orange);
 }

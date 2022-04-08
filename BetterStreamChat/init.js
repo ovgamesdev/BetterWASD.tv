@@ -5,15 +5,49 @@ const BetterStreamChat = {
   changelog: '',
   async init() {
     let changelogLabels = {
-      added: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Добавлено</span>',
-      optimized: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Оптимизировано</span>',
-      changed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Изменено</span>',
+      fixedwasd: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено (Мешает работе WASD.TV)</span>',
       fixed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено</span>',
-      removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>',
-      fixedwasd: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено (Мешает работе WASD.TV)</span>'
+      added: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Добавлено</span>',
+      changed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Изменено</span>',
+      optimized: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Оптимизировано</span>',
+      removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
     };
     let changelogList = [
       {
+        version: '1.5.7',
+        date: '2022-04-08',
+        items: [{
+          text: [
+            `Чат после проигрывателя.`,
+            `Разделитель строк в чате.`
+          ],
+          label: 'fixed'
+        }, {
+          text: [
+            `Режим кинотеатра - В полноэкранном режиме.`,
+          ],
+          label: 'added'
+        }, {
+          text: [
+            `Исправить символы ломающие чат.`,
+            `Режим кинотеатра - Показать кнопки подарков.`,
+            `Режим кинотеатра - Скрыть подарки.`
+          ],
+          label: 'changed'
+        }, {
+          text: [
+            `Карточка пользователя.`,
+            `Режим кинотеатра.`,
+            `Распознавание всех ссылок.`
+          ],
+          label: 'optimized'
+        }, {
+          text: [
+            `Отображение стикеров BWASD, BTTV, FFZ и 7TV - Мин. (увеличить при наведении).`,
+          ],
+          label: 'removed'
+        }]
+      }, {
         version: '1.5.6',
         date: '2022-03-28',
         items: [{
@@ -1385,7 +1419,7 @@ const BetterStreamChat = {
       <main class="text pod-position" data-tab="about">
 
         <div style="padding: 10px;">
-          <span style="font-size: 21px;">Напишите отзыв на <a target="_blank" href="https://chrome.google.com/webstore/detail/betterwasd/cokaeiijnnpcfaoehijmdfcgbkpffgbh">Chrome Webstore</a> или скачайте БОТа для вашего WASD канала <a target="_blank" href="https://chrome.google.com/webstore/detail/fdgepfaignbakmmbiafocfjcnaejgldb/">Chrome Webstore</a></span>
+          <span style="font-size: 21px;">Напишите отзыв на <a target="_blank" href="https://chrome.google.com/webstore/detail/betterwasd/cokaeiijnnpcfaoehijmdfcgbkpffgbh">Chrome Webstore</a></span>
         </div>
 
         <div style="padding: 10px;">
@@ -1911,7 +1945,7 @@ const BetterStreamChat = {
         </ovg-button>
 
         <p style="margin: 0 0 5px 0;">Используете <span class="tech-info-ovg">#000000</span> или <span class="tech-info-ovg">#00000000</span> чтобы сбросить цвет. </p>
-        <p style="margin: 0 0 5px 0;">Если вам нужен <span class="tech-info-ovg">#000000</span> вы можете использовать ближний к нему цвет. <span class="tech-info-ovg">#010101</span> </p>
+        <p style="margin: 0 0 5px 0;">Если вам нужен <span class="tech-info-ovg">#000000</span> вы можете использовать ближний к нему цвет <span class="tech-info-ovg">#010101</span>. </p>
 
         <div class="highlight">
           <div style="margin-left: -10px; width: calc(100% + 20px);">
@@ -2064,7 +2098,7 @@ const BetterStreamChat = {
       HelperBTTV.updateEmotesBttv();
       HelperFFZ.updateEmotesFfz();
       HelperTV7.updateEmotesTv7();
-      HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login)
+      if (socket?.channel?.channel) HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login)
     });
 
     if (Cookies.get('BetterWASD_access_token')) Helper.loginTwitchUI(Cookies.get('BetterWASD_twitch_display_name'))
@@ -2642,6 +2676,7 @@ const BetterStreamChat = {
     bell_button.addEventListener('click', () => {
       setTimeout(() => {
         bell__info.removeAttribute('hidden')
+        bell__info.querySelector('.bell-info__list').scrollTop = 0
         isOpenBell = true
       }, 50)
     })
@@ -2675,14 +2710,15 @@ const BetterStreamChat = {
       let swatches = HelperSettings.availableSettings[split[0]][split[1]].swatches;
       option.addEventListener('focus', () => {
         if (typeof swatches === 'object') {
-          Coloris({swatches:[option.value, ...swatches]})
+          Coloris({swatches:[option.value, ...swatches], focusInput: window.innerWidth > 480 })
         } else {
-          Coloris({swatches:[option.value]})
+          Coloris({swatches:[option.value], focusInput: window.innerWidth > 480 })
         }
       })
     }
 
-    Coloris({ clearButton: {show: false}, formatToggle: false })
+    Coloris({ clearButton: {show: false}, formatToggle: false})
+    settingsDiv.querySelectorAll('main').forEach((e) => e.onscroll = () => Coloris.close())
 
     this.install();
 
