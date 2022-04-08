@@ -222,9 +222,9 @@ button[ovg]:hover i[ovg] {
   margin-left: 16px;
 }
 #bscSettingsPanel header .logo img {
-  height: 24px;
-  width: 101px;
-  margin-bottom: 8px;
+  height: 27px;
+  width: 114px;
+  margin-bottom: 5px;
 }
 #bscSettingsPanel header .logo .logo__mob {
   display: none;
