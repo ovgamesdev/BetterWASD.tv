@@ -1683,11 +1683,13 @@ div.stream-uptime>input.player-info__stat-value {
   color: var(--wasd-color-white);
 }
 #bscSettingsPanel .emoteCard img {
-  width: auto;
-  height: 50px;
+  height: 54px;
   position: relative;
   margin: 8px;
-  max-width: -webkit-fill-available;
+  min-width: 76px;
+  max-width: 55%;
+  object-fit: scale-down;
+  vertical-align: middle;
 }
 #bscSettingsPanel .emoteCard span {
   display: inline-block;

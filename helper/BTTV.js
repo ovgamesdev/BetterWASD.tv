@@ -136,7 +136,7 @@ const HelperBTTV = {
             break;
           }
         }
-        let title = ` Смайл:&nbsp;${word} <br> ${typeof bttvUsers[user].username == 'string' ? `Канал: ${bttvUsers[user].username} <br> Эмоции на канале BTTV` : 'Общедоступный BTTV'} `
+        let title = ` Смайл:&nbsp;${word} <br> ${typeof bttvUsers[user].username == 'string' ? `Канал:&nbsp;${bttvUsers[user].username} <br> Эмоции на канале BTTV` : 'Общедоступный BTTV'} `
         word = `<div class="bttv-emote tooltip-wrapper" tooltip="${title}" title="${title}"> <img class="stickerovg bttv small" style="vertical-align: middle; width: auto!important;" src="${link}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
       }
 

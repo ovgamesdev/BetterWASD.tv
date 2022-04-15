@@ -323,7 +323,7 @@ div.ovg.buttonsdiv {
 }
 
 
-/* ___ */
+/* error */
 .chat-room__viewer-card.loading .viewer-card-header__banner,
 .chat-room__viewer-card.loading .bttv-moderator-card-user-stats {
   visibility: hidden;
@@ -331,5 +331,21 @@ div.ovg.buttonsdiv {
 .chat-room__viewer-card.loading .ovg.buttonsdiv,
 .chat-room__viewer-card.loading .tw-c-background-alt-2,
 .chat-room__viewer-card.loading .user_last_messages-ovg {
+  display: none;
+}
+
+/* error */
+/*.chat-room__viewer-card.error .viewer-card-header__banner,*/
+.chat-room__viewer-card.error .bttv-moderator-card-user-stats {
+  visibility: hidden;
+}
+.chat-room__viewer-card.error .ovg.buttonsdiv,
+.chat-room__viewer-card.error .tw-c-background-alt-2,
+.chat-room__viewer-card.error .user_last_messages-ovg,
+.chat-room__viewer-card.error .bttv-moderator-card-nickname-change-button {
+  display: none;
+}
+
+.chat-room__viewer-card:not(.error) .error_text {
   display: none;
 }

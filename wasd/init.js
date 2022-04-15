@@ -15,7 +15,7 @@ const wasd = {
       subtree: true
     }
 
-    const callback = (mutationsList, observer) => {
+    const callback = async (mutationsList, observer) => {
       for (let mutation of mutationsList) {
 
         const {
@@ -205,7 +205,7 @@ const wasd = {
 
         const add_wasd_chat_footer = [...addedNodes]
           .filter(node => node.nodeType === 1)
-          .filter(element => element.matches('div#chat-footer-block.footer'));
+          .filter(element => element.matches('#chat-footer-block.footer'));
 
 
 
@@ -228,6 +228,57 @@ const wasd = {
             HelperWASD.updateStyleTheaterModeNoFS()
             resizeTheaterModeNoFS(false)
           })
+
+
+          const input = add_wasd_chat_footer[0].querySelector('textarea')
+          let cachedFetchEmotes = []
+          let cachedMatch = null
+          let cachedIdx = null
+          let cachedEmotes = null
+
+          input.addEventListener('keydown', e => {
+            if (settings.wasd.emotesAutoComplete) {
+              if (e.key !== 'Tab') {
+                cachedFetchEmotes = []
+                cachedMatch = null
+                cachedIdx = null
+                cachedEmotes = null
+                return
+              }
+
+              e.preventDefault()
+              const start = input.selectionStart
+              const seg = input.value.slice(0, start)
+
+              if (!cachedMatch) cachedMatch = (seg.match(/\S+$/) || [])[0]
+
+              const toLC = (t = '') => settings.wasd.emotesAutoCompleteIgnoreLowerCase ? t.toString().toLowerCase() : t
+
+              if (!cachedFetchEmotes.length) {
+                cachedEmotes = [...new Set([ ...Object.keys(HelperBTTV.emotes), ...Object.keys(HelperBWASD.emotes), ...Object.keys(HelperFFZ.emotes), ...Object.keys(HelperTV7.emotes) ])]
+                if (settings.wasd.emotesAutoComplete.toString() == '1') {
+                  cachedFetchEmotes = cachedEmotes.filter(x => toLC(x).startsWith(toLC(cachedMatch)))
+                } else if (settings.wasd.emotesAutoComplete.toString() == '2') {
+                  cachedFetchEmotes = cachedEmotes.filter(x => toLC(x).match(toLC(cachedMatch)))
+                }
+              }
+
+              if (!cachedFetchEmotes.length) return
+
+              if (typeof cachedIdx != 'number') {
+                cachedIdx = 0
+              } else {
+                cachedIdx = (cachedIdx + 1) % cachedFetchEmotes.length
+              }
+
+              const newSeg = seg.replace(/\S+$/, cachedFetchEmotes[cachedIdx])
+              input.value = newSeg + input.value.slice(start)
+              input.setSelectionRange(newSeg.length, newSeg.length)
+
+              input.dispatchEvent(new Event('input'))
+            }
+          })
+
         }
 
         // if (add_playerInfo.length) {
@@ -405,7 +456,7 @@ const wasd = {
           })
         }
 
-        if (add_wasd_chat_header.length && isLive) {
+        if (add_wasd_chat_header.length && isLive && socket.socketd.readyState != 1) {
           add_wasd_chat_header[0].lastChild.insertAdjacentHTML('beforebegin', `<div class="lds-ring websocket_loader tooltip-hover" style="height: 100%;position: absolute;right: 40px;" ovg=""><svg x="0px" y="0px" viewBox="0 0 150 150" class="icon-pending-ovg"><circle cx="75" cy="75" r="60" class="icon-pending-inner-ovg"></circle></svg><ovg-tooltip style="position: absolute;left: 0px;"><div class="tooltip tooltip_position-left tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Ожидаем подключение WebSocket </div></div></ovg-tooltip></div>`)
         }
 

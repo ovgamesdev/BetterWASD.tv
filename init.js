@@ -272,3 +272,25 @@ document.onfullscreenchange = (v) => {
     document.querySelector('.content-wrapper').classList.remove('theaterModeNoFS')
   }
 }
+
+// const waitForNgElementToLoad = (tag, timeout = 10) => {
+//   return new Promise((resolve, reject) => {
+//     const interval = setInterval(function () {
+//       const el = document.querySelector(tag);
+//       if (el && el.__ngContext__) {
+//         clearInterval(interval);
+//         resolve();
+//       }
+//     }, 500);
+//     setTimeout(() => {
+//       clearInterval(interval);
+//       reject(`Element ${tag} not found or timeout exceeded`);
+//     }, timeout * 1000);
+//   });
+// }
+
+// const getCtx = (tag) => {
+//   const el = document.querySelector(tag);
+//   if (el && el.__ngContext__) return el.__ngContext__[el.__ngContext__.length - 1];
+//   return null;
+// }

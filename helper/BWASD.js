@@ -7,7 +7,7 @@ const HelperBWASD = {
   paints: {},
   host: 'https://betterwasd.herokuapp.com',
   // host: 'http://localhost:5000',
-  ws: 'ws://localhost:9000/',
+  // ws: 'ws://localhost:9000/',
   updateSettings() {
     let bwasdEmoteList = BetterStreamChat.settingsDiv.querySelector('#bwasdEmoteList');
     bwasdEmoteList.innerText = '';
@@ -126,8 +126,6 @@ const HelperBWASD = {
     let newText = [];
     for (let word of split) {
       size = Number(settings.wasd.bttvEmoteSize) + 1;
-
-
       let link = `${HelperBWASD.host}/cached/emote/${HelperBWASD.emotes[word]}/${size}x`
 
       if (HelperBWASD.emotes[word]) {
@@ -138,7 +136,7 @@ const HelperBWASD = {
             break;
           }
         }
-        let title = ` Смайл:&nbsp;${word} <br> ${typeof HelperBWASD.items.bwasdUsers[user].username == 'string' ? `Канал: ${HelperBWASD.items.bwasdUsers[user].username} <br> Эмоции на канале BWASD` : 'Общедоступный BWASD'} `
+        let title = ` Смайл:&nbsp;${word} <br> ${typeof HelperBWASD.items.bwasdUsers[user].username == 'string' ? `Канал:&nbsp;${HelperBWASD.items.bwasdUsers[user].username} <br> Эмоции на канале BWASD` : 'Общедоступный BWASD'} `
         word = `<div class="bttv-emote tooltip-wrapper" tooltip="${title}" title="${title}"> <img class="stickerovg bwasd small" style="vertical-align: middle; width: auto!important;" src="${link}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
       }
 

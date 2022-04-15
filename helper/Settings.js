@@ -738,6 +738,38 @@ const HelperSettings = {
         type: 'boolean'
       },
 
+      emotesAutoComplete:{
+        title: 'Автозаполнение эмоции через Tab',
+        type: 'select',
+        items: [
+          {
+            value: false,
+            label: 'Нет'
+          },
+          {
+            value: 1,
+            label: 'Эмоция начиается'
+          },
+          {
+            value: 2,
+            label: 'Эмоция содержит'
+          }
+        ],
+        inInitChange: true,
+        onChange: (value) => {
+          if (value.toString() == 'false') {
+            document.querySelector('#emotesAutoCompleteIgnoreLowerCase').classList.add('disabled')
+          } else {
+            document.querySelector('#emotesAutoCompleteIgnoreLowerCase').classList.remove('disabled')
+          }
+        }
+      },
+      emotesAutoCompleteIgnoreLowerCase: {
+        id: 'emotesAutoCompleteIgnoreLowerCase',
+        title: `Игнорировать БОЛЬШИЕ БУКВЫ для "Автозаполнение эмоции через Tab"`,
+        type: 'boolean'
+      },
+
 
       qu: {
         title: 'Чат » Ссылки',
@@ -1614,7 +1646,7 @@ const HelperSettings = {
         </div>
       </div>`;
   },
-  save(optionElements) {
+  async save(optionElements) {
     let newSettings = JSON.parse(JSON.stringify(settings));
     let update = false
 

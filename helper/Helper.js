@@ -128,7 +128,9 @@ const Helper = {
         theaterModeChatWidth: 320,
         theaterModeGifts: false,
         theaterModeAutoOnChannel: false,
-        theaterModeFullScreen: false
+        theaterModeFullScreen: false,
+        emotesAutoComplete: 1,
+        emotesAutoCompleteIgnoreLowerCase: false
       },
       list: {
         blockUserList: {},
@@ -258,9 +260,10 @@ const Helper = {
   trySendMessage(arg) {
     if (chrome.runtime?.id) {
       try {
+        // window.postMessage(arg, "*")
         chrome.runtime.sendMessage(arg);
       } catch (err) {
-        alertify.error(err, 3)
+        alertify.error('Ошибка отправки сообщения', 3)
       }
     } else {
       alertify.warning(`Расширение было обновлено</br>Перезагрузите страницу`, 4.5).callback = (isClicked) => {if (isClicked) location.reload()}

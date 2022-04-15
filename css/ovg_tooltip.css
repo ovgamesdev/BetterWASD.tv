@@ -283,4 +283,5 @@ a:hover ovg-tooltip .tooltip,
   word-break: break-word;
   border-radius: 4px;
   width: fit-content;
+  user-select: none;
 }

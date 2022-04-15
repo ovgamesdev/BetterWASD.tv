@@ -131,7 +131,7 @@ const HelperWASD = {
             data: {
               user_login: out.result.user_profile.user_login,
               channel_image: out.result.user_profile.profile_image.large,
-              version: chrome.runtime.getManifest().version
+              version: BetterStreamChat.changelog.version
             },
             success: (out) => {
               ovg.log(out)
@@ -624,6 +624,12 @@ const HelperWASD = {
 
                     }
                   });
+                },
+                error: (err) => {
+                  card.classList.remove('loading') // loaded card
+                  card.classList.add('error')
+                  viewerCard.querySelector('a.gameurl').innerHTML = err?.responseJSON?.error?.details
+                  viewerCard.querySelector('a.gameurl').title = err?.responseJSON?.error?.details
                 }
               });
 
@@ -1636,7 +1642,7 @@ const HelperWASD = {
       let text = `
         #scroll-content {position: fixed!important;z-index: 99!important;top: 0!important;left: 0!important;margin: 0!important;padding: 0!important;bottom: 0!important;width: 100%!important;height: 100%!important;}
         ${!settings.wasd.theaterModeShowContainer ? '#channel-wrapper {overflow: hidden;} .container {display: none;}' : ''}
-        .player-wrapper {height: calc(100vh - 152px);max-height: none !important;}
+        .player-wrapper {height: calc(100vh - ${settings.wasd.theaterModeStreamInfo.toString() == '2' ? document.querySelector('#streamInfo').offsetHeight : 0}px)!important;max-height: none !important;}
         .content-wrapper__footer {display: none !important;}
         ${settings.wasd.theaterModeStreamInfo.toString() == '1' ? '.player-streaminfo {opacity: 1;pointer-events: all!important;}' : ''}
         ${settings.wasd.theaterModeStreamInfo.toString() == '2' ? '' : '#streamInfo {position: fixed;top: 100vh;}'}
