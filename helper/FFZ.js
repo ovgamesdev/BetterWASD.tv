@@ -2,9 +2,9 @@ const HelperFFZ = {
   isBusy: false,
   emotes: {},
 
-  updateSettings() {
+  updateSettings(top=false) {
     if (chrome.runtime?.id) chrome.storage.local.get((items) => {
-      HelperFFZ.fetchGlobalEmotes(items).finally(() => {
+      HelperFFZ.fetchGlobalEmotes(items, top).finally(() => {
         let ffzEmoteList = BetterStreamChat.settingsDiv.querySelector(' #ffzEmoteList');
         ffzEmoteList.innerText = '';
 
@@ -26,8 +26,8 @@ const HelperFFZ = {
                 let span = document.createElement('span');
                 div.classList.add('div_emoteCard');
                 span.innerText = HTML.decode(emoteCode);
-                img.src = `https://cdn.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]}/2`;
-                a.href = `https://www.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]}`
+                img.src = `https://cdn.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]?.id || HelperFFZ.emotes[emoteCode]}/2`;
+                a.href = `https://www.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]?.id || HelperFFZ.emotes[emoteCode]}`
                 a.target = '_blank'
                 a.classList.add('emoteCard');
                 a.append(img);
@@ -61,11 +61,11 @@ const HelperFFZ = {
       }
     });
   },
-  fetchGlobalEmotes(items) {
+  fetchGlobalEmotes(items, top=false) {
     return new Promise((resolve) => {
       let ffzEmotes = items.ffzEmotes || {};
       let ffzUsers = items.ffzUsers || {};
-      if (typeof ffzUsers.global === 'undefined' || Date.now() - ffzUsers.global.lastUpdate > 604800000) {
+      if ((typeof ffzUsers.global === 'undefined' || Date.now() - ffzUsers.global.lastUpdate > 86400000) || top) {
 
         new Promise((resolve, reject) => {
           $.ajax(`https://api.frankerfacez.com/v1/set/global`).always((out, textStatus, xhr) => {
@@ -78,7 +78,10 @@ const HelperFFZ = {
         }).then((data) => {
           ffzEmotes.global = {};
           for (let emote of data.sets[data.default_sets[0]].emoticons) {
-            ffzEmotes.global[emote.name] = emote.id;
+            ffzEmotes.global[emote.name] = {
+              id: emote.id,
+              zeroWidth: false
+            };
           }
         }).finally(() => {
           ffzUsers.global = {
@@ -134,13 +137,13 @@ const HelperFFZ = {
       if (HelperFFZ.emotes[word]) {
         let user
         for (let userID in ffzEmotes) {
-          if (typeof ffzEmotes[userID][word] == 'number') {
+          if (typeof ffzEmotes[userID][word] == 'number' || typeof ffzEmotes[userID][word]?.id == 'number') {
             user = userID
             break;
           }
         }
-        let title = ` Смайл:&nbsp;${word} <br> ${typeof ffzUsers[user].username == 'string' ? `Канал:&nbsp;${ffzUsers[user].username} <br> Эмоции на канале FFZ` : 'Общедоступный FFZ'} `
-        word = `<div class="bttv-emote tooltip-wrapper" tooltip="${title}" title="${title}"> <img class="stickerovg ffz small" style="vertical-align: middle; width: auto!important;" src="https://cdn.frankerfacez.com/emote/${this.emotes[word]}/${size}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
+        let title = ` Смайл:&nbsp;${word} <br> ${typeof ffzUsers[user]?.username == 'string' ? `Канал:&nbsp;${ffzUsers[user]?.username} <br> Эмоции на канале FFZ` : 'Общедоступный FFZ'} `
+        word = `<div data-code="${word}" class="bttv-emote tooltip-wrapper" tooltip="${title}" data-title="${title}"> <img class="stickerovg ffz small" style="vertical-align: middle; width: auto!important;" src="https://cdn.frankerfacez.com/emote/${this.emotes[word]?.id || this.emotes[word]}/${size}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
       }
 
       newText.push(word);
@@ -179,7 +182,10 @@ const HelperFFZ = {
         emoteList = emoteList.concat(ffzData.sharedEmotes);
     }*/
     for (let emote of emoteList) {
-      ffzEmotes[userID][emote.name] = emote.id;
+      ffzEmotes[userID][emote.name] = {
+        id: emote.id,
+        zeroWidth: false
+      };
     }
   },
   addUser(userID, username) {
@@ -262,7 +268,7 @@ const HelperFFZ = {
   updateEmotesFfz() {
     if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       for (let userID in items.ffzEmotes) {
-        HelperFFZ.updateUserChannelEmotes(userID, items.ffzUsers[userID].username)
+        if (userID && userID != 'global') HelperFFZ.updateUserChannelEmotes(userID, items.ffzUsers[userID].username)
       }
     });
   },
@@ -355,7 +361,7 @@ const HelperFFZ = {
                       emotes[emoteCode] = ffzEmotes[userID][emoteCode];
 
                       let img = document.createElement('img');
-                      img.src = `https://cdn.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]}/1`;
+                      img.src = `https://cdn.frankerfacez.com/emoticon/${HelperFFZ.emotes[emoteCode]?.id || HelperFFZ.emotes[emoteCode]}/1`;
                       img.classList.add('emoji__item-ovg');
                       img.title = HTML.decode(emoteCode);
                       img.alt = HTML.decode(emoteCode);

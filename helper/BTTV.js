@@ -2,9 +2,9 @@ const HelperBTTV = {
   isBusy: false,
   emotes: {},
 
-  updateSettings() {
+  updateSettings(top=false) {
     if (chrome.runtime?.id) chrome.storage.local.get((items) => {
-      HelperBTTV.fetchGlobalEmotes(items).finally(() => {
+      HelperBTTV.fetchGlobalEmotes(items, top).finally(() => {
         let bttvEmoteList = BetterStreamChat.settingsDiv.querySelector('#bttvEmoteList');
         bttvEmoteList.innerText = '';
         
@@ -26,8 +26,8 @@ const HelperBTTV = {
                 let span = document.createElement('span');
                 div.classList.add('div_emoteCard');
                 span.innerText = HTML.decode(emoteCode);
-                img.src = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[emoteCode]}/2x`;
-                a.href = `https://betterttv.com/emotes/${HelperBTTV.emotes[emoteCode]}`;
+                img.src = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[emoteCode]?.id || HelperBTTV.emotes[emoteCode]}/2x`;
+                a.href = `https://betterttv.com/emotes/${HelperBTTV.emotes[emoteCode]?.id || HelperBTTV.emotes[emoteCode]}`;
                 a.target = '_blank';
                 a.classList.add('emoteCard');
                 a.append(img);
@@ -61,11 +61,11 @@ const HelperBTTV = {
       }
     });
   },
-  fetchGlobalEmotes(items) {
+  fetchGlobalEmotes(items, top=false) {
     return new Promise((resolve) => {
       let bttvEmotes = items.bttvEmotes || {};
       let bttvUsers = items.bttvUsers || {};
-      if (typeof bttvUsers.global === 'undefined' || Date.now() - bttvUsers.global.lastUpdate > 604800000) {
+      if ((typeof bttvUsers.global === 'undefined' || Date.now() - bttvUsers.global.lastUpdate > 86400000) || top) {
 
         new Promise((resolve, reject) => {
           $.ajax(`https://api.betterttv.net/3/cached/emotes/global`).always((out, textStatus, xhr) => {
@@ -78,7 +78,10 @@ const HelperBTTV = {
         }).then((data) => {
           bttvEmotes.global = {};
           for (let emote of data) {
-            bttvEmotes.global[emote.code] = emote.id;
+            bttvEmotes.global[emote.code] = {
+              id: emote.id,
+              zeroWidth: false
+            };
           }
         }).finally(() => {
           bttvUsers.global = {
@@ -126,18 +129,18 @@ const HelperBTTV = {
     let newText = [];
     for (let word of split) {
       size = Number(settings.wasd.bttvEmoteSize) + 1;
-      let link = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[word]}/${size}x`
+      let link = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[word]?.id || HelperBTTV.emotes[word]}/${size}x`
 
       if (HelperBTTV.emotes[word]) {
         let user
         for (let userID in bttvEmotes) {
-          if (typeof bttvEmotes[userID][word] == 'string') {
+          if (typeof bttvEmotes[userID][word] == 'string' || typeof bttvEmotes[userID][word]?.id == 'string') {
             user = userID
             break;
           }
         }
-        let title = ` Смайл:&nbsp;${word} <br> ${typeof bttvUsers[user].username == 'string' ? `Канал:&nbsp;${bttvUsers[user].username} <br> Эмоции на канале BTTV` : 'Общедоступный BTTV'} `
-        word = `<div class="bttv-emote tooltip-wrapper" tooltip="${title}" title="${title}"> <img class="stickerovg bttv small" style="vertical-align: middle; width: auto!important;" src="${link}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
+        let title = ` Смайл:&nbsp;${word} <br> ${typeof bttvUsers[user]?.username == 'string' ? `Канал:&nbsp;${bttvUsers[user]?.username} <br> Эмоции на канале BTTV` : 'Общедоступный BTTV'} `
+        word = `<div data-code="${word}" class="bttv-emote tooltip-wrapper" tooltip="${title}" data-title="${title}"> <img class="stickerovg bttv small" style="vertical-align: middle; width: auto!important;" src="${link}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
       }
 
       newText.push(word);
@@ -176,7 +179,10 @@ const HelperBTTV = {
       emoteList = emoteList.concat(bttvData.sharedEmotes);
     }
     for (let emote of emoteList) {
-      bttvEmotes[userID][emote.code] = emote.id;
+      bttvEmotes[userID][emote.code] = {
+        id: emote.id,
+        zeroWidth: false
+      };
     }
   },
   addUser(userID, username) {
@@ -259,7 +265,7 @@ const HelperBTTV = {
   updateEmotesBttv() {
     if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       for (let userID in items.bttvEmotes) {
-        HelperBTTV.updateUserChannelEmotes(userID, items.bttvUsers[userID].username)
+        if (userID && userID != 'global') HelperBTTV.updateUserChannelEmotes(userID, items.bttvUsers[userID].username)
       }
     });
   },
@@ -344,7 +350,7 @@ const HelperBTTV = {
                       emotes[emoteCode] = bttvEmotes[userID][emoteCode];
 
                       let img = document.createElement('img');
-                      img.src = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[emoteCode]}/1x`;
+                      img.src = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[emoteCode]?.id || HelperBTTV.emotes[emoteCode]}/1x`;
                       img.classList.add('emoji__item-ovg');
                       img.title = HTML.decode(emoteCode);
                       img.alt = HTML.decode(emoteCode);

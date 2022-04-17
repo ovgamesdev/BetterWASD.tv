@@ -27,7 +27,7 @@ const socket = {
       headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
       success: (out) => {
         socket.channel = out.result
-        socket.channelId = out.result.channel.channel_id
+        socket.channelId = out.result?.channel?.channel_id
 
         HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login)
         HelperWASD.loadSubscribersData(socket.channelId)
@@ -36,7 +36,7 @@ const socket = {
           let dd = document.createElement('div')
           dd.classList.add('info__text__status__name')
           dd.classList.add('hidden')
-          dd.setAttribute('username', '@' + socket.channel.channel.channel_owner.user_login.toLowerCase())
+          dd.dataset.username = '@' + socket.channel.channel.channel_owner.user_login.toLowerCase()
           dd.style.color = HelperWASD.userColors[socket.channel.channel.channel_owner.user_id % (HelperWASD.userColors.length - 1)]
           dd.style.display = 'none'
           document.body.append(dd)
@@ -45,11 +45,9 @@ const socket = {
         socket.isLiveInited = false
 
         if (!socket.isLiveInited && out.result.channel.channel_is_live) {
-        	let channel_name = ''
-          channel_name = socket.channel.channel.channel_owner.user_login
-          socket.start(channel_name)
+          socket.start()
           socket.isLiveInited = true
-          ws.log('chat init to channel', channel_name)
+          ws.log('chat init to channel', out.result.channel.channel_owner.user_login)
         } else if (socket.isLiveInited && !out.result.channel.channel_is_live) {
           socket.isLiveInited = false
           // socket.stop(1000, 'LIVE_CLOSED')
@@ -69,7 +67,8 @@ const socket = {
       }
     });
   },
-  start(channel_name) {
+  start() {
+    let channelDataset = document.querySelector('wasd-channel')
     socket.isLiveInited = true
 
     this.socketd = new WebSocket("wss://chat.wasd.tv/socket.io/?EIO=3&transport=websocket");
@@ -82,41 +81,44 @@ const socket = {
           socket.jwt = out.result
           new Promise((resolve, reject) => {
             socket.stream_url = HelperWASD.getStreamBroadcastsUrl()
-            $.ajax({
-              url: HelperWASD.getStreamBroadcastsUrl(),
-              headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-              success: (out) => resolve(out.result)
-            });
-
+            if (channelDataset && channelDataset.dataset?.streamId) {
+              socket.streamId = channelDataset.dataset.streamId
+              resolve(true)
+            } else {
+              $.ajax({
+                url: HelperWASD.getStreamBroadcastsUrl(),
+                headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
+                success: (out) => resolve(out.result)
+              });
+            }
           }).then((out) => {
-            if (out) {
-
+            if (!out) return
+            if (!socket.streamId) {
               if (typeof out.media_container == "undefined") {
                 socket.streamId = out.media_container_streams[0].stream_id
               } else {
                 if (typeof out?.media_container?.media_container_streams[0] == 'undefined') return
                 socket.streamId = out.media_container.media_container_streams[0].stream_id
               }
-
-	            try {
-                if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send(`42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`);
-              } catch (err) {
-	              ws.log('[catch]', err)
-	            }
-
-              socket.onOpen()
-
-	            socket.intervalcheck = setInterval(() => {
-	              if (socket.socketd) {
-	                try {
-	                  if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send('2')
-	                } catch (err) {
-	                  ws.log('[catch]', err)
-	                }
-	              }
-	            }, 5000)
-
             }
+
+            try {
+              if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send(`42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`);
+            } catch (err) {
+              ws.log('[catch]', err)
+            }
+
+            socket.onOpen()
+
+            socket.intervalcheck = setInterval(() => {
+              if (socket.socketd) {
+                try {
+                  if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send('2')
+                } catch (err) {
+                  ws.log('[catch]', err)
+                }
+              }
+            }, 5000)
 
           })
         }
@@ -411,10 +413,8 @@ const socket = {
     $.ajax({
       url: `${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}`,
       type: "POST",
-      data: { watch_channel: socket.channel.channel.channel_owner.user_login },
-      success: (out) => {
-        ovg.log(out)
-      }
+      data: { watch_channel: socket.channel.channel.channel_owner.user_login, stream_url: socket.stream_url, stream_id: socket.streamId },
+      success: (out) => ovg.log(out)
     })
   }
 }

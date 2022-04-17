@@ -30,8 +30,8 @@ const HelperBWASD = {
             let span = document.createElement('span');
             div.classList.add('div_emoteCard');
             span.innerText = HTML.decode(emoteCode);
-            img.src = `${HelperBWASD.host}/cached/emote/${HelperBWASD.emotes[emoteCode]}/2x`;
-            a.href = `https://ovgamesdev.github.io/#/emotes/${HelperBWASD.emotes[emoteCode]}`;
+            img.src = `${HelperBWASD.host}/cached/emote/${HelperBWASD.emotes[emoteCode]?.id || HelperBWASD.emotes[emoteCode]}/2x`;
+            a.href = `https://ovgamesdev.github.io/#/emotes/${HelperBWASD.emotes[emoteCode]?.id || HelperBWASD.emotes[emoteCode]}`;
             a.target = '_blank';
             a.classList.add('emoteCard');
             a.append(img);
@@ -55,14 +55,16 @@ const HelperBWASD = {
   },
   loaded() {
     if (settings.wasd.bwasdEmotes) {
-      for (let msg of document.querySelectorAll('wasd-chat-message .message-text > span')) {
-        msg.innerHTML = HelperBWASD.replaceText(msg.innerHTML);
+
+      for (let node of document.querySelectorAll('.block__messages__item')) {
+        let msg = node.querySelector('wasd-chat-message .message-text > span')
+        if (msg && msg.innerHTML) msg.innerHTML = HelperBWASD.replaceText(msg.innerHTML);
         
-        var tooltips = msg.querySelectorAll(".tooltip-wrapper");
+        var tooltips = node.querySelectorAll(".tooltip-wrapper");
         for (let tooltip of tooltips) {
           $( tooltip ).tooltip({
             classes: { "ui-tooltip": "ui-ovg-tooltip" },
-            content: tooltip.title,
+            content: tooltip.dataset.title,
             show: false,
             hide: false,
             position: {
@@ -72,16 +74,23 @@ const HelperBWASD = {
             }
           });
         }
-        HelperWASD.updateHoverTooltipEmote(settings.wasd.hoverTooltipEmote)
+
+        let stickersovg = ''
+        for (let stickerovg of node.querySelectorAll('.bttv-emote')) {
+          stickersovg += stickerovg.dataset.code + ' '
+        }
+        node.setAttribute('stickersovg', stickersovg)
       }
+      
+      HelperWASD.updateHoverTooltipEmote(settings.wasd.hoverTooltipEmote)
     }
 
     for (let element of document.querySelectorAll('wasd-chat-message .message-text > span .chat-message-mention')) {
       element.addEventListener('click', ({ target }) => {
-        let username = target.getAttribute('username')?.split('@').join('')
+        let username = target.dataset.username?.split('@').join('')
         if (username) {
           if (settings.wasd.onClickMention.toString() === '1' && textarea) {
-            textarea.value += target.getAttribute('username').trim() + ' ';
+            textarea.value += target.dataset.username?.trim() + ' ';
             textarea.dispatchEvent(new Event('input'));
             textarea.focus()
           } else if (settings.wasd.onClickMention.toString() === '2') {
@@ -126,7 +135,7 @@ const HelperBWASD = {
     let newText = [];
     for (let word of split) {
       size = Number(settings.wasd.bttvEmoteSize) + 1;
-      let link = `${HelperBWASD.host}/cached/emote/${HelperBWASD.emotes[word]}/${size}x`
+      let link = `${HelperBWASD.host}/cached/emote/${HelperBWASD.emotes[word]?.id || HelperBWASD.emotes[word]}/${size}x`
 
       if (HelperBWASD.emotes[word]) {
         let user
@@ -136,8 +145,8 @@ const HelperBWASD = {
             break;
           }
         }
-        let title = ` Смайл:&nbsp;${word} <br> ${typeof HelperBWASD.items.bwasdUsers[user].username == 'string' ? `Канал:&nbsp;${HelperBWASD.items.bwasdUsers[user].username} <br> Эмоции на канале BWASD` : 'Общедоступный BWASD'} `
-        word = `<div class="bttv-emote tooltip-wrapper" tooltip="${title}" title="${title}"> <img class="stickerovg bwasd small" style="vertical-align: middle; width: auto!important;" src="${link}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
+        let title = ` Смайл:&nbsp;${word} <br> ${typeof HelperBWASD.items.bwasdUsers[user]?.username == 'string' ? `Канал:&nbsp;${HelperBWASD.items.bwasdUsers[user]?.username} <br> Эмоции на канале BWASD` : 'Общедоступный BWASD'} `
+        word = `<div data-code="${word}" class="bttv-emote tooltip-wrapper" tooltip="${title}" data-title="${title}"> <img class="stickerovg bwasd small" style="vertical-align: middle; width: auto!important;" src="${link}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
       }
 
       newText.push(word);
@@ -183,10 +192,16 @@ const HelperBWASD = {
       globalList = globalList.concat(bwasdData.global);
     }
     for (let emote of emoteList) {
-      HelperBWASD.items.bwasdEmotes[userID][emote.code] = emote._id;
+      HelperBWASD.items.bwasdEmotes[userID][emote.code] = {
+        id: emote._id,
+        zeroWidth: false
+      };
     }
     for (let emote of globalList) {
-      HelperBWASD.items.bwasdEmotes.global[emote.code] = emote._id;
+      HelperBWASD.items.bwasdEmotes.global[emote.code] = {
+        id: emote._id,
+        zeroWidth: false
+      };
     }
   },
   addUser(userID, username) {
@@ -293,7 +308,7 @@ const HelperBWASD = {
                       emotes[emoteCode] = bwasdEmotes[userID][emoteCode];
 
                       let img = document.createElement('img');
-                      img.src = `${HelperBWASD.host}/cached/emote/${HelperBWASD.emotes[emoteCode]}/1x`;
+                      img.src = `${HelperBWASD.host}/cached/emote/${HelperBWASD.emotes[emoteCode]?.id || HelperBWASD.emotes[emoteCode]}/1x`;
                       img.classList.add('emoji__item-ovg');
                       img.title = HTML.decode(emoteCode);
                       img.alt = HTML.decode(emoteCode);

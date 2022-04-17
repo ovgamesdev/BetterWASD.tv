@@ -290,7 +290,14 @@ document.onfullscreenchange = (v) => {
 // }
 
 // const getCtx = (tag) => {
-//   const el = document.querySelector(tag);
+//   let el = typeof tag == 'string' ? document.querySelector(tag) : tag
 //   if (el && el.__ngContext__) return el.__ngContext__[el.__ngContext__.length - 1];
 //   return null;
 // }
+
+if (chrome.runtime?.id) {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = chrome.runtime.getURL('ctx.js')
+  document.head.appendChild(script);
+}

@@ -3403,3 +3403,73 @@ wasd-chat-subscribe-message .chat-message-mention {
   background-color: rgba(var(--color-switch),.16);
   color: var(--color-additional-yellow-orange);
 }
+
+/* bttv */
+#bttv-custom-timeout-contain {
+  background: rgba(90,90,90,.4);
+  height: 224px;
+  left: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 83px;
+  z-index: 99999;
+}
+#bttv-custom-timeout-contain * {
+  pointer-events: none;
+}
+
+#bttv-custom-timeout-contain:hover .text {
+  display: block;
+}
+
+#bttv-custom-timeout-contain .cursor, #bttv-custom-timeout-contain .text {
+  background: red;
+  height: 1px;
+  left: 0;
+  position: absolute;
+  top: 100px;
+  width: 80px;
+}
+
+#bttv-custom-timeout-contain .text {
+  background: rgba(0,0,0,.6);
+  color: #d3d3d3;
+  cursor: default;
+  display: none;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  top: 85px;
+}
+
+#bttv-custom-timeout-contain:hover .cursor {
+  background: #0f0;
+}
+
+/* modified emote */
+
+.modified-emote > span > div > .chat-message-text {
+  display: none!important;
+}
+
+.modified-emote span:not(.chat-message-text) {
+  position: absolute;
+  top: -20px;
+  bottom: -20px;
+  left: -20px;
+  right: -20px;
+  margin: auto;
+  pointer-events: none;
+}
+
+.modified-emote span .bttv-emote {
+  padding: 0px 0px 0px 0px;
+  margin: 0 !important;
+
+  position: absolute;
+  pointer-events: none!important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}

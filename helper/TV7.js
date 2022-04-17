@@ -2,9 +2,9 @@ const HelperTV7 = {
   isBusy: false,
   emotes: {},
 
-  updateSettings() {
+  updateSettings(top=false) {
     if (chrome.runtime?.id) chrome.storage.local.get((items) => {
-      HelperTV7.fetchGlobalEmotes(items).finally(() => {
+      HelperTV7.fetchGlobalEmotes(items, top).finally(() => {
         let tv7EmoteList = BetterStreamChat.settingsDiv.querySelector(' #tv7EmoteList');
         tv7EmoteList.innerText = '';
 
@@ -26,8 +26,8 @@ const HelperTV7 = {
                 let span = document.createElement('span');
                 div.classList.add('div_emoteCard');
                 span.innerText = HTML.decode(emoteCode);
-                img.src = `https://cdn.7tv.app/emote/${HelperTV7.emotes[emoteCode]}/2x`;
-                a.href = `https://7tv.app/emotes/${HelperTV7.emotes[emoteCode]}`
+                img.src = `https://cdn.7tv.app/emote/${HelperTV7.emotes[emoteCode]?.id || HelperTV7.emotes[emoteCode]}/2x`;
+                a.href = `https://7tv.app/emotes/${HelperTV7.emotes[emoteCode]?.id || HelperTV7.emotes[emoteCode]}`
                 a.target = '_blank'
                 a.classList.add('emoteCard');
                 a.append(img);
@@ -61,11 +61,11 @@ const HelperTV7 = {
       }
     });
   },
-  fetchGlobalEmotes(items) {
+  fetchGlobalEmotes(items, top=false) {
     return new Promise((resolve) => {
       let tv7Emotes = items.tv7Emotes || {};
       let tv7Users = items.tv7Users || {};
-      if (typeof tv7Users.global === 'undefined' || Date.now() - tv7Users.global.lastUpdate > 604800000) {
+      if ((typeof tv7Users.global === 'undefined' || Date.now() - tv7Users.global.lastUpdate > 86400000) || top) {
 
         new Promise((resolve, reject) => {
           $.ajax(`https://api.7tv.app/v2/emotes/global`).always((out, textStatus, xhr) => {
@@ -78,7 +78,10 @@ const HelperTV7 = {
         }).then((data) => {
           tv7Emotes.global = {};
           for (let emote of data) {
-            tv7Emotes.global[emote.name] = emote.id;
+            tv7Emotes.global[emote.name] = {
+              id: emote.id,
+              zeroWidth: !!emote.visibility_simple.filter(t => t == "ZERO_WIDTH").length
+            };
           }
         }).finally(() => {
           tv7Users.global = {
@@ -134,13 +137,13 @@ const HelperTV7 = {
       if (HelperTV7.emotes[word]) {
         let user
         for (let userID in tv7Emotes) {
-          if (typeof tv7Emotes[userID][word] == 'string') {
+          if (typeof tv7Emotes[userID][word] == 'string' || typeof tv7Emotes[userID][word]?.id == 'string' ) {
             user = userID
             break;
           }
         }
-        let title = ` Смайл:&nbsp;${word} <br> ${typeof tv7Users[user].username == 'string' ? `Канал:&nbsp;${tv7Users[user].username} <br> Эмоции на канале 7TV` : 'Общедоступный 7TV'} `
-        word = `<div class="bttv-emote tooltip-wrapper" tooltip="${title}" title="${title}"> <img class="stickerovg tv7 small" style="vertical-align: middle; width: auto!important;" src="https://cdn.7tv.app/emote/${this.emotes[word]}/${size}x" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
+        let title = ` Смайл:&nbsp;${word} <br> ${typeof tv7Users[user]?.username == 'string' ? `Канал:&nbsp;${tv7Users[user]?.username} <br> Эмоции на канале 7TV` : 'Общедоступный 7TV'} `
+        word = `<div data-code="${word}" class="bttv-emote tooltip-wrapper" tooltip="${title}" data-title="${title}"> <img class="stickerovg tv7 small" style="vertical-align: middle; width: auto!important;" src="https://cdn.7tv.app/emote/${this.emotes[word]?.id || this.emotes[word]}/${size}x" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
       }
 
       newText.push(word);
@@ -179,7 +182,10 @@ const HelperTV7 = {
         emoteList = emoteList.concat(tv7Data.sharedEmotes);
     }*/
     for (let emote of emoteList) {
-      tv7Emotes[userID][emote.name] = emote.id;
+      tv7Emotes[userID][emote.name] = {
+        id: emote.id,
+        zeroWidth: !!emote.visibility_simple.filter(t => t == "ZERO_WIDTH").length
+      };
     }
   },
   addUser(userID, username) {
@@ -262,7 +268,7 @@ const HelperTV7 = {
   updateEmotesTv7() {
     if (chrome.runtime?.id) chrome.storage.local.get((items) => {
       for (let userID in items.tv7Emotes) {
-        HelperTV7.updateUserChannelEmotes(userID, items.tv7Users[userID].username)
+        if (userID && userID != 'global') HelperTV7.updateUserChannelEmotes(userID, items.tv7Users[userID].username)
       }
     });
   },
@@ -346,7 +352,7 @@ const HelperTV7 = {
                       emotes[emoteCode] = tv7Emotes[userID][emoteCode];
 
                       let img = document.createElement('img');
-                      img.src = `https://cdn.7tv.app/emote/${HelperTV7.emotes[emoteCode]}/1x`;
+                      img.src = `https://cdn.7tv.app/emote/${HelperTV7.emotes[emoteCode]?.id || HelperTV7.emotes[emoteCode]}/1x`;
                       img.classList.add('emoji__item-ovg');
                       img.title = HTML.decode(emoteCode);
                       img.alt = HTML.decode(emoteCode);

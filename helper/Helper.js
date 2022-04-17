@@ -130,7 +130,8 @@ const Helper = {
         theaterModeAutoOnChannel: false,
         theaterModeFullScreen: false,
         emotesAutoComplete: 1,
-        emotesAutoCompleteIgnoreLowerCase: false
+        emotesAutoCompleteIgnoreLowerCase: false,
+        recentMessagesOnArrows: false
       },
       list: {
         blockUserList: {},

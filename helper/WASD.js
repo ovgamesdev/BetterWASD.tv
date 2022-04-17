@@ -10,6 +10,7 @@ const HelperWASD = {
   isTheaterModeNoFS: false,
   TMChannel: '',
   subscriptionPeriods: [{ startDays: 0, iconUrl: "https://static.wasd.tv/images/subscribers/1mon.png" }, { startDays: 60, iconUrl: "https://static.wasd.tv/images/subscribers/3mon.png" }, { startDays: 150, iconUrl: "https://static.wasd.tv/images/subscribers/6mon.png" }, { startDays: 240, iconUrl: "https://static.wasd.tv/images/subscribers/9mon.png" }, { startDays: 330, iconUrl: "https://static.wasd.tv/images/subscribers/12mon.png" }, { startDays: 510, iconUrl: "https://static.wasd.tv/images/subscribers/18mon.png" }, { startDays: 690, iconUrl: "https://static.wasd.tv/images/subscribers/24mon.png" }],
+  selfMessagesHistory: [],
 
   recordData: '',
 
@@ -809,7 +810,7 @@ const HelperWASD = {
                 },
               })
 
-              if (out.result.media_container.user_id != data.user_id) $.ajax({
+              if (out.result.media_container.user_id != data.user_id && data.user_id != HelperWASD.current?.user_profile?.user_id) $.ajax({
                 url: `https://wasd.tv/api/chat/streamers/${out.result.media_container.user_id}/ban?user_id=${data.user_id}`,
                 success: (out) => {
                   if (HelperWASD.isModerator) {
@@ -853,124 +854,66 @@ const HelperWASD = {
                       </div>`)
 
                     card.querySelector('.ban').addEventListener('click', () => {
-                      fetch(HelperWASD.getStreamBroadcastsUrl())
-                        .then(res => res.json())
-                        .then((out) => {
-                          let response = {
-                            method: 'PUT',
-                            body: `{"user_id":${data.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}}`,
-                            headers: {
-                              'Content-Type': 'application/json'
-                            },
-                          }
+
+                // if (e.offsetY < 21) {
+                //   HelperWASD.punishment('2', {user_id: user_id})
+                // } else if (e.offsetY < 82) {
+                //   HelperWASD.punishment('1', {user_id: user_id}, '60', !settings.wasd.keepMessagesTimeout)
+                // } else if (e.offsetY < 142) {
+                //   HelperWASD.punishment('1', {user_id: user_id}, '10', !settings.wasd.keepMessagesTimeout)
+                // } else if (e.offsetY < 202) {
+                //   HelperWASD.punishment('1', {user_id: user_id}, '1', !settings.wasd.keepMessagesTimeout)
+                // } else {
+                //   HelperWASD.punishment('0', {user_id: user_id, id: id})
+                // }
+
+                      HelperWASD.punishment('2', {user_id: data.user_id}).then((is) => {
+                        if (is) {
                           card.querySelector('.moderator').classList.add('ban')
-                          fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
-                            .then(res => res.json())
-                            .then((out) => {
-                              card.querySelector('.moderator').classList.remove('ban')
-                              if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                HelperWASD.showChatMessage(`Пользователь @${data.user_login} уже заблокирован`, 'warning');
-                              } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                HelperWASD.showChatMessage(`Вы не можете этого сделать`, 'warning');
-                              }
-                            })
-                        })
+                        } else {
+                          card.querySelector('.moderator').classList.remove('ban')
+                        }
+                      })
                     })
 
                     card.querySelector('.unban').addEventListener('click', () => {
-                      fetch(HelperWASD.getStreamBroadcastsUrl())
-                        .then(res => res.json())
-                        .then((out) => {
-                          let response = {
-                            method: 'DELETE',
-                          }
+                      HelperWASD.punishment('3', {user_id: data.user_id}).then((is) => {
+                        if (is) {
                           card.querySelector('.moderator').classList.remove('ban')
-                          fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users/${data.user_id}`, response)
-                            .then(res => res.json())
-                            .then((out) => {
-                              card.querySelector('.moderator').classList.remove('ban')
-                              if (out.error.code == 'STREAMER_BAN_NOT_FOUND') {
-                                HelperWASD.showChatMessage(`Пользователь @${data.user_login} не забанен`, 'warning')
-                              } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                HelperWASD.showChatMessage(`Вы не можете этого сделать`, 'warning');
-                              }
-                            })
-                        })
+                        } else {
+                          card.querySelector('.moderator').classList.add('ban')
+                        }
+                      })
                     })
 
                     card.querySelector('.timeout1m').addEventListener('click', () => {
-                      fetch(HelperWASD.getStreamBroadcastsUrl())
-                        .then(res => res.json())
-                        .then((out) => {
-                          let response = {
-                            method: 'PUT',
-                            body: `{"user_id":${data.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}, "keep_messages": true, "duration": 1}`,
-                            headers: {
-                              'Content-Type': 'application/json'
-                            },
-                          }
+                      HelperWASD.punishment('1', {user_id: data.user_id}, '1').then((is) => {
+                        if (is) {
                           card.querySelector('.moderator').classList.add('ban')
-                          fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
-                            .then(res => res.json())
-                            .then((out) => {
-                              card.querySelector('.moderator').classList.remove('ban')
-                              if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                HelperWASD.showChatMessage(`Пользователь @${data.user_login} уже заблокирован`, 'warning');
-                              } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                HelperWASD.showChatMessage(`Вы не можете этого сделать`, 'warning');
-                              }
-                            })
-                        })
+                        } else {
+                          card.querySelector('.moderator').classList.remove('ban')
+                        }
+                      })
                     })
 
                     card.querySelector('.timeout10m').addEventListener('click', () => {
-                      fetch(HelperWASD.getStreamBroadcastsUrl())
-                        .then(res => res.json())
-                        .then((out) => {
-                          let response = {
-                            method: 'PUT',
-                            body: `{"user_id":${data.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}, "keep_messages": true, "duration": 10}`,
-                            headers: {
-                              'Content-Type': 'application/json'
-                            },
-                          }
+                      HelperWASD.punishment('1', {user_id: data.user_id}, '10').then((is) => {
+                        if (is) {
                           card.querySelector('.moderator').classList.add('ban')
-                          fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
-                            .then(res => res.json())
-                            .then((out) => {
-                              card.querySelector('.moderator').classList.remove('ban')
-                              if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                HelperWASD.showChatMessage(`Пользователь @${data.user_login} уже заблокирован`, 'warning');
-                              } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                HelperWASD.showChatMessage(`Вы не можете этого сделать`, 'warning');
-                              }
-                            })
-                        })
+                        } else {
+                          card.querySelector('.moderator').classList.remove('ban')
+                        }
+                      })
                     })
 
                     card.querySelector('.timeout1h').addEventListener('click', () => {
-                      fetch(HelperWASD.getStreamBroadcastsUrl())
-                        .then(res => res.json())
-                        .then((out) => {
-                          let response = {
-                            method: 'PUT',
-                            body: `{"user_id":${data.user_id},"stream_id":${out.result.media_container.media_container_streams[0].stream_id}, "keep_messages": true, "duration": 60}`,
-                            headers: {
-                              'Content-Type': 'application/json'
-                            },
-                          }
+                      HelperWASD.punishment('1', {user_id: data.user_id}, '60').then((is) => {
+                        if (is) {
                           card.querySelector('.moderator').classList.add('ban')
-                          fetch(`https://wasd.tv/api/channels/${out.result.channel.channel_id}/banned-users`, response)
-                            .then(res => res.json())
-                            .then((out) => {
-                              card.querySelector('.moderator').classList.remove('ban')
-                              if (out.error.code == 'STREAMER_BAN_ALREADY_EXISTS') {
-                                HelperWASD.showChatMessage(`Пользователь @${data.user_login} уже заблокирован`, 'warning');
-                              } else if (out.error.code == 'USER_BAD_BAN_PERMISSIONS') {
-                                HelperWASD.showChatMessage(`Вы не можете этого сделать`, 'warning');
-                              }
-                            })
-                        })
+                        } else {
+                          card.querySelector('.moderator').classList.remove('ban')
+                        }
+                      })
                     })
                   }
 
@@ -989,8 +932,8 @@ const HelperWASD = {
             $('.user_last_messages-ovg')?.css("display", "none")
           }
         });
-
-        if (socket?.channel?.channel?.channel_owner?.user_id == HelperWASD.current?.user_profile?.user_id) Helper.trySendMessage({ from: 'betterwasd_tv', getCoinUsers: data.user_id });
+        // let channelDataset = document.querySelector('wasd-channel').dataset
+        // if (channelDataset.streamerId == HelperWASD.current?.user_profile?.user_id) Helper.trySendMessage({ from: 'betterwasd_tv', getCoinUsers: data.user_id });
       } else {
         HelperWASD.showChatMessage('не удалось получить информацию о пользователе, попробуйте обновить чат', 'warning');
         card.querySelector('div[data-a-target="viewer-card-close-button"] > div.viewer-card-drag-cancel > button')?.click();
@@ -1126,8 +1069,8 @@ const HelperWASD = {
   highlightMessages(username) {
     for (let i of document.querySelectorAll('.block__messages__item')) {
       if (i.querySelector('.info__text__status__name'))
-        if (i.querySelector('.info__text__status__name').getAttribute('usernamelc'))
-          if (i.querySelector('.info__text__status__name').getAttribute('usernamelc') == username.toLowerCase()) {
+        if (i.querySelector('.info__text__status__name').dataset.usernamelc)
+          if (i.querySelector('.info__text__status__name').dataset.usernamelc == username.toLowerCase()) {
             i.querySelector('wasd-chat-message > .message').classList.add('openCardColor')
           }
     }
@@ -1140,7 +1083,7 @@ const HelperWASD = {
   async getIsModerator() {
     let isMod = false;
     return new Promise((resolve, reject) => {
-      if (document.querySelector('#selector-header-profile .header__user-profile-name')) {
+      if (document.querySelector('wasd-header .user-profile__name')) {
 
         $.ajax({
           url: HelperWASD.getStreamBroadcastsUrl(),
@@ -1152,7 +1095,7 @@ const HelperWASD = {
                   url: `https://wasd.tv/api/chat/streamers/${out.result.channel.user_id}/moderators`,
                   success: (out) => {
                     for (let mod of out.result) {
-                      if (mod.user_login.trim() == document.querySelector('#selector-header-profile .header__user-profile-name').textContent.trim()) {
+                      if (mod.user_login.trim() == document.querySelector('wasd-header .user-profile__name').textContent.trim()) {
                         isMod = true
                         resolve(isMod)
                       }
@@ -1183,10 +1126,10 @@ const HelperWASD = {
         HelperBWASD.paints = out.paints
 
         for (let paint in HelperBWASD.paints) {
-          for (let user of document.querySelectorAll(`.info__text__status__name[username="${paint}"] > span`)) {
+          for (let user of document.querySelectorAll(`.info__text__status__name[data-username="${paint}"] > span`)) {
             user.dataset.betterwasdPaint = HelperBWASD.paints[paint]
           }
-          for (let user of document.querySelectorAll(`.chat-message-mention[username="@${paint}"]`)) {
+          for (let user of document.querySelectorAll(`.chat-message-mention[data-username="@${paint}"]`)) {
             user.dataset.betterwasdPaint = HelperBWASD.paints[paint]
           }
         }
@@ -1229,10 +1172,10 @@ const HelperWASD = {
   },
   removeMessagesOfUsername(username) {
     for (let message of document.querySelectorAll('.block__messages__item')) {
-      if (message.getAttribute('username') == username.trim().split('@').join('')) {
+      if (message.dataset.username == username.trim().split('@').join('')) {
         message.remove()
       } else if (settings.wasd.removeMentionBL) {
-        for (let msg of message.querySelectorAll(`.chat-message-mention[username="@${username.trim().split('@').join('').toLowerCase()}"]`)) {
+        for (let msg of message.querySelectorAll(`.chat-message-mention[data-username="@${username.trim().split('@').join('').toLowerCase()}"]`)) {
           msg.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove()
         }
       }
@@ -1349,12 +1292,12 @@ const HelperWASD = {
     if (element.style.color == '' && settings.wasd.colorAtTheMention) {
       color = "rgba(var(--wasd-color-switch--rgb),.88);";
       $.ajax({
-        url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${element.getAttribute('username').split('@').join('').toLowerCase().trim()}`,
+        url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${element.dataset.username?.split('@').join('').toLowerCase().trim()}`,
         success: (out) => {
           let data;
           if (out.result) {
             for (let value of out.result.rows) {
-              if (value?.user_login?.toLowerCase().trim() == element.getAttribute('username').split('@').join('').toLowerCase().trim()) {
+              if (value?.user_login?.toLowerCase().trim() == element.dataset.username?.split('@').join('').toLowerCase().trim()) {
                 color = HelperWASD.userColors[value.user_id % (HelperWASD.userColors.length - 1)];
                 break;
               }
@@ -1391,10 +1334,10 @@ const HelperWASD = {
     if (!settings.wasd.pinMessage) document.querySelector('wasd-chat .body-container').insertAdjacentHTML("afterbegin", `<pin-chat-messages-ovg style="background: var(--wasd-color-prime);"></pin-chat-messages-ovg>`)
   },
   addPinMessage(node) {
-    node.getAttribute('role')
-    node.getAttribute('username')
-    node.getAttribute('message')
-    node.getAttribute('sticker')
+    // node.getAttribute('role')
+    // node.getAttribute('username')
+    // node.getAttribute('message')
+    // node.getAttribute('sticker')
 
     ovg.log(node)
     document.querySelector('pin-chat-messages-ovg').append()
@@ -1421,7 +1364,7 @@ const HelperWASD = {
     node.classList.add('block__messages__item-ovg')
     node.setAttribute('role', role)
     if (sticker) node.setAttribute('sticker', sticker)
-    node.setAttribute('username', username)
+    node.dataset.username = username
     node.setAttribute('message', message)
     let paint = HelperBWASD.paints[username.trim()]
     node.innerHTML = `<wasd-chat-message>
@@ -1431,7 +1374,7 @@ const HelperWASD = {
             <div class="message__info__text-ovg">
               <div class="info__text__status-ovg">
                 ${isSub ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star" role-card=""></i></div>` : ``}
-                <div username="${username}" usernamelc="${username.toLowerCase()}" class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''}<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''}>${newusername}</span></div>
+                <div data-username="${username}" data-usernamelc="${username.toLowerCase()}" class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''}<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''}>${newusername}</span></div>
                 ${isPartner ? '<!--div class="message__partner-ovg"></div-->' : ''}
               </div>
               ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: rgba(var(--wasd-color-switch--rgb),.88);left: -4px;position: relative;">: </span>` : '' }
@@ -1443,12 +1386,6 @@ const HelperWASD = {
       </div>
     </wasd-chat-message>`;
 
-    let stickersovg = ''
-    for (let stickerovg of node.querySelectorAll('.stickerovg')) {
-      stickersovg += stickerovg.getAttribute('title') + ' '
-    }
-
-    node.setAttribute('stickersovg', stickersovg)
     node.setAttribute('mention', bl)
     let messageHTML = node.querySelector('.message-text-ovg > span')
     if (messageHTML && messageHTML.innerHTML != '') {
@@ -1463,7 +1400,14 @@ const HelperWASD = {
       if (settings.wasd.bttvEmotes) messageHTML.innerHTML = HelperBTTV.replaceText(messageHTML.innerHTML);
       if (settings.wasd.ffzEmotes) messageHTML.innerHTML = HelperFFZ.replaceText(messageHTML.innerHTML);
       if (settings.wasd.bwasdEmotes) messageHTML.innerHTML = HelperBWASD.replaceText(messageHTML.innerHTML);
+      if (settings.wasd.tv7Emotes || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || settings.wasd.bwasdEmotes) HelperWASD.setZeroSizeEmotes(messageHTML)
     }
+
+    let stickersovg = ''
+    for (let stickerovg of node.querySelectorAll('.bttv-emote')) {
+      stickersovg += stickerovg.dataset.code + ' '
+    }
+    node.setAttribute('stickersovg', stickersovg)
 
     messageHTML.innerHTML = messageHTML.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, ($1) => {
       let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
@@ -1471,7 +1415,7 @@ const HelperWASD = {
         username = $1.trim().split('@').join('')
       }
       let paint = HelperBWASD.paints[$1.trim().split('@').join('')]
-      return `<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''} style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' username="${$1}" usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
+      return `<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''} style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' data-username="${$1}" data-usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
     });
 
     messageHTML.innerHTML = messageHTML.innerHTML.replace(/\+at\+/ig, '@')
@@ -1479,14 +1423,14 @@ const HelperWASD = {
     node.querySelectorAll('.chat-message-mention').forEach(element => {
       if (element.style.color == '') HelperWASD.usercolorapi(element);
 
-      bl += element.getAttribute('usernamelc').split('@').join('') + ' '
+      bl += element.dataset.usernamelc?.split('@').join('') + ' '
 
       element.addEventListener('click', ({ target }) => {
-        let username = target.getAttribute('username')?.split('@').join('')
+        let username = target.dataset.username?.split('@').join('')
         if (username) {
           if (settings.wasd.onClickMention.toString() === '1') {
             if (textarea) {
-              textarea.value += target.getAttribute('username').trim() + ' ';
+              textarea.value += target.dataset.username?.trim() + ' ';
               textarea.dispatchEvent(new Event('input'));
               textarea.focus()
             }
@@ -1510,7 +1454,7 @@ const HelperWASD = {
     for (let tooltip of tooltips) {
       $( tooltip ).tooltip({
         classes: { "ui-tooltip": "ui-ovg-tooltip" },
-        content: tooltip.title,
+        content: tooltip.dataset.title,
         show: false,
         hide: false,
         position: {
@@ -1740,8 +1684,8 @@ const HelperWASD = {
   },
   updateFormatMessageSentTime(value) {
     for (let message of document.querySelectorAll('.block__messages__item.ovg')) {
-      if (message.querySelector('.message__time') && message.getAttribute('time')) {
-        message.querySelector('.message__time').textContent = moment(message.getAttribute('time')).format(value)
+      if (message.querySelector('.message__time') && message.dataset.time) {
+        message.querySelector('.message__time').textContent = moment(message.dataset.time).format(value)
       }
     }
   },
@@ -1779,7 +1723,8 @@ const HelperWASD = {
 
       if (uptime && uptimetooltip) {
         HelperWASD.uptimeStreamTimer = setTimeout(function tick() {
-          let date = new Date(socket.channel?.media_container?.published_at);
+          let published_at = document.querySelector('wasd-channel')?document.querySelector('wasd-channel').dataset.publishedAt:'' || socket.channel?.media_container
+          let date = new Date(published_at);
           if (uptime.innerHTML == '') {
             uptime.innerHTML = '<i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip>'
           }
@@ -1803,9 +1748,10 @@ const HelperWASD = {
     if (value) {
 
       let uptime = document.querySelector('.stream-status-container .stream-status-text.live')
+      let published_at = document.querySelector('wasd-channel')?document.querySelector('wasd-channel').dataset.publishedAt:'' || socket.channel?.media_container?.published_at
 
       HelperWASD.uptimeStreamTimerMobile = setTimeout(function tick() {
-        let date = new Date(socket.channel?.media_container?.published_at);
+        let date = new Date(published_at);
         uptime.textContent = moment.utc(new Date(new Date() - date)).format('HH:mm:ss');
         if (settings.wasd.uptimeStreamMobile) HelperWASD.uptimeStreamTimerMobile = setTimeout(tick, 1000);
       }, 1000);
@@ -1819,7 +1765,7 @@ const HelperWASD = {
   updateHoverTooltipEmote(value) {
     for (let emote of document.querySelectorAll('.bttv-emote.tooltip-wrapper')) {
       if (value) {
-        emote.setAttribute('title', emote.getAttribute('tooltip'))
+        emote.title = emote.dataset.title
       } else {
         emote.removeAttribute('title')
       }
@@ -1827,9 +1773,9 @@ const HelperWASD = {
   },
   udpateUserNameEdited(user_channel_name, newusername) {
     let divs = []
-    divs.push(...document.querySelectorAll(`.chat-message-mention[username="@${user_channel_name}"]`))
-    divs.push(...document.querySelectorAll(`.info__text__status__name[username="${user_channel_name}"]`))
-    divs.push(...document.querySelectorAll(`.info__text__status__name-ovg[username="${user_channel_name}"]`))
+    divs.push(...document.querySelectorAll(`.chat-message-mention[data-username="@${user_channel_name}"]`))
+    divs.push(...document.querySelectorAll(`.info__text__status__name[data-username="${user_channel_name}"]`))
+    divs.push(...document.querySelectorAll(`.info__text__status__name-ovg[data-username="${user_channel_name}"]`))
     divs.push(...document.querySelectorAll(`.card_username`))
 
     for (let div of divs) {
@@ -1848,29 +1794,29 @@ const HelperWASD = {
     }
     if (button) button.style.display = document.querySelector('.chat-container__btn-open--desktop > i')?.className == 'wasd-icons-right' && value ? 'none' : ''
   },
-  async getRecord() {
-    return new Promise((resolve, reject) => {
+  // async getRecord() {
+  //   return new Promise((resolve, reject) => {
 
-      if (new URL(document.URL).searchParams.get('record') != null) {
-        $.ajax({
-          url: `https://wasd.tv/api/v2/media-containers/${new URL(document.URL).searchParams.get('record')}`,
-          success: (out) => {
-            this.recordData = out.result
-            resolve({is: !!document.querySelector('wasd-player .stream-status-container.record'), id: this.recordData.media_container_streams[0].stream_id})
-          },
-        });
-      } else {
-        $.ajax({
-          url: `https://wasd.tv/api/v2/media-containers?limit=1&offset=0&media_container_status=STOPPED&media_container_type=SINGLE&media_container_online_status=PUBLIC&channel_id=${''}`,
-          success: (out) => {
-            this.recordData = out.result[0]
-            resolve({is: !!document.querySelector('wasd-player .stream-status-container.record'), id: this.recordData.media_container_streams[0].stream_id})
-          },
-        });
-      }
+  //     if (new URL(document.URL).searchParams.get('record') != null) {
+  //       $.ajax({
+  //         url: `https://wasd.tv/api/v2/media-containers/${new URL(document.URL).searchParams.get('record')}`,
+  //         success: (out) => {
+  //           this.recordData = out.result
+  //           resolve({is: !!document.querySelector('wasd-player .stream-status-container.record'), id: this.recordData.media_container_streams[0].stream_id})
+  //         },
+  //       });
+  //     } else {
+  //       $.ajax({
+  //         url: `https://wasd.tv/api/v2/media-containers?limit=1&offset=0&media_container_status=STOPPED&media_container_type=SINGLE&media_container_online_status=PUBLIC&channel_id=${''}`,
+  //         success: (out) => {
+  //           this.recordData = out.result[0]
+  //           resolve({is: !!document.querySelector('wasd-player .stream-status-container.record'), id: this.recordData.media_container_streams[0].stream_id})
+  //         },
+  //       });
+  //     }
 
-    });
-  },
+  //   });
+  // },
   timeData() {
   },
   timerAboutStat: null,
@@ -1893,5 +1839,144 @@ const HelperWASD = {
   stopTimerStatData() {
     clearInterval(this.timerAboutStat)
     this.timerAboutStat = null
+  },
+  async punishment(type, JSData = {id:'', user_id:0}, duration = '1', keep_messages = true) {
+    return new Promise((resolve) => {
+      let streamId = document.querySelector('wasd-channel')?.dataset?.streamId || socket.streamId
+      let channelId = document.querySelector('wasd-channel')?.dataset?.channelId || socket.channelId
+
+      if (type.toString() == '0') {
+        // socket. Удалить
+
+        $.ajax({
+          url: `https://wasd.tv/api/chat/streams/${streamId}/delete-messages`,
+          type: "POST",
+          data: {
+            ids: [JSData.id],
+            messages_owner_id: Number(JSData.user_id)
+          },
+          success: (out) => {
+            ovg.log(out)
+            resolve(true)
+          },
+          error: (err) => {
+            resolve(false)
+            let code = err.responseJSON.error.code
+            ovg.warning(err.responseJSON)
+            if (code == 'NO_ACCESS_RIGHTS') {
+              HelperWASD.showChatMessage(`Вы не можете этого сделать`, 'warning')
+            } else if (code == 'VALIDATION') {
+              HelperWASD.showChatMessage(`Возможно сообщение уже удалено`, 'warning')
+            }
+          }
+        })
+
+      } else if (type.toString() == '1') {
+        // socket. Тайм-аут
+
+        $.ajax({
+          url: `https://wasd.tv/api/channels/${channelId}/banned-users`,
+          type: "PUT",
+          data: {
+            user_id: Number(JSData.user_id),
+            stream_id: streamId,
+            keep_messages: keep_messages,
+            duration: Number(duration)
+          },
+          success: (out) => {
+            ovg.log(out)
+            resolve(true)
+          },
+          error: (err) => {
+            let code = err.responseJSON.error.code
+            ovg.warning(err.responseJSON)
+            if (code == 'STREAMER_BAN_ALREADY_EXISTS') {
+              HelperWASD.showChatMessage(`Пользователь уже заблокирован`, 'warning')
+            } else if (code == 'USER_BAD_BAN_PERMISSIONS') {
+              HelperWASD.showChatMessage(`Вы не можете этого сделать`, 'warning')
+            } else if (code == 'VALIDATION') {
+              HelperWASD.showChatMessage(`Возможно пользователь уже заблокирован`, 'warning')
+            }
+            resolve(false)
+          }
+        })
+
+      } else if (type.toString() == '2') {
+        // socket. Бан
+
+        $.ajax({
+          url: `https://wasd.tv/api/channels/${channelId}/banned-users`,
+          type: "PUT",
+          data: {
+            user_id: Number(JSData.user_id),
+            stream_id: streamId
+          },
+          success: (out) => {
+            ovg.log(out)
+            resolve(true)
+          },
+          error: (err) => {
+            let code = err.responseJSON.error.code
+            ovg.warning(err.responseJSON)
+            if (code == 'STREAMER_BAN_ALREADY_EXISTS') {
+              HelperWASD.showChatMessage(`Пользователь уже заблокирован`, 'warning')
+            } else if (code == 'USER_BAD_BAN_PERMISSIONS') {
+              HelperWASD.showChatMessage(`Вы не можете этого сделать`, 'warning')
+            } else if (code == 'VALIDATION') {
+              HelperWASD.showChatMessage(`Возможно пользователь уже заблокирован`, 'warning')
+            }
+            resolve(false)
+          }
+        })
+
+      } else if (type.toString() == '3') {
+        // socket. Разбан
+
+        $.ajax({
+          url: `https://wasd.tv/api/channels/${channelId}/banned-users/${JSData.user_id}`,
+          type: "DELETE",
+          success: (out) => {
+            ovg.log(out)
+            resolve(true)
+          },
+          error: (err) => {
+            let code = err.responseJSON.error.code
+            ovg.warning(err.responseJSON)
+            if (code == 'STREAMER_BAN_NOT_FOUND') {
+              HelperWASD.showChatMessage(`Пользователь не забанен`, 'warning')
+            } else if (code == 'USER_BAD_BAN_PERMISSIONS') {
+              HelperWASD.showChatMessage(`Вы не можете этого сделать`, 'warning')
+            } else if (code == 'VALIDATION') {
+              HelperWASD.showChatMessage(`Возможно пользователь уже заблокирован`, 'warning')
+            }
+            resolve(false)
+          }
+        })
+
+      }
+    })
+  },
+  setZeroSizeEmotes(html) {
+    let allEmotes = {}
+    for (let emote in HelperBTTV.emotes) allEmotes[emote] = HelperBTTV.emotes[emote]
+    for (let emote in HelperBWASD.emotes) allEmotes[emote] = HelperBWASD.emotes[emote]
+    for (let emote in HelperFFZ.emotes) allEmotes[emote] = HelperFFZ.emotes[emote]
+    for (let emote in HelperTV7.emotes) allEmotes[emote] = HelperTV7.emotes[emote]
+
+    let emotes = html.querySelectorAll('span > .bttv-emote')
+    emotes.forEach((value, index) => {
+      if ((allEmotes[value.dataset.code]?.zeroWidth || value.dataset.code == 'cvHazmat' || value.dataset.code == 'cvMask') && emotes[index-1]) {
+        let emots = html.querySelectorAll('span > .bttv-emote:not(.modified-emote)')
+
+        let modified = emotes[index-1]?.closest('.modified-emote') || emotes[index-1]
+        if (!modified.classList.contains('modified-emote')) modified.dataset.title += '</br>'
+        modified.classList.add('modified-emote')
+        modified.dataset.title += '</br>&nbsp;'+value.dataset.code+'&nbsp; - модификация'
+
+        let span = document.createElement('span')
+        span.append(value)
+        modified.append(span)
+      }
+    })
   }
 }

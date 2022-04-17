@@ -7,7 +7,7 @@ const wasd = {
   init() {
     ovg.log("init");
     HelperWASD.loadBwasdData()
-    mutationtarget = document.querySelector('wasd-root')
+    // mutationtarget = document.querySelector('wasd-root')
     const config = {
       // attributes: true,
       childList: true,
@@ -207,7 +207,19 @@ const wasd = {
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('#chat-footer-block.footer'));
 
+        const add_wasd_modal_window = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('wasd-modal-window.show'));
 
+
+        if (add_wasd_modal_window.length) {
+          let icons = add_wasd_modal_window[0].querySelector('.bonuses__icons')?.querySelectorAll('img')
+          for (let icon of icons) {
+            for (let badge in HelperBWASD.subBadges) {
+              if (icon.src?.match(badge)) icon.src = HelperBWASD.subBadges[badge].replace('url(', '').replace(')', '')
+            }
+          }
+        }
 
         if (add_wasd_chat_footer.length) {
           let div = document.createElement('div')
@@ -236,48 +248,91 @@ const wasd = {
           let cachedIdx = null
           let cachedEmotes = null
 
-          input.addEventListener('keydown', e => {
+          let cachedMessagesIdx = null
+
+          $(input).bind('keydown', (e) => {
+
             if (settings.wasd.emotesAutoComplete) {
-              if (e.key !== 'Tab') {
+              if (e.keyCode != '9') {
                 cachedFetchEmotes = []
                 cachedMatch = null
                 cachedIdx = null
                 cachedEmotes = null
-                return
+              } else {
+                e.preventDefault()
+                const start = input.selectionStart
+                const seg = input.value.slice(0, start)
+
+                if (!cachedMatch) cachedMatch = (seg.match(/\S+$/) || [])[0]
+
+                const toLC = (t = '') => settings.wasd.emotesAutoCompleteIgnoreLowerCase ? t.toString().toLowerCase() : t
+
+                if (!cachedFetchEmotes.length) {
+                  cachedEmotes = [...new Set([ ...Object.keys(HelperBTTV.emotes), ...Object.keys(HelperBWASD.emotes), ...Object.keys(HelperFFZ.emotes), ...Object.keys(HelperTV7.emotes) ])]
+                  if (settings.wasd.emotesAutoComplete.toString() == '1') {
+                    cachedFetchEmotes = cachedEmotes.filter(x => toLC(x).startsWith(toLC(cachedMatch)))
+                  } else if (settings.wasd.emotesAutoComplete.toString() == '2') {
+                    cachedFetchEmotes = cachedEmotes.filter(x => toLC(x).match(toLC(cachedMatch)))
+                  }
+                }
+
+                if (!cachedFetchEmotes.length) return
+
+                if (typeof cachedIdx != 'number') {
+                  cachedIdx = 0
+                } else {
+                  cachedIdx = (cachedIdx + 1) % cachedFetchEmotes.length
+                }
+
+                const newSeg = seg.replace(/\S+$/, cachedFetchEmotes[cachedIdx])
+                input.value = newSeg + input.value.slice(start)
+                input.setSelectionRange(newSeg.length, newSeg.length)
+                input.dispatchEvent(new Event('input'))
+              }
+            }
+
+            if (settings.wasd.recentMessagesOnArrows) {
+              if (e.keyCode == '38') {
+                e.preventDefault()
+                // console.log('up')
+
+                if (typeof cachedMessagesIdx == 'number') {
+                  cachedMessagesIdx--
+                  if (cachedMessagesIdx < 0) cachedMessagesIdx = HelperWASD.selfMessagesHistory.length-1
+                } else {
+                  cachedMessagesIdx = HelperWASD.selfMessagesHistory.length-1
+                  if (input.value.trim() != '') HelperWASD.selfMessagesHistory.push(input.value)
+                }
+
+                if (typeof HelperWASD.selfMessagesHistory[cachedMessagesIdx] == 'string') {
+                  input.value = HelperWASD.selfMessagesHistory[cachedMessagesIdx]
+                  input.dispatchEvent(new Event('input'))
+                }
+
               }
 
-              e.preventDefault()
-              const start = input.selectionStart
-              const seg = input.value.slice(0, start)
+              if (e.keyCode == '40') {
+                e.preventDefault()
+                // console.log('down')
 
-              if (!cachedMatch) cachedMatch = (seg.match(/\S+$/) || [])[0]
+                if (typeof cachedMessagesIdx == 'number') {
+                  cachedMessagesIdx++
+                  if (cachedMessagesIdx > HelperWASD.selfMessagesHistory.length-1) cachedMessagesIdx = null
+                }
 
-              const toLC = (t = '') => settings.wasd.emotesAutoCompleteIgnoreLowerCase ? t.toString().toLowerCase() : t
-
-              if (!cachedFetchEmotes.length) {
-                cachedEmotes = [...new Set([ ...Object.keys(HelperBTTV.emotes), ...Object.keys(HelperBWASD.emotes), ...Object.keys(HelperFFZ.emotes), ...Object.keys(HelperTV7.emotes) ])]
-                if (settings.wasd.emotesAutoComplete.toString() == '1') {
-                  cachedFetchEmotes = cachedEmotes.filter(x => toLC(x).startsWith(toLC(cachedMatch)))
-                } else if (settings.wasd.emotesAutoComplete.toString() == '2') {
-                  cachedFetchEmotes = cachedEmotes.filter(x => toLC(x).match(toLC(cachedMatch)))
+                if (cachedMessagesIdx == null) {
+                  input.value = ''
+                  input.dispatchEvent(new Event('input'))
+                } else {
+                  input.value = HelperWASD.selfMessagesHistory[cachedMessagesIdx]
+                  input.dispatchEvent(new Event('input'))
                 }
               }
 
-              if (!cachedFetchEmotes.length) return
-
-              if (typeof cachedIdx != 'number') {
-                cachedIdx = 0
-              } else {
-                cachedIdx = (cachedIdx + 1) % cachedFetchEmotes.length
-              }
-
-              const newSeg = seg.replace(/\S+$/, cachedFetchEmotes[cachedIdx])
-              input.value = newSeg + input.value.slice(start)
-              input.setSelectionRange(newSeg.length, newSeg.length)
-
-              input.dispatchEvent(new Event('input'))
+              if (!(e.keyCode == '40' || e.keyCode == '38')) cachedMessagesIdx = null
             }
-          })
+
+          });
 
         }
 
@@ -346,7 +401,11 @@ const wasd = {
             }
 
             let userPaint = HelperBWASD.paints[username.textContent.trim()]
-            if (userPaint) username.innerHTML = username.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => { return `<span data-betterwasd-paint="${userPaint}">${$0}</span>` })
+            if (userPaint) username.innerHTML = username.innerHTML.replace(/> ([a-zA-Z0-9_-]+) /i, ($0) => {
+              let username = settings.wasd.userNameEdited[$0.split('>').join('').trim()];
+              if (!username) username = $0.split('>').join('').trim()
+              return `><span data-betterwasd-paint="${userPaint}">${username}</span>`
+            })
 
             let userSub = HelperWASD.subscribers[username.textContent.trim()]
             if (userSub && settings.wasd.subscriberOnUserList) {
@@ -456,7 +515,7 @@ const wasd = {
           })
         }
 
-        if (add_wasd_chat_header.length && isLive && socket.socketd.readyState != 1) {
+        if (add_wasd_chat_header.length && isLive && socket.socketd?.readyState != 1) {
           add_wasd_chat_header[0].lastChild.insertAdjacentHTML('beforebegin', `<div class="lds-ring websocket_loader tooltip-hover" style="height: 100%;position: absolute;right: 40px;" ovg=""><svg x="0px" y="0px" viewBox="0 0 150 150" class="icon-pending-ovg"><circle cx="75" cy="75" r="60" class="icon-pending-inner-ovg"></circle></svg><ovg-tooltip style="position: absolute;left: 0px;"><div class="tooltip tooltip_position-left tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Ожидаем подключение WebSocket </div></div></ovg-tooltip></div>`)
         }
 
@@ -514,9 +573,9 @@ const wasd = {
 
     const observer = new MutationObserver(callback);
 
-    if (mutationtarget) {
-      observer.observe(mutationtarget, config);
-    }
+    // if (mutationtarget) {
+      observer.observe(document.body, config);
+    // }
 
 
     if (this.style === null) {
@@ -701,7 +760,7 @@ const wasd = {
       cssCode += '[stickersovg*=" "] { display: none!important; }';
     } else if (settings.wasd.stickerovg.toString() === '4') {
       cssCode += 'img.stickerovg { display: none!important; }';
-      cssCode += '.stickerovg_text { display: inline!important; }';
+      cssCode += '.stickerovg_text { display: inline; }';
     }
 
 
@@ -894,7 +953,7 @@ const wasd = {
     }
 
     for (let user in settings.list.blockUserList) {
-      cssCode += `.block__messages__item[usernamelc="${user.toLowerCase()}"], .block__messages__item-ovg[usernamelc="${user.toLowerCase()}"] {display: none!important;}`
+      cssCode += `.block__messages__item[data-usernamelc="${user.toLowerCase()}"], .block__messages__item-ovg[data-usernamelc="${user.toLowerCase()}"] {display: none!important;}`
       if (settings.wasd.removeMentionBL) {
         cssCode += `.block__messages__item[mention*="${user.toLowerCase()}"], .block__messages__item-ovg[mention*="${user.toLowerCase()}"] {display: none!important;}`
       }
@@ -902,16 +961,16 @@ const wasd = {
 
     for (let term in settings.list.highlightTermList) {
       let setting = settings.list.highlightTermList[term]
-      cssCode += `.block__messages__item[message*="${setting.term}"], .block__messages__item-ovg[message*="${setting.term}"] {background-color: ${setting.color}!important;}`
+      cssCode += `.block__messages__item[data-message*="${setting.term}"], .block__messages__item-ovg[data-message*="${setting.term}"] {background-color: ${setting.color}!important;}`
     }
 
     for (let term in settings.list.blockTermList) {
-      cssCode += `.block__messages__item[message*="${term}"], .block__messages__item-ovg[message*="${term}"] {display: none!important;}`
+      cssCode += `.block__messages__item[data-message*="${term}"], .block__messages__item-ovg[data-message*="${term}"] {display: none!important;}`
     }
 
     for (let user in settings.list.highlightUserList) {
       let setting = settings.list.highlightUserList[user]
-      cssCode += `.block__messages__item[username="${setting.username}"], .block__messages__item-ovg[username="${setting.username}"] {background-color: ${setting.color}!important;}`
+      cssCode += `.block__messages__item[data-username="${setting.username}"], .block__messages__item-ovg[data-username="${setting.username}"] {background-color: ${setting.color}!important;}`
     }
 
     if (settings.wasd.chatMobilePlayer) {
@@ -1085,7 +1144,11 @@ const wasd = {
     if (!isMessageEdited) {
       node.classList.add('ovg');
 
+      const messageTextCached = node.querySelector('.message-text > span')?.textContent?.trim()
+      const usernameTextCached = node.querySelector('.info__text__status__name')?.textContent?.trim()
+
       if (isobserver) {
+        if (usernameTextCached == HelperWASD.current?.user_profile?.user_login && messageTextCached) HelperWASD.selfMessagesHistory.push(messageTextCached)
         if (settings.wasd.artificialChatDelay.toString() == '0') {
           node.style.display = 'block';
         } else {
@@ -1105,8 +1168,6 @@ const wasd = {
       subRef         = node.querySelector('.info__text__status-paid')
       promoCodeWin   = node.querySelector('.message__promocodes')
 
-      let usernametext = node.querySelector('.info__text__status__name')?.textContent.trim()
-      let message = node.querySelector('.message-text > span')?.textContent.trim()
       let color = node.querySelector('.info__text__status__name')?.style?.color
       if (subRef) color = subRef?.style?.backgroundColor
       let sticker = node.querySelector('.sticker')?.src
@@ -1122,24 +1183,25 @@ const wasd = {
 
       if (node.querySelector('img[alt="sticker"]')) node.setAttribute('sticker', node.querySelector('img[alt="sticker"]').src)
 
-      if (HelperWASD.openUserCardName == usernametext && node.querySelector('wasd-chat-message > .message')) {
+      if (HelperWASD.openUserCardName == usernameTextCached && node.querySelector('wasd-chat-message > .message')) {
         if (settings.wasd.highlightMessagesOpenCard) node.querySelector('wasd-chat-message > .message').classList.add('openCardColor')
-        if (isobserver) HelperWASD.addMessageToCpenCard(roles, usernametext.trim(), color, message, sticker)
+        if (isobserver) HelperWASD.addMessageToCpenCard(roles, usernameTextCached, color, messageTextCached, sticker)
       }
 
-      if (usernametext) node.setAttribute('username', usernametext)
-      if (usernametext) node.setAttribute('usernamelc', usernametext.toLowerCase())
-
-      if (message) node.setAttribute('message', message)
+      if (usernameTextCached) node.dataset.username = usernameTextCached
+      if (usernameTextCached) node.dataset.usernamelc = usernameTextCached.toLowerCase()
 
       if (sticker) node.querySelector('img.sticker').insertAdjacentHTML("afterend", `<span class="chat-message-text stickertext sticker_text">Стикер</span>`)
 
-      if (isobserver) node.setAttribute('time', moment())
-      if (node.querySelector('.message__time')) {
-        if (isobserver) {
-          node.querySelector('.message__time').textContent = moment().format(settings.wasd.formatMessageSentTime)
+      let msg_time = node.querySelector('.message__time')
+      if (msg_time) {
+        if (node.dataset.time) {
+          msg_time.textContent = moment(node.dataset.time).format(settings.wasd.formatMessageSentTime)
         } else {
-          // node.querySelector('.message__time').textContent = timeData(node.querySelector('.message__time').textContent)
+          msg_time.textContent = moment('2000-01-01T'+msg_time.textContent).format(settings.wasd.formatMessageSentTime)
+          setTimeout(() => {
+            if (node.dataset.time) msg_time.textContent = moment(node.dataset.time).format(settings.wasd.formatMessageSentTime)
+          }, 50)
         }
       }
 
@@ -1153,8 +1215,8 @@ const wasd = {
 
       nicknamediv = node.querySelector('.info__text__status__name');
       if (nicknamediv) {
-        nicknamediv.setAttribute('username', nicknamediv.textContent.trim());
-        nicknamediv.setAttribute('usernamelc', nicknamediv.textContent.trim().toLowerCase());
+        nicknamediv.dataset.username = usernameTextCached
+        nicknamediv.dataset.usernamelc = usernameTextCached.toLowerCase()
 
         if (settings.wasd.userNameEdited[nicknamediv.textContent.trim()]) {
           nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
@@ -1186,13 +1248,14 @@ const wasd = {
         if (settings.wasd.bttvEmotes) messageHTML.innerHTML = HelperBTTV.replaceText(messageHTML.innerHTML)
         if (settings.wasd.ffzEmotes) messageHTML.innerHTML = HelperFFZ.replaceText(messageHTML.innerHTML)
         if (settings.wasd.bwasdEmotes) messageHTML.innerHTML = HelperBWASD.replaceText(messageHTML.innerHTML)
+        if (settings.wasd.tv7Emotes || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || settings.wasd.bwasdEmotes) HelperWASD.setZeroSizeEmotes(messageHTML)
 
         let bl = ' ';
 
         messageHTML.innerHTML = messageHTML.innerHTML.replace(/@[a-zA-Z0-9_-]+/ig, ($1) => {
           let username = settings.wasd.userNameEdited[$1.trim().split('@').join('')];
           if (!username) username = $1.trim().split('@').join('')
-          return `<span><span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' username="${$1}" usernamelc="${$1.toLowerCase()}"> @${username.trim()} </span></span>`;
+          return `<span><span style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' data-username="${$1}" data-usernamelc="${$1.toLowerCase()}"> @${username.trim()} </span></span>`;
         });
 
         messageHTML.innerHTML = messageHTML.innerHTML.replace(/\+at\+/ig, '@')
@@ -1200,13 +1263,13 @@ const wasd = {
         node.querySelectorAll('.chat-message-mention').forEach(element => {
           if (element.style.color == '') HelperWASD.usercolorapi(element);
 
-          bl += element.getAttribute('usernamelc').split('@').join('') + ' '
+          bl += element.dataset.usernamelc?.split('@').join('') + ' '
 
           element.addEventListener('click', ({ target }) => {
-            let username = target.getAttribute('username')?.split('@').join('')
+            let username = target.dataset.username?.split('@').join('')
             if (username) {
               if (settings.wasd.onClickMention.toString() === '1' && textarea) {
-                textarea.value += target.getAttribute('username').trim() + ' ';
+                textarea.value += target.dataset.username.trim() + ' ';
                 textarea.dispatchEvent(new Event('input'));
                 textarea.focus()
               } else if (settings.wasd.onClickMention.toString() === '2') {
@@ -1221,8 +1284,8 @@ const wasd = {
         node.setAttribute('mention', bl)
 
         let stickersovg = ''
-        for (let stickerovg of node.querySelectorAll('.stickerovg')) {
-          stickersovg += stickerovg.getAttribute('title') + ' '
+        for (let stickerovg of node.querySelectorAll('.bttv-emote')) {
+          stickersovg += stickerovg.dataset.code + ' '
         }
         node.setAttribute('stickersovg', stickersovg)
       }
@@ -1234,8 +1297,8 @@ const wasd = {
           elClone = nicknamediv.cloneNode(true);
           nicknamediv.parentNode.replaceChild(elClone, nicknamediv);
           nicknamediv.addEventListener('click', ({ target }) => {
-            if (target.getAttribute('username')) {
-              HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
+            if (target.dataset.username) {
+              HelperWASD.addUsernameToTextarea(target.dataset.username.split('@').join(''));
             }
           });
         } else if (settings.wasd.onClickUserName.toString() === '2') {
@@ -1243,7 +1306,7 @@ const wasd = {
           nicknamediv.parentNode.replaceChild(elClone, nicknamediv);
           nicknamediv = node.querySelector('.info__text__status__name');
           nicknamediv.addEventListener('click', ({ target }) => {
-            let username = target.getAttribute('username')
+            let username = target.dataset.username
             if (username && !HelperWASD.addUsernameToTextarea(username.split('@').join(''))) {
               HelperWASD.createUserViewerCard(username.split('@').join(''), false, node);
             }
@@ -1443,6 +1506,72 @@ const wasd = {
             }
           });
         }
+      } else if (settings.wasd.moderatorMenu.toString() === '3') {
+        let messageInfoStatus = node.querySelector('div.info__text__status')
+        if (messageInfoStatus && !ownerRef && node.querySelector('div.message__info__icon') && !document.querySelector('wasd-settings-page')) {
+          node.querySelector('.info__text__status__name')?.addEventListener('contextmenu', (e) => {
+            if (e.which == 3 && HelperWASD.isModerator) {
+              e.preventDefault();
+              document.querySelector('#bttv-custom-timeout-contain')?.remove()
+
+              let div = document.createElement('div')
+              div.id = 'bttv-custom-timeout-contain'
+              div.innerHTML = `<div class="text"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="81" height="223">
+                <g fill="none" fill-rule="evenodd">
+                  <path fill="#000" fill-opacity=".304" fill-rule="nonzero" d="M.5 0h80v20H.5zM.5 203h80v20H0z"></path>
+                  <path stroke="#ACACAC" stroke-opacity=".3" d="M80.5 19.805C64.51 51.825 70.65 154.184.5 180"></path>
+                  <path fill="#FFF" fill-rule="nonzero" d="M 18.773 218 v -10.84 h 3.603 c 1.074 0 1.942 0.12 2.604 0.359 c 0.662 0.24 1.234 0.645 1.718 1.216 c 0.766 0.908 1.15 2.104 1.15 3.589 c 0 1.801 -0.477 3.198 -1.429 4.19 c -0.952 0.99 -2.292 1.486 -4.02 1.486 h -3.626 z m 1.538 -1.15 h 1.97 c 1.406 0 2.402 -0.378 2.988 -1.135 c 0.63 -0.806 0.945 -1.887 0.945 -3.245 c 0 -1.274 -0.31 -2.275 -0.93 -3.003 a 2.863 2.863 0 0 0 -1.348 -0.912 c -0.522 -0.163 -1.308 -0.245 -2.358 -0.245 H 20.31 v 8.54 z m 15.571 0.894 c -0.967 0.293 -1.794 0.44 -2.483 0.44 c -1.172 0 -2.128 -0.39 -2.867 -1.17 c -0.74 -0.778 -1.11 -1.787 -1.11 -3.028 c 0 -1.206 0.326 -2.194 0.978 -2.966 c 0.652 -0.771 1.485 -1.157 2.501 -1.157 c 0.962 0 1.705 0.342 2.23 1.025 c 0.525 0.684 0.788 1.655 0.788 2.915 l -0.008 0.447 h -5.017 c 0.21 1.89 1.136 2.834 2.776 2.834 c 0.6 0 1.338 -0.16 2.212 -0.483 v 1.143 z m -4.922 -4.578 h 3.509 c 0 -1.48 -0.552 -2.22 -1.656 -2.22 c -1.108 0 -1.726 0.74 -1.853 2.22 z M 38.41 218 v -11.565 h 1.443 V 218 h -1.443 z m 10.166 -0.256 c -0.967 0.293 -1.794 0.44 -2.483 0.44 c -1.172 0 -2.128 -0.39 -2.867 -1.17 c -0.74 -0.778 -1.11 -1.787 -1.11 -3.028 c 0 -1.206 0.326 -2.194 0.978 -2.966 c 0.652 -0.771 1.485 -1.157 2.501 -1.157 c 0.962 0 1.705 0.342 2.23 1.025 c 0.525 0.684 0.788 1.655 0.788 2.915 l -0.008 0.447 h -5.017 c 0.21 1.89 1.135 2.834 2.776 2.834 c 0.6 0 1.338 -0.16 2.212 -0.483 v 1.143 z m -4.922 -4.578 h 3.508 c 0 -1.48 -0.551 -2.22 -1.655 -2.22 c -1.108 0 -1.726 0.74 -1.853 2.22 z m 9.837 5.017 c -0.733 0 -1.304 -0.21 -1.714 -0.63 c -0.41 -0.42 -0.616 -1.003 -0.616 -1.75 v -4.673 h -0.996 v -1.084 h 0.996 v -1.443 l 1.443 -0.14 v 1.583 h 2.08 v 1.084 h -2.08 v 4.41 c 0 1.04 0.45 1.56 1.348 1.56 c 0.19 0 0.422 -0.033 0.696 -0.096 V 218 c -0.445 0.122 -0.83 0.183 -1.157 0.183 z m 9.052 -0.44 c -0.967 0.294 -1.794 0.44 -2.483 0.44 c -1.172 0 -2.127 -0.39 -2.867 -1.168 c -0.74 -0.779 -1.11 -1.788 -1.11 -3.029 c 0 -1.206 0.326 -2.194 0.978 -2.966 c 0.652 -0.771 1.486 -1.157 2.501 -1.157 c 0.962 0 1.706 0.342 2.23 1.025 c 0.525 0.684 0.788 1.655 0.788 2.915 l -0.007 0.447 h -5.018 c 0.21 1.89 1.136 2.834 2.776 2.834 c 0.6 0 1.338 -0.16 2.212 -0.483 v 1.143 z m -4.922 -4.577 h 3.509 c 0 -1.48 -0.552 -2.22 -1.656 -2.22 c -1.108 0 -1.726 0.74 -1.853 2.22 z M 35.065 11.985 c 0 0.542 -0.102 1.02 -0.307 1.435 a 2.9 2.9 0 0 1 -0.828 1.026 c -0.41 0.322 -0.86 0.552 -1.351 0.688 c -0.49 0.137 -1.115 0.205 -1.871 0.205 H 26.84 V 4.434 h 3.23 c 0.796 0 1.392 0.029 1.787 0.087 c 0.396 0.06 0.774 0.181 1.136 0.367 c 0.4 0.21 0.69 0.48 0.871 0.809 c 0.18 0.33 0.271 0.724 0.271 1.183 c 0 0.517 -0.132 0.958 -0.395 1.322 a 2.847 2.847 0 0 1 -1.055 0.875 v 0.059 c 0.737 0.151 1.318 0.475 1.743 0.97 c 0.425 0.496 0.637 1.122 0.637 1.879 z M 32.626 7.07 c 0 -0.263 -0.043 -0.486 -0.131 -0.666 a 1.02 1.02 0 0 0 -0.425 -0.44 a 2.06 2.06 0 0 0 -0.835 -0.245 a 12.934 12.934 0 0 0 -1.216 -0.048 h -1.728 v 3.15 h 1.875 c 0.454 0 0.815 -0.023 1.084 -0.07 c 0.268 -0.046 0.517 -0.143 0.747 -0.29 c 0.23 -0.146 0.391 -0.335 0.487 -0.567 c 0.095 -0.232 0.142 -0.506 0.142 -0.824 z m 0.93 4.973 c 0 -0.439 -0.065 -0.788 -0.197 -1.047 c -0.132 -0.259 -0.371 -0.478 -0.718 -0.66 a 2.407 2.407 0 0 0 -0.853 -0.237 a 11.454 11.454 0 0 0 -1.22 -0.055 h -2.277 v 4.058 h 1.918 c 0.635 0 1.155 -0.033 1.56 -0.1 c 0.406 -0.065 0.738 -0.186 0.997 -0.362 a 1.84 1.84 0 0 0 0.6 -0.652 c 0.127 -0.244 0.19 -0.559 0.19 -0.945 z m 9.815 3.296 h -1.37 v -0.871 a 25.28 25.28 0 0 0 -0.494 0.348 a 4.094 4.094 0 0 1 -1.395 0.637 a 4.284 4.284 0 0 1 -1.048 0.113 c -0.737 0 -1.362 -0.244 -1.875 -0.732 c -0.512 -0.488 -0.769 -1.11 -0.769 -1.868 c 0 -0.62 0.133 -1.122 0.4 -1.505 c 0.266 -0.383 0.645 -0.685 1.138 -0.904 c 0.499 -0.22 1.097 -0.369 1.795 -0.447 A 36.096 36.096 0 0 1 42 9.934 v -0.212 c 0 -0.313 -0.054 -0.572 -0.164 -0.777 a 1.2 1.2 0 0 0 -0.473 -0.483 a 1.954 1.954 0 0 0 -0.703 -0.227 a 6.057 6.057 0 0 0 -0.857 -0.059 c -0.361 0 -0.764 0.048 -1.208 0.143 a 9.395 9.395 0 0 0 -1.377 0.414 h -0.073 V 7.334 c 0.268 -0.073 0.656 -0.154 1.164 -0.242 a 8.793 8.793 0 0 1 1.502 -0.132 c 0.576 0 1.077 0.048 1.505 0.143 c 0.427 0.095 0.797 0.258 1.11 0.487 c 0.307 0.225 0.541 0.515 0.702 0.872 c 0.162 0.356 0.242 0.798 0.242 1.326 v 5.551 z m -1.37 -2.014 v -2.278 c -0.42 0.025 -0.914 0.061 -1.483 0.11 c -0.569 0.05 -1.019 0.12 -1.351 0.213 c -0.396 0.112 -0.715 0.286 -0.96 0.523 c -0.244 0.237 -0.366 0.563 -0.366 0.978 c 0 0.469 0.142 0.822 0.425 1.058 c 0.283 0.237 0.715 0.356 1.297 0.356 a 3.08 3.08 0 0 0 1.325 -0.282 a 5.97 5.97 0 0 0 1.113 -0.678 z m 10.862 2.014 h -1.377 v -4.658 a 8.02 8.02 0 0 0 -0.066 -1.058 c -0.044 -0.33 -0.124 -0.587 -0.241 -0.773 a 1.114 1.114 0 0 0 -0.528 -0.458 c -0.23 -0.1 -0.527 -0.15 -0.893 -0.15 a 2.86 2.86 0 0 0 -1.18 0.279 c -0.41 0.185 -0.803 0.422 -1.179 0.71 v 6.108 h -1.377 V 7.16 H 47.4 v 0.907 c 0.43 -0.356 0.874 -0.634 1.333 -0.835 c 0.46 -0.2 0.93 -0.3 1.414 -0.3 c 0.884 0 1.558 0.266 2.021 0.798 c 0.464 0.533 0.696 1.3 0.696 2.3 v 5.31 z"></path>
+                </g>
+              </svg>
+              <div class="cursor" style="top: 119.875px;"></div>`
+
+              let rect = node.getBoundingClientRect();
+              div.style.top = (rect.top - 100) + 'px'
+              div.style.left = (rect.left + 210) + 'px'
+
+              document.body.append(div)
+
+              let cursor = div.querySelector('.cursor')
+              let text = div.querySelector('.text')
+
+              div.addEventListener('mousemove', (e) => {
+                cursor.style.top = e.offsetY + 'px'
+                position = e.offsetY
+
+                if (e.offsetY < 21) {
+                  text.textContent = 'Бан'
+                } else if (e.offsetY < 82) {
+                  text.textContent = '60 Минут'
+                } else if (e.offsetY < 142) {
+                  text.textContent = '10 Минут'
+                } else if (e.offsetY < 202) {
+                  text.textContent = '1 Минута'
+                } else {
+                  text.textContent = 'Удалить'
+                }
+              })
+
+              div.addEventListener('click', (e) => {
+                let user_id = node.dataset.user_id
+                let id = node.dataset.id
+
+                if (e.offsetY < 21) {
+                  HelperWASD.punishment('2', {user_id: user_id})
+                } else if (e.offsetY < 82) {
+                  HelperWASD.punishment('1', {user_id: user_id}, '60', !settings.wasd.keepMessagesTimeout)
+                } else if (e.offsetY < 142) {
+                  HelperWASD.punishment('1', {user_id: user_id}, '10', !settings.wasd.keepMessagesTimeout)
+                } else if (e.offsetY < 202) {
+                  HelperWASD.punishment('1', {user_id: user_id}, '1', !settings.wasd.keepMessagesTimeout)
+                } else {
+                  HelperWASD.punishment('0', {user_id: user_id, id: id})
+                }
+
+              })
+            }
+          })
+        }
       }
 
       if (settings.wasd.copyMessage) {
@@ -1451,9 +1580,8 @@ const wasd = {
           messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-copy-tools button copy"><i class="icon-ovg wasd-icons-copy"></i></div>`);
 
           messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.copy').addEventListener('click', ({ target }) => {
-            let message = node.getAttribute('message')
-            if (message) {
-              copyTextToClipboard(message)
+            if (messageTextCached) {
+              copyTextToClipboard(messageTextCached)
               HelperWASD.showChatMessage('Сообщение скопировано', 'success');
             } else {
               HelperWASD.showChatMessage('Не удалось скопировать сообщение', 'warning');
@@ -1794,11 +1922,10 @@ const wasd = {
               item.innerHTML = `<div class="context-menu__block__icon contextBlacklistAddUser"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Добавить в ЧС </div>`;
               context_menu.append(item)
               item.addEventListener('click', ({ target }) => {
-                let username = node.querySelector('.info__text__status__name').getAttribute('username');
-                if (!settings.list.blockUserList[username]) {
-                  HelperWASD.showChatMessage(`Пользователь ${username} добавлен в ЧС`, 'success')
-                  settings.list.blockUserList[username] = new Date();
-                  HelperWASD.addUserToBlackList(username)
+                if (!settings.list.blockUserList[usernameTextCached]) {
+                  HelperWASD.showChatMessage(`Пользователь ${usernameTextCached} добавлен в ЧС`, 'success')
+                  settings.list.blockUserList[usernameTextCached] = new Date();
+                  HelperWASD.addUserToBlackList(usernameTextCached)
                   HelperSettings.save([document.querySelector('.optionField')]);
                 } else {
                   HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!', 'warning')
@@ -1844,33 +1971,33 @@ const wasd = {
 
           let out;
           if (settings.wasd.onClickMention.toString() === '0') {
-            out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
+            out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention' data-username="@${username}" data-usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
             node.querySelectorAll('.chat-message-mention').forEach(element => {
               HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
-                if (target.getAttribute('username')) {
-                  HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
+                if (target.dataset.username) {
+                  HelperWASD.addUsernameToTextarea(target.dataset.username?.split('@').join(''));
                 }
               });
             });
           } else if (settings.wasd.onClickMention.toString() === '1') {
-            out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
+            out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' data-username="@${username}" data-usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
             node.querySelectorAll('.chat-message-mention.click').forEach(element => {
               HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
                 if (textarea) {
-                  textarea.value += target.getAttribute('username').trim() + ' ';
+                  textarea.value += target.dataset.username?.trim() + ' ';
                   textarea.dispatchEvent(new Event('input'));
                   textarea.focus()
                 }
               })
             });
           } else if (settings.wasd.onClickMention.toString() === '2') {
-            out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' username="@${username}" usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
+            out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' data-username="@${username}" data-usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
             node.querySelectorAll('.chat-message-mention.click').forEach(element => {
               HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
-                let username = target.getAttribute('username')
+                let username = target.dataset.username
                 if (username && !HelperWASD.addUsernameToTextarea(username.split('@').join(''))) {
                   HelperWASD.createUserViewerCard(username.split('@').join(''), false, node);
                 }
@@ -1884,21 +2011,21 @@ const wasd = {
 
         if (settings.wasd.onClickMention.toString() === '0') {
           element.addEventListener('click', ({ target }) => {
-            if (target.getAttribute('username')) {
-              HelperWASD.addUsernameToTextarea(target.getAttribute('username').split('@').join(''));
+            if (target.dataset.username) {
+              HelperWASD.addUsernameToTextarea(target.dataset.username.split('@').join(''));
             }
           });
         } else if (settings.wasd.onClickMention.toString() === '1') {
           element.addEventListener('click', ({ target }) => {
             if (textarea) {
-              textarea.value += target.getAttribute('username').trim() + ' ';
+              textarea.value += target.dataset.username.trim() + ' ';
               textarea.dispatchEvent(new Event('input'));
               textarea.focus()
             }
           })
         } else if (settings.wasd.onClickMention.toString() === '2') {
           element.addEventListener('click', ({ target }) => {
-            let username = target.getAttribute('username')
+            let username = target.dataset.username
             if (username && !HelperWASD.addUsernameToTextarea(username.split('@').join(''))) {
               HelperWASD.createUserViewerCard(username.split('@').join(''), false, node);
             }
@@ -1907,7 +2034,7 @@ const wasd = {
       }
 
       if (settings.wasd.notifyOnMention && isobserver && document.visibilityState != "visible" && node.querySelector('.has-mention')) {
-        Helper.notify(`Вас упоминул ${node.getAttribute('username')}`, node.getAttribute('message'), node.getAttribute('username'))
+        Helper.notify(`Вас упоминул ${usernameTextCached}`, messageTextCached, usernameTextCached)
       }
 
       if (settings.wasd.mentionSelf.toString() == 'false' && node.querySelector('.has-mention')) {
@@ -1918,7 +2045,7 @@ const wasd = {
         node.querySelector('.message').classList.add('has-mention-ovg')
       }
 
-      let allbadge = HelperBWASD.badges[node.getAttribute('username')]
+      let allbadge = HelperBWASD.badges[usernameTextCached]
       if (allbadge && allbadge.badges.length > 0) {
         for (let badg of allbadge.badges) {
           node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
@@ -1926,19 +2053,19 @@ const wasd = {
       }
 
       for (let paint in HelperBWASD.paints) {
-        for (let user of document.querySelectorAll(`.chat-message-mention[username="@${paint}"]`)) {
+        for (let user of document.querySelectorAll(`.chat-message-mention[data-username="@${paint}"]`)) {
           user.dataset.betterwasdPaint = HelperBWASD.paints[paint]
         }
       }
 
-      let paint = HelperBWASD.paints[node.getAttribute('username')]
+      let paint = HelperBWASD.paints[usernameTextCached]
       if (paint) node.querySelector('.info__text__status__name > span').dataset.betterwasdPaint = paint
 
       let tooltips = node.querySelectorAll(".tooltip-wrapper");
       for (let tooltip of tooltips) {
         $( tooltip ).tooltip({
           classes: { "ui-tooltip": "ui-ovg-tooltip" },
-          content: tooltip.title,
+          content: tooltip.dataset.title,
           show: false,
           hide: false,
           position: {
@@ -1959,7 +2086,7 @@ const wasd = {
       if (modRef && !settings.wasd.showModeratorBadge) {
         modRef.classList.remove('is-moderator')
         modRef.querySelector('.icon.wasd-icons-moderator').remove()
-        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${node.querySelector('.info__text__status__name').getAttribute('username')}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
+        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
         if (c) { node.querySelector('.info__text__status__name').style.color = c
         } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(modRef) }
       }
@@ -1967,7 +2094,7 @@ const wasd = {
       if (ownerRef && !settings.wasd.showOwnerBadge) {
         ownerRef.classList.remove('is-owner')
         ownerRef.querySelector('.icon.wasd-icons-owner').remove()
-        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${node.querySelector('.info__text__status__name').getAttribute('username')}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
+        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
         if (c) { node.querySelector('.info__text__status__name').style.color = c
         } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(ownerRef) }
       }
@@ -1975,7 +2102,7 @@ const wasd = {
       if (adminRef && !settings.wasd.showAdminBadge) {
         adminRef.classList.remove('is-admin')
         adminRef.querySelector('.icon.wasd-icons-dev').remove()
-        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${node.querySelector('.info__text__status__name').getAttribute('username')}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
+        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
         if (c) { node.querySelector('.info__text__status__name').style.color = c
         } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(adminRef) }
       }
@@ -1994,16 +2121,16 @@ const wasd = {
         }
       }
 
-      $(node.querySelector('.message-text')).attrchange({
-        trackValues: true,
-        callback: function (event) {
-          if (event.newValue == 'message-text message-text_deleted') {
-            node.setAttribute('state', 'removed')
-          } else if (event.newValue == 'message-text') {
-            node.setAttribute('state', '')
-          }
-        }
-      })
+      // $(node.querySelector('.message-text')).attrchange({
+      //   trackValues: true,
+      //   callback: function (event) {
+      //     if (event.newValue == 'message-text message-text_deleted') {
+      //       node.setAttribute('state', 'removed')
+      //     } else if (event.newValue == 'message-text') {
+      //       node.setAttribute('state', '')
+      //     }
+      //   }
+      // })
 
     }
   },

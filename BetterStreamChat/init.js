@@ -14,6 +14,31 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.5.9',
+        date: '2022-04-17T21:00:00.000Z',
+        items: [{
+          text: [
+            `Меню модератора - Как у BTTV.`,
+            `7TV поддержка всех ZeroWidth эмоций.`,
+            `FFZ поддержка глобальных ZeroWidth эмоций.`,
+            `Показывать последние сообщения в окне ввода на клавишу «&uarr;» и «&darr;».`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            'Меню модератора - Twitch.'
+          ],
+          label: 'fixed'
+        }, {
+          text: [
+            `7TV | BetterTTV | FrankerFaceZ | BetterWASD эмоции.`,
+            `Аптайм трансляции`,
+            'WebSocket.',
+            `Формат отметок времени`
+          ],
+          label: 'optimized'
+        }]
+      }, {
         version: '1.5.8',
         date: '2022-04-15T17:40:00.000Z',
         items: [{
@@ -1051,14 +1076,19 @@ const BetterStreamChat = {
       HelperFFZ.updateEmotesFfz();
       HelperTV7.updateEmotesTv7();
       if (socket?.channel?.channel) HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login)
+      HelperBTTV.updateSettings(true)
+      HelperFFZ.updateSettings(true)
+      HelperTV7.updateSettings(true)
     });
 
     if (Cookies.get('BetterWASD_access_token')) Helper.loginTwitchUI(Cookies.get('BetterWASD_twitch_display_name'))
 
     document.body.addEventListener('click', (value) => {
-      if (value && value.target && !value.target.className.match('twitch_authorize_public')) {
+      if (value && value.target && value.target.className && !value.target.className.match('twitch_authorize_public')) {
         document.querySelectorAll('.dropdown-ovg.is-open').forEach((i) => { i.classList.remove('is-open') })
       }
+
+      document.querySelector('#bttv-custom-timeout-contain')?.remove()
     })
 
     settingsDiv.querySelector('.dropdown-ovg.login').addEventListener('click', () => {
@@ -1269,7 +1299,6 @@ const BetterStreamChat = {
     for (let link of settingsDiv.querySelectorAll('.links_to .link_to')) {
       link.addEventListener('click', ({ target }) => {
 
-        // console.log(target.classList.value)
         if (target.classList.value == 'slider-ovg' || target.classList.value == 'optionField') return
 
         let tabs = settingsDiv.querySelectorAll('main');
@@ -1625,12 +1654,12 @@ const BetterStreamChat = {
     let bell__info = ovg_bell__element.querySelector('.bell__info')
     let bell_button = ovg_bell__element.querySelector('.bell_button')
     document.body.addEventListener('click', (e) => {
-      if (e && e.target && !e.target.className.match('bell') && isOpenBell) {
+      if (e && e.target && e.target.className && !e.target.className.match('bell') && isOpenBell) {
         Helper.setNotifyReaded()
         bell__info.setAttribute('hidden', '')
         isOpenBell = false
       }
-      if (e && e.target && e.target.className.match('bell__icon') && isOpenBell) {
+      if (e && e.target && e.target.className && e.target.className.match('bell__icon') && isOpenBell) {
         setTimeout(() => {
           Helper.setNotifyReaded()
           bell__info.setAttribute('hidden', '')

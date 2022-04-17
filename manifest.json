@@ -63,11 +63,11 @@
   "manifest_version": 3,
   "name": "BetterWASD",
   "web_accessible_resources": [{
-    "resources": ["img/*.png", "img/*.svg", "css/fonts/*"],
+    "resources": ["img/*.png", "img/*.svg", "css/fonts/*", "ctx.js"],
     "matches": ["*://*.wasd.tv/*"]
   }],
   "minimum_chrome_version": "88",
   "permissions": ["storage", "notifications"],
   "host_permissions": ["*://*.wasd.tv/*"],
-  "version": "1.5.8"
+  "version": "1.5.9"
 }

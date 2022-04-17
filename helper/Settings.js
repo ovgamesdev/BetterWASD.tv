@@ -134,7 +134,7 @@ const HelperSettings = {
         ]
       },
       formatMessageSentTime: {
-        title: `Формат отметок времени ${Helper.tooltip('', 'Для новых сообщений')}`,
+        title: `Формат отметок времени`,
         description: 'Отформатировано <a target="_blank" href="https://momentjs.com/">library Moment.js</a>.',
         type: 'select',
         items: [
@@ -769,6 +769,10 @@ const HelperSettings = {
         title: `Игнорировать БОЛЬШИЕ БУКВЫ для "Автозаполнение эмоции через Tab"`,
         type: 'boolean'
       },
+      recentMessagesOnArrows: {
+        title: `Показывать последние сообщения в окне ввода на клавишу «&uarr;» и «&darr;» ${Helper.BETA}`,
+        type: 'boolean'
+      },
 
 
       qu: {
@@ -923,7 +927,7 @@ const HelperSettings = {
       },
 
       moderatorMenu: {
-        title: `Меню модератора ${Helper.F5}`,
+        title: `Меню модератора ${Helper.F5} ${Helper.tooltip('', 'Как у BTTV - Не работает при прокручивании сообщений в верх, </br> при переключении на вкладку "УЧАСТНИКИ/ЧАТ" </br> И не работает в СТРИМИНГОВОЙ')}`,
         updateChat: true,
         type: 'select',
         items: [
@@ -935,6 +939,10 @@ const HelperSettings = {
           {
             value: 2,
             label: 'Twitch'
+          },
+          {
+            value: 3,
+            label: 'Как у BTTV (BETA)'
           }
         ],
         inInitChange: true,
@@ -944,6 +952,11 @@ const HelperSettings = {
             document.querySelector('#moderatorMenuTimeout').classList.remove('disabled')
             document.querySelector('#keepMessagesTimeout').classList.remove('disabled')
             document.querySelector('#colorModOptions').classList.remove('disabled')
+          } else if (value.toString() === '3') {
+            document.querySelector('#moderatorMenuAutomatic').classList.add('disabled')
+            document.querySelector('#moderatorMenuTimeout').classList.add('disabled')
+            document.querySelector('#keepMessagesTimeout').classList.remove('disabled')
+            document.querySelector('#colorModOptions').classList.add('disabled')
           } else {
             document.querySelector('#moderatorMenuAutomatic').classList.add('disabled')
             document.querySelector('#moderatorMenuTimeout').classList.add('disabled')
