@@ -52,10 +52,32 @@ const waitForNgElementToLoad = (tag, timeout = 10, ng = true) => {
         resolve();
       }
     }, 1);
-    // setTimeout(() => {
-    //   clearInterval(interval);
-    //   reject(`Element ${tag} not found or timeout exceeded`);
-    // }, timeout * 1000);
+    setTimeout(() => {
+      clearInterval(interval);
+      reject(`Element ${tag} not found or timeout exceeded`);
+    }, timeout * 1000);
+  });
+}
+
+const waitForNgElementToLoadOneFromArray = (tags = [], timeout = 10, ng = true) => {
+  return new Promise((resolve, reject) => {
+    const interval = setInterval(function () {
+      for (let tag of tags) {
+        const el = document.querySelector(tag);
+        if (el && !ng) {
+          clearInterval(interval);
+          resolve();
+        }
+        if (el && el.__ngContext__) {
+          clearInterval(interval);
+          resolve();
+        }
+      }
+    }, 1);
+    setTimeout(() => {
+      clearInterval(interval);
+      reject(`Element ${tags} not found or timeout exceeded`);
+    }, timeout * 1000);
   });
 }
 
@@ -89,11 +111,23 @@ const initChat = async () => {
   bwasd.messageService = bwasd.chatService.chatMessageService;
   bwasd.userService = bwasd.chatService.chatUserService;
 
+  // await waitForNgElementToLoadOneFromArray(['wasd-channel', 'wasd-settings-page'], 15)
+  const channel = document.querySelector('wasd-channel') || document.querySelector('wasd-settings-page')
+  if (bwasd.chatService) {
+  	channel.dataset.streamId = bwasd.chatService.streamId
+  	channel.dataset.channelId = bwasd.chatService.channelId
+  	channel.dataset.streamerId = bwasd.chatService.streamerId
+  	channel.dataset.streamerName = bwasd.chatService.streamerName
+  	channel.dataset.viewerUserId = bwasd.chatService._viewerUserId
+  	channel.dataset.viewerUserName = bwasd.chatService.viewerUserName
+  }
+
   const wasdAddMessage = bwasd.messageService.addMessage.bind(bwasd.messageService);
 
   bwasd.messageService.addMessage = async function(e) {
     logger.debug(e);
     if (!e.id) return wasdAddMessage(e);
+    addHistoryMessage(e.id, e.message, e.sticker?.sticker_image?.large, e.user_id, e.user_login)
 
     e.message = `<span class="id_${e.id}"> ${e.message ? e.message : ''} </span>`;
 
@@ -121,6 +155,9 @@ const initChat = async () => {
 	  messages.forEach((msg, index) => {
       if (!bwasd.messageService || !bwasd.messageService._messages) return
 	  	let e = bwasd.messageService._messages[index]
+
+      addHistoryMessage(e.id, e.message, e.sticker?.sticker_image?.large, e.user_id, e.user_login)
+
 	  	msg.dataset.id = e.id
 	  	msg.dataset.user_login = e.user_login
 	  	msg.dataset.user_id = e.user_id
@@ -129,27 +166,25 @@ const initChat = async () => {
       msg.dataset.time = e.date_time
 	  })
   })
+}
 
-  waitForNgElementToLoad('wasd-channel', 120).then(() => {
-	  let channel = document.querySelector(`wasd-channel`)
-  	channel.dataset.streamId = bwasd.chatService.streamId
-  	channel.dataset.channelId = bwasd.chatService.channelId
-  	channel.dataset.streamerId = bwasd.chatService.streamerId
-  	channel.dataset.streamerName = bwasd.chatService.streamerName
-  	channel.dataset.viewerUserId = bwasd.chatService._viewerUserId
-  	channel.dataset.viewerUserName = bwasd.chatService.viewerUserName
-  })
-
-  // waitForNgElementToLoad('wasd-settings-page', 15).then(() => {
-	 //  let channel = document.querySelector(`wasd-settings-page`)
-  // 	channel.dataset.streamId = bwasd.chatService.streamId
-  // 	channel.dataset.channelId = bwasd.chatService.channelId
-  // 	channel.dataset.streamerId = bwasd.chatService.streamerId
-  // 	channel.dataset.streamerName = bwasd.chatService.streamerName
-  // 	channel.dataset.viewerUserId = bwasd.chatService._viewerUserId
-  // 	channel.dataset.viewerUserName = bwasd.chatService.viewerUserName
-  // })
-
+const addHistoryMessage = (id, message, sticker, user_id, user_login) => {
+  let history = document.querySelector('.messages_history')
+  let msg = document.createElement('div')
+  msg.dataset.id = id || ''
+  msg.dataset.message = message || ''
+  msg.dataset.sticker = sticker || ''
+  msg.dataset.usernamelc = user_login?.toLowerCase() || ''
+  msg.dataset.username = user_login || ''
+  msg.dataset.user_id = user_id || ''
+  if (!history) {
+    history = document.createElement('div')
+    history.classList.add('messages_history')
+    history.setAttribute('bwasd', '')
+    document.body.append(history)
+  }
+  history.append(msg)
+  if (history.childElementCount > 200) history.firstChild.remove()
 }
 
 const resetGlobals = () => {
@@ -166,15 +201,15 @@ const init = async () => {
   bwasd.loading = true;
 
   resetGlobals();
-  await waitForNgElementToLoad('wasd-channel', 15)
-  const channelCtx = getCtx('wasd-channel');
+  await waitForNgElementToLoadOneFromArray(['wasd-channel', 'wasd-settings-page'], 15)
+  const channelCtx = getCtx('wasd-channel') || getCtx('wasd-settings-page')
   const wasdChannelName = channelCtx.channel.channel_name;
   const wasdUserId = channelCtx.channel.user_id;
   bwasd.channel = channelCtx.channel;
   bwasd.mediaContainer = channelCtx.mediaContainer;
 
-  let channel = document.querySelector(`wasd-channel`);
-  channel.dataset.publishedAt = channelCtx.mediaContainer?.published_at;
+  let channel = document.querySelector(`wasd-channel`) || document.querySelector('wasd-settings-page')
+  channel.dataset.publishedAt = channelCtx?.mediaContainer?.published_at;
 
   if (bwasd.channel) {
     await initChat();

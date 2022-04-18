@@ -14,6 +14,26 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.6',
+        date: '2022-04-18T21:00:56.564Z',
+        items: [{
+          text: [
+            `Стиль удаленных сообщений.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            'Меню модератора.',
+            'Цвет ссылки.'
+          ],
+          label: 'fixed'
+        }, {
+          text: [
+            `Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении.`
+          ],
+          label: 'optimized'
+        }]
+      }, {
         version: '1.5.9',
         date: '2022-04-17T21:00:00.000Z',
         items: [{
@@ -400,7 +420,7 @@ const BetterStreamChat = {
         </div>
 
         <div style="padding: 10px;">
-          <span>Автор: <a href="https://ovgamesdev.github.io/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a></span>
+          <span>Автор: <a href="https://ovgamesdev.github.io/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a></span> | <a href="https://t.me/BetterWASD" target="_blank">Telegram</a></span>
         </div>
 
         <div style="padding: 10px;">
@@ -430,6 +450,10 @@ const BetterStreamChat = {
 
         <input id="importInput" type="file" accept=".backup, .backup.txt" style="display: none;">
         <div id="backupDropContainer" class="drodHere">Drop Here</div>
+
+        <div style="top: 48px;right: 0px;position: absolute;">
+          <img src="https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/betterwasd_qr_tg.webp" style="width: 140px;margin: 10px;">
+        </div>
 
         <div class="bottom footer">
           <span>Version ${changelogList[0].version} (${moment(changelogList[0].date).format('YYYY-MM-DD')})</span>

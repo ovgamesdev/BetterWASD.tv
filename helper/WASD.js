@@ -854,19 +854,6 @@ const HelperWASD = {
                       </div>`)
 
                     card.querySelector('.ban').addEventListener('click', () => {
-
-                // if (e.offsetY < 21) {
-                //   HelperWASD.punishment('2', {user_id: user_id})
-                // } else if (e.offsetY < 82) {
-                //   HelperWASD.punishment('1', {user_id: user_id}, '60', !settings.wasd.keepMessagesTimeout)
-                // } else if (e.offsetY < 142) {
-                //   HelperWASD.punishment('1', {user_id: user_id}, '10', !settings.wasd.keepMessagesTimeout)
-                // } else if (e.offsetY < 202) {
-                //   HelperWASD.punishment('1', {user_id: user_id}, '1', !settings.wasd.keepMessagesTimeout)
-                // } else {
-                //   HelperWASD.punishment('0', {user_id: user_id, id: id})
-                // }
-
                       HelperWASD.punishment('2', {user_id: data.user_id}).then((is) => {
                         if (is) {
                           card.querySelector('.moderator').classList.add('ban')
@@ -1762,8 +1749,9 @@ const HelperWASD = {
       HelperWASD.uptimeStreamTimerMobile = null
     }
   },
-  updateHoverTooltipEmote(value) {
-    for (let emote of document.querySelectorAll('.bttv-emote.tooltip-wrapper')) {
+  updateHoverTooltipEmote(value, node) {
+    let element = node || document
+    for (let emote of element.querySelectorAll('.bttv-emote.tooltip-wrapper')) {
       if (value) {
         emote.title = emote.dataset.title
       } else {
@@ -1978,5 +1966,18 @@ const HelperWASD = {
         modified.append(span)
       }
     })
-  }
+  },
+  updateDeletedMessageStyle(value) {
+    let deletedMessages = document.querySelectorAll('.block__messages__item[bwasd-deleted]')
+
+    for (let node of deletedMessages) {
+      if (value.toString() == '0') {
+        node.querySelector('.message-text > span').textContent = '[сообщение удалено]'
+      } else {
+        let msg = document.querySelector(`.messages_history[bwasd] [data-id="${node.dataset.id}"]`)
+        node.querySelector('.message-text_deleted > span').textContent = msg.dataset.message
+      }
+    }
+
+  },
 }

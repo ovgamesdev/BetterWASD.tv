@@ -781,8 +781,8 @@ const wasd = {
       cssCode += 'wasd-chat-message > div.message.is-time { padding: 2px 8px 2px 4px!important; }';
     }
 
-    cssCode += `div.message-text > span > a, div.message-text-ovg > span > a { color: ${settings.wasd.linkColor != '#000000' ? settings.wasd.linkColor : 'inherit'}; }`;
-    cssCode += `div.message-text.message-text_deleted > span > a { color: inherit!important; }`;
+    cssCode += `div.message-text span a, div.message-text-ovg span a { color: ${settings.wasd.linkColor != '#000000' ? settings.wasd.linkColor : 'inherit'}; }`;
+    cssCode += `div.message-text.message-text_deleted span a { color: inherit!important; }`;
 
     if (settings.wasd.chatOnTheLeft) {
       cssCode += `@media screen and (min-width:481px) { wasd-chat-wrapper > div.chat-container:not(.theaterModeNoFS) { width: ${settings.wasd.chatWidth}px!important } }`;
@@ -1120,6 +1120,14 @@ const wasd = {
     if (settings.wasd.chatMobilePlayer) cssCode += `.theatre-mode-mobile .player-streaminfo {opacity: 1;pointer-events: all !important;}`
     if (settings.wasd.theaterModeShowGifts.toString() != '2') cssCode += `.footer__block__icons__item.gifts {display: none!important}`
 
+    if (settings.wasd.deletedMessageStyle.toString() == '1') {
+      cssCode += '.message-text_deleted img {filter: brightness(0.5);} .message-text_deleted {color: rgba(var(--color-switch),.4);}'
+    } else if (settings.wasd.deletedMessageStyle.toString() == '2') {
+      cssCode += '.message-text_deleted img {filter: brightness(0.5);} .message-text_deleted {color: rgba(var(--color-switch),.4);} .message-text_deleted {text-decoration: line-through;}'
+    } else if (settings.wasd.deletedMessageStyle.toString() == '3') {
+      cssCode += '.message-text_deleted {text-decoration: line-through;color: inherit !important;}'
+    }
+
     if (wasd.style) {
       if (typeof wasd.style.styleSheet !== 'undefined') {
         wasd.style.styleSheet.cssText = cssCode;
@@ -1143,6 +1151,18 @@ const wasd = {
 
     if (!isMessageEdited) {
       node.classList.add('ovg');
+
+      if (node.querySelector('.message__info__icon') && !node.dataset.id) {
+        node.dataset.id = node.querySelector('.message__info__icon').id.split('contextMenuItem').join('')
+      }
+
+      if (node.querySelector('.message-text_deleted')) {
+        node.setAttribute('bwasd-deleted', '')
+        if (settings.wasd.deletedMessageStyle.toString() != '0') {
+          let msg = document.querySelector(`.messages_history[bwasd] [data-id="${node.dataset.id}"]`)
+          if (msg && msg.dataset.message != '') node.querySelector('.message-text_deleted > span').textContent = msg.dataset.message
+        }
+      }
 
       const messageTextCached = node.querySelector('.message-text > span')?.textContent?.trim()
       const usernameTextCached = node.querySelector('.info__text__status__name')?.textContent?.trim()
@@ -1508,7 +1528,7 @@ const wasd = {
         }
       } else if (settings.wasd.moderatorMenu.toString() === '3') {
         let messageInfoStatus = node.querySelector('div.info__text__status')
-        if (messageInfoStatus && !ownerRef && node.querySelector('div.message__info__icon') && !document.querySelector('wasd-settings-page')) {
+        if (messageInfoStatus && !ownerRef && node.querySelector('div.message__info__icon')) {
           node.querySelector('.info__text__status__name')?.addEventListener('contextmenu', (e) => {
             if (e.which == 3 && HelperWASD.isModerator) {
               e.preventDefault();
@@ -1553,7 +1573,7 @@ const wasd = {
               })
 
               div.addEventListener('click', (e) => {
-                let user_id = node.dataset.user_id
+                let user_id = node.dataset.user_id || document.querySelector(`.messages_history[bwasd] [data-usernamelc="${node.dataset.usernamelc}"]`)?.dataset.user_id
                 let id = node.dataset.id
 
                 if (e.offsetY < 21) {
@@ -2075,7 +2095,7 @@ const wasd = {
           }
         });
       }
-      HelperWASD.updateHoverTooltipEmote(settings.wasd.hoverTooltipEmote)
+      HelperWASD.updateHoverTooltipEmote(settings.wasd.hoverTooltipEmote, node)
 
       adminRef       = node.querySelector('.is-admin')
       modRef         = node.querySelector('.is-moderator')

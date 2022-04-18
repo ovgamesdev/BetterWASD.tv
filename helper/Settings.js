@@ -434,7 +434,7 @@ const HelperSettings = {
       },
 
       hoverTooltipEmote: {
-        title: `Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении`,
+        title: `Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении ${Helper.F5}`,
         id: 'hoverTooltipEmote',
         type: 'boolean',
         onChange: (value) => HelperWASD.updateHoverTooltipEmote(value)
@@ -765,13 +765,36 @@ const HelperSettings = {
         }
       },
       emotesAutoCompleteIgnoreLowerCase: {
-        id: 'emotesAutoCompleteIgnoreLowerCase',
         title: `Игнорировать БОЛЬШИЕ БУКВЫ для "Автозаполнение эмоции через Tab"`,
+        id: 'emotesAutoCompleteIgnoreLowerCase',
         type: 'boolean'
       },
       recentMessagesOnArrows: {
         title: `Показывать последние сообщения в окне ввода на клавишу «&uarr;» и «&darr;» ${Helper.BETA}`,
         type: 'boolean'
+      },
+      deletedMessageStyle: {
+        title: `Стиль удаленных сообщений ${Helper.tooltip('', 'Не работает для автора сообщения </br> Не работает при прокручивании сообщений в верх и для стикеров')}`,
+        type: 'select',
+        items: [
+          {
+            value: 0,
+            label: 'По умолчанию'
+          },
+          {
+            value: 1,
+            label: 'Затемнённые'
+          },
+          {
+            value: 2,
+            label: 'Затемнённые, зачёркнутые'
+          },
+          {
+            value: 3,
+            label: 'Зачёркнутые'
+          }
+        ],
+        onChange: (value) => HelperWASD.updateDeletedMessageStyle(value)
       },
 
 
@@ -927,7 +950,7 @@ const HelperSettings = {
       },
 
       moderatorMenu: {
-        title: `Меню модератора ${Helper.F5} ${Helper.tooltip('', 'Как у BTTV - Не работает при прокручивании сообщений в верх, </br> при переключении на вкладку "УЧАСТНИКИ/ЧАТ" </br> И не работает в СТРИМИНГОВОЙ')}`,
+        title: `Меню модератора ${Helper.F5}`,
         updateChat: true,
         type: 'select',
         items: [

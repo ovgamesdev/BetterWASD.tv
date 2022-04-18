@@ -131,7 +131,8 @@ const Helper = {
         theaterModeFullScreen: false,
         emotesAutoComplete: 1,
         emotesAutoCompleteIgnoreLowerCase: false,
-        recentMessagesOnArrows: false
+        recentMessagesOnArrows: false,
+        deletedMessageStyle: 0
       },
       list: {
         blockUserList: {},
