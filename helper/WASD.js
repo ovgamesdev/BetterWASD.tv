@@ -810,10 +810,17 @@ const HelperWASD = {
                 },
               })
 
-              if (out.result.media_container.user_id != data.user_id && data.user_id != HelperWASD.current?.user_profile?.user_id) $.ajax({
-                url: `https://wasd.tv/api/chat/streamers/${out.result.media_container.user_id}/ban?user_id=${data.user_id}`,
+              if (out.result.media_container.user_id != data.user_id && data.user_id != HelperWASD.current?.user_profile?.user_id ) $.ajax({
+                url: `https://wasd.tv/api/chat/streamers/${out.result.media_container.user_id}/ban`,
                 success: (out) => {
+                  let user = out.result.find(user => user.user_id == data.user_id)
                   if (HelperWASD.isModerator) {
+                    const setBanStatus = (by_user_login, created_at, expire_at) => {
+                      card.querySelector('.go_unban .by_user_login').textContent  = 'Пользователем: ' + by_user_login
+                      card.querySelector('.go_unban .created_at').textContent  = 'Дата бана: ' + moment(created_at).format('lll');
+                      card.querySelector('.go_unban .expire_at').textContent  = `Забанен до: ${expire_at ? moment(expire_at).format('lll') : '∞'}`
+                    }
+
                     card.querySelector('.user_last_messages-ovg').insertAdjacentHTML("beforebegin", `
                       <div class="moderator disabled">
                         <div class="go_ban">
@@ -842,11 +849,17 @@ const HelperWASD = {
                           </wasd-button>
                         </div>
                         <div class="go_unban">
-                          <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 10px;">
-                            <button class="basic ovg small unban" type="button">
-                              <i class="icon wasd-icons-unban"></i>
-                            </button>
-                          </wasd-button>
+                          <span style="display: flex;margin: 3px 10px;align-items: flex-end;">
+                            <wasd-button class="flat-btn ovg" wasdtooltip="">
+                              <button class="basic ovg small unban" type="button">
+                                <i class="icon wasd-icons-unban"></i>
+                              </button>
+                            </wasd-button>
+                            <h1 style="margin: 2px 10px;font-size: 14px;">Забанен</h1>
+                          </span>
+                          <span class="by_user_login"></span>
+                          <span class="created_at"></span>
+                          <span class="expire_at"></span>
                         </div>
                       </div>
                       <div class="tw-c-background-alt-2 tw-pd-t-05 stickers">
@@ -857,6 +870,12 @@ const HelperWASD = {
                       HelperWASD.punishment('2', {user_id: data.user_id}).then((is) => {
                         if (is) {
                           card.querySelector('.moderator').classList.add('ban')
+                          let user = {
+                            by_user_login: HelperWASD.current.user_login,
+                            created_at: new Date(),
+                            expire_at: null
+                          }
+                          setBanStatus(user.by_user_login, user.created_at, user.expire_at)
                         } else {
                           card.querySelector('.moderator').classList.remove('ban')
                         }
@@ -877,6 +896,12 @@ const HelperWASD = {
                       HelperWASD.punishment('1', {user_id: data.user_id}, '1').then((is) => {
                         if (is) {
                           card.querySelector('.moderator').classList.add('ban')
+                          let user = {
+                            by_user_login: HelperWASD.current.user_login,
+                            created_at: new Date(),
+                            expire_at: moment(new Date()).add(1, 'm')
+                          }
+                          setBanStatus(user.by_user_login, user.created_at, user.expire_at)
                         } else {
                           card.querySelector('.moderator').classList.remove('ban')
                         }
@@ -887,6 +912,12 @@ const HelperWASD = {
                       HelperWASD.punishment('1', {user_id: data.user_id}, '10').then((is) => {
                         if (is) {
                           card.querySelector('.moderator').classList.add('ban')
+                          let user = {
+                            by_user_login: HelperWASD.current.user_login,
+                            created_at: new Date(),
+                            expire_at: moment(new Date()).add(10, 'm')
+                          }
+                          setBanStatus(user.by_user_login, user.created_at, user.expire_at)
                         } else {
                           card.querySelector('.moderator').classList.remove('ban')
                         }
@@ -897,16 +928,24 @@ const HelperWASD = {
                       HelperWASD.punishment('1', {user_id: data.user_id}, '60').then((is) => {
                         if (is) {
                           card.querySelector('.moderator').classList.add('ban')
+                          let user = {
+                            by_user_login: HelperWASD.current.user_login,
+                            created_at: new Date(),
+                            expire_at: moment(new Date()).add(60, 'm')
+                          }
+                          setBanStatus(user.by_user_login, user.created_at, user.expire_at)
                         } else {
                           card.querySelector('.moderator').classList.remove('ban')
                         }
                       })
                     })
-                  }
 
-                  card.querySelector('.moderator')?.classList?.remove('disabled')
-                  if (out.result.length != 0) {
-                    card.querySelector('.moderator')?.classList?.add('ban')
+                    card.querySelector('.moderator')?.classList?.remove('disabled')
+                    if (user) {
+                      card.querySelector('.moderator')?.classList?.add('ban')
+                      setBanStatus(user.by_user_login, user.created_at, user.expire_at)
+                    }
+
                   }
                 }
               });
@@ -958,10 +997,18 @@ const HelperWASD = {
         }
       }
       if (role.indexOf('owner') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-color: var(--wasd-color-event3);">   <i badge="" class="icon wasd-icons-owner" style="position: relative;top: 2px;">      </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>`);
+        if (settings.wasd.showOwnerBadge.toString() == '2') {
+          htmlroles.insertAdjacentHTML("beforeend", '<div class="info__text__status-ovg-badge tooltip-hover" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/owner.webp) rgb(233,25,22);"><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>');
+        } else {
+          htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-color: var(--wasd-color-event3);">   <i badge="" class="icon wasd-icons-owner" style="position: relative;top: 2px;">      </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>`);
+        }
       }
       if (role.indexOf('moderator') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-color: var(--wasd-color-gray2);">    <i badge="" class="icon wasd-icons-moderator" style="position: relative;top: 2px;">  </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Модератор </div></div></ovg-tooltip></div>`);
+        if (settings.wasd.showModeratorBadge.toString() == '2') {
+          htmlroles.insertAdjacentHTML("beforeend", '<div class="info__text__status-ovg-badge tooltip-hover" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/moderator.webp) rgb(0,173,3);"><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Модератор </div></div></ovg-tooltip></div>');
+        } else {
+          htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-color: var(--wasd-color-gray2);">    <i badge="" class="icon wasd-icons-moderator" style="position: relative;top: 2px;">  </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Модератор </div></div></ovg-tooltip></div>`);
+        }
       }
       if (role.indexOf('admin') != -1) {
         htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-color: var(--wasd-color-corp-blue);"><i badge="" class="icon wasd-icons-dev" style="position: relative;top: 2px;">        </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Администратор </div></div></ovg-tooltip></div>`);
@@ -970,7 +1017,11 @@ const HelperWASD = {
         htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div message__promocodes" style="background-color: var(--wasd-color-gray2);width: 20px;"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Promo Code Winner </div></div></ovg-tooltip></div>`);
       }
       if (role.indexOf('partner') != -1) {
-        htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div message__partner" style="background-color: var(--wasd-color-gray2);width: 20px;"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Партнёр WASD.TV </div></div></ovg-tooltip></div>`);
+        if (settings.wasd.showPartnerIcon.toString() == '2') {
+          htmlroles.insertAdjacentHTML("beforeend", '<div class="info__text__status-ovg-badge tooltip-hover" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/partner.webp) rgb(145,70,255);"><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Партнёр WASD.TV </div></div></ovg-tooltip></div>');
+        } else {
+          htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div message__partner" style="background-color: var(--wasd-color-gray2);width: 20px;"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Партнёр WASD.TV </div></div></ovg-tooltip></div>`);
+        }
       }
     } else {
       $.ajax({
@@ -1113,11 +1164,13 @@ const HelperWASD = {
         HelperBWASD.paints = out.paints
 
         for (let paint in HelperBWASD.paints) {
-          for (let user of document.querySelectorAll(`.info__text__status__name[data-username="${paint}"] > span`)) {
-            user.dataset.betterwasdPaint = HelperBWASD.paints[paint]
-          }
-          for (let user of document.querySelectorAll(`.chat-message-mention[data-username="@${paint}"]`)) {
-            user.dataset.betterwasdPaint = HelperBWASD.paints[paint]
+          for (let user of [...document.querySelectorAll(`.info__text__status__name[data-username="${paint}"] > span`), ...document.querySelectorAll(`.chat-message-mention[data-username="@${paint}"]`)]) {
+            if (HelperBWASD.paints[paint].length < 7) {
+              user.dataset.betterwasdPaint = HelperBWASD.paints[paint]
+            } else if (HelperBWASD.paints[paint].length) {
+              user.style.color = HelperBWASD.paints[paint]
+              user.dataset.betterwasdPaintColor = HelperBWASD.paints[paint]
+            }
           }
         }
 
@@ -1289,8 +1342,8 @@ const HelperWASD = {
                 break;
               }
             }
+            element.style.color = color;
           }
-          element.style.color = color;
         }
       });
     }
@@ -1353,7 +1406,7 @@ const HelperWASD = {
     if (sticker) node.setAttribute('sticker', sticker)
     node.dataset.username = username
     node.setAttribute('message', message)
-    let paint = HelperBWASD.paints[username.trim()]
+    let userPaint = HelperBWASD.paints[username.trim()]
     node.innerHTML = `<wasd-chat-message>
       <div class="message-ovg is-time${!!message?.match(HelperWASD.self_channel_name) ? ' has-mention' : ''}">
         <div class="message__time-ovg"> ${moment(date_time).format(settings.wasd.formatMessageSentTime)} </div>
@@ -1361,7 +1414,7 @@ const HelperWASD = {
             <div class="message__info__text-ovg">
               <div class="info__text__status-ovg">
                 ${isSub ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star" role-card=""></i></div>` : ``}
-                <div data-username="${username}" data-usernamelc="${username.toLowerCase()}" class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''}<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''}>${newusername}</span></div>
+                <div data-username="${username}" data-usernamelc="${username.toLowerCase()}" class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''}<span ${!userPaint?'':userPaint.length<7?'data-betterwasd-paint="'+userPaint+'"':'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}>${newusername}</span></div>
                 ${isPartner ? '<!--div class="message__partner-ovg"></div-->' : ''}
               </div>
               ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: rgba(var(--wasd-color-switch--rgb),.88);left: -4px;position: relative;">: </span>` : '' }
@@ -1401,8 +1454,8 @@ const HelperWASD = {
       if (!username) {
         username = $1.trim().split('@').join('')
       }
-      let paint = HelperBWASD.paints[$1.trim().split('@').join('')]
-      return `<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''} style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' data-username="${$1}" data-usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
+      let userPaint = HelperBWASD.paints[$1.trim().split('@').join('')]
+      return `<span ${!userPaint?'':userPaint.length<7?'data-betterwasd-paint="'+userPaint+'"':'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'} style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' data-username="${$1}" data-usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
     });
 
     messageHTML.innerHTML = messageHTML.innerHTML.replace(/\+at\+/ig, '@')
@@ -1607,7 +1660,7 @@ const HelperWASD = {
             success: (out) => {
               if (out.error) {
                 new Error(out.error.code)
-              } else if (out.result.media_container) {
+              } else if (out?.result?.media_container) {
                 button.addEventListener('click', () => {
                   if (document.querySelector('iframe#createClip')) {
                     document.querySelector('iframe#createClip').remove()
@@ -1978,6 +2031,23 @@ const HelperWASD = {
         node.querySelector('.message-text_deleted > span').textContent = msg.dataset.message
       }
     }
-
   },
+  add_chat() {
+    if (!document.querySelector('wasd-chat-messages')) return
+    HelperWASD.loadBwasdData()
+    socket.join()
+
+    HelperBWASD.emotes = {}
+    HelperBWASD.subBadges = {}
+
+    HelperWASD.isModerator = false
+    HelperWASD.getIsModerator().then((resolve) => {
+      HelperWASD.isModerator = resolve
+      wasd.updatestyle();
+    })
+
+    HelperWASD.createPinMessages();
+
+    document.querySelector('.update > i').classList.remove('resetPlayerLoading');
+  }
 }

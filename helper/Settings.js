@@ -435,6 +435,7 @@ const HelperSettings = {
 
       hoverTooltipEmote: {
         title: `Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении ${Helper.F5}`,
+        updateChat: true,
         id: 'hoverTooltipEmote',
         type: 'boolean',
         onChange: (value) => HelperWASD.updateHoverTooltipEmote(value)
@@ -525,12 +526,40 @@ const HelperSettings = {
       showOwnerBadge: {
         title: `Показать значки создателя ${Helper.F5}`,
         updateChat: true,
-        type: 'boolean'
+        type: 'select',
+        items: [
+          {
+            value: false,
+            label: 'Скрыть'
+          },
+          {
+            value: true,
+            label: 'По умолчанию'
+          },
+          {
+            value: 2,
+            label: 'Заменить на значок Twitch'
+          }
+        ]
       },
       showModeratorBadge: {
         title: `Показать значки модератора ${Helper.F5}`,
         updateChat: true,
-        type: 'boolean'
+        type: 'select',
+        items: [
+          {
+            value: false,
+            label: 'Скрыть'
+          },
+          {
+            value: true,
+            label: 'По умолчанию'
+          },
+          {
+            value: 2,
+            label: 'Заменить на значок Twitch'
+          }
+        ]
       },
       showSubBadge: {
         title: `Показать значки подписчика ${Helper.F5}`,
@@ -548,8 +577,23 @@ const HelperSettings = {
         type: 'boolean'
       },
       showPartnerIcon: {
-        title: `Показать значки партнера`,
-        type: 'boolean'
+        title: `Показать значки партнера ${Helper.F5}`,
+        updateChat: true,
+        type: 'select',
+        items: [
+          {
+            value: false,
+            label: 'Скрыть'
+          },
+          {
+            value: true,
+            label: 'По умолчанию'
+          },
+          {
+            value: 2,
+            label: 'Заменить на значок Twitch'
+          }
+        ]
       },
 
       copyMessage: {
@@ -1240,6 +1284,16 @@ const HelperSettings = {
         type: 'boolean'
       },
 
+      SharedAppearance: {
+        title: 'Внешний вид » Общие',
+        type: 'title'
+      },
+
+      blurInfoSiteGoesDown: {
+        title: `Блюр информации при падении сайта ${Helper.tooltip('', 'Если вы стример - это может спасти Ваш IP-адрес')}`,
+        type: 'boolean'
+      },
+
       channelAppearance: {
         title: 'Внешний вид » Канал',
         id: 'ovg_settings_appearance',
@@ -1312,6 +1366,10 @@ const HelperSettings = {
 
       chatOnTheLeft: {
         title: 'Поменять боковые панели местами',
+        type: 'boolean'
+      },
+      hideOfflineChannelsOnNavSidebar: {
+        title: 'Скрыть каналы не в сети',
         type: 'boolean'
       },
 

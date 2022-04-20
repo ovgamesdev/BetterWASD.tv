@@ -2928,23 +2928,6 @@ div.inputresult li h2 {
 ovg-button {
   position: relative;
 }
-.drodHere {
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border: solid 1px;
-  padding: 80px 110px;
-  transform: translate(-40%, -36%);
-  transition: opacity .2s;
-  z-index: -1;
-}
-.dragover {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-.dragoverbackup .drodHere {
-  opacity: 1;
-}
 
 /******************************/
 
@@ -3093,26 +3076,6 @@ ovg-button {
   }
 }
 
-/* ___  */
-.moderator .go_ban {
-  display: flex;
-}
-.moderator .go_unban {
-  display: none;
-}
-.moderator.ban .go_ban {
-  display: none;
-}
-.moderator.ban .go_unban {
-  display: flex;
-}
-.moderator.disabled button {
-  box-shadow: none;
-  cursor: default;
-  color: rgba(var(--wasd-color-switch--rgb), 0.48) !important;
-  background: rgba(var(--wasd-color-switch--rgb), 0.08) !important;
-  pointer-events: none;
-}
 
 [data-coloris] {
   width: 113px;
@@ -3343,6 +3306,7 @@ wasd-chat-subscribe-message .chat-message-mention {
 /* badge */
 
 .info__text__status-ovg-badge {
+  position: relative;
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 2px;
@@ -3350,6 +3314,7 @@ wasd-chat-subscribe-message .chat-message-mention {
   margin-right: 4px;
   padding: 0;
   width: 20px;
+  background-position: center !important;
 }
 
 .twitch_authorize_public:not(.disable) {

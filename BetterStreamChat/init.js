@@ -14,6 +14,28 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.6.1',
+        date: '2022-04-21T00:10:56.564Z',
+        items: [{
+          text: [
+            `Блюр информации при падении сайта.`,
+            `Скрыть каналы не в сети.`,
+            `Показать значки создателя|модератора|партнера - Заменить на значок Twitch.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            'Показывать последние сообщения в окне ввода на клавишу «↑» и «↓».'
+          ],
+          label: 'fixed'
+        }, {
+          text: [
+            `WebSocket.`,
+            `Карточка пользователя - Средства модератора.`
+          ],
+          label: 'changed'
+        }]
+      }, {
         version: '1.6',
         date: '2022-04-18T21:00:56.564Z',
         items: [{
@@ -449,7 +471,6 @@ const BetterStreamChat = {
         </div>
 
         <input id="importInput" type="file" accept=".backup, .backup.txt" style="display: none;">
-        <div id="backupDropContainer" class="drodHere">Drop Here</div>
 
         <div style="top: 48px;right: 0px;position: absolute;">
           <img src="https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/betterwasd_qr_tg.webp" style="width: 140px;margin: 10px;">
@@ -1055,6 +1076,11 @@ const BetterStreamChat = {
     // bind close settings 
     settingsDiv.querySelector('.close').addEventListener('click', () => {
       Helper.hideSettings()
+      let search = document.querySelector('#settingsSearch')
+      if (search) {
+        search.value = ''
+        search?.dispatchEvent(new Event('input'))
+      }
     });
 
     // bind update chat 
@@ -1278,32 +1304,6 @@ const BetterStreamChat = {
     settingsDiv.ondrop = (e) => {
       e.preventDefault();
       settingsDiv.classList.remove('dragoverbackup');
-    };
-
-
-    backupDropContainer.ondragenter = (e) => {
-      e.preventDefault();
-    };
-    backupDropContainer.ondragover = (e) => {
-      e.preventDefault();
-      backupDropContainer.classList.add('dragover');
-    }
-    backupDropContainer.ondragleave = (e) => {
-      e.preventDefault();
-      backupDropContainer.classList.remove('dragover');
-    }
-    backupDropContainer.ondrop = (e) => {
-      e.preventDefault();
-      backupDropContainer.classList.remove('dragover');
-      let reader = new FileReader();
-      reader.onload = processFile(e.dataTransfer.files[0]);
-      let n = e.dataTransfer?.files[0]?.name
-
-      if (n && n.indexOf('.backup') == n.length - 7 || n && n.indexOf('.backup.txt') == n.length - 11) {
-        reader.readAsText(e.dataTransfer.files[0]);
-      } else {
-        alertify.warning(`только .backup файлы`, 3);
-      }
     };
 
     /************/

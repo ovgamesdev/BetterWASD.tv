@@ -98,7 +98,7 @@ const onLocationChange = async (cb) => {
 /* BUSINESS LOGIC */
 
 const initChat = async () => {
-  await Promise.all([waitForNgElementToLoad('wasd-chat', 15), waitForNgElementToLoad('wasd-chat-messages', 15)])
+  await Promise.all([waitForNgElementToLoad('wasd-chat', 120), waitForNgElementToLoad('wasd-chat-messages', 120)])
     .catch(e => {
       throw new Error('Failed to load!')
     });
@@ -111,7 +111,6 @@ const initChat = async () => {
   bwasd.messageService = bwasd.chatService.chatMessageService;
   bwasd.userService = bwasd.chatService.chatUserService;
 
-  // await waitForNgElementToLoadOneFromArray(['wasd-channel', 'wasd-settings-page'], 15)
   const channel = document.querySelector('wasd-channel') || document.querySelector('wasd-settings-page')
   if (bwasd.chatService) {
   	channel.dataset.streamId = bwasd.chatService.streamId
@@ -133,7 +132,7 @@ const initChat = async () => {
 
     wasdAddMessage(e);
 
-    waitForNgElementToLoad(`span.id_${e.id}`, 15, false).then(() => {
+    waitForNgElementToLoad(`span.id_${e.id}`, 5, false).then(() => {
       let div = document.querySelector(`span.id_${e.id}`)
       let msg = div.closest("div.block__messages__item")
 
@@ -143,18 +142,25 @@ const initChat = async () => {
 	  	msg.dataset.message = e.message.replace(/<span class="id_([A-Za-a0-9-])\S+">/ig, '').replace(/<\/span>/ig, '')
 	  	msg.dataset.sticker = e.sticker?.sticker_image?.large
       msg.dataset.time = e.date_time
+      if (e.sticker) {
+        msg.dataset.sticker_id = e.sticker?.sticker_id
+        msg.dataset.sticker_name = e.sticker?.sticker_name
+        msg.dataset.sticker_pack_id = e.sticker?.sticker_pack_id
+      }
     })
   };
 
   logger.log('Ready');
   bwasd.loading = false;
 
-  waitForNgElementToLoad('.block__messages__item', 15).then(() => {
+  waitForNgElementToLoad('.block__messages__item', 30).then(() => {
 	  let messages = document.querySelectorAll(`.block__messages__item`)
 
 	  messages.forEach((msg, index) => {
       if (!bwasd.messageService || !bwasd.messageService._messages) return
 	  	let e = bwasd.messageService._messages[index]
+
+      if (!e) return
 
       addHistoryMessage(e.id, e.message, e.sticker?.sticker_image?.large, e.user_id, e.user_login)
 
@@ -164,6 +170,11 @@ const initChat = async () => {
 	  	msg.dataset.message = e.message
 	  	msg.dataset.sticker = e.sticker?.sticker_image?.large
       msg.dataset.time = e.date_time
+      if (e.sticker) {
+        msg.dataset.sticker_id = e.sticker?.sticker_id
+        msg.dataset.sticker_name = e.sticker?.sticker_name
+        msg.dataset.sticker_pack_id = e.sticker?.sticker_pack_id
+      }
 	  })
   })
 }
@@ -217,37 +228,24 @@ const init = async () => {
     bwasd.loading = false;
   }
 
-  // waitForNgElementToLoad('wasd-settings-page', 15).then( async () => {
-	 //  const channelCtx = getCtx('wasd-settings-page');
-	 //  const wasdChannelName = channelCtx.channel.channel_name;
-	 //  const wasdUserId = channelCtx.channel.user_id;
-	 //  bwasd.channel = channelCtx.channel;
-	 //  bwasd.mediaContainer = channelCtx.mediaContainer;
-
-	 //  let channel = document.querySelector(`wasd-settings-page`);
-	 //  channel.dataset.publishedAt = channelCtx.mediaContainer?.published_at;
-
-	 //  if (bwasd.channel) {
-	 //    await initChat();
-	 //  } else {
-	 //    bwasd.loading = false;
-	 //  }
-  // })
-
 }
 
 /* ================ */
+if (typeof $ != 'function') {
+  logger.log('не найден jquery')
+} else {
+  $((e) => {
+    logger.debug('Debug mode enabled');
 
-$((e) => {
-  logger.debug('Debug mode enabled');
-
-  init().then(async () => {
-    await onLocationChange(() => {
-      init().catch((e) => {
-        logger.error(e);
-      });
-    })
-  }).catch((e) => {
-    logger.error(e);
+    init().then(async () => {
+      await onLocationChange(() => {
+        init().catch((e) => {
+          logger.error(e);
+        });
+      })
+    }).catch((e) => {
+      logger.error(e);
+    });
   });
-});
+}
+

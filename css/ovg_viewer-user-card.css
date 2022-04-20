@@ -349,3 +349,29 @@ div.ovg.buttonsdiv {
 .chat-room__viewer-card:not(.error) .error_text {
   display: none;
 }
+
+/* ban */
+.moderator .go_ban {
+  display: flex;
+}
+.moderator .go_unban {
+  display: none;
+}
+.moderator.ban .go_ban {
+  display: none;
+}
+.moderator.ban .go_unban {
+  display: flex;
+  flex-direction: column;
+}
+.moderator.disabled button {
+  box-shadow: none;
+  cursor: default;
+  color: rgba(var(--wasd-color-switch--rgb), 0.48) !important;
+  background: rgba(var(--wasd-color-switch--rgb), 0.08) !important;
+  pointer-events: none;
+}
+.moderator.ban .go_unban > span {
+  margin-left: 10px;
+  font-size: 14px;
+}

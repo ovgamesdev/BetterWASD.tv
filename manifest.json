@@ -36,6 +36,7 @@
       "lib/code-mnem/code-mnem.js",
       "lib/alertify/alertify.min.js",
       "lib/hex-rgb/index.js",
+      "lib/taliner/taliner.js",
       "helper/Helper.js",
       "helper/Settings.js",
       "helper/Twitch.js",
@@ -69,5 +70,5 @@
   "minimum_chrome_version": "88",
   "permissions": ["storage", "notifications"],
   "host_permissions": ["*://*.wasd.tv/*"],
-  "version": "1.6"
+  "version": "1.6.1"
 }

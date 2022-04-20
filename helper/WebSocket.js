@@ -11,17 +11,12 @@ const socket = {
   intervals: [],
   WebSocket_history: null,
   isJoined: false,
-  initChat() {
+  isJoining: false,
+  join() {
+    if (HelperWASD.getStreamBroadcastsUrl().match('undefined') || HelperWASD.getStreamBroadcastsUrl().concat(' ').match('channel_name=0 ')) return setTimeout(() => socket.join(), 15)
+    if (this.isJoining || this.isJoined) return
+    this.isJoining = true
     $('.websocket_loader[ovg]')?.css('display', 'flex')
-  	if (document.querySelector('.WebSocket_history')) {
-  		this.WebSocket_history = document.querySelector('.WebSocket_history')
-  	} else {
-  		this.WebSocket_history = document.createElement('div')
-  		this.WebSocket_history.classList.add('WebSocket_history')
-  		document.body.append(this.WebSocket_history)
-  	}
-
-
     $.ajax({
       url: HelperWASD.getStreamBroadcastsUrl(),
       headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
@@ -29,105 +24,85 @@ const socket = {
         socket.channel = out.result
         socket.channelId = out.result?.channel?.channel_id
 
+        socket.isLiveInited = true
+        if (document.querySelector('.WebSocket_history')) {
+          this.WebSocket_history = document.querySelector('.WebSocket_history')
+        } else {
+          this.WebSocket_history = document.createElement('div')
+          this.WebSocket_history.classList.add('WebSocket_history')
+          document.body.append(this.WebSocket_history)
+        }
+
         HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login)
         HelperWASD.loadSubscribersData(socket.channelId)
 
-        if (!document.querySelector('.hidden.info__text__status__name')) {
-          let dd = document.createElement('div')
-          dd.classList.add('info__text__status__name')
-          dd.classList.add('hidden')
-          dd.dataset.username = '@' + socket.channel.channel.channel_owner.user_login.toLowerCase()
-          dd.style.color = HelperWASD.userColors[socket.channel.channel.channel_owner.user_id % (HelperWASD.userColors.length - 1)]
-          dd.style.display = 'none'
-          document.body.append(dd)
-        }
-
-        socket.isLiveInited = false
-
-        if (!socket.isLiveInited && out.result.channel.channel_is_live) {
-          socket.start()
-          socket.isLiveInited = true
-          ws.log('chat init to channel', out.result.channel.channel_owner.user_login)
-        } else if (socket.isLiveInited && !out.result.channel.channel_is_live) {
-          socket.isLiveInited = false
-          // socket.stop(1000, 'LIVE_CLOSED')
-          ws.log('chat not inited to channel') //-
-        } else if (socket.isLiveInited && out.result.channel.channel_is_live) {
-          // ws.log('chat worked')
-        } else {
-          ws.log('chat not worked')
-          // setTimeout(() => {
-          //   socket.initChat()
-          // }, 30000)
-        }
-      },
-      error: (err) => {
-        ws.log('err', err)
-        setTimeout(() => socket.initChat(), 30000)
-      }
-    });
-  },
-  start() {
-    let channelDataset = document.querySelector('wasd-channel')
-    socket.isLiveInited = true
-
-    this.socketd = new WebSocket("wss://chat.wasd.tv/socket.io/?EIO=3&transport=websocket");
-
-    this.socketd.onopen = (e) => {
-      $.ajax({
-        url: `https://wasd.tv/api/auth/chat-token`,
-        headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-        success: (out) => {
-          socket.jwt = out.result
-          new Promise((resolve, reject) => {
+        $.ajax({
+          url: `https://wasd.tv/api/auth/chat-token`,
+          headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
+          success: (out) => {
+            socket.jwt = out.result
             socket.stream_url = HelperWASD.getStreamBroadcastsUrl()
-            if (channelDataset && channelDataset.dataset?.streamId) {
-              socket.streamId = channelDataset.dataset.streamId
-              resolve(true)
-            } else {
-              $.ajax({
-                url: HelperWASD.getStreamBroadcastsUrl(),
-                headers: { 'Access-Control-Allow-Origin': 'https://wasd.tv' },
-                success: (out) => resolve(out.result)
-              });
-            }
-          }).then((out) => {
-            if (!out) return
+
             if (!socket.streamId) {
-              if (typeof out.media_container == "undefined") {
-                socket.streamId = out.media_container_streams[0].stream_id
+              if (typeof socket.channel.media_container == "undefined") {
+                socket.streamId = socket.channel.media_container_streams[0].stream_id
               } else {
-                if (typeof out?.media_container?.media_container_streams[0] == 'undefined') return
-                socket.streamId = out.media_container.media_container_streams[0].stream_id
+                if (typeof socket.channel?.media_container?.media_container_streams[0] == 'undefined') return
+                socket.streamId = socket.channel.media_container.media_container_streams[0].stream_id
               }
             }
 
             try {
-              if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send(`42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`);
+              if (socket.socketd.readyState === socket.socketd.OPEN && this.isJoining && !this.isJoined) {
+                socket.socketd.send(`42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`);
+                socket.intervalSave = setInterval(() => socket.saveUserList(), 30000)
+                socket.intervalWatchChannel = setInterval(() => socket.watchChannelInterval(), 300000)
+                socket.saveUserList()
+                socket.saveMessagesList()
+              }
             } catch (err) {
               ws.log('[catch]', err)
             }
 
-            socket.onOpen()
+          }
+        });
+      },
+      error: (err) => {
+        ws.log('err', err)
+        setTimeout(() => socket.join(), 10000)
+      }
+    });
+  },
+  leave() {
+    try {
+      if (socket.socketd.readyState === socket.socketd.OPEN && socket.isJoined) socket.socketd.send(`42["leave",{"streamId":${socket.streamId}}]`);
+    } catch (err) {
+      ws.log('[catch]', err)
+    }
+    socket.isLiveInited = false
+    socket.isJoined = false
+    socket.isJoining = false
+    socket.clearData()
+  },
+  start() {
+    this.socketd = new WebSocket("wss://chat.wasd.tv/socket.io/?EIO=3&transport=websocket");
 
-            socket.intervalcheck = setInterval(() => {
-              if (socket.socketd) {
-                try {
-                  if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send('2')
-                } catch (err) {
-                  ws.log('[catch]', err)
-                }
-              }
-            }, 5000)
-
-          })
+    this.socketd.onopen = (e) => {
+      socket.intervalcheck = setInterval(() => {
+        if (socket.socketd) {
+          try {
+            if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send('2')
+          } catch (err) {
+            ws.log('[catch]', err)
+          }
         }
-      });
+      }, 10000)
     };
 
     this.socketd.onclose = (e) => {
       if (HelperWASD.current?.user_profile?.user_id && socket.isJoined) {
         socket.isJoined = false
+        socket.isJoining = false
         $.ajax({
           url: `${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`,
           type: "POST",
@@ -136,20 +111,9 @@ const socket = {
       }
 
       clearInterval(socket.intervalcheck)
-      clearInterval(socket.intervalSave)
-      clearInterval(socket.intervalWatchChannel)
-      socket.socketd = null
-      socket.streamId = 0
-
-      if (e.code == 1005) {
-        ws.log('[close] Соединение прервано');
-        socket.start()
-      } else if (e.code == 404 || e.wasClean) {
-        ws.log(`[close] Соединение закрыто чисто, код =`, e.code, `причина =`, e.reason);
-      } else {
-        ws.log('[close] Соединение прервано');
-        socket.start()
-      }
+      socket.clearData()
+      ws.log('[close] Соединение прервано');
+      socket.start()
     };
 
     this.socketd.onmessage = (e) => {
@@ -174,7 +138,9 @@ const socket = {
           case "joined":
             // console.log(`[${JSData[0]}] ${JSData[1].user_channel_role}`, JSData);
             socket.isJoined = true
+            socket.isJoining = false
             socket.watchChannelInterval()
+            $('.websocket_loader[ovg]')?.css('display', 'none')
             break;
           case "system_message":
             // console.log(`[${JSData[0]}] ${JSData[1].message}`, JSData);
@@ -219,7 +185,7 @@ const socket = {
             break;
           case "leave":
             // console.log(`[${JSData[0]}] ${JSData[1].streamId}`, JSData);
-            socket.socketd.close(1000, 'leave')
+            // socket.socketd.close(1000, 'leave')
             break;
           case "user_ban":
             // console.log(`[${JSData[0]}] ${JSData[1].payload.user_login}`, JSData);
@@ -229,7 +195,8 @@ const socket = {
             break
           case "streamStopped":
             // console.log(`[${JSData[0]}] ${JSData[1].streamId}`, JSData);
-            socket.socketd.close(1000, 'streamStopped')
+            // socket.socketd.close(1000, 'streamStopped')
+            // socket.leave()
             break
           default:
             // console.log('def', code, JSData);
@@ -241,12 +208,22 @@ const socket = {
 
     this.socketd.onerror = (err) => {
       clearInterval(socket.intervalcheck)
-      clearInterval(socket.intervalSave)
-      clearInterval(socket.intervalWatchChannel)
-      socket.socketd = null
-      socket.streamId = 0
+      socket.clearData()
       ws.log(`[error]`, err);
+      socket.start()
     };
+  },
+  clearData() {
+    socket.streamId = 0
+    socket.channelId = 0
+    socket.channel = null
+    socket.stream_url = null
+
+    clearInterval(socket.intervalSave)
+    clearInterval(socket.intervalWatchChannel)
+
+    document.querySelector(`.WebSocket_history`)?.remove()
+    document.querySelector('.hidden.info__text__status__name')?.remove()
   },
   hash(length) {
     let result = '';
@@ -255,13 +232,6 @@ const socket = {
     for ( let i = 0; i < length; i++ ) { result += characters.charAt(Math.floor(Math.random() * charactersLength)); }
     return result;
   },
-  onOpen() {
-    $('.websocket_loader[ovg]')?.css('display', 'none')
-    socket.intervalSave = setInterval(() => socket.saveUserList(), 30000)
-    socket.intervalWatchChannel = setInterval(() => socket.watchChannelInterval(), 300000)
-    socket.saveUserList()
-    socket.saveMessagesList()
-  },
   addWebSocket_history(JSData) {
     if (this.WebSocket_history && this.WebSocket_history.children.length >= Number(settings.wasd.limitHistoryUsers) + 1 && settings.wasd.limitHistoryUsers != 0) {
       this.WebSocket_history.firstElementChild.remove()
@@ -269,12 +239,12 @@ const socket = {
 
     // console.log(JSData)
 
-  	let user = document.createElement('div')
-		user.classList.add('user_ws')
-		user.setAttribute('user_login', JSData.user_login)
-		user.setAttribute('user_loginLC', JSData.user_login.toLowerCase())
-		user.setAttribute('user_id', JSData.user_id)
-		if (typeof JSData.meta?.days_as_sub == 'number') user.setAttribute('days_as_sub', JSData.meta.days_as_sub)
+    let user = document.createElement('div')
+    user.classList.add('user_ws')
+    user.setAttribute('user_login', JSData.user_login)
+    user.setAttribute('user_loginLC', JSData.user_login.toLowerCase())
+    user.setAttribute('user_id', JSData.user_id)
+    if (typeof JSData.meta?.days_as_sub == 'number') user.setAttribute('days_as_sub', JSData.meta.days_as_sub)
 
     isMod = (JSData) => {
       if (JSData) {
@@ -342,7 +312,7 @@ const socket = {
     if (isPromoCodeWin(JSData)) role += ' promowin'
     if (isPartner(JSData)) role += ' partner'
     user.setAttribute('role', role)
-		user.style.display = 'none'
+    user.style.display = 'none'
 
     let old = this.WebSocket_history.querySelector(`.user_ws[user_login="${JSData.user_login}"]`)
     if (old) {

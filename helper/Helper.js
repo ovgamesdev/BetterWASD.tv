@@ -132,7 +132,9 @@ const Helper = {
         emotesAutoComplete: 1,
         emotesAutoCompleteIgnoreLowerCase: false,
         recentMessagesOnArrows: false,
-        deletedMessageStyle: 0
+        deletedMessageStyle: 0,
+        blurInfoSiteGoesDown: false,
+        hideOfflineChannelsOnNavSidebar: false
       },
       list: {
         blockUserList: {},

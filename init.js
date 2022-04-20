@@ -78,6 +78,13 @@ let settings = Helper.getDefaultSettings();
 
 // initialization
 let initialize = async () => {
+  if (chrome.runtime?.id) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = chrome.runtime.getURL('ctx.js')
+    document.head.appendChild(script);
+  }
+
   try {
     settings = await Helper.getSettings();
     if (typeof settings === 'undefined') {
@@ -86,7 +93,9 @@ let initialize = async () => {
   } catch (e) {
     ovg.log('catch', e);
   }
+  
   BetterStreamChat.init();
+  socket.start()
 };
 
 if (!new URL(document.URL).pathname.includes("/api/")) initialize();
@@ -271,33 +280,4 @@ document.onfullscreenchange = (v) => {
     document.querySelector('.chat-container').classList.remove('theaterModeNoFS')
     document.querySelector('.content-wrapper').classList.remove('theaterModeNoFS')
   }
-}
-
-// const waitForNgElementToLoad = (tag, timeout = 10) => {
-//   return new Promise((resolve, reject) => {
-//     const interval = setInterval(function () {
-//       const el = document.querySelector(tag);
-//       if (el && el.__ngContext__) {
-//         clearInterval(interval);
-//         resolve();
-//       }
-//     }, 500);
-//     setTimeout(() => {
-//       clearInterval(interval);
-//       reject(`Element ${tag} not found or timeout exceeded`);
-//     }, timeout * 1000);
-//   });
-// }
-
-// const getCtx = (tag) => {
-//   let el = typeof tag == 'string' ? document.querySelector(tag) : tag
-//   if (el && el.__ngContext__) return el.__ngContext__[el.__ngContext__.length - 1];
-//   return null;
-// }
-
-if (chrome.runtime?.id) {
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = chrome.runtime.getURL('ctx.js')
-  document.head.appendChild(script);
 }

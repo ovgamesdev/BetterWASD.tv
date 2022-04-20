@@ -211,6 +211,16 @@ const wasd = {
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('wasd-modal-window.show'));
 
+        const add_channel_item_navigation = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('a.channels__item'));
+
+
+        if (add_channel_item_navigation.length) {
+          const item = add_channel_item_navigation[0]
+          item.dataset.online = !!item.querySelector('.channels__item-online')
+        }
+
 
         if (add_wasd_modal_window.length) {
           let icons = add_wasd_modal_window[0].querySelector('.bonuses__icons')?.querySelectorAll('img')
@@ -292,7 +302,9 @@ const wasd = {
             }
 
             if (settings.wasd.recentMessagesOnArrows) {
-              if (e.keyCode == '38') {
+              let tail = $(input).taliner()
+
+              if (e.keyCode == '38' && tail.caretOnFirstLine) {
                 e.preventDefault()
                 // console.log('up')
 
@@ -308,10 +320,9 @@ const wasd = {
                   input.value = HelperWASD.selfMessagesHistory[cachedMessagesIdx]
                   input.dispatchEvent(new Event('input'))
                 }
-
               }
 
-              if (e.keyCode == '40') {
+              if (e.keyCode == '40' && tail.caretOnLastLine) {
                 e.preventDefault()
                 // console.log('down')
 
@@ -391,7 +402,30 @@ const wasd = {
 
         if (add_user_item.length) {
           let username = add_user_item[0].querySelector('.item') ? add_user_item[0].querySelector('.users__item-name') : null
+          let modRef = add_user_item[0].querySelector('.is-moderator')
+          let ownerRef = add_user_item[0].querySelector('.is-owner')
+
           if (username) {
+
+            if (modRef && settings.wasd.showModeratorBadge.toString() == '2') {
+              modRef.classList.remove('is-moderator')
+              modRef.querySelector('.icon.wasd-icons-moderator').remove()
+              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", '<div class="info__text__status-ovg-badge" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/moderator.webp) rgb(0,173,3);"></div>');
+            }
+            if (ownerRef && settings.wasd.showOwnerBadge.toString() == '2') {
+              ownerRef.classList.remove('is-owner')
+              ownerRef.querySelector('.icon.wasd-icons-owner').remove()
+              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", '<div class="info__text__status-ovg-badge" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/owner.webp) rgb(233,25,22);"></div>');
+            }
+
+
+
+            let userPaint = HelperBWASD.paints[username.textContent.trim()]
+            if (userPaint) username.innerHTML = username.innerHTML.replace(/> ([a-zA-Z0-9_-]+) /i, ($0) => {
+              let username = settings.wasd.userNameEdited[$0.split('>').join('').trim()];
+              if (!username) username = $0.split('>').join('').trim()
+              return `><span ${userPaint.length<7?'data-betterwasd-paint="'+userPaint+'"':'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}>${username}</span>`
+            })
             
             let allbadge = HelperBWASD.badges[username.textContent.trim()]
             if (allbadge && allbadge.badges.length > 0) {
@@ -399,13 +433,6 @@ const wasd = {
                 add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
               }
             }
-
-            let userPaint = HelperBWASD.paints[username.textContent.trim()]
-            if (userPaint) username.innerHTML = username.innerHTML.replace(/> ([a-zA-Z0-9_-]+) /i, ($0) => {
-              let username = settings.wasd.userNameEdited[$0.split('>').join('').trim()];
-              if (!username) username = $0.split('>').join('').trim()
-              return `><span data-betterwasd-paint="${userPaint}">${username}</span>`
-            })
 
             let userSub = HelperWASD.subscribers[username.textContent.trim()]
             if (userSub && settings.wasd.subscriberOnUserList) {
@@ -424,27 +451,10 @@ const wasd = {
         }
 
         if (add_chat.length) {
-          HelperWASD.loadBwasdData()
-          socket.initChat()
-
-          HelperBWASD.emotes = {}
-          HelperBWASD.subBadges = {}
-
-          HelperWASD.isModerator = false
-          HelperWASD.getIsModerator().then((resolve) => {
-            HelperWASD.isModerator = resolve
-            wasd.updatestyle();
-          })
-
-          HelperWASD.createPinMessages();
-
-          document.querySelector('.update > i').classList.remove('resetPlayerLoading');
+          HelperWASD.add_chat()
         }
         if (remove_chat.length) {
-          socket.socketd?.close(1000, 'removedNodes')
-
-          document.querySelector(`.WebSocket_history`)?.remove()
-          document.querySelector('.hidden.info__text__status__name')?.remove()
+          socket.leave()
         }
 
         if (add_player_buttons_stream.length) {
@@ -548,6 +558,11 @@ const wasd = {
 
       if (location.href !== wasd.href) {
         wasd.href = location.href;
+
+        if (location.href.toLowerCase().indexOf(socket.channel?.channel?.channel_name?.toLowerCase()) == -1) {
+          socket.leave()
+          HelperWASD.add_chat();
+        }
 
         if (location.href.indexOf(HelperWASD.TMChannel) == -1) {
           let playerWrapper = document.querySelector('.player-wrapper')
@@ -1033,7 +1048,7 @@ const wasd = {
       cssCode += `.ovg-copy-tools {display: none !important;}`
     }
 
-    if (!settings.wasd.showPartnerIcon) {
+    if (!settings.wasd.showPartnerIcon || settings.wasd.showPartnerIcon.toString() == '2') {
       cssCode += `.message__info__text .message__partner {display: none !important;}`
     }
 
@@ -1128,6 +1143,10 @@ const wasd = {
       cssCode += '.message-text_deleted {text-decoration: line-through;color: inherit !important;}'
     }
 
+    if (settings.wasd.hideOfflineChannelsOnNavSidebar) cssCode += '#nav-sidebar .channels__list .channels__item[data-online="false"] {display: none !important}'
+
+    if (settings.wasd.blurInfoSiteGoesDown) cssCode += 'body > div#info {filter: blur(5px);}'
+
     if (wasd.style) {
       if (typeof wasd.style.styleSheet !== 'undefined') {
         wasd.style.styleSheet.cssText = cssCode;
@@ -1211,7 +1230,28 @@ const wasd = {
       if (usernameTextCached) node.dataset.username = usernameTextCached
       if (usernameTextCached) node.dataset.usernamelc = usernameTextCached.toLowerCase()
 
-      if (sticker) node.querySelector('img.sticker').insertAdjacentHTML("afterend", `<span class="chat-message-text stickertext sticker_text">Стикер</span>`)
+      if (sticker) {
+        let img = node.querySelector('img.sticker')
+        img.insertAdjacentHTML("afterend", `<span class="chat-message-text stickertext sticker_text">Стикер</span>`)
+        // setTimeout(() => {
+        //   img.title = node.dataset.sticker_name
+        //   $(img).tooltip({
+        //     classes: { "ui-tooltip": "ui-ovg-tooltip" },
+        //     content: node.dataset.sticker_name,
+        //     show: false,
+        //     hide: false,
+        //     position: {
+        //       my: "center bottom",
+        //       at: "center top-5",
+        //       within: $('wasd-chat')
+        //     }
+        //   });
+        //   img.addEventListener('click', () => {
+        //     window.open('')
+        //   })
+
+        // }, 50)
+      }
 
       let msg_time = node.querySelector('.message__time')
       if (msg_time) {
@@ -1240,13 +1280,13 @@ const wasd = {
 
         if (settings.wasd.userNameEdited[nicknamediv.textContent.trim()]) {
           nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
-            let paint = HelperBWASD.paints[$0.trim()]
-            return `<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''}> ${settings.wasd.userNameEdited[$0.trim()]} </span>`
+            let userPaint = HelperBWASD.paints[$0.trim()]
+            return `<span ${!userPaint?'':userPaint.length<7?'data-betterwasd-paint="'+userPaint+'"':'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}> ${settings.wasd.userNameEdited[$0.trim()]} </span>`
           })
         } else {
           nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
-            let paint = HelperBWASD.paints[$0.trim()]
-            return `<span ${paint ? 'data-betterwasd-paint="' + paint + '"' : ''}> ${$0.trim()} </span>`
+            let userPaint = HelperBWASD.paints[$0.trim()]
+            return `<span ${!userPaint?'':userPaint.length<7?'data-betterwasd-paint="'+userPaint+'"':'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}> ${$0.trim()} </span>`
           })
         }
       }
@@ -1591,22 +1631,6 @@ const wasd = {
               })
             }
           })
-        }
-      }
-
-      if (settings.wasd.copyMessage) {
-        let messageInfoStatus = node.querySelector('div.info__text__status')
-        if (messageInfoStatus) {
-          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-copy-tools button copy"><i class="icon-ovg wasd-icons-copy"></i></div>`);
-
-          messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.copy').addEventListener('click', ({ target }) => {
-            if (messageTextCached) {
-              copyTextToClipboard(messageTextCached)
-              HelperWASD.showChatMessage('Сообщение скопировано', 'success');
-            } else {
-              HelperWASD.showChatMessage('Не удалось скопировать сообщение', 'warning');
-            }
-          });
         }
       }
 
@@ -2065,21 +2089,28 @@ const wasd = {
         node.querySelector('.message').classList.add('has-mention-ovg')
       }
 
-      let allbadge = HelperBWASD.badges[usernameTextCached]
-      if (allbadge && allbadge.badges.length > 0) {
-        for (let badg of allbadge.badges) {
-          node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
-        }
-      }
-
       for (let paint in HelperBWASD.paints) {
         for (let user of document.querySelectorAll(`.chat-message-mention[data-username="@${paint}"]`)) {
-          user.dataset.betterwasdPaint = HelperBWASD.paints[paint]
+          let color = HelperBWASD.paints[paint]
+          if (HelperBWASD.paints[paint].length < 7) {
+            user.dataset.betterwasdPaint = color
+          } else if (HelperBWASD.paints[paint].length) {
+            user.style.color = color
+            user.dataset.betterwasdPaintColor = color
+          }
         }
       }
 
-      let paint = HelperBWASD.paints[usernameTextCached]
-      if (paint) node.querySelector('.info__text__status__name > span').dataset.betterwasdPaint = paint
+      let userPaint = HelperBWASD.paints[usernameTextCached]
+      if (userPaint) {
+        let user = node.querySelector('.info__text__status__name > span')
+        if (userPaint.length < 7) {
+          user.dataset.betterwasdPaint = userPaint
+        } else if (userPaint.length) {
+          user.style.color = userPaint
+          user.dataset.betterwasdPaintColor = userPaint
+        }
+      }
 
       let tooltips = node.querySelectorAll(".tooltip-wrapper");
       for (let tooltip of tooltips) {
@@ -2102,21 +2133,32 @@ const wasd = {
       ownerRef       = node.querySelector('.is-owner')
       subRef         = node.querySelector('.info__text__status-paid')
       promoCodeWin   = node.querySelector('.message__promocodes')
+      partnerRef     = node.querySelector('.message__partner')
 
-      if (modRef && !settings.wasd.showModeratorBadge) {
+      if (modRef && (!settings.wasd.showModeratorBadge || settings.wasd.showModeratorBadge.toString() == '2')) {
         modRef.classList.remove('is-moderator')
         modRef.querySelector('.icon.wasd-icons-moderator').remove()
         let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
         if (c) { node.querySelector('.info__text__status__name').style.color = c
         } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(modRef) }
       }
+      if (modRef && settings.wasd.showModeratorBadge.toString() == '2') {
+        node.querySelector('.info__text__status__name').insertAdjacentHTML("beforebegin", '<div class="info__text__status-ovg-badge" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/moderator.webp) rgb(0,173,3);"></div>');
+      }
 
-      if (ownerRef && !settings.wasd.showOwnerBadge) {
+      if (partnerRef && settings.wasd.showPartnerIcon.toString() == '2') {
+        node.querySelector('.info__text__status__name').insertAdjacentHTML("beforebegin", '<div class="info__text__status-ovg-badge" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/partner.webp) rgb(145,70,255);"></div>');
+      }
+
+      if (ownerRef && (!settings.wasd.showOwnerBadge || settings.wasd.showOwnerBadge.toString() == '2')) {
         ownerRef.classList.remove('is-owner')
         ownerRef.querySelector('.icon.wasd-icons-owner').remove()
         let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
         if (c) { node.querySelector('.info__text__status__name').style.color = c
         } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(ownerRef) }
+      }
+      if (ownerRef && settings.wasd.showOwnerBadge.toString() == '2') {
+        node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", '<div class="info__text__status-ovg-badge" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/owner.webp) rgb(233,25,22);"></div>');
       }
 
       if (adminRef && !settings.wasd.showAdminBadge) {
@@ -2138,6 +2180,29 @@ const wasd = {
       if (subRef) {
         for (let badge in HelperBWASD.subBadges) {
           if (subRef.style.backgroundImage.match(badge)) subRef.style.backgroundImage = HelperBWASD.subBadges[badge]
+        }
+      }
+
+      let allbadge = HelperBWASD.badges[usernameTextCached]
+      if (allbadge && allbadge.badges.length > 0) {
+        for (let badg of allbadge.badges) {
+          node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
+        }
+      }
+
+      if (settings.wasd.copyMessage) {
+        let messageInfoStatus = node.querySelector('div.info__text__status')
+        if (messageInfoStatus) {
+          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-copy-tools button copy"><i class="icon-ovg wasd-icons-copy"></i></div>`);
+
+          messageInfoStatus.querySelector('.info__text__status-paid-ovg.button.copy').addEventListener('click', ({ target }) => {
+            if (messageTextCached) {
+              copyTextToClipboard(messageTextCached)
+              HelperWASD.showChatMessage('Сообщение скопировано', 'success');
+            } else {
+              HelperWASD.showChatMessage('Не удалось скопировать сообщение', 'warning');
+            }
+          });
         }
       }
 

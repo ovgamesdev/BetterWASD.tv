@@ -19,3 +19,11 @@
 [data-betterwasd-paint="13"] { background-size: 200% auto; transition: 0.5s; background-image: linear-gradient(to right, #403B4A 0%, #E7E9BB  51%, #403B4A  100%) !important; }
 *:hover > [data-betterwasd-paint="13"] { background-position: right center; }
 
+[data-betterwasd-paint="14"] { background-size: cover; filter: inherit; background-image: linear-gradient(to right, #ec008c, #fc6767); }
+[data-betterwasd-paint="15"] { background-size: cover; filter: inherit; background-image: linear-gradient(to right, #00dbde 0%, #fc00ff 100%); }
+[data-betterwasd-paint="16"] { background-size: cover; filter: inherit; background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%); }
+[data-betterwasd-paint="17"] { background-size: cover; filter: inherit; background-image: linear-gradient(65.9deg, rgb(85, 228, 224) 5.5%, rgba(75, 68, 224, 0.74) 54.2%, rgb(64, 198, 238) 55.2%, rgb(177, 36, 224) 98.4%); }
+[data-betterwasd-paint="18"] { background-size: cover; filter: inherit; background-image: linear-gradient(111.6deg, rgb(73, 235, 221) 0%, rgb(83, 222, 219) 7.1%, rgb(105, 191, 217) 13.4%, rgb(127, 157, 214) 18%, rgb(155, 113, 208) 23.9%, rgb(178, 73, 201) 28.8%, rgb(200, 45, 192) 33.3%, rgb(213, 42, 180) 38%, rgb(232, 44, 145) 44.2%, rgb(239, 45, 128) 52.4%, rgb(249, 66, 107) 59.7%, rgb(252, 105, 98) 67.3%, rgb(252, 105, 98) 74.4%, rgb(254, 145, 92) 82.2%, rgb(255, 189, 86) 88.2%, rgb(254, 227, 80) 92.8%, rgb(254, 248, 75) 98.4%); }
+[data-betterwasd-paint="19"] { background-size: cover; filter: inherit; background-image: linear-gradient(90deg, rgb(2, 250, 70) -1.7%, rgb(2, 238, 250) 21.1%, rgb(174, 8, 237) 46%, rgb(237, 8, 117) 64.2%, rgb(237, 8, 117) 81%, rgb(248, 136, 0) 97.2%); }
+[data-betterwasd-paint="20"] { background-size: cover; filter: inherit; background-image: linear-gradient(109.6deg, rgb(173, 250, 145) 11.2%, rgb(46, 252, 99) 91.1%); }
+[data-betterwasd-paint="21"] { background-size: cover; filter: inherit; background-image: linear-gradient(90.5deg, rgb(35, 210, 255) 0.3%, rgb(74, 104, 247) 18.2%, rgb(133, 80, 255) 36.4%, rgb(198, 59, 243) 52.5%, rgb(250, 84, 118) 68.8%, rgb(255, 223, 67) 99.9%); }
