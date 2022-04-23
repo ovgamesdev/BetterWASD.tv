@@ -14,6 +14,26 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.6.2',
+        date: '2022-04-22T00:50:56.564Z',
+        items: [{
+          text: [
+            `Показать значки партнера - Теперь работает в профиле.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            'Формат отметок времени.',
+            'Скрыть каналы не в сети'
+          ],
+          label: 'fixed'
+        }, {
+          text: [
+            `Карточка пользователя - Средства модератора.`
+          ],
+          label: 'changed'
+        }]
+      }, {
         version: '1.6.1',
         date: '2022-04-21T00:10:56.564Z',
         items: [{
@@ -473,7 +493,7 @@ const BetterStreamChat = {
         <input id="importInput" type="file" accept=".backup, .backup.txt" style="display: none;">
 
         <div style="top: 48px;right: 0px;position: absolute;">
-          <img src="https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/betterwasd_qr_tg.webp" style="width: 140px;margin: 10px;">
+          <img src="${git_url}/betterwasd_qr_tg.webp" style="width: 140px;margin: 10px;">
         </div>
 
         <div class="bottom footer">

@@ -44,7 +44,7 @@ const socket = {
             socket.stream_url = HelperWASD.getStreamBroadcastsUrl()
 
             if (!socket.streamId) {
-              if (typeof socket.channel.media_container == "undefined") {
+              if (typeof socket.channel?.media_container == "undefined") {
                 socket.streamId = socket.channel.media_container_streams[0].stream_id
               } else {
                 if (typeof socket.channel?.media_container?.media_container_streams[0] == 'undefined') return

@@ -18,6 +18,7 @@
       "css/ovg_viewer-user-card.css",
       "css/ovg_username.css",
       "css/ovg_dropdown.css",
+      "css/ovg_footer.css",
       "lib/coloris/coloris.min.css",
       "lib/alertify/css/alertify.css"
     ],
@@ -27,6 +28,8 @@
       "lib/jquery/jquery.ui.js",
       "lib/jquery/attrchange.js",
       "lib/moment/moment.min.js",
+      "lib/moment/locales.js",
+      "lib/moment/moment-with-locales.js",
       "lib/strip-combining-marks/strip-combining-marks.js",
       "lib/betterwasd.js",
       "lib/coloris/coloris.min.js",
@@ -70,5 +73,5 @@
   "minimum_chrome_version": "88",
   "permissions": ["storage", "notifications"],
   "host_permissions": ["*://*.wasd.tv/*"],
-  "version": "1.6.1"
+  "version": "1.6.2"
 }

@@ -269,6 +269,10 @@ a:hover ovg-tooltip .tooltip,
   }
 }
 
+button.ovg .tooltip-content {
+  text-transform: none;
+}
+
 /* ui-tooltip */
 
 .ui-ovg-tooltip {

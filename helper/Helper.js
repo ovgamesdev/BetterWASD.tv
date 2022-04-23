@@ -65,7 +65,7 @@ const Helper = {
         onClickUser: "2",
         removeMentionBL: true,
         hidePanelMobile: true,
-        formatMessageSentTime: "HH:mm",
+        formatMessageSentTime: false,
         highlightMessagesOpenCard: false,
         highlightMessagesOpenCardColor: "rgba(var(--wasd-color-switch--rgb),.08)",
         alwaysOpenVolumeControl: false,
@@ -287,7 +287,7 @@ const Helper = {
             div.classList.add('ovg')
             div.setAttribute('bell_id', data[info]._id)
             if (data[info].link) linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${data[info].link}"> ${data[info].linkText ? data[info].linkText : "Подробнее"} </a></div>`
-            div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${data[info].text} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${moment(data[info].date).format('DD.MM.YYYY')} </div>`
+            div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${HelperBWASD.replaceText(data[info].text)} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${moment(data[info].date).format('DD.MM.YYYY')} </div>`
             ovg_bell__element.querySelector('.bell-info__list').appendChild(div)
           }
 

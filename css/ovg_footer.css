@@ -1,0 +1,91 @@
+.footer__block__message textarea[ovg] {
+	display: none;
+  background: transparent;
+  border: none;
+  color: rgb(var(--color-switch));
+  cursor: text;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  height: 20px;
+  letter-spacing: normal;
+  line-height: 1.44;
+  min-height: 20px;
+  outline: none;
+  overflow: hidden;
+  padding: 0;
+  resize: none;
+  width: inherit
+}
+
+.footer__block__message textarea[ovg]::-moz-placeholder {
+  color: rgba(var(--color-switch), .64)
+}
+
+.footer__block__message textarea[ovg]::placeholder {
+  color: rgba(var(--color-switch), .64)
+}
+
+.footer__block__message textarea[ovg]:focus {
+  caret-color: rgb(var(--color-system-blue))
+}
+
+.footer__block__btn[ovg] {
+  align-items: center;
+  cursor: pointer;
+  display: none;
+  flex-direction: row
+}
+
+./*footer__icons-position[ovg] {
+  align-items: flex-end;
+  position: relative
+}*/
+
+.footer__disabled[ovg] {
+  color: rgba(var(--color-switch), .64);
+  font-size: 14px;
+  letter-spacing: normal;
+  line-height: 1.43;
+  padding: 8px
+}
+
+.was/*d-icons-money[ovg] {
+  font-size: 23px
+}*/
+
+.wasd-icons-send[ovg] {
+  color: rgba(var(--color-switch), .64);
+  cursor: pointer;
+  font-size: 19px
+}
+
+.icons-send-active[ovg] {
+  color: rgb(var(--color-system-blue))
+}
+
+.footer-border[ovg] {
+  position: relative
+}
+
+.footer-border[ovg]:before {
+  background: rgb(var(--color-system-blue));
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0
+}
+
+#chat-footer-block[command] .footer__block__btn:not([ovg]),
+#chat-footer-block[command] .footer__block__message textarea:not([ovg]) {
+	display: none;
+}
+
+#chat-footer-block[command] .footer__block__btn[ovg] {
+	display: flex;
+}
+
+#chat-footer-block[command] .footer__block__message textarea[ovg] {
+	display: block;
+}

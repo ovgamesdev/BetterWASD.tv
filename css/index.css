@@ -3292,6 +3292,13 @@ wasd-chat-subscribe-message .chat-message-mention {
   height: 16px;
   border-radius: 2px;
 }
+.tech-info-ovg.warning {
+  background-color: var(--wasd-color-warning);
+  color: var(--wasd-color-text-prime);
+  text-transform: uppercase;
+  font-size: 10px !important;
+  height: auto;
+}
 
 
 /* links_to */
@@ -3438,3 +3445,4 @@ wasd-chat-subscribe-message .chat-message-mention {
   left: 50%;
   transform: translate(-50%,-50%);
 }
+

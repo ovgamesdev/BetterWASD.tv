@@ -371,7 +371,9 @@ div.ovg.buttonsdiv {
   background: rgba(var(--wasd-color-switch--rgb), 0.08) !important;
   pointer-events: none;
 }
-.moderator.ban .go_unban > span {
-  margin-left: 10px;
-  font-size: 14px;
+.moderator.ban .go_unban span {
+  font-size: 12px;
+}
+.moderator .go_unban span.third {
+  color: var(--wasd-color-text-third);
 }

@@ -139,6 +139,10 @@ const HelperSettings = {
         type: 'select',
         items: [
           {
+            value: false,
+            label: 'По умолчанию'
+          },
+          {
             value: 'h:mm',
             label: '12 часов (2:15)'
           },

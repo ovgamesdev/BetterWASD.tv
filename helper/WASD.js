@@ -816,50 +816,75 @@ const HelperWASD = {
                   let user = out.result.find(user => user.user_id == data.user_id)
                   if (HelperWASD.isModerator) {
                     const setBanStatus = (by_user_login, created_at, expire_at) => {
-                      card.querySelector('.go_unban .by_user_login').textContent  = 'Пользователем: ' + by_user_login
-                      card.querySelector('.go_unban .created_at').textContent  = 'Дата бана: ' + moment(created_at).format('lll');
-                      card.querySelector('.go_unban .expire_at').textContent  = `Забанен до: ${expire_at ? moment(expire_at).format('lll') : '∞'}`
+                      card.querySelector('.go_unban .by_user_login').textContent  = 'от ' + by_user_login
+                      card.querySelector('.go_unban .created_at').title = moment(created_at).format('DD.MM.YY, в (HH:mm)')
+                      card.querySelector('.go_unban .created_at').textContent  = moment(created_at).fromNow();
+                      card.querySelector('.go_unban .expire_at').title = expire_at ? 'до ' + moment(expire_at).format('DD.MM.YY, в (HH:mm)') : ''
+                      let minut = Math.ceil(moment.duration( new Date(expire_at) - new Date(created_at) ).asMinutes())
+                      card.querySelector('.go_unban .expire_at').textContent  = `${expire_at ? 'отстранен на ' + minut + ` ${minut == 1 ? 'минуту' : 'минут'}` : 'забанен'}`
                     }
 
                     card.querySelector('.user_last_messages-ovg').insertAdjacentHTML("beforebegin", `
                       <div class="moderator disabled">
                         <div class="go_ban">
                           <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 10px;">
-                            <button class="basic ovg small ban" type="button">
+                            <button class="basic ovg small tooltip-hover ban" type="button">
                               <i class="wasd-icons-ban"></i>
+                              <ovg-tooltip>
+                                <div class="tooltip tooltip_position-topLeft tooltip_size-small" style="width: 260px;">
+                                  <div class="tooltip-content tooltip-content_left"> Отстранить </div>
+                                </div>
+                              </ovg-tooltip>
                             </button>
                           </wasd-button>
                           <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
-                            <button class="basic ovg small timeout1m" type="button">
+                            <button class="basic ovg small tooltip-hover timeout1m" type="button">
                               <i class="wasd-icons-sound-off"></i>
                               <span> 1 мин </span>
+                              <ovg-tooltip>
+                                <div class="tooltip tooltip_position-topLeft tooltip_size-small" style="width: 260px;">
+                                  <div class="tooltip-content tooltip-content_left"> Отстранить на 1 минуту </div>
+                                </div>
+                              </ovg-tooltip>
                             </button>
                           </wasd-button>
                           <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
-                            <button class="basic ovg small timeout10m" type="button">
+                            <button class="basic ovg small tooltip-hover timeout10m" type="button">
                               <i class="wasd-icons-sound-off"></i>
                               <span> 10 мин </span>
+                              <ovg-tooltip>
+                                <div class="tooltip tooltip_position-topLeft tooltip_size-small" style="width: 260px;">
+                                  <div class="tooltip-content tooltip-content_left"> Отстанить на 10 минут </div>
+                                </div>
+                              </ovg-tooltip>
                             </button>
                           </wasd-button>
                           <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin-left: 5px;">
-                            <button class="basic ovg small timeout1h" type="button">
+                            <button class="basic ovg small tooltip-hover timeout1h" type="button">
                               <i class="wasd-icons-sound-off"></i>
                               <span> 1 час </span>
+                              <ovg-tooltip>
+                                <div class="tooltip tooltip_position-topLeft tooltip_size-small" style="width: 260px;">
+                                  <div class="tooltip-content tooltip-content_left"> Отстранить на 1 час </div>
+                                </div>
+                              </ovg-tooltip>
                             </button>
                           </wasd-button>
                         </div>
-                        <div class="go_unban">
-                          <span style="display: flex;margin: 3px 10px;align-items: flex-end;">
-                            <wasd-button class="flat-btn ovg" wasdtooltip="">
-                              <button class="basic ovg small unban" type="button">
-                                <i class="icon wasd-icons-unban"></i>
-                              </button>
-                            </wasd-button>
-                            <h1 style="margin: 2px 10px;font-size: 14px;">Забанен</h1>
+                        <div class="go_unban" style="margin: 3px 10px;">
+                          <wasd-button class="flat-btn ovg" wasdtooltip="" style="margin: 0 0 3px 0;">
+                            <button class="basic ovg small tooltip-hover unban" type="button">
+                              <i class="icon wasd-icons-unban"></i>
+                              <ovg-tooltip>
+                                <div class="tooltip tooltip_position-topLeft tooltip_size-small" style="width: 260px;">
+                                  <div class="tooltip-content tooltip-content_left"> Разбанить </div>
+                                </div>
+                              </ovg-tooltip>
+                            </button>
+                          </wasd-button>
+                          <span class="third">
+                            <span class="expire_at tech-info-ovg warning"></span> • <span class="by_user_login"></span> • <span class="created_at"></span>
                           </span>
-                          <span class="by_user_login"></span>
-                          <span class="created_at"></span>
-                          <span class="expire_at"></span>
                         </div>
                       </div>
                       <div class="tw-c-background-alt-2 tw-pd-t-05 stickers">
@@ -998,14 +1023,14 @@ const HelperWASD = {
       }
       if (role.indexOf('owner') != -1) {
         if (settings.wasd.showOwnerBadge.toString() == '2') {
-          htmlroles.insertAdjacentHTML("beforeend", '<div class="info__text__status-ovg-badge tooltip-hover" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/owner.webp) rgb(233,25,22);"><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>');
+          htmlroles.insertAdjacentHTML("beforeend", `<div class="info__text__status-ovg-badge tooltip-hover" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>`);
         } else {
           htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-color: var(--wasd-color-event3);">   <i badge="" class="icon wasd-icons-owner" style="position: relative;top: 2px;">      </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Владелец канала </div></div></ovg-tooltip></div>`);
         }
       }
       if (role.indexOf('moderator') != -1) {
         if (settings.wasd.showModeratorBadge.toString() == '2') {
-          htmlroles.insertAdjacentHTML("beforeend", '<div class="info__text__status-ovg-badge tooltip-hover" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/moderator.webp) rgb(0,173,3);"><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Модератор </div></div></ovg-tooltip></div>');
+          htmlroles.insertAdjacentHTML("beforeend", `<div class="info__text__status-ovg-badge tooltip-hover" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Модератор </div></div></ovg-tooltip></div>`);
         } else {
           htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div" style="height: 20px; width: 20px; background-color: var(--wasd-color-gray2);">    <i badge="" class="icon wasd-icons-moderator" style="position: relative;top: 2px;">  </i></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Модератор </div></div></ovg-tooltip></div>`);
         }
@@ -1018,7 +1043,7 @@ const HelperWASD = {
       }
       if (role.indexOf('partner') != -1) {
         if (settings.wasd.showPartnerIcon.toString() == '2') {
-          htmlroles.insertAdjacentHTML("beforeend", '<div class="info__text__status-ovg-badge tooltip-hover" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/partner.webp) rgb(145,70,255);"><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Партнёр WASD.TV </div></div></ovg-tooltip></div>');
+          htmlroles.insertAdjacentHTML("beforeend", `<div class="info__text__status-ovg-badge tooltip-hover" style="background: url(${git_url}/badges/partner.webp) rgb(145,70,255);"><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Партнёр WASD.TV </div></div></ovg-tooltip></div>`);
         } else {
           htmlroles.insertAdjacentHTML("beforeend", `<div class="tooltip-hover" style="display: inline-grid;"> <div ovg="" class="badge_div message__partner" style="background-color: var(--wasd-color-gray2);width: 20px;"></div> <ovg-tooltip style="position: relative;"><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;margin: 0 0px 26px -2px;"><div class="tooltip-content tooltip-content_left"> Партнёр WASD.TV </div></div></ovg-tooltip></div>`);
         }
@@ -1409,7 +1434,7 @@ const HelperWASD = {
     let userPaint = HelperBWASD.paints[username.trim()]
     node.innerHTML = `<wasd-chat-message>
       <div class="message-ovg is-time${!!message?.match(HelperWASD.self_channel_name) ? ' has-mention' : ''}">
-        <div class="message__time-ovg"> ${moment(date_time).format(settings.wasd.formatMessageSentTime)} </div>
+        <div class="message__time-ovg"> ${moment(date_time).format(settings.wasd.formatMessageSentTime == 'false' ? 'HH:mm' : settings.wasd.formatMessageSentTime)} </div>
           <div class="message__info-ovg">
             <div class="message__info__text-ovg">
               <div class="info__text__status-ovg">
@@ -1725,7 +1750,7 @@ const HelperWASD = {
   updateFormatMessageSentTime(value) {
     for (let message of document.querySelectorAll('.block__messages__item.ovg')) {
       if (message.querySelector('.message__time') && message.dataset.time) {
-        message.querySelector('.message__time').textContent = moment(message.dataset.time).format(value)
+        message.querySelector('.message__time').textContent = moment(message.dataset.time).format(value == 'false' ? 'HH:mm' : value)
       }
     }
   },

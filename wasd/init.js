@@ -109,8 +109,6 @@ const wasd = {
         // }
 
 
-
-
         const add_chat = [...addedNodes]
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('wasd-chat-messages'));
@@ -218,7 +216,7 @@ const wasd = {
 
         if (add_channel_item_navigation.length) {
           const item = add_channel_item_navigation[0]
-          item.dataset.online = !!item.querySelector('.channels__item-online')
+          item.dataset.online = !!item.querySelector('.channels__item-icon-wrap').className.match('online')
         }
 
 
@@ -232,12 +230,28 @@ const wasd = {
         }
 
         if (add_wasd_chat_footer.length) {
+          const footer = add_wasd_chat_footer[0]
           let div = document.createElement('div')
           div.classList.add('footer__block__icons__item')
           div.classList.add('gifts')
           div.setAttribute('ovg', '')
           div.innerHTML = `<i class="icon wasd-icons-xp"></i>`
-          add_wasd_chat_footer[0].querySelector('.footer__block__icons').appendChild(div)
+          footer.querySelector('.footer__block__icons').appendChild(div)
+
+
+          // let textarea = document.createElement('textarea')
+          // textarea.maxlength = 240
+          // textarea.setAttribute('ovg', '')
+          // textarea.style.height = '20px'
+          // footer.querySelector('.footer__block__message')?.appendChild(textarea)
+          // textarea.onchange =  (e) => {console.log('ovg', e)}
+
+          // let btn = document.createElement('div')
+          // btn.className = 'footer__block footer__block__btn'
+          // btn.setAttribute('ovg', '')
+          // btn.innerHTML = '<div ovg=""><i ovg="" class="wasd-icons-send"></i></div>'
+          // footer.appendChild(btn)
+          // btn.addEventListener('click', (e) => {console.log('click ovg')})
 
           div.addEventListener('click', () => {
             let giftsInfo = document.querySelector('#giftsInfo')
@@ -252,7 +266,7 @@ const wasd = {
           })
 
 
-          const input = add_wasd_chat_footer[0].querySelector('textarea')
+          const input = footer.querySelector('textarea')
           let cachedFetchEmotes = []
           let cachedMatch = null
           let cachedIdx = null
@@ -260,7 +274,21 @@ const wasd = {
 
           let cachedMessagesIdx = null
 
+          // $(textarea).bind('keydown', (e) => {
+          //   input.value = e.target.value
+
+          //   if (e.target.value.slice(0,1) == '/') {
+          //     footer.setAttribute('command', '')
+          //   } else {
+          //     footer.removeAttribute('command')
+          //   }
+
+          //   if (e.keyCode == '13') {
+          //   }
+          // });
+
           $(input).bind('keydown', (e) => {
+            // textarea.value = e.target.value
 
             if (settings.wasd.emotesAutoComplete) {
               if (e.keyCode != '9') {
@@ -343,6 +371,15 @@ const wasd = {
               if (!(e.keyCode == '40' || e.keyCode == '38')) cachedMessagesIdx = null
             }
 
+            // if (e.target.value.slice(0,1) == '/') {
+            //   footer.setAttribute('command', '')
+            // } else {
+            //   footer.removeAttribute('command')
+            // }
+
+            // if (e.keyCode == '13') {
+            // }
+
           });
 
         }
@@ -410,12 +447,12 @@ const wasd = {
             if (modRef && settings.wasd.showModeratorBadge.toString() == '2') {
               modRef.classList.remove('is-moderator')
               modRef.querySelector('.icon.wasd-icons-moderator').remove()
-              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", '<div class="info__text__status-ovg-badge" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/moderator.webp) rgb(0,173,3);"></div>');
+              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"></div>`);
             }
             if (ownerRef && settings.wasd.showOwnerBadge.toString() == '2') {
               ownerRef.classList.remove('is-owner')
               ownerRef.querySelector('.icon.wasd-icons-owner').remove()
-              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", '<div class="info__text__status-ovg-badge" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/owner.webp) rgb(233,25,22);"></div>');
+              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"></div>`);
             }
 
 
@@ -1051,6 +1088,9 @@ const wasd = {
     if (!settings.wasd.showPartnerIcon || settings.wasd.showPartnerIcon.toString() == '2') {
       cssCode += `.message__info__text .message__partner {display: none !important;}`
     }
+    if (settings.wasd.showPartnerIcon.toString() == '2') {
+      cssCode += `.channel-info__description-title .channel-name .partner-label {background: url(${git_url}//badges/partner.webp) rgb(145, 70, 255) !important; border-radius: 2px !important; background-size: cover !important;}`
+    }
 
     if (settings.wasd.сhatLineSeparator.toString() === '1') {
       cssCode += `.block__messages__item, .block__messages__item-ovg {border-bottom: 1px solid rgba(var(--wasd-color-switch--rgb), .1);}`
@@ -1254,11 +1294,11 @@ const wasd = {
       }
 
       let msg_time = node.querySelector('.message__time')
-      if (msg_time) {
+      if (msg_time && settings.wasd.formatMessageSentTime != 'false') {
         if (node.dataset.time) {
           msg_time.textContent = moment(node.dataset.time).format(settings.wasd.formatMessageSentTime)
         } else {
-          msg_time.textContent = moment('2000-01-01T'+msg_time.textContent).format(settings.wasd.formatMessageSentTime)
+          msg_time.textContent = moment('2000-01-01T'+msg_time.textContent.trim()).format(settings.wasd.formatMessageSentTime)
           setTimeout(() => {
             if (node.dataset.time) msg_time.textContent = moment(node.dataset.time).format(settings.wasd.formatMessageSentTime)
           }, 50)
@@ -2143,11 +2183,11 @@ const wasd = {
         } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(modRef) }
       }
       if (modRef && settings.wasd.showModeratorBadge.toString() == '2') {
-        node.querySelector('.info__text__status__name').insertAdjacentHTML("beforebegin", '<div class="info__text__status-ovg-badge" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/moderator.webp) rgb(0,173,3);"></div>');
+        node.querySelector('.info__text__status__name').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"></div>`);
       }
 
       if (partnerRef && settings.wasd.showPartnerIcon.toString() == '2') {
-        node.querySelector('.info__text__status__name').insertAdjacentHTML("beforebegin", '<div class="info__text__status-ovg-badge" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/partner.webp) rgb(145,70,255);"></div>');
+        node.querySelector('.info__text__status__name').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/partner.webp) rgb(145,70,255);"></div>`);
       }
 
       if (ownerRef && (!settings.wasd.showOwnerBadge || settings.wasd.showOwnerBadge.toString() == '2')) {
@@ -2158,7 +2198,7 @@ const wasd = {
         } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(ownerRef) }
       }
       if (ownerRef && settings.wasd.showOwnerBadge.toString() == '2') {
-        node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", '<div class="info__text__status-ovg-badge" style="background: url(https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/release/badges/owner.webp) rgb(233,25,22);"></div>');
+        node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"></div>`);
       }
 
       if (adminRef && !settings.wasd.showAdminBadge) {
