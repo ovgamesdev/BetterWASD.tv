@@ -33,7 +33,7 @@ const socket = {
           document.body.append(this.WebSocket_history)
         }
 
-        HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login)
+        HelperBWASD.tryAddUser(socket.channel?.channel?.channel_owner?.user_id, socket.channel?.channel?.channel_owner?.user_login)
         HelperWASD.loadSubscribersData(socket.channelId)
 
         $.ajax({
@@ -45,10 +45,10 @@ const socket = {
 
             if (!socket.streamId) {
               if (typeof socket.channel?.media_container == "undefined") {
-                socket.streamId = socket.channel.media_container_streams[0].stream_id
+                socket.streamId = socket.channel?.media_container_streams[0]?.stream_id
               } else {
                 if (typeof socket.channel?.media_container?.media_container_streams[0] == 'undefined') return
-                socket.streamId = socket.channel.media_container.media_container_streams[0].stream_id
+                socket.streamId = socket.channel?.media_container?.media_container_streams[0]?.stream_id
               }
             }
 
@@ -75,7 +75,10 @@ const socket = {
   },
   leave() {
     try {
-      if (socket.socketd.readyState === socket.socketd.OPEN && socket.isJoined) socket.socketd.send(`42["leave",{"streamId":${socket.streamId}}]`);
+      if (socket.socketd.readyState === socket.socketd.OPEN && socket.isJoined) {
+        socket.socketd.send(`42["leave",{"streamId":${socket.streamId}}]`);
+        BetterWS.leave()
+      }
     } catch (err) {
       ws.log('[catch]', err)
     }
@@ -140,6 +143,7 @@ const socket = {
             socket.isJoined = true
             socket.isJoining = false
             socket.watchChannelInterval()
+            BetterWS.join()
             $('.websocket_loader[ovg]')?.css('display', 'none')
             break;
           case "system_message":

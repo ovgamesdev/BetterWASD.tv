@@ -1231,11 +1231,11 @@ span.chat-message-text.stickertext {
   0% {
     opacity: 0;
   }
-  100% opacity: 1;
+  100% {
+    opacity: 1;
+  }
 }
 
-
-}
 span.fade.helpTitleHover>img.nofade {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAB2AAAAdgB+lymcgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAT6SURBVHic7dpbiFVVGAfwnzOipePM2EtoF42iyzhkkJFZjZHSDSSCzJ56KcvEMO0hgh5KM5OIMIowSM0yshsVPWTQ7aWCIqhxtALL1HrQLqNi43hpelh7c/Y5Zy5n731m6LL/sOBwzl7/71t7fbf1rUOBAgUKFChQoECBAgUK/A8xagRlNaEdF+JMtKA10uFgNH7FTnThBxwfQf3qjgZcjlX4CifQl2IcwSd4EDMjvn8FTsP9wg6mWfBQ42esFSyobqinC0zHA7gZjRW/HRR28zNsx3eCuR/CX4J7tOJ0nIvzMQszMKYfWe9jDT6so/6ZcR7eFhaS3LHf8RxmY3RG7pNxPTZEfJVW8Tk6cuieC62CSR6tUKoTd+CkOssbi9vwheoX8Rqm1lneoJiHPRVKdGG+kcksV+CjCvl/CrFnWIPlKXhVtanfOdyCB8BN2Fuhz8dCLKk7ZmN3hbDNODUlTwtuxUrBtzdEnxegOYNezXhGeZrdh2szcA2I+4SiJBbwI65JyTEVL6FXtQ/HoxcvYkoGHS/DjgTXCSzNwFOGscIOJZV8CxNT8iwSCptac34PFmbQt0m1i66V0T0nC2kmJjoqBJm0QW5NhUKdws5Mw/hoTIu+66x4dnUGvUdFXMcSPG8KKbVmtAuVV0ywVyhK0mKRcvNebPDdaMQS5W6SxRIILnoowfOBGl/CDOxPTPwaZ2RQ4Cwls+/F1SnmzlF6CT2yxQSq17JVcOsBMRsHEhPeky0yE4JZzLM4w/x7EvNfyKgDtClPlW8YoDK9Sigm4gc3qq7pa0WL0g52ZuRpxDalk2HWjSCcLfYpre3pygcuwh+JB56Vr7BZkODKk4qWJXjm5+AhHNaSa7w7/qFNuZ88KX85+0iCry0HT3uCZ2VOnQixJT67HBX6Fb5PCFmnPrX8+gRnUw6eCQme5+ugFyEexZzfNEQfYtTrIFMvzuTcvgGfqh0NuKSSs9IFnvLfdIFGIZvEfPuTulUGiHXqFwTvzcGzPMGTJwhWLv6Afgq7DuVpcJPsnZxmpTS4TfY02KWUBidk1GU0XlZa12FcOdDDHcoLoa1CTs+CTQmeJRnmL03M35hRhya8m+A5hLlDTbpYedHQKVspOkUoY+NSeE6KuXOV0lWPcI+QFpOFdny8jt9waa2T25S3vH5JMzmBhQmOXqG8HcwdRgs7n+wz3p5B7kzlh7ndQjWYCpOENnZMcgwPSR8cVyc44piwTIjwTUo3RsuVfD4eq1LKio/CydPkp9FaMmGs8qKmD+8IvcE0WKjkDrWMHul3vll1M2SzlH2AgbBceUtsF65LyTFFCIyDdYaOCAEvrc/fEOmUtNY86bdfdOAn5Qq/Ir15NeMWrBCsaz0eFvJ82lQ3CVsqdNplkDSXFxOFRScFdgv1ddajcxY0Cqe5btUm3zoSCtyouh+/3fBfjDQI1pPs/vYJGWveMMrtFy14QnWbewfuwrg6yhon9Be/VR0zHpevWZIb5+B11Zej3YJ/z9X/De9QGBPNXa+8Ou0Tev5bcHZO3etqru3C9fgC1fHgsPLr8R1CZXYg0qFFSK0XRGOW0J8cX8FzQohBj0Y8/0hMFu4Pdqo97w819uAxI3wDnBcNQkm6El9K9xeZ49GcFUIJPmwXryP5J6lxgptMF+4ZWpVSVnc0dgv3EF3C0bxAgQIFChQoUKBAgQIFCgwH/gaEVQ3JOvX5AQAAAABJRU5ErkJggg==')
 }
@@ -3322,6 +3322,13 @@ wasd-chat-subscribe-message .chat-message-mention {
   padding: 0;
   width: 20px;
   background-position: center !important;
+}
+
+.info__text__status-ovg-badge i {
+  color: var(--wasd-color-white);
+  display: inline-block;
+  height: auto;
+  font-size: 14px;
 }
 
 .twitch_authorize_public:not(.disable) {

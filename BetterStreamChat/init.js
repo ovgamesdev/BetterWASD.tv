@@ -14,6 +14,21 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.6.3',
+        date: '2022-04-24T25:50:56.564Z',
+        items: [{
+          text: [
+            `BetterWASD_WS.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            'Формат отметок времени.',
+            'Показать значки создателя|модератора|партнера.'
+          ],
+          label: 'fixed'
+        }]
+      }, {
         version: '1.6.2',
         date: '2022-04-22T00:50:56.564Z',
         items: [{

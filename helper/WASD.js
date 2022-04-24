@@ -1079,16 +1079,12 @@ const HelperWASD = {
     }
   },
   download(filename, text) {
-    let element = document.createElement('a');
-    element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`);
-    element.setAttribute('download', filename);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
+    const blob = new Blob([text], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.setAttribute('download', filename);
+    a.setAttribute('href', window.URL.createObjectURL(blob));
+    a.click();
+    document.body.removeChild(a);
   },
   addUsernameToTextarea(username) {
     let textarea = document.querySelector('.footer > div >textarea');
@@ -1190,9 +1186,12 @@ const HelperWASD = {
 
         for (let paint in HelperBWASD.paints) {
           for (let user of [...document.querySelectorAll(`.info__text__status__name[data-username="${paint}"] > span`), ...document.querySelectorAll(`.chat-message-mention[data-username="@${paint}"]`)]) {
-            if (HelperBWASD.paints[paint].length < 7) {
+            if (HelperBWASD.paints[paint].length < 5) {
               user.dataset.betterwasdPaint = HelperBWASD.paints[paint]
-            } else if (HelperBWASD.paints[paint].length) {
+            } else if (HelperBWASD.paints[paint].match('gradient')) {
+              user.style.backgroundImage = HelperBWASD.paints[paint]
+              user.dataset.betterwasdPaint = ""
+            } else {
               user.style.color = HelperBWASD.paints[paint]
               user.dataset.betterwasdPaintColor = HelperBWASD.paints[paint]
             }
@@ -1439,7 +1438,7 @@ const HelperWASD = {
             <div class="message__info__text-ovg">
               <div class="info__text__status-ovg">
                 ${isSub ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star" role-card=""></i></div>` : ``}
-                <div data-username="${username}" data-usernamelc="${username.toLowerCase()}" class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''}<span ${!userPaint?'':userPaint.length<7?'data-betterwasd-paint="'+userPaint+'"':'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}>${newusername}</span></div>
+                <div data-username="${username}" data-usernamelc="${username.toLowerCase()}" class="info__text__status__name-ovg ${isModer ? 'is-moderator' : ''}${isOwner ? 'is-owner' : ''}${isAdmin ? 'is-admin' : ''}" style="${(settings.wasd.colonAfterNickname) ? `margin: 0px;` : ''}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ''}${isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ''}${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ''}<span ${!userPaint?'':userPaint.length<5?'data-betterwasd-paint="'+userPaint+'"': userPaint.match('gradient') ? ' data-betterwasd-paint="" style="background-image:'+userPaint+'"' : 'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}>${newusername}</span></div>
                 ${isPartner ? '<!--div class="message__partner-ovg"></div-->' : ''}
               </div>
               ${(settings.wasd.colonAfterNickname) ? `<span aria-hidden="true" id="colon-after-author-name-ovg" style=" margin-right: 4px; color: rgba(var(--wasd-color-switch--rgb),.88);left: -4px;position: relative;">: </span>` : '' }
@@ -1480,7 +1479,7 @@ const HelperWASD = {
         username = $1.trim().split('@').join('')
       }
       let userPaint = HelperBWASD.paints[$1.trim().split('@').join('')]
-      return `<span ${!userPaint?'':userPaint.length<7?'data-betterwasd-paint="'+userPaint+'"':'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'} style='color: ${HelperWASD.usercolor($1.trim())};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' data-username="${$1}" data-usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
+      return `<span ${!userPaint?'':userPaint.length<5?'data-betterwasd-paint="'+userPaint+'"': userPaint.match('gradient') ? ' data-betterwasd-paint="" style="background-image:'+userPaint+'"' : 'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'};' class='chat-message-mention${settings.wasd.onClickMention.toString() !== '0' ? ' click' : ''}' data-username="${$1}" data-usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
     });
 
     messageHTML.innerHTML = messageHTML.innerHTML.replace(/\+at\+/ig, '@')

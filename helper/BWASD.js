@@ -6,8 +6,6 @@ const HelperBWASD = {
   subBadges: {},
   paints: {},
   host: 'https://betterwasd.herokuapp.com',
-  // host: 'http://localhost:5000',
-  // ws: 'ws://localhost:9000/',
   updateSettings() {
     let bwasdEmoteList = BetterStreamChat.settingsDiv.querySelector('#bwasdEmoteList');
     bwasdEmoteList.innerText = '';

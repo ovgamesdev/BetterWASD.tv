@@ -49,6 +49,7 @@
       "helper/WASD.js",
       "helper/BWASD.js",
       "helper/WebSocket.js",
+      "helper/BetterWS.js",
       "wasd/init.js",
       "BetterStreamChat/init.js",
       "init.js"
@@ -73,5 +74,5 @@
   "minimum_chrome_version": "88",
   "permissions": ["storage", "notifications"],
   "host_permissions": ["*://*.wasd.tv/*"],
-  "version": "1.6.2"
+  "version": "1.6.3"
 }

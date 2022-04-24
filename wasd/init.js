@@ -447,12 +447,12 @@ const wasd = {
             if (modRef && settings.wasd.showModeratorBadge.toString() == '2') {
               modRef.classList.remove('is-moderator')
               modRef.querySelector('.icon.wasd-icons-moderator').remove()
-              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"></div>`);
+              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"><i class="icon"></i></div>`);
             }
             if (ownerRef && settings.wasd.showOwnerBadge.toString() == '2') {
               ownerRef.classList.remove('is-owner')
               ownerRef.querySelector('.icon.wasd-icons-owner').remove()
-              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"></div>`);
+              add_user_item[0].querySelector('.item').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"><i class="icon"></i></div>`);
             }
 
 
@@ -461,9 +461,9 @@ const wasd = {
             if (userPaint) username.innerHTML = username.innerHTML.replace(/> ([a-zA-Z0-9_-]+) /i, ($0) => {
               let username = settings.wasd.userNameEdited[$0.split('>').join('').trim()];
               if (!username) username = $0.split('>').join('').trim()
-              return `><span ${userPaint.length<7?'data-betterwasd-paint="'+userPaint+'"':'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}>${username}</span>`
+              return `><span ${!userPaint?'':userPaint.length<5?'data-betterwasd-paint="'+userPaint+'"': userPaint.match('gradient') ? ' data-betterwasd-paint="" style="background-image:'+userPaint+'"' : 'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}>${username}</span>`
             })
-            
+
             let allbadge = HelperBWASD.badges[username.textContent.trim()]
             if (allbadge && allbadge.badges.length > 0) {
               for (let badg of allbadge.badges) {
@@ -1294,7 +1294,7 @@ const wasd = {
       }
 
       let msg_time = node.querySelector('.message__time')
-      if (msg_time && settings.wasd.formatMessageSentTime != 'false') {
+      if (msg_time && settings.wasd.formatMessageSentTime.toString() != 'false') {
         if (node.dataset.time) {
           msg_time.textContent = moment(node.dataset.time).format(settings.wasd.formatMessageSentTime)
         } else {
@@ -1321,12 +1321,12 @@ const wasd = {
         if (settings.wasd.userNameEdited[nicknamediv.textContent.trim()]) {
           nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
             let userPaint = HelperBWASD.paints[$0.trim()]
-            return `<span ${!userPaint?'':userPaint.length<7?'data-betterwasd-paint="'+userPaint+'"':'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}> ${settings.wasd.userNameEdited[$0.trim()]} </span>`
+            return `<span ${!userPaint?'':userPaint.length<5?'data-betterwasd-paint="'+userPaint+'"': userPaint.match('gradient') ? ' data-betterwasd-paint="" style="background-image:'+userPaint+'"' : 'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}> ${settings.wasd.userNameEdited[$0.trim()]} </span>`
           })
         } else {
           nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
             let userPaint = HelperBWASD.paints[$0.trim()]
-            return `<span ${!userPaint?'':userPaint.length<7?'data-betterwasd-paint="'+userPaint+'"':'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}> ${$0.trim()} </span>`
+            return `<span ${!userPaint?'':userPaint.length<5?'data-betterwasd-paint="'+userPaint+'"': userPaint.match('gradient') ? ' data-betterwasd-paint="" style="background-image:'+userPaint+'"' : 'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}> ${$0.trim()} </span>`
           })
         }
       }
@@ -2132,11 +2132,14 @@ const wasd = {
       for (let paint in HelperBWASD.paints) {
         for (let user of document.querySelectorAll(`.chat-message-mention[data-username="@${paint}"]`)) {
           let color = HelperBWASD.paints[paint]
-          if (HelperBWASD.paints[paint].length < 7) {
-            user.dataset.betterwasdPaint = color
-          } else if (HelperBWASD.paints[paint].length) {
-            user.style.color = color
-            user.dataset.betterwasdPaintColor = color
+          if (HelperBWASD.paints[paint].length < 5) {
+            user.dataset.betterwasdPaint = HelperBWASD.paints[paint]
+          } else if (HelperBWASD.paints[paint].match('gradient')) {
+            user.style.backgroundImage = HelperBWASD.paints[paint]
+            user.dataset.betterwasdPaint = ""
+          } else {
+            user.style.color = HelperBWASD.paints[paint]
+            user.dataset.betterwasdPaintColor = HelperBWASD.paints[paint]
           }
         }
       }
@@ -2144,9 +2147,12 @@ const wasd = {
       let userPaint = HelperBWASD.paints[usernameTextCached]
       if (userPaint) {
         let user = node.querySelector('.info__text__status__name > span')
-        if (userPaint.length < 7) {
+        if (userPaint.length < 5) {
           user.dataset.betterwasdPaint = userPaint
-        } else if (userPaint.length) {
+        } else if (userPaint.match('gradient')) {
+          user.style.backgroundImage = userPaint
+          user.dataset.betterwasdPaint = ""
+        } else {
           user.style.color = userPaint
           user.dataset.betterwasdPaintColor = userPaint
         }
@@ -2183,11 +2189,11 @@ const wasd = {
         } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(modRef) }
       }
       if (modRef && settings.wasd.showModeratorBadge.toString() == '2') {
-        node.querySelector('.info__text__status__name').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"></div>`);
+        node.querySelector('.info__text__status__name').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"><i class="icon"></i></div>`);
       }
 
       if (partnerRef && settings.wasd.showPartnerIcon.toString() == '2') {
-        node.querySelector('.info__text__status__name').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/partner.webp) rgb(145,70,255);"></div>`);
+        node.querySelector('.info__text__status__name').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/partner.webp) rgb(145,70,255);"><i class="icon"></i></div>`);
       }
 
       if (ownerRef && (!settings.wasd.showOwnerBadge || settings.wasd.showOwnerBadge.toString() == '2')) {
@@ -2198,7 +2204,7 @@ const wasd = {
         } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(ownerRef) }
       }
       if (ownerRef && settings.wasd.showOwnerBadge.toString() == '2') {
-        node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"></div>`);
+        node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"><i class="icon"></i></div>`);
       }
 
       if (adminRef && !settings.wasd.showAdminBadge) {

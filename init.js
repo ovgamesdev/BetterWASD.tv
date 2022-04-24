@@ -97,6 +97,7 @@ let initialize = async () => {
   
   BetterStreamChat.init();
   socket.start()
+  BetterWS.start()
 };
 
 if (!new URL(document.URL).pathname.includes("/api/")) initialize();
