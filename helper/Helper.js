@@ -25,7 +25,7 @@ const Helper = {
         giftsWrapperTopRight: false,
         sticker: "0",
         stickerovg: "1",
-        paddingChatMessage: "4",
+        // paddingChatMessage: "4",
         colonAfterNickname: false,
         linkColor: "rgba(var(--wasd-color-switch--rgb),.88)",
         colorAtTheMention: true,
@@ -36,7 +36,7 @@ const Helper = {
         hideGiftButtons: false,
         highlightMessagesBold: true,
         streamerMessage: false,
-        fontSize: 14,
+        fontSize: 0,
         topPanel: false,
         topPanelChallenge: false,
         pictureInPicture: true,
@@ -134,7 +134,9 @@ const Helper = {
         recentMessagesOnArrows: false,
         deletedMessageStyle: 0,
         blurInfoSiteGoesDown: false,
-        hideOfflineChannelsOnNavSidebar: false
+        hideOfflineChannelsOnNavSidebar: false,
+        hideDescriptionHighlightedMsg: false,
+        highlightedMessageColor: "#00000000"
       },
       list: {
         blockUserList: {},

@@ -32,6 +32,7 @@ const HelperSettings = {
       },
       fontSize: {
         title: `Размер шрифта в пикселях ${Helper.BETA}`,
+        description: 'Используете <span class="tech-info-ovg">0</span> чтобы сбросить цвет.',
         type: 'number',
         min: 12.0,
         max: 18.0
@@ -77,6 +78,15 @@ const HelperSettings = {
       streamerMessage: {
         title: 'Скрыть сообщение стримеру (донат)',
         type: 'boolean'
+      },
+      hideDescriptionHighlightedMsg: {
+        title: 'Скрыть описание выделенного сообщения',
+        type: 'boolean'
+      },
+      highlightedMessageColor: {
+        title: 'Цвет выделенного сообщения',
+        description: 'Используете <span class="tech-info-ovg">#00000000</span> чтобы сбросить цвет.',
+        type: 'color'
       },
 
       addContextBlacklistAddUser: {
@@ -199,32 +209,32 @@ const HelperSettings = {
           }
         }
       },
-      paddingChatMessage: {
-        title: 'Заполнение сообщений чата',
-        type: 'select',
-        items: [
-          {
-            value: 0,
-            label: 'Twitch (5px 20px)'
-          },
-          {
-            value: 1,
-            label: 'YouTube (4px 24px)'
-          },
-          {
-            value: 2,
-            label: 'GoodGame (4px 9px)'
-          },
-          {
-            value: 3,
-            label: 'Другой (3px 15px)'
-          },
-          {
-            value: 4,
-            label: 'WASD (2px 12px)'
-          }
-        ]
-      },
+      // paddingChatMessage: {
+      //   title: 'Заполнение сообщений чата',
+      //   type: 'select',
+      //   items: [
+      //     {
+      //       value: 0,
+      //       label: 'Twitch (5px 20px)'
+      //     },
+      //     {
+      //       value: 1,
+      //       label: 'YouTube (4px 24px)'
+      //     },
+      //     {
+      //       value: 2,
+      //       label: 'GoodGame (4px 9px)'
+      //     },
+      //     {
+      //       value: 3,
+      //       label: 'Другой (3px 15px)'
+      //     },
+      //     {
+      //       value: 4,
+      //       label: 'WASD (2px 12px)'
+      //     }
+      //   ]
+      // },
 
 
       qw: {
@@ -1735,7 +1745,7 @@ const HelperSettings = {
             <div class="labelField">
               ${line ? '<div class="line"></div>' : ''}
               <span ${line ? 'class="titleline"' : 'class="title"'}> ${title} </span>
-              ${description ? `<span class="description"> ${description} </span>` : ''}
+              ${description ? `<span class="description"><p style="margin: 2px 0 0 0;"> ${description} </p></span>` : ''}
             </div>
 
             <div class="formField"> ${formField} </div>

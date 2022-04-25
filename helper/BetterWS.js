@@ -2,10 +2,10 @@ const BetterWS = {
   socket: null,
   intervalcheck: null,
   join() {
-    if (this.socket.readyState === this.socket.OPEN) this.socket.send(`42["join",{"streamerId":${socket.channel.channel.user_id}, "userId":${HelperWASD.current?.user_profile?.user_id?HelperWASD.current?.user_profile?.user_id:0}}]`);
+    if (this.socket.readyState === this.socket.OPEN && socket.channel?.channel && HelperWASD.current?.user_profile) this.socket.send(`42["join",{"streamerId":${socket.channel.channel.user_id}, "userId":${HelperWASD.current?.user_profile?.user_id?HelperWASD.current?.user_profile?.user_id:0}}]`);
   },
   leave() {
-    if (this.socket.readyState === this.socket.OPEN) this.socket.send(`42["leave",{"streamerId":${socket.channel.channel.user_id}, "userId":${HelperWASD.current?.user_profile?.user_id?HelperWASD.current?.user_profile?.user_id:0}}]`);
+    if (this.socket.readyState === this.socket.OPEN && socket.channel?.channel && HelperWASD.current?.user_profile) this.socket.send(`42["leave",{"streamerId":${socket.channel.channel.user_id}, "userId":${HelperWASD.current?.user_profile?.user_id?HelperWASD.current?.user_profile?.user_id:0}}]`);
   },
   start(isAutoJoin) {
     this.socket = new WebSocket("wss://betterwasd.herokuapp.com/"); // wss://betterwasd.herokuapp.com/   ws://localhost:5000

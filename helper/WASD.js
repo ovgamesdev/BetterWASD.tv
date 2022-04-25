@@ -1787,7 +1787,8 @@ const HelperWASD = {
 
       if (uptime && uptimetooltip) {
         HelperWASD.uptimeStreamTimer = setTimeout(function tick() {
-          let published_at = document.querySelector('wasd-channel')?document.querySelector('wasd-channel').dataset.publishedAt:'' || socket.channel?.media_container
+          let published_at = document.querySelector('wasd-channel') && document.querySelector('wasd-channel').dataset.publishedAt?.length > 9 ? document.querySelector('wasd-channel').dataset.publishedAt : socket.channel?.media_container?.published_at
+          if (document.querySelector('wasd-player .player-info__off')) return uptime?.remove()
           let date = new Date(published_at);
           if (uptime.innerHTML == '') {
             uptime.innerHTML = '<i _ngcontent-ykf-c54="" style="margin-right: 2.8px;margin-left: 2.8px;font-size: 14px;height: 14px;width: 14px;align-items: center;display: flex;justify-content: center;color: var(--wasd-color-text-fourth);" class="icon wasd-icons-freez"></i><input class="player-info__stat-value" value="00:00:00" readonly><ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> аптайм трансляции </div></div></ovg-tooltip>'
@@ -1812,8 +1813,8 @@ const HelperWASD = {
     if (value) {
 
       let uptime = document.querySelector('.stream-status-container .stream-status-text.live')
-      let published_at = document.querySelector('wasd-channel')?document.querySelector('wasd-channel').dataset.publishedAt:'' || socket.channel?.media_container?.published_at
-
+      let published_at = document.querySelector('wasd-channel') && document.querySelector('wasd-channel').dataset.publishedAt?.length > 9 ? document.querySelector('wasd-channel').dataset.publishedAt : socket.channel?.media_container?.published_at
+      if (document.querySelector('wasd-player .player-info__off')) return uptime?.remove()
       HelperWASD.uptimeStreamTimerMobile = setTimeout(function tick() {
         let date = new Date(published_at);
         uptime.textContent = moment.utc(new Date(new Date() - date)).format('HH:mm:ss');
@@ -2073,5 +2074,97 @@ const HelperWASD = {
     HelperWASD.createPinMessages();
 
     document.querySelector('.update > i').classList.remove('resetPlayerLoading');
+  },
+  inputEvents(input) {
+    let cachedFetchEmotes = []
+    let cachedMatch = null
+    let cachedIdx = null
+    let cachedEmotes = null
+
+    let cachedMessagesIdx = null
+    $(input).bind('keydown', (e) => {
+
+      if (settings.wasd.emotesAutoComplete) {
+        if (e.keyCode != '9') {
+          cachedFetchEmotes = []
+          cachedMatch = null
+          cachedIdx = null
+          cachedEmotes = null
+        } else {
+          e.preventDefault()
+          const start = input.selectionStart
+          const seg = input.value.slice(0, start)
+
+          if (!cachedMatch) cachedMatch = (seg.match(/\S+$/) || [])[0]
+
+          const toLC = (t = '') => settings.wasd.emotesAutoCompleteIgnoreLowerCase ? t.toString().toLowerCase() : t
+
+          if (!cachedFetchEmotes.length) {
+            cachedEmotes = [...new Set([ ...Object.keys(HelperBTTV.emotes), ...Object.keys(HelperBWASD.emotes), ...Object.keys(HelperFFZ.emotes), ...Object.keys(HelperTV7.emotes) ])]
+            if (settings.wasd.emotesAutoComplete.toString() == '1') {
+              cachedFetchEmotes = cachedEmotes.filter(x => toLC(x).startsWith(toLC(cachedMatch)))
+            } else if (settings.wasd.emotesAutoComplete.toString() == '2') {
+              cachedFetchEmotes = cachedEmotes.filter(x => toLC(x).match(toLC(cachedMatch)))
+            }
+          }
+
+          if (!cachedFetchEmotes.length) return
+
+          if (typeof cachedIdx != 'number') {
+            cachedIdx = 0
+          } else {
+            cachedIdx = (cachedIdx + 1) % cachedFetchEmotes.length
+          }
+
+          const newSeg = seg.replace(/\S+$/, cachedFetchEmotes[cachedIdx])
+          input.value = newSeg + input.value.slice(start)
+          input.setSelectionRange(newSeg.length, newSeg.length)
+          input.dispatchEvent(new Event('input'))
+        }
+      }
+
+      if (settings.wasd.recentMessagesOnArrows) {
+        let tail = $(input).taliner()
+
+        if (e.keyCode == '38' && tail.caretOnFirstLine) {
+          e.preventDefault()
+          // console.log('up')
+
+          if (typeof cachedMessagesIdx == 'number') {
+            cachedMessagesIdx--
+            if (cachedMessagesIdx < 0) cachedMessagesIdx = HelperWASD.selfMessagesHistory.length-1
+          } else {
+            cachedMessagesIdx = HelperWASD.selfMessagesHistory.length-1
+            if (input.value.trim() != '') HelperWASD.selfMessagesHistory.push(input.value)
+          }
+
+          if (typeof HelperWASD.selfMessagesHistory[cachedMessagesIdx] == 'string') {
+            input.value = HelperWASD.selfMessagesHistory[cachedMessagesIdx]
+            input.dispatchEvent(new Event('input'))
+          }
+        }
+
+        if (e.keyCode == '40' && tail.caretOnLastLine) {
+          e.preventDefault()
+          // console.log('down')
+
+          if (typeof cachedMessagesIdx == 'number') {
+            cachedMessagesIdx++
+            if (cachedMessagesIdx > HelperWASD.selfMessagesHistory.length-1) cachedMessagesIdx = null
+          }
+
+          if (cachedMessagesIdx == null) {
+            input.value = ''
+            input.dispatchEvent(new Event('input'))
+          } else {
+            input.value = HelperWASD.selfMessagesHistory[cachedMessagesIdx]
+            input.dispatchEvent(new Event('input'))
+          }
+        }
+
+        if (!(e.keyCode == '40' || e.keyCode == '38')) cachedMessagesIdx = null
+      }
+      
+    });
   }
 }

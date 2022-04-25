@@ -14,8 +14,33 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.6.4',
+        date: '2022-04-25T17:29:05.020Z',
+        items: [{
+          text: [
+            `Скрыть описание выделенного сообщения.`,
+            `Цвет выделенного сообщения.`
+          ],
+          label: 'added'
+        }, {
+          text: [
+            'Аптайм трансляции.'
+          ],
+          label: 'fixed'
+        }, {
+          text: [
+            'BetterWASD_WS.'
+          ],
+          label: 'optimized'
+        }, {
+          text: [
+            'Заполнение сообщений чата.'
+          ],
+          label: 'removed'
+        }]
+      }, {
         version: '1.6.3',
-        date: '2022-04-24T25:50:56.564Z',
+        date: '2022-04-24T14:27:25.020Z',
         items: [{
           text: [
             `BetterWASD_WS.`
