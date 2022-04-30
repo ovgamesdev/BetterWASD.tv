@@ -132,11 +132,13 @@ const HelperBTTV = {
       let link = `https://cdn.betterttv.net/emote/${HelperBTTV.emotes[word]?.id || HelperBTTV.emotes[word]}/${size}x`
 
       if (HelperBTTV.emotes[word]) {
-        let user
-        for (let userID in bttvEmotes) {
-          if (typeof bttvEmotes[userID][word] == 'string' || typeof bttvEmotes[userID][word]?.id == 'string') {
-            user = userID
-            break;
+        let user = ''
+        if (settings.wasd.hoverTooltipEmote) {
+          for (let userID in bttvEmotes) {
+            if (typeof bttvEmotes[userID][word] == 'string' || typeof bttvEmotes[userID][word]?.id == 'string') {
+              user = userID
+              break;
+            }
           }
         }
         let title = ` Смайл:&nbsp;${word} <br> ${typeof bttvUsers[user]?.username == 'string' ? `Канал:&nbsp;${bttvUsers[user]?.username} <br> Эмоции на канале BTTV` : 'Общедоступный BTTV'} `

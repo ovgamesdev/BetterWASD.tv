@@ -7,7 +7,6 @@ const wasd = {
   init() {
     ovg.log("init");
     HelperWASD.loadBwasdData()
-    // mutationtarget = document.querySelector('wasd-root')
     const config = {
       // attributes: true,
       childList: true,
@@ -217,6 +216,42 @@ const wasd = {
           .filter(node => node.nodeType === 1)
           .filter(element => element.matches('wasd-chat-paid-messages'));
 
+        const add_chat_context_message = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('wasd-chat-context-menu'));
+
+        const add_li = [...addedNodes]
+          .filter(node => node.nodeType === 1)
+          .filter(element => element.matches('li'));
+
+        
+
+        if (add_li.length) {
+          if (add_li[0].querySelector('.wasd-icons-settings')) addBetterButtonToHeader()
+        }
+
+        if (add_chat_context_message.length) {
+          context_menu = add_chat_context_message[0].childNodes[0]
+          if (!context_menu.querySelector('.contextBlacklistAddUser') && settings.wasd.addContextBlacklistAddUser) {
+            let item = document.createElement('div')
+            item.classList.add(`context-menu__block`)
+            item.setAttribute('ovg', '')
+            item.innerHTML = `<div class="context-menu__block__icon contextBlacklistAddUser"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Добавить в ЧС </div>`;
+            context_menu.append(item)
+            const usernameTextCached = context_menu.closest('.block__messages__item').dataset.username
+            item.addEventListener('click', () => {
+              if (!settings.list.blockUserList[usernameTextCached]) {
+                HelperWASD.showChatMessage(`Пользователь ${usernameTextCached} добавлен в ЧС`, 'success')
+                settings.list.blockUserList[usernameTextCached] = new Date();
+                HelperWASD.addUserToBlackList(usernameTextCached)
+                HelperSettings.save([document.querySelector('.optionField')]);
+              } else {
+                HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!', 'warning')
+              }
+              context_menu.closest('.block__messages__item')?.click()
+            })
+          }
+        }
 
         if (add_chat_paid_message.length) {
           const user = add_chat_paid_message[0].querySelector('.message-title__name')
@@ -402,9 +437,9 @@ const wasd = {
           HelperWASD.addTheaterModeNoFSToPlayer(settings.wasd.theaterModeNoFS)
         }
 
-        if (add_settings_button_burger.length) {
-          let burger = add_settings_button_burger[0].querySelector('header')
-        }
+        // if (add_settings_button_burger.length) {
+        //   let burger = add_settings_button_burger[0].querySelector('header')
+        // }
 
         if (add_wasd_chat_message.length) {
           let is = false
@@ -523,9 +558,7 @@ const wasd = {
 
     const observer = new MutationObserver(callback);
 
-    // if (mutationtarget) {
-      observer.observe(document.body, config);
-    // }
+    observer.observe(document.body, config);
 
 
     if (this.style === null) {
@@ -550,7 +583,7 @@ const wasd = {
       document.body.append(fontStyle);
     }
 
-    fixMobilePlayer = () => {
+    const fixMobilePlayer = () => {
       setTimeout(() => {
         if (document.querySelector('.theatre-mode-mobile')) {
           document.querySelector('.theatre-mode-mobile').classList.remove('theatre-mode-mobile')
@@ -563,19 +596,21 @@ const wasd = {
         } else {
           fixMobilePlayer()
         }
-      }, 1)
+      }, 100)
     }
 
     fixMobilePlayer() // tr_optimization
 
-    addToHeader = () => {
-      // add button BetterWASD настройки
+    const addBetterButtonToHeader = () => {
       let selectorSettings = document.querySelector('li#selector-bm-ovg-settings')
       if (!BetterStreamChat.isSettingsNewWindow && !selectorSettings) {
-        document.querySelector('wasd-profile-menu #profile-menu .profile-menu__list #selector-pm-theme')?.insertAdjacentHTML("beforebegin", `<li id="selector-bm-ovg-settings"><a class="profile-menu__link"><i class="wasd-icons-settings-profile"></i><span> BetterWASD настройки </span></a></li>`);
+        document.querySelector('wasd-profile-menu #profile-menu .profile-menu__list .wasd-icons-settings')?.closest('li')?.insertAdjacentHTML("beforebegin", `<li id="selector-bm-ovg-settings"><a class="profile-menu__link"><i class="wasd-icons-settings-profile"></i><span> BetterWASD настройки </span></a></li>`);
         document.querySelector('li#selector-bm-ovg-settings')?.addEventListener('click', Helper.showSettings);
       }
+    }
 
+    const addToHeader = () => {
+      addBetterButtonToHeader()
       let toggle = document.querySelector('.header__left-side .header__nav-sidebar-toggle')
       if (toggle) document.querySelector('.header__right-side')?.append(toggle.cloneNode(true))
       let newtoggle = document.querySelector('.header__right-side .header__nav-sidebar-toggle')
@@ -602,11 +637,7 @@ const wasd = {
         });
       }
 
-      if ($('wasd-header .header__logo img')?.attr('src')?.match('dark')) {
-        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = git_url + "img/Wasd_Better_color_logo_dark.svg"
-      } else {
-        BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = git_url + "img/Wasd_Better_color_logo.svg"
-      }
+      BetterStreamChat.settingsDiv.querySelector('.header__left-side .logo img').src = $('wasd-header .header__logo img')?.attr('src')?.match('dark') ? git_url + "img/Wasd_Better_color_logo_dark.svg" : git_url + "img/Wasd_Better_color_logo.svg"
 
       $('wasd-header .header__logo img').attrchange({
         trackValues: true,
@@ -618,7 +649,6 @@ const wasd = {
           }
         }
       });
-
     }
 
     addToHeader()
@@ -723,7 +753,6 @@ const wasd = {
       cssCode += `div.player-wrapper.theatre-mode { left: ${settings.wasd.chatWidth}px!important; width: calc(100vw - ${settings.wasd.chatWidth}px)!important; }`;
       cssCode += `#scroll-content { padding-right: 52px!important; padding-left: 0px!important; }`;
       cssCode += `wasd-header #nav-sidebar { left: auto!important; right: 0!important;}`
-      cssCode += `wasd-header #nav-sidebar { border-left: 1px solid rgba(var(--color-switch),.24)!important; border-right: none!important;}`
       cssCode += `.header__left-side .header__nav-sidebar-toggle { display: none!important; }`
       cssCode += `.profile-menu-toggle { margin-right: 8px!important; }`
       cssCode += `#profile-menu { z-index: 1; }`
@@ -1093,18 +1122,20 @@ const wasd = {
   },
   handleMessage(node, isobserver = false) {
     isMessageEdited = node.classList.contains('ovg');
-    textarea = document.querySelector('.footer > div >textarea');
+    textarea = document.querySelector('.footer > div > textarea');
 
     if (!isMessageEdited) {
       node.classList.add('ovg');
 
-      if (node.querySelector('.message__info__icon') && !node.dataset.id) {
-        node.dataset.id = node.querySelector('.message__info__icon').id.split('contextMenuItem').join('')
+      const info_icon = node.querySelector('.message__info__icon')
+
+      if (info_icon && !node.dataset.id) {
+        node.dataset.id = info_icon.id.split('contextMenuItem').join('')
       }
 
       if (node.querySelector('.message-text_deleted')) {
         node.setAttribute('bwasd-deleted', '')
-        if (settings.wasd.deletedMessageStyle.toString() != '0') {
+        if (settings.wasd.deletedMessageStyle.toString() !== '0') {
           let msg = document.querySelector(`.messages_history[bwasd] [data-id="${node.dataset.id}"]`)
           if (msg && msg.dataset.message != '') node.querySelector('.message-text_deleted > span').textContent = msg.dataset.message
         }
@@ -1139,12 +1170,12 @@ const wasd = {
       let sticker = node.querySelector('.sticker')?.src
 
       let roles = ''
-      if (node.querySelector('wasd-chat-message')) roles             += 'user'
-      if (node.querySelector('.wasd-icons-owner')) roles             += ' owner'
-      if (node.querySelector('.wasd-icons-dev')) roles               += ' admin'
-      if (node.querySelector('.wasd-icons-moderator')) roles         += ' moderator'
-      if (node.querySelector('.info__text__status-paid')) roles      += ' sub'
-      if (node.querySelector('.message__partner')) roles             += ' partner'
+      if (node.querySelector('wasd-chat-message')) roles += 'user'
+      if (ownerRef) roles += ' owner'
+      if (adminRef) roles += ' admin'
+      if (modRef) roles += ' moderator'
+      if (subRef) roles += ' sub'
+      if (node.querySelector('.message__partner')) roles += ' partner'
       node.setAttribute('role', roles)
 
       if (node.querySelector('img[alt="sticker"]')) node.setAttribute('sticker', node.querySelector('img[alt="sticker"]').src)
@@ -1158,30 +1189,15 @@ const wasd = {
       if (usernameTextCached) node.dataset.usernamelc = usernameTextCached.toLowerCase()
 
       if (sticker) {
-        let img = node.querySelector('img.sticker')
-        img.insertAdjacentHTML("afterend", `<span class="chat-message-text stickertext sticker_text">Стикер</span>`)
-        // setTimeout(() => {
-        //   img.title = node.dataset.sticker_name
-        //   $(img).tooltip({
-        //     classes: { "ui-tooltip": "ui-ovg-tooltip" },
-        //     content: node.dataset.sticker_name,
-        //     show: false,
-        //     hide: false,
-        //     position: {
-        //       my: "center bottom",
-        //       at: "center top-5",
-        //       within: $('wasd-chat')
-        //     }
-        //   });
-        //   img.addEventListener('click', () => {
-        //     window.open('')
-        //   })
-
-        // }, 50)
+        let messageText = node.querySelector('img.sticker')
+        const span = document.createElement('span')
+        span.className = 'chat-message-text stickertext sticker_text'
+        span.textContent = 'Стикер'
+        messageText.appendChild(span)
       }
 
-      let msg_time = node.querySelector('.message__time')
-      if (msg_time && settings.wasd.formatMessageSentTime.toString() != 'false') {
+      const msg_time = node.querySelector('.message__time')
+      if (msg_time && settings.wasd.formatMessageSentTime.toString() !== 'false') {
         if (node.dataset.time) {
           msg_time.textContent = moment(node.dataset.time).format(settings.wasd.formatMessageSentTime)
         } else {
@@ -1193,29 +1209,18 @@ const wasd = {
       }
 
       let nicknamediv = node.querySelector('.info__text__status__name');
-      if (settings.wasd.colonAfterNickname) {
-        let message = node.querySelector('.message-text');
-
-        message?.insertAdjacentHTML("beforebegin", `<span aria-hidden="true" id="colon-after-author-name" style=" margin-right: 4px; color: rgbа(var(--wasd-color-switch--rgb),.88);" >: </span>`);
-        $(nicknamediv)?.css("margin", "0px")
+      let message = node.querySelector('.message-text');
+      if (nicknamediv && message && settings.wasd.colonAfterNickname) {
+        message.insertAdjacentHTML("beforebegin", `<span id="colon-after-author-name" style=" margin-right: 4px; color: rgbа(var(--wasd-color-switch--rgb),.88);" >: </span>`);
+        nicknamediv.style.margin = '0'
       }
 
       nicknamediv = node.querySelector('.info__text__status__name');
       if (nicknamediv) {
         nicknamediv.dataset.username = usernameTextCached
         nicknamediv.dataset.usernamelc = usernameTextCached.toLowerCase()
-
-        if (settings.wasd.userNameEdited[nicknamediv.textContent.trim()]) {
-          nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
-            let userPaint = HelperBWASD.paints[$0.trim()]
-            return `<span ${!userPaint?'':userPaint.length<5?'data-betterwasd-paint="'+userPaint+'"': userPaint.match('gradient') ? ' data-betterwasd-paint="" style="background-image:'+userPaint+'"' : 'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}> ${settings.wasd.userNameEdited[$0.trim()]} </span>`
-          })
-        } else {
-          nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, ($0) => {
-            let userPaint = HelperBWASD.paints[$0.trim()]
-            return `<span ${!userPaint?'':userPaint.length<5?'data-betterwasd-paint="'+userPaint+'"': userPaint.match('gradient') ? ' data-betterwasd-paint="" style="background-image:'+userPaint+'"' : 'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}> ${$0.trim()} </span>`
-          })
-        }
+        let userPaint = HelperBWASD.paints[usernameTextCached]
+        nicknamediv.innerHTML = nicknamediv.innerHTML.replace(/ ([a-zA-Z0-9_-]+) /ig, `<span ${!userPaint?'':userPaint.length<5?'data-betterwasd-paint="'+userPaint+'"': userPaint.match('gradient') ? ' data-betterwasd-paint="" style="background-image:'+userPaint+'"' : 'data-betterwasd-paint-color="'+userPaint+'" style="color:'+userPaint+'"'}> ${settings.wasd.userNameEdited[usernameTextCached] || usernameTextCached} </span>`)
       }
 
       let messageHTML = node.querySelector('.message-text > span');
@@ -1223,9 +1228,9 @@ const wasd = {
         // Исправить символы ломающие чат 
         if (settings.wasd.fixCharactersBreakingChat) messageHTML.innerHTML = messageHTML.innerHTML.replace(/\p{Diacritic}/gu, "")
 
-        for (let link of messageHTML.querySelectorAll('a')) {
+        messageHTML.querySelectorAll('a').forEach(link => {
           link.outerHTML = link.outerHTML.replace(/@/g, '+at+')
-        }
+        })
 
         // fix link
         if (settings.wasd.fixedLinks) HelperWASD.elementToURL(messageHTML)
@@ -1248,15 +1253,15 @@ const wasd = {
         messageHTML.innerHTML = messageHTML.innerHTML.replace(/\+at\+/ig, '@')
 
         node.querySelectorAll('.chat-message-mention').forEach(element => {
-          if (element.style.color == '') HelperWASD.usercolorapi(element);
+          // if (element.style.color == '') HelperWASD.usercolorapi(element);
+          const username = element.dataset.usernamelc?.split('@').join('')
 
-          bl += element.dataset.usernamelc?.split('@').join('') + ' '
+          bl += username + ' '
 
-          element.addEventListener('click', ({ target }) => {
-            let username = target.dataset.username?.split('@').join('')
+          element.addEventListener('click', () => {
             if (username) {
               if (settings.wasd.onClickMention.toString() === '1' && textarea) {
-                textarea.value += target.dataset.username.trim() + ' ';
+                textarea.value += '@' + username + ' ';
                 textarea.dispatchEvent(new Event('input'));
                 textarea.focus()
               } else if (settings.wasd.onClickMention.toString() === '2') {
@@ -1271,31 +1276,28 @@ const wasd = {
         node.setAttribute('mention', bl)
 
         let stickersovg = ''
-        for (let stickerovg of node.querySelectorAll('.bttv-emote')) {
+        node.querySelectorAll('.bttv-emote').forEach(stickerovg => {
           stickersovg += stickerovg.dataset.code + ' '
-        }
+        })
         node.setAttribute('stickersovg', stickersovg)
       }
 
-      if (nicknamediv) {
+      if (nicknamediv && usernameTextCached) {
         if (settings.wasd.onClickUserName.toString() === '0') {
           nicknamediv.style.cursor = 'auto';
           nicknamediv.style.textDecoration = 'auto';
           elClone = nicknamediv.cloneNode(true);
           nicknamediv.parentNode.replaceChild(elClone, nicknamediv);
-          nicknamediv.addEventListener('click', ({ target }) => {
-            if (target.dataset.username) {
-              HelperWASD.addUsernameToTextarea(target.dataset.username.split('@').join(''));
-            }
+          nicknamediv.addEventListener('click', () => {
+            HelperWASD.addUsernameToTextarea(usernameTextCached);
           });
         } else if (settings.wasd.onClickUserName.toString() === '2') {
           elClone = nicknamediv.cloneNode(true);
           nicknamediv.parentNode.replaceChild(elClone, nicknamediv);
           nicknamediv = node.querySelector('.info__text__status__name');
-          nicknamediv.addEventListener('click', ({ target }) => {
-            let username = target.dataset.username
-            if (username && !HelperWASD.addUsernameToTextarea(username.split('@').join(''))) {
-              HelperWASD.createUserViewerCard(username.split('@').join(''), false, node);
+          nicknamediv.addEventListener('click', () => {
+            if (!HelperWASD.addUsernameToTextarea(usernameTextCached)) {
+              HelperWASD.createUserViewerCard(usernameTextCached, false, node);
             }
           });
         }
@@ -1881,52 +1883,6 @@ const wasd = {
           break;
       }
 
-      node.querySelector('div.message__info__icon > i')?.addEventListener('click', () => {
-        let trycreate = 0
-        create_context_block = () => {
-          context_menu = node.querySelector('.context-menu')
-          if (context_menu) {
-            if (!context_menu.querySelector('.contextBlacklistAddUser') && settings.wasd.addContextBlacklistAddUser) {
-              let item = document.createElement('div')
-              item.classList.add(`context-menu__block`)
-              item.setAttribute('ovg', '')
-              item.innerHTML = `<div class="context-menu__block__icon contextBlacklistAddUser"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Добавить в ЧС </div>`;
-              context_menu.append(item)
-              item.addEventListener('click', ({ target }) => {
-                if (!settings.list.blockUserList[usernameTextCached]) {
-                  HelperWASD.showChatMessage(`Пользователь ${usernameTextCached} добавлен в ЧС`, 'success')
-                  settings.list.blockUserList[usernameTextCached] = new Date();
-                  HelperWASD.addUserToBlackList(usernameTextCached)
-                  HelperSettings.save([document.querySelector('.optionField')]);
-                } else {
-                  HelperWASD.showChatMessage('Пользователь уже в ЧС, обновите чат!', 'warning')
-                }
-                node.click()
-              })
-            }
-            // if (!context_menu.querySelector('.contextPinMessages') && !settings.wasd.pinMessage) { // -!2
-            //   let item = document.createElement('div')
-            //   item.classList.add(`context-menu__block`)
-            //   item.innerHTML = `<div class="context-menu__block__icon contextPinMessages"><i class="icon wasd-icons-cross"></i></div><div class="context-menu__block__text"> Закрепить сообщение </div>`;
-            //   context_menu.append(item)
-            //   item.addEventListener('click', ({ target }) => {
-            //     HelperWASD.addPinMessage(node)
-            //     node.click()
-            //   })
-            // }
-          } else {
-            trycreate++
-            if (trycreate < 999) {
-              setTimeout(() => {
-                create_context_block()
-              }, 5)
-            }
-          }
-        }
-
-        create_context_block()
-      })
-
       let mentoinHtml; // follow / sub
       if (settings.wasd.clickMentionAll && node.querySelector('wasd-chat-follower-message')) {
         mentoinHtml = node.querySelector('.message-follower__name')
@@ -1944,7 +1900,7 @@ const wasd = {
           if (settings.wasd.onClickMention.toString() === '0') {
             out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention' data-username="@${username}" data-usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
             node.querySelectorAll('.chat-message-mention').forEach(element => {
-              HelperWASD.usercolorapi(element);
+              // HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
                 if (target.dataset.username) {
                   HelperWASD.addUsernameToTextarea(target.dataset.username?.split('@').join(''));
@@ -1954,7 +1910,7 @@ const wasd = {
           } else if (settings.wasd.onClickMention.toString() === '1') {
             out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' data-username="@${username}" data-usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
             node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-              HelperWASD.usercolorapi(element);
+              // HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
                 if (textarea) {
                   textarea.value += target.dataset.username?.trim() + ' ';
@@ -1966,7 +1922,7 @@ const wasd = {
           } else if (settings.wasd.onClickMention.toString() === '2') {
             out = `<span><span style='color: ${HelperWASD.usercolor("@"+username)};' class='chat-message-mention click' data-username="@${username}" data-usernamelc="${username.toLowerCase()}"> ${username} </span></span>`
             node.querySelectorAll('.chat-message-mention.click').forEach(element => {
-              HelperWASD.usercolorapi(element);
+              // HelperWASD.usercolorapi(element);
               element.addEventListener('click', ({ target }) => {
                 let username = target.dataset.username
                 if (username && !HelperWASD.addUsernameToTextarea(username.split('@').join(''))) {
@@ -2016,8 +1972,9 @@ const wasd = {
         node.querySelector('.message').classList.add('has-mention-ovg')
       }
 
-      for (let userPaint in HelperBWASD.paints) {
-        for (let user of document.querySelectorAll(`.chat-message-mention[data-username="@${userPaint}"]`)) {
+      node.querySelectorAll('.chat-message-mention').forEach(user => {
+        const userPaint = HelperBWASD.paints[user.dataset.username.split('@').join('')]
+        if (userPaint) {
           if (userPaint.length < 5) {
             user.dataset.betterwasdPaint = userPaint
           } else if (userPaint.match('gradient')) {
@@ -2028,9 +1985,9 @@ const wasd = {
             user.dataset.betterwasdPaintColor = userPaint
           }
         }
-      }
+      })
 
-      let userPaint = HelperBWASD.paints[usernameTextCached]
+      const userPaint = HelperBWASD.paints[usernameTextCached]
       if (userPaint) {
         let user = node.querySelector('.info__text__status__name > span')
         if (userPaint.length < 5) {
@@ -2044,21 +2001,23 @@ const wasd = {
         }
       }
 
-      let tooltips = node.querySelectorAll(".tooltip-wrapper");
-      for (let tooltip of tooltips) {
-        $( tooltip ).tooltip({
-          classes: { "ui-tooltip": "ui-ovg-tooltip" },
-          content: tooltip.dataset.title,
-          show: false,
-          hide: false,
-          position: {
-            my: "center bottom",
-            at: "center top-5",
-            within: $('wasd-chat')
-          }
-        });
+      if (settings.wasd.hoverTooltipEmote) {
+        let tooltips = node.querySelectorAll(".tooltip-wrapper");
+        for (let tooltip of tooltips) {
+          $( tooltip ).tooltip({
+            classes: { "ui-tooltip": "ui-ovg-tooltip" },
+            content: tooltip.dataset.title,
+            show: false,
+            hide: false,
+            position: {
+              my: "center bottom",
+              at: "center top-5",
+              within: $('wasd-chat')
+            }
+          });
+        }
+        HelperWASD.updateHoverTooltipEmote(settings.wasd.hoverTooltipEmote, node)
       }
-      HelperWASD.updateHoverTooltipEmote(settings.wasd.hoverTooltipEmote, node)
 
       adminRef       = node.querySelector('.is-admin')
       modRef         = node.querySelector('.is-moderator')
@@ -2071,8 +2030,7 @@ const wasd = {
         modRef.classList.remove('is-moderator')
         modRef.querySelector('.icon.wasd-icons-moderator').remove()
         let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
-        if (c) { node.querySelector('.info__text__status__name').style.color = c
-        } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(modRef) }
+        if (c) { node.querySelector('.info__text__status__name').style.color = c }
       }
       if (modRef && settings.wasd.showModeratorBadge.toString() == '2') {
         node.querySelector('.info__text__status__name').insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"><i class="icon"></i></div>`);
@@ -2086,8 +2044,7 @@ const wasd = {
         ownerRef.classList.remove('is-owner')
         ownerRef.querySelector('.icon.wasd-icons-owner').remove()
         let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
-        if (c) { node.querySelector('.info__text__status__name').style.color = c
-        } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(ownerRef) }
+        if (c) { node.querySelector('.info__text__status__name').style.color = c }
       }
       if (ownerRef && settings.wasd.showOwnerBadge.toString() == '2') {
         node.querySelector('.info__text__status').insertAdjacentHTML("afterbegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"><i class="icon"></i></div>`);
@@ -2097,8 +2054,7 @@ const wasd = {
         adminRef.classList.remove('is-admin')
         adminRef.querySelector('.icon.wasd-icons-dev').remove()
         let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute('user_id')) % (HelperWASD.userColors.length - 1)]
-        if (c) { node.querySelector('.info__text__status__name').style.color = c
-        } else { node.querySelector('.info__text__status__name').style.color = HelperWASD.usercolorapi(adminRef) }
+        if (c) { node.querySelector('.info__text__status__name').style.color = c }
       }
 
       if (subRef && !settings.wasd.showSubBadge) {
@@ -2137,17 +2093,6 @@ const wasd = {
           });
         }
       }
-
-      // $(node.querySelector('.message-text')).attrchange({
-      //   trackValues: true,
-      //   callback: function (event) {
-      //     if (event.newValue == 'message-text message-text_deleted') {
-      //       node.setAttribute('state', 'removed')
-      //     } else if (event.newValue == 'message-text') {
-      //       node.setAttribute('state', '')
-      //     }
-      //   }
-      // })
 
     }
   },

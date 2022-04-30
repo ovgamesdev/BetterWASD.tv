@@ -14,6 +14,16 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.6.5',
+        date: '2022-04-30T17:41:11.260Z',
+        items: [{
+          text: [
+            'Эмоции.',
+            'Упоминине пользователя.'
+          ],
+          label: 'optimized'
+        }]
+      }, {
         version: '1.6.4',
         date: '2022-04-25T17:29:05.020Z',
         items: [{
@@ -613,7 +623,7 @@ const BetterStreamChat = {
           <p style="margin: 5px 0 0 0;"> BetterWASD </p>
         </ovg-button>
 
-        <h2> Доступные эмоции BetterWASD <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfeR-ASq3bQBE6t3F5lIutvfcJkh8bUxAWqls80Q1WMNAEivQ/viewform?usp=sf_link">Предложить эмоцию</a> </h2>
+        <h2> Доступные эмоции BetterWASD <a target="_blank" href="https://ovgamesdev.github.io/#/dashboard/emotes">Добавить свою эмоцию</a> </h2>
 
         <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
           <div ovg="" class="wasd-input-wrapper">

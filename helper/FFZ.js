@@ -135,11 +135,13 @@ const HelperFFZ = {
       if (size == 3) size = 4
 
       if (HelperFFZ.emotes[word]) {
-        let user
-        for (let userID in ffzEmotes) {
-          if (typeof ffzEmotes[userID][word] == 'number' || typeof ffzEmotes[userID][word]?.id == 'number') {
-            user = userID
-            break;
+        let user = ''
+        if (settings.wasd.hoverTooltipEmote) {
+          for (let userID in ffzEmotes) {
+            if (typeof ffzEmotes[userID][word] == 'number' || typeof ffzEmotes[userID][word]?.id == 'number') {
+              user = userID
+              break;
+            }
           }
         }
         let title = ` Смайл:&nbsp;${word} <br> ${typeof ffzUsers[user]?.username == 'string' ? `Канал:&nbsp;${ffzUsers[user]?.username} <br> Эмоции на канале FFZ` : 'Общедоступный FFZ'} `

@@ -12,8 +12,6 @@ const HelperWASD = {
   subscriptionPeriods: [{ startDays: 0, iconUrl: "https://static.wasd.tv/images/subscribers/1mon.png" }, { startDays: 60, iconUrl: "https://static.wasd.tv/images/subscribers/3mon.png" }, { startDays: 150, iconUrl: "https://static.wasd.tv/images/subscribers/6mon.png" }, { startDays: 240, iconUrl: "https://static.wasd.tv/images/subscribers/9mon.png" }, { startDays: 330, iconUrl: "https://static.wasd.tv/images/subscribers/12mon.png" }, { startDays: 510, iconUrl: "https://static.wasd.tv/images/subscribers/18mon.png" }, { startDays: 690, iconUrl: "https://static.wasd.tv/images/subscribers/24mon.png" }],
   selfMessagesHistory: [],
 
-  recordData: '',
-
   loaded() {
 
     for (let as in HelperSettings.availableSettings) {
@@ -1860,29 +1858,6 @@ const HelperWASD = {
     }
     if (button) button.style.display = document.querySelector('.chat-container__btn-open--desktop > i')?.className == 'wasd-icons-right' && value ? 'none' : ''
   },
-  // async getRecord() {
-  //   return new Promise((resolve, reject) => {
-
-  //     if (new URL(document.URL).searchParams.get('record') != null) {
-  //       $.ajax({
-  //         url: `https://wasd.tv/api/v2/media-containers/${new URL(document.URL).searchParams.get('record')}`,
-  //         success: (out) => {
-  //           this.recordData = out.result
-  //           resolve({is: !!document.querySelector('wasd-player .stream-status-container.record'), id: this.recordData.media_container_streams[0].stream_id})
-  //         },
-  //       });
-  //     } else {
-  //       $.ajax({
-  //         url: `https://wasd.tv/api/v2/media-containers?limit=1&offset=0&media_container_status=STOPPED&media_container_type=SINGLE&media_container_online_status=PUBLIC&channel_id=${''}`,
-  //         success: (out) => {
-  //           this.recordData = out.result[0]
-  //           resolve({is: !!document.querySelector('wasd-player .stream-status-container.record'), id: this.recordData.media_container_streams[0].stream_id})
-  //         },
-  //       });
-  //     }
-
-  //   });
-  // },
   timeData() {
   },
   timerAboutStat: null,

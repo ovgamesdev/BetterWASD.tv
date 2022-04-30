@@ -135,11 +135,13 @@ const HelperTV7 = {
       if (size == 3) size = 4
 
       if (HelperTV7.emotes[word]) {
-        let user
-        for (let userID in tv7Emotes) {
-          if (typeof tv7Emotes[userID][word] == 'string' || typeof tv7Emotes[userID][word]?.id == 'string' ) {
-            user = userID
-            break;
+        let user = ''
+        if (settings.wasd.hoverTooltipEmote) {
+          for (let userID in tv7Emotes) {
+            if (typeof tv7Emotes[userID][word] == 'string' || typeof tv7Emotes[userID][word]?.id == 'string' ) {
+              user = userID
+              break;
+            }
           }
         }
         let title = ` Смайл:&nbsp;${word} <br> ${typeof tv7Users[user]?.username == 'string' ? `Канал:&nbsp;${tv7Users[user]?.username} <br> Эмоции на канале 7TV` : 'Общедоступный 7TV'} `

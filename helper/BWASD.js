@@ -136,11 +136,13 @@ const HelperBWASD = {
       let link = `${HelperBWASD.host}/cached/emote/${HelperBWASD.emotes[word]?.id || HelperBWASD.emotes[word]}/${size}x`
 
       if (HelperBWASD.emotes[word]) {
-        let user
-        for (let userID in HelperBWASD.items.bwasdEmotes) {
-          if (typeof HelperBWASD.items.bwasdEmotes[userID][word] == 'string') {
-            user = userID
-            break;
+        let user = ''
+        if (settings.wasd.hoverTooltipEmote) {
+          for (let userID in HelperBWASD.items.bwasdEmotes) {
+            if (typeof HelperBWASD.items.bwasdEmotes[userID][word]?.id == 'string') {
+              user = userID
+              break;
+            }
           }
         }
         let title = ` Смайл:&nbsp;${word} <br> ${typeof HelperBWASD.items.bwasdUsers[user]?.username == 'string' ? `Канал:&nbsp;${HelperBWASD.items.bwasdUsers[user]?.username} <br> Эмоции на канале BWASD` : 'Общедоступный BWASD'} `
