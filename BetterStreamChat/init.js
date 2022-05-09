@@ -14,6 +14,16 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: '1.6.6',
+        date: '2022-05-09T08:26:02.151Z',
+        items: [{
+          text: [
+            'BetterWASD поддержка ZeroWidth эмоций.',
+            'Теперь при добавлении эмоции BetterWASD не нужно обновлять чат.'
+          ],
+          label: 'added'
+        }]
+      }, {
         version: '1.6.5',
         date: '2022-04-30T17:41:11.260Z',
         items: [{

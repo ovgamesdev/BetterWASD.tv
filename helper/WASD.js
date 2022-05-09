@@ -1082,7 +1082,6 @@ const HelperWASD = {
     a.setAttribute('download', filename);
     a.setAttribute('href', window.URL.createObjectURL(blob));
     a.click();
-    document.body.removeChild(a);
   },
   addUsernameToTextarea(username) {
     let textarea = document.querySelector('.footer > div >textarea');

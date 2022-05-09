@@ -74,5 +74,5 @@
   "minimum_chrome_version": "88",
   "permissions": ["storage", "notifications"],
   "host_permissions": ["*://*.wasd.tv/*"],
-  "version": "1.6.5"
+  "version": "1.6.6"
 }

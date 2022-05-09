@@ -8,18 +8,21 @@ const BetterWS = {
     if (this.socket.readyState === this.socket.OPEN && socket.channel?.channel && HelperWASD.current?.user_profile) this.socket.send(`42["leave",{"streamerId":${socket.channel.channel.user_id}, "userId":${HelperWASD.current?.user_profile?.user_id?HelperWASD.current?.user_profile?.user_id:0}}]`);
   },
   start(isAutoJoin) {
-    this.socket = new WebSocket("wss://betterwasd.herokuapp.com/"); // wss://betterwasd.herokuapp.com/   ws://localhost:5000
+    this.socket = new WebSocket("wss://betterwasd.herokuapp.com/");
+    // this.socket = new WebSocket("ws://localhost:5000/");
 
     this.socket.onopen = (e) => {
-      BetterWS.intervalcheck = setInterval(() => {
-        if (BetterWS.socket) {
-          try {
-            if (BetterWS.socket.readyState === BetterWS.socket.OPEN) BetterWS.socket.send('2')
-          } catch (err) {
-            console.log(err)
+      if (BetterWS.intervalcheck === null) {
+        BetterWS.intervalcheck = setInterval(() => {
+          if (BetterWS.socket) {
+            try {
+              if (BetterWS.socket.readyState === BetterWS.socket.OPEN) BetterWS.socket.send('2')
+            } catch (err) {
+              console.log(err)
+            }
           }
-        }
-      }, 20000)
+        }, 20000)
+      }
       if (isAutoJoin) {
         this.join()
       }
@@ -27,6 +30,7 @@ const BetterWS = {
 
     this.socket.onclose = (e) => {
       clearInterval(BetterWS.intervalcheck)
+      BetterWS.intervalcheck = null
       setTimeout(() => BetterWS.start(true), 5000)
     };
 
@@ -60,17 +64,35 @@ const BetterWS = {
           delete HelperBWASD.paints[JSData[1].user_login]
           break;
 
+
         case "likeEmote":
+        case "createEmote":
           if (typeof HelperBWASD.items.bwasdUsers[JSData[1].user_id] == 'undefined') {
             HelperBWASD.items.bwasdUsers[JSData[1].user_id] = {username: socket.channel?.channel?.channel_owner?.user_login, lastUpdate: Date.now()}
           }
           if (typeof HelperBWASD.items.bwasdEmotes[JSData[1].user_id] == 'undefined') {
             HelperBWASD.items.bwasdEmotes[JSData[1].user_id] = {}
           }
-          HelperBWASD.items.bwasdEmotes[JSData[1].user_id][JSData[1].code] = {id: JSData[1]._id, zeroWidth: false}
-          HelperBWASD.emotes[JSData[1].code] = {id: JSData[1]._id, zeroWidth: false}
+          HelperBWASD.items.bwasdEmotes[JSData[1].user_id][JSData[1].code] = {id: JSData[1]._id, zeroWidth: !!JSData[1].visibility_simple?.filter(t => t == "ZERO_WIDTH").length}
+          HelperBWASD.emotes[JSData[1].code] = {id: JSData[1]._id, zeroWidth: !!JSData[1].visibility_simple?.filter(t => t == "ZERO_WIDTH").length}
           break;
+
+        case "updateEmote":
+          delete HelperBWASD.items.bwasdEmotes[JSData[1].user_id][JSData[1].oldCode]
+          delete HelperBWASD.emotes[JSData[1].oldCode]
+
+          if (typeof HelperBWASD.items.bwasdUsers[JSData[1].user_id] == 'undefined') {
+            HelperBWASD.items.bwasdUsers[JSData[1].user_id] = {username: socket.channel?.channel?.channel_owner?.user_login, lastUpdate: Date.now()}
+          }
+          if (typeof HelperBWASD.items.bwasdEmotes[JSData[1].user_id] == 'undefined') {
+            HelperBWASD.items.bwasdEmotes[JSData[1].user_id] = {}
+          }
+          HelperBWASD.items.bwasdEmotes[JSData[1].user_id][JSData[1].code] = {id: JSData[1]._id, zeroWidth: !!JSData[1].visibility_simple?.filter(t => t == "ZERO_WIDTH").length}
+          HelperBWASD.emotes[JSData[1].code] = {id: JSData[1]._id, zeroWidth: !!JSData[1].visibility_simple?.filter(t => t == "ZERO_WIDTH").length}
+          break;
+
         case "unlikeEmote":
+        case "deleteEmote":
           delete HelperBWASD.items.bwasdEmotes[JSData[1].user_id][JSData[1].code]
           delete HelperBWASD.emotes[JSData[1].code]
           break;
@@ -80,6 +102,7 @@ const BetterWS = {
 
     this.socket.onerror = (err) => {
       clearInterval(BetterWS.intervalcheck)
+      BetterWS.intervalcheck = null
       setTimeout(() => BetterWS.start(true), 5000)
     };
   }

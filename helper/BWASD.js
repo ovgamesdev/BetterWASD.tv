@@ -6,6 +6,7 @@ const HelperBWASD = {
   subBadges: {},
   paints: {},
   host: 'https://betterwasd.herokuapp.com',
+  // host: 'http://localhost:5000',
   updateSettings() {
     let bwasdEmoteList = BetterStreamChat.settingsDiv.querySelector('#bwasdEmoteList');
     bwasdEmoteList.innerText = '';
@@ -44,7 +45,7 @@ const HelperBWASD = {
         if (Object.keys(items.bwasdEmotes[userID]).length == 0) {
           let div = document.createElement('div');
           div.classList.add('emoji__item-ovg');
-          div.innerText = 'У пользователя нет BetterWASD'
+          div.innerText = 'У пользователя нет эмоций BetterWASD'
 
           stickers__line.append(div);
         }
@@ -156,7 +157,7 @@ const HelperBWASD = {
   getUserEmotes(userID) {
     return new Promise((resolve, reject) => {
       $.ajax({
-        url: `${HelperBWASD.host}/api/v1/data/all/user/${userID}`,
+        url: `${HelperBWASD.host}/api/v1/users?user_id=${userID}`,
         success: (out) => {
           resolve(out)
         },
@@ -194,13 +195,13 @@ const HelperBWASD = {
     for (let emote of emoteList) {
       HelperBWASD.items.bwasdEmotes[userID][emote.code] = {
         id: emote._id,
-        zeroWidth: false
+        zeroWidth: !!emote.visibility_simple?.filter(t => t == "ZERO_WIDTH").length
       };
     }
     for (let emote of globalList) {
       HelperBWASD.items.bwasdEmotes.global[emote.code] = {
         id: emote._id,
-        zeroWidth: false
+        zeroWidth: !!emote.visibility_simple?.filter(t => t == "ZERO_WIDTH").length
       };
     }
   },
