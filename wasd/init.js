@@ -437,10 +437,6 @@ const wasd = {
           HelperWASD.addTheaterModeNoFSToPlayer(settings.wasd.theaterModeNoFS)
         }
 
-        // if (add_settings_button_burger.length) {
-        //   let burger = add_settings_button_burger[0].querySelector('header')
-        // }
-
         if (add_wasd_chat_message.length) {
           let is = false
           if (add_wasd_chat_message[0] == document.querySelector('.block__messages')?.lastElementChild) {

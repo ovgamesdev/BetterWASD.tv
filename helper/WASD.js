@@ -2101,8 +2101,7 @@ const HelperWASD = {
         let tail = $(input).taliner()
 
         if (e.keyCode == '38' && tail.caretOnFirstLine) {
-          e.preventDefault()
-          // console.log('up')
+          e.preventDefault() // up
 
           if (typeof cachedMessagesIdx == 'number') {
             cachedMessagesIdx--
@@ -2119,8 +2118,7 @@ const HelperWASD = {
         }
 
         if (e.keyCode == '40' && tail.caretOnLastLine) {
-          e.preventDefault()
-          // console.log('down')
+          e.preventDefault() // down
 
           if (typeof cachedMessagesIdx == 'number') {
             cachedMessagesIdx++

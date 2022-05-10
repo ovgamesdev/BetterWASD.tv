@@ -410,7 +410,7 @@ const HelperTV7 = {
         $('div.option.tv7-emoji')?.removeClass( "active" );
         element.path[0].classList.add('active')
 
-        document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove(); //btttv
+        document.querySelector('wasd-chat-emoji-smiles-tv7')?.remove(); //bttv
 
         $('.emoji__body > wasd-chat-emoji-smiles')?.css("display", "")
         $('.emoji__body > wasd-chat-emoji-stickers')?.css("display", "")

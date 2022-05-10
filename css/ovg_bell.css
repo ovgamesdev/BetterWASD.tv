@@ -15,25 +15,6 @@
   box-sizing: content-box
 }
 
-/*@media (hover:hover) and (pointer:fine) {
-  .bell__icon-wrap[_ngcontent-ljm-c288]:hover {
-      background-color: rgba(var(--color-switch), .08)
-  }
-
-  .bell__icon-wrap[_ngcontent-ljm-c288]:hover .bell__icon[_ngcontent-ljm-c288] {
-      color: rgb(var(--color-switch))
-  }
-}
-
-.bell__icon-wrap[_ngcontent-ljm-c288]:focus {
-  border: 2px solid rgba(var(--color-system-blue), .48);
-  background-color: rgba(var(--color-switch), .08)
-}
-
-.bell__icon-wrap[_ngcontent-ljm-c288]:active {
-  background-color: rgba(var(--color-switch), .16)
-}*/
-
 .bell__icon-wrap[_ngcontent-ljm-c288]:after {
   position: absolute;
   display: block;

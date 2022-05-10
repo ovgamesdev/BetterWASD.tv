@@ -4,6 +4,7 @@
 	flex-wrap: nowrap;
 	width: 30px;
 	height: 24px;
+	backdrop-filter: blur(17px);
 	-webkit-backdrop-filter: blur(17px);
 	cursor: pointer;
 	z-index: 1000;

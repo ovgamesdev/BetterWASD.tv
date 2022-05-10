@@ -223,11 +223,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.from == "background" && msg.location == 'reload') {
     location.reload()
   }
-  // if (msg.from == "background" && msg.coinUsers) {
-  //   document.querySelector('.chat-room__viewer-card div.tw-stat__value.profile_coins').textContent = msg.coinUsers.count;
-  //   document.querySelector('.chat-room__viewer-card .profile_coins-title').title = `${msg.coinUsers.count} монет`;
-  //   document.querySelector('.chat-room__viewer-card .profile_coins-title').style.display = ''
-  // }
 
   sendResponse({message: 'ok'})
   return true;

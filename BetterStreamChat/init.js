@@ -2,7 +2,7 @@ const BetterStreamChat = {
   activeInstance: null,
   settingsDiv: null,
   isSettingsNewWindow: false,
-  changelog: '', // test edition
+  changelog: '',
   async init() {
     let changelogLabels = {
       fixedwasd: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено (Мешает работе WASD.TV)</span>',

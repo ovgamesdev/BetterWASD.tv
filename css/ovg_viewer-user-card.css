@@ -131,9 +131,6 @@ div.tw-flex .gameurl>a:hover {
 div.tw-flex.tw-full-width.tw-overflow-hidden.tw-justify-content-center.tw-flex-column a:hover {
   text-decoration: underline;
 }
-div. {
-  display: flex!important;
-}
 figure.tw-svg {
   -webkit-box-align: center;
   align-items: center;

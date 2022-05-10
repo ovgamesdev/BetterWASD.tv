@@ -47,19 +47,6 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
     });
   }
 
-  // permissions: management
-  // if (request.from == "betterwasd_tv" && request.getCoinUsers) {
-  //   chrome.management.getAll((info) => {
-  //     for (let extension of info) {
-  //       if (extension.id == "fdgepfaignbakmmbiafocfjcnaejgldb") {
-  //         chrome.runtime.connect("fdgepfaignbakmmbiafocfjcnaejgldb").postMessage({ from: 'betterwasd_tv', getCoinUsers: request.getCoinUsers });
-  //       } else if (extension.id == "nieblejndnlodncpeekopcmpiaahnfch") {
-  //         chrome.runtime.connect("nieblejndnlodncpeekopcmpiaahnfch").postMessage({ from: 'betterwasd_tv', getCoinUsers: request.getCoinUsers });
-  //       }
-  //     }
-  //   });
-  // }
-
   sendResponse({message: 'ok'});
   return true
 
