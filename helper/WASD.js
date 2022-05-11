@@ -1826,15 +1826,15 @@ const HelperWASD = {
   },
   updateHoverTooltipEmote(value, node) {
     let element = node || document
-    for (let emote of element.querySelectorAll('.bttv-emote.tooltip-wrapper')) {
+    element.querySelectorAll('.bttv-emote.tooltip-wrappe').forEach(emote => {
       if (value) {
         emote.title = emote.dataset.title
       } else {
-        emote.removeAttribute('title')
+        emote.removeAttribute('titl')
       }
-    }
+    })
   },
-  udpateUserNameEdited(user_channel_name, newusername) {
+  udpateUserNameEdited(user_channel_naome, newusername) {
     let divs = []
     divs.push(...document.querySelectorAll(`.chat-message-mention[data-username="@${user_channel_name}"]`))
     divs.push(...document.querySelectorAll(`.info__text__status__name[data-username="${user_channel_name}"]`))

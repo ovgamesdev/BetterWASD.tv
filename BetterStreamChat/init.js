@@ -1219,7 +1219,7 @@ const BetterStreamChat = {
       }
 
       document.querySelector('#bttv-custom-timeout-contain')?.remove()
-    })
+    });
 
     settingsDiv.querySelector('.dropdown-ovg.login').addEventListener('click', () => {
       if (Cookies.get('BetterWASD_twitch_display_name')) {
@@ -1227,7 +1227,7 @@ const BetterStreamChat = {
       } else {
         window.open('https://id.twitch.tv/oauth2/authorize?client_id=' + HelperTwitch['Client-ID'] + '&redirect_uri=' + encodeURIComponent('https://wasd.tv/') + '&response_type=token')
       }
-    })
+    });
 
     // bind twitch_authorize logout
     settingsDiv.querySelector('.dropdown-ovg .logout').addEventListener('click', () => {
@@ -1349,7 +1349,7 @@ const BetterStreamChat = {
       } else {
         alertify.warning(`только .backup файлы`, 3)
       }
-    })
+    });
 
     processFile = (theFile) => {
       return (e) => {
@@ -1359,7 +1359,7 @@ const BetterStreamChat = {
           alertify.warning(`Перезагрузка страницы`, 5)
         })
       }
-    }
+    };
 
     // show-section-mobile
     settingsDiv.querySelector('.show-section-mobile').addEventListener('click', () => {
@@ -1376,11 +1376,11 @@ const BetterStreamChat = {
     settingsDiv.ondragover = (e) => {
       e.preventDefault();
       settingsDiv.classList.add('dragoverbackup');
-    }
+    };
     settingsDiv.ondragleave = (e) => {
       e.preventDefault();
       settingsDiv.classList.remove('dragoverbackup');
-    }
+    };
     settingsDiv.ondrop = (e) => {
       e.preventDefault();
       settingsDiv.classList.remove('dragoverbackup');
@@ -1484,23 +1484,23 @@ const BetterStreamChat = {
         settingsDiv.querySelector('wasd-nav-sidebar[ovg]').classList.remove('nav-sidebar--expanded')
         settingsDiv.querySelector('.open-nav-sidebar').classList.remove('nav-sidebar-toggle--active')
       }
-    })
+    });
     settingsDiv.querySelector('.open-nav-sidebar').addEventListener('click', () => {
       settingsDiv.querySelector('wasd-nav-sidebar[ovg]').classList.toggle('nav-sidebar--expanded')
       settingsDiv.querySelector('.open-nav-sidebar').classList.toggle('nav-sidebar-toggle--active')
-    })
+    });
 
     goToObsChatSetting2.addEventListener('click', () => {
       Helper.trySendMessage({ createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}` });
-    })
+    });
     goToObsChatSetting.addEventListener('click', () => {
       Helper.trySendMessage({ createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}` });
-    })
+    });
 
 
     settingsDiv.querySelector('.ovg-tabs-wrapper').addEventListener('click', () => {
       settingsDiv.querySelector('.show-section-mobile')?.click()
-    })
+    });
 
 
     // to def
@@ -1737,15 +1737,15 @@ const BetterStreamChat = {
       wasdinput.querySelector('input')?.addEventListener('focus', () => {
         label?.classList.add('show')
         input.placeholder = ''
-      })
+      });
       wasdinput.querySelector('input')?.addEventListener('blur', () => {
         label?.classList.remove('show')
         input.placeholder = text
-      })
+      });
       wasdinput.querySelector('button')?.addEventListener('click', () => {
         input.value = ''
         input.dispatchEvent(new Event('input'))
-      })
+      });
     }
 
     // bind Тестовое уведомление
@@ -1770,14 +1770,14 @@ const BetterStreamChat = {
           isOpenBell = false
         }, 50)
       }
-    })
+    });
     bell_button.addEventListener('click', () => {
       setTimeout(() => {
         bell__info.removeAttribute('hidden')
         bell__info.querySelector('.bell-info__list').scrollTop = 0
         isOpenBell = true
       }, 50)
-    })
+    });
 
     let tooltips = settingsDiv.querySelectorAll(".tooltip-wrapper");
     for (let tooltip of tooltips) {
@@ -1812,7 +1812,7 @@ const BetterStreamChat = {
         } else {
           Coloris({swatches:[option.value], focusInput: window.innerWidth > 480 })
         }
-      })
+      });
     }
 
     Coloris({ clearButton: {show: false}, formatToggle: false})

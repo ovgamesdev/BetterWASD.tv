@@ -1981,7 +1981,7 @@ const wasd = {
             user.dataset.betterwasdPaintColor = userPaint
           }
         }
-      })
+      });
 
       const userPaint = HelperBWASD.paints[usernameTextCached]
       if (userPaint) {
