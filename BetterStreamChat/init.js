@@ -2,295 +2,337 @@ const BetterStreamChat = {
   activeInstance: null,
   settingsDiv: null,
   isSettingsNewWindow: false,
-  changelog: '',
+  changelog: "",
   async init() {
     let changelogLabels = {
-      fixedwasd: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено (Мешает работе WASD.TV)</span>',
-      fixed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено</span>',
-      added: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Добавлено</span>',
-      changed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Изменено</span>',
-      optimized: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Оптимизировано</span>',
-      removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>'
+      fixedwasd:
+        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено (Мешает работе WASD.TV)</span>',
+      fixed:
+        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено</span>',
+      added:
+        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Добавлено</span>',
+      changed:
+        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Изменено</span>',
+      optimized:
+        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Оптимизировано</span>',
+      removed:
+        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>',
     };
     let changelogList = [
       {
-        version: '1.6.6',
-        date: '2022-05-09T08:26:02.151Z',
-        items: [{
-          text: [
-            'BetterWASD поддержка ZeroWidth эмоций.',
-            'Теперь при добавлении эмоции BetterWASD не нужно обновлять чат.'
-          ],
-          label: 'added'
-        }]
-      }, {
-        version: '1.6.5',
-        date: '2022-04-30T17:41:11.260Z',
-        items: [{
-          text: [
-            'Эмоции.',
-            'Упоминине пользователя.'
-          ],
-          label: 'optimized'
-        }]
-      }, {
-        version: '1.6.4',
-        date: '2022-04-25T17:29:05.020Z',
-        items: [{
-          text: [
-            `Скрыть описание выделенного сообщения.`,
-            `Цвет выделенного сообщения.`
-          ],
-          label: 'added'
-        }, {
-          text: [
-            'Аптайм трансляции.'
-          ],
-          label: 'fixed'
-        }, {
-          text: [
-            'BetterWASD_WS.'
-          ],
-          label: 'optimized'
-        }, {
-          text: [
-            'Заполнение сообщений чата.'
-          ],
-          label: 'removed'
-        }]
-      }, {
-        version: '1.6.3',
-        date: '2022-04-24T14:27:25.020Z',
-        items: [{
-          text: [
-            `BetterWASD_WS.`
-          ],
-          label: 'added'
-        }, {
-          text: [
-            'Формат отметок времени.',
-            'Показать значки создателя|модератора|партнера.'
-          ],
-          label: 'fixed'
-        }]
-      }, {
-        version: '1.6.2',
-        date: '2022-04-22T00:50:56.564Z',
-        items: [{
-          text: [
-            `Показать значки партнера - Теперь работает в профиле.`
-          ],
-          label: 'added'
-        }, {
-          text: [
-            'Формат отметок времени.',
-            'Скрыть каналы не в сети'
-          ],
-          label: 'fixed'
-        }, {
-          text: [
-            `Карточка пользователя - Средства модератора.`
-          ],
-          label: 'changed'
-        }]
-      }, {
-        version: '1.6.1',
-        date: '2022-04-21T00:10:56.564Z',
-        items: [{
-          text: [
-            `Блюр информации при падении сайта.`,
-            `Скрыть каналы не в сети.`,
-            `Показать значки создателя|модератора|партнера - Заменить на значок Twitch.`
-          ],
-          label: 'added'
-        }, {
-          text: [
-            'Показывать последние сообщения в окне ввода на клавишу «↑» и «↓».'
-          ],
-          label: 'fixed'
-        }, {
-          text: [
-            `WebSocket.`,
-            `Карточка пользователя - Средства модератора.`
-          ],
-          label: 'changed'
-        }]
-      }, {
-        version: '1.6',
-        date: '2022-04-18T21:00:56.564Z',
-        items: [{
-          text: [
-            `Стиль удаленных сообщений.`
-          ],
-          label: 'added'
-        }, {
-          text: [
-            'Меню модератора.',
-            'Цвет ссылки.'
-          ],
-          label: 'fixed'
-        }, {
-          text: [
-            `Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении.`
-          ],
-          label: 'optimized'
-        }]
-      }, {
-        version: '1.5.9',
-        date: '2022-04-17T21:00:00.000Z',
-        items: [{
-          text: [
-            `Меню модератора - Как у BTTV.`,
-            `7TV поддержка всех ZeroWidth эмоций.`,
-            `FFZ поддержка глобальных ZeroWidth эмоций.`,
-            `Показывать последние сообщения в окне ввода на клавишу «&uarr;» и «&darr;».`
-          ],
-          label: 'added'
-        }, {
-          text: [
-            'Меню модератора - Twitch.'
-          ],
-          label: 'fixed'
-        }, {
-          text: [
-            `7TV | BetterTTV | FrankerFaceZ | BetterWASD эмоции.`,
-            `Аптайм трансляции`,
-            'WebSocket.',
-            `Формат отметок времени`
-          ],
-          label: 'optimized'
-        }]
-      }, {
-        version: '1.5.8',
-        date: '2022-04-15T17:40:00.000Z',
-        items: [{
-          text: [
-            `Автозаполнение эмоции через Tab.`,
-            `Игнорировать БОЛЬШИЕ БУКВЫ для "Автозаполнение эмоции через Tab".`
-          ],
-          label: 'added'
-        }, {
-          text: [
-            'Режим кинотеатра.'
-          ],
-          label: 'fixed'
-        }, {
-          text: [
-            `7TV | BetterTTV | FrankerFaceZ | BetterWASD эмоции.`,
-            'Карточка пользователя.',
-            'WebSocket.'
-          ],
-          label: 'optimized'
-        }]
-      }, {
-        version: '1.5.7',
-        date: '2022-04-08',
-        items: [{
-          text: [
-            `Чат после проигрывателя.`,
-            `Разделитель строк в чате.`,
-            `Режим кинотеатра`
-          ],
-          label: 'fixed'
-        }, {
-          text: [
-            `Режим кинотеатра - В полноэкранном режиме.`,
-          ],
-          label: 'added'
-        }, {
-          text: [
-            `Исправить символы ломающие чат.`,
-            `Режим кинотеатра - Показать кнопки подарков.`,
-            `Режим кинотеатра - Скрыть подарки.`
-          ],
-          label: 'changed'
-        }, {
-          text: [
-            `Карточка пользователя.`,
-            `Режим кинотеатра.`,
-            `Распознавание всех ссылок.`
-          ],
-          label: 'optimized'
-        }, {
-          text: [
-            `Отображение стикеров BWASD, BTTV, FFZ и 7TV - Мин. (увеличить при наведении).`,
-          ],
-          label: 'removed'
-        }]
-      }, {
-        version: '1.5.6',
-        date: '2022-03-28',
-        items: [{
-          text: [
-            `Карточка пользователя - Последние сообщения.`
-          ],
-          label: 'fixed'
-        }, {
-          text: [
-            `Проигрыватель » Режим кинотеатра.`,
-          ],
-          label: 'added'
-        }, {
-          text: [
-            `Карточка пользователя - Стикеры.`,
-            `Добавить кнопку 'Картинка в картинке' к управлению проигрывателем (PIP).`,
-            `Фильтрация - Выделение - Роль пользователя.`
-          ],
-          label: 'optimized'
-        }]
-      }, {
-        version: '1.5.5',
-        date: '2022-03-25',
-        items: [{
-          text: [
-            `Аптайм трансляции.`
-          ],
-          label: 'fixed'
-        }, {
-          text: [
-            `Оформление.`,
-            `Значок подписчика в списке пользователей.`
-          ],
-          label: 'added'
-        }, {
-          text: [
-            `WebSocket.`
-          ],
-          label: 'optimized'
-        }]
-      }, {
-        version: '1.5.4',
-        date: '2022-03-23',
-        items: [{
-          text: [
-            `Скрыть баннер на главной странице.`,
-            `Поменять боковые панели местами.`,
-            `Скрыть кнопку "Начать стрим" в заголовке.`,
-            `Скрыть кнопку "Великий рандом!" в заголовке.`
-          ],
-          label: 'fixed'
-        }, {
-          text: [
-            `Фон для значка (Скопировать сообщение).`
-          ],
-          label: 'added'
-        }, {
-          text: [
-            `Отображение стикеров WASD.`
-          ],
-          label: 'optimized'
-        }]
-      }
+        version: "1.6.7",
+        date: "2022-06-11T08:22:53.623Z",
+        items: [
+          {
+            text: ["Использовать цвет имени пользователя BetterWASD."],
+            label: "added",
+          },
+          {
+            text: ["Некоторые ошибки после обновления wasd`a."],
+            label: "fixed",
+          },
+        ],
+      },
+      {
+        version: "1.6.6",
+        date: "2022-05-09T08:26:02.151Z",
+        items: [
+          {
+            text: [
+              "BetterWASD поддержка ZeroWidth эмоций.",
+              "Теперь при добавлении эмоции BetterWASD не нужно обновлять чат.",
+            ],
+            label: "added",
+          },
+        ],
+      },
+      {
+        version: "1.6.5",
+        date: "2022-04-30T17:41:11.260Z",
+        items: [
+          {
+            text: ["Эмоции.", "Упоминине пользователя."],
+            label: "optimized",
+          },
+        ],
+      },
+      {
+        version: "1.6.4",
+        date: "2022-04-25T17:29:05.020Z",
+        items: [
+          {
+            text: [
+              `Скрыть описание выделенного сообщения.`,
+              `Цвет выделенного сообщения.`,
+            ],
+            label: "added",
+          },
+          {
+            text: ["Аптайм трансляции."],
+            label: "fixed",
+          },
+          {
+            text: ["BetterWASD_WS."],
+            label: "optimized",
+          },
+          {
+            text: ["Заполнение сообщений чата."],
+            label: "removed",
+          },
+        ],
+      },
+      {
+        version: "1.6.3",
+        date: "2022-04-24T14:27:25.020Z",
+        items: [
+          {
+            text: [`BetterWASD_WS.`],
+            label: "added",
+          },
+          {
+            text: [
+              "Формат отметок времени.",
+              "Показать значки создателя|модератора|партнера.",
+            ],
+            label: "fixed",
+          },
+        ],
+      },
+      {
+        version: "1.6.2",
+        date: "2022-04-22T00:50:56.564Z",
+        items: [
+          {
+            text: [`Показать значки партнера - Теперь работает в профиле.`],
+            label: "added",
+          },
+          {
+            text: ["Формат отметок времени.", "Скрыть каналы не в сети"],
+            label: "fixed",
+          },
+          {
+            text: [`Карточка пользователя - Средства модератора.`],
+            label: "changed",
+          },
+        ],
+      },
+      {
+        version: "1.6.1",
+        date: "2022-04-21T00:10:56.564Z",
+        items: [
+          {
+            text: [
+              `Блюр информации при падении сайта.`,
+              `Скрыть каналы не в сети.`,
+              `Показать значки создателя|модератора|партнера - Заменить на значок Twitch.`,
+            ],
+            label: "added",
+          },
+          {
+            text: [
+              "Показывать последние сообщения в окне ввода на клавишу «↑» и «↓».",
+            ],
+            label: "fixed",
+          },
+          {
+            text: [
+              `WebSocket.`,
+              `Карточка пользователя - Средства модератора.`,
+            ],
+            label: "changed",
+          },
+        ],
+      },
+      {
+        version: "1.6",
+        date: "2022-04-18T21:00:56.564Z",
+        items: [
+          {
+            text: [`Стиль удаленных сообщений.`],
+            label: "added",
+          },
+          {
+            text: ["Меню модератора.", "Цвет ссылки."],
+            label: "fixed",
+          },
+          {
+            text: [
+              `Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении.`,
+            ],
+            label: "optimized",
+          },
+        ],
+      },
+      {
+        version: "1.5.9",
+        date: "2022-04-17T21:00:00.000Z",
+        items: [
+          {
+            text: [
+              `Меню модератора - Как у BTTV.`,
+              `7TV поддержка всех ZeroWidth эмоций.`,
+              `FFZ поддержка глобальных ZeroWidth эмоций.`,
+              `Показывать последние сообщения в окне ввода на клавишу «&uarr;» и «&darr;».`,
+            ],
+            label: "added",
+          },
+          {
+            text: ["Меню модератора - Twitch."],
+            label: "fixed",
+          },
+          {
+            text: [
+              `7TV | BetterTTV | FrankerFaceZ | BetterWASD эмоции.`,
+              `Аптайм трансляции`,
+              "WebSocket.",
+              `Формат отметок времени`,
+            ],
+            label: "optimized",
+          },
+        ],
+      },
+      {
+        version: "1.5.8",
+        date: "2022-04-15T17:40:00.000Z",
+        items: [
+          {
+            text: [
+              `Автозаполнение эмоции через Tab.`,
+              `Игнорировать БОЛЬШИЕ БУКВЫ для "Автозаполнение эмоции через Tab".`,
+            ],
+            label: "added",
+          },
+          {
+            text: ["Режим кинотеатра."],
+            label: "fixed",
+          },
+          {
+            text: [
+              `7TV | BetterTTV | FrankerFaceZ | BetterWASD эмоции.`,
+              "Карточка пользователя.",
+              "WebSocket.",
+            ],
+            label: "optimized",
+          },
+        ],
+      },
+      {
+        version: "1.5.7",
+        date: "2022-04-08",
+        items: [
+          {
+            text: [
+              `Чат после проигрывателя.`,
+              `Разделитель строк в чате.`,
+              `Режим кинотеатра`,
+            ],
+            label: "fixed",
+          },
+          {
+            text: [`Режим кинотеатра - В полноэкранном режиме.`],
+            label: "added",
+          },
+          {
+            text: [
+              `Исправить символы ломающие чат.`,
+              `Режим кинотеатра - Показать кнопки подарков.`,
+              `Режим кинотеатра - Скрыть подарки.`,
+            ],
+            label: "changed",
+          },
+          {
+            text: [
+              `Карточка пользователя.`,
+              `Режим кинотеатра.`,
+              `Распознавание всех ссылок.`,
+            ],
+            label: "optimized",
+          },
+          {
+            text: [
+              `Отображение стикеров BWASD, BTTV, FFZ и 7TV - Мин. (увеличить при наведении).`,
+            ],
+            label: "removed",
+          },
+        ],
+      },
+      {
+        version: "1.5.6",
+        date: "2022-03-28",
+        items: [
+          {
+            text: [`Карточка пользователя - Последние сообщения.`],
+            label: "fixed",
+          },
+          {
+            text: [`Проигрыватель » Режим кинотеатра.`],
+            label: "added",
+          },
+          {
+            text: [
+              `Карточка пользователя - Стикеры.`,
+              `Добавить кнопку 'Картинка в картинке' к управлению проигрывателем (PIP).`,
+              `Фильтрация - Выделение - Роль пользователя.`,
+            ],
+            label: "optimized",
+          },
+        ],
+      },
+      {
+        version: "1.5.5",
+        date: "2022-03-25",
+        items: [
+          {
+            text: [`Аптайм трансляции.`],
+            label: "fixed",
+          },
+          {
+            text: [`Оформление.`, `Значок подписчика в списке пользователей.`],
+            label: "added",
+          },
+          {
+            text: [`WebSocket.`],
+            label: "optimized",
+          },
+        ],
+      },
+      {
+        version: "1.5.4",
+        date: "2022-03-23",
+        items: [
+          {
+            text: [
+              `Скрыть баннер на главной странице.`,
+              `Поменять боковые панели местами.`,
+              `Скрыть кнопку "Начать стрим" в заголовке.`,
+              `Скрыть кнопку "Великий рандом!" в заголовке.`,
+            ],
+            label: "fixed",
+          },
+          {
+            text: [`Фон для значка (Скопировать сообщение).`],
+            label: "added",
+          },
+          {
+            text: [`Отображение стикеров WASD.`],
+            label: "optimized",
+          },
+        ],
+      },
     ];
 
-    let changelogHtml = '';
+    let changelogHtml = "";
     for (let changelog of changelogList.slice(0, 5)) {
-      changelogHtml += `<h2 style="color: var(--wasd-color-text-prime);">Version ${changelog.version} (${moment(changelog.date).format('YYYY-MM-DD')})</h2><ul style="display: grid;padding-inline-start: 4px;margin: 5px 0;">`;
+      changelogHtml += `<h2 style="color: var(--wasd-color-text-prime);">Version ${
+        changelog.version
+      } (${moment(changelog.date).format(
+        "YYYY-MM-DD"
+      )})</h2><ul style="display: grid;padding-inline-start: 4px;margin: 5px 0;">`;
 
       for (let item of changelog.items) {
         if (item.label) {
-          let labelHtml = '';
-          let labels = item.label.split(' ');
+          let labelHtml = "";
+          let labels = item.label.split(" ");
           for (let label of labels) {
             changelogHtml += changelogLabels[label];
           }
@@ -303,13 +345,13 @@ const BetterStreamChat = {
           item.text += ` (<a target="_blank" href="https://github.com/ovgamesdev/BetterWASD.tv/issues/${item.issueID}">#${item.issueID}</a>)`;
         }
       }
-      changelogHtml += '</ul>';
+      changelogHtml += "</ul>";
     }
 
-    let settingsDiv = document.createElement('div');
+    let settingsDiv = document.createElement("div");
     this.settingsDiv = settingsDiv;
-    settingsDiv.style.display = 'none';
-    settingsDiv.id = 'bscSettingsPanel';
+    settingsDiv.style.display = "none";
+    settingsDiv.id = "bscSettingsPanel";
     settingsDiv.innerHTML = `
       <div id="status">
         <p>
@@ -522,7 +564,7 @@ const BetterStreamChat = {
         </div>
 
         <div style="padding: 10px;">
-          <span>Автор: <a href="https://ovgamesdev.github.io/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a></span> | <a href="https://t.me/BetterWASD" target="_blank">Telegram</a></span>
+          <span>Автор: <a href="https://betterwasd.vercel.app/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a></span> | <a href="https://t.me/BetterWASD" target="_blank">Telegram</a></span>
         </div>
 
         <div style="padding: 10px;">
@@ -557,7 +599,9 @@ const BetterStreamChat = {
         </div>
 
         <div class="bottom footer">
-          <span>Version ${changelogList[0].version} (${moment(changelogList[0].date).format('YYYY-MM-DD')})</span>
+          <span>Version ${changelogList[0].version} (${moment(
+      changelogList[0].date
+    ).format("YYYY-MM-DD")})</span>
           <div class="right tooltip-hover" style="position: relative;">
             <div class="active-tech-status-ovg"></div>
             <span class="activeUsers tech-info-ovg">0</span>
@@ -569,7 +613,7 @@ const BetterStreamChat = {
 
       </main>
       <main id="general" data-tab="general">
-        ${HelperSettings.build('general')}
+        ${HelperSettings.build("general")}
       </main>
 
       <main class="" data-tab="emotes">
@@ -633,7 +677,7 @@ const BetterStreamChat = {
           <p style="margin: 5px 0 0 0;"> BetterWASD </p>
         </ovg-button>
 
-        <h2> Доступные эмоции BetterWASD <a target="_blank" href="https://ovgamesdev.github.io/#/dashboard/emotes">Добавить свою эмоцию</a> </h2>
+        <h2> Доступные эмоции BetterWASD <a target="_blank" href="https://betterwasd.vercel.app/dashboard/emotes">Добавить свою эмоцию</a> </h2>
 
         <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
           <div ovg="" class="wasd-input-wrapper">
@@ -804,12 +848,12 @@ const BetterStreamChat = {
       </main>
 
       <main class="active" data-tab="wasdSettings">
-        ${HelperSettings.build('wasd')}
+        ${HelperSettings.build("wasd")}
       </main>
 
       <main class="" data-tab="appearanceDesign">
         <h1 style="padding-left: 10px;padding-top: 10px;"> Оформление (beta) </h1>
-        ${HelperSettings.build('colors')}
+        ${HelperSettings.build("colors")}
       </main>
 
       <main class="text" data-tab="changelog">
@@ -1051,197 +1095,240 @@ const BetterStreamChat = {
 
         <div class="highlight">
           <div style="margin-left: -10px; width: calc(100% + 20px);">
-            ${HelperSettings.build('highlightRole')}
+            ${HelperSettings.build("highlightRole")}
           </div>
         </div>
       </main>`;
     document.body.append(settingsDiv);
-    BetterStreamChat.changelog = changelogList[0]
+    BetterStreamChat.changelog = changelogList[0];
 
-    settingsDiv.querySelector('#settingsSearchDiv button').addEventListener('click', () => {
-      settingsSearchDiv.classList.remove('notfocused')
-      settingsSearch.dispatchEvent(new Event('input'))
-      settingsSearch.focus()
-    });
+    settingsDiv
+      .querySelector("#settingsSearchDiv button")
+      .addEventListener("click", () => {
+        settingsSearchDiv.classList.remove("notfocused");
+        settingsSearch.dispatchEvent(new Event("input"));
+        settingsSearch.focus();
+      });
 
-    settingsSearch.addEventListener('blur', () => {
-      settingsSearch.value = ''
-      settingsSearchDiv.classList.add('notfocused')
+    settingsSearch.addEventListener("blur", () => {
+      settingsSearch.value = "";
+      settingsSearchDiv.classList.add("notfocused");
     });
 
     // bttv events
-    bttvAddUserBtn.addEventListener('click', () => {
+    bttvAddUserBtn.addEventListener("click", () => {
       HelperBTTV.tryAddUser();
     });
-    let bttvAddUser = settingsDiv.querySelector('#bttvAddUser')
-    bttvAddUser.addEventListener('keyup', (event) => {
-      if (event.key !== 'Enter') return;
+    let bttvAddUser = settingsDiv.querySelector("#bttvAddUser");
+    bttvAddUser.addEventListener("keyup", (event) => {
+      if (event.key !== "Enter") return;
       HelperBTTV.tryAddUser();
     });
 
     // ffz events
-    ffzAddUserBtn.addEventListener('click', () => {
+    ffzAddUserBtn.addEventListener("click", () => {
       HelperFFZ.tryAddUser();
     });
-    let ffzAddUser = settingsDiv.querySelector('#ffzAddUser')
-    ffzAddUser.addEventListener('keyup', (event) => {
-      if (event.key !== 'Enter') return;
+    let ffzAddUser = settingsDiv.querySelector("#ffzAddUser");
+    ffzAddUser.addEventListener("keyup", (event) => {
+      if (event.key !== "Enter") return;
       HelperFFZ.tryAddUser();
     });
 
     // tv7 events
-    tv7AddUserBtn.addEventListener('click', () => {
+    tv7AddUserBtn.addEventListener("click", () => {
       HelperTV7.tryAddUser();
     });
-    tv7AddUser.addEventListener('keyup', (event) => {
-      if (event.key !== 'Enter') return;
+    tv7AddUser.addEventListener("keyup", (event) => {
+      if (event.key !== "Enter") return;
       HelperTV7.tryAddUser();
     });
-
 
     // filtration events
-    blacklistAddUserBtn.addEventListener('click', () => {
-      text = blacklistAddUser.value
-      if (text != '') HelperWASD.addUserToBL(text)
+    blacklistAddUserBtn.addEventListener("click", () => {
+      text = blacklistAddUser.value;
+      if (text != "") HelperWASD.addUserToBL(text);
     });
-    blacklistAddUser.addEventListener('keyup', (event) => {
-      if (event.key !== 'Enter') return;
-      text = blacklistAddUser.value
-      HelperWASD.addUserToBL(text)
-    });
-
-    blacklistAddTermBtn.addEventListener('click', () => {
-      text = blacklistAddTerm.value
-      if (text != '') HelperWASD.addTermToBL(text)
-    });
-    blacklistAddTerm.addEventListener('keyup', (event) => {
-      if (event.key !== 'Enter') return;
-      text = blacklistAddTerm.value
-      HelperWASD.addTermToBL(text)
+    blacklistAddUser.addEventListener("keyup", (event) => {
+      if (event.key !== "Enter") return;
+      text = blacklistAddUser.value;
+      HelperWASD.addUserToBL(text);
     });
 
-    highlightAddUserBtn.addEventListener('click', () => {
-      text = highlightAddUser.value
-      if (text != '') HelperWASD.addUserToHL(text)
+    blacklistAddTermBtn.addEventListener("click", () => {
+      text = blacklistAddTerm.value;
+      if (text != "") HelperWASD.addTermToBL(text);
     });
-    highlightAddUser.addEventListener('keyup', (event) => {
-      if (event.key !== 'Enter') return;
-      text = highlightAddUser.value
-      HelperWASD.addUserToHL(text)
+    blacklistAddTerm.addEventListener("keyup", (event) => {
+      if (event.key !== "Enter") return;
+      text = blacklistAddTerm.value;
+      HelperWASD.addTermToBL(text);
     });
 
-    highlightAddTermBtn.addEventListener('click', () => {
-      text = highlightAddTerm.value
-      if (text != '') HelperWASD.addTermToHL(text)
+    highlightAddUserBtn.addEventListener("click", () => {
+      text = highlightAddUser.value;
+      if (text != "") HelperWASD.addUserToHL(text);
     });
-    highlightAddTerm.addEventListener('keyup', (event) => {
-      if (event.key !== 'Enter') return;
-      text = highlightAddTerm.value
-      HelperWASD.addTermToHL(text)
+    highlightAddUser.addEventListener("keyup", (event) => {
+      if (event.key !== "Enter") return;
+      text = highlightAddUser.value;
+      HelperWASD.addUserToHL(text);
+    });
+
+    highlightAddTermBtn.addEventListener("click", () => {
+      text = highlightAddTerm.value;
+      if (text != "") HelperWASD.addTermToHL(text);
+    });
+    highlightAddTerm.addEventListener("keyup", (event) => {
+      if (event.key !== "Enter") return;
+      text = highlightAddTerm.value;
+      HelperWASD.addTermToHL(text);
     });
 
     for (let user of Object.keys(settings.list.blockUserList)) {
-      HelperWASD.addUserToBlackList(user)
+      HelperWASD.addUserToBlackList(user);
     }
     for (let term of Object.keys(settings.list.blockTermList)) {
-      HelperWASD.addTermToBlackList(term)
+      HelperWASD.addTermToBlackList(term);
     }
     for (let user of Object.keys(settings.list.highlightUserList)) {
-      HelperWASD.addUserToHighLight(user)
+      HelperWASD.addUserToHighLight(user);
     }
     for (let term of Object.keys(settings.list.highlightTermList)) {
-      HelperWASD.addTermToHighLight(term)
+      HelperWASD.addTermToHighLight(term);
     }
 
-    // bind close settings 
-    settingsDiv.querySelector('.close').addEventListener('click', () => {
-      Helper.hideSettings()
-      let search = document.querySelector('#settingsSearch')
+    // bind close settings
+    settingsDiv.querySelector(".close").addEventListener("click", () => {
+      Helper.hideSettings();
+      let search = document.querySelector("#settingsSearch");
       if (search) {
-        search.value = ''
-        search?.dispatchEvent(new Event('input'))
+        search.value = "";
+        search?.dispatchEvent(new Event("input"));
       }
     });
 
-    // bind update chat 
-    settingsDiv.querySelector('.update').addEventListener('dblclick', () => {
-      let header_block_menu = document.querySelectorAll('.header > div.header__block__menu div.header__block__menu__item')
+    // bind update chat
+    settingsDiv.querySelector(".update").addEventListener("dblclick", () => {
+      let header_block_menu = document.querySelectorAll(
+        ".header > div.header__block__menu div.header__block__menu__item"
+      );
       if (header_block_menu.length >= 1) {
         header_block_menu[1]?.click();
-        settingsDiv.querySelector('.update > i').classList.add('resetPlayerLoading');
-        header_block_menu[0]?.children[0]?.click()
+        settingsDiv
+          .querySelector(".update > i")
+          .classList.add("resetPlayerLoading");
+        header_block_menu[0]?.children[0]?.click();
       } else {
-        if (settingsDiv.classList.contains('fullscreen')) {
-          Helper.trySendMessage({ update_chat: true })
+        if (settingsDiv.classList.contains("fullscreen")) {
+          Helper.trySendMessage({ update_chat: true });
         } else {
-          alertify.error(`Чат не найден.`)
+          alertify.error(`Чат не найден.`);
         }
       }
     });
 
     // bind newtab settings
-    settingsDiv.querySelector('.newtab')?.addEventListener('click', () => {
-      let settings_window = window.open('https://wasd.tv/chat?helper-settings=settings', '_blank', 'location=yes,height=500,width=800')
-      BetterStreamChat.isSettingsNewWindow = true
-      let timer_settings_window = setInterval(() => { 
-        if(settings_window.closed) {
+    settingsDiv.querySelector(".newtab")?.addEventListener("click", () => {
+      let settings_window = window.open(
+        "https://wasd.tv/chat?helper-settings=settings",
+        "_blank",
+        "location=yes,height=500,width=800"
+      );
+      BetterStreamChat.isSettingsNewWindow = true;
+      let timer_settings_window = setInterval(() => {
+        if (settings_window.closed) {
           clearInterval(timer_settings_window);
-          BetterStreamChat.isSettingsNewWindow = false
+          BetterStreamChat.isSettingsNewWindow = false;
         }
       }, 200);
-      window.onunload = () => { settings_window?.close() }
-      settingsDiv.querySelector('.close').click()
+      window.onunload = () => {
+        settings_window?.close();
+      };
+      settingsDiv.querySelector(".close").click();
     });
 
     // bind update emotes
-    settingsDiv.querySelector('.updateemotes').addEventListener('dblclick', () => {
-      let header_block_menu = document.querySelector('.header > div.header__block__menu')
+    settingsDiv
+      .querySelector(".updateemotes")
+      .addEventListener("dblclick", () => {
+        let header_block_menu = document.querySelector(
+          ".header > div.header__block__menu"
+        );
 
-      settingsDiv.querySelector('.updateemotes > i').classList.add('resetPlayerLoading');
-      setTimeout(() => {
-        settingsDiv.querySelector('.updateemotes > i').classList.remove('resetPlayerLoading');
-      }, 1000);
+        settingsDiv
+          .querySelector(".updateemotes > i")
+          .classList.add("resetPlayerLoading");
+        setTimeout(() => {
+          settingsDiv
+            .querySelector(".updateemotes > i")
+            .classList.remove("resetPlayerLoading");
+        }, 1000);
 
-      HelperBTTV.updateEmotesBttv();
-      HelperFFZ.updateEmotesFfz();
-      HelperTV7.updateEmotesTv7();
-      if (socket?.channel?.channel) HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login)
-      HelperBTTV.updateSettings(true)
-      HelperFFZ.updateSettings(true)
-      HelperTV7.updateSettings(true)
-    });
+        HelperBTTV.updateEmotesBttv();
+        HelperFFZ.updateEmotesFfz();
+        HelperTV7.updateEmotesTv7();
+        if (socket?.channel?.channel)
+          HelperBWASD.tryAddUser(
+            socket.channel.channel.channel_owner.user_id,
+            socket.channel.channel.channel_owner.user_login
+          );
+        HelperBTTV.updateSettings(true);
+        HelperFFZ.updateSettings(true);
+        HelperTV7.updateSettings(true);
+      });
 
-    if (Cookies.get('BetterWASD_access_token')) Helper.loginTwitchUI(Cookies.get('BetterWASD_twitch_display_name'))
+    if (Cookies.get("BetterWASD_access_token"))
+      Helper.loginTwitchUI(Cookies.get("BetterWASD_twitch_display_name"));
 
-    document.body.addEventListener('click', (value) => {
-      if (value && value.target && value.target.className && !value.target.className.match('twitch_authorize_public')) {
-        document.querySelectorAll('.dropdown-ovg.is-open').forEach((i) => { i.classList.remove('is-open') })
+    document.body.addEventListener("click", (value) => {
+      if (
+        value &&
+        value.target &&
+        value.target.className &&
+        !value.target.className.match("twitch_authorize_public")
+      ) {
+        document.querySelectorAll(".dropdown-ovg.is-open").forEach((i) => {
+          i.classList.remove("is-open");
+        });
       }
 
-      document.querySelector('#bttv-custom-timeout-contain')?.remove()
+      document.querySelector("#bttv-custom-timeout-contain")?.remove();
     });
 
-    settingsDiv.querySelector('.dropdown-ovg.login').addEventListener('click', () => {
-      if (Cookies.get('BetterWASD_twitch_display_name')) {
-        settingsDiv.querySelector('.dropdown-ovg.login').classList.toggle('is-open')
-      } else {
-        window.open('https://id.twitch.tv/oauth2/authorize?client_id=' + HelperTwitch['Client-ID'] + '&redirect_uri=' + encodeURIComponent('https://wasd.tv/') + '&response_type=token')
-      }
-    });
+    settingsDiv
+      .querySelector(".dropdown-ovg.login")
+      .addEventListener("click", () => {
+        if (Cookies.get("BetterWASD_twitch_display_name")) {
+          settingsDiv
+            .querySelector(".dropdown-ovg.login")
+            .classList.toggle("is-open");
+        } else {
+          window.open(
+            "https://id.twitch.tv/oauth2/authorize?client_id=" +
+              HelperTwitch["Client-ID"] +
+              "&redirect_uri=" +
+              encodeURIComponent("https://wasd.tv/") +
+              "&response_type=token"
+          );
+        }
+      });
 
     // bind twitch_authorize logout
-    settingsDiv.querySelector('.dropdown-ovg .logout').addEventListener('click', () => {
-      Helper.logoutTwitchUI()
-      Helper.setUnauthorization()
-      setTimeout(() => {
-        Cookies.remove('BetterWASD_access_token')
-        Cookies.remove('BetterWASD_twitch_display_name')
-      }, 50)
-    });
+    settingsDiv
+      .querySelector(".dropdown-ovg .logout")
+      .addEventListener("click", () => {
+        Helper.logoutTwitchUI();
+        Helper.setUnauthorization();
+        setTimeout(() => {
+          Cookies.remove("BetterWASD_access_token");
+          Cookies.remove("BetterWASD_twitch_display_name");
+        }, 50);
+      });
 
     // bind search settings
     let filter1, ul1, options1, title1, titleline1, i1;
-    settingsSearch.addEventListener('input', () => {
+    settingsSearch.addEventListener("input", () => {
       filter1 = settingsSearch.value.toUpperCase();
       ul1 = document.querySelector("main[data-tab='wasdSettings']");
       options1 = ul1.querySelectorAll("div.option");
@@ -1257,7 +1344,7 @@ const BetterStreamChat = {
 
         titleline1 = options1[i1].querySelector("span.titleline");
         if (titleline1) {
-          if (filter1 == '') {
+          if (filter1 == "") {
             options1[i1].style.display = "";
           } else {
             options1[i1].style.display = "none";
@@ -1267,10 +1354,12 @@ const BetterStreamChat = {
     });
 
     // bind search emoji
-    let bwasdfilter, bwasdul, bwasdoptions, bwasdtitle, bwasdtitleline, bwasdi;
-    bwasdemojiSearch.addEventListener('input', () => {
+    let bwasdfilter, bwasdul, bwasdoptions, bwasdtitle, bwasdi;
+    bwasdemojiSearch.addEventListener("input", () => {
       bwasdfilter = bwasdemojiSearch.value.toUpperCase();
-      bwasdul = document.querySelector("main[data-tab='bwasdSettings'] > #bwasdEmoteList");
+      bwasdul = document.querySelector(
+        "main[data-tab='bwasdSettings'] > #bwasdEmoteList"
+      );
       bwasdoptions = bwasdul.querySelectorAll(".div_emoteCard");
       for (bwasdi = 0; bwasdi < bwasdoptions.length; bwasdi++) {
         bwasdtitle = bwasdoptions[bwasdi].querySelector("span");
@@ -1284,10 +1373,12 @@ const BetterStreamChat = {
       }
     });
 
-    let bttvfilter, bttvul, bttvoptions, bttvtitle, bttvtitleline, bttvi;
-    bttvemojiSearch.addEventListener('input', () => {
+    let bttvfilter, bttvul, bttvoptions, bttvtitle, bttvi;
+    bttvemojiSearch.addEventListener("input", () => {
       bttvfilter = bttvemojiSearch.value.toUpperCase();
-      bttvul = document.querySelector("main[data-tab='bttvSettings'] > #bttvEmoteList");
+      bttvul = document.querySelector(
+        "main[data-tab='bttvSettings'] > #bttvEmoteList"
+      );
       bttvoptions = bttvul.querySelectorAll(".div_emoteCard");
       for (bttvi = 0; bttvi < bttvoptions.length; bttvi++) {
         bttvtitle = bttvoptions[bttvi].querySelector("span");
@@ -1301,10 +1392,12 @@ const BetterStreamChat = {
       }
     });
 
-    let ffzfilter, ffzul, ffzoptions, ffztitle, ffztitleline, ffzi;
-    ffzemojiSearch.addEventListener('input', () => {
+    let ffzfilter, ffzul, ffzoptions, ffztitle, ffzi;
+    ffzemojiSearch.addEventListener("input", () => {
       ffzfilter = ffzemojiSearch.value.toUpperCase();
-      ffzul = document.querySelector("main[data-tab='ffzSettings'] > #ffzEmoteList");
+      ffzul = document.querySelector(
+        "main[data-tab='ffzSettings'] > #ffzEmoteList"
+      );
       ffzoptions = ffzul.querySelectorAll(".div_emoteCard");
       for (ffzi = 0; ffzi < ffzoptions.length; ffzi++) {
         ffztitle = ffzoptions[ffzi].querySelector("span");
@@ -1318,10 +1411,12 @@ const BetterStreamChat = {
       }
     });
 
-    let tv7filter, tv7ul, tv7options, tv7title, tv7titleline, tv7i;
-    tv7emojiSearch.addEventListener('input', () => {
+    let tv7filter, tv7ul, tv7options, tv7title, tv7i;
+    tv7emojiSearch.addEventListener("input", () => {
       tv7filter = tv7emojiSearch.value.toUpperCase();
-      tv7ul = document.querySelector("main[data-tab='tv7Settings'] > #tv7EmoteList");
+      tv7ul = document.querySelector(
+        "main[data-tab='tv7Settings'] > #tv7EmoteList"
+      );
       tv7options = tv7ul.querySelectorAll(".div_emoteCard");
       for (tv7i = 0; tv7i < tv7options.length; tv7i++) {
         tv7title = tv7options[tv7i].querySelector("span");
@@ -1336,37 +1431,45 @@ const BetterStreamChat = {
     });
 
     // backup
-    settingsDiv.querySelector('.backup-upload').addEventListener('click', () => {
-      settingsDiv.querySelector('#importInput').click()
-    });
+    settingsDiv
+      .querySelector(".backup-upload")
+      .addEventListener("click", () => {
+        settingsDiv.querySelector("#importInput").click();
+      });
 
-    settingsDiv.querySelector('input#importInput').onchange = (() => {
-      let files = settingsDiv.querySelector('input#importInput').files[0]
-      let reader = new FileReader()
-      reader.onload = processFile(files)
-      if (files.name.indexOf('.backup') == files.name.length - 7 || files.name.indexOf('.backup.txt') == files.name.length - 11) {
-        reader.readAsText(files)
+    settingsDiv.querySelector("input#importInput").onchange = () => {
+      let files = settingsDiv.querySelector("input#importInput").files[0];
+      let reader = new FileReader();
+      reader.onload = processFile(files);
+      if (
+        files.name.indexOf(".backup") == files.name.length - 7 ||
+        files.name.indexOf(".backup.txt") == files.name.length - 11
+      ) {
+        reader.readAsText(files);
       } else {
-        alertify.warning(`только .backup файлы`, 3)
-      }
-    });
-
-    processFile = (theFile) => {
-      return (e) => {
-        chrome.storage[storageType].set(JSON.parse(e.target.result), () => {
-          location.reload()
-          Helper.trySendMessage({ location: 'reload' });
-          alertify.warning(`Перезагрузка страницы`, 5)
-        })
+        alertify.warning(`только .backup файлы`, 3);
       }
     };
 
-    // show-section-mobile
-    settingsDiv.querySelector('.show-section-mobile').addEventListener('click', () => {
-      settingsDiv.querySelector('section').classList.toggle('mobile-show')
-      settingsDiv.querySelector('.show-section-mobile').classList.toggle('active')
-    });
+    processFile = () => {
+      return (e) => {
+        chrome.storage[storageType].set(JSON.parse(e.target.result), () => {
+          location.reload();
+          Helper.trySendMessage({ location: "reload" });
+          alertify.warning(`Перезагрузка страницы`, 5);
+        });
+      };
+    };
 
+    // show-section-mobile
+    settingsDiv
+      .querySelector(".show-section-mobile")
+      .addEventListener("click", () => {
+        settingsDiv.querySelector("section").classList.toggle("mobile-show");
+        settingsDiv
+          .querySelector(".show-section-mobile")
+          .classList.toggle("active");
+      });
 
     /************/
 
@@ -1375,139 +1478,178 @@ const BetterStreamChat = {
     };
     settingsDiv.ondragover = (e) => {
       e.preventDefault();
-      settingsDiv.classList.add('dragoverbackup');
+      settingsDiv.classList.add("dragoverbackup");
     };
     settingsDiv.ondragleave = (e) => {
       e.preventDefault();
-      settingsDiv.classList.remove('dragoverbackup');
+      settingsDiv.classList.remove("dragoverbackup");
     };
     settingsDiv.ondrop = (e) => {
       e.preventDefault();
-      settingsDiv.classList.remove('dragoverbackup');
+      settingsDiv.classList.remove("dragoverbackup");
     };
 
     /************/
 
-    settingsDiv.querySelector('.backup-download').addEventListener('click', () => {
-      HelperWASD.download(`BetterWASD-settings.backup`, JSON.stringify(settings));
-    });
+    settingsDiv
+      .querySelector(".backup-download")
+      .addEventListener("click", () => {
+        HelperWASD.download(
+          `BetterWASD-settings.backup`,
+          JSON.stringify(settings)
+        );
+      });
 
-    settingsDiv.querySelector('.backup-reset').addEventListener('dblclick', () => {
-      chrome.storage[storageType].set(Helper.getDefaultSettings(), () => {
-        location.reload()
-        Helper.trySendMessage({ location: 'reload' });
-      })
-    });
+    settingsDiv
+      .querySelector(".backup-reset")
+      .addEventListener("dblclick", () => {
+        chrome.storage[storageType].set(Helper.getDefaultSettings(), () => {
+          location.reload();
+          Helper.trySendMessage({ location: "reload" });
+        });
+      });
 
     // link to navigation
-    for (let link of settingsDiv.querySelectorAll('.links_to .link_to')) {
-      link.addEventListener('click', ({ target }) => {
+    for (let link of settingsDiv.querySelectorAll(".links_to .link_to")) {
+      link.addEventListener("click", ({ target }) => {
+        if (
+          target.classList.value == "slider-ovg" ||
+          target.classList.value == "optionField"
+        )
+          return;
 
-        if (target.classList.value == 'slider-ovg' || target.classList.value == 'optionField') return
-
-        let tabs = settingsDiv.querySelectorAll('main');
+        let tabs = settingsDiv.querySelectorAll("main");
         for (let element of [...tabs]) {
-          element.classList.remove('active');
+          element.classList.remove("active");
         }
 
-        if (target.getAttribute('data-tab') == 'bot') {
-          settingsSearchDiv.classList.remove('hidden')
+        if (target.getAttribute("data-tab") == "bot") {
+          settingsSearchDiv.classList.remove("hidden");
         } else {
-          settingsSearchDiv.classList.add('hidden')
+          settingsSearchDiv.classList.add("hidden");
         }
 
-        settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
-
+        settingsDiv
+          .querySelector(`main[data-tab="${target.dataset.tab}"]`)
+          .classList.add("active");
       });
     }
 
     // navigation old
-    for (let navItem of settingsDiv.querySelectorAll('section .items > a')) {
-      navItem.addEventListener('click', ({ target }) => {
-        if (target.getAttribute('role') !== 'tab') return
+    for (let navItem of settingsDiv.querySelectorAll("section .items > a")) {
+      navItem.addEventListener("click", ({ target }) => {
+        if (target.getAttribute("role") !== "tab") return;
 
-        let links = settingsDiv.querySelectorAll('section .items > a');
-        let tabs = settingsDiv.querySelectorAll('main');
+        let links = settingsDiv.querySelectorAll("section .items > a");
+        let tabs = settingsDiv.querySelectorAll("main");
         for (let element of [...tabs, ...links]) {
-          element.classList.remove('active');
+          element.classList.remove("active");
         }
 
-        if (target.getAttribute('data-tab') == 'wasdSettings') {
-          settingsSearchDiv.classList.remove('hidden')
+        if (target.getAttribute("data-tab") == "wasdSettings") {
+          settingsSearchDiv.classList.remove("hidden");
         } else {
-          settingsSearchDiv.classList.add('hidden')
+          settingsSearchDiv.classList.add("hidden");
         }
 
-        if (target.getAttribute('data-tab') == 'about') {
-          HelperWASD.startTimerStatData()
+        if (target.getAttribute("data-tab") == "about") {
+          HelperWASD.startTimerStatData();
         } else {
-          HelperWASD.stopTimerStatData()
+          HelperWASD.stopTimerStatData();
         }
 
-        target.classList.add('active');
-        settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
+        target.classList.add("active");
+        settingsDiv
+          .querySelector(`main[data-tab="${target.dataset.tab}"]`)
+          .classList.add("active");
       });
     }
 
     // navigation new
-    for (let navItem of settingsDiv.querySelectorAll('#nav-sidebar .nav-sidebar__item')) {
-      navItem.addEventListener('click', ({ target }) => {
-        let links = settingsDiv.querySelectorAll('#nav-sidebar .nav-sidebar__item');
-        let tabs = settingsDiv.querySelectorAll('main');
+    for (let navItem of settingsDiv.querySelectorAll(
+      "#nav-sidebar .nav-sidebar__item"
+    )) {
+      navItem.addEventListener("click", ({ target }) => {
+        let links = settingsDiv.querySelectorAll(
+          "#nav-sidebar .nav-sidebar__item"
+        );
+        let tabs = settingsDiv.querySelectorAll("main");
         for (let element of [...tabs]) {
-          element.classList.remove('active');
+          element.classList.remove("active");
         }
         for (let element of [...links]) {
-          element.classList.remove('nav-sidebar__item--active');
+          element.classList.remove("nav-sidebar__item--active");
         }
 
-        if (target.getAttribute('data-tab') == 'wasdSettings') {
-          settingsSearchDiv.classList.remove('hidden')
+        if (target.getAttribute("data-tab") == "wasdSettings") {
+          settingsSearchDiv.classList.remove("hidden");
         } else {
-          settingsSearchDiv.classList.add('hidden')
+          settingsSearchDiv.classList.add("hidden");
         }
 
-        if (target.getAttribute('data-tab') == 'about') {
-          HelperWASD.startTimerStatData()
+        if (target.getAttribute("data-tab") == "about") {
+          HelperWASD.startTimerStatData();
         } else {
-          HelperWASD.stopTimerStatData()
+          HelperWASD.stopTimerStatData();
         }
 
-        target.classList.add('nav-sidebar__item--active');
-        settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add('active');
+        target.classList.add("nav-sidebar__item--active");
+        settingsDiv
+          .querySelector(`main[data-tab="${target.dataset.tab}"]`)
+          .classList.add("active");
       });
     }
 
     // open nav sidebar
-    settingsDiv.querySelector('wasd-nav-sidebar').addEventListener('click', () => {
-      if (settingsDiv.querySelector('wasd-nav-sidebar[ovg]').classList.contains('nav-sidebar--expanded')) {
-        settingsDiv.querySelector('wasd-nav-sidebar[ovg]').classList.remove('nav-sidebar--expanded')
-        settingsDiv.querySelector('.open-nav-sidebar').classList.remove('nav-sidebar-toggle--active')
-      }
+    settingsDiv
+      .querySelector("wasd-nav-sidebar")
+      .addEventListener("click", () => {
+        if (
+          settingsDiv
+            .querySelector("wasd-nav-sidebar[ovg]")
+            .classList.contains("nav-sidebar--expanded")
+        ) {
+          settingsDiv
+            .querySelector("wasd-nav-sidebar[ovg]")
+            .classList.remove("nav-sidebar--expanded");
+          settingsDiv
+            .querySelector(".open-nav-sidebar")
+            .classList.remove("nav-sidebar-toggle--active");
+        }
+      });
+    settingsDiv
+      .querySelector(".open-nav-sidebar")
+      .addEventListener("click", () => {
+        settingsDiv
+          .querySelector("wasd-nav-sidebar[ovg]")
+          .classList.toggle("nav-sidebar--expanded");
+        settingsDiv
+          .querySelector(".open-nav-sidebar")
+          .classList.toggle("nav-sidebar-toggle--active");
+      });
+
+    goToObsChatSetting2.addEventListener("click", () => {
+      Helper.trySendMessage({
+        createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}`,
+      });
     });
-    settingsDiv.querySelector('.open-nav-sidebar').addEventListener('click', () => {
-      settingsDiv.querySelector('wasd-nav-sidebar[ovg]').classList.toggle('nav-sidebar--expanded')
-      settingsDiv.querySelector('.open-nav-sidebar').classList.toggle('nav-sidebar-toggle--active')
+    goToObsChatSetting.addEventListener("click", () => {
+      Helper.trySendMessage({
+        createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}`,
+      });
     });
 
-    goToObsChatSetting2.addEventListener('click', () => {
-      Helper.trySendMessage({ createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}` });
-    });
-    goToObsChatSetting.addEventListener('click', () => {
-      Helper.trySendMessage({ createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}` });
-    });
-
-
-    settingsDiv.querySelector('.ovg-tabs-wrapper').addEventListener('click', () => {
-      settingsDiv.querySelector('.show-section-mobile')?.click()
-    });
-
+    settingsDiv
+      .querySelector(".ovg-tabs-wrapper")
+      .addEventListener("click", () => {
+        settingsDiv.querySelector(".show-section-mobile")?.click();
+      });
 
     // to def
-    for (let option of settingsDiv.querySelectorAll('.optionField.def')) {
-      option.addEventListener('click', (event) => {
-        let split = event.target.dataset.name.split('_');
-        switch (event.target.getAttribute('option-type')) {
+    for (let option of settingsDiv.querySelectorAll(".optionField.def")) {
+      option.addEventListener("click", (event) => {
+        let split = event.target.dataset.name.split("_");
+        switch (event.target.getAttribute("option-type")) {
           // case 'boolean':
           //     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).checked = Helper.getDefaultSettings()[split[0]][split[1]]
           //     HelperSettings.save([event.target.parentElement.querySelector('input[type="checkbox"]')])
@@ -1516,40 +1658,53 @@ const BetterStreamChat = {
           //     event.target.parentElement.querySelector('input[type="text"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
           //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
           //     break;
-          case 'number':
-            event.target.parentElement.querySelector('input[type="number"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            event.target.parentElement.querySelector('input[type="number"]').dispatchEvent(new Event('change'));
+          case "number":
+            event.target.parentElement.querySelector(
+              'input[type="number"]'
+            ).value = Helper.getDefaultSettings()[split[0]][split[1]];
+            event.target.parentElement
+              .querySelector('input[type="number"]')
+              .dispatchEvent(new Event("change"));
             break;
-          case 'select':
-            event.target.parentElement.querySelector('select').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            event.target.parentElement.querySelector('select').dispatchEvent(new Event('change'));
+          case "select":
+            event.target.parentElement.querySelector("select").value =
+              Helper.getDefaultSettings()[split[0]][split[1]];
+            event.target.parentElement
+              .querySelector("select")
+              .dispatchEvent(new Event("change"));
             break;
-          case 'color':
-            let defVal = Helper.varColorToColor(Helper.getDefaultSettings()[split[0]][split[1]])
-            event.target.parentElement.querySelector('input[data-coloris]').value = defVal
-            event.target.parentElement.style.color = defVal
-            event.target.parentElement.querySelector('input[data-coloris]').dispatchEvent(new Event('change'));
+          case "color":
+            let defVal = Helper.varColorToColor(
+              Helper.getDefaultSettings()[split[0]][split[1]]
+            );
+            event.target.parentElement.querySelector(
+              "input[data-coloris]"
+            ).value = defVal;
+            event.target.parentElement.style.color = defVal;
+            event.target.parentElement
+              .querySelector("input[data-coloris]")
+              .dispatchEvent(new Event("change"));
             break;
-            // case 'botevent':
-            //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
-            //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).click()
-            //     } else {
-            //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}_no]`).click()
-            //     }
-            //     event.target.parentElement.querySelector('input[type="text"]').value = Helper.getDefaultSettings()[split[0]][split[1]][0]
-            //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
-            //     break;
+          // case 'botevent':
+          //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
+          //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).click()
+          //     } else {
+          //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}_no]`).click()
+          //     }
+          //     event.target.parentElement.querySelector('input[type="text"]').value = Helper.getDefaultSettings()[split[0]][split[1]][0]
+          //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
+          //     break;
           default:
-            ovg.log('def')
+            ovg.log("def");
             break;
         }
       });
     }
 
-    for (let option of settingsDiv.querySelectorAll('.optionField')) {
-      option.addEventListener('contextmenu', (event) => {
-        let split = event.target.dataset.name.split('_');
-        switch (event.target.getAttribute('option-type')) {
+    for (let option of settingsDiv.querySelectorAll(".optionField")) {
+      option.addEventListener("contextmenu", (event) => {
+        let split = event.target.dataset.name.split("_");
+        switch (event.target.getAttribute("option-type")) {
           // case 'boolean':
           //     event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).checked = Helper.getDefaultSettings()[split[0]][split[1]]
           //     HelperSettings.save([event.target.parentElement.querySelector('input[type="checkbox"]')])
@@ -1558,76 +1713,74 @@ const BetterStreamChat = {
           //     event.target.parentElement.querySelector('input[type="text"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
           //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
           //     break;
-          case 'number':
-            event.target.parentElement.querySelector('input[type="number"]').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            event.target.parentElement.querySelector('input[type="number"]').dispatchEvent(new Event('change'));
+          case "number":
+            event.target.parentElement.querySelector(
+              'input[type="number"]'
+            ).value = Helper.getDefaultSettings()[split[0]][split[1]];
+            event.target.parentElement
+              .querySelector('input[type="number"]')
+              .dispatchEvent(new Event("change"));
             break;
-          case 'select':
-            event.target.parentElement.querySelector('select').value = Helper.getDefaultSettings()[split[0]][split[1]]
-            event.target.parentElement.querySelector('select').dispatchEvent(new Event('change'));
+          case "select":
+            event.target.parentElement.querySelector("select").value =
+              Helper.getDefaultSettings()[split[0]][split[1]];
+            event.target.parentElement
+              .querySelector("select")
+              .dispatchEvent(new Event("change"));
             break;
-          case 'color':
-            let defVal = Helper.varColorToColor(Helper.getDefaultSettings()[split[0]][split[1]])
-            event.target.parentElement.querySelector('input[data-coloris]').value = defVal
-            event.target.parentElement.style.color = defVal
-            event.target.parentElement.querySelector('input[data-coloris]').dispatchEvent(new Event('change'));
+          case "color":
+            let defVal = Helper.varColorToColor(
+              Helper.getDefaultSettings()[split[0]][split[1]]
+            );
+            event.target.parentElement.querySelector(
+              "input[data-coloris]"
+            ).value = defVal;
+            event.target.parentElement.style.color = defVal;
+            event.target.parentElement
+              .querySelector("input[data-coloris]")
+              .dispatchEvent(new Event("change"));
             break;
-            // case 'botevent':
-            //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
-            //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).click()
-            //     } else {
-            //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}_no]`).click()
-            //     }
-            //     event.target.parentElement.querySelector('input[type="text"]').value = Helper.getDefaultSettings()[split[0]][split[1]][0]
-            //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
-            //     break;
+          // case 'botevent':
+          //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
+          //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}]`).click()
+          //     } else {
+          //         event.target.parentElement.querySelector(`input[id=boolean_${event.target.getAttribute('data-name')}_no]`).click()
+          //     }
+          //     event.target.parentElement.querySelector('input[type="text"]').value = Helper.getDefaultSettings()[split[0]][split[1]][0]
+          //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
+          //     break;
           default:
-            ovg.log('def')
+            ovg.log("def");
             break;
         }
         event.preventDefault();
       });
     }
 
-
-
     // change event
-    for (let option of settingsDiv.querySelectorAll('.optionField')) {
-      option.addEventListener('change', (event) => {
+    for (let option of settingsDiv.querySelectorAll(".optionField")) {
+      option.addEventListener("change", (event) => {
         HelperSettings.save([event.target]);
 
-        let split = option.dataset.name.split('_');
-        let value = null;
-
-        if (option.type === 'radio' && option.classList.contains('botevent')) {
-          value = option.checked && option.value === '1';
-        } else if (option.type === 'text' && option.classList.contains('botevent')) {
+        if (option.type === "radio" && option.classList.contains("botevent")) {
+          value = option.checked && option.value === "1";
+        } else if (
+          option.type === "text" &&
+          option.classList.contains("botevent")
+        ) {
           value = option.value;
-        } else if (option.type === 'radio') {
-          value = option.checked && option.value === '1';
-        } else if (option.type === 'checkbox') {
+        } else if (option.type === "radio") {
+          value = option.checked && option.value === "1";
+        } else if (option.type === "checkbox") {
           value = option.checked;
-        } else if (option.dataset.type === 'number' || option.type === 'number') {
+        } else if (
+          option.dataset.type === "number" ||
+          option.type === "number"
+        ) {
           value = parseFloat(option.value);
         } else {
           value = option.value;
         }
-
-        // Helper.trySendMessage({ update_save: { split: split, value: value } })
-
-//     let newSettings = JSON.parse(JSON.stringify(settings));
-
-//     let option = BetterStreamChat.settingsDiv.querySelector(`[data-name="${msg?.update_save?.split[0]}_${msg?.update_save?.split[1]}"]`)
-//     let split = msg.update_save.split
-//     let value = msg.update_save.value
-
-//     if (option.type === 'checkbox') {
-//       option.checked = value
-//     } else {
-//       option.value = value
-//     }
-//     HelperSettings.save([option])
-
       });
     }
 
@@ -1636,16 +1789,18 @@ const BetterStreamChat = {
         $.ajax({
           url: `https://wasd.tv/api/search/profiles?limit=5&offset=0&search_phrase=${blacklistAddUser.value.toLowerCase()}`,
           success: (data) => {
-            response($.map(data?.result?.rows, (item) => {
-              return {
-                label: item.user_login,
-                value: item.user_login,
-                logo: item.profile_image.small
-              }
-            }));
-          }
+            response(
+              $.map(data?.result?.rows, (item) => {
+                return {
+                  label: item.user_login,
+                  value: item.user_login,
+                  logo: item.profile_image.small,
+                };
+              })
+            );
+          },
         });
-      }
+      },
     });
 
     $("#highlightAddUser").autocomplete({
@@ -1653,16 +1808,18 @@ const BetterStreamChat = {
         $.ajax({
           url: `https://wasd.tv/api/search/profiles?limit=5&offset=0&search_phrase=${highlightAddUser.value.toLowerCase()}`,
           success: (data) => {
-            response($.map(data?.result?.rows, (item) => {
-              return {
-                label: item.user_login,
-                value: item.user_login,
-                logo: item.profile_image.small
-              }
-            }));
-          }
+            response(
+              $.map(data?.result?.rows, (item) => {
+                return {
+                  label: item.user_login,
+                  value: item.user_login,
+                  logo: item.profile_image.small,
+                };
+              })
+            );
+          },
         });
-      }
+      },
     });
 
     $("#bttvAddUser").autocomplete({
@@ -1670,20 +1827,22 @@ const BetterStreamChat = {
         $.ajax({
           url: `https://api.twitch.tv/helix/search/channels?query=${bttvAddUser.value.toLowerCase()}&first=5`,
           headers: {
-            'Client-ID': HelperTwitch['Client-ID'],
-            'Authorization': 'Bearer ' + Cookies.get('BetterWASD_access_token')
+            "Client-ID": HelperTwitch["Client-ID"],
+            Authorization: "Bearer " + Cookies.get("BetterWASD_access_token"),
           },
           success: (data) => {
-            response($.map(data.data, (item) => {
-              return {
-                label: item.display_name,
-                value: item.display_name,
-                logo: item.thumbnail_url
-              }
-            }));
-          }
+            response(
+              $.map(data.data, (item) => {
+                return {
+                  label: item.display_name,
+                  value: item.display_name,
+                  logo: item.thumbnail_url,
+                };
+              })
+            );
+          },
         });
-      }
+      },
     });
 
     $("#ffzAddUser").autocomplete({
@@ -1691,20 +1850,22 @@ const BetterStreamChat = {
         $.ajax({
           url: `https://api.twitch.tv/helix/search/channels?query=${ffzAddUser.value.toLowerCase()}&first=5`,
           headers: {
-            'Client-ID': HelperTwitch['Client-ID'],
-            'Authorization': 'Bearer ' + Cookies.get('BetterWASD_access_token')
+            "Client-ID": HelperTwitch["Client-ID"],
+            Authorization: "Bearer " + Cookies.get("BetterWASD_access_token"),
           },
           success: (data) => {
-            response($.map(data.data, (item) => {
-              return {
-                label: item.display_name,
-                value: item.display_name,
-                logo: item.thumbnail_url
-              }
-            }));
-          }
+            response(
+              $.map(data.data, (item) => {
+                return {
+                  label: item.display_name,
+                  value: item.display_name,
+                  logo: item.thumbnail_url,
+                };
+              })
+            );
+          },
         });
-      }
+      },
     });
 
     $("#tv7AddUser").autocomplete({
@@ -1712,76 +1873,90 @@ const BetterStreamChat = {
         $.ajax({
           url: `https://api.twitch.tv/helix/search/channels?query=${tv7AddUser.value.toLowerCase()}&first=5`,
           headers: {
-            'Client-ID': HelperTwitch['Client-ID'],
-            'Authorization': 'Bearer ' + Cookies.get('BetterWASD_access_token')
+            "Client-ID": HelperTwitch["Client-ID"],
+            Authorization: "Bearer " + Cookies.get("BetterWASD_access_token"),
           },
           success: (data) => {
-            response($.map(data.data, (item) => {
-              return {
-                label: item.display_name,
-                value: item.display_name,
-                logo: item.thumbnail_url
-              }
-            }));
-          }
+            response(
+              $.map(data.data, (item) => {
+                return {
+                  label: item.display_name,
+                  value: item.display_name,
+                  logo: item.thumbnail_url,
+                };
+              })
+            );
+          },
         });
-      }
+      },
     });
 
     // bind wasd-input
-    for (let wasdinput of settingsDiv.querySelectorAll('wasd-input')) {
-      let label = wasdinput.querySelector('label[ovg]')
-      let input = wasdinput.querySelector('input[ovg]')
-      let text = input?.placeholder
-      if (label) label.textContent = text
-      wasdinput.querySelector('input')?.addEventListener('focus', () => {
-        label?.classList.add('show')
-        input.placeholder = ''
+    for (let wasdinput of settingsDiv.querySelectorAll("wasd-input")) {
+      let label = wasdinput.querySelector("label[ovg]");
+      let input = wasdinput.querySelector("input[ovg]");
+      let text = input?.placeholder;
+      if (label) label.textContent = text;
+      wasdinput.querySelector("input")?.addEventListener("focus", () => {
+        label?.classList.add("show");
+        input.placeholder = "";
       });
-      wasdinput.querySelector('input')?.addEventListener('blur', () => {
-        label?.classList.remove('show')
-        input.placeholder = text
+      wasdinput.querySelector("input")?.addEventListener("blur", () => {
+        label?.classList.remove("show");
+        input.placeholder = text;
       });
-      wasdinput.querySelector('button')?.addEventListener('click', () => {
-        input.value = ''
-        input.dispatchEvent(new Event('input'))
+      wasdinput.querySelector("button")?.addEventListener("click", () => {
+        input.value = "";
+        input.dispatchEvent(new Event("input"));
       });
     }
 
     // bind Тестовое уведомление
-    testNotify.addEventListener('click', () => {
-      Helper.notify(`Тест`, `Тестовое уведомление`, 'test')
-    })
+    testNotify.addEventListener("click", () => {
+      Helper.notify(`Тест`, `Тестовое уведомление`, "test");
+    });
 
     // bind Уведомления
-    let isOpenBell = false
-    let bell__info = ovg_bell__element.querySelector('.bell__info')
-    let bell_button = ovg_bell__element.querySelector('.bell_button')
-    document.body.addEventListener('click', (e) => {
-      if (e && e.target && e.target.className && !e.target.className.match('bell') && isOpenBell) {
-        Helper.setNotifyReaded()
-        bell__info.setAttribute('hidden', '')
-        isOpenBell = false
+    let isOpenBell = false;
+    let bell__info = ovg_bell__element.querySelector(".bell__info");
+    let bell_button = ovg_bell__element.querySelector(".bell_button");
+    document.body.addEventListener("click", (e) => {
+      if (
+        e &&
+        e.target &&
+        e.target.className &&
+        !e.target.className.match("bell") &&
+        isOpenBell
+      ) {
+        Helper.setNotifyReaded();
+        bell__info.setAttribute("hidden", "");
+        isOpenBell = false;
       }
-      if (e && e.target && e.target.className && e.target.className.match('bell__icon') && isOpenBell) {
+      if (
+        e &&
+        e.target &&
+        e.target.className &&
+        e.target.className.match("bell__icon") &&
+        isOpenBell
+      ) {
         setTimeout(() => {
-          Helper.setNotifyReaded()
-          bell__info.setAttribute('hidden', '')
-          isOpenBell = false
-        }, 50)
+          Helper.setNotifyReaded();
+          bell__info.setAttribute("hidden", "");
+          isOpenBell = false;
+        }, 50);
       }
     });
-    bell_button.addEventListener('click', () => {
+    bell_button.addEventListener("click", () => {
       setTimeout(() => {
-        bell__info.removeAttribute('hidden')
-        bell__info.querySelector('.bell-info__list').scrollTop = 0
-        isOpenBell = true
-      }, 50)
+        bell__info.removeAttribute("hidden");
+        bell__info.querySelector(".bell-info__list").scrollTop = 0;
+        isOpenBell = true;
+      }, 50);
     });
 
     let tooltips = settingsDiv.querySelectorAll(".tooltip-wrapper");
     for (let tooltip of tooltips) {
-      $( tooltip ).tooltip({
+      $(tooltip).tooltip({
         classes: { "ui-tooltip": "ui-ovg-tooltip" },
         content: tooltip.title,
         show: false,
@@ -1789,34 +1964,43 @@ const BetterStreamChat = {
         position: {
           my: "center bottom",
           at: "center top-5",
-          within: $('#bscSettingsPanel')
-        }
+          within: $("#bscSettingsPanel"),
+        },
       });
     }
 
-    for (let select of settingsDiv.querySelectorAll('select')) {
-      select.onfocus = (e) => e.target.classList.add('active')
-      select.onblur = (e) => e.target.classList.remove('active')
+    for (let select of settingsDiv.querySelectorAll("select")) {
+      select.onfocus = (e) => e.target.classList.add("active");
+      select.onblur = (e) => e.target.classList.remove("active");
 
-      select.onchange = (e) => e.target.blur()
+      select.onchange = (e) => e.target.blur();
     }
 
-    for (let option of document.querySelectorAll('input[data-coloris]')) {
+    for (let option of document.querySelectorAll("input[data-coloris]")) {
       if (!option.dataset.name) continue;
-      let split = option.dataset.name.split('_');
+      let split = option.dataset.name.split("_");
 
-      let swatches = HelperSettings.availableSettings[split[0]][split[1]].swatches;
-      option.addEventListener('focus', () => {
-        if (typeof swatches === 'object') {
-          Coloris({swatches:[option.value, ...swatches], focusInput: window.innerWidth > 480 })
+      let swatches =
+        HelperSettings.availableSettings[split[0]][split[1]].swatches;
+      option.addEventListener("focus", () => {
+        if (typeof swatches === "object") {
+          Coloris({
+            swatches: [option.value, ...swatches],
+            focusInput: window.innerWidth > 480,
+          });
         } else {
-          Coloris({swatches:[option.value], focusInput: window.innerWidth > 480 })
+          Coloris({
+            swatches: [option.value],
+            focusInput: window.innerWidth > 480,
+          });
         }
       });
     }
 
-    Coloris({ clearButton: {show: false}, formatToggle: false})
-    settingsDiv.querySelectorAll('main').forEach((e) => e.onscroll = () => Coloris.close())
+    Coloris({ clearButton: { show: false }, formatToggle: false });
+    settingsDiv
+      .querySelectorAll("main")
+      .forEach((e) => (e.onscroll = () => Coloris.close()));
 
     this.install();
 
@@ -1835,10 +2019,9 @@ const BetterStreamChat = {
 
     // load chat
     HelperWASD.loaded();
-
   },
   install() {
-    this.activeInstance = 'wasd'
+    this.activeInstance = "wasd";
     wasd.init();
   },
   uninstall() {
@@ -1848,59 +2031,63 @@ const BetterStreamChat = {
   update() {
     if (this.activeInstance) {
       wasd.updatestyle();
-      $('.blacklist .user .ovg-items').empty();
+      $(".blacklist .user .ovg-items").empty();
       for (let user of Object.keys(settings.list.blockUserList)) {
-        HelperWASD.addUserToBlackList(user)
+        HelperWASD.addUserToBlackList(user);
       }
 
-      $('.blacklist .term .ovg-items').empty();
+      $(".blacklist .term .ovg-items").empty();
       for (let term of Object.keys(settings.list.blockTermList)) {
-        HelperWASD.addTermToBlackList(term)
+        HelperWASD.addTermToBlackList(term);
       }
 
-      $('.highlight .user .ovg-items').empty();
+      $(".highlight .user .ovg-items").empty();
       for (let user of Object.keys(settings.list.highlightUserList)) {
-        HelperWASD.addUserToHighLight(user)
+        HelperWASD.addUserToHighLight(user);
       }
 
-      $('.highlight .term .ovg-items').empty();
+      $(".highlight .term .ovg-items").empty();
       for (let term of Object.keys(settings.list.highlightTermList)) {
-        HelperWASD.addTermToHighLight(term)
+        HelperWASD.addTermToHighLight(term);
       }
     }
   },
   openSettings() {
-    if (HelperWASD.closedViewUrl  == 'none' || HelperWASD.self_channel_name == 'none') {
+    if (
+      HelperWASD.closedViewUrl == "none" ||
+      HelperWASD.self_channel_name == "none"
+    ) {
       $.ajax({
         url: `https://wasd.tv/api/v2/profiles/current/broadcasts/closed-view-url`,
         success: (out) => {
-          HelperWASD.closedViewUrl = out.result.view_url.replace('https://wasd.tv/private-stream/', '')
+          HelperWASD.closedViewUrl = out.result.view_url.replace(
+            "https://wasd.tv/private-stream/",
+            ""
+          );
           $.ajax({
             url: `https://wasd.tv/api/v2/profiles/current`,
             success: (out) => {
-              HelperWASD.self_channel_name = out.result.user_profile.user_login
-            }
+              HelperWASD.self_channel_name = out.result.user_profile.user_login;
+            },
           });
-        }
+        },
       });
     }
 
-    Helper.buildBell()
+    Helper.buildBell();
 
     if (document.querySelector('main.active[data-tab="about"]')) {
-      HelperWASD.startTimerStatData()
+      HelperWASD.startTimerStatData();
     }
-
-  }
-}
-
-
-
+  },
+};
 
 $.widget("app.autocomplete", $.ui.autocomplete, {
   _renderItem: (ul, item) => {
-    return $( "<li>" )
-      .append( `<div class='ui-menu-item-icon' style='background-image: url(${item.logo})'> ${item.label} </div>` )
-      .appendTo( ul );
-  }
+    return $("<li>")
+      .append(
+        `<div class='ui-menu-item-icon' style='background-image: url(${item.logo})'> ${item.label} </div>`
+      )
+      .appendTo(ul);
+  },
 });
