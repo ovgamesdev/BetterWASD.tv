@@ -419,6 +419,7 @@ const HelperWASD = {
     let left_card = 0;
     let data;
 
+    console.log(node);
     let rect = node.getBoundingClientRect();
 
     if (!settings.general.saveCardPosition) {

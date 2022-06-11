@@ -545,13 +545,11 @@ button#backupButton {
   border-radius: 2px;
   padding: 2px 6px;
   background: grey;
-  vertical-align: middle;
   display: block;
 }
 
 #bscSettingsPanel .textlabel {
   padding: 0px 6px;
-  vertical-align: middle;
   display: block;
 }
 
@@ -1045,7 +1043,6 @@ yt-live-chat-header-renderer {
   font-family: "wasd-font";
   font-style: normal;
   font-weight: normal;
-  speak: never;
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
@@ -1978,7 +1975,6 @@ div.item__links-ovg>.link>.plus {
   font-family: ffz-fontello;
   font-style: normal;
   font-weight: 400;
-  speak: none;
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
@@ -2118,7 +2114,6 @@ wasd-chat-emoji-smiles-bwasd .bwasdemojiSearch-shat,
   font-family: "wasd-font";
   font-style: normal;
   font-weight: normal;
-  speak: never;
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
@@ -2692,7 +2687,6 @@ div.sticker-card:hover div.paidsubs-popup__stickers-item {
 div.chat-room__viewer-card * {
   text-rendering: optimizeSpeed!important;
   image-rendering: optimizeSpeed!important;
-  color-rendering: optimizeSpeed!important;
   shape-rendering: optimizeSpeed!important;
 }
 .ovg-bg-color-prime:hover .lrhiverimg {
@@ -3253,10 +3247,6 @@ wasd-chat-subscribe-message .chat-message-mention {
 }
 
 /* div pod position  */
-
-.pod-position {
-
-}
 
 .pod-position .top {
   top: 0;
