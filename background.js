@@ -53,9 +53,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     contentTabId = sender.tab.id;
   }
   if (request.setUninstall) {
-    chrome.runtime.setUninstallURL(
-      `https://betterwasd.herokuapp.com/api/v1/stat/tv/delete/${request.setUninstall}`
-    );
+    chrome.runtime.setUninstallURL(`https://betterwasya.vercel.app/uninstall/${request.setUninstall}`);
   }
   if (request.createWindow) {
     chrome.windows.create({
@@ -95,11 +93,7 @@ chrome.runtime.onConnectExternal.addListener(function (port) {
 
   botPort.onMessage.addListener(function (msg, sender, sendResponse) {
     console.log(msg, contentTabId);
-    if (
-      msg.from == "background_betterwasd_bot" &&
-      msg.userCoins &&
-      contentTabId
-    ) {
+    if (msg.from == "background_betterwasya_bot" && msg.userCoins && contentTabId) {
       chrome.tabs.sendMessage(contentTabId, {
         from: "background",
         coinUsers: msg.userCoins,
@@ -118,7 +112,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
       {
         type: "basic",
         iconUrl: "img/icon128.png",
-        title: "BetterWASD",
+        title: "BetterWASYA",
         message: "Расширение обновлено",
         buttons: [
           {

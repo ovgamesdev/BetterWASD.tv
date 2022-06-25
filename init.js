@@ -1,15 +1,8 @@
 let storageType = "sync";
-let isPressedAlt,
-  isPressedShift,
-  isPressedControl,
-  isPressedFullScreen,
-  isPressedTheater,
-  isPressedPIP,
-  isPressedClip;
+let isPressedAlt, isPressedShift, isPressedControl, isPressedFullScreen, isPressedTheater, isPressedPIP, isPressedClip;
 
-let git_url = `https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/${
-  localStorage.bwasdDebugMode == "true" ? "main" : "release"
-}/`;
+// ${ localStorage.bwasdDebugMode == "true" ? "main" : "release" }
+let git_url = `https://raw.githubusercontent.com/ovgamesdev/res/main/`;
 moment.locale("ru");
 
 window.addEventListener("keyup", (e) => {
@@ -27,44 +20,20 @@ window.addEventListener("keydown", (e) => {
   if (e.key == "Shift") isPressedShift = true;
   if (e.key == "Control") isPressedControl = true;
   if (e.key == "f" || e.key == "а") {
-    if (
-      settings.wasd.pressedFullScreen &&
-      !isPressedFullScreen &&
-      !isPressedControl
-    ) {
-      if (
-        !(
-          document.activeElement.nodeName == "TEXTAREA" ||
-          document.activeElement.nodeName == "INPUT"
-        )
-      ) {
-        document
-          .querySelector("button.player-button.fullscreen-button")
-          ?.click();
+    if (settings.wasd.pressedFullScreen && !isPressedFullScreen && !isPressedControl) {
+      if (!(document.activeElement.nodeName == "TEXTAREA" || document.activeElement.nodeName == "INPUT")) {
+        document.querySelector("button.player-button.fullscreen-button")?.click();
         isPressedFullScreen = true;
       }
     }
   }
   if (e.key == "t" || e.key == "е") {
-    if (
-      settings.wasd.pressedTheater &&
-      !isPressedTheater &&
-      !isPressedControl
-    ) {
-      if (
-        !(
-          document.activeElement.nodeName == "TEXTAREA" ||
-          document.activeElement.nodeName == "INPUT"
-        )
-      ) {
+    if (settings.wasd.pressedTheater && !isPressedTheater && !isPressedControl) {
+      if (!(document.activeElement.nodeName == "TEXTAREA" || document.activeElement.nodeName == "INPUT")) {
         if (settings.wasd.theaterModeNoFS) {
-          document
-            .querySelector("button.player-button.theaterModeNoFS")
-            ?.click();
+          document.querySelector("button.player-button.theaterModeNoFS")?.click();
         } else {
-          document
-            .querySelector("button.player-button.theater-button")
-            ?.click();
+          document.querySelector("button.player-button.theater-button")?.click();
         }
         isPressedTheater = true;
       }
@@ -72,12 +41,7 @@ window.addEventListener("keydown", (e) => {
   }
   if (e.key == "i" || e.key == "ш") {
     if (settings.wasd.pressedPIP && !isPressedPIP && !isPressedControl) {
-      if (
-        !(
-          document.activeElement.nodeName == "TEXTAREA" ||
-          document.activeElement.nodeName == "INPUT"
-        )
-      ) {
+      if (!(document.activeElement.nodeName == "TEXTAREA" || document.activeElement.nodeName == "INPUT")) {
         document.querySelector("button.player-button.pip")?.click();
         isPressedPIP = true;
       }
@@ -85,12 +49,7 @@ window.addEventListener("keydown", (e) => {
   }
   if (e.key == "x" || e.key == "ч") {
     if (settings.wasd.pressedClip && !isPressedClip && !isPressedControl) {
-      if (
-        !(
-          document.activeElement.nodeName == "TEXTAREA" ||
-          document.activeElement.nodeName == "INPUT"
-        )
-      ) {
+      if (!(document.activeElement.nodeName == "TEXTAREA" || document.activeElement.nodeName == "INPUT")) {
         if (settings.wasd.iframeCreateClip) {
           document.querySelector("button.player-button.clip-ovg")?.click();
         } else {
@@ -170,12 +129,8 @@ updateVideoPlayerButtons = () => {
 
   isTheaterMode = document.querySelector("div.player-wrapper.theatre-mode");
   if (isTheaterMode || HelperWASD.isTheaterModeNoFS) {
-    theaterButton = document.querySelector(
-      ".player-button.theater-button > div.tooltip"
-    );
-    theaterNoFSButton = document.querySelector(
-      ".player-button.theaterModeNoFS > div.tooltip"
-    );
+    theaterButton = document.querySelector(".player-button.theater-button > div.tooltip");
+    theaterNoFSButton = document.querySelector(".player-button.theaterModeNoFS > div.tooltip");
     if (theaterButton) {
       if (settings.wasd.pressedTheater) {
         theaterButton.textContent = "Выйти из театрального режима (t)";
@@ -191,12 +146,8 @@ updateVideoPlayerButtons = () => {
       }
     }
   } else {
-    theaterButton = document.querySelector(
-      ".player-button.theater-button > div.tooltip"
-    );
-    theaterNoFSButton = document.querySelector(
-      ".player-button.theaterModeNoFS > div.tooltip"
-    );
+    theaterButton = document.querySelector(".player-button.theater-button > div.tooltip");
+    theaterNoFSButton = document.querySelector(".player-button.theaterModeNoFS > div.tooltip");
     if (theaterButton) {
       if (settings.wasd.pressedTheater) {
         theaterButton.textContent = "Театральный режим (t)";
@@ -230,13 +181,9 @@ updateVideoPlayerButtons = () => {
 
   let clipButton;
   if (settings.wasd.iframeCreateClip) {
-    clipButton = document.querySelector(
-      ".player-button.clip-ovg > div.tooltip"
-    );
+    clipButton = document.querySelector(".player-button.clip-ovg > div.tooltip");
   } else {
-    clipButton = document.querySelector(
-      ".player-button.clip-button > div.tooltip"
-    );
+    clipButton = document.querySelector(".player-button.clip-button > div.tooltip");
   }
 
   if (clipButton) {
@@ -264,9 +211,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.from == "background" && msg.update_save) {
     let newSettings = JSON.parse(JSON.stringify(settings));
 
-    let option = BetterStreamChat.settingsDiv.querySelector(
-      `[data-name="${msg?.update_save?.split[0]}_${msg?.update_save?.split[1]}"]`
-    );
+    let option = BetterStreamChat.settingsDiv.querySelector(`[data-name="${msg?.update_save?.split[0]}_${msg?.update_save?.split[1]}"]`);
     let split = msg.update_save.split;
     let value = msg.update_save.value;
 
@@ -278,9 +223,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     HelperSettings.save([option]);
   }
   if (msg.from == "background" && msg.update_chat == true) {
-    BetterStreamChat.settingsDiv
-      .querySelector(".update")
-      ?.dispatchEvent(new Event("dblclick"));
+    BetterStreamChat.settingsDiv.querySelector(".update")?.dispatchEvent(new Event("dblclick"));
   }
   if (msg.from == "background" && msg.location == "reload") {
     location.reload();
@@ -291,9 +234,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 });
 
 window.addEventListener("unload", () =>
-  navigator.sendBeacon(
-    `${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`
-  )
+  navigator.sendBeacon(`${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`)
 );
 
 const resizeTheaterModeNoFS = (moreUpdate = true, isClick) => {
@@ -302,34 +243,20 @@ const resizeTheaterModeNoFS = (moreUpdate = true, isClick) => {
     let giftsInfo = document.querySelector("#giftsInfo");
     let playerWrapper = document.querySelector(".player-wrapper");
 
-    let height =
-      settings.wasd.theaterModeStreamInfo.toString() == "2"
-        ? streamInfo?.offsetHeight
-        : 0;
+    let height = settings.wasd.theaterModeStreamInfo.toString() == "2" ? streamInfo?.offsetHeight : 0;
 
-    if (
-      theaterModeShowGifts.toString() == "false" &&
-      document.querySelector(".content-wrapper.theaterModeNoFS")
-    ) {
+    if (theaterModeShowGifts.toString() == "false" && document.querySelector(".content-wrapper.theaterModeNoFS")) {
       height += giftsInfo?.offsetHeight;
     } else {
-      height += settings.wasd.theaterModeShowGifts
-        ? giftsInfo?.offsetHeight
-        : 0;
+      height += settings.wasd.theaterModeShowGifts ? giftsInfo?.offsetHeight : 0;
     }
 
     const update = () => {
       if (HelperWASD.isTheaterModeNoFS && playerWrapper) {
         playerWrapper.style.height = `calc(100vh - ${height}px)`;
-        if (
-          settings.wasd.theaterModeStreamInfo.toString() !== "2" &&
-          streamInfo
-        ) {
+        if (settings.wasd.theaterModeStreamInfo.toString() !== "2" && streamInfo) {
           streamInfo.style.width = `calc(${playerWrapper.offsetWidth}px - 60px)`;
-        } else if (
-          settings.wasd.theaterModeStreamInfo.toString() !== "3" &&
-          streamInfo
-        ) {
+        } else if (settings.wasd.theaterModeStreamInfo.toString() !== "3" && streamInfo) {
           streamInfo.style.width = ``;
         }
       }
@@ -347,11 +274,7 @@ window.addEventListener("resize", resizeTheaterModeNoFS, false);
 
 document.onfullscreenchange = (v) => {
   let button = document.querySelector("button.theaterModeNoFS");
-  if (
-    document.fullscreen &&
-    HelperWASD.isTheaterModeNoFS &&
-    !settings.wasd.theaterModeFullScreen
-  ) {
+  if (document.fullscreen && HelperWASD.isTheaterModeNoFS && !settings.wasd.theaterModeFullScreen) {
     HelperWASD.isTheaterModeNoFS = false;
     document.querySelector("style.theaterModeNoFS")?.remove();
     let svg = button.querySelector("svg");
@@ -359,11 +282,7 @@ document.onfullscreenchange = (v) => {
     if (svg)
       svg.outerHTML = `<svg width="16" height="16" viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path fill="#FFF" d="M15 0a1 1 0 011 1v8a1 1 0 01-1 1h-1a1 1 0 01-1-1V1a1 1 0 011-1h1zm-4 0a1 1 0 011 1v8a1 1 0 01-1 1H1a1 1 0 01-1-1V1a1 1 0 011-1h10z"></path></svg>`;
     if (tooltip) tooltip.textContent = `Режим кинотеатра`;
-    document
-      .querySelector(".chat-container")
-      .classList.remove("theaterModeNoFS");
-    document
-      .querySelector(".content-wrapper")
-      .classList.remove("theaterModeNoFS");
+    document.querySelector(".chat-container").classList.remove("theaterModeNoFS");
+    document.querySelector(".content-wrapper").classList.remove("theaterModeNoFS");
   }
 };

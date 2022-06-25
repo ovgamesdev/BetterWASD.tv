@@ -3,9 +3,7 @@ const Helper = {
   BETA: `<a style="position: relative;" class="tooltip-wrapper" title="Эта опция находится в стадии разработки и может работать некорректно."><i _ngcontent-boj-c248="" class="wasd-icons-beta" style="font-size: 14px;"></i></a>`,
   tooltip(text, data) {
     return `<a style="position: relative;" class="tooltip-wrapper" title='${data}'>${
-      text == ""
-        ? '<i _ngcontent-boj-c248="" class="wasd-icons-notice" style="font-size: 14px;"></i>'
-        : text
+      text == "" ? '<i _ngcontent-boj-c248="" class="wasd-icons-notice" style="font-size: 14px;"></i>' : text
     }</a>`;
   },
   getDefaultSettings() {
@@ -71,8 +69,7 @@ const Helper = {
         hidePanelMobile: true,
         formatMessageSentTime: false,
         highlightMessagesOpenCard: false,
-        highlightMessagesOpenCardColor:
-          "rgba(var(--wasd-color-switch--rgb),.08)",
+        highlightMessagesOpenCardColor: "rgba(var(--wasd-color-switch--rgb),.08)",
         alwaysOpenVolumeControl: false,
         colorMessageHover: "rgba(var(--wasd-color-switch--rgb),.08)",
         bttvSize: "56px",
@@ -142,7 +139,7 @@ const Helper = {
         hideOfflineChannelsOnNavSidebar: false,
         hideDescriptionHighlightedMsg: false,
         highlightedMessageColor: "#00000000",
-        betterwasdPaint: true,
+        betterwasyaPaint: true,
       },
       list: {
         blockUserList: {},
@@ -231,10 +228,7 @@ const Helper = {
 
           for (let key in defaultSettings) {
             if (defaultSettings.hasOwnProperty(key)) {
-              items[key] = Object.assign(
-                defaultSettings[key],
-                items[key] || {}
-              );
+              items[key] = Object.assign(defaultSettings[key], items[key] || {});
             }
           }
           resolve(items);
@@ -257,10 +251,7 @@ const Helper = {
 
     return value.replace(/var\(\D+\)/gi, ($0) => {
       data = $0.replace("var(", "").replace(")", "");
-      return window
-        .getComputedStyle(document.body)
-        .getPropertyValue(data)
-        .replace(/ /gi, "");
+      return window.getComputedStyle(document.body).getPropertyValue(data).replace(/ /gi, "");
     });
   },
   setUnauthorization() {
@@ -284,10 +275,7 @@ const Helper = {
         alertify.error("Ошибка отправки сообщения", 3);
       }
     } else {
-      alertify.warning(
-        `Расширение было обновлено</br>Перезагрузите страницу`,
-        4.5
-      ).callback = (isClicked) => {
+      alertify.warning(`Расширение было обновлено</br>Перезагрузите страницу`, 4.5).callback = (isClicked) => {
         if (isClicked) location.reload();
       };
     }
@@ -309,17 +297,13 @@ const Helper = {
             if (data[info].link)
               linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${
                 data[info].link
-              }"> ${
-                data[info].linkText ? data[info].linkText : "Подробнее"
-              } </a></div>`;
+              }"> ${data[info].linkText ? data[info].linkText : "Подробнее"} </a></div>`;
             div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${HelperBWASD.replaceText(
               data[info].text
-            )} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${moment(
-              data[info].date
-            ).format("DD.MM.YYYY")} </div>`;
-            ovg_bell__element
-              .querySelector(".bell-info__list")
-              .appendChild(div);
+            )} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${moment(data[info].date).format(
+              "DD.MM.YYYY"
+            )} </div>`;
+            ovg_bell__element.querySelector(".bell-info__list").appendChild(div);
           }
 
           if (data.length == 0) {
@@ -328,9 +312,7 @@ const Helper = {
             ovg_bell__element.style.display = "";
           }
 
-          let wrap = document.querySelector(
-            "#bscSettingsPanel .bell__icon-wrap"
-          );
+          let wrap = document.querySelector("#bscSettingsPanel .bell__icon-wrap");
           if (Helper.isNotifyReaded()) {
             wrap.classList.remove("bell__icon-wrap--animation");
             wrap.classList.remove("bell__icon-wrap--new-msg");
@@ -346,24 +328,20 @@ const Helper = {
   },
   setNotifyReaded() {
     let notifyReaded = "";
-    for (let node of document.querySelector(
-      "#bscSettingsPanel .bell-info__list"
-    ).childNodes) {
+    for (let node of document.querySelector("#bscSettingsPanel .bell-info__list").childNodes) {
       notifyReaded += node.getAttribute("bell_id") + "&";
     }
-    Cookies.set("BetterWASD_notify_readed", notifyReaded);
+    Cookies.set("BetterWASYA_notify_readed", notifyReaded);
 
     let wrap = document.querySelector("#bscSettingsPanel .bell__icon-wrap");
     wrap.classList.remove("bell__icon-wrap--animation");
     wrap.classList.remove("bell__icon-wrap--new-msg");
   },
   isNotifyReaded() {
-    let notifyReaded = Cookies.get("BetterWASD_notify_readed");
+    let notifyReaded = Cookies.get("BetterWASYA_notify_readed");
     let is = true;
     if (!notifyReaded) return is;
-    for (let node of document.querySelector(
-      "#bscSettingsPanel .bell-info__list"
-    ).childNodes) {
+    for (let node of document.querySelector("#bscSettingsPanel .bell-info__list").childNodes) {
       let isR = !notifyReaded.match(node.getAttribute("bell_id"));
       if (isR) {
         is = false;
@@ -374,36 +352,17 @@ const Helper = {
   },
   showSettings() {
     BetterStreamChat.settingsDiv.style.display = "block";
-    if (document.querySelector("wasd-chat-menu"))
-      document.querySelector(".new-chat .header__block__btn .icon")?.click();
+    if (document.querySelector("wasd-chat-menu")) document.querySelector(".new-chat .header__block__btn .icon")?.click();
     BetterStreamChat.settingsDiv.style.animationName = "showbetterpanel";
-    BetterStreamChat.settingsDiv.querySelector(
-      ".nav-sidebar__list.top"
-    ).style.animationName = "showbetterpanel_sidebar";
+    BetterStreamChat.settingsDiv.querySelector(".nav-sidebar__list.top").style.animationName = "showbetterpanel_sidebar";
     BetterStreamChat.openSettings();
   },
   hideSettings() {
     BetterStreamChat.settingsDiv.style.animationName = "hidebetterpanel";
-    BetterStreamChat.settingsDiv.querySelector(
-      ".nav-sidebar__list.top"
-    ).style.animationName = "hidebetterpanel_sidebar";
+    BetterStreamChat.settingsDiv.querySelector(".nav-sidebar__list.top").style.animationName = "hidebetterpanel_sidebar";
     HelperWASD.stopTimerStatData();
     setTimeout(() => {
       BetterStreamChat.settingsDiv.style.display = "none";
     }, 350);
-  },
-  loginTwitchUI(username = "") {
-    let tap = document.querySelector(".twitch_authorize_public");
-    tap.classList.add("disable");
-    tap.classList.add("medium");
-    tap.classList.remove("medium-cube");
-    tap.querySelector(".username").textContent = username;
-  },
-  logoutTwitchUI() {
-    let tap = document.querySelector(".twitch_authorize_public");
-    tap.classList.remove("disable");
-    tap.classList.remove("medium");
-    tap.classList.add("medium-cube");
-    tap.querySelector(".username").textContent = "";
   },
 };

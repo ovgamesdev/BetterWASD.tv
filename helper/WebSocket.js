@@ -13,10 +13,7 @@ const socket = {
   isJoined: false,
   isJoining: false,
   join() {
-    if (
-      HelperWASD.getStreamBroadcastsUrl().match("undefined") ||
-      HelperWASD.getStreamBroadcastsUrl().concat(" ").match("channel_name=0 ")
-    )
+    if (HelperWASD.getStreamBroadcastsUrl().match("undefined") || HelperWASD.getStreamBroadcastsUrl().concat(" ").match("channel_name=0 "))
       return setTimeout(() => socket.join(), 15);
     if (this.isJoining || this.isJoined) return;
     this.isJoining = true;
@@ -37,10 +34,7 @@ const socket = {
           document.body.append(this.WebSocket_history);
         }
 
-        HelperBWASD.tryAddUser(
-          socket.channel?.channel?.channel_owner?.user_id,
-          socket.channel?.channel?.channel_owner?.user_login
-        );
+        HelperBWASD.tryAddUser(socket.channel?.channel?.channel_owner?.user_id, socket.channel?.channel?.channel_owner?.user_login);
         HelperWASD.loadSubscribersData(socket.channelId);
 
         $.ajax({
@@ -52,36 +46,20 @@ const socket = {
 
             if (!socket.streamId) {
               if (typeof socket.channel?.media_container == "undefined") {
-                socket.streamId =
-                  socket.channel?.media_container_streams[0]?.stream_id;
+                socket.streamId = socket.channel?.media_container_streams[0]?.stream_id;
               } else {
-                if (
-                  typeof socket.channel?.media_container
-                    ?.media_container_streams[0] == "undefined"
-                )
-                  return;
-                socket.streamId =
-                  socket.channel?.media_container?.media_container_streams[0]?.stream_id;
+                if (typeof socket.channel?.media_container?.media_container_streams[0] == "undefined") return;
+                socket.streamId = socket.channel?.media_container?.media_container_streams[0]?.stream_id;
               }
             }
 
             try {
-              if (
-                socket.socketd.readyState === socket.socketd.OPEN &&
-                this.isJoining &&
-                !this.isJoined
-              ) {
+              if (socket.socketd.readyState === socket.socketd.OPEN && this.isJoining && !this.isJoined) {
                 socket.socketd.send(
                   `42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`
                 );
-                socket.intervalSave = setInterval(
-                  () => socket.saveUserList(),
-                  30000
-                );
-                socket.intervalWatchChannel = setInterval(
-                  () => socket.watchChannelInterval(),
-                  300000
-                );
+                socket.intervalSave = setInterval(() => socket.saveUserList(), 30000);
+                socket.intervalWatchChannel = setInterval(() => socket.watchChannelInterval(), 300000);
                 socket.saveUserList();
                 socket.saveMessagesList();
               }
@@ -99,10 +77,7 @@ const socket = {
   },
   leave() {
     try {
-      if (
-        socket.socketd.readyState === socket.socketd.OPEN &&
-        socket.isJoined
-      ) {
+      if (socket.socketd.readyState === socket.socketd.OPEN && socket.isJoined) {
         socket.socketd.send(`42["leave",{"streamId":${socket.streamId}}]`);
         BetterWS.leave();
       }
@@ -115,16 +90,13 @@ const socket = {
     socket.clearData();
   },
   start() {
-    this.socketd = new WebSocket(
-      "wss://chat.wasd.tv/socket.io/?EIO=3&transport=websocket"
-    );
+    this.socketd = new WebSocket("wss://chat.wasd.tv/socket.io/?EIO=3&transport=websocket");
 
     this.socketd.onopen = (e) => {
       socket.intervalcheck = setInterval(() => {
         if (socket.socketd) {
           try {
-            if (socket.socketd.readyState === socket.socketd.OPEN)
-              socket.socketd.send("2");
+            if (socket.socketd.readyState === socket.socketd.OPEN) socket.socketd.send("2");
           } catch (err) {
             ws.log("[catch]", err);
           }
@@ -152,10 +124,7 @@ const socket = {
     this.socketd.onmessage = (e) => {
       if (e.data != 3) {
         let JSData;
-        if (
-          e.data.indexOf("[") != -1 &&
-          e.data.indexOf("[") < e.data.indexOf("{")
-        ) {
+        if (e.data.indexOf("[") != -1 && e.data.indexOf("[") < e.data.indexOf("{")) {
           code = e.data.slice(0, e.data.indexOf("["));
           data = e.data.slice(e.data.indexOf("["), e.data.length);
           JSData = JSON.parse(data);
@@ -273,8 +242,7 @@ const socket = {
   addWebSocket_history(JSData) {
     if (
       this.WebSocket_history &&
-      this.WebSocket_history.children.length >=
-        Number(settings.wasd.limitHistoryUsers) + 1 &&
+      this.WebSocket_history.children.length >= Number(settings.wasd.limitHistoryUsers) + 1 &&
       settings.wasd.limitHistoryUsers != 0
     ) {
       this.WebSocket_history.firstElementChild.remove();
@@ -287,8 +255,7 @@ const socket = {
     user.setAttribute("user_login", JSData.user_login);
     user.setAttribute("user_loginLC", JSData.user_login.toLowerCase());
     user.setAttribute("user_id", JSData.user_id);
-    if (typeof JSData.meta?.days_as_sub == "number")
-      user.setAttribute("days_as_sub", JSData.meta.days_as_sub);
+    if (typeof JSData.meta?.days_as_sub == "number") user.setAttribute("days_as_sub", JSData.meta.days_as_sub);
 
     isMod = (JSData) => {
       if (JSData) {
@@ -373,9 +340,7 @@ const socket = {
     user.setAttribute("role", role);
     user.style.display = "none";
 
-    let old = this.WebSocket_history.querySelector(
-      `.user_ws[user_login="${JSData.user_login}"]`
-    );
+    let old = this.WebSocket_history.querySelector(`.user_ws[user_login="${JSData.user_login}"]`);
     if (old) {
       old.replaceWith(user);
     } else {
@@ -422,10 +387,7 @@ const socket = {
             for (let mention of document.querySelectorAll(
               `.chat-message-mention[style="color: ;"][usernamelc="@${data.info.user_login.toLowerCase()}"]`
             )) {
-              mention.style.color =
-                HelperWASD.userColors[
-                  data.info.user_id % (HelperWASD.userColors.length - 1)
-                ];
+              mention.style.color = HelperWASD.userColors[data.info.user_id % (HelperWASD.userColors.length - 1)];
             }
           }
           if (out.result.length == limit && offset < 10000) {

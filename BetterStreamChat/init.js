@@ -7,24 +7,45 @@ const BetterStreamChat = {
     let changelogLabels = {
       fixedwasd:
         '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено (Мешает работе WASD.TV)</span>',
-      fixed:
-        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено</span>',
-      added:
-        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Добавлено</span>',
-      changed:
-        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Изменено</span>',
-      optimized:
-        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Оптимизировано</span>',
-      removed:
-        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>',
+      fixed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено</span>',
+      added: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Добавлено</span>',
+      changed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Изменено</span>',
+      optimized: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Оптимизировано</span>',
+      removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>',
     };
     let changelogList = [
+      {
+        version: "1.6.8",
+        date: "2022-06-25T19:55:45.055Z",
+        items: [
+          {
+            text: ["Значок подписчика BetterWASYA."],
+            label: "fixed",
+          },
+          {
+            text: ["Поддержка персональных эмоций BetterWASYA."],
+            label: "added",
+          },
+          {
+            text: ["Меню модератора - Как у BTTV."],
+            label: "optimized",
+          },
+          {
+            text: [
+              "Поддержка эмоций пользователя 7TV.",
+              "Поддержка эмоций пользователя BetterTTV.",
+              "Поддержка эмоций пользователя FrankerFaceZ.",
+            ],
+            label: "removed",
+          },
+        ],
+      },
       {
         version: "1.6.7",
         date: "2022-06-11T08:22:53.623Z",
         items: [
           {
-            text: ["Использовать цвет имени пользователя BetterWASD."],
+            text: ["Использовать цвет имени пользователя BetterWASYA."],
             label: "added",
           },
           {
@@ -38,10 +59,7 @@ const BetterStreamChat = {
         date: "2022-05-09T08:26:02.151Z",
         items: [
           {
-            text: [
-              "BetterWASD поддержка ZeroWidth эмоций.",
-              "Теперь при добавлении эмоции BetterWASD не нужно обновлять чат.",
-            ],
+            text: ["BetterWASYA поддержка ZeroWidth эмоций.", "Теперь при добавлении эмоции BetterWASYA не нужно обновлять чат."],
             label: "added",
           },
         ],
@@ -61,10 +79,7 @@ const BetterStreamChat = {
         date: "2022-04-25T17:29:05.020Z",
         items: [
           {
-            text: [
-              `Скрыть описание выделенного сообщения.`,
-              `Цвет выделенного сообщения.`,
-            ],
+            text: [`Скрыть описание выделенного сообщения.`, `Цвет выделенного сообщения.`],
             label: "added",
           },
           {
@@ -72,7 +87,7 @@ const BetterStreamChat = {
             label: "fixed",
           },
           {
-            text: ["BetterWASD_WS."],
+            text: ["BetterWASYA_WS."],
             label: "optimized",
           },
           {
@@ -86,14 +101,11 @@ const BetterStreamChat = {
         date: "2022-04-24T14:27:25.020Z",
         items: [
           {
-            text: [`BetterWASD_WS.`],
+            text: [`BetterWASYA_WS.`],
             label: "added",
           },
           {
-            text: [
-              "Формат отметок времени.",
-              "Показать значки создателя|модератора|партнера.",
-            ],
+            text: ["Формат отметок времени.", "Показать значки создателя|модератора|партнера."],
             label: "fixed",
           },
         ],
@@ -129,16 +141,11 @@ const BetterStreamChat = {
             label: "added",
           },
           {
-            text: [
-              "Показывать последние сообщения в окне ввода на клавишу «↑» и «↓».",
-            ],
+            text: ["Показывать последние сообщения в окне ввода на клавишу «↑» и «↓»."],
             label: "fixed",
           },
           {
-            text: [
-              `WebSocket.`,
-              `Карточка пользователя - Средства модератора.`,
-            ],
+            text: [`WebSocket.`, `Карточка пользователя - Средства модератора.`],
             label: "changed",
           },
         ],
@@ -156,9 +163,7 @@ const BetterStreamChat = {
             label: "fixed",
           },
           {
-            text: [
-              `Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении.`,
-            ],
+            text: [`Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении.`],
             label: "optimized",
           },
         ],
@@ -181,12 +186,7 @@ const BetterStreamChat = {
             label: "fixed",
           },
           {
-            text: [
-              `7TV | BetterTTV | FrankerFaceZ | BetterWASD эмоции.`,
-              `Аптайм трансляции`,
-              "WebSocket.",
-              `Формат отметок времени`,
-            ],
+            text: [`7TV | BetterTTV | FrankerFaceZ | BetterWASYA эмоции.`, `Аптайм трансляции`, "WebSocket.", `Формат отметок времени`],
             label: "optimized",
           },
         ],
@@ -196,10 +196,7 @@ const BetterStreamChat = {
         date: "2022-04-15T17:40:00.000Z",
         items: [
           {
-            text: [
-              `Автозаполнение эмоции через Tab.`,
-              `Игнорировать БОЛЬШИЕ БУКВЫ для "Автозаполнение эмоции через Tab".`,
-            ],
+            text: [`Автозаполнение эмоции через Tab.`, `Игнорировать БОЛЬШИЕ БУКВЫ для "Автозаполнение эмоции через Tab".`],
             label: "added",
           },
           {
@@ -207,11 +204,7 @@ const BetterStreamChat = {
             label: "fixed",
           },
           {
-            text: [
-              `7TV | BetterTTV | FrankerFaceZ | BetterWASD эмоции.`,
-              "Карточка пользователя.",
-              "WebSocket.",
-            ],
+            text: [`7TV | BetterTTV | FrankerFaceZ | BetterWASYA эмоции.`, "Карточка пользователя.", "WebSocket."],
             label: "optimized",
           },
         ],
@@ -221,11 +214,7 @@ const BetterStreamChat = {
         date: "2022-04-08",
         items: [
           {
-            text: [
-              `Чат после проигрывателя.`,
-              `Разделитель строк в чате.`,
-              `Режим кинотеатра`,
-            ],
+            text: [`Чат после проигрывателя.`, `Разделитель строк в чате.`, `Режим кинотеатра`],
             label: "fixed",
           },
           {
@@ -233,25 +222,15 @@ const BetterStreamChat = {
             label: "added",
           },
           {
-            text: [
-              `Исправить символы ломающие чат.`,
-              `Режим кинотеатра - Показать кнопки подарков.`,
-              `Режим кинотеатра - Скрыть подарки.`,
-            ],
+            text: [`Исправить символы ломающие чат.`, `Режим кинотеатра - Показать кнопки подарков.`, `Режим кинотеатра - Скрыть подарки.`],
             label: "changed",
           },
           {
-            text: [
-              `Карточка пользователя.`,
-              `Режим кинотеатра.`,
-              `Распознавание всех ссылок.`,
-            ],
+            text: [`Карточка пользователя.`, `Режим кинотеатра.`, `Распознавание всех ссылок.`],
             label: "optimized",
           },
           {
-            text: [
-              `Отображение стикеров BWASD, BTTV, FFZ и 7TV - Мин. (увеличить при наведении).`,
-            ],
+            text: [`Отображение стикеров BWASD, BTTV, FFZ и 7TV - Мин. (увеличить при наведении).`],
             label: "removed",
           },
         ],
@@ -323,9 +302,7 @@ const BetterStreamChat = {
 
     let changelogHtml = "";
     for (let changelog of changelogList.slice(0, 5)) {
-      changelogHtml += `<h2 style="color: var(--wasd-color-text-prime);">Version ${
-        changelog.version
-      } (${moment(changelog.date).format(
+      changelogHtml += `<h2 style="color: var(--wasd-color-text-prime);">Version ${changelog.version} (${moment(changelog.date).format(
         "YYYY-MM-DD"
       )})</h2><ul style="display: grid;padding-inline-start: 4px;margin: 5px 0;">`;
 
@@ -342,7 +319,7 @@ const BetterStreamChat = {
           }
         }
         if (item.issueID) {
-          item.text += ` (<a target="_blank" href="https://github.com/ovgamesdev/BetterWASD.tv/issues/${item.issueID}">#${item.issueID}</a>)`;
+          item.text += ` (<a target="_blank" href="https://github.com/ovgamesdev/BetterWASYA.tv/issues/${item.issueID}">#${item.issueID}</a>)`;
         }
       }
       changelogHtml += "</ul>";
@@ -368,7 +345,7 @@ const BetterStreamChat = {
           </div>
 
           <a class="logo">
-            <img alt="BetterWASD.TV" src="">
+            <img alt="BetterWASYA.TV" src="">
             <div class="logo__mob" tabindex="0"></div>
           </a>
 
@@ -392,7 +369,7 @@ const BetterStreamChat = {
         <div class="header__right-side">
           <wasd-button class="ghost-btn ovg head-buttons" style="margin-right: 8px;">
 
-            <ovg-dropdown class="">
+            <!--ovg-dropdown class="">
               <div class="dropdown-ovg is-action medium login">
                 <button class="basic medium-cube ovg twitch_authorize_public" type="button">
                   <i class="ovg-icon-twitch"></i>
@@ -405,7 +382,7 @@ const BetterStreamChat = {
                   </div>
                 </div>
               </div>
-            </ovg-dropdown>
+            </ovg-dropdown-->
 
 
             <ovg-bell _ngcontent-ljm-c266="" id="ovg_bell__element" _nghost-ljm-c288="">
@@ -454,7 +431,7 @@ const BetterStreamChat = {
             <a role="tab" class="item" data-tab="appearanceDesign">Оформление (beta)</a>
             <a role="tab" class="item" data-tab="emotes">Эмоции</a>
             <a role="tab" class="item" data-tab="filtration">Фильтрация</a>
-            <a class="item" id="goToObsChatSetting2">Чат для OBS (beta) <i class="icon wasd-icons-extract" style="padding-left: 5px;"></i></a>
+            <!--a class="item" id="goToObsChatSetting2">Чат для OBS (beta) <i class="icon wasd-icons-extract" style="padding-left: 5px;"></i></a-->
             <a role="tab" class="item" data-tab="changelog">Журнал изменений</a>
           </div>
         </div>
@@ -518,7 +495,7 @@ const BetterStreamChat = {
                 </ovg-tooltip>
               </a>
             </li>
-            <li ovg="">
+            <!--li ovg="">
               <a ovg="" class="nav-sidebar__link" style="position: relative;" id="goToObsChatSetting">
                 <i ovg="" class="ovg-icon-chat"></i>
                 <span ovg="">Чат для OBS (beta) <i class="icon wasd-icons-extract" style="padding-left: 5px;"></i></span>
@@ -528,7 +505,7 @@ const BetterStreamChat = {
                   </div>
                 </ovg-tooltip>
               </a>
-            </li>
+            </li-->
             <li ovg="">
               <a ovg="" class="nav-sidebar__item" data-tab="changelog" style="position: relative;">
                 <i ovg="" class="ovg-icon-history"></i>
@@ -560,11 +537,11 @@ const BetterStreamChat = {
       <main class="text pod-position" data-tab="about">
 
         <div style="padding: 10px;">
-          <span style="font-size: 21px;">Напишите отзыв на <a target="_blank" href="https://chrome.google.com/webstore/detail/betterwasd/cokaeiijnnpcfaoehijmdfcgbkpffgbh">Chrome Webstore</a></span>
+          <span style="font-size: 21px;">Напишите отзыв на <a target="_blank" href="https://chrome.google.com/webstore/detail/cokaeiijnnpcfaoehijmdfcgbkpffgbh">Chrome Webstore</a></span>
         </div>
 
         <div style="padding: 10px;">
-          <span>Автор: <a href="https://betterwasd.vercel.app/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a></span> | <a href="https://t.me/BetterWASD" target="_blank">Telegram</a></span>
+          <span>Автор: <a href="https://betterwasya.vercel.app/" target="_blank">OvGames</a> | <a href="https://wasd.tv/ovgames" target="_blank">WASD</a></span> | <a href="https://t.me/BetterWASYA" target="_blank">Telegram</a></span>
         </div>
 
         <div style="padding: 10px;">
@@ -595,13 +572,11 @@ const BetterStreamChat = {
         <input id="importInput" type="file" accept=".backup, .backup.txt" style="display: none;">
 
         <div style="top: 48px;right: 0px;position: absolute;">
-          <img src="${git_url}/betterwasd_qr_tg.webp" style="width: 140px;margin: 10px;">
+          <img src="${git_url}/betterwasya_qr_tg.webp" style="width: 140px;margin: 10px;">
         </div>
 
         <div class="bottom footer">
-          <span>Version ${changelogList[0].version} (${moment(
-      changelogList[0].date
-    ).format("YYYY-MM-DD")})</span>
+          <span>Version ${changelogList[0].version} (${moment(changelogList[0].date).format("YYYY-MM-DD")})</span>
           <div class="right tooltip-hover" style="position: relative;">
             <div class="active-tech-status-ovg"></div>
             <span class="activeUsers tech-info-ovg">0</span>
@@ -628,7 +603,7 @@ const BetterStreamChat = {
               <i class="ovg-icon-bwasd"></i>
               <div class="option-line">
                 <div class="labelField">
-                  <span class="title"> BetterWASD </span>
+                  <span class="title"> BetterWASYA </span>
                 </div>
               </div>
             </div>
@@ -674,10 +649,10 @@ const BetterStreamChat = {
       <main class="text" data-tab="bwasdSettings">
         <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
           <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
-          <p style="margin: 5px 0 0 0;"> BetterWASD </p>
+          <p style="margin: 5px 0 0 0;"> BetterWASYA </p>
         </ovg-button>
 
-        <h2> Доступные эмоции BetterWASD <a target="_blank" href="https://betterwasd.vercel.app/dashboard/emotes">Добавить свою эмоцию</a> </h2>
+        <h2> Доступные эмоции BetterWASYA <a target="_blank" href="https://betterwasya.vercel.app/dashboard/emotes">Добавить свою эмоцию</a> </h2>
 
         <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
           <div ovg="" class="wasd-input-wrapper">
@@ -699,8 +674,7 @@ const BetterStreamChat = {
           <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
           <p style="margin: 5px 0 0 0;"> BetterTTV </p>
         </ovg-button>
-        <div>
-            
+        <!--div>
           <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
             <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
               <label ovg=""></label>
@@ -711,9 +685,9 @@ const BetterStreamChat = {
               </div>
             </div>
           </wasd-input>
-        </div>
+        </div-->
 
-        <table class="table-ovg">
+        <!--table class="table-ovg">
           <thead class="thead-ovg">
             <th class="table-heading-ovg">
               <div class="table-heading-text-ovg">Имя пользователя</div>
@@ -727,7 +701,7 @@ const BetterStreamChat = {
           </thead>
           <tbody class="bttvUserList ovg-items">
           </tbody>
-        </table>
+        </table-->
         <h2> Доступные эмоции BetterTTV </h2>
 
         <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
@@ -750,8 +724,7 @@ const BetterStreamChat = {
           <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
           <p style="margin: 5px 0 0 0;"> FrankerFaceZ </p>
         </ovg-button>
-        <div>
-
+        <!--div>
           <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
             <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
               <label ovg=""></label>
@@ -762,9 +735,9 @@ const BetterStreamChat = {
               </div>
             </div>
           </wasd-input>
-        </div>
+        </div-->
 
-        <table class="table-ovg">
+        <!--table class="table-ovg">
           <thead class="thead-ovg">
             <th class="table-heading-ovg">
               <div class="table-heading-text-ovg">Имя пользователя</div>
@@ -778,7 +751,7 @@ const BetterStreamChat = {
           </thead>
           <tbody class="ffzUserList ovg-items">
           </tbody>
-        </table>
+        </table-->
 
         <h2> Доступные эмоции FrankerFaceZ </h2>
 
@@ -801,8 +774,7 @@ const BetterStreamChat = {
           <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
           <p style="margin: 5px 0 0 0;"> 7TV </p>
         </ovg-button>
-        <div>
-
+        <!--div>
           <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
             <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
               <label ovg=""></label>
@@ -813,9 +785,9 @@ const BetterStreamChat = {
               </div>
             </div>
           </wasd-input>
-        </div>
+        </div-->
 
-        <table class="table-ovg">
+        <!--table class="table-ovg">
           <thead class="thead-ovg">
             <th class="table-heading-ovg">
               <div class="table-heading-text-ovg">Имя пользователя</div>
@@ -829,7 +801,7 @@ const BetterStreamChat = {
           </thead>
           <tbody class="tv7UserList ovg-items">
           </tbody>
-        </table>
+        </table-->
 
         <h2> Доступные эмоции 7TV </h2>
 
@@ -1102,13 +1074,11 @@ const BetterStreamChat = {
     document.body.append(settingsDiv);
     BetterStreamChat.changelog = changelogList[0];
 
-    settingsDiv
-      .querySelector("#settingsSearchDiv button")
-      .addEventListener("click", () => {
-        settingsSearchDiv.classList.remove("notfocused");
-        settingsSearch.dispatchEvent(new Event("input"));
-        settingsSearch.focus();
-      });
+    settingsDiv.querySelector("#settingsSearchDiv button").addEventListener("click", () => {
+      settingsSearchDiv.classList.remove("notfocused");
+      settingsSearch.dispatchEvent(new Event("input"));
+      settingsSearch.focus();
+    });
 
     settingsSearch.addEventListener("blur", () => {
       settingsSearch.value = "";
@@ -1116,33 +1086,33 @@ const BetterStreamChat = {
     });
 
     // bttv events
-    bttvAddUserBtn.addEventListener("click", () => {
-      HelperBTTV.tryAddUser();
-    });
-    let bttvAddUser = settingsDiv.querySelector("#bttvAddUser");
-    bttvAddUser.addEventListener("keyup", (event) => {
-      if (event.key !== "Enter") return;
-      HelperBTTV.tryAddUser();
-    });
+    // bttvAddUserBtn.addEventListener("click", () => {
+    //   HelperBTTV.tryAddUser();
+    // });
+    // let bttvAddUser = settingsDiv.querySelector("#bttvAddUser");
+    // bttvAddUser.addEventListener("keyup", (event) => {
+    //   if (event.key !== "Enter") return;
+    //   HelperBTTV.tryAddUser();
+    // });
 
     // ffz events
-    ffzAddUserBtn.addEventListener("click", () => {
-      HelperFFZ.tryAddUser();
-    });
-    let ffzAddUser = settingsDiv.querySelector("#ffzAddUser");
-    ffzAddUser.addEventListener("keyup", (event) => {
-      if (event.key !== "Enter") return;
-      HelperFFZ.tryAddUser();
-    });
+    // ffzAddUserBtn.addEventListener("click", () => {
+    //   HelperFFZ.tryAddUser();
+    // });
+    // let ffzAddUser = settingsDiv.querySelector("#ffzAddUser");
+    // ffzAddUser.addEventListener("keyup", (event) => {
+    //   if (event.key !== "Enter") return;
+    //   HelperFFZ.tryAddUser();
+    // });
 
     // tv7 events
-    tv7AddUserBtn.addEventListener("click", () => {
-      HelperTV7.tryAddUser();
-    });
-    tv7AddUser.addEventListener("keyup", (event) => {
-      if (event.key !== "Enter") return;
-      HelperTV7.tryAddUser();
-    });
+    // tv7AddUserBtn.addEventListener("click", () => {
+    //   HelperTV7.tryAddUser();
+    // });
+    // tv7AddUser.addEventListener("keyup", (event) => {
+    //   if (event.key !== "Enter") return;
+    //   HelperTV7.tryAddUser();
+    // });
 
     // filtration events
     blacklistAddUserBtn.addEventListener("click", () => {
@@ -1210,14 +1180,10 @@ const BetterStreamChat = {
 
     // bind update chat
     settingsDiv.querySelector(".update").addEventListener("dblclick", () => {
-      let header_block_menu = document.querySelectorAll(
-        ".header > div.header__block__menu div.header__block__menu__item"
-      );
+      let header_block_menu = document.querySelectorAll(".header > div.header__block__menu div.header__block__menu__item");
       if (header_block_menu.length >= 1) {
         header_block_menu[1]?.click();
-        settingsDiv
-          .querySelector(".update > i")
-          .classList.add("resetPlayerLoading");
+        settingsDiv.querySelector(".update > i").classList.add("resetPlayerLoading");
         header_block_menu[0]?.children[0]?.click();
       } else {
         if (settingsDiv.classList.contains("fullscreen")) {
@@ -1230,11 +1196,7 @@ const BetterStreamChat = {
 
     // bind newtab settings
     settingsDiv.querySelector(".newtab")?.addEventListener("click", () => {
-      let settings_window = window.open(
-        "https://wasd.tv/chat?helper-settings=settings",
-        "_blank",
-        "location=yes,height=500,width=800"
-      );
+      let settings_window = window.open("https://wasd.tv/chat?helper-settings=settings", "_blank", "location=yes,height=500,width=800");
       BetterStreamChat.isSettingsNewWindow = true;
       let timer_settings_window = setInterval(() => {
         if (settings_window.closed) {
@@ -1249,82 +1211,74 @@ const BetterStreamChat = {
     });
 
     // bind update emotes
-    settingsDiv
-      .querySelector(".updateemotes")
-      .addEventListener("dblclick", () => {
-        let header_block_menu = document.querySelector(
-          ".header > div.header__block__menu"
-        );
+    settingsDiv.querySelector(".updateemotes").addEventListener("dblclick", () => {
+      let header_block_menu = document.querySelector(".header > div.header__block__menu");
 
-        settingsDiv
-          .querySelector(".updateemotes > i")
-          .classList.add("resetPlayerLoading");
-        setTimeout(() => {
-          settingsDiv
-            .querySelector(".updateemotes > i")
-            .classList.remove("resetPlayerLoading");
-        }, 1000);
+      settingsDiv.querySelector(".updateemotes > i").classList.add("resetPlayerLoading");
+      setTimeout(() => {
+        settingsDiv.querySelector(".updateemotes > i").classList.remove("resetPlayerLoading");
+      }, 1000);
 
-        HelperBTTV.updateEmotesBttv();
-        HelperFFZ.updateEmotesFfz();
-        HelperTV7.updateEmotesTv7();
-        if (socket?.channel?.channel)
-          HelperBWASD.tryAddUser(
-            socket.channel.channel.channel_owner.user_id,
-            socket.channel.channel.channel_owner.user_login
-          );
-        HelperBTTV.updateSettings(true);
-        HelperFFZ.updateSettings(true);
-        HelperTV7.updateSettings(true);
-      });
+      HelperBTTV.updateEmotesBttv();
+      HelperFFZ.updateEmotesFfz();
+      HelperTV7.updateEmotesTv7();
+      if (socket?.channel?.channel)
+        HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login);
+      HelperBTTV.updateSettings(true);
+      HelperFFZ.updateSettings(true);
+      HelperTV7.updateSettings(true);
+    });
 
-    if (Cookies.get("BetterWASD_access_token"))
-      Helper.loginTwitchUI(Cookies.get("BetterWASD_twitch_display_name"));
+    // if (Cookies.get("BetterWASYA_access_token"))
+    //   Helper.loginTwitchUI(Cookies.get("BetterWASYA_twitch_display_name"));
 
     document.body.addEventListener("click", (value) => {
-      if (
-        value &&
-        value.target &&
-        value.target.className &&
-        !value.target.className.match("twitch_authorize_public")
-      ) {
-        document.querySelectorAll(".dropdown-ovg.is-open").forEach((i) => {
-          i.classList.remove("is-open");
-        });
-      }
+      // if (
+      //   value &&
+      //   value.target &&
+      //   value.target.className &&
+      //   !value.target.className.match("twitch_authorize_public")
+      // ) {
+      //   document.querySelectorAll(".dropdown-ovg.is-open").forEach((i) => {
+      //     i.classList.remove("is-open");
+      //   });
+      // }
 
       document.querySelector("#bttv-custom-timeout-contain")?.remove();
     });
 
-    settingsDiv
-      .querySelector(".dropdown-ovg.login")
-      .addEventListener("click", () => {
-        if (Cookies.get("BetterWASD_twitch_display_name")) {
-          settingsDiv
-            .querySelector(".dropdown-ovg.login")
-            .classList.toggle("is-open");
-        } else {
-          window.open(
-            "https://id.twitch.tv/oauth2/authorize?client_id=" +
-              HelperTwitch["Client-ID"] +
-              "&redirect_uri=" +
-              encodeURIComponent("https://wasd.tv/") +
-              "&response_type=token"
-          );
-        }
-      });
+    // settingsDiv
+    //   .querySelector(".dropdown-ovg.login")
+    //   .addEventListener("click", () => {
+    //     if (Cookies.get("BetterWASYA_twitch_display_name")) {
+    //       settingsDiv
+    //         .querySelector(".dropdown-ovg.login")
+    //         .classList.toggle("is-open");
+    //     } else {
+    //       window.open(
+    //         "https://id.twitch.tv/oauth2/authorize?client_id=" +
+    //           HelperTwitch["Client-ID"] +
+    //           "&redirect_uri=" +
+    //           encodeURIComponent("https://wasd.tv/") +
+    //           "&response_type=token"
+    //       );
+    //     }
+    //   });
 
     // bind twitch_authorize logout
-    settingsDiv
-      .querySelector(".dropdown-ovg .logout")
-      .addEventListener("click", () => {
-        Helper.logoutTwitchUI();
-        Helper.setUnauthorization();
-        setTimeout(() => {
-          Cookies.remove("BetterWASD_access_token");
-          Cookies.remove("BetterWASD_twitch_display_name");
-        }, 50);
-      });
+    // settingsDiv
+    //   .querySelector(".dropdown-ovg .logout")
+    //   .addEventListener("click", () => {
+    //     Helper.logoutTwitchUI();
+    //     Helper.setUnauthorization();
+    //     setTimeout(() => {
+    //       Cookies.remove("BetterWASYA_access_token");
+    //       Cookies.remove("BetterWASYA_twitch_display_name");
+    //     }, 50);
+    //   });
+
+    Cookies.remove("BetterWASYA_access_token");
+    Cookies.remove("BetterWASYA_twitch_display_name");
 
     // bind search settings
     let filter1, ul1, options1, title1, titleline1, i1;
@@ -1357,9 +1311,7 @@ const BetterStreamChat = {
     let bwasdfilter, bwasdul, bwasdoptions, bwasdtitle, bwasdi;
     bwasdemojiSearch.addEventListener("input", () => {
       bwasdfilter = bwasdemojiSearch.value.toUpperCase();
-      bwasdul = document.querySelector(
-        "main[data-tab='bwasdSettings'] > #bwasdEmoteList"
-      );
+      bwasdul = document.querySelector("main[data-tab='bwasdSettings'] > #bwasdEmoteList");
       bwasdoptions = bwasdul.querySelectorAll(".div_emoteCard");
       for (bwasdi = 0; bwasdi < bwasdoptions.length; bwasdi++) {
         bwasdtitle = bwasdoptions[bwasdi].querySelector("span");
@@ -1376,9 +1328,7 @@ const BetterStreamChat = {
     let bttvfilter, bttvul, bttvoptions, bttvtitle, bttvi;
     bttvemojiSearch.addEventListener("input", () => {
       bttvfilter = bttvemojiSearch.value.toUpperCase();
-      bttvul = document.querySelector(
-        "main[data-tab='bttvSettings'] > #bttvEmoteList"
-      );
+      bttvul = document.querySelector("main[data-tab='bttvSettings'] > #bttvEmoteList");
       bttvoptions = bttvul.querySelectorAll(".div_emoteCard");
       for (bttvi = 0; bttvi < bttvoptions.length; bttvi++) {
         bttvtitle = bttvoptions[bttvi].querySelector("span");
@@ -1395,9 +1345,7 @@ const BetterStreamChat = {
     let ffzfilter, ffzul, ffzoptions, ffztitle, ffzi;
     ffzemojiSearch.addEventListener("input", () => {
       ffzfilter = ffzemojiSearch.value.toUpperCase();
-      ffzul = document.querySelector(
-        "main[data-tab='ffzSettings'] > #ffzEmoteList"
-      );
+      ffzul = document.querySelector("main[data-tab='ffzSettings'] > #ffzEmoteList");
       ffzoptions = ffzul.querySelectorAll(".div_emoteCard");
       for (ffzi = 0; ffzi < ffzoptions.length; ffzi++) {
         ffztitle = ffzoptions[ffzi].querySelector("span");
@@ -1414,9 +1362,7 @@ const BetterStreamChat = {
     let tv7filter, tv7ul, tv7options, tv7title, tv7i;
     tv7emojiSearch.addEventListener("input", () => {
       tv7filter = tv7emojiSearch.value.toUpperCase();
-      tv7ul = document.querySelector(
-        "main[data-tab='tv7Settings'] > #tv7EmoteList"
-      );
+      tv7ul = document.querySelector("main[data-tab='tv7Settings'] > #tv7EmoteList");
       tv7options = tv7ul.querySelectorAll(".div_emoteCard");
       for (tv7i = 0; tv7i < tv7options.length; tv7i++) {
         tv7title = tv7options[tv7i].querySelector("span");
@@ -1431,20 +1377,15 @@ const BetterStreamChat = {
     });
 
     // backup
-    settingsDiv
-      .querySelector(".backup-upload")
-      .addEventListener("click", () => {
-        settingsDiv.querySelector("#importInput").click();
-      });
+    settingsDiv.querySelector(".backup-upload").addEventListener("click", () => {
+      settingsDiv.querySelector("#importInput").click();
+    });
 
     settingsDiv.querySelector("input#importInput").onchange = () => {
       let files = settingsDiv.querySelector("input#importInput").files[0];
       let reader = new FileReader();
       reader.onload = processFile(files);
-      if (
-        files.name.indexOf(".backup") == files.name.length - 7 ||
-        files.name.indexOf(".backup.txt") == files.name.length - 11
-      ) {
+      if (files.name.indexOf(".backup") == files.name.length - 7 || files.name.indexOf(".backup.txt") == files.name.length - 11) {
         reader.readAsText(files);
       } else {
         alertify.warning(`только .backup файлы`, 3);
@@ -1462,14 +1403,10 @@ const BetterStreamChat = {
     };
 
     // show-section-mobile
-    settingsDiv
-      .querySelector(".show-section-mobile")
-      .addEventListener("click", () => {
-        settingsDiv.querySelector("section").classList.toggle("mobile-show");
-        settingsDiv
-          .querySelector(".show-section-mobile")
-          .classList.toggle("active");
-      });
+    settingsDiv.querySelector(".show-section-mobile").addEventListener("click", () => {
+      settingsDiv.querySelector("section").classList.toggle("mobile-show");
+      settingsDiv.querySelector(".show-section-mobile").classList.toggle("active");
+    });
 
     /************/
 
@@ -1491,32 +1428,21 @@ const BetterStreamChat = {
 
     /************/
 
-    settingsDiv
-      .querySelector(".backup-download")
-      .addEventListener("click", () => {
-        HelperWASD.download(
-          `BetterWASD-settings.backup`,
-          JSON.stringify(settings)
-        );
-      });
+    settingsDiv.querySelector(".backup-download").addEventListener("click", () => {
+      HelperWASD.download(`BetterWASYA-settings.backup`, JSON.stringify(settings));
+    });
 
-    settingsDiv
-      .querySelector(".backup-reset")
-      .addEventListener("dblclick", () => {
-        chrome.storage[storageType].set(Helper.getDefaultSettings(), () => {
-          location.reload();
-          Helper.trySendMessage({ location: "reload" });
-        });
+    settingsDiv.querySelector(".backup-reset").addEventListener("dblclick", () => {
+      chrome.storage[storageType].set(Helper.getDefaultSettings(), () => {
+        location.reload();
+        Helper.trySendMessage({ location: "reload" });
       });
+    });
 
     // link to navigation
     for (let link of settingsDiv.querySelectorAll(".links_to .link_to")) {
       link.addEventListener("click", ({ target }) => {
-        if (
-          target.classList.value == "slider-ovg" ||
-          target.classList.value == "optionField"
-        )
-          return;
+        if (target.classList.value == "slider-ovg" || target.classList.value == "optionField") return;
 
         let tabs = settingsDiv.querySelectorAll("main");
         for (let element of [...tabs]) {
@@ -1529,9 +1455,7 @@ const BetterStreamChat = {
           settingsSearchDiv.classList.add("hidden");
         }
 
-        settingsDiv
-          .querySelector(`main[data-tab="${target.dataset.tab}"]`)
-          .classList.add("active");
+        settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add("active");
       });
     }
 
@@ -1559,20 +1483,14 @@ const BetterStreamChat = {
         }
 
         target.classList.add("active");
-        settingsDiv
-          .querySelector(`main[data-tab="${target.dataset.tab}"]`)
-          .classList.add("active");
+        settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add("active");
       });
     }
 
     // navigation new
-    for (let navItem of settingsDiv.querySelectorAll(
-      "#nav-sidebar .nav-sidebar__item"
-    )) {
+    for (let navItem of settingsDiv.querySelectorAll("#nav-sidebar .nav-sidebar__item")) {
       navItem.addEventListener("click", ({ target }) => {
-        let links = settingsDiv.querySelectorAll(
-          "#nav-sidebar .nav-sidebar__item"
-        );
+        let links = settingsDiv.querySelectorAll("#nav-sidebar .nav-sidebar__item");
         let tabs = settingsDiv.querySelectorAll("main");
         for (let element of [...tabs]) {
           element.classList.remove("active");
@@ -1594,56 +1512,36 @@ const BetterStreamChat = {
         }
 
         target.classList.add("nav-sidebar__item--active");
-        settingsDiv
-          .querySelector(`main[data-tab="${target.dataset.tab}"]`)
-          .classList.add("active");
+        settingsDiv.querySelector(`main[data-tab="${target.dataset.tab}"]`).classList.add("active");
       });
     }
 
     // open nav sidebar
-    settingsDiv
-      .querySelector("wasd-nav-sidebar")
-      .addEventListener("click", () => {
-        if (
-          settingsDiv
-            .querySelector("wasd-nav-sidebar[ovg]")
-            .classList.contains("nav-sidebar--expanded")
-        ) {
-          settingsDiv
-            .querySelector("wasd-nav-sidebar[ovg]")
-            .classList.remove("nav-sidebar--expanded");
-          settingsDiv
-            .querySelector(".open-nav-sidebar")
-            .classList.remove("nav-sidebar-toggle--active");
-        }
-      });
-    settingsDiv
-      .querySelector(".open-nav-sidebar")
-      .addEventListener("click", () => {
-        settingsDiv
-          .querySelector("wasd-nav-sidebar[ovg]")
-          .classList.toggle("nav-sidebar--expanded");
-        settingsDiv
-          .querySelector(".open-nav-sidebar")
-          .classList.toggle("nav-sidebar-toggle--active");
-      });
-
-    goToObsChatSetting2.addEventListener("click", () => {
-      Helper.trySendMessage({
-        createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}`,
-      });
+    settingsDiv.querySelector("wasd-nav-sidebar").addEventListener("click", () => {
+      if (settingsDiv.querySelector("wasd-nav-sidebar[ovg]").classList.contains("nav-sidebar--expanded")) {
+        settingsDiv.querySelector("wasd-nav-sidebar[ovg]").classList.remove("nav-sidebar--expanded");
+        settingsDiv.querySelector(".open-nav-sidebar").classList.remove("nav-sidebar-toggle--active");
+      }
     });
-    goToObsChatSetting.addEventListener("click", () => {
-      Helper.trySendMessage({
-        createWindow: `https://ovgamesdev.github.io/BetterWASD.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}`,
-      });
+    settingsDiv.querySelector(".open-nav-sidebar").addEventListener("click", () => {
+      settingsDiv.querySelector("wasd-nav-sidebar[ovg]").classList.toggle("nav-sidebar--expanded");
+      settingsDiv.querySelector(".open-nav-sidebar").classList.toggle("nav-sidebar-toggle--active");
     });
 
-    settingsDiv
-      .querySelector(".ovg-tabs-wrapper")
-      .addEventListener("click", () => {
-        settingsDiv.querySelector(".show-section-mobile")?.click();
-      });
+    // goToObsChatSetting2.addEventListener("click", () => {
+    //   Helper.trySendMessage({
+    //     createWindow: `https://ovgamesdev.github.io/BetterWASYA.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}`,
+    //   });
+    // });
+    // goToObsChatSetting.addEventListener("click", () => {
+    //   Helper.trySendMessage({
+    //     createWindow: `https://ovgamesdev.github.io/BetterWASYA.obs_chat/settings/?channel_name=${HelperWASD.self_channel_name}&private_link=${HelperWASD.closedViewUrl}`,
+    //   });
+    // });
+
+    settingsDiv.querySelector(".ovg-tabs-wrapper").addEventListener("click", () => {
+      settingsDiv.querySelector(".show-section-mobile")?.click();
+    });
 
     // to def
     for (let option of settingsDiv.querySelectorAll(".optionField.def")) {
@@ -1659,31 +1557,18 @@ const BetterStreamChat = {
           //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
           //     break;
           case "number":
-            event.target.parentElement.querySelector(
-              'input[type="number"]'
-            ).value = Helper.getDefaultSettings()[split[0]][split[1]];
-            event.target.parentElement
-              .querySelector('input[type="number"]')
-              .dispatchEvent(new Event("change"));
+            event.target.parentElement.querySelector('input[type="number"]').value = Helper.getDefaultSettings()[split[0]][split[1]];
+            event.target.parentElement.querySelector('input[type="number"]').dispatchEvent(new Event("change"));
             break;
           case "select":
-            event.target.parentElement.querySelector("select").value =
-              Helper.getDefaultSettings()[split[0]][split[1]];
-            event.target.parentElement
-              .querySelector("select")
-              .dispatchEvent(new Event("change"));
+            event.target.parentElement.querySelector("select").value = Helper.getDefaultSettings()[split[0]][split[1]];
+            event.target.parentElement.querySelector("select").dispatchEvent(new Event("change"));
             break;
           case "color":
-            let defVal = Helper.varColorToColor(
-              Helper.getDefaultSettings()[split[0]][split[1]]
-            );
-            event.target.parentElement.querySelector(
-              "input[data-coloris]"
-            ).value = defVal;
+            let defVal = Helper.varColorToColor(Helper.getDefaultSettings()[split[0]][split[1]]);
+            event.target.parentElement.querySelector("input[data-coloris]").value = defVal;
             event.target.parentElement.style.color = defVal;
-            event.target.parentElement
-              .querySelector("input[data-coloris]")
-              .dispatchEvent(new Event("change"));
+            event.target.parentElement.querySelector("input[data-coloris]").dispatchEvent(new Event("change"));
             break;
           // case 'botevent':
           //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
@@ -1714,31 +1599,18 @@ const BetterStreamChat = {
           //     HelperSettings.save([event.target.parentElement.querySelector('input[type="text"]')])
           //     break;
           case "number":
-            event.target.parentElement.querySelector(
-              'input[type="number"]'
-            ).value = Helper.getDefaultSettings()[split[0]][split[1]];
-            event.target.parentElement
-              .querySelector('input[type="number"]')
-              .dispatchEvent(new Event("change"));
+            event.target.parentElement.querySelector('input[type="number"]').value = Helper.getDefaultSettings()[split[0]][split[1]];
+            event.target.parentElement.querySelector('input[type="number"]').dispatchEvent(new Event("change"));
             break;
           case "select":
-            event.target.parentElement.querySelector("select").value =
-              Helper.getDefaultSettings()[split[0]][split[1]];
-            event.target.parentElement
-              .querySelector("select")
-              .dispatchEvent(new Event("change"));
+            event.target.parentElement.querySelector("select").value = Helper.getDefaultSettings()[split[0]][split[1]];
+            event.target.parentElement.querySelector("select").dispatchEvent(new Event("change"));
             break;
           case "color":
-            let defVal = Helper.varColorToColor(
-              Helper.getDefaultSettings()[split[0]][split[1]]
-            );
-            event.target.parentElement.querySelector(
-              "input[data-coloris]"
-            ).value = defVal;
+            let defVal = Helper.varColorToColor(Helper.getDefaultSettings()[split[0]][split[1]]);
+            event.target.parentElement.querySelector("input[data-coloris]").value = defVal;
             event.target.parentElement.style.color = defVal;
-            event.target.parentElement
-              .querySelector("input[data-coloris]")
-              .dispatchEvent(new Event("change"));
+            event.target.parentElement.querySelector("input[data-coloris]").dispatchEvent(new Event("change"));
             break;
           // case 'botevent':
           //     if (Helper.getDefaultSettings()[split[0]][split[1]]) {
@@ -1764,19 +1636,13 @@ const BetterStreamChat = {
 
         if (option.type === "radio" && option.classList.contains("botevent")) {
           value = option.checked && option.value === "1";
-        } else if (
-          option.type === "text" &&
-          option.classList.contains("botevent")
-        ) {
+        } else if (option.type === "text" && option.classList.contains("botevent")) {
           value = option.value;
         } else if (option.type === "radio") {
           value = option.checked && option.value === "1";
         } else if (option.type === "checkbox") {
           value = option.checked;
-        } else if (
-          option.dataset.type === "number" ||
-          option.type === "number"
-        ) {
+        } else if (option.dataset.type === "number" || option.type === "number") {
           value = parseFloat(option.value);
         } else {
           value = option.value;
@@ -1822,74 +1688,74 @@ const BetterStreamChat = {
       },
     });
 
-    $("#bttvAddUser").autocomplete({
-      source: (request, response) => {
-        $.ajax({
-          url: `https://api.twitch.tv/helix/search/channels?query=${bttvAddUser.value.toLowerCase()}&first=5`,
-          headers: {
-            "Client-ID": HelperTwitch["Client-ID"],
-            Authorization: "Bearer " + Cookies.get("BetterWASD_access_token"),
-          },
-          success: (data) => {
-            response(
-              $.map(data.data, (item) => {
-                return {
-                  label: item.display_name,
-                  value: item.display_name,
-                  logo: item.thumbnail_url,
-                };
-              })
-            );
-          },
-        });
-      },
-    });
+    // $("#bttvAddUser").autocomplete({
+    //   source: (request, response) => {
+    //     $.ajax({
+    //       url: `https://api.twitch.tv/helix/search/channels?query=${bttvAddUser.value.toLowerCase()}&first=5`,
+    //       headers: {
+    //         "Client-ID": HelperTwitch["Client-ID"],
+    //         Authorization: "Bearer " + Cookies.get("BetterWASYA_access_token"),
+    //       },
+    //       success: (data) => {
+    //         response(
+    //           $.map(data.data, (item) => {
+    //             return {
+    //               label: item.display_name,
+    //               value: item.display_name,
+    //               logo: item.thumbnail_url,
+    //             };
+    //           })
+    //         );
+    //       },
+    //     });
+    //   },
+    // });
 
-    $("#ffzAddUser").autocomplete({
-      source: (request, response) => {
-        $.ajax({
-          url: `https://api.twitch.tv/helix/search/channels?query=${ffzAddUser.value.toLowerCase()}&first=5`,
-          headers: {
-            "Client-ID": HelperTwitch["Client-ID"],
-            Authorization: "Bearer " + Cookies.get("BetterWASD_access_token"),
-          },
-          success: (data) => {
-            response(
-              $.map(data.data, (item) => {
-                return {
-                  label: item.display_name,
-                  value: item.display_name,
-                  logo: item.thumbnail_url,
-                };
-              })
-            );
-          },
-        });
-      },
-    });
+    // $("#ffzAddUser").autocomplete({
+    //   source: (request, response) => {
+    //     $.ajax({
+    //       url: `https://api.twitch.tv/helix/search/channels?query=${ffzAddUser.value.toLowerCase()}&first=5`,
+    //       headers: {
+    //         "Client-ID": HelperTwitch["Client-ID"],
+    //         Authorization: "Bearer " + Cookies.get("BetterWASYA_access_token"),
+    //       },
+    //       success: (data) => {
+    //         response(
+    //           $.map(data.data, (item) => {
+    //             return {
+    //               label: item.display_name,
+    //               value: item.display_name,
+    //               logo: item.thumbnail_url,
+    //             };
+    //           })
+    //         );
+    //       },
+    //     });
+    //   },
+    // });
 
-    $("#tv7AddUser").autocomplete({
-      source: (request, response) => {
-        $.ajax({
-          url: `https://api.twitch.tv/helix/search/channels?query=${tv7AddUser.value.toLowerCase()}&first=5`,
-          headers: {
-            "Client-ID": HelperTwitch["Client-ID"],
-            Authorization: "Bearer " + Cookies.get("BetterWASD_access_token"),
-          },
-          success: (data) => {
-            response(
-              $.map(data.data, (item) => {
-                return {
-                  label: item.display_name,
-                  value: item.display_name,
-                  logo: item.thumbnail_url,
-                };
-              })
-            );
-          },
-        });
-      },
-    });
+    // $("#tv7AddUser").autocomplete({
+    //   source: (request, response) => {
+    //     $.ajax({
+    //       url: `https://api.twitch.tv/helix/search/channels?query=${tv7AddUser.value.toLowerCase()}&first=5`,
+    //       headers: {
+    //         "Client-ID": HelperTwitch["Client-ID"],
+    //         Authorization: "Bearer " + Cookies.get("BetterWASYA_access_token"),
+    //       },
+    //       success: (data) => {
+    //         response(
+    //           $.map(data.data, (item) => {
+    //             return {
+    //               label: item.display_name,
+    //               value: item.display_name,
+    //               logo: item.thumbnail_url,
+    //             };
+    //           })
+    //         );
+    //       },
+    //     });
+    //   },
+    // });
 
     // bind wasd-input
     for (let wasdinput of settingsDiv.querySelectorAll("wasd-input")) {
@@ -1921,24 +1787,12 @@ const BetterStreamChat = {
     let bell__info = ovg_bell__element.querySelector(".bell__info");
     let bell_button = ovg_bell__element.querySelector(".bell_button");
     document.body.addEventListener("click", (e) => {
-      if (
-        e &&
-        e.target &&
-        e.target.className &&
-        !e.target.className.match("bell") &&
-        isOpenBell
-      ) {
+      if (e && e.target && e.target.className && !e.target.className.match("bell") && isOpenBell) {
         Helper.setNotifyReaded();
         bell__info.setAttribute("hidden", "");
         isOpenBell = false;
       }
-      if (
-        e &&
-        e.target &&
-        e.target.className &&
-        e.target.className.match("bell__icon") &&
-        isOpenBell
-      ) {
+      if (e && e.target && e.target.className && e.target.className.match("bell__icon") && isOpenBell) {
         setTimeout(() => {
           Helper.setNotifyReaded();
           bell__info.setAttribute("hidden", "");
@@ -1980,8 +1834,7 @@ const BetterStreamChat = {
       if (!option.dataset.name) continue;
       let split = option.dataset.name.split("_");
 
-      let swatches =
-        HelperSettings.availableSettings[split[0]][split[1]].swatches;
+      let swatches = HelperSettings.availableSettings[split[0]][split[1]].swatches;
       option.addEventListener("focus", () => {
         if (typeof swatches === "object") {
           Coloris({
@@ -1998,9 +1851,7 @@ const BetterStreamChat = {
     }
 
     Coloris({ clearButton: { show: false }, formatToggle: false });
-    settingsDiv
-      .querySelectorAll("main")
-      .forEach((e) => (e.onscroll = () => Coloris.close()));
+    settingsDiv.querySelectorAll("main").forEach((e) => (e.onscroll = () => Coloris.close()));
 
     this.install();
 
@@ -2053,17 +1904,11 @@ const BetterStreamChat = {
     }
   },
   openSettings() {
-    if (
-      HelperWASD.closedViewUrl == "none" ||
-      HelperWASD.self_channel_name == "none"
-    ) {
+    if (HelperWASD.closedViewUrl == "none" || HelperWASD.self_channel_name == "none") {
       $.ajax({
         url: `https://wasd.tv/api/v2/profiles/current/broadcasts/closed-view-url`,
         success: (out) => {
-          HelperWASD.closedViewUrl = out.result.view_url.replace(
-            "https://wasd.tv/private-stream/",
-            ""
-          );
+          HelperWASD.closedViewUrl = out.result.view_url.replace("https://wasd.tv/private-stream/", "");
           $.ajax({
             url: `https://wasd.tv/api/v2/profiles/current`,
             success: (out) => {
@@ -2085,9 +1930,7 @@ const BetterStreamChat = {
 $.widget("app.autocomplete", $.ui.autocomplete, {
   _renderItem: (ul, item) => {
     return $("<li>")
-      .append(
-        `<div class='ui-menu-item-icon' style='background-image: url(${item.logo})'> ${item.label} </div>`
-      )
+      .append(`<div class='ui-menu-item-icon' style='background-image: url(${item.logo})'> ${item.label} </div>`)
       .appendTo(ul);
   },
 });

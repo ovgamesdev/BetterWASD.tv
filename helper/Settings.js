@@ -31,17 +31,13 @@ const HelperSettings = {
       },
       fontSize: {
         title: `Размер шрифта в пикселях ${Helper.BETA}`,
-        description:
-          'Используете <span class="tech-info-ovg">0</span> чтобы сбросить цвет.',
+        description: 'Используете <span class="tech-info-ovg">0</span> чтобы сбросить размер.',
         type: "number",
         min: 12.0,
         max: 18.0,
       },
       chatWidth: {
-        title: `Размер чата в пикселях ${Helper.tooltip(
-          "",
-          "(Ширина) </br> не работает в СТРИМИНГОВАЯ"
-        )}`,
+        title: `Размер чата в пикселях ${Helper.tooltip("", "(Ширина) </br> не работает в СТРИМИНГОВАЯ")}`,
         type: "number",
         min: 200,
         max: 1200,
@@ -70,17 +66,11 @@ const HelperSettings = {
         type: "boolean",
       },
       messageSystem: {
-        title: `Скрыть системные сообщения ${Helper.tooltip(
-          "",
-          `Добро пожаловать, бан пользователя и др.`
-        )}`,
+        title: `Скрыть системные сообщения ${Helper.tooltip("", `Добро пожаловать, бан пользователя и др.`)}`,
         type: "boolean",
       },
       messagePromoCodes: {
-        title: `Скрыть промо сообщения ${Helper.tooltip(
-          "",
-          `Например: ПОЛУЧИ УНИКАЛЬНЫЙ СТАТУС В ЧАТЕ!`
-        )}`,
+        title: `Скрыть промо сообщения ${Helper.tooltip("", `Например: ПОЛУЧИ УНИКАЛЬНЫЙ СТАТУС В ЧАТЕ!`)}`,
         type: "boolean",
       },
 
@@ -94,8 +84,7 @@ const HelperSettings = {
       },
       highlightedMessageColor: {
         title: "Цвет выделенного сообщения",
-        description:
-          'Используете <span class="tech-info-ovg">#00000000</span> чтобы сбросить цвет.',
+        description: 'Используете <span class="tech-info-ovg">#00000000</span> чтобы сбросить цвет.',
         type: "color",
       },
 
@@ -115,13 +104,9 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value) {
-            document
-              .querySelector("#alternatingColorChatMessagesColor")
-              .classList.remove("disabled");
+            document.querySelector("#alternatingColorChatMessagesColor").classList.remove("disabled");
           } else {
-            document
-              .querySelector("#alternatingColorChatMessagesColor")
-              .classList.add("disabled");
+            document.querySelector("#alternatingColorChatMessagesColor").classList.add("disabled");
           }
         },
       },
@@ -158,8 +143,7 @@ const HelperSettings = {
       },
       formatMessageSentTime: {
         title: `Формат отметок времени`,
-        description:
-          'Отформатировано <a target="_blank" href="https://momentjs.com/">library Moment.js</a>.',
+        description: 'Отформатировано <a target="_blank" href="https://momentjs.com/">library Moment.js</a>.',
         type: "select",
         items: [
           {
@@ -217,13 +201,9 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value) {
-            document
-              .querySelector("#colorMessageHover")
-              .classList.remove("disabled");
+            document.querySelector("#colorMessageHover").classList.remove("disabled");
           } else {
-            document
-              .querySelector("#colorMessageHover")
-              .classList.add("disabled");
+            document.querySelector("#colorMessageHover").classList.add("disabled");
           }
         },
       },
@@ -280,36 +260,21 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value) {
-            document
-              .querySelector("#bwasdInChatMenu")
-              .classList.remove("disabled");
+            document.querySelector("#bwasdInChatMenu").classList.remove("disabled");
           } else {
-            document
-              .querySelector("#bwasdInChatMenu")
-              .classList.add("disabled");
+            document.querySelector("#bwasdInChatMenu").classList.add("disabled");
           }
 
-          if (
-            value ||
-            settings.wasd.bttvEmotes ||
-            settings.wasd.ffzEmotes ||
-            settings.wasd.tv7Emotes
-          ) {
-            document
-              .querySelector("#bttvEmoteSize")
-              .classList.remove("disabled");
+          if (value || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || settings.wasd.tv7Emotes) {
+            document.querySelector("#bttvEmoteSize").classList.remove("disabled");
             document.querySelector("#stickerovg").classList.remove("disabled");
             document.querySelector("#bttvSize").classList.remove("disabled");
-            document
-              .querySelector("#hoverTooltipEmote")
-              .classList.remove("disabled");
+            document.querySelector("#hoverTooltipEmote").classList.remove("disabled");
           } else {
             document.querySelector("#bttvEmoteSize").classList.add("disabled");
             document.querySelector("#stickerovg").classList.add("disabled");
             document.querySelector("#bttvSize").classList.add("disabled");
-            document
-              .querySelector("#hoverTooltipEmote")
-              .classList.add("disabled");
+            document.querySelector("#hoverTooltipEmote").classList.add("disabled");
           }
         },
       },
@@ -320,34 +285,21 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value) {
-            document
-              .querySelector("#bttvInChatMenu")
-              .classList.remove("disabled");
+            document.querySelector("#bttvInChatMenu").classList.remove("disabled");
           } else {
             document.querySelector("#bttvInChatMenu").classList.add("disabled");
           }
 
-          if (
-            settings.wasd.bwasdEmotes ||
-            value ||
-            settings.wasd.ffzEmotes ||
-            settings.wasd.tv7Emotes
-          ) {
-            document
-              .querySelector("#bttvEmoteSize")
-              .classList.remove("disabled");
+          if (settings.wasd.bwasdEmotes || value || settings.wasd.ffzEmotes || settings.wasd.tv7Emotes) {
+            document.querySelector("#bttvEmoteSize").classList.remove("disabled");
             document.querySelector("#stickerovg").classList.remove("disabled");
             document.querySelector("#bttvSize").classList.remove("disabled");
-            document
-              .querySelector("#hoverTooltipEmote")
-              .classList.remove("disabled");
+            document.querySelector("#hoverTooltipEmote").classList.remove("disabled");
           } else {
             document.querySelector("#bttvEmoteSize").classList.add("disabled");
             document.querySelector("#stickerovg").classList.add("disabled");
             document.querySelector("#bttvSize").classList.add("disabled");
-            document
-              .querySelector("#hoverTooltipEmote")
-              .classList.add("disabled");
+            document.querySelector("#hoverTooltipEmote").classList.add("disabled");
           }
         },
       },
@@ -358,34 +310,21 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value) {
-            document
-              .querySelector("#ffzInChatMenu")
-              .classList.remove("disabled");
+            document.querySelector("#ffzInChatMenu").classList.remove("disabled");
           } else {
             document.querySelector("#ffzInChatMenu").classList.add("disabled");
           }
 
-          if (
-            settings.wasd.bwasdEmotes ||
-            settings.wasd.bttvEmotes ||
-            value ||
-            settings.wasd.tv7Emotes
-          ) {
-            document
-              .querySelector("#bttvEmoteSize")
-              .classList.remove("disabled");
+          if (settings.wasd.bwasdEmotes || settings.wasd.bttvEmotes || value || settings.wasd.tv7Emotes) {
+            document.querySelector("#bttvEmoteSize").classList.remove("disabled");
             document.querySelector("#stickerovg").classList.remove("disabled");
             document.querySelector("#bttvSize").classList.remove("disabled");
-            document
-              .querySelector("#hoverTooltipEmote")
-              .classList.remove("disabled");
+            document.querySelector("#hoverTooltipEmote").classList.remove("disabled");
           } else {
             document.querySelector("#bttvEmoteSize").classList.add("disabled");
             document.querySelector("#stickerovg").classList.add("disabled");
             document.querySelector("#bttvSize").classList.add("disabled");
-            document
-              .querySelector("#hoverTooltipEmote")
-              .classList.add("disabled");
+            document.querySelector("#hoverTooltipEmote").classList.add("disabled");
           }
         },
       },
@@ -396,34 +335,21 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value) {
-            document
-              .querySelector("#tv7InChatMenu")
-              .classList.remove("disabled");
+            document.querySelector("#tv7InChatMenu").classList.remove("disabled");
           } else {
             document.querySelector("#tv7InChatMenu").classList.add("disabled");
           }
 
-          if (
-            settings.wasd.bwasdEmotes ||
-            settings.wasd.bttvEmotes ||
-            settings.wasd.ffzEmotes ||
-            value
-          ) {
-            document
-              .querySelector("#bttvEmoteSize")
-              .classList.remove("disabled");
+          if (settings.wasd.bwasdEmotes || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || value) {
+            document.querySelector("#bttvEmoteSize").classList.remove("disabled");
             document.querySelector("#stickerovg").classList.remove("disabled");
             document.querySelector("#bttvSize").classList.remove("disabled");
-            document
-              .querySelector("#hoverTooltipEmote")
-              .classList.remove("disabled");
+            document.querySelector("#hoverTooltipEmote").classList.remove("disabled");
           } else {
             document.querySelector("#bttvEmoteSize").classList.add("disabled");
             document.querySelector("#stickerovg").classList.add("disabled");
             document.querySelector("#bttvSize").classList.add("disabled");
-            document
-              .querySelector("#hoverTooltipEmote")
-              .classList.add("disabled");
+            document.querySelector("#hoverTooltipEmote").classList.add("disabled");
           }
         },
       },
@@ -557,19 +483,14 @@ const HelperSettings = {
       linkRecognizerall: {
         title: `Распознавание всех ссылок ${Helper.BETA} ${Helper.F5}`,
         updateChat: true,
-        description:
-          'Распознано с использованием <a target="_blank" href="https://github.com/FrankerFaceZ/link-service">API</a>',
+        description: 'Распознано с использованием <a target="_blank" href="https://github.com/FrankerFaceZ/link-service">API</a>',
         type: "boolean",
         inInitChange: true,
         onChange: (value) => {
           if (value || settings.wasd.linkRecognizerWASD) {
-            document
-              .querySelector("#linkRecognitionRights")
-              .classList.remove("disabled");
+            document.querySelector("#linkRecognitionRights").classList.remove("disabled");
           } else {
-            document
-              .querySelector("#linkRecognitionRights")
-              .classList.add("disabled");
+            document.querySelector("#linkRecognitionRights").classList.add("disabled");
           }
         },
       },
@@ -583,13 +504,9 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value || settings.wasd.linkRecognizerall) {
-            document
-              .querySelector("#linkRecognitionRights")
-              .classList.remove("disabled");
+            document.querySelector("#linkRecognitionRights").classList.remove("disabled");
           } else {
-            document
-              .querySelector("#linkRecognitionRights")
-              .classList.add("disabled");
+            document.querySelector("#linkRecognitionRights").classList.add("disabled");
           }
         },
       },
@@ -702,13 +619,9 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value) {
-            document
-              .querySelector("#colorCopuOptions")
-              .classList.remove("disabled");
+            document.querySelector("#colorCopuOptions").classList.remove("disabled");
           } else {
-            document
-              .querySelector("#colorCopuOptions")
-              .classList.add("disabled");
+            document.querySelector("#colorCopuOptions").classList.add("disabled");
           }
         },
       },
@@ -778,17 +691,11 @@ const HelperSettings = {
         type: "boolean",
       },
       clickMentionAll: {
-        title: `Ник пользователя в действиях это упоминание ${Helper.tooltip(
-          "",
-          "Избранное, Подписка"
-        )}`,
+        title: `Ник пользователя в действиях это упоминание ${Helper.tooltip("", "Избранное, Подписка")}`,
         type: "boolean",
       },
       fixCharactersBreakingChat: {
-        title: `Исправить символы ломающие чат ${Helper.F5} ${Helper.tooltip(
-          "",
-          "Текст Zalgo"
-        )}`,
+        title: `Исправить символы ломающие чат ${Helper.F5} ${Helper.tooltip("", "Текст Zalgo")}`,
         updateChat: true,
         type: "boolean",
       },
@@ -917,13 +824,9 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value.toString() == "false") {
-            document
-              .querySelector("#emotesAutoCompleteIgnoreLowerCase")
-              .classList.add("disabled");
+            document.querySelector("#emotesAutoCompleteIgnoreLowerCase").classList.add("disabled");
           } else {
-            document
-              .querySelector("#emotesAutoCompleteIgnoreLowerCase")
-              .classList.remove("disabled");
+            document.querySelector("#emotesAutoCompleteIgnoreLowerCase").classList.remove("disabled");
           }
         },
       },
@@ -991,15 +894,12 @@ const HelperSettings = {
       fixedLinks: {
         title: `Исправить ссылки в чате ${Helper.F5}`,
         updateChat: true,
-        description:
-          'Исправлено с использованием <a target="_blank" href="https://linkify.js.org/">API</a>',
+        description: 'Исправлено с использованием <a target="_blank" href="https://linkify.js.org/">API</a>',
         type: "boolean",
         inInitChange: true,
         onChange: (value) => {
           if (value) {
-            document
-              .querySelector("#truncateLink")
-              .classList.remove("disabled");
+            document.querySelector("#truncateLink").classList.remove("disabled");
           } else {
             document.querySelector("#truncateLink").classList.add("disabled");
           }
@@ -1048,22 +948,17 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value) {
-            document
-              .querySelector("#betterwasdPaint")
-              .classList.remove("disabled");
+            document.querySelector("#betterwasyaPaint").classList.remove("disabled");
           } else {
-            document
-              .querySelector("#betterwasdPaint")
-              .classList.add("disabled");
+            document.querySelector("#betterwasyaPaint").classList.add("disabled");
           }
         },
       },
-      betterwasdPaint: {
-        title: `Использовать цвет имени пользователя BetterWASD ${Helper.tooltip(
-          "",
-          "https://betterwasd.vercel.app/dashboard/emotes"
-        )} ${Helper.F5}`,
-        id: "betterwasdPaint",
+      betterwasyaPaint: {
+        title: `Использовать цвет имени пользователя BetterWASYA ${Helper.tooltip("", "https://betterwasya.vercel.app/dashboard/emotes")} ${
+          Helper.F5
+        }`,
+        id: "betterwasyaPaint",
         updateChat: true,
         type: "boolean",
       },
@@ -1089,13 +984,9 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value == "1") {
-            document
-              .querySelector("#colorMentionSelf")
-              .classList.remove("disabled");
+            document.querySelector("#colorMentionSelf").classList.remove("disabled");
           } else {
-            document
-              .querySelector("#colorMentionSelf")
-              .classList.add("disabled");
+            document.querySelector("#colorMentionSelf").classList.add("disabled");
           }
         },
       },
@@ -1122,13 +1013,9 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value) {
-            document
-              .querySelector("#highlightMessagesOpenCardColor")
-              .classList.remove("disabled");
+            document.querySelector("#highlightMessagesOpenCardColor").classList.remove("disabled");
           } else {
-            document
-              .querySelector("#highlightMessagesOpenCardColor")
-              .classList.add("disabled");
+            document.querySelector("#highlightMessagesOpenCardColor").classList.add("disabled");
           }
         },
       },
@@ -1160,44 +1047,20 @@ const HelperSettings = {
         inInitChange: true,
         onChange: (value) => {
           if (value.toString() === "2") {
-            document
-              .querySelector("#moderatorMenuAutomatic")
-              .classList.remove("disabled");
-            document
-              .querySelector("#moderatorMenuTimeout")
-              .classList.remove("disabled");
-            document
-              .querySelector("#keepMessagesTimeout")
-              .classList.remove("disabled");
-            document
-              .querySelector("#colorModOptions")
-              .classList.remove("disabled");
+            document.querySelector("#moderatorMenuAutomatic").classList.remove("disabled");
+            document.querySelector("#moderatorMenuTimeout").classList.remove("disabled");
+            document.querySelector("#keepMessagesTimeout").classList.remove("disabled");
+            document.querySelector("#colorModOptions").classList.remove("disabled");
           } else if (value.toString() === "3") {
-            document
-              .querySelector("#moderatorMenuAutomatic")
-              .classList.add("disabled");
-            document
-              .querySelector("#moderatorMenuTimeout")
-              .classList.add("disabled");
-            document
-              .querySelector("#keepMessagesTimeout")
-              .classList.remove("disabled");
-            document
-              .querySelector("#colorModOptions")
-              .classList.add("disabled");
+            document.querySelector("#moderatorMenuAutomatic").classList.add("disabled");
+            document.querySelector("#moderatorMenuTimeout").classList.add("disabled");
+            document.querySelector("#keepMessagesTimeout").classList.remove("disabled");
+            document.querySelector("#colorModOptions").classList.add("disabled");
           } else {
-            document
-              .querySelector("#moderatorMenuAutomatic")
-              .classList.add("disabled");
-            document
-              .querySelector("#moderatorMenuTimeout")
-              .classList.add("disabled");
-            document
-              .querySelector("#keepMessagesTimeout")
-              .classList.add("disabled");
-            document
-              .querySelector("#colorModOptions")
-              .classList.add("disabled");
+            document.querySelector("#moderatorMenuAutomatic").classList.add("disabled");
+            document.querySelector("#moderatorMenuTimeout").classList.add("disabled");
+            document.querySelector("#keepMessagesTimeout").classList.add("disabled");
+            document.querySelector("#colorModOptions").classList.add("disabled");
           }
         },
       },
@@ -1243,8 +1106,7 @@ const HelperSettings = {
       },
 
       pictureInPicture: {
-        title:
-          "Добавить кнопку 'Картинка в картинке' к управлению проигрывателем (PIP)",
+        title: "Добавить кнопку 'Картинка в картинке' к управлению проигрывателем (PIP)",
         type: "boolean",
         onChange: (value) => HelperWASD.addPipToPlayer(value),
       },
@@ -1266,49 +1128,21 @@ const HelperSettings = {
         onChange: (value) => {
           HelperWASD.addTheaterModeNoFSToPlayer(value);
           if (value) {
-            document
-              .querySelector("#theaterModeShowGifts")
-              .classList.remove("disabled");
-            document
-              .querySelector("#theaterModeShowContainer")
-              .classList.remove("disabled");
-            document
-              .querySelector("#theaterModeStreamInfo")
-              .classList.remove("disabled");
-            document
-              .querySelector("#theaterModeChatWidth")
-              .classList.remove("disabled");
-            document
-              .querySelector("#theaterModeGifts")
-              .classList.remove("disabled");
-            document
-              .querySelector("#theaterModeAutoOnChannel")
-              .classList.remove("disabled");
-            document
-              .querySelector("#theaterModeFullScreen")
-              .classList.remove("disabled");
+            document.querySelector("#theaterModeShowGifts").classList.remove("disabled");
+            document.querySelector("#theaterModeShowContainer").classList.remove("disabled");
+            document.querySelector("#theaterModeStreamInfo").classList.remove("disabled");
+            document.querySelector("#theaterModeChatWidth").classList.remove("disabled");
+            document.querySelector("#theaterModeGifts").classList.remove("disabled");
+            document.querySelector("#theaterModeAutoOnChannel").classList.remove("disabled");
+            document.querySelector("#theaterModeFullScreen").classList.remove("disabled");
           } else {
-            document
-              .querySelector("#theaterModeShowGifts")
-              .classList.add("disabled");
-            document
-              .querySelector("#theaterModeShowContainer")
-              .classList.add("disabled");
-            document
-              .querySelector("#theaterModeStreamInfo")
-              .classList.add("disabled");
-            document
-              .querySelector("#theaterModeChatWidth")
-              .classList.add("disabled");
-            document
-              .querySelector("#theaterModeGifts")
-              .classList.add("disabled");
-            document
-              .querySelector("#theaterModeAutoOnChannel")
-              .classList.add("disabled");
-            document
-              .querySelector("#theaterModeFullScreen")
-              .classList.add("disabled");
+            document.querySelector("#theaterModeShowGifts").classList.add("disabled");
+            document.querySelector("#theaterModeShowContainer").classList.add("disabled");
+            document.querySelector("#theaterModeStreamInfo").classList.add("disabled");
+            document.querySelector("#theaterModeChatWidth").classList.add("disabled");
+            document.querySelector("#theaterModeGifts").classList.add("disabled");
+            document.querySelector("#theaterModeAutoOnChannel").classList.add("disabled");
+            document.querySelector("#theaterModeFullScreen").classList.add("disabled");
           }
         },
       },
@@ -1336,8 +1170,7 @@ const HelperSettings = {
           },
         ],
         onChange: (value) => {
-          if (document.querySelector("#giftsInfo"))
-            document.querySelector("#giftsInfo").style.display = "";
+          if (document.querySelector("#giftsInfo")) document.querySelector("#giftsInfo").style.display = "";
           setTimeout(() => {
             HelperWASD.updateStyleTheaterModeNoFS();
             resizeTheaterModeNoFS(false);
@@ -1428,13 +1261,9 @@ const HelperSettings = {
         type: "boolean",
         onChange: (value) => {
           if (value) {
-            document
-              .querySelector(".carousel__slide-body__player video")
-              ?.play();
+            document.querySelector(".carousel__slide-body__player video")?.play();
           } else {
-            document
-              .querySelector(".carousel__slide-body__player video")
-              ?.pause();
+            document.querySelector(".carousel__slide-body__player video")?.pause();
           }
         },
       },
@@ -1456,8 +1285,7 @@ const HelperSettings = {
       },
 
       mutePlayerOnMiddleMouse: {
-        title:
-          "Заглушить или включить звук проигрывателя путём щелчка по средней кнопке мыши",
+        title: "Заглушить или включить звук проигрывателя путём щелчка по средней кнопке мыши",
         type: "boolean",
       },
       alwaysOpenVolumeControl: {
@@ -1479,8 +1307,7 @@ const HelperSettings = {
         type: "boolean",
       },
       pressedPIP: {
-        title:
-          "Нажмите клавишу 'i' чтобы переключить режим 'Картинка в картинке'",
+        title: "Нажмите клавишу 'i' чтобы переключить режим 'Картинка в картинке'",
         type: "boolean",
       },
       pressedClip: {
@@ -1494,10 +1321,7 @@ const HelperSettings = {
       },
 
       blurInfoSiteGoesDown: {
-        title: `Блюр информации при падении сайта ${Helper.tooltip(
-          "",
-          "Если вы стример - это может спасти Ваш IP-адрес"
-        )} ${Helper.BETA}`,
+        title: `Блюр информации при падении сайта ${Helper.tooltip("", "Если вы стример - это может спасти Ваш IP-адрес")} ${Helper.BETA}`,
         type: "boolean",
       },
 
@@ -1604,10 +1428,7 @@ const HelperSettings = {
         type: "boolean",
       },
       chatMobilePlayer: {
-        title: `Чат после проигрывателя ${Helper.tooltip(
-          "",
-          "Мобильные устройства"
-        )}`,
+        title: `Чат после проигрывателя ${Helper.tooltip("", "Мобильные устройства")}`,
         type: "boolean",
       },
     },
@@ -1912,14 +1733,8 @@ const HelperSettings = {
 
             <div class="labelField">
               ${line ? '<div class="line"></div>' : ""}
-              <span ${
-                line ? 'class="titleline"' : 'class="title"'
-              }> ${title} </span>
-              ${
-                description
-                  ? `<span class="description"><p style="margin: 2px 0 0 0;"> ${description} </p></span>`
-                  : ""
-              }
+              <span ${line ? 'class="titleline"' : 'class="title"'}> ${title} </span>
+              ${description ? `<span class="description"><p style="margin: 2px 0 0 0;"> ${description} </p></span>` : ""}
             </div>
 
             <div class="formField"> ${formField} </div>
@@ -1942,10 +1757,7 @@ const HelperSettings = {
 
       if (option.type === "radio" && option.classList.contains("botevent")) {
         value = option.checked && option.value === "1";
-      } else if (
-        option.type === "text" &&
-        option.classList.contains("botevent")
-      ) {
+      } else if (option.type === "text" && option.classList.contains("botevent")) {
         value = option.value;
       } else if (option.type === "radio") {
         value = option.checked && option.value === "1";
@@ -1967,9 +1779,7 @@ const HelperSettings = {
 
     if (settings.general.autoUpdateChat && update) {
       setTimeout(() => {
-        BetterStreamChat.settingsDiv
-          .querySelector(".update")
-          .dispatchEvent(new Event("dblclick"));
+        BetterStreamChat.settingsDiv.querySelector(".update").dispatchEvent(new Event("dblclick"));
       }, 50);
     }
 
@@ -1997,14 +1807,7 @@ const HelperSettings = {
             setting.id
           );
         } else if (type === "text") {
-          html += this.text(
-            fieldName,
-            setting.title,
-            setting.description,
-            settings[category][name],
-            setting.updateChat,
-            setting.id
-          );
+          html += this.text(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat, setting.id);
         } else if (type === "number") {
           html += this.number(
             fieldName,
@@ -2027,53 +1830,19 @@ const HelperSettings = {
             setting.id
           );
         } else if (type === "none") {
-          html += this.none(
-            fieldName,
-            setting.title,
-            setting.description,
-            settings[category][name]
-          );
+          html += this.none(fieldName, setting.title, setting.description, settings[category][name]);
         } else if (type === "title") {
-          html += this.title(
-            fieldName,
-            setting.title,
-            setting.description,
-            settings[category][name],
-            setting.id
-          );
+          html += this.title(fieldName, setting.title, setting.description, settings[category][name], setting.id);
         } else if (type === "color") {
-          html += this.color(
-            fieldName,
-            setting.title,
-            setting.description,
-            settings[category][name],
-            setting.updateChat,
-            setting.id
-          );
+          html += this.color(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat, setting.id);
         } else if (type === "botevent") {
-          html += this.botevent(
-            fieldName,
-            setting.title,
-            setting.description,
-            settings[category][name],
-            setting.updateChat,
-            setting.id
-          );
+          html += this.botevent(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat, setting.id);
         }
       }
     }
     return html;
   },
-  boolean(
-    name,
-    title,
-    description,
-    defaultValue = false,
-    yesButton = "Вкл",
-    noButton = "Откл",
-    updateChat = false,
-    id = ""
-  ) {
+  boolean(name, title, description, defaultValue = false, yesButton = "Вкл", noButton = "Откл", updateChat = false, id = "") {
     return this._basic(
       title,
       description,
@@ -2090,37 +1859,19 @@ const HelperSettings = {
       id
     );
   },
-  text(
-    name,
-    title,
-    description,
-    defaultValue = "",
-    updateChat = false,
-    id = ""
-  ) {
+  text(name, title, description, defaultValue = "", updateChat = false, id = "") {
     return this._basic(
       title,
       description,
       `
       <ol class="flexibleButtonGroup optionTypeBoolean">
-        <input type="text" class="optionField" data-name="${name}" value="${defaultValue}"${
-        updateChat ? " updatechat=''" : ""
-      } />
+        <input type="text" class="optionField" data-name="${name}" value="${defaultValue}"${updateChat ? " updatechat=''" : ""} />
       </ol>`,
       false,
       id
     );
   },
-  number(
-    name,
-    title,
-    description,
-    defaultValue = "",
-    min = 0,
-    max = 0,
-    updateChat = false,
-    id = ""
-  ) {
+  number(name, title, description, defaultValue = "", min = 0, max = 0, updateChat = false, id = "") {
     return this._basic(
       title,
       description,
@@ -2144,21 +1895,11 @@ const HelperSettings = {
       id
     );
   },
-  select(
-    name,
-    title,
-    description,
-    items = [1],
-    defaultValue = "",
-    updateChat = false,
-    id = ""
-  ) {
+  select(name, title, description, items = [1], defaultValue = "", updateChat = false, id = "") {
     let selectOptions = "";
     defaultValue = defaultValue.toString();
     for (let item of items) {
-      selectOptions += `<option value="${item.value}"${
-        item.value.toString() === defaultValue ? " selected" : ""
-      }>${item.label}</option>`;
+      selectOptions += `<option value="${item.value}"${item.value.toString() === defaultValue ? " selected" : ""}>${item.label}</option>`;
     }
     return this._basic(
       title,
@@ -2189,14 +1930,7 @@ const HelperSettings = {
   title(name, title, description, defaultValue = "", id = "") {
     return this._basic(title, description, ``, true, id);
   },
-  color(
-    name,
-    title,
-    description,
-    defaultValue = "",
-    updateChat = false,
-    id = ""
-  ) {
+  color(name, title, description, defaultValue = "", updateChat = false, id = "") {
     defaultValue = Helper.varColorToColor(defaultValue);
     return this._basic(
       title,
@@ -2222,24 +1956,13 @@ const HelperSettings = {
       id
     );
   },
-  botevent(
-    name,
-    title,
-    description,
-    defaultValue = ["", false],
-    yesButton = "Вкл",
-    noButton = "Откл",
-    updateChat = false,
-    id = ""
-  ) {
+  botevent(name, title, description, defaultValue = ["", false], yesButton = "Вкл", noButton = "Откл", updateChat = false, id = "") {
     return this._basic(
       title,
       description,
       `
       <ol class="flexibleButtonGroup optionTypeBoolean">
-        <input option-type="botevent" type="text" class="optionField botevent" data-name="${name}" value="${
-        defaultValue[0]
-      }"/>
+        <input option-type="botevent" type="text" class="optionField botevent" data-name="${name}" value="${defaultValue[0]}"/>
         <li>
           <input option-type="botevent" type="radio" id="boolean_${name}" name="boolean_${name}" value="1" class="optionField botevent" data-name="${name}" ${
         defaultValue[1] ? "checked" : ""

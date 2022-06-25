@@ -17,7 +17,7 @@ window.bwasd = {
 /* HELPERS */
 
 const logger = {
-  _prefix: "[BetterWASD]",
+  _prefix: "[BetterWASYA]",
   debug(data) {
     if (bwasd.debug) console.log(logger._prefix, data);
   },
@@ -35,8 +35,7 @@ const logger = {
 
 const getCtx = (tag) => {
   const el = document.querySelector(tag);
-  if (el && el.__ngContext__)
-    return el.__ngContext__[el.__ngContext__.length - 1];
+  if (el && el.__ngContext__) return el.__ngContext__[el.__ngContext__.length - 1];
   return null;
 };
 
@@ -60,11 +59,7 @@ const waitForNgElementToLoad = (tag, timeout = 10, ng = true) => {
   });
 };
 
-const waitForNgElementToLoadOneFromArray = (
-  tags = [],
-  timeout = 10,
-  ng = true
-) => {
+const waitForNgElementToLoadOneFromArray = (tags = [], timeout = 10, ng = true) => {
   return new Promise((resolve, reject) => {
     const interval = setInterval(function () {
       for (let tag of tags) {
@@ -103,10 +98,7 @@ const onLocationChange = async (cb) => {
 /* BUSINESS LOGIC */
 
 const initChat = async () => {
-  await Promise.all([
-    waitForNgElementToLoad("wasd-chat", 120),
-    waitForNgElementToLoad("wasd-chat-messages", 120),
-  ]).catch((e) => {
+  await Promise.all([waitForNgElementToLoad("wasd-chat", 120), waitForNgElementToLoad("wasd-chat-messages", 120)]).catch((e) => {
     throw new Error("Failed to load!");
   });
 
@@ -118,9 +110,7 @@ const initChat = async () => {
   bwasd.messageService = bwasd.chatService.chatMessageService;
   bwasd.userService = bwasd.chatService.chatUserService;
 
-  const channel =
-    document.querySelector("wasd-channel") ||
-    document.querySelector("wasd-settings-page");
+  const channel = document.querySelector("wasd-channel") || document.querySelector("wasd-settings-page");
   if (bwasd.chatService) {
     channel.dataset.streamId = bwasd.chatService.streamId;
     channel.dataset.channelId = bwasd.chatService.channelId;
@@ -130,24 +120,14 @@ const initChat = async () => {
     channel.dataset.viewerUserName = bwasd.chatService.viewerUserName;
   }
 
-  const wasdAddMessage = bwasd.messageService.addMessage.bind(
-    bwasd.messageService
-  );
+  const wasdAddMessage = bwasd.messageService.addMessage.bind(bwasd.messageService);
 
   bwasd.messageService.addMessage = async function (e) {
     logger.debug(e);
     if (!e.id) return wasdAddMessage(e);
-    addHistoryMessage(
-      e.id,
-      e.message,
-      e.sticker?.sticker_image?.large,
-      e.user_id,
-      e.user_login
-    );
+    addHistoryMessage(e.id, e.message, e.sticker?.sticker_image?.large, e.user_id, e.user_login);
 
-    e.message = `<span class="id_${e.id}"> ${
-      e.message ? e.message : ""
-    } </span>`;
+    e.message = `<span class="id_${e.id}"> ${e.message ? e.message : ""} </span>`;
 
     wasdAddMessage(e);
 
@@ -158,9 +138,7 @@ const initChat = async () => {
       msg.dataset.id = e.id;
       msg.dataset.user_login = e.user_login;
       msg.dataset.user_id = e.user_id;
-      msg.dataset.message = e.message
-        .replace(/<span class="id_([A-Za-a0-9-])\S+">/gi, "")
-        .replace(/<\/span>/gi, "");
+      msg.dataset.message = e.message.replace(/<span class="id_([A-Za-a0-9-])\S+">/gi, "").replace(/<\/span>/gi, "");
       msg.dataset.sticker = e.sticker?.sticker_image?.large;
       msg.dataset.time = e.date_time;
       if (e.sticker) {
@@ -183,13 +161,7 @@ const initChat = async () => {
 
       if (!e) return;
 
-      addHistoryMessage(
-        e.id,
-        e.message,
-        e.sticker?.sticker_image?.large,
-        e.user_id,
-        e.user_login
-      );
+      addHistoryMessage(e.id, e.message, e.sticker?.sticker_image?.large, e.user_id, e.user_login);
 
       msg.dataset.id = e.id;
       msg.dataset.user_login = e.user_login;
@@ -239,17 +211,12 @@ const init = async () => {
   bwasd.loading = true;
 
   resetGlobals();
-  await waitForNgElementToLoadOneFromArray(
-    ["wasd-channel", "wasd-settings-page"],
-    15
-  );
+  await waitForNgElementToLoadOneFromArray(["wasd-channel", "wasd-settings-page"], 15);
   const channelCtx = getCtx("wasd-channel") || getCtx("wasd-settings-page");
   bwasd.channel = channelCtx.channel;
   bwasd.mediaContainer = channelCtx.mediaContainer;
 
-  let channel =
-    document.querySelector(`wasd-channel`) ||
-    document.querySelector("wasd-settings-page");
+  let channel = document.querySelector(`wasd-channel`) || document.querySelector("wasd-settings-page");
   channel.dataset.publishedAt = channelCtx?.mediaContainer?.published_at;
 
   if (bwasd.channel) {
