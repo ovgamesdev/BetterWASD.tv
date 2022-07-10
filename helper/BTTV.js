@@ -13,8 +13,8 @@ const HelperBTTV = {
           bttvUsers = {};
           bttvEmotes["global"] = items.bttvEmotes["global"];
           bttvUsers["global"] = items.bttvUsers["global"];
-          for (let userID in items.bttvEmotes) {
-            if (items.bttvEmotes.hasOwnProperty(userID)) {
+          for (let userID in bttvEmotes) {
+            if (bttvEmotes.hasOwnProperty(userID)) {
               let splitdev = document.createElement("div");
               splitdev.classList.add("stickers__div-ovg");
               splitdev.innerHTML = `<div class="stickers__info-ovg" style="top:-10px"><div class="stickers__info__line-ovg"></div><div class="stickers__info__text-ovg"> ${
@@ -22,8 +22,8 @@ const HelperBTTV = {
               } </div><div class="stickers__info__line-ovg"></div></div><div class="stickers__line-ovg"></div>`;
               bttvEmoteList.append(splitdev);
               let stickers__line = splitdev.querySelector(".stickers__line-ovg");
-              for (let emoteCode in items.bttvEmotes[userID]) {
-                if (items.bttvEmotes[userID].hasOwnProperty(emoteCode)) {
+              for (let emoteCode in bttvEmotes[userID]) {
+                if (bttvEmotes[userID].hasOwnProperty(emoteCode)) {
                   let div = document.createElement("div");
                   let a = document.createElement("a");
                   let img = document.createElement("img");
@@ -47,14 +47,6 @@ const HelperBTTV = {
           }
         });
       });
-
-    // let list = BetterStreamChat.settingsDiv.querySelector('.bttvUserList');
-    // list.innerText = '';
-    // for (let userID in bttvUsers) {
-    //   if (bttvUsers.hasOwnProperty(userID)) {
-    //     HelperBTTV.addUserToList(userID, list);
-    //   }
-    // }
   },
   loaded() {
     chrome.storage.onChanged.addListener(async (changes, namespace) => {
@@ -95,14 +87,7 @@ const HelperBTTV = {
             };
             items.bttvUsers = bttvUsers;
             items.bttvEmotes = bttvEmotes;
-            if (chrome.runtime?.id)
-              chrome.storage.local.set(
-                {
-                  bttvUsers,
-                  bttvEmotes,
-                },
-                () => resolve()
-              );
+            if (chrome.runtime?.id) chrome.storage.local.set({ bttvUsers, bttvEmotes }, () => resolve());
           });
       } else {
         resolve();
@@ -120,11 +105,11 @@ const HelperBTTV = {
             bttvUsers["global"] = items.bttvUsers["global"];
             let emotes = {};
 
-            for (let userID in items.bttvEmotes) {
-              if (items.bttvEmotes.hasOwnProperty(userID)) {
-                for (let emoteCode in items.bttvEmotes[userID]) {
-                  if (items.bttvEmotes[userID].hasOwnProperty(emoteCode)) {
-                    emotes[emoteCode] = items.bttvEmotes[userID][emoteCode];
+            for (let userID in bttvEmotes) {
+              if (bttvEmotes.hasOwnProperty(userID)) {
+                for (let emoteCode in bttvEmotes[userID]) {
+                  if (bttvEmotes[userID].hasOwnProperty(emoteCode)) {
+                    emotes[emoteCode] = bttvEmotes[userID][emoteCode];
                   }
                 }
               }
@@ -170,26 +155,19 @@ const HelperBTTV = {
     return new Promise((resolve, reject) => {
       $.ajax({
         url: `https://api.betterttv.net/3/cached/users/twitch/${userID}`,
-        success: (out) => {
-          resolve(out);
-        },
-        error: (out) => {
-          reject(out?.message);
-        },
+        success: (out) => resolve(out),
+        error: (out) => reject(out?.message),
       });
     });
   },
-  updateUserChannelEmotes(userID, username) {
-    return HelperBTTV.getUserEmotes(userID)
-      .then((bttvData) => {
-        return HelperBTTV.updateEmotes(userID, bttvData);
-      })
-      .then(() => {
-        return HelperBTTV.addUser(userID, username);
-      })
-      .catch(() => {
-        return Promise.reject("У пользователя нет BetterTTV.");
-      });
+  async updateUserChannelEmotes(userID, username) {
+    try {
+      const bttvData = await HelperBTTV.getUserEmotes(userID);
+      HelperBTTV.updateEmotes(userID, bttvData);
+      return await HelperBTTV.addUser(userID, username);
+    } catch {
+      return await Promise.reject("У пользователя нет BetterTTV.");
+    }
   },
   updateEmotes(userID, bttvData) {
     bttvEmotes[userID] = {};
@@ -216,16 +194,10 @@ const HelperBTTV = {
         lastUpdate: Date.now(),
       };
       if (chrome.runtime?.id)
-        chrome.storage.local.set(
-          {
-            bttvUsers,
-            bttvEmotes,
-          },
-          () => {
-            if (addUser) HelperBTTV.addUserToList(userID);
-            resolve();
-          }
-        );
+        chrome.storage.local.set({ bttvUsers, bttvEmotes }, () => {
+          if (addUser) HelperBTTV.addUserToList(userID);
+          resolve();
+        });
     });
   },
   tryAddUser() {
@@ -290,20 +262,12 @@ const HelperBTTV = {
   removeUser(userID) {
     delete bttvUsers[userID];
     delete bttvEmotes[userID];
-    if (chrome.runtime?.id)
-      chrome.storage.local.set({
-        bttvUsers,
-        bttvEmotes,
-      });
+    if (chrome.runtime?.id) chrome.storage.local.set({ bttvUsers, bttvEmotes });
   },
   updateEmotesBttv() {},
   restoreSettings(items) {
     return new Promise((resolve, reject) => {
-      if (chrome.runtime?.id)
-        chrome.storage.local.set({
-          bttvUsers: items.bttvUsers,
-          bttvEmotes: {},
-        });
+      if (chrome.runtime?.id) chrome.storage.local.set({ bttvUsers: items.bttvUsers, bttvEmotes: {} });
 
       let l = 0;
       let i = 0;

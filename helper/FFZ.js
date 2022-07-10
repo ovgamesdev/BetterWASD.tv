@@ -13,8 +13,8 @@ const HelperFFZ = {
           ffzUsers = {};
           ffzEmotes["global"] = items.ffzEmotes["global"];
           ffzUsers["global"] = items.ffzUsers["global"];
-          for (let userID in items.ffzEmotes) {
-            if (items.ffzEmotes.hasOwnProperty(userID)) {
+          for (let userID in ffzEmotes) {
+            if (ffzEmotes.hasOwnProperty(userID)) {
               let splitdev = document.createElement("div");
               splitdev.classList.add("stickers__div-ovg");
               splitdev.innerHTML = `<div class="stickers__info-ovg" style="top:-10px"><div class="stickers__info__line-ovg"></div><div class="stickers__info__text-ovg"> ${
@@ -22,8 +22,8 @@ const HelperFFZ = {
               } </div><div class="stickers__info__line-ovg"></div></div><div class="stickers__line-ovg"></div>`;
               ffzEmoteList.append(splitdev);
               let stickers__line = splitdev.querySelector(".stickers__line-ovg");
-              for (let emoteCode in items.ffzEmotes[userID]) {
-                if (items.ffzEmotes[userID].hasOwnProperty(emoteCode)) {
+              for (let emoteCode in ffzEmotes[userID]) {
+                if (ffzEmotes[userID].hasOwnProperty(emoteCode)) {
                   let div = document.createElement("div");
                   let a = document.createElement("a");
                   let img = document.createElement("img");
@@ -47,14 +47,6 @@ const HelperFFZ = {
           }
         });
       });
-
-    // let list = BetterStreamChat.settingsDiv.querySelector('.ffzUserList');
-    // list.innerText = '';
-    // for (let userID in ffzUsers) {
-    //   if (ffzUsers.hasOwnProperty(userID)) {
-    //     HelperFFZ.addUserToList(userID, list);
-    //   }
-    // }
   },
   loaded() {
     chrome.storage.onChanged.addListener(async (changes, namespace) => {
@@ -95,14 +87,7 @@ const HelperFFZ = {
             };
             items.ffzUsers = ffzUsers;
             items.ffzEmotes = ffzEmotes;
-            if (chrome.runtime?.id)
-              chrome.storage.local.set(
-                {
-                  ffzUsers,
-                  ffzEmotes,
-                },
-                () => resolve()
-              );
+            if (chrome.runtime?.id) chrome.storage.local.set({ ffzUsers, ffzEmotes }, () => resolve());
           });
       } else {
         resolve();
@@ -120,11 +105,11 @@ const HelperFFZ = {
             ffzUsers["global"] = items.ffzUsers["global"];
             let emotes = {};
 
-            for (let userID in items.ffzEmotes) {
-              if (items.ffzEmotes.hasOwnProperty(userID)) {
-                for (let emoteCode in items.ffzEmotes[userID]) {
-                  if (items.ffzEmotes[userID].hasOwnProperty(emoteCode)) {
-                    emotes[emoteCode] = items.ffzEmotes[userID][emoteCode];
+            for (let userID in ffzEmotes) {
+              if (ffzEmotes.hasOwnProperty(userID)) {
+                for (let emoteCode in ffzEmotes[userID]) {
+                  if (ffzEmotes[userID].hasOwnProperty(emoteCode)) {
+                    emotes[emoteCode] = ffzEmotes[userID][emoteCode];
                   }
                 }
               }
@@ -175,26 +160,19 @@ const HelperFFZ = {
     return new Promise((resolve, reject) => {
       $.ajax({
         url: `https://api.frankerfacez.com/v1/room/id/${userID}`,
-        success: (out) => {
-          resolve(out);
-        },
-        error: (out) => {
-          reject(out?.message);
-        },
+        success: (out) => resolve(out),
+        error: (out) => reject(out?.message),
       });
     });
   },
-  updateUserChannelEmotes(userID, username) {
-    return HelperFFZ.getUserEmotes(userID)
-      .then((ffzData) => {
-        return HelperFFZ.updateEmotes(userID, ffzData);
-      })
-      .then(() => {
-        return HelperFFZ.addUser(userID, username);
-      })
-      .catch((err) => {
-        return Promise.reject("У пользователя нет FFZ.");
-      });
+  async updateUserChannelEmotes(userID, username) {
+    try {
+      const ffzData = await HelperFFZ.getUserEmotes(userID);
+      HelperFFZ.updateEmotes(userID, ffzData);
+      return await HelperFFZ.addUser(userID, username);
+    } catch (err) {
+      return await Promise.reject("У пользователя нет FFZ.");
+    }
   },
   updateEmotes(userID, ffzData) {
     ffzEmotes[userID] = {};
@@ -221,16 +199,10 @@ const HelperFFZ = {
         lastUpdate: Date.now(),
       };
       if (chrome.runtime?.id)
-        chrome.storage.local.set(
-          {
-            ffzUsers,
-            ffzEmotes,
-          },
-          () => {
-            if (addUser) HelperFFZ.addUserToList(userID);
-            resolve();
-          }
-        );
+        chrome.storage.local.set({ ffzUsers, ffzEmotes }, () => {
+          if (addUser) HelperFFZ.addUserToList(userID);
+          resolve();
+        });
     });
   },
   tryAddUser() {
@@ -295,20 +267,12 @@ const HelperFFZ = {
   removeUser(userID) {
     delete ffzUsers[userID];
     delete ffzEmotes[userID];
-    if (chrome.runtime?.id)
-      chrome.storage.local.set({
-        ffzUsers,
-        ffzEmotes,
-      });
+    if (chrome.runtime?.id) chrome.storage.local.set({ ffzUsers, ffzEmotes });
   },
   updateEmotesFfz() {},
   restoreSettings(items) {
     return new Promise((resolve, reject) => {
-      if (chrome.runtime?.id)
-        chrome.storage.local.set({
-          ffzUsers: items.ffzUsers,
-          ffzEmotes: {},
-        });
+      if (chrome.runtime?.id) chrome.storage.local.set({ ffzUsers: items.ffzUsers, ffzEmotes: {} });
 
       let l = 0;
       let i = 0;

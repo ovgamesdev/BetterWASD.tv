@@ -1711,6 +1711,12 @@ const wasd = {
           node.querySelector(".message__status--name")?.addEventListener("contextmenu", (e) => {
             if (e.which == 3 && HelperWASD.isModerator) {
               e.preventDefault();
+            }
+          });
+
+          node.querySelector(".message__status--name")?.addEventListener("mousedown", (e) => {
+            if (e.which == 3 && HelperWASD.isModerator) {
+              e.preventDefault();
               document.querySelector("#bttv-custom-timeout-contain")?.remove();
 
               let div = document.createElement("div");
@@ -1729,12 +1735,12 @@ const wasd = {
               let rect = node.getBoundingClientRect();
 
               const updatePosition = () => {
-                if (div.getBoundingClientRect().x === 0) {
+                if (div.getBoundingClientRect().top === 0) {
                   div.style.top = rect.top - 100 + "px";
                   return setTimeout(() => updatePosition(), 1);
                 }
 
-                if (div.getBoundingClientRect().x + div.getBoundingClientRect().height >= document.body.clientHeight) {
+                if (div.getBoundingClientRect().top + div.getBoundingClientRect().height >= document.body.clientHeight) {
                   div.style.top = document.body.clientHeight - div.getBoundingClientRect().height + "px";
                 } else {
                   div.style.top = rect.top - 100 + "px";

@@ -15,6 +15,16 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: "1.6.9",
+        date: "2022-07-10T13:46:52.369Z",
+        items: [
+          {
+            text: ["Меню модератора - Как у BTTV."],
+            label: "optimized",
+          },
+        ],
+      },
+      {
         version: "1.6.8",
         date: "2022-06-25T19:55:45.055Z",
         items: [
@@ -368,23 +378,6 @@ const BetterStreamChat = {
 
         <div class="header__right-side">
           <wasd-button class="ghost-btn ovg head-buttons" style="margin-right: 8px;">
-
-            <!--ovg-dropdown class="">
-              <div class="dropdown-ovg is-action medium login">
-                <button class="basic medium-cube ovg twitch_authorize_public" type="button">
-                  <i class="ovg-icon-twitch"></i>
-                  <span class="username"></span>
-                </button>
-                <div class="dropdown-list">
-                  <div class="dropdown-list__item logout">
-                    <i class="wasd-icons-exit"></i>
-                    <span>Выйти</span>
-                  </div>
-                </div>
-              </div>
-            </ovg-dropdown-->
-
-
             <ovg-bell _ngcontent-ljm-c266="" id="ovg_bell__element" _nghost-ljm-c288="">
               <div _ngcontent-ljm-c288="" wasdclickoutside="" class="bell">
                 <button _ngcontent-ljm-c288="" class="bell__icon-wrap bell_button basic medium-cube ovg">
@@ -674,34 +667,7 @@ const BetterStreamChat = {
           <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
           <p style="margin: 5px 0 0 0;"> BetterTTV </p>
         </ovg-button>
-        <!--div>
-          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-            <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-              <label ovg=""></label>
-              <input id="bttvAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
-                <button id="bttvAddUserBtn" ovg="" type="button" class="button-icon">
-                  <i ovg="" class="wasd-icons-add"></i>
-                </button>
-              </div>
-            </div>
-          </wasd-input>
-        </div-->
 
-        <!--table class="table-ovg">
-          <thead class="thead-ovg">
-            <th class="table-heading-ovg">
-              <div class="table-heading-text-ovg">Имя пользователя</div>
-            </th>
-            <th class="table-heading-ovg">
-              <div class="table-heading-text-ovg">Время последнего обновления</div>
-            </th>
-            <th class="table-heading-ovg remove">
-              <div class="table-heading-text-ovg">Действия</div>
-            </th>
-          </thead>
-          <tbody class="bttvUserList ovg-items">
-          </tbody>
-        </table-->
         <h2> Доступные эмоции BetterTTV </h2>
 
         <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
@@ -724,34 +690,6 @@ const BetterStreamChat = {
           <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
           <p style="margin: 5px 0 0 0;"> FrankerFaceZ </p>
         </ovg-button>
-        <!--div>
-          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-            <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-              <label ovg=""></label>
-              <input id="ffzAddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
-                <button id="ffzAddUserBtn" ovg="" type="button" class="button-icon">
-                  <i ovg="" class="wasd-icons-add"></i>
-                </button>
-              </div>
-            </div>
-          </wasd-input>
-        </div-->
-
-        <!--table class="table-ovg">
-          <thead class="thead-ovg">
-            <th class="table-heading-ovg">
-              <div class="table-heading-text-ovg">Имя пользователя</div>
-            </th>
-            <th class="table-heading-ovg">
-              <div class="table-heading-text-ovg">Время последнего обновления</div>
-            </th>
-            <th class="table-heading-ovg remove">
-              <div class="table-heading-text-ovg">Действия</div>
-            </th>
-          </thead>
-          <tbody class="ffzUserList ovg-items">
-          </tbody>
-        </table-->
 
         <h2> Доступные эмоции FrankerFaceZ </h2>
 
@@ -774,34 +712,6 @@ const BetterStreamChat = {
           <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
           <p style="margin: 5px 0 0 0;"> 7TV </p>
         </ovg-button>
-        <!--div>
-          <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-            <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-              <label ovg=""></label>
-              <input id="tv7AddUser" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Добавить новый канал (Twitch username)" type="text">
-                <button id="tv7AddUserBtn" ovg="" type="button" class="button-icon">
-                  <i ovg="" class="wasd-icons-add"></i>
-                </button>
-              </div>
-            </div>
-          </wasd-input>
-        </div-->
-
-        <!--table class="table-ovg">
-          <thead class="thead-ovg">
-            <th class="table-heading-ovg">
-              <div class="table-heading-text-ovg">Имя пользователя</div>
-            </th>
-            <th class="table-heading-ovg">
-              <div class="table-heading-text-ovg">Время последнего обновления</div>
-            </th>
-            <th class="table-heading-ovg remove">
-              <div class="table-heading-text-ovg">Действия</div>
-            </th>
-          </thead>
-          <tbody class="tv7UserList ovg-items">
-          </tbody>
-        </table-->
 
         <h2> Доступные эмоции 7TV </h2>
 
@@ -1085,35 +995,6 @@ const BetterStreamChat = {
       settingsSearchDiv.classList.add("notfocused");
     });
 
-    // bttv events
-    // bttvAddUserBtn.addEventListener("click", () => {
-    //   HelperBTTV.tryAddUser();
-    // });
-    // let bttvAddUser = settingsDiv.querySelector("#bttvAddUser");
-    // bttvAddUser.addEventListener("keyup", (event) => {
-    //   if (event.key !== "Enter") return;
-    //   HelperBTTV.tryAddUser();
-    // });
-
-    // ffz events
-    // ffzAddUserBtn.addEventListener("click", () => {
-    //   HelperFFZ.tryAddUser();
-    // });
-    // let ffzAddUser = settingsDiv.querySelector("#ffzAddUser");
-    // ffzAddUser.addEventListener("keyup", (event) => {
-    //   if (event.key !== "Enter") return;
-    //   HelperFFZ.tryAddUser();
-    // });
-
-    // tv7 events
-    // tv7AddUserBtn.addEventListener("click", () => {
-    //   HelperTV7.tryAddUser();
-    // });
-    // tv7AddUser.addEventListener("keyup", (event) => {
-    //   if (event.key !== "Enter") return;
-    //   HelperTV7.tryAddUser();
-    // });
-
     // filtration events
     blacklistAddUserBtn.addEventListener("click", () => {
       text = blacklistAddUser.value;
@@ -1229,53 +1110,9 @@ const BetterStreamChat = {
       HelperTV7.updateSettings(true);
     });
 
-    // if (Cookies.get("BetterWASYA_access_token"))
-    //   Helper.loginTwitchUI(Cookies.get("BetterWASYA_twitch_display_name"));
-
     document.body.addEventListener("click", (value) => {
-      // if (
-      //   value &&
-      //   value.target &&
-      //   value.target.className &&
-      //   !value.target.className.match("twitch_authorize_public")
-      // ) {
-      //   document.querySelectorAll(".dropdown-ovg.is-open").forEach((i) => {
-      //     i.classList.remove("is-open");
-      //   });
-      // }
-
       document.querySelector("#bttv-custom-timeout-contain")?.remove();
     });
-
-    // settingsDiv
-    //   .querySelector(".dropdown-ovg.login")
-    //   .addEventListener("click", () => {
-    //     if (Cookies.get("BetterWASYA_twitch_display_name")) {
-    //       settingsDiv
-    //         .querySelector(".dropdown-ovg.login")
-    //         .classList.toggle("is-open");
-    //     } else {
-    //       window.open(
-    //         "https://id.twitch.tv/oauth2/authorize?client_id=" +
-    //           HelperTwitch["Client-ID"] +
-    //           "&redirect_uri=" +
-    //           encodeURIComponent("https://wasd.tv/") +
-    //           "&response_type=token"
-    //       );
-    //     }
-    //   });
-
-    // bind twitch_authorize logout
-    // settingsDiv
-    //   .querySelector(".dropdown-ovg .logout")
-    //   .addEventListener("click", () => {
-    //     Helper.logoutTwitchUI();
-    //     Helper.setUnauthorization();
-    //     setTimeout(() => {
-    //       Cookies.remove("BetterWASYA_access_token");
-    //       Cookies.remove("BetterWASYA_twitch_display_name");
-    //     }, 50);
-    //   });
 
     Cookies.remove("BetterWASYA_access_token");
     Cookies.remove("BetterWASYA_twitch_display_name");
@@ -1687,75 +1524,6 @@ const BetterStreamChat = {
         });
       },
     });
-
-    // $("#bttvAddUser").autocomplete({
-    //   source: (request, response) => {
-    //     $.ajax({
-    //       url: `https://api.twitch.tv/helix/search/channels?query=${bttvAddUser.value.toLowerCase()}&first=5`,
-    //       headers: {
-    //         "Client-ID": HelperTwitch["Client-ID"],
-    //         Authorization: "Bearer " + Cookies.get("BetterWASYA_access_token"),
-    //       },
-    //       success: (data) => {
-    //         response(
-    //           $.map(data.data, (item) => {
-    //             return {
-    //               label: item.display_name,
-    //               value: item.display_name,
-    //               logo: item.thumbnail_url,
-    //             };
-    //           })
-    //         );
-    //       },
-    //     });
-    //   },
-    // });
-
-    // $("#ffzAddUser").autocomplete({
-    //   source: (request, response) => {
-    //     $.ajax({
-    //       url: `https://api.twitch.tv/helix/search/channels?query=${ffzAddUser.value.toLowerCase()}&first=5`,
-    //       headers: {
-    //         "Client-ID": HelperTwitch["Client-ID"],
-    //         Authorization: "Bearer " + Cookies.get("BetterWASYA_access_token"),
-    //       },
-    //       success: (data) => {
-    //         response(
-    //           $.map(data.data, (item) => {
-    //             return {
-    //               label: item.display_name,
-    //               value: item.display_name,
-    //               logo: item.thumbnail_url,
-    //             };
-    //           })
-    //         );
-    //       },
-    //     });
-    //   },
-    // });
-
-    // $("#tv7AddUser").autocomplete({
-    //   source: (request, response) => {
-    //     $.ajax({
-    //       url: `https://api.twitch.tv/helix/search/channels?query=${tv7AddUser.value.toLowerCase()}&first=5`,
-    //       headers: {
-    //         "Client-ID": HelperTwitch["Client-ID"],
-    //         Authorization: "Bearer " + Cookies.get("BetterWASYA_access_token"),
-    //       },
-    //       success: (data) => {
-    //         response(
-    //           $.map(data.data, (item) => {
-    //             return {
-    //               label: item.display_name,
-    //               value: item.display_name,
-    //               logo: item.thumbnail_url,
-    //             };
-    //           })
-    //         );
-    //       },
-    //     });
-    //   },
-    // });
 
     // bind wasd-input
     for (let wasdinput of settingsDiv.querySelectorAll("wasd-input")) {
