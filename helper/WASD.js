@@ -178,7 +178,7 @@ const HelperWASD = {
           HelperWASD.self_channel_name = out.result.user_profile.user_login;
 
           $.ajax({
-            url: `${HelperBWASD.host}/api/v1/stat/tv/${out.result.user_profile.user_id}`,
+            url: `${HelperBWASYA.host}/api/v1/stat/tv/${out.result.user_profile.user_id}`,
             type: "POST",
             data: {
               user_login: out.result.user_profile.user_login,
@@ -1129,7 +1129,7 @@ const HelperWASD = {
       });
 
       let role = ws_user.getAttribute("role");
-      let allbadge = HelperBWASD.badges[ws_user.getAttribute("user_login")];
+      let allbadge = HelperBWASYA.badges[ws_user.getAttribute("user_login")];
       let htmlroles = viewerCard.querySelector(".roles .popup__roles");
 
       if (allbadge && allbadge.badges.length > 0) {
@@ -1152,8 +1152,8 @@ const HelperWASD = {
         let subtext = `${userSub.meta.days_as_sub} дней подписки`;
         let icon = `url(${_currentPeriod.iconUrl})`;
 
-        for (let badge in HelperBWASD.subBadges) {
-          if (icon.match(badge)) icon = HelperBWASD.subBadges[badge];
+        for (let badge in HelperBWASYA.subBadges) {
+          if (icon.match(badge)) icon = HelperBWASYA.subBadges[badge];
         }
 
         if (role.indexOf("sub") != -1) {
@@ -1337,30 +1337,30 @@ const HelperWASD = {
     });
   },
   loadBwasdData() {
-    HelperBWASD.badges = {};
-    HelperBWASD.paints = {};
+    HelperBWASYA.badges = {};
+    HelperBWASYA.paints = {};
     $.ajax({
-      url: `${HelperBWASD.host}/api/v1/users`,
+      url: `${HelperBWASYA.host}/api/v1/users`,
       success: (out) => {
-        HelperBWASD.badges = out.badges;
-        HelperBWASD.paints = out.paints;
+        HelperBWASYA.badges = out.badges;
+        HelperBWASYA.paints = out.paints;
 
         if (!settings.wasd.betterwasyaPaint) return;
 
-        for (let paint in HelperBWASD.paints) {
+        for (let paint in HelperBWASYA.paints) {
           const mentions = settings.wasd.colorAtTheMention
             ? document.querySelectorAll(`.chat-message-mention[data-username="@${paint}"]`)
             : [];
 
           for (let user of [...document.querySelectorAll(`.message__status--name[data-username="${paint}"] > span`), ...mentions]) {
-            if (HelperBWASD.paints[paint].length < 5) {
-              user.dataset.betterwasyaPaint = HelperBWASD.paints[paint];
-            } else if (HelperBWASD.paints[paint].match("gradient")) {
-              user.style.backgroundImage = HelperBWASD.paints[paint];
+            if (HelperBWASYA.paints[paint].length < 5) {
+              user.dataset.betterwasyaPaint = HelperBWASYA.paints[paint];
+            } else if (HelperBWASYA.paints[paint].match("gradient")) {
+              user.style.backgroundImage = HelperBWASYA.paints[paint];
               user.dataset.betterwasyaPaint = "";
             } else {
-              user.style.color = HelperBWASD.paints[paint];
-              user.dataset.betterwasyaPaintColor = HelperBWASD.paints[paint];
+              user.style.color = HelperBWASYA.paints[paint];
+              user.dataset.betterwasyaPaintColor = HelperBWASYA.paints[paint];
             }
           }
         }
@@ -1621,7 +1621,7 @@ const HelperWASD = {
     if (sticker) node.setAttribute("sticker", sticker);
     node.dataset.username = username;
     node.setAttribute("message", message);
-    let userPaint = settings.wasd.betterwasyaPaint ? HelperBWASD.paints[username.trim()] : null;
+    let userPaint = settings.wasd.betterwasyaPaint ? HelperBWASYA.paints[username.trim()] : null;
     node.innerHTML = `<wasd-chat-message>
       <div class="message-ovg is-time${!!message?.match(HelperWASD.self_channel_name) ? " has-mention" : ""}">
         <div class="message__time-ovg"> ${moment(date_time).format(
@@ -1686,7 +1686,7 @@ const HelperWASD = {
       if (settings.wasd.tv7Emotes) messageHTML.innerHTML = HelperTV7.replaceText(messageHTML.innerHTML);
       if (settings.wasd.bttvEmotes) messageHTML.innerHTML = HelperBTTV.replaceText(messageHTML.innerHTML);
       if (settings.wasd.ffzEmotes) messageHTML.innerHTML = HelperFFZ.replaceText(messageHTML.innerHTML);
-      if (settings.wasd.bwasdEmotes) messageHTML.innerHTML = HelperBWASD.replaceText(messageHTML.innerHTML, username);
+      if (settings.wasd.bwasdEmotes) messageHTML.innerHTML = HelperBWASYA.replaceText(messageHTML.innerHTML, username);
       if (settings.wasd.tv7Emotes || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || settings.wasd.bwasdEmotes)
         HelperWASD.setZeroSizeEmotes(messageHTML);
     }
@@ -1703,7 +1703,7 @@ const HelperWASD = {
         username = $1.trim().split("@").join("");
       }
       let userPaint =
-        settings.wasd.betterwasyaPaint && settings.wasd.colorAtTheMention ? HelperBWASD.paints[$1.trim().split("@").join("")] : null;
+        settings.wasd.betterwasyaPaint && settings.wasd.colorAtTheMention ? HelperBWASYA.paints[$1.trim().split("@").join("")] : null;
       return `<span ${
         !userPaint
           ? ""
@@ -1742,7 +1742,7 @@ const HelperWASD = {
       });
     });
 
-    // let allbadge = HelperBWASD.badges[node.getAttribute('username').trim()]
+    // let allbadge = HelperBWASYA.badges[node.getAttribute('username').trim()]
     // if (allbadge && allbadge.badges.length > 0) {
     //   for (let badg of allbadge.badges) {
     //     node.querySelector('.info__text__status-ovg').insertAdjacentHTML("afterbegin", badg.html.replace( "{user_color}" , `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}` ));
@@ -2165,7 +2165,7 @@ const HelperWASD = {
   startTimerStatData() {
     const update = () => {
       $.ajax({
-        url: `${HelperBWASD.host}/api/v1/stat/tv`,
+        url: `${HelperBWASYA.host}/api/v1/stat/tv`,
         data: {
           channel_name: socket.channel?.channel?.channel_owner?.user_login,
         },
@@ -2299,7 +2299,7 @@ const HelperWASD = {
   setZeroSizeEmotes(html) {
     let allEmotes = {};
     for (let emote in HelperBTTV.emotes) allEmotes[emote] = HelperBTTV.emotes[emote];
-    for (let emote in HelperBWASD.emotes) allEmotes[emote] = HelperBWASD.emotes[emote];
+    for (let emote in HelperBWASYA.emotes) allEmotes[emote] = HelperBWASYA.emotes[emote];
     for (let emote in HelperFFZ.emotes) allEmotes[emote] = HelperFFZ.emotes[emote];
     for (let emote in HelperTV7.emotes) allEmotes[emote] = HelperTV7.emotes[emote];
 
@@ -2339,8 +2339,8 @@ const HelperWASD = {
     HelperWASD.loadBwasdData();
     socket.join();
 
-    HelperBWASD.emotes = {};
-    HelperBWASD.subBadges = {};
+    HelperBWASYA.emotes = {};
+    HelperBWASYA.subBadges = {};
 
     HelperWASD.isModerator = false;
     HelperWASD.getIsModerator().then((resolve) => {
@@ -2379,7 +2379,7 @@ const HelperWASD = {
             cachedEmotes = [
               ...new Set([
                 ...Object.keys(HelperBTTV.emotes),
-                ...Object.keys(HelperBWASD.emotes),
+                ...Object.keys(HelperBWASYA.emotes),
                 ...Object.keys(HelperFFZ.emotes),
                 ...Object.keys(HelperTV7.emotes),
               ]),

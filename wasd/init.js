@@ -106,13 +106,9 @@ const wasd = {
 
         const remove_chat = [...removedNodes]
           .filter((node) => node.nodeType === 1)
-          .filter(
-            (element) => element.matches("wasd-chat-messages") || element.matches("wasd-chat-wrapper") || element.matches("wasd-channel")
-          );
+          .filter((element) => element.matches("wasd-chat-messages") || element.matches("wasd-chat-wrapper") || element.matches("wasd-channel"));
 
-        const add_player_buttons_stream = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("div.media-control"));
+        const add_player_buttons_stream = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("div.media-control"));
 
         // const add_settings_button_burger = [...addedNodes]
         //   .filter(node => node.nodeType === 1)
@@ -122,25 +118,15 @@ const wasd = {
           .filter((node) => node.nodeType === 1)
           .filter((element) => element.matches("wasd-chat-message").parentNode || element.matches("div.block__messages__item"));
 
-        const add_emoji_menu = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("wasd-chat-emoji"));
+        const add_emoji_menu = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("wasd-chat-emoji"));
 
-        const add_chat_menu = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("div.menu__block.menu__block-header"));
+        const add_chat_menu = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("div.menu__block.menu__block-header"));
 
-        const add_carousel_container_chromeless = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("div.container.chromeless"));
+        const add_carousel_container_chromeless = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("div.container.chromeless"));
 
-        const add_carousel_pending = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("div.pending"));
+        const add_carousel_pending = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("div.pending"));
 
-        const add_uptime = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("div.player-info") || element.matches("div.stream-viewers"));
+        const add_uptime = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("div.player-info") || element.matches("div.stream-viewers"));
 
         // const add_playerInfo = [...addedNodes]
         //   .filter(node => node.nodeType === 1)
@@ -162,57 +148,33 @@ const wasd = {
         //   .filter(node => node.nodeType === 1)
         //   .filter(element => element.matches('wasd-channel-header'));
 
-        const add_wasd_chat_header = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("div.header"));
+        const add_wasd_chat_header = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("div.header"));
 
-        const add_header = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("div#topDiv.fixed-wrapper"));
+        const add_header = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("div#topDiv.fixed-wrapper"));
 
         // const add_giftsInfo = [...addedNodes]
         //   .filter(node => node.nodeType === 1)
         //   .filter(element => element.matches('div#giftsInfo.gifts-info'));
 
-        const remove_uptime = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("div.player-info__stat-value"));
+        const remove_uptime = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("div.player-info__stat-value"));
 
-        const add_streaming_player = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("div.container"));
+        const add_streaming_player = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("div.container"));
 
-        const add_wasd_player = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("wasd-player#player.player"));
+        const add_wasd_player = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("wasd-player#player.player"));
 
-        const add_user_item = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("div.users__item.item--hover"));
+        const add_user_item = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("div.users__item.item--hover"));
 
-        const add_wasd_player_component = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("wasd-player-component"));
+        const add_wasd_player_component = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("wasd-player-component"));
 
-        const add_wasd_chat_footer = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("#chat-footer-block.footer"));
+        const add_wasd_chat_footer = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("#chat-footer-block.footer"));
 
-        const add_wasd_modal_window = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("wasd-modal-window.show"));
+        const add_wasd_modal_window = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("wasd-modal-window.show"));
 
-        const add_channel_item_navigation = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("a.channels__item"));
+        const add_channel_item_navigation = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("a.channels__item"));
 
-        const add_chat_paid_message = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("wasd-chat-paid-messages"));
+        const add_chat_paid_message = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("wasd-chat-paid-messages"));
 
-        const add_chat_context_message = [...addedNodes]
-          .filter((node) => node.nodeType === 1)
-          .filter((element) => element.matches("wasd-chat-context-menu"));
+        const add_chat_context_message = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("wasd-chat-context-menu"));
 
         const add_li = [...addedNodes].filter((node) => node.nodeType === 1).filter((element) => element.matches("li"));
 
@@ -247,7 +209,7 @@ const wasd = {
         if (add_chat_paid_message.length) {
           const user = add_chat_paid_message[0].querySelector(".message-title__name");
           if (user && settings.wasd.betterwasyaPaint) {
-            let userPaint = HelperBWASD.paints[user.textContent.trim()];
+            let userPaint = HelperBWASYA.paints[user.textContent.trim()];
             if (userPaint) {
               if (userPaint.length < 5) {
                 user.dataset.betterwasyaPaint = userPaint;
@@ -274,8 +236,8 @@ const wasd = {
           let icons = add_wasd_modal_window[0].querySelector(".bonuses__icons")?.querySelectorAll("img");
           if (icons) {
             for (let icon of icons) {
-              for (let badge in HelperBWASD.subBadges) {
-                if (icon.src?.match(badge)) icon.src = HelperBWASD.subBadges[badge].replace("url(", "").replace(")", "");
+              for (let badge in HelperBWASYA.subBadges) {
+                if (icon.src?.match(badge)) icon.src = HelperBWASYA.subBadges[badge].replace("url(", "").replace(")", "");
               }
             }
           }
@@ -376,23 +338,17 @@ const wasd = {
               modRef.querySelector(".icon.wasd-icons-moderator").remove();
               add_user_item[0]
                 .querySelector(".item")
-                .insertAdjacentHTML(
-                  "beforebegin",
-                  `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"><i class="icon"></i></div>`
-                );
+                .insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"><i class="icon"></i></div>`);
             }
             if (ownerRef && settings.wasd.showOwnerBadge.toString() == "2") {
               ownerRef.classList.remove("is-owner");
               ownerRef.querySelector(".icon.wasd-icons-owner").remove();
               add_user_item[0]
                 .querySelector(".item")
-                .insertAdjacentHTML(
-                  "beforebegin",
-                  `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"><i class="icon"></i></div>`
-                );
+                .insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"><i class="icon"></i></div>`);
             }
 
-            let userPaint = settings.wasd.betterwasyaPaint ? HelperBWASD.paints[username.textContent.trim()] : null;
+            let userPaint = settings.wasd.betterwasyaPaint ? HelperBWASYA.paints[username.textContent.trim()] : null;
             if (userPaint)
               username.innerHTML = username.innerHTML.replace(/> ([a-zA-Z0-9_-]+) /i, ($0) => {
                 let username = settings.wasd.userNameEdited[$0.split(">").join("").trim()];
@@ -408,15 +364,12 @@ const wasd = {
                 }>${username}</span>`;
               });
 
-            let allbadge = HelperBWASD.badges[username.textContent.trim()];
+            let allbadge = HelperBWASYA.badges[username.textContent.trim()];
             if (allbadge && allbadge.badges.length > 0) {
               for (let badg of allbadge.badges) {
                 add_user_item[0]
                   .querySelector(".item")
-                  .insertAdjacentHTML(
-                    "beforebegin",
-                    badg.html.replace("{user_color}", `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}`)
-                  );
+                  .insertAdjacentHTML("beforebegin", badg.html.replace("{user_color}", `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}`));
               }
             }
 
@@ -427,8 +380,8 @@ const wasd = {
               let subtext = `${userSub.meta.days_as_sub} дней подписки`;
               let icon = `url(${_currentPeriod.iconUrl})`;
 
-              for (let badge in HelperBWASD.subBadges) {
-                if (icon.match(badge)) icon = HelperBWASD.subBadges[badge];
+              for (let badge in HelperBWASYA.subBadges) {
+                if (icon.match(badge)) icon = HelperBWASYA.subBadges[badge];
               }
 
               add_user_item[0]
@@ -470,7 +423,7 @@ const wasd = {
         }
 
         if (add_emoji_menu.length) {
-          if (settings.wasd.bwasdEmotes && settings.wasd.bwasdInChatMenu) HelperBWASD.addToChatMenu();
+          if (settings.wasd.bwasdEmotes && settings.wasd.bwasdInChatMenu) HelperBWASYA.addToChatMenu();
           if (settings.wasd.bttvEmotes && settings.wasd.tv7InChatMenu) HelperTV7.addToChatMenu();
           if (settings.wasd.ffzEmotes && settings.wasd.bttvInChatMenu) HelperBTTV.addToChatMenu();
           if (settings.wasd.tv7Emotes && settings.wasd.ffzInChatMenu) HelperFFZ.addToChatMenu();
@@ -504,10 +457,7 @@ const wasd = {
 
           let button = document.querySelector(".chat-container__btn-open--desktop");
           button?.addEventListener("click", () => {
-            if (
-              document.querySelector(".chat-container__btn-open--desktop > i")?.className === "wasd-icons-right" &&
-              settings.wasd.moveHideChat
-            ) {
+            if (document.querySelector(".chat-container__btn-open--desktop > i")?.className === "wasd-icons-right" && settings.wasd.moveHideChat) {
               button.style.display = "none";
             } else {
               button.style.display = "";
@@ -722,8 +672,7 @@ const wasd = {
 
     cssCode += ".info__text__status > div[ovg], .info__text__status-ovg > div[ovg] { line-height: inherit; }";
     if (settings.wasd.sticker.toString() === "0") {
-      cssCode +=
-        ".message__status, .info__text__status-ovg, #colon-after-author-name, #colon-after-author-name-ovg { vertical-align: top; }";
+      cssCode += ".message__status, .info__text__status-ovg, #colon-after-author-name, #colon-after-author-name-ovg { vertical-align: top; }";
       cssCode += '[sticker^="http"] .chat-message-text.stickertext { display: none; }';
       if (settings.wasd.forceResizeStickers.toString() === "1") {
         cssCode += ".message__info img.sticker { display: block; height: 128px!important; width: 128px!important; margin-top: 8px; }";
@@ -731,8 +680,7 @@ const wasd = {
         cssCode += ".message__info img.sticker { display: block; height: 56px!important; width: 56px!important; margin-top: 8px; }";
       }
     } else if (settings.wasd.sticker.toString() === "1") {
-      cssCode +=
-        "img.sticker { width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }";
+      cssCode += "img.sticker { width: 28px!important; height: 28px!important; margin-top: 0px!important; display: inline!important; vertical-align: middle!important; margin: -.5rem 0!important; }";
       cssCode += '[sticker^="http"] .chat-message-text.stickertext { display: none; }';
     } else if (settings.wasd.sticker.toString() === "2") {
       if (settings.wasd.forceResizeStickers.toString() === "0") {
@@ -780,9 +728,7 @@ const wasd = {
       cssCode += ".stickerovg_text { display: inline; }";
     }
 
-    cssCode += `div.message-text span a, div.message-text-ovg span a { color: ${
-      settings.wasd.linkColor != "#000000" ? settings.wasd.linkColor : "inherit"
-    }; }`;
+    cssCode += `div.message-text span a, div.message-text-ovg span a { color: ${settings.wasd.linkColor != "#000000" ? settings.wasd.linkColor : "inherit"}; }`;
     cssCode += `div.message-text.message-text--deleted span a { color: inherit!important; }`;
 
     if (settings.wasd.chatOnTheLeft) {
@@ -797,8 +743,7 @@ const wasd = {
       cssCode += `#profile-menu { z-index: 1; }`;
 
       // fix скрыть чат
-      if (settings.wasd.moveHideChat)
-        cssCode += `.chat-container__btn-open--desktop-ovg .wasd-icons-right:before {transform: rotate(180deg)!important;}`;
+      if (settings.wasd.moveHideChat) cssCode += `.chat-container__btn-open--desktop-ovg .wasd-icons-right:before {transform: rotate(180deg)!important;}`;
       cssCode += `.chat-container.close--desktop {overflow: hidden!important;}`;
       cssCode += `.chat-container__btn-open--desktop { left: 100%!important;transform: rotate(180deg)!important; }`;
       cssCode += `.chat-container__btn-open--desktop .text { transform: rotate(180deg)!important; }`;
@@ -860,9 +805,7 @@ const wasd = {
 
     if (settings.wasd.alternatingColorChatMessages) {
       cssCode += `div.block__messages__item:nth-child(2n+1), div.block__messages__item-ovg:nth-child(2n+1) { background-color: ${
-        settings.wasd.alternatingColorChatMessagesColor != "#000000"
-          ? settings.wasd.alternatingColorChatMessagesColor + ""
-          : "var(--wasd-color-prime)"
+        settings.wasd.alternatingColorChatMessagesColor != "#000000" ? settings.wasd.alternatingColorChatMessagesColor + "" : "var(--wasd-color-prime)"
       }; }`;
     }
 
@@ -907,39 +850,27 @@ const wasd = {
 
     let bgmc = "";
     if (settings.wasd.mentionSelf) {
-      bgmc = `background-color: ${
-        settings.wasd.colorMentionSelf != "#000000"
-          ? settings.wasd.colorMentionSelf + "!important"
-          : "rgba(var(--wasd-color-switch--rgb),.08)!important"
-      }`;
+      bgmc = `background-color: ${settings.wasd.colorMentionSelf != "#000000" ? settings.wasd.colorMentionSelf + "!important" : "rgba(var(--wasd-color-switch--rgb),.08)!important"}`;
     } else {
       bgmc = `background-color: rgba(0, 0, 0, 0)!important`;
     }
     cssCode += `.message.has-mention-ovg, .message-ovg.has-mention {${bgmc}}`;
 
     cssCode += `.message.openCardColor {background-color: ${
-      settings.wasd.highlightMessagesOpenCardColor != "#000000"
-        ? settings.wasd.highlightMessagesOpenCardColor + "!important"
-        : "rgba(var(--wasd-color-switch--rgb),.08)!important"
+      settings.wasd.highlightMessagesOpenCardColor != "#000000" ? settings.wasd.highlightMessagesOpenCardColor + "!important" : "rgba(var(--wasd-color-switch--rgb),.08)!important"
     }}`;
 
     cssCode += `.ovg-moderator-tools {display: ${HelperWASD.isModerator ? "" : "none!important;"}}`;
 
     if (settings.wasd.messageHover) {
       cssCode += `.message:hover { background-color: ${
-        settings.wasd.colorMessageHover != "#000000"
-          ? settings.wasd.colorMessageHover + "!important"
-          : "rgba(var(--wasd-color-switch--rgb),.08)!important"
+        settings.wasd.colorMessageHover != "#000000" ? settings.wasd.colorMessageHover + "!important" : "rgba(var(--wasd-color-switch--rgb),.08)!important"
       }; }`;
       cssCode += `.message-ovg:hover { background-color: ${
-        settings.wasd.colorMessageHover != "#000000"
-          ? settings.wasd.colorMessageHover + "!important"
-          : "rgba(var(--wasd-color-switch--rgb),.08)!important"
+        settings.wasd.colorMessageHover != "#000000" ? settings.wasd.colorMessageHover + "!important" : "rgba(var(--wasd-color-switch--rgb),.08)!important"
       }; }`;
       cssCode += `.ovg-bg-color-prime:hover { background-color: ${
-        settings.wasd.colorMessageHover != "#000000"
-          ? settings.wasd.colorMessageHover + "!important"
-          : "rgba(var(--wasd-color-switch--rgb),.08)!important"
+        settings.wasd.colorMessageHover != "#000000" ? settings.wasd.colorMessageHover + "!important" : "rgba(var(--wasd-color-switch--rgb),.08)!important"
       }; }`;
     }
     cssCode += `.paidsubs-popup__stickers-item {cursor: url(${git_url + "img/cursorS.png"}) 4 4, auto}`;
@@ -951,8 +882,7 @@ const wasd = {
 
     if (settings.wasd.highlightStickersStickerMenu) {
       if (settings.wasd.decreaseIndentationSmilesMenu) {
-        cssCode +=
-          "wasd-chat-emoji-smiles .smiles {height: 210px!important;padding: 5px 0 0 5px!important;justify-content: center!important;}";
+        cssCode += "wasd-chat-emoji-smiles .smiles {height: 210px!important;padding: 5px 0 0 5px!important;justify-content: center!important;}";
         cssCode +=
           "wasd-chat-emoji-smiles .smiles .smiles__item:hover {background-color: rgba(var(--wasd-color-switch--rgb), .2)!important;}wasd-chat-emoji-smiles .smiles .smiles__item {padding: 16.7px!important;margin: 0px;border-radius: 2px;}";
       } else {
@@ -975,8 +905,7 @@ const wasd = {
           "wasd-chat-emoji-smiles .smiles {justify-content: center!important;padding: 10px 0 10px 5px!important;height: 210px!important;}wasd-chat-emoji-smiles .smiles .smiles__item {margin-bottom: 8px!important;margin-right: 9px!important;}";
       }
       if (settings.wasd.decreaseIndentationBTTVandFFZMenu) {
-        cssCode +=
-          "wasd-chat-emoji-smiles .smiles {height: 210px!important;padding: 5px 0 0 5px!important;justify-content: center!important;}";
+        cssCode += "wasd-chat-emoji-smiles .smiles {height: 210px!important;padding: 5px 0 0 5px!important;justify-content: center!important;}";
       }
     }
 
@@ -1030,14 +959,10 @@ const wasd = {
     }
 
     cssCode += `.ovg-moderator-tools {background-color: ${
-      settings.wasd.colorModOptions != "#000000"
-        ? settings.wasd.colorModOptions + "!important"
-        : "rgba(var(--wasd-color-switch--rgb),.08)!important"
+      settings.wasd.colorModOptions != "#000000" ? settings.wasd.colorModOptions + "!important" : "rgba(var(--wasd-color-switch--rgb),.08)!important"
     }}`;
     cssCode += `.ovg-copy-tools {background-color: ${
-      settings.wasd.colorCopuOptions != "#000000"
-        ? settings.wasd.colorCopuOptions + "!important"
-        : "rgba(var(--wasd-color-switch--rgb),.08)!important"
+      settings.wasd.colorCopuOptions != "#000000" ? settings.wasd.colorCopuOptions + "!important" : "rgba(var(--wasd-color-switch--rgb),.08)!important"
     }}`;
 
     if (settings.wasd.hideRaid) {
@@ -1064,7 +989,7 @@ const wasd = {
       cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topRight .tooltip-content:before {top: unset; border: 4px solid transparent; border-bottom: 4px solid rgb(var(--color-switch)); border-top: none; bottom: 100%; content: ""; margin-left: -2px; position: absolute; transition: all .3s ease; right: 20px;}`;
 
       cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topLeft {margin-top: 8px;top: 100%;bottom: unset;margin-bottom: unset;}`;
-      cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topLeft .tooltip-content:before {top: unset; border: 4px solid transparent; border-bottom: 4px solid rgb(var(--color-switch)); border-top: none; bottom: 100%; content: ""; margin-left: -2px; position: absolute; transition: all .3s ease; right: 20px;}`;
+      cssCode += `.gifts-info__buttons .tooltip.tooltip_position-topLeft .tooltip-content:before {top: unset; border: 4px solid transparent; border-bottom: 4px solid rgb(var(--color-switch)); border-top: none; bottom: 100%; content: ""; margin-left: -2px; position: absolute; transition: all .3s ease; right: 235px;}`;
     }
 
     if (!settings.wasd.colonAfterNickname) {
@@ -1079,11 +1004,7 @@ const wasd = {
       cssCode += `.ovg-copy-tools {display: none !important;}`;
     }
 
-    if (
-      settings.wasd.showPartnerIcon === "false" ||
-      settings.wasd.showPartnerIcon === false ||
-      settings.wasd.showPartnerIcon.toString() == "2"
-    ) {
+    if (settings.wasd.showPartnerIcon === "false" || settings.wasd.showPartnerIcon === false || settings.wasd.showPartnerIcon.toString() == "2") {
       cssCode += `.message__status .message__partner {display: none !important;}`;
     }
     if (settings.wasd.showPartnerIcon.toString() == "2") {
@@ -1103,108 +1024,74 @@ const wasd = {
     if (settings.colors.enabled)
       cssCode += `body {
       --wasd-color-black: ${settings.colors.wasdcolorblack} !important;
-      --wasd-color-black--rgb: ${hexRgb(settings.colors.wasdcolorblack).red}, ${hexRgb(settings.colors.wasdcolorblack).green}, ${
-        hexRgb(settings.colors.wasdcolorblack).blue
-      } !important;
+      --wasd-color-black--rgb: ${hexRgb(settings.colors.wasdcolorblack).red}, ${hexRgb(settings.colors.wasdcolorblack).green}, ${hexRgb(settings.colors.wasdcolorblack).blue} !important;
       --wasd-color-white: ${settings.colors.wasdcolorwhite} !important;
-      --wasd-color-white--rgb: ${hexRgb(settings.colors.wasdcolorwhite).red}, ${hexRgb(settings.colors.wasdcolorwhite).green}, ${
-        hexRgb(settings.colors.wasdcolorwhite).blue
-      } !important;
+      --wasd-color-white--rgb: ${hexRgb(settings.colors.wasdcolorwhite).red}, ${hexRgb(settings.colors.wasdcolorwhite).green}, ${hexRgb(settings.colors.wasdcolorwhite).blue} !important;
       --wasd-color-corp-prime: ${settings.colors.wasdcolorcorpprime} !important;
-      --wasd-color-corp-prime--rgb: ${hexRgb(settings.colors.wasdcolorcorpprime).red}, ${
-        hexRgb(settings.colors.wasdcolorcorpprime).green
-      }, ${hexRgb(settings.colors.wasdcolorcorpprime).blue} !important;
-      --wasd-color-corp-gray: ${settings.colors.wasdcolorcorpgray} !important;
-      --wasd-color-corp-gray--rgb: ${hexRgb(settings.colors.wasdcolorcorpgray).red}, ${hexRgb(settings.colors.wasdcolorcorpgray).green}, ${
-        hexRgb(settings.colors.wasdcolorcorpgray).blue
+      --wasd-color-corp-prime--rgb: ${hexRgb(settings.colors.wasdcolorcorpprime).red}, ${hexRgb(settings.colors.wasdcolorcorpprime).green}, ${
+        hexRgb(settings.colors.wasdcolorcorpprime).blue
       } !important;
+      --wasd-color-corp-gray: ${settings.colors.wasdcolorcorpgray} !important;
+      --wasd-color-corp-gray--rgb: ${hexRgb(settings.colors.wasdcolorcorpgray).red}, ${hexRgb(settings.colors.wasdcolorcorpgray).green}, ${hexRgb(settings.colors.wasdcolorcorpgray).blue} !important;
       --wasd-color-dark-blue: ${settings.colors.wasdcolordarkblue} !important;
       --wasd-color-corp-blue: ${settings.colors.wasdcolorcorpblue} !important;
-      --wasd-color-corp-blue--rgb: ${hexRgb(settings.colors.wasdcolorcorpblue).red}, ${hexRgb(settings.colors.wasdcolorcorpblue).green}, ${
-        hexRgb(settings.colors.wasdcolorcorpblue).blue
-      } !important;
+      --wasd-color-corp-blue--rgb: ${hexRgb(settings.colors.wasdcolorcorpblue).red}, ${hexRgb(settings.colors.wasdcolorcorpblue).green}, ${hexRgb(settings.colors.wasdcolorcorpblue).blue} !important;
       --wasd-color-warning: ${settings.colors.wasdcolorwarning} !important;
-      --wasd-color-warning--rgb: ${hexRgb(settings.colors.wasdcolorwarning).red}, ${hexRgb(settings.colors.wasdcolorwarning).green}, ${
-        hexRgb(settings.colors.wasdcolorwarning).blue
-      } !important;
+      --wasd-color-warning--rgb: ${hexRgb(settings.colors.wasdcolorwarning).red}, ${hexRgb(settings.colors.wasdcolorwarning).green}, ${hexRgb(settings.colors.wasdcolorwarning).blue} !important;
       --wasd-color-success: ${settings.colors.wasdcolorsuccess} !important;
-      --wasd-color-success--rgb: ${hexRgb(settings.colors.wasdcolorsuccess).red}, ${hexRgb(settings.colors.wasdcolorsuccess).green}, ${
-        hexRgb(settings.colors.wasdcolorsuccess).blue
-      } !important;
+      --wasd-color-success--rgb: ${hexRgb(settings.colors.wasdcolorsuccess).red}, ${hexRgb(settings.colors.wasdcolorsuccess).green}, ${hexRgb(settings.colors.wasdcolorsuccess).blue} !important;
       --wasd-color-event1: ${settings.colors.wasdcolorevent1} !important;
       --wasd-color-event2: ${settings.colors.wasdcolorevent2} !important;
       --wasd-color-event3: ${settings.colors.wasdcolorevent3} !important;
       --wasd-color-xp: ${settings.colors.wasdcolorxp} !important;
       --wasd-color-bordo: ${settings.colors.wasdcolorbordo} !important;
       --wasd-color-prime: ${settings.colors.wasdcolorprime} !important;
-      --wasd-color-prime--rgb: ${hexRgb(settings.colors.wasdcolorprime).red}, ${hexRgb(settings.colors.wasdcolorprime).green}, ${
-        hexRgb(settings.colors.wasdcolorprime).blue
-      } !important;
+      --wasd-color-prime--rgb: ${hexRgb(settings.colors.wasdcolorprime).red}, ${hexRgb(settings.colors.wasdcolorprime).green}, ${hexRgb(settings.colors.wasdcolorprime).blue} !important;
       --wasd-color-switch: ${settings.colors.wasdcolorswitch} !important;
-      --wasd-color-switch--rgb: ${hexRgb(settings.colors.wasdcolorswitch).red}, ${hexRgb(settings.colors.wasdcolorswitch).green}, ${
-        hexRgb(settings.colors.wasdcolorswitch).blue
-      } !important;
+      --wasd-color-switch--rgb: ${hexRgb(settings.colors.wasdcolorswitch).red}, ${hexRgb(settings.colors.wasdcolorswitch).green}, ${hexRgb(settings.colors.wasdcolorswitch).blue} !important;
       --wasd-color-second: ${settings.colors.wasdcolorsecond} !important;
       --wasd-color-third: ${settings.colors.wasdcolorthird} !important;
       --wasd-color-gray1: ${settings.colors.wasdcolorgray1} !important;
       --wasd-color-gray2: ${settings.colors.wasdcolorgray2} !important;
       --wasd-color-gray3: ${settings.colors.wasdcolorgray3} !important;
-      --wasd-color-text-prime: rgba(${hexRgb(settings.colors.wasdcolortextprime).red}, ${
-        hexRgb(settings.colors.wasdcolortextprime).green
-      }, ${hexRgb(settings.colors.wasdcolortextprime).blue}, ${hexRgb(settings.colors.wasdcolortextprime).alpha}) !important;
-      --wasd-color-text-second: rgba(${hexRgb(settings.colors.wasdcolortextsecond).red}, ${
-        hexRgb(settings.colors.wasdcolortextsecond).green
-      }, ${hexRgb(settings.colors.wasdcolortextsecond).blue}, ${hexRgb(settings.colors.wasdcolortextsecond).alpha}) !important;
-      --wasd-color-text-third: rgba(${hexRgb(settings.colors.wasdcolortextthird).red}, ${
-        hexRgb(settings.colors.wasdcolortextthird).green
-      }, ${hexRgb(settings.colors.wasdcolortextthird).blue}, ${hexRgb(settings.colors.wasdcolortextthird).alpha}) !important;
-      --wasd-color-text-fourth: rgba(${hexRgb(settings.colors.wasdcolortextfourth).red}, ${
-        hexRgb(settings.colors.wasdcolortextfourth).green
-      }, ${hexRgb(settings.colors.wasdcolortextfourth).blue}, ${hexRgb(settings.colors.wasdcolortextfourth).alpha}) !important;
-      --wasd-color-text-disabled: rgba(${hexRgb(settings.colors.wasdcolortextdisabled).red}, ${
-        hexRgb(settings.colors.wasdcolortextdisabled).green
-      }, ${hexRgb(settings.colors.wasdcolortextdisabled).blue}, ${hexRgb(settings.colors.wasdcolortextdisabled).alpha}) !important;
+      --wasd-color-text-prime: rgba(${hexRgb(settings.colors.wasdcolortextprime).red}, ${hexRgb(settings.colors.wasdcolortextprime).green}, ${hexRgb(settings.colors.wasdcolortextprime).blue}, ${
+        hexRgb(settings.colors.wasdcolortextprime).alpha
+      }) !important;
+      --wasd-color-text-second: rgba(${hexRgb(settings.colors.wasdcolortextsecond).red}, ${hexRgb(settings.colors.wasdcolortextsecond).green}, ${hexRgb(settings.colors.wasdcolortextsecond).blue}, ${
+        hexRgb(settings.colors.wasdcolortextsecond).alpha
+      }) !important;
+      --wasd-color-text-third: rgba(${hexRgb(settings.colors.wasdcolortextthird).red}, ${hexRgb(settings.colors.wasdcolortextthird).green}, ${hexRgb(settings.colors.wasdcolortextthird).blue}, ${
+        hexRgb(settings.colors.wasdcolortextthird).alpha
+      }) !important;
+      --wasd-color-text-fourth: rgba(${hexRgb(settings.colors.wasdcolortextfourth).red}, ${hexRgb(settings.colors.wasdcolortextfourth).green}, ${hexRgb(settings.colors.wasdcolortextfourth).blue}, ${
+        hexRgb(settings.colors.wasdcolortextfourth).alpha
+      }) !important;
+      --wasd-color-text-disabled: rgba(${hexRgb(settings.colors.wasdcolortextdisabled).red}, ${hexRgb(settings.colors.wasdcolortextdisabled).green}, ${
+        hexRgb(settings.colors.wasdcolortextdisabled).blue
+      }, ${hexRgb(settings.colors.wasdcolortextdisabled).alpha}) !important;
       --wasd-color-bg-prime: ${settings.colors.wasdcolorbgprime} !important;
       --wasd-color-bg-second: ${settings.colors.wasdcolorbgsecond} !important;
-      --color-lowest-layer: rgba(${hexRgb(settings.colors.colorlowestlayer).red}, ${hexRgb(settings.colors.colorlowestlayer).green}, ${
-        hexRgb(settings.colors.colorlowestlayer).blue
-      }, ${hexRgb(settings.colors.colorlowestlayer).alpha}) !important;
-      --color-background: ${hexRgb(settings.colors.colorbackground).red}, ${hexRgb(settings.colors.colorbackground).green}, ${
-        hexRgb(settings.colors.colorbackground).blue
-      } !important;
+      --color-lowest-layer: rgba(${hexRgb(settings.colors.colorlowestlayer).red}, ${hexRgb(settings.colors.colorlowestlayer).green}, ${hexRgb(settings.colors.colorlowestlayer).blue}, ${
+        hexRgb(settings.colors.colorlowestlayer).alpha
+      }) !important;
+      --color-background: ${hexRgb(settings.colors.colorbackground).red}, ${hexRgb(settings.colors.colorbackground).green}, ${hexRgb(settings.colors.colorbackground).blue} !important;
       --color-first-layer: ${settings.colors.colorfirstlayer} !important;
       --color-second-layer: ${settings.colors.colorsecondlayer} !important;
       --color-upper-layer: ${settings.colors.colorupperlayer} !important;
-      --color-switch: ${hexRgb(settings.colors.colorswitch).red}, ${hexRgb(settings.colors.colorswitch).green}, ${
-        hexRgb(settings.colors.colorswitch).blue
-      } !important;
-      --color-shadow: ${hexRgb(settings.colors.colorshadow).red}, ${hexRgb(settings.colors.colorshadow).green}, ${
-        hexRgb(settings.colors.colorshadow).blue
-      } !important;
-      --color-system-blue: ${hexRgb(settings.colors.colorsystemblue).red}, ${hexRgb(settings.colors.colorsystemblue).green}, ${
-        hexRgb(settings.colors.colorsystemblue).blue
-      } !important;
+      --color-switch: ${hexRgb(settings.colors.colorswitch).red}, ${hexRgb(settings.colors.colorswitch).green}, ${hexRgb(settings.colors.colorswitch).blue} !important;
+      --color-shadow: ${hexRgb(settings.colors.colorshadow).red}, ${hexRgb(settings.colors.colorshadow).green}, ${hexRgb(settings.colors.colorshadow).blue} !important;
+      --color-system-blue: ${hexRgb(settings.colors.colorsystemblue).red}, ${hexRgb(settings.colors.colorsystemblue).green}, ${hexRgb(settings.colors.colorsystemblue).blue} !important;
       --color-system-dark-blue: ${hexRgb(settings.colors.colorsystemdarkblue).red}, ${hexRgb(settings.colors.colorsystemdarkblue).green}, ${
         hexRgb(settings.colors.colorsystemdarkblue).blue
       } !important;
-      --color-system-white: ${hexRgb(settings.colors.colorsystemwhite).red}, ${hexRgb(settings.colors.colorsystemwhite).green}, ${
-        hexRgb(settings.colors.colorsystemwhite).blue
+      --color-system-white: ${hexRgb(settings.colors.colorsystemwhite).red}, ${hexRgb(settings.colors.colorsystemwhite).green}, ${hexRgb(settings.colors.colorsystemwhite).blue} !important;
+      --color-system-black: ${hexRgb(settings.colors.colorsystemblack).red}, ${hexRgb(settings.colors.colorsystemblack).green}, ${hexRgb(settings.colors.colorsystemblack).blue} !important;
+      --color-system-warning: ${hexRgb(settings.colors.colorsystemwarning).red}, ${hexRgb(settings.colors.colorsystemwarning).green}, ${hexRgb(settings.colors.colorsystemwarning).blue} !important;
+      --color-system-attention: ${hexRgb(settings.colors.colorsystemattention).red}, ${hexRgb(settings.colors.colorsystemattention).green}, ${
+        hexRgb(settings.colors.colorsystemattention).blue
       } !important;
-      --color-system-black: ${hexRgb(settings.colors.colorsystemblack).red}, ${hexRgb(settings.colors.colorsystemblack).green}, ${
-        hexRgb(settings.colors.colorsystemblack).blue
-      } !important;
-      --color-system-warning: ${hexRgb(settings.colors.colorsystemwarning).red}, ${hexRgb(settings.colors.colorsystemwarning).green}, ${
-        hexRgb(settings.colors.colorsystemwarning).blue
-      } !important;
-      --color-system-attention: ${hexRgb(settings.colors.colorsystemattention).red}, ${
-        hexRgb(settings.colors.colorsystemattention).green
-      }, ${hexRgb(settings.colors.colorsystemattention).blue} !important;
-      --color-system-success: ${hexRgb(settings.colors.colorsystemsuccess).red}, ${hexRgb(settings.colors.colorsystemsuccess).green}, ${
-        hexRgb(settings.colors.colorsystemsuccess).blue
-      } !important;
-      --color-system-xp: ${hexRgb(settings.colors.colorsystemxp).red}, ${hexRgb(settings.colors.colorsystemxp).green}, ${
-        hexRgb(settings.colors.colorsystemxp).blue
-      } !important;
+      --color-system-success: ${hexRgb(settings.colors.colorsystemsuccess).red}, ${hexRgb(settings.colors.colorsystemsuccess).green}, ${hexRgb(settings.colors.colorsystemsuccess).blue} !important;
+      --color-system-xp: ${hexRgb(settings.colors.colorsystemxp).red}, ${hexRgb(settings.colors.colorsystemxp).green}, ${hexRgb(settings.colors.colorsystemxp).blue} !important;
       --color-additional-yellow-light: ${settings.colors.coloradditionalyellowlight} !important;
       --color-additional-yellow-dark: ${settings.colors.coloradditionalyellowdark} !important;
       --color-additional-yellow-orange: ${settings.colors.coloradditionalyelloworange} !important;
@@ -1229,22 +1116,18 @@ const wasd = {
     if (settings.wasd.deletedMessageStyle.toString() == "1") {
       cssCode += ".message-text--deleted img {filter: brightness(0.5);} .message-text--deleted {color: rgba(var(--color-switch),.4);}";
     } else if (settings.wasd.deletedMessageStyle.toString() == "2") {
-      cssCode +=
-        ".message-text--deleted img {filter: brightness(0.5);} .message-text--deleted {color: rgba(var(--color-switch),.4);} .message-text--deleted {text-decoration: line-through;}";
+      cssCode += ".message-text--deleted img {filter: brightness(0.5);} .message-text--deleted {color: rgba(var(--color-switch),.4);} .message-text--deleted {text-decoration: line-through;}";
     } else if (settings.wasd.deletedMessageStyle.toString() == "3") {
       cssCode += ".message-text--deleted {text-decoration: line-through;color: inherit !important;}";
     }
 
-    if (settings.wasd.hideOfflineChannelsOnNavSidebar)
-      cssCode += '#nav-sidebar .channels__list .channels__item[data-online="false"] {display: none !important}';
+    if (settings.wasd.hideOfflineChannelsOnNavSidebar) cssCode += '#nav-sidebar .channels__list .channels__item[data-online="false"] {display: none !important}';
 
     if (settings.wasd.blurInfoSiteGoesDown) cssCode += "body > div#info {filter: blur(5px);}";
 
-    if (settings.wasd.hideDescriptionHighlightedMsg)
-      cssCode += "wasd-chat-message > .is-highlighted ~ .description-message {display: none}";
+    if (settings.wasd.hideDescriptionHighlightedMsg) cssCode += "wasd-chat-message > .is-highlighted ~ .description-message {display: none}";
 
-    if (settings.wasd.highlightedMessageColor != "#00000000")
-      cssCode += `wasd-chat-message > .is-highlighted {background-color: ${settings.wasd.highlightedMessageColor} !important}`;
+    if (settings.wasd.highlightedMessageColor != "#00000000") cssCode += `wasd-chat-message > .is-highlighted {background-color: ${settings.wasd.highlightedMessageColor} !important}`;
 
     if (wasd.style) {
       if (typeof wasd.style.styleSheet !== "undefined") {
@@ -1287,8 +1170,7 @@ const wasd = {
       const usernameTextCached = node.querySelector(".message__status--name")?.textContent?.trim();
 
       if (isobserver) {
-        if (usernameTextCached == HelperWASD.current?.user_profile?.user_login && messageTextCached)
-          HelperWASD.selfMessagesHistory.push(messageTextCached);
+        if (usernameTextCached == HelperWASD.current?.user_profile?.user_login && messageTextCached) HelperWASD.selfMessagesHistory.push(messageTextCached);
         if (settings.wasd.artificialChatDelay.toString() == "0") {
           node.style.display = "block";
         } else {
@@ -1353,10 +1235,7 @@ const wasd = {
       let nicknamediv = node.querySelector(".message__status--name");
       let message = node.querySelector(".message-text");
       if (nicknamediv && message && settings.wasd.colonAfterNickname) {
-        message.insertAdjacentHTML(
-          "beforebegin",
-          `<span id="colon-after-author-name" style=" color: rgbа(var(--wasd-color-switch--rgb),.88);" >: </span>`
-        );
+        message.insertAdjacentHTML("beforebegin", `<span id="colon-after-author-name" style=" color: rgbа(var(--wasd-color-switch--rgb),.88);" >: </span>`);
         nicknamediv.style.margin = "0";
       }
 
@@ -1364,7 +1243,7 @@ const wasd = {
       if (nicknamediv) {
         nicknamediv.dataset.username = usernameTextCached;
         nicknamediv.dataset.usernamelc = usernameTextCached.toLowerCase();
-        let userPaint = settings.wasd.betterwasyaPaint ? HelperBWASD.paints[usernameTextCached] : null;
+        let userPaint = settings.wasd.betterwasyaPaint ? HelperBWASYA.paints[usernameTextCached] : null;
         nicknamediv.innerHTML = nicknamediv.innerHTML.replace(
           / ([a-zA-Z0-9_-]+) /gi,
           `<span ${
@@ -1395,9 +1274,8 @@ const wasd = {
         if (settings.wasd.tv7Emotes) messageHTML.innerHTML = HelperTV7.replaceText(messageHTML.innerHTML);
         if (settings.wasd.bttvEmotes) messageHTML.innerHTML = HelperBTTV.replaceText(messageHTML.innerHTML);
         if (settings.wasd.ffzEmotes) messageHTML.innerHTML = HelperFFZ.replaceText(messageHTML.innerHTML);
-        if (settings.wasd.bwasdEmotes) messageHTML.innerHTML = HelperBWASD.replaceText(messageHTML.innerHTML, usernameTextCached);
-        if (settings.wasd.tv7Emotes || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || settings.wasd.bwasdEmotes)
-          HelperWASD.setZeroSizeEmotes(messageHTML);
+        if (settings.wasd.bwasdEmotes) messageHTML.innerHTML = HelperBWASYA.replaceText(messageHTML.innerHTML, usernameTextCached);
+        if (settings.wasd.tv7Emotes || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || settings.wasd.bwasdEmotes) HelperWASD.setZeroSizeEmotes(messageHTML);
 
         let bl = " ";
 
@@ -1466,18 +1344,9 @@ const wasd = {
         let loading;
         let messageInfoStatus = node.querySelector("div.message__status");
         if (messageInfoStatus && !ownerRef && node.querySelector("div.message__icon")) {
-          messageInfoStatus.insertAdjacentHTML(
-            "afterbegin",
-            `<div class="info__text__status-paid-ovg ovg-moderator-tools button banned"><i class="icon-ovg wasd-icons-ban"></i></div>`
-          );
-          messageInfoStatus.insertAdjacentHTML(
-            "afterbegin",
-            `<div class="info__text__status-paid-ovg ovg-moderator-tools button timeout"><i class="icon-ovg wasd-icons-sound-off"></i></div>`
-          );
-          messageInfoStatus.insertAdjacentHTML(
-            "afterbegin",
-            `<div class="info__text__status-paid-ovg ovg-moderator-tools button remove"><i class="icon-ovg wasd-icons-delete"></i></div>`
-          );
+          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-moderator-tools button banned"><i class="icon-ovg wasd-icons-ban"></i></div>`);
+          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-moderator-tools button timeout"><i class="icon-ovg wasd-icons-sound-off"></i></div>`);
+          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-moderator-tools button remove"><i class="icon-ovg wasd-icons-delete"></i></div>`);
 
           messageInfo = node.querySelector("div.message__info");
           if (messageInfo) {
@@ -1505,19 +1374,13 @@ const wasd = {
                       loading.style.display = "inline-block";
 
                       if (settings.wasd.moderatorMenuAutomatic) {
-                        document
-                          .querySelector(
-                            ".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning"
-                          )
-                          .click();
+                        document.querySelector(".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning").click();
                         document.querySelector("wasd-chat-popups > div.block").style.display = "none";
 
                         loading.style.display = "none";
                       } else {
                         document
-                          .querySelector(
-                            ".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic"
-                          )
+                          .querySelector(".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic")
                           .addEventListener("click", ({ target }) => {
                             loading.style.display = "none";
                           });
@@ -1563,15 +1426,8 @@ const wasd = {
                       document.querySelector(".message__info").click();
                       edited = true;
                       loading.style.display = "inline-block";
-                      if (
-                        !document.querySelector(
-                          '.block__popup__body > .block__popup__body__inner .inner__text__checkbox [type="checkbox"].input'
-                        ).checked &&
-                        settings.wasd.keepMessagesTimeout
-                      ) {
-                        document
-                          .querySelector('.block__popup__body > .block__popup__body__inner .inner__text__checkbox [type="checkbox"].input')
-                          .click();
+                      if (!document.querySelector('.block__popup__body > .block__popup__body__inner .inner__text__checkbox [type="checkbox"].input').checked && settings.wasd.keepMessagesTimeout) {
+                        document.querySelector('.block__popup__body > .block__popup__body__inner .inner__text__checkbox [type="checkbox"].input').click();
                       }
                       switch (settings.wasd.moderatorMenuTimeout) {
                         case 1:
@@ -1592,19 +1448,13 @@ const wasd = {
                       }
 
                       if (settings.wasd.moderatorMenuAutomatic) {
-                        document
-                          .querySelector(
-                            ".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning"
-                          )
-                          .click();
+                        document.querySelector(".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning").click();
                         document.querySelector("wasd-chat-popups > div.block").style.display = "none";
 
                         loading.style.display = "none";
                       } else {
                         document
-                          .querySelector(
-                            ".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic"
-                          )
+                          .querySelector(".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic")
                           .addEventListener("click", ({ target }) => {
                             loading.style.display = "none";
                           });
@@ -1650,31 +1500,17 @@ const wasd = {
                       document.querySelector(".message__info").click();
                       edited = true;
                       loading.style.display = "inline-block";
-                      if (
-                        document.querySelector(
-                          ".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input"
-                        ).checked
-                      ) {
-                        document
-                          .querySelector(
-                            ".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input"
-                          )
-                          .click();
+                      if (document.querySelector(".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input").checked) {
+                        document.querySelector(".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__text > div > .inner__text__checkbox > label > input.input").click();
                       }
 
                       if (settings.wasd.moderatorMenuAutomatic) {
-                        document
-                          .querySelector(
-                            ".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning"
-                          )
-                          .click();
+                        document.querySelector(".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.warning").click();
                         document.querySelector("wasd-chat-popups > div.block").style.display = "none";
                         loading.style.display = "none";
                       } else {
                         document
-                          .querySelector(
-                            ".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic"
-                          )
+                          .querySelector(".block__popup__body > .block__popup__body__inner > .block__popup__body__inner__buttons > .inner__buttons__item > .ghost-btn > button.basic")
                           .addEventListener("click", ({ target }) => {
                             loading.style.display = "none";
                           });
@@ -1771,9 +1607,7 @@ const wasd = {
               });
 
               div.addEventListener("click", (e) => {
-                let user_id =
-                  node.dataset.user_id ||
-                  document.querySelector(`.messages_history[bwasd] [data-usernamelc="${node.dataset.usernamelc}"]`)?.dataset.user_id;
+                let user_id = node.dataset.user_id || document.querySelector(`.messages_history[bwasd] [data-usernamelc="${node.dataset.usernamelc}"]`)?.dataset.user_id;
                 let id = node.dataset.id;
 
                 if (e.offsetY < 21) {
@@ -1820,9 +1654,9 @@ const wasd = {
                     out.result.media_container_name
                   }" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.media_container_name}</div><div title="${
                     usernameed ? usernameed + " (" + username + ")" : username
-                  } играет в ${game}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${
-                    out.result.user_id
-                  }">${usernameed ? usernameed : username}</a> играет в ${game}</div><div title="${out.result.created_at} - ${
+                  } играет в ${game}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${out.result.user_id}">${
+                    usernameed ? usernameed : username
+                  }</a> играет в ${game}</div><div title="${out.result.created_at} - ${
                     out.result.media_container_streams[0].stream_total_viewers
                   } просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${new Date(out.result.created_at).toLocaleDateString()} - ${
                     out.result.media_container_streams[0].stream_total_viewers
@@ -1859,21 +1693,15 @@ const wasd = {
                       out.result.clip_data.preview.small
                     }" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${
                       out.result.clip_title
-                    }" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.clip_title}</div><div title="${
-                      usernameed ? usernameed + " (" + username + ")" : username
-                    } играет в ${
+                    }" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.clip_title}</div><div title="${usernameed ? usernameed + " (" + username + ")" : username} играет в ${
                       out.result.clip_game_name
-                    }" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${
-                      out.result.clip_channel.user_id
-                    }">${usernameed ? usernameed : username}</a> играет в ${out.result.clip_game_name}</div><div title="Автор клипа: ${
-                      clip_owner_logined ? clip_owner_logined + " (" + clip_owner_login + ")" : clip_owner_login
-                    } - ${
+                    }" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><a target="_blank" href="https://wasd.tv/user/${out.result.clip_channel.user_id}">${
+                      usernameed ? usernameed : username
+                    }</a> играет в ${out.result.clip_game_name}</div><div title="Автор клипа: ${clip_owner_logined ? clip_owner_logined + " (" + clip_owner_login + ")" : clip_owner_login} - ${
                       out.result.clip_views_count
-                    } просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">Автор клипа: <a target="_blank" href="https://wasd.tv/user/${
-                      out.result.clip_owner_profile_id
-                    }">${clip_owner_logined ? clip_owner_logined : clip_owner_login}</a> - ${
-                      out.result.clip_views_count
-                    } просмотров</div></div></div></div>`;
+                    } просмотров" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">Автор клипа: <a target="_blank" href="https://wasd.tv/user/${out.result.clip_owner_profile_id}">${
+                      clip_owner_logined ? clip_owner_logined : clip_owner_login
+                    }</a> - ${out.result.clip_views_count} просмотров</div></div></div></div>`;
                   } else {
                     node.querySelector(
                       "div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center"
@@ -1907,9 +1735,7 @@ const wasd = {
                       out.result.game_icon.small
                     }" class=""></div><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${
                       out.result.game_asset_name
-                    }" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.game_asset_name}</div><div title="${
-                      out.result.game_description
-                    }" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${
+                    }" class="tw-ellipsis tw-semibold tw-mg-x-05">${out.result.game_asset_name}</div><div title="${out.result.game_description}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${
                       out.result.game_description != null ? out.result.game_description : "Нет описания"
                     }</div></div></div></div>`;
                   } else {
@@ -2028,8 +1854,7 @@ const wasd = {
                   let d = "";
                   let title = out.short.title;
                   if (typeof title == "object") title = out.short.title.content[0].content;
-                  if (typeof out.short?.subtitle[0] == "string")
-                    d = `<div title="${out.short?.subtitle[0]}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.short?.subtitle[0]}</div>`;
+                  if (typeof out.short?.subtitle[0] == "string") d = `<div title="${out.short?.subtitle[0]}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.short?.subtitle[0]}</div>`;
                   if (typeof out.short?.subtitle?.content?.tweet[0] == "string")
                     d = `<div title="${out.short.subtitle?.content?.tweet[0]}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${out.short?.subtitle?.content?.tweet[0]}</div>`;
 
@@ -2083,11 +1908,9 @@ const wasd = {
                       img = "";
                     }
                     let dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value) * 1000);
-                    let textdate = `${
-                      dater.getUTCHours() < 10 ? "0" + dater.getUTCHours() : dater.getUTCDate() * 24 + dater.getUTCHours()
-                    }:${dater.getUTCMinutes() < 10 ? "0" + dater.getUTCMinutes() : dater.getUTCMinutes()}:${
-                      dater.getUTCSeconds() < 10 ? "0" + dater.getUTCSeconds() : dater.getUTCSeconds()
-                    }`;
+                    let textdate = `${dater.getUTCHours() < 10 ? "0" + dater.getUTCHours() : dater.getUTCDate() * 24 + dater.getUTCHours()}:${
+                      dater.getUTCMinutes() < 10 ? "0" + dater.getUTCMinutes() : dater.getUTCMinutes()
+                    }:${dater.getUTCSeconds() < 10 ? "0" + dater.getUTCSeconds() : dater.getUTCSeconds()}`;
                     node.querySelector(".lrhiver").innerHTML = `<div class="lrhiverimg">
                       <div class="ffz__tooltip--inner ffz-rich-tip tw-align-left">
                         <div>
@@ -2114,24 +1937,15 @@ const wasd = {
                             <div class="tw-flex ffz--rich-header">
                               <div class="ffz--header-image-h tw-mg-x-05"></div>
                               <div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1">
-                                ${
-                                  out?.short?.title
-                                    ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>`
-                                    : ``
-                                }
+                                ${out?.short?.title ? `<div class="tw-ellipsis tw-semibold " title="${out.short.title}">${out.short.title}</div>` : ``}
                                 ${
                                   out?.short?.subtitle?.content?.channel
-                                    ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${
-                                        out.short.subtitle.content.channel
-                                      } • ${out.short.subtitle.content.views.replace(
+                                    ? `<div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.subtitle.content.channel} • ${out.short.subtitle.content.views.replace(
                                         /(\d)(?=(\d{3})+$)/g,
                                         "$1 "
                                       )} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, "$1 ")}">${
                                         out.short.subtitle.content.channel
-                                      } • ${out.short.subtitle.content.views.replace(
-                                        /(\d)(?=(\d{3})+$)/g,
-                                        "$1 "
-                                      )} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, "$1 ")}</div>`
+                                      } • ${out.short.subtitle.content.views.replace(/(\d)(?=(\d{3})+$)/g, "$1 ")} • 👍 ${out.short.subtitle.content.likes.replace(/(\d)(?=(\d{3})+$)/g, "$1 ")}</div>`
                                     : ``
                                 }
                               </div>
@@ -2147,9 +1961,9 @@ const wasd = {
                               <div class="tw-flex tw-full-width tw-overflow-hidden ffz--rich-header ffz--compact-header tw-align-items-center">
                                 <div class="tw-ellipsis tw-c-text-alt-2" title="${out.short.extra?.[1]}${new Date(
                                     out.short.extra?.[2].attrs.datetime
-                                  ).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${
+                                  ).toLocaleDateString()}"><span class="ffz-i-youtube-play"></span>${out.short.extra?.[1]}<time datetime="${out.short.extra?.[2].attrs.datetime}" class="">${new Date(
                                     out.short.extra?.[2].attrs.datetime
-                                  }" class="">${new Date(out.short.extra?.[2].attrs.datetime).toLocaleDateString()}</time></div>
+                                  ).toLocaleDateString()}</time></div>
                               </div>
                             `
                                 : ``
@@ -2167,28 +1981,19 @@ const wasd = {
                       "div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center"
                     ).innerHTML = `<div class="ffz--card-rich tw-full-width tw-overflow-hidden tw-flex tw-flex-column"><div class="tw-flex ffz--rich-header"><div class="tw-flex tw-full-width tw-overflow-hidden tw-justify-content-center tw-flex-column tw-flex-grow-1"><div title="${
                       out?.short?.title
-                    }" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div><div title="${
+                    }" class="tw-ellipsis tw-semibold tw-mg-x-05">${out?.short?.title}</div><div title="${out?.short?.subtitle?.content?.channel} • ${out?.short?.subtitle?.content?.views.replace(
+                      /(\d)(?=(\d{3})+$)/g,
+                      "$1 "
+                    )} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, "$1 ")}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${
                       out?.short?.subtitle?.content?.channel
-                    } • ${out?.short?.subtitle?.content?.views.replace(
+                    } • ${out?.short?.subtitle?.content?.views.replace(/(\d)(?=(\d{3})+$)/g, "$1 ")} • 👍 ${out?.short?.subtitle?.content?.likes.replace(
                       /(\d)(?=(\d{3})+$)/g,
                       "$1 "
-                    )} • 👍 ${out?.short?.subtitle?.content?.likes.replace(
-                      /(\d)(?=(\d{3})+$)/g,
-                      "$1 "
-                    )}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05">${
-                      out?.short?.subtitle?.content?.channel
-                    } • ${out?.short?.subtitle?.content?.views.replace(
-                      /(\d)(?=(\d{3})+$)/g,
-                      "$1 "
-                    )} • 👍 ${out?.short?.subtitle?.content?.likes.replace(/(\d)(?=(\d{3})+$)/g, "$1 ")}</div><div title="${
-                      out?.short?.extra?.[1]
-                    } ${new Date(
+                    )}</div><div title="${out?.short?.extra?.[1]} ${new Date(
                       out?.short?.extra?.[2]?.attrs?.datetime
-                    ).toLocaleDateString()}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><span class="ffz-i-youtube-play"></span>${
-                      out?.short?.extra?.[1]
-                    }<time datetime="${out?.short?.extra?.[2]?.attrs?.datetime}" class="">${new Date(
+                    ).toLocaleDateString()}" class="tw-ellipsis tw-c-text-alt-2 tw-mg-x-05"><span class="ffz-i-youtube-play"></span>${out?.short?.extra?.[1]}<time datetime="${
                       out?.short?.extra?.[2]?.attrs?.datetime
-                    ).toLocaleDateString()}</time></div></div></div></div>`;
+                    }" class="">${new Date(out?.short?.extra?.[2]?.attrs?.datetime).toLocaleDateString()}</time></div></div></div></div>`;
                   } else if (out?.short?.title) {
                     if (typeof out.error == "undefined") {
                       if (!out?.short?.subtitle) {
@@ -2242,11 +2047,9 @@ const wasd = {
                       img = "";
                     }
                     let dater = new Date(Number(out?.full?.[0]?.content?.items?.[0]?.["bottom-right"]?.value) * 1000);
-                    let textdate = `${
-                      dater.getUTCHours() < 10 ? "0" + dater.getUTCHours() : dater.getUTCDate() * 24 + dater.getUTCHours()
-                    }:${dater.getUTCMinutes() < 10 ? "0" + dater.getUTCMinutes() : dater.getUTCMinutes()}:${
-                      dater.getUTCSeconds() < 10 ? "0" + dater.getUTCSeconds() : dater.getUTCSeconds()
-                    }`;
+                    let textdate = `${dater.getUTCHours() < 10 ? "0" + dater.getUTCHours() : dater.getUTCDate() * 24 + dater.getUTCHours()}:${
+                      dater.getUTCMinutes() < 10 ? "0" + dater.getUTCMinutes() : dater.getUTCMinutes()
+                    }:${dater.getUTCSeconds() < 10 ? "0" + dater.getUTCSeconds() : dater.getUTCSeconds()}`;
 
                     node.querySelector(
                       "div.ffz--card-text.tw-full-width.tw-overflow-hidden.tw-flex.tw-flex-column.tw-justify-content-center"
@@ -2378,7 +2181,7 @@ const wasd = {
 
       if (settings.wasd.colorAtTheMention) {
         node.querySelectorAll(".chat-message-mention").forEach((user) => {
-          const userPaint = settings.wasd.betterwasyaPaint ? HelperBWASD.paints[user.dataset.username.split("@").join("")] : null;
+          const userPaint = settings.wasd.betterwasyaPaint ? HelperBWASYA.paints[user.dataset.username.split("@").join("")] : null;
           if (userPaint) {
             if (userPaint.length < 5) {
               user.dataset.betterwasyaPaint = userPaint;
@@ -2393,7 +2196,7 @@ const wasd = {
         });
       }
 
-      const userPaint = settings.wasd.betterwasyaPaint ? HelperBWASD.paints[usernameTextCached] : null;
+      const userPaint = settings.wasd.betterwasyaPaint ? HelperBWASYA.paints[usernameTextCached] : null;
       if (userPaint) {
         let user = node.querySelector(".message__status--name > span");
         if (userPaint.length < 5) {
@@ -2432,19 +2235,10 @@ const wasd = {
       promoCodeWin = node.querySelector(".message__promocodes");
       partnerRef = node.querySelector(".message__partner");
 
-      if (
-        modRef &&
-        (settings.wasd.showModeratorBadge === "false" ||
-          settings.wasd.showModeratorBadge === false ||
-          settings.wasd.showModeratorBadge.toString() == "2")
-      ) {
+      if (modRef && (settings.wasd.showModeratorBadge === "false" || settings.wasd.showModeratorBadge === false || settings.wasd.showModeratorBadge.toString() == "2")) {
         modRef.classList.remove("is-moderator");
         modRef.querySelector(".icon.wasd-icons-moderator").remove();
-        let c =
-          HelperWASD.userColors[
-            Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute("user_id")) %
-              (HelperWASD.userColors.length - 1)
-          ];
+        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute("user_id")) % (HelperWASD.userColors.length - 1)];
         if (c) {
           node.querySelector(".message__status--name").style.color = c;
         }
@@ -2452,34 +2246,19 @@ const wasd = {
       if (modRef && settings.wasd.showModeratorBadge.toString() == "2") {
         node
           .querySelector(".message__status--name")
-          .insertAdjacentHTML(
-            "beforebegin",
-            `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"><i class="icon"></i></div>`
-          );
+          .insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/moderator.webp) rgb(0,173,3);"><i class="icon"></i></div>`);
       }
 
       if (partnerRef && settings.wasd.showPartnerIcon.toString() == "2") {
         node
           .querySelector(".message__status--name")
-          .insertAdjacentHTML(
-            "beforebegin",
-            `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/partner.webp) rgb(145,70,255);"><i class="icon"></i></div>`
-          );
+          .insertAdjacentHTML("beforebegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/partner.webp) rgb(145,70,255);"><i class="icon"></i></div>`);
       }
 
-      if (
-        ownerRef &&
-        (settings.wasd.showOwnerBadge === "false" ||
-          settings.wasd.showOwnerBadge === false ||
-          settings.wasd.showOwnerBadge.toString() == "2")
-      ) {
+      if (ownerRef && (settings.wasd.showOwnerBadge === "false" || settings.wasd.showOwnerBadge === false || settings.wasd.showOwnerBadge.toString() == "2")) {
         ownerRef.classList.remove("is-owner");
         ownerRef.querySelector(".icon.wasd-icons-owner").remove();
-        let c =
-          HelperWASD.userColors[
-            Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute("user_id")) %
-              (HelperWASD.userColors.length - 1)
-          ];
+        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute("user_id")) % (HelperWASD.userColors.length - 1)];
         if (c) {
           node.querySelector(".message__status--name").style.color = c;
         }
@@ -2487,20 +2266,13 @@ const wasd = {
       if (ownerRef && settings.wasd.showOwnerBadge.toString() == "2") {
         node
           .querySelector(".message__status")
-          .insertAdjacentHTML(
-            "afterbegin",
-            `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"><i class="icon"></i></div>`
-          );
+          .insertAdjacentHTML("afterbegin", `<div class="info__text__status-ovg-badge" style="background: url(${git_url}/badges/owner.webp) rgb(233,25,22);"><i class="icon"></i></div>`);
       }
 
       if (adminRef && !settings.wasd.showAdminBadge) {
         adminRef.classList.remove("is-admin");
         adminRef.querySelector(".icon.wasd-icons-dev").remove();
-        let c =
-          HelperWASD.userColors[
-            Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute("user_id")) %
-              (HelperWASD.userColors.length - 1)
-          ];
+        let c = HelperWASD.userColors[Number(document.querySelector(`.WebSocket_history [user_login="${usernameTextCached}"]`)?.getAttribute("user_id")) % (HelperWASD.userColors.length - 1)];
         if (c) {
           node.querySelector(".message__status--name").style.color = c;
         }
@@ -2515,30 +2287,22 @@ const wasd = {
       }
 
       if (subRef) {
-        for (let badge in HelperBWASD.subBadges) {
-          if (subRef.style.backgroundImage.match(badge)) subRef.style.backgroundImage = HelperBWASD.subBadges[badge];
+        for (let badge in HelperBWASYA.subBadges) {
+          if (subRef.style.backgroundImage.match(badge)) subRef.style.backgroundImage = HelperBWASYA.subBadges[badge];
         }
       }
 
-      let allbadge = HelperBWASD.badges[usernameTextCached];
+      let allbadge = HelperBWASYA.badges[usernameTextCached];
       if (allbadge && allbadge.badges.length > 0) {
         for (let badg of allbadge.badges) {
-          node
-            .querySelector(".message__status")
-            .insertAdjacentHTML(
-              "afterbegin",
-              badg.html.replace("{user_color}", `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}`)
-            );
+          node.querySelector(".message__status").insertAdjacentHTML("afterbegin", badg.html.replace("{user_color}", `${HelperWASD.userColors[allbadge.user_id % (HelperWASD.userColors.length - 1)]}`));
         }
       }
 
       if (settings.wasd.copyMessage) {
         let messageInfoStatus = node.querySelector("div.message__status");
         if (messageInfoStatus) {
-          messageInfoStatus.insertAdjacentHTML(
-            "afterbegin",
-            `<div class="info__text__status-paid-ovg ovg-copy-tools button copy"><i class="icon-ovg wasd-icons-copy"></i></div>`
-          );
+          messageInfoStatus.insertAdjacentHTML("afterbegin", `<div class="info__text__status-paid-ovg ovg-copy-tools button copy"><i class="icon-ovg wasd-icons-copy"></i></div>`);
 
           messageInfoStatus.querySelector(".info__text__status-paid-ovg.button.copy").addEventListener("click", ({ target }) => {
             if (messageTextCached) {

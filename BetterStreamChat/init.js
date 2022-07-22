@@ -5,8 +5,6 @@ const BetterStreamChat = {
   changelog: "",
   async init() {
     let changelogLabels = {
-      fixedwasd:
-        '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено (Мешает работе WASD.TV)</span>',
       fixed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Исправлено</span>',
       added: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Добавлено</span>',
       changed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Изменено</span>',
@@ -14,6 +12,16 @@ const BetterStreamChat = {
       removed: '<span class="label" style="color: var(--wasd-color-text-prime);background: none;font-weight: 600;">Удалено</span>',
     };
     let changelogList = [
+      {
+        version: "1.6.10",
+        date: "2022-07-22T15:30:55.484Z",
+        items: [
+          {
+            text: ["Поменять панель подарков и информацию о стриме местами.", "Взаимодействие с контекстом wasd.tv а точнее:", "Стиль удаленных сообщений.", "Меню модератора."],
+            label: "fixed",
+          },
+        ],
+      },
       {
         version: "1.6.9",
         date: "2022-07-10T13:46:52.369Z",
@@ -41,11 +49,7 @@ const BetterStreamChat = {
             label: "optimized",
           },
           {
-            text: [
-              "Поддержка эмоций пользователя 7TV.",
-              "Поддержка эмоций пользователя BetterTTV.",
-              "Поддержка эмоций пользователя FrankerFaceZ.",
-            ],
+            text: ["Поддержка эмоций пользователя 7TV.", "Поддержка эмоций пользователя BetterTTV.", "Поддержка эмоций пользователя FrankerFaceZ."],
             label: "removed",
           },
         ],
@@ -143,11 +147,7 @@ const BetterStreamChat = {
         date: "2022-04-21T00:10:56.564Z",
         items: [
           {
-            text: [
-              `Блюр информации при падении сайта.`,
-              `Скрыть каналы не в сети.`,
-              `Показать значки создателя|модератора|партнера - Заменить на значок Twitch.`,
-            ],
+            text: [`Блюр информации при падении сайта.`, `Скрыть каналы не в сети.`, `Показать значки создателя|модератора|партнера - Заменить на значок Twitch.`],
             label: "added",
           },
           {
@@ -173,7 +173,7 @@ const BetterStreamChat = {
             label: "fixed",
           },
           {
-            text: [`Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении.`],
+            text: [`Подсказка для эмоций BWASYA, BTTV, FFZ и 7TV при наведении.`],
             label: "optimized",
           },
         ],
@@ -240,7 +240,7 @@ const BetterStreamChat = {
             label: "optimized",
           },
           {
-            text: [`Отображение стикеров BWASD, BTTV, FFZ и 7TV - Мин. (увеличить при наведении).`],
+            text: [`Отображение стикеров BWASYA, BTTV, FFZ и 7TV - Мин. (увеличить при наведении).`],
             label: "removed",
           },
         ],
@@ -258,11 +258,7 @@ const BetterStreamChat = {
             label: "added",
           },
           {
-            text: [
-              `Карточка пользователя - Стикеры.`,
-              `Добавить кнопку 'Картинка в картинке' к управлению проигрывателем (PIP).`,
-              `Фильтрация - Выделение - Роль пользователя.`,
-            ],
+            text: [`Карточка пользователя - Стикеры.`, `Добавить кнопку 'Картинка в картинке' к управлению проигрывателем (PIP).`, `Фильтрация - Выделение - Роль пользователя.`],
             label: "optimized",
           },
         ],
@@ -290,12 +286,7 @@ const BetterStreamChat = {
         date: "2022-03-23",
         items: [
           {
-            text: [
-              `Скрыть баннер на главной странице.`,
-              `Поменять боковые панели местами.`,
-              `Скрыть кнопку "Начать стрим" в заголовке.`,
-              `Скрыть кнопку "Великий рандом!" в заголовке.`,
-            ],
+            text: [`Скрыть баннер на главной странице.`, `Поменять боковые панели местами.`, `Скрыть кнопку "Начать стрим" в заголовке.`, `Скрыть кнопку "Великий рандом!" в заголовке.`],
             label: "fixed",
           },
           {
@@ -1103,8 +1094,7 @@ const BetterStreamChat = {
       HelperBTTV.updateEmotesBttv();
       HelperFFZ.updateEmotesFfz();
       HelperTV7.updateEmotesTv7();
-      if (socket?.channel?.channel)
-        HelperBWASD.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login);
+      if (socket?.channel?.channel) HelperBWASYA.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login);
       HelperBTTV.updateSettings(true);
       HelperFFZ.updateSettings(true);
       HelperTV7.updateSettings(true);
@@ -1493,13 +1483,11 @@ const BetterStreamChat = {
           url: `https://wasd.tv/api/search/profiles?limit=5&offset=0&search_phrase=${blacklistAddUser.value.toLowerCase()}`,
           success: (data) => {
             response(
-              $.map(data?.result?.rows, (item) => {
-                return {
-                  label: item.user_login,
-                  value: item.user_login,
-                  logo: item.profile_image.small,
-                };
-              })
+              $.map(data?.result?.rows, (item) => ({
+                label: item.user_login,
+                value: item.user_login,
+                logo: item.profile_image.small,
+              }))
             );
           },
         });
@@ -1512,13 +1500,11 @@ const BetterStreamChat = {
           url: `https://wasd.tv/api/search/profiles?limit=5&offset=0&search_phrase=${highlightAddUser.value.toLowerCase()}`,
           success: (data) => {
             response(
-              $.map(data?.result?.rows, (item) => {
-                return {
-                  label: item.user_login,
-                  value: item.user_login,
-                  logo: item.profile_image.small,
-                };
-              })
+              $.map(data?.result?.rows, (item) => ({
+                label: item.user_login,
+                value: item.user_login,
+                logo: item.profile_image.small,
+              }))
             );
           },
         });
@@ -1624,8 +1610,8 @@ const BetterStreamChat = {
     this.install();
 
     // load bwasd, bttv, ffz and 7tv emotes
-    await HelperBWASD.update();
-    HelperBWASD.loaded();
+    await HelperBWASYA.update();
+    HelperBWASYA.loaded();
 
     await HelperBTTV.update();
     HelperBTTV.loaded();
@@ -1697,8 +1683,6 @@ const BetterStreamChat = {
 
 $.widget("app.autocomplete", $.ui.autocomplete, {
   _renderItem: (ul, item) => {
-    return $("<li>")
-      .append(`<div class='ui-menu-item-icon' style='background-image: url(${item.logo})'> ${item.label} </div>`)
-      .appendTo(ul);
+    return $("<li>").append(`<div class='ui-menu-item-icon' style='background-image: url(${item.logo})'> ${item.label} </div>`).appendTo(ul);
   },
 });

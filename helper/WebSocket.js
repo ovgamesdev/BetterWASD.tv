@@ -34,7 +34,7 @@ const socket = {
           document.body.append(this.WebSocket_history);
         }
 
-        HelperBWASD.tryAddUser(socket.channel?.channel?.channel_owner?.user_id, socket.channel?.channel?.channel_owner?.user_login);
+        HelperBWASYA.tryAddUser(socket.channel?.channel?.channel_owner?.user_id, socket.channel?.channel?.channel_owner?.user_login);
         HelperWASD.loadSubscribersData(socket.channelId);
 
         $.ajax({
@@ -109,7 +109,7 @@ const socket = {
         socket.isJoined = false;
         socket.isJoining = false;
         $.ajax({
-          url: `${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`,
+          url: `${HelperBWASYA.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`,
           type: "POST",
           success: (out) => ovg.log(out),
         });
@@ -403,7 +403,7 @@ const socket = {
     if (!HelperWASD.current?.user_profile?.user_id) return;
     if (!socket.channel?.channel?.channel_owner?.user_login) return;
     $.ajax({
-      url: `${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}`,
+      url: `${HelperBWASYA.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}`,
       type: "POST",
       data: {
         watch_channel: socket.channel.channel.channel_owner.user_login,

@@ -254,7 +254,7 @@ const HelperSettings = {
       },
 
       bwasdEmotes: {
-        title: `Смайлики BWASD в чате ${Helper.F5}`,
+        title: `Смайлики BWASYA в чате ${Helper.F5}`,
         updateChat: true,
         type: "boolean",
         inInitChange: true,
@@ -355,7 +355,7 @@ const HelperSettings = {
       },
 
       bttvEmoteSize: {
-        title: `Разрешение смайликов в чате BWASD, BTTV, FFZ и 7TV`,
+        title: `Разрешение смайликов в чате BWASYA, BTTV, FFZ и 7TV`,
         id: "bttvEmoteSize",
         type: "select",
         items: [
@@ -404,7 +404,7 @@ const HelperSettings = {
         ],
       },
       stickerovg: {
-        title: `Отображение стикеров BWASD, BTTV, FFZ и 7TV ${Helper.tooltip(
+        title: `Отображение стикеров BWASYA, BTTV, FFZ и 7TV ${Helper.tooltip(
           "",
           "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022"
         )}`,
@@ -434,7 +434,7 @@ const HelperSettings = {
         ],
       },
       bttvSize: {
-        title: "Размер стикеров BWASD, BTTV, FFZ и 7TV",
+        title: "Размер стикеров BWASYA, BTTV, FFZ и 7TV",
         id: "bttvSize",
         type: "select",
         items: [
@@ -450,7 +450,7 @@ const HelperSettings = {
       },
 
       hoverTooltipEmote: {
-        title: `Подсказка для эмоций BWASD, BTTV, FFZ и 7TV при наведении ${Helper.F5}`,
+        title: `Подсказка для эмоций BWASYA, BTTV, FFZ и 7TV при наведении ${Helper.F5}`,
         updateChat: true,
         id: "hoverTooltipEmote",
         type: "boolean",
@@ -912,7 +912,7 @@ const HelperSettings = {
       },
 
       bwasdInChatMenu: {
-        title: "Опция BWASD в меню смайликов в чате",
+        title: "Опция BWASYA в меню смайликов в чате",
         id: "bwasdInChatMenu",
         type: "boolean",
       },

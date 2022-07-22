@@ -102,10 +102,9 @@ const initChat = async () => {
     throw new Error("Failed to load!");
   });
 
-  const ctx = getCtx("wasd-chat");
   const messagesCtx = getCtx("wasd-chat-messages");
 
-  bwasd.chatService = messagesCtx.chatService;
+  bwasd.chatService = messagesCtx._chatService;
 
   bwasd.messageService = bwasd.chatService.chatMessageService;
   bwasd.userService = bwasd.chatService.chatUserService;

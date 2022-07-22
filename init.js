@@ -234,7 +234,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 });
 
 window.addEventListener("unload", () =>
-  navigator.sendBeacon(`${HelperBWASD.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`)
+  navigator.sendBeacon(`${HelperBWASYA.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`)
 );
 
 const resizeTheaterModeNoFS = (moreUpdate = true, isClick) => {

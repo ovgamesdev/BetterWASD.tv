@@ -65,54 +65,54 @@ const BetterWS = {
 
       switch (JSData[0]) {
         case "createPaint":
-          HelperBWASD.paints[JSData[1].user_login] = JSData[1].paint.toString();
+          HelperBWASYA.paints[JSData[1].user_login] = JSData[1].paint.toString();
           break;
         case "updatePaint":
-          HelperBWASD.paints[JSData[1].user_login] = JSData[1].paint.toString();
+          HelperBWASYA.paints[JSData[1].user_login] = JSData[1].paint.toString();
           break;
         case "deletePaint":
-          delete HelperBWASD.paints[JSData[1].user_login];
+          delete HelperBWASYA.paints[JSData[1].user_login];
           break;
 
         case "likeEmote":
         case "createEmote":
-          if (typeof HelperBWASD.items.bwasdUsers[JSData[1].user_id] == "undefined") {
-            HelperBWASD.items.bwasdUsers[JSData[1].user_id] = {
+          if (typeof HelperBWASYA.items.bwasdUsers[JSData[1].user_id] == "undefined") {
+            HelperBWASYA.items.bwasdUsers[JSData[1].user_id] = {
               username: socket.channel?.channel?.channel_owner?.user_login,
               lastUpdate: Date.now(),
             };
           }
-          if (typeof HelperBWASD.items.bwasdEmotes[JSData[1].user_id] == "undefined") {
-            HelperBWASD.items.bwasdEmotes[JSData[1].user_id] = {};
+          if (typeof HelperBWASYA.items.bwasdEmotes[JSData[1].user_id] == "undefined") {
+            HelperBWASYA.items.bwasdEmotes[JSData[1].user_id] = {};
           }
-          HelperBWASD.items.bwasdEmotes[JSData[1].user_id][JSData[1].code] = {
+          HelperBWASYA.items.bwasdEmotes[JSData[1].user_id][JSData[1].code] = {
             id: JSData[1]._id,
             zeroWidth: !!JSData[1].visibility_simple?.filter((t) => t == "ZERO_WIDTH").length,
           };
-          HelperBWASD.emotes[JSData[1].code] = {
+          HelperBWASYA.emotes[JSData[1].code] = {
             id: JSData[1]._id,
             zeroWidth: !!JSData[1].visibility_simple?.filter((t) => t == "ZERO_WIDTH").length,
           };
           break;
 
         case "updateEmote":
-          delete HelperBWASD.items.bwasdEmotes[JSData[1].user_id][JSData[1].oldCode];
-          delete HelperBWASD.emotes[JSData[1].oldCode];
+          delete HelperBWASYA.items.bwasdEmotes[JSData[1].user_id][JSData[1].oldCode];
+          delete HelperBWASYA.emotes[JSData[1].oldCode];
 
-          if (typeof HelperBWASD.items.bwasdUsers[JSData[1].user_id] == "undefined") {
-            HelperBWASD.items.bwasdUsers[JSData[1].user_id] = {
+          if (typeof HelperBWASYA.items.bwasdUsers[JSData[1].user_id] == "undefined") {
+            HelperBWASYA.items.bwasdUsers[JSData[1].user_id] = {
               username: socket.channel?.channel?.channel_owner?.user_login,
               lastUpdate: Date.now(),
             };
           }
-          if (typeof HelperBWASD.items.bwasdEmotes[JSData[1].user_id] == "undefined") {
-            HelperBWASD.items.bwasdEmotes[JSData[1].user_id] = {};
+          if (typeof HelperBWASYA.items.bwasdEmotes[JSData[1].user_id] == "undefined") {
+            HelperBWASYA.items.bwasdEmotes[JSData[1].user_id] = {};
           }
-          HelperBWASD.items.bwasdEmotes[JSData[1].user_id][JSData[1].code] = {
+          HelperBWASYA.items.bwasdEmotes[JSData[1].user_id][JSData[1].code] = {
             id: JSData[1]._id,
             zeroWidth: !!JSData[1].visibility_simple?.filter((t) => t == "ZERO_WIDTH").length,
           };
-          HelperBWASD.emotes[JSData[1].code] = {
+          HelperBWASYA.emotes[JSData[1].code] = {
             id: JSData[1]._id,
             zeroWidth: !!JSData[1].visibility_simple?.filter((t) => t == "ZERO_WIDTH").length,
           };
@@ -120,19 +120,20 @@ const BetterWS = {
 
         case "unlikeEmote":
         case "deleteEmote":
-          delete HelperBWASD.items.bwasdEmotes[JSData[1].user_id][JSData[1].code];
-          delete HelperBWASD.emotes[JSData[1].code];
+          delete HelperBWASYA.items.bwasdEmotes[JSData[1].user_id][JSData[1].code];
+          delete HelperBWASYA.emotes[JSData[1].code];
           break;
 
         case "personalEmote":
-          if (!HelperBWASD.items.bwasdPrivateEmotes[JSData[1].user_login]) HelperBWASD.items.bwasdPrivateEmotes[JSData[1].user_login] = {};
-          HelperBWASD.items.bwasdPrivateEmotes[JSData[1].user_login][JSData[1].code] = {
+          if (!HelperBWASYA.items.bwasdPrivateEmotes[JSData[1].user_login])
+            HelperBWASYA.items.bwasdPrivateEmotes[JSData[1].user_login] = {};
+          HelperBWASYA.items.bwasdPrivateEmotes[JSData[1].user_login][JSData[1].code] = {
             id: JSData[1]._id,
             zeroWidth: !!JSData[1].visibility_simple?.filter((t) => t == "ZERO_WIDTH").length,
           };
           break;
         case "unpersonalEmote":
-          delete HelperBWASD.items.bwasdPrivateEmotes[JSData[1].user_login][JSData[1].code];
+          delete HelperBWASYA.items.bwasdPrivateEmotes[JSData[1].user_login][JSData[1].code];
           break;
       }
     };

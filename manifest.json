@@ -48,7 +48,7 @@
         "helper/BTTV.js",
         "helper/TV7.js",
         "helper/WASD.js",
-        "helper/BWASD.js",
+        "helper/BWASYA.js",
         "helper/WebSocket.js",
         "helper/BetterWS.js",
         "wasd/init.js",

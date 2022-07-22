@@ -282,7 +282,7 @@ const Helper = {
   },
   buildBell() {
     $.ajax({
-      url: `${HelperBWASD.host}/api/v1/data/${BetterStreamChat.changelog.version}/bell`,
+      url: `${HelperBWASYA.host}/api/v1/data/${BetterStreamChat.changelog.version}/bell`,
       success: (data) => {
         if (data) {
           ovg_bell__element.querySelector(".bell-info__list").innerHTML = "";
@@ -298,7 +298,7 @@ const Helper = {
               linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${
                 data[info].link
               }"> ${data[info].linkText ? data[info].linkText : "Подробнее"} </a></div>`;
-            div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${HelperBWASD.replaceText(
+            div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${HelperBWASYA.replaceText(
               data[info].text
             )} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${moment(data[info].date).format(
               "DD.MM.YYYY"
