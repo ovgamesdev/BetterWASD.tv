@@ -11,12 +11,8 @@ const HelperTwitch = {
         success: (out) => {
           resolve(out.data);
         },
-        error: (jqXHR, textStatus, errorThrown) => {
-          reject(
-            `${jqXHR.responseJSON.error}: ${jqXHR.responseJSON.message} ${
-              jqXHR.responseJSON.error == "Unauthorized" ? "(Авторизуйтесь с помощью Twicth)" : ""
-            }`
-          );
+        error: (jqXHR) => {
+          reject(`${jqXHR.responseJSON.error}: ${jqXHR.responseJSON.message} ${jqXHR.responseJSON.error == "Unauthorized" ? "(Авторизуйтесь с помощью Twicth)" : ""}`);
         },
       });
     });
@@ -32,7 +28,7 @@ const HelperTwitch = {
         success: (out) => {
           resolve(out.channels);
         },
-        error: (jqXHR, textStatus, errorThrown) => {
+        error: (jqXHR) => {
           reject(jqXHR.responseJSON.error + ": " + jqXHR.responseJSON.message);
         },
       });

@@ -139,11 +139,7 @@ const HelperBTTV = {
             }
           }
         }
-        let title = ` Смайл:&nbsp;${word} <br> ${
-          typeof bttvUsers[user]?.username == "string"
-            ? `Канал:&nbsp;${bttvUsers[user]?.username} <br> Эмоции на канале BTTV`
-            : "Общедоступный BTTV"
-        } `;
+        let title = ` Смайл:&nbsp;${word} <br> ${typeof bttvUsers[user]?.username == "string" ? `Канал:&nbsp;${bttvUsers[user]?.username} <br> Эмоции на канале BTTV` : "Общедоступный BTTV"} `;
         word = `<div data-code="${word}" class="bttv-emote tooltip-wrapper" tooltip="${title}" data-title="${title}"> <img class="stickerovg bttv small" style="vertical-align: middle; width: auto!important;" src="${link}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
       }
 
@@ -245,9 +241,7 @@ const HelperBTTV = {
     let item = document.createElement("tr");
     item.classList.add(`table-menu__block`);
     item.style = "justify-content: space-between;";
-    item.innerHTML = `<td><div><p title="${user.username}"> ${user.username} </p></div></td> <td><div><p> ${new Date(
-      user.lastUpdate
-    ).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div>
+    item.innerHTML = `<td><div><p title="${user.username}"> ${user.username} </p></div></td> <td><div><p> ${new Date(user.lastUpdate).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div>
         <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg removeUser warning" data="${userID}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button>
         <ovg-button class="flat-btn ovg updateUser" style="left: 10px;"> <button class="basic medium ovg updateUser" data="${userID}"><i class="wasd-icons-record-icon" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Обновить </div></div></ovg-tooltip> </ovg-button>
         </div></td>`;
@@ -288,9 +282,7 @@ const HelperBTTV = {
     });
   },
   addToChatMenu() {
-    document
-      .querySelector("div.emoji__head__options")
-      ?.insertAdjacentHTML("beforeend", `<div class="option bttv-emoji"><i class="ovg-icon-bttv" style="pointer-events: none;"></i></div>`);
+    document.querySelector("div.emoji__head__options")?.insertAdjacentHTML("beforeend", `<div class="option bttv-emoji"><i class="ovg-icon-bttv" style="pointer-events: none;"></i></div>`);
 
     let bttvEmotes;
     let bttvUsers;

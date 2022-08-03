@@ -13,6 +13,20 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: "1.6.11",
+        date: "2022-08-03T11:43:21.479Z",
+        items: [
+          {
+            text: ["bugs."],
+            label: "added",
+          },
+          {
+            text: ["BetterWASYA - пытается снизить нагрузку на сервер."],
+            label: "optimized",
+          },
+        ],
+      },
+      {
         version: "1.6.10",
         date: "2022-07-22T15:30:55.484Z",
         items: [

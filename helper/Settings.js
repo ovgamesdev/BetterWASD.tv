@@ -375,10 +375,7 @@ const HelperSettings = {
         onChange: (value) => HelperWASD.updateBttvEmoteSize(value),
       },
       sticker: {
-        title: `Отображение стикеров WASD ${Helper.tooltip(
-          "",
-          "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022"
-        )}`,
+        title: `Отображение стикеров WASD ${Helper.tooltip("", "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
         type: "select",
         items: [
           {
@@ -404,10 +401,7 @@ const HelperSettings = {
         ],
       },
       stickerovg: {
-        title: `Отображение стикеров BWASYA, BTTV, FFZ и 7TV ${Helper.tooltip(
-          "",
-          "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022"
-        )}`,
+        title: `Отображение стикеров BWASYA, BTTV, FFZ и 7TV ${Helper.tooltip("", "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
         id: "stickerovg",
         type: "select",
         items: [
@@ -495,10 +489,7 @@ const HelperSettings = {
         },
       },
       linkRecognizerWASD: {
-        title: `Распознавание ссылок wasd.tv ${Helper.BETA} ${Helper.tooltip(
-          "",
-          "(wasd.tv/:username) (wasd.tv/game/:id) (wasd.tv/?record=id) (wasd.tv/?clip=id)"
-        )} ${Helper.F5}`,
+        title: `Распознавание ссылок wasd.tv ${Helper.BETA} ${Helper.tooltip("", "(wasd.tv/:username) (wasd.tv/game/:id) (wasd.tv/?record=id) (wasd.tv/?clip=id)")} ${Helper.F5}`,
         updateChat: true,
         type: "boolean",
         inInitChange: true,
@@ -840,10 +831,7 @@ const HelperSettings = {
         type: "boolean",
       },
       deletedMessageStyle: {
-        title: `Стиль удаленных сообщений ${Helper.tooltip(
-          "",
-          "Не работает для автора сообщения </br> Не работает при прокручивании сообщений в верх и для стикеров"
-        )}`,
+        title: `Стиль удаленных сообщений ${Helper.tooltip("", "Не работает для автора сообщения </br> Не работает при прокручивании сообщений в верх и для стикеров")}`,
         type: "select",
         items: [
           {
@@ -877,10 +865,7 @@ const HelperSettings = {
         swatches: ["#0a82fae0", "#0a2efae5", "#8ab4f8", "#1a0dab"],
       },
       truncateLink: {
-        title: `Лимит символов ссылки ${Helper.F5} ${Helper.tooltip(
-          "",
-          "Удаляет символы в URL-адресах, чтобы текст ссылки не превышал указанную длину."
-        )}`,
+        title: `Лимит символов ссылки ${Helper.F5} ${Helper.tooltip("", "Удаляет символы в URL-адресах, чтобы текст ссылки не превышал указанную длину.")}`,
         id: "truncateLink",
         updateChat: true,
         type: "number",
@@ -955,9 +940,7 @@ const HelperSettings = {
         },
       },
       betterwasyaPaint: {
-        title: `Использовать цвет имени пользователя BetterWASYA ${Helper.tooltip("", "https://betterwasya.vercel.app/dashboard/emotes")} ${
-          Helper.F5
-        }`,
+        title: `Использовать цвет имени пользователя BetterWASYA ${Helper.tooltip("", "https://betterwasya.vercel.app/dashboard/emotes")} ${Helper.F5}`,
         id: "betterwasyaPaint",
         updateChat: true,
         type: "boolean",
@@ -1796,39 +1779,13 @@ const HelperSettings = {
         let type = setting.type;
         let fieldName = `${category}_${name}`;
         if (type === "boolean") {
-          html += this.boolean(
-            fieldName,
-            setting.title,
-            setting.description,
-            settings[category][name],
-            "Вкл",
-            "Откл",
-            setting.updateChat,
-            setting.id
-          );
+          html += this.boolean(fieldName, setting.title, setting.description, settings[category][name], "Вкл", "Откл", setting.updateChat, setting.id);
         } else if (type === "text") {
           html += this.text(fieldName, setting.title, setting.description, settings[category][name], setting.updateChat, setting.id);
         } else if (type === "number") {
-          html += this.number(
-            fieldName,
-            setting.title,
-            setting.description,
-            settings[category][name],
-            setting.min,
-            setting.max,
-            setting.updateChat,
-            setting.id
-          );
+          html += this.number(fieldName, setting.title, setting.description, settings[category][name], setting.min, setting.max, setting.updateChat, setting.id);
         } else if (type === "select") {
-          html += this.select(
-            fieldName,
-            setting.title,
-            setting.description,
-            setting.items,
-            settings[category][name],
-            setting.updateChat,
-            setting.id
-          );
+          html += this.select(fieldName, setting.title, setting.description, setting.items, settings[category][name], setting.updateChat, setting.id);
         } else if (type === "none") {
           html += this.none(fieldName, setting.title, setting.description, settings[category][name]);
         } else if (type === "title") {
@@ -1849,9 +1806,9 @@ const HelperSettings = {
       `
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <label class="switch-ovg">
-          <input option-type="boolean" type="checkbox" id="boolean_${name}" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${
-        defaultValue ? "checked" : ""
-      }${updateChat ? " updatechat=''" : ""}>
+          <input option-type="boolean" type="checkbox" id="boolean_${name}" name="boolean_${name}" value="0" class="optionField" data-name="${name}" ${defaultValue ? "checked" : ""}${
+        updateChat ? " updatechat=''" : ""
+      }>
           <span class="slider-ovg"> <div class="switcher_thumb-ovg"></div> </span>
         </label>
       </ol>`,
@@ -1881,9 +1838,9 @@ const HelperSettings = {
           <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-dirty ng-touched ng-valid">
             <div ovg="" class="wasd-input-wrapper" style="padding: 0 0 4px 0;">
               <div ovg="" class="wasd-input">
-                <input ovg="" option-type="number" type="number" class="ng-pristine optionField ng-untouched ng-valid" data-name="${name}" value="${defaultValue}" ${
-        min ? 'min="' + min + '" ' : ""
-      }${max ? 'max="' + max + '"' : ""}${updateChat ? " updatechat=''" : ""}/>
+                <input ovg="" option-type="number" type="number" class="ng-pristine optionField ng-untouched ng-valid" data-name="${name}" value="${defaultValue}" ${min ? 'min="' + min + '" ' : ""}${
+        max ? 'max="' + max + '"' : ""
+      }${updateChat ? " updatechat=''" : ""}/>
               </div>
             </div>
           </wasd-input>
@@ -1964,15 +1921,15 @@ const HelperSettings = {
       <ol class="flexibleButtonGroup optionTypeBoolean">
         <input option-type="botevent" type="text" class="optionField botevent" data-name="${name}" value="${defaultValue[0]}"/>
         <li>
-          <input option-type="botevent" type="radio" id="boolean_${name}" name="boolean_${name}" value="1" class="optionField botevent" data-name="${name}" ${
-        defaultValue[1] ? "checked" : ""
-      }${updateChat ? " updatechat=''" : ""}>
+          <input option-type="botevent" type="radio" id="boolean_${name}" name="boolean_${name}" value="1" class="optionField botevent" data-name="${name}" ${defaultValue[1] ? "checked" : ""}${
+        updateChat ? " updatechat=''" : ""
+      }>
           <label for="boolean_${name}" class="green"><span class="icon16 fa-check"></span> ${yesButton}</label>
         </li>
         <li>
-          <input option-type="botevent" type="radio" id="boolean_${name}_no" name="boolean_${name}" value="0" class="optionField botevent" data-name="${name}" ${
-        !defaultValue[1] ? "checked" : ""
-      }${updateChat ? " updatechat=''" : ""}>
+          <input option-type="botevent" type="radio" id="boolean_${name}_no" name="boolean_${name}" value="0" class="optionField botevent" data-name="${name}" ${!defaultValue[1] ? "checked" : ""}${
+        updateChat ? " updatechat=''" : ""
+      }>
           <label for="boolean_${name}_no" class="red"><span class="icon16 fa-times"></span> ${noButton}</label>
         </li>
       </ol>`,

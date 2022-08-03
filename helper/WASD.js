@@ -3,24 +3,7 @@ const HelperWASD = {
   isModerator: false,
   closedViewUrl: "none",
   self_channel_name: "none",
-  userColors: [
-    "#7fba40",
-    "#1c3fc8",
-    "#a5276d",
-    "#913ca7",
-    "#4332b6",
-    "#266bc5",
-    "#5bc3c1",
-    "#d87539",
-    "#a9ad47",
-    "#3ca13b",
-    "#4db89a",
-    "#6a4691",
-    "#f5a623",
-    "#e7719e",
-    "#9fcbef",
-    "#7b4b4b",
-  ],
+  userColors: ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"],
   subscribers: {},
   messageTimeout: null,
   current: null,
@@ -206,9 +189,7 @@ const HelperWASD = {
     item.style = "justify-content: space-between;";
 
     let usernameed = settings.wasd.userNameEdited[username.trim().split("@").join("")];
-    item.innerHTML = `<td><div><p title="${username}"> ${
-      usernameed ? usernameed + " (" + username + ")" : username
-    } </p></div></td> <td><div><p> ${new Date(
+    item.innerHTML = `<td><div><p title="${username}"> ${usernameed ? usernameed + " (" + username + ")" : username} </p></div></td> <td><div><p> ${new Date(
       settings.list.blockUserList[username]
     ).toLocaleString()} </p></div></td> <td class="td-btn-remove"><div> <ovg-button class="flat-btn ovg removeUser"> <button class="medium ovg remove warning" data="${username}"><i class="wasd-icons-delete" style="pointer-events: none;"></i></button> <ovg-tooltip><div class="tooltip tooltip_position-top tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> Удалить </div></div></ovg-tooltip> </ovg-button> </div></td>`;
     item.setAttribute("data", username);
@@ -231,9 +212,7 @@ const HelperWASD = {
     let usernameed = settings.wasd.userNameEdited[username.trim().split("@").join("")];
     let setting = settings.list.highlightUserList[username];
 
-    item.innerHTML = `<td><div><p title="${username}, ${setting.color}, ${setting.register}"> ${
-      usernameed ? usernameed + " (" + username + ")" : username
-    } </p></div></td> <td><div><p> ${new Date(
+    item.innerHTML = `<td><div><p title="${username}, ${setting.color}, ${setting.register}"> ${usernameed ? usernameed + " (" + username + ")" : username} </p></div></td> <td><div><p> ${new Date(
       setting.date
     ).toLocaleString()} </p></div></td> <td><div><p><div class="clr-field" style="color: ${
       setting.color
@@ -277,9 +256,7 @@ const HelperWASD = {
 
     let setting = settings.list.highlightTermList[term];
 
-    item.innerHTML = `<td><div><p title="${term}, ${setting.color}, ${setting.register}, ${
-      setting.whole
-    }"> ${term} </p></div></td> <td><div><p> ${new Date(
+    item.innerHTML = `<td><div><p title="${term}, ${setting.color}, ${setting.register}, ${setting.whole}"> ${term} </p></div></td> <td><div><p> ${new Date(
       setting.date
     ).toLocaleString()} </p></div></td> <td><div><p><div class="clr-field" style="color: ${
       setting.color
@@ -303,11 +280,7 @@ const HelperWASD = {
         className: "test",
         format: (value, type) => {
           if (chat) value = value.replace(/@/g, "+at+");
-          if (
-            chat && type === "url" && value.length > settings.wasd.truncateLink.toString() === "0"
-              ? undefined
-              : Number(settings.wasd.truncateLink)
-          ) {
+          if (chat && type === "url" && value.length > settings.wasd.truncateLink.toString() === "0" ? undefined : Number(settings.wasd.truncateLink)) {
             value = value.slice(0, Number(settings.wasd.truncateLink)) + "…";
           }
           return value;
@@ -507,9 +480,7 @@ const HelperWASD = {
       },
     });
 
-    ws_user = document.querySelector(
-      `.WebSocket_history .user_ws[user_loginlc="${channel_name.trim().toLowerCase().split("@").join("")}"]`
-    );
+    ws_user = document.querySelector(`.WebSocket_history .user_ws[user_loginlc="${channel_name.trim().toLowerCase().split("@").join("")}"]`);
     let viewerCard = document.querySelector(".chat-room__viewer-card");
 
     const UserCard = (data) => {
@@ -529,9 +500,7 @@ const HelperWASD = {
                 viewerCard.querySelector(".channal_created_at-title").title = `Канал создан ${date.toLocaleString("ru")}`;
                 // user_login
                 if (settings.wasd.userNameEdited[out.result.user_profile.user_login.trim()]) {
-                  viewerCard.querySelector("a.tw-link").textContent = ` ${
-                    settings.wasd.userNameEdited[out.result.user_profile.user_login.trim()]
-                  } `;
+                  viewerCard.querySelector("a.tw-link").textContent = ` ${settings.wasd.userNameEdited[out.result.user_profile.user_login.trim()]} `;
                 } else {
                   viewerCard.querySelector("a.tw-link").textContent = ` ${out.result.user_profile.user_login} `;
                 }
@@ -540,27 +509,17 @@ const HelperWASD = {
                 // user_id url
                 viewerCard.querySelector("a.tw-link").href = `user/${out.result.user_id}`;
                 // profile_image
-                viewerCard.querySelector(
-                  ".profile-main__avatar"
-                ).style.backgroundImage = `url(${out.result.user_profile.profile_image?.large})`;
+                viewerCard.querySelector(".profile-main__avatar").style.backgroundImage = `url(${out.result.user_profile.profile_image?.large})`;
                 // profile_background
-                viewerCard.querySelector(
-                  ".viewer-card-header__background"
-                ).style.backgroundImage = `url(${out.result.user_profile.profile_background?.large})`;
+                viewerCard.querySelector(".viewer-card-header__background").style.backgroundImage = `url(${out.result.user_profile.profile_background?.large})`;
 
                 card.querySelector("button.bttv-moderator-card-nickname-change-button").addEventListener("click", () => {
                   let newusername;
                   let user_channel_name = out.result.user_profile.user_login;
                   if (user_channel_name && settings.wasd.userNameEdited[user_channel_name]) {
-                    newusername = prompt(
-                      `Введите обновленный ник для ${user_channel_name} (оставьте поле пустым, чтобы сбросить):`,
-                      settings.wasd.userNameEdited[user_channel_name].trim()
-                    );
+                    newusername = prompt(`Введите обновленный ник для ${user_channel_name} (оставьте поле пустым, чтобы сбросить):`, settings.wasd.userNameEdited[user_channel_name].trim());
                   } else {
-                    newusername = prompt(
-                      `Введите обновленный ник для ${user_channel_name} (оставьте поле пустым, чтобы сбросить):`,
-                      user_channel_name
-                    );
+                    newusername = prompt(`Введите обновленный ник для ${user_channel_name} (оставьте поле пустым, чтобы сбросить):`, user_channel_name);
                   }
 
                   if (!(newusername == null || newusername == user_channel_name) && newusername != "") {
@@ -602,24 +561,14 @@ const HelperWASD = {
                       // gamepad display
                       if (description.textContent == "") viewerCard.querySelector(".wasd-icons-games.ovg").style.display = isLiveDisplay();
                       // stream_total_viewers display
-                      viewerCard.querySelector("div.tw-align-items-center.tw-inline-flex.tw-stat.tw-pd-l-1").style.display =
-                        isLiveDisplay();
+                      viewerCard.querySelector("div.tw-align-items-center.tw-inline-flex.tw-stat.tw-pd-l-1").style.display = isLiveDisplay();
 
                       // game_name
-                      if (description.textContent == "")
-                        description.textContent = ` Стримит ${
-                          out.result?.media_container?.game?.game_name ? out.result?.media_container?.game?.game_name : ""
-                        }`;
-                      if (description.textContent == "")
-                        description.title = ` Стримит ${
-                          out.result?.media_container?.game?.game_name ? out.result?.media_container?.game?.game_name : ""
-                        }`;
+                      if (description.textContent == "") description.textContent = ` Стримит ${out.result?.media_container?.game?.game_name ? out.result?.media_container?.game?.game_name : ""}`;
+                      if (description.textContent == "") description.title = ` Стримит ${out.result?.media_container?.game?.game_name ? out.result?.media_container?.game?.game_name : ""}`;
                       // stream_total_viewers
-                      viewerCard.querySelector("div.tw-stat__value.viewers").textContent =
-                        out.result?.media_container?.media_container_streams[0]?.stream_total_viewers;
-                      viewerCard.querySelector(
-                        ".viewers-title"
-                      ).title = `Зрителей за стрим ${out.result?.media_container?.media_container_streams[0]?.stream_total_viewers}`;
+                      viewerCard.querySelector("div.tw-stat__value.viewers").textContent = out.result?.media_container?.media_container_streams[0]?.stream_total_viewers;
+                      viewerCard.querySelector(".viewers-title").title = `Зрителей за стрим ${out.result?.media_container?.media_container_streams[0]?.stream_total_viewers}`;
                       // game_id url
                       if (description.textContent == "") description.href = `games/${out.result?.media_container?.game?.game_id}`;
                     } else {
@@ -632,8 +581,7 @@ const HelperWASD = {
                     }
 
                     // followers_count
-                    viewerCard.querySelector("div.tw-stat__value.channal_followers_count").textContent =
-                      out.result?.channel?.followers_count;
+                    viewerCard.querySelector("div.tw-stat__value.channal_followers_count").textContent = out.result?.channel?.followers_count;
                     viewerCard.querySelector(".channal_followers_count-title").title = `${out.result?.channel?.followers_count} фолловеров`;
 
                     $.ajax({
@@ -644,9 +592,7 @@ const HelperWASD = {
                             let buttonfollow = document.querySelector(".ovg-viewer-card wasd-channel-favorite-btn > wasd-button > button");
                             let wasdbuttonfollow = document.querySelector(".ovg-viewer-card wasd-channel-favorite-btn > wasd-button");
                             let ifollow = document.querySelector(".ovg-viewer-card wasd-channel-favorite-btn > wasd-button > button > i");
-                            let tooltipfollow = document.querySelector(
-                              ".ovg-viewer-card wasd-channel-favorite-btn .tooltip > div.tooltip-content"
-                            );
+                            let tooltipfollow = document.querySelector(".ovg-viewer-card wasd-channel-favorite-btn .tooltip > div.tooltip-content");
                             if (buttonfollow && wasdbuttonfollow) {
                               buttonfollow.classList.remove("disabled");
                               if (databroadcasts.result?.channel?.is_user_follower) {
@@ -829,14 +775,10 @@ const HelperWASD = {
                       if (document.querySelector(".theatre-mode-mobile") && settings.wasd.chatMobilePlayer) {
                         if (settings.wasd.hidePanelMobile) {
                           document.querySelector(".block-ovg").style.maxHeight =
-                            document.querySelector(".chat-container__wrap").clientHeight -
-                            (62 + document.querySelector(".ovg-viewer-card").clientHeight) +
-                            "px";
+                            document.querySelector(".chat-container__wrap").clientHeight - (62 + document.querySelector(".ovg-viewer-card").clientHeight) + "px";
                         } else {
                           document.querySelector(".block-ovg").style.maxHeight =
-                            document.querySelector(".chat-container__wrap").clientHeight -
-                            (64 + document.querySelector(".ovg-viewer-card").clientHeight) +
-                            "px";
+                            document.querySelector(".chat-container__wrap").clientHeight - (64 + document.querySelector(".ovg-viewer-card").clientHeight) + "px";
                         }
                       } else {
                         content.style.maxHeight = "153px";
@@ -941,13 +883,9 @@ const HelperWASD = {
                         card.querySelector(".go_unban .by_user_login").textContent = "от " + by_user_login;
                         card.querySelector(".go_unban .created_at").title = moment(created_at).format("DD.MM.YY, в (HH:mm)");
                         card.querySelector(".go_unban .created_at").textContent = moment(created_at).fromNow();
-                        card.querySelector(".go_unban .expire_at").title = expire_at
-                          ? "до " + moment(expire_at).format("DD.MM.YY, в (HH:mm)")
-                          : "";
+                        card.querySelector(".go_unban .expire_at").title = expire_at ? "до " + moment(expire_at).format("DD.MM.YY, в (HH:mm)") : "";
                         let minut = Math.ceil(moment.duration(new Date(expire_at) - new Date(created_at)).asMinutes());
-                        card.querySelector(".go_unban .expire_at").textContent = `${
-                          expire_at ? "отстранен на " + minut + ` ${minut == 1 ? "минуту" : "минут"}` : "забанен"
-                        }`;
+                        card.querySelector(".go_unban .expire_at").textContent = `${expire_at ? "отстранен на " + minut + ` ${minut == 1 ? "минуту" : "минут"}` : "забанен"}`;
                       };
 
                       card.querySelector(".user_last_messages-ovg").insertAdjacentHTML(
@@ -1348,9 +1286,7 @@ const HelperWASD = {
         if (!settings.wasd.betterwasyaPaint) return;
 
         for (let paint in HelperBWASYA.paints) {
-          const mentions = settings.wasd.colorAtTheMention
-            ? document.querySelectorAll(`.chat-message-mention[data-username="@${paint}"]`)
-            : [];
+          const mentions = settings.wasd.colorAtTheMention ? document.querySelectorAll(`.chat-message-mention[data-username="@${paint}"]`) : [];
 
           for (let user of [...document.querySelectorAll(`.message__status--name[data-username="${paint}"] > span`), ...mentions]) {
             if (HelperBWASYA.paints[paint].length < 5) {
@@ -1403,9 +1339,7 @@ const HelperWASD = {
       if (message.dataset.user_login == username.trim().split("@").join("")) {
         message.remove();
       } else if (settings.wasd.removeMentionBL) {
-        for (let msg of message.querySelectorAll(
-          `.chat-message-mention[data-username="@${username.trim().split("@").join("").toLowerCase()}"]`
-        )) {
+        for (let msg of message.querySelectorAll(`.chat-message-mention[data-username="@${username.trim().split("@").join("").toLowerCase()}"]`)) {
           msg.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
         }
       }
@@ -1431,19 +1365,13 @@ const HelperWASD = {
         document.querySelector(".settings-page__title-btns wasd-dropdown .dropdown-title__text").textContent == " Доступно по ссылке " &&
         document.querySelector(".stream-private-link__link-input input")
       ) {
-        return (
-          "https://wasd.tv/api/v2/broadcasts/closed/" +
-          new URL(document.querySelector(".stream-private-link__link-input input").value).pathname.split("/")[2]
-        );
+        return "https://wasd.tv/api/v2/broadcasts/closed/" + new URL(document.querySelector(".stream-private-link__link-input input").value).pathname.split("/")[2];
       } else if (
         document.querySelector(".settings-page__title-btns wasd-dropdown .dropdown-title__text") &&
         document.querySelector(".settings-page__title-btns wasd-dropdown .dropdown-title__text").textContent == " Доступно для всех " &&
         document.querySelector('#selector-sp-stream-links input[placeholder="Чат"]')
       ) {
-        return (
-          "https://wasd.tv/api/v2/broadcasts/public?channel_name=" +
-          new URL(document.querySelector('#selector-sp-stream-links input[placeholder="Чат"]').value).searchParams.get("channel_name")
-        );
+        return "https://wasd.tv/api/v2/broadcasts/public?channel_name=" + new URL(document.querySelector('#selector-sp-stream-links input[placeholder="Чат"]').value).searchParams.get("channel_name");
       } else if (new URL(document.URL).searchParams.get("channel_name")) {
         return "https://wasd.tv/api/v2/broadcasts/public?channel_name=" + new URL(document.URL).searchParams.get("channel_name");
       } else if (new URL(document.URL).searchParams.get("private_link")) {
@@ -1459,16 +1387,12 @@ const HelperWASD = {
   },
   getChannelName() {
     if (document.querySelector('#selector-sp-stream-links .wasd-input input[placeholder="Чат"]'))
-      return new URL(
-        document.querySelector('#selector-sp-stream-links .wasd-input input[placeholder="Чат"]').value.trim().toLowerCase()
-      ).searchParams.get("channel_name");
+      return new URL(document.querySelector('#selector-sp-stream-links .wasd-input input[placeholder="Чат"]').value.trim().toLowerCase()).searchParams.get("channel_name");
     if (document.querySelector('wasd-user-plays > .user-plays > a[href^="/channel"]'))
       return document.querySelector('wasd-user-plays > .user-plays > a[href^="/channel"]').textContent.trim().toLowerCase();
     if (new URL(document.URL).pathname.split("/")[1] == "stream-settings") {
       if (document.querySelector('wasd-stream-links input[placeholder="Трансляция"]'))
-        return new URL(document.querySelector('wasd-stream-links input[placeholder="Трансляция"]').value).pathname
-          .split("/")[1]
-          .toLowerCase();
+        return new URL(document.querySelector('wasd-stream-links input[placeholder="Трансляция"]').value).pathname.split("/")[1].toLowerCase();
     } else {
       new Error(`URL ${document.URL}`);
       return "0";
@@ -1543,11 +1467,7 @@ const HelperWASD = {
     if (element.style.color == "" && settings.wasd.colorAtTheMention) {
       color = "rgba(var(--wasd-color-switch--rgb),.88);";
       $.ajax({
-        url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${element.dataset.username
-          ?.split("@")
-          .join("")
-          .toLowerCase()
-          .trim()}`,
+        url: `https://wasd.tv/api/search/profiles?limit=999&offset=0&search_phrase=${element.dataset.username?.split("@").join("").toLowerCase().trim()}`,
         success: (out) => {
           let data;
           if (out.result) {
@@ -1585,9 +1505,7 @@ const HelperWASD = {
   },
   createPinMessages() {
     if (!settings.wasd.pinMessage)
-      document
-        .querySelector("wasd-chat .body-container")
-        .insertAdjacentHTML("afterbegin", `<pin-chat-messages-ovg style="background: var(--wasd-color-prime);"></pin-chat-messages-ovg>`);
+      document.querySelector("wasd-chat .body-container").insertAdjacentHTML("afterbegin", `<pin-chat-messages-ovg style="background: var(--wasd-color-prime);"></pin-chat-messages-ovg>`);
   },
   addPinMessage(node) {
     // node.getAttribute('role')
@@ -1624,9 +1542,7 @@ const HelperWASD = {
     let userPaint = settings.wasd.betterwasyaPaint ? HelperBWASYA.paints[username.trim()] : null;
     node.innerHTML = `<wasd-chat-message>
       <div class="message-ovg is-time${!!message?.match(HelperWASD.self_channel_name) ? " has-mention" : ""}">
-        <div class="message__time-ovg"> ${moment(date_time).format(
-          settings.wasd.formatMessageSentTime == "false" ? "HH:mm" : settings.wasd.formatMessageSentTime
-        )} </div>
+        <div class="message__time-ovg"> ${moment(date_time).format(settings.wasd.formatMessageSentTime == "false" ? "HH:mm" : settings.wasd.formatMessageSentTime)} </div>
           <div class="message__info-ovg">
             <div class="message__info__text-ovg">
               <div class="info__text__status-ovg">
@@ -1635,11 +1551,9 @@ const HelperWASD = {
                     ? `<div _ngcontent-iox-c54="" class="info__text__status-paid" style="background-color: ${color}"><i _ngcontent-iox-c54="" class="icon wasd-icons-star" role-card=""></i></div>`
                     : ``
                 }
-                <div data-username="${username}" data-usernamelc="${username.toLowerCase()}" class="message__status--name-ovg ${
-      isModer ? "is-moderator" : ""
-    }${isOwner ? "is-owner" : ""}${isAdmin ? "is-admin" : ""}" style="${
-      settings.wasd.colonAfterNickname ? `margin: 0px;` : ""
-    }color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ""}${
+                <div data-username="${username}" data-usernamelc="${username.toLowerCase()}" class="message__status--name-ovg ${isModer ? "is-moderator" : ""}${isOwner ? "is-owner" : ""}${
+      isAdmin ? "is-admin" : ""
+    }" style="${settings.wasd.colonAfterNickname ? `margin: 0px;` : ""}color: ${color}">${isModer ? '<i _ngcontent-eti-c54="" class="icon wasd-icons-moderator"></i>' : ""}${
       isOwner ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-owner"></i>' : ""
     }${isAdmin ? '<i _ngcontent-lef-c54="" class="icon wasd-icons-dev"></i>' : ""}<span ${
       !userPaint
@@ -1660,13 +1574,7 @@ const HelperWASD = {
               <div class="message-text-ovg" style="left: -4px;position: relative;"><span>${
                 blockmessage == "Стикер" ? '<span class="chat-message-text stickertext">Стикер</span>' : blockmessage
               }</span></div>
-              ${
-                sticker != undefined
-                  ? '<img alt="sticker" class="sticker small" src="' +
-                    sticker +
-                    '"> <span class="chat-message-text stickertext sticker_text">Стикер</span>'
-                  : ""
-              }
+              ${sticker != undefined ? '<img alt="sticker" class="sticker small" src="' + sticker + '"> <span class="chat-message-text stickertext sticker_text">Стикер</span>' : ""}
             </div>
           </div>
         </div>
@@ -1687,8 +1595,7 @@ const HelperWASD = {
       if (settings.wasd.bttvEmotes) messageHTML.innerHTML = HelperBTTV.replaceText(messageHTML.innerHTML);
       if (settings.wasd.ffzEmotes) messageHTML.innerHTML = HelperFFZ.replaceText(messageHTML.innerHTML);
       if (settings.wasd.bwasdEmotes) messageHTML.innerHTML = HelperBWASYA.replaceText(messageHTML.innerHTML, username);
-      if (settings.wasd.tv7Emotes || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || settings.wasd.bwasdEmotes)
-        HelperWASD.setZeroSizeEmotes(messageHTML);
+      if (settings.wasd.tv7Emotes || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || settings.wasd.bwasdEmotes) HelperWASD.setZeroSizeEmotes(messageHTML);
     }
 
     let stickersovg = "";
@@ -1702,8 +1609,7 @@ const HelperWASD = {
       if (!username) {
         username = $1.trim().split("@").join("");
       }
-      let userPaint =
-        settings.wasd.betterwasyaPaint && settings.wasd.colorAtTheMention ? HelperBWASYA.paints[$1.trim().split("@").join("")] : null;
+      let userPaint = settings.wasd.betterwasyaPaint && settings.wasd.colorAtTheMention ? HelperBWASYA.paints[$1.trim().split("@").join("")] : null;
       return `<span ${
         !userPaint
           ? ""
@@ -1712,9 +1618,7 @@ const HelperWASD = {
           : userPaint.match("gradient")
           ? ' data-betterwasya-paint="" style="background-image:' + userPaint + '"'
           : 'data-betterwasya-paint-color="' + userPaint + '" style="color:' + userPaint + '"'
-      };' class='chat-message-mention${
-        settings.wasd.onClickMention.toString() !== "0" ? " click" : ""
-      }' data-username="${$1}" data-usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
+      };' class='chat-message-mention${settings.wasd.onClickMention.toString() !== "0" ? " click" : ""}' data-username="${$1}" data-usernamelc="${$1.toLowerCase()}">@${username.trim()}</span>`;
     });
 
     messageHTML.innerHTML = messageHTML.innerHTML.replace(/\+at\+/gi, "@");
@@ -1981,11 +1885,9 @@ const HelperWASD = {
                         if (text_clip) {
                           text_clip.outerHTML =
                             '<div class="close-cip"><span class="create-clip__title">Создание клипа</span><div data-a-target="viewer-card-close-button" class="tw-absolute tw-mg-r-05 tw-mg-t-05 tw-right-0 tw-top-0"><div class="viewer-card-drag-cancel"><button class="tw-button-icon tw-button-icon--overlay tw-core-button" aria-label="Скрыть" data-test-selector="close-viewer-card"><i _ngcontent-ykf-c54="" style="font-size:13px;align-items:center;display:flex;justify-content:center" class="icon wasd-icons-close"></i></button></div></div></div>';
-                          iframe.contentDocument
-                            .querySelector("button.tw-button-icon.tw-button-icon--overlay.tw-core-button")
-                            .addEventListener("click", () => {
-                              document.querySelector("iframe#createClip").remove();
-                            });
+                          iframe.contentDocument.querySelector("button.tw-button-icon.tw-button-icon--overlay.tw-core-button").addEventListener("click", () => {
+                            document.querySelector("iframe#createClip").remove();
+                          });
                         } else {
                           setTimeout(() => {
                             createbtncloseclip();
@@ -2148,17 +2050,12 @@ const HelperWASD = {
     let button = document.querySelector(".chat-container__btn-open--desktop");
     let header = document.querySelector("wasd-chat-header .header");
     if (value) {
-      header.insertAdjacentHTML(
-        "afterbegin",
-        `<div class="chat-container__btn-open--desktop-ovg"><i _ngcontent-naa-c162="" class="wasd-icons-right"></i></div>`
-      );
+      header.insertAdjacentHTML("afterbegin", `<div class="chat-container__btn-open--desktop-ovg"><i _ngcontent-naa-c162="" class="wasd-icons-right"></i></div>`);
       header.querySelector(".chat-container__btn-open--desktop-ovg").addEventListener("click", () => button?.click());
     } else {
       document.querySelector(".chat-container__btn-open--desktop-ovg")?.remove();
     }
-    if (button)
-      button.style.display =
-        document.querySelector(".chat-container__btn-open--desktop > i")?.className == "wasd-icons-right" && value ? "none" : "";
+    if (button) button.style.display = document.querySelector(".chat-container__btn-open--desktop > i")?.className == "wasd-icons-right" && value ? "none" : "";
   },
   timeData() {},
   timerAboutStat: null,
@@ -2305,10 +2202,7 @@ const HelperWASD = {
 
     let emotes = html.querySelectorAll("span > .bttv-emote");
     emotes.forEach((value, index) => {
-      if (
-        (allEmotes[value.dataset.code]?.zeroWidth || value.dataset.code == "cvHazmat" || value.dataset.code == "cvMask") &&
-        emotes[index - 1]
-      ) {
+      if ((allEmotes[value.dataset.code]?.zeroWidth || value.dataset.code == "cvHazmat" || value.dataset.code == "cvMask") && emotes[index - 1]) {
         let emots = html.querySelectorAll("span > .bttv-emote:not(.modified-emote)");
 
         let modified = emotes[index - 1]?.closest(".modified-emote") || emotes[index - 1];
@@ -2376,14 +2270,7 @@ const HelperWASD = {
           const toLC = (t = "") => (settings.wasd.emotesAutoCompleteIgnoreLowerCase ? t.toString().toLowerCase() : t);
 
           if (!cachedFetchEmotes.length) {
-            cachedEmotes = [
-              ...new Set([
-                ...Object.keys(HelperBTTV.emotes),
-                ...Object.keys(HelperBWASYA.emotes),
-                ...Object.keys(HelperFFZ.emotes),
-                ...Object.keys(HelperTV7.emotes),
-              ]),
-            ];
+            cachedEmotes = [...new Set([...Object.keys(HelperBTTV.emotes), ...Object.keys(HelperBWASYA.emotes), ...Object.keys(HelperFFZ.emotes), ...Object.keys(HelperTV7.emotes)])];
             if (settings.wasd.emotesAutoComplete.toString() == "1") {
               cachedFetchEmotes = cachedEmotes.filter((x) => toLC(x).startsWith(toLC(cachedMatch)));
             } else if (settings.wasd.emotesAutoComplete.toString() == "2") {

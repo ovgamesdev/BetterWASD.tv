@@ -4,7 +4,6 @@ const socket = {
   channelId: 0,
   intervalcheck: null,
   intervalSave: null,
-  intervalWatchChannel: null,
   channel: null,
   stream_url: null,
   isLiveInited: false,
@@ -13,8 +12,7 @@ const socket = {
   isJoined: false,
   isJoining: false,
   join() {
-    if (HelperWASD.getStreamBroadcastsUrl().match("undefined") || HelperWASD.getStreamBroadcastsUrl().concat(" ").match("channel_name=0 "))
-      return setTimeout(() => socket.join(), 15);
+    if (HelperWASD.getStreamBroadcastsUrl().match("undefined") || HelperWASD.getStreamBroadcastsUrl().concat(" ").match("channel_name=0 ")) return setTimeout(() => socket.join(), 15);
     if (this.isJoining || this.isJoined) return;
     this.isJoining = true;
     $(".websocket_loader[ovg]")?.css("display", "flex");
@@ -55,11 +53,8 @@ const socket = {
 
             try {
               if (socket.socketd.readyState === socket.socketd.OPEN && this.isJoining && !this.isJoined) {
-                socket.socketd.send(
-                  `42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`
-                );
+                socket.socketd.send(`42["join",{"streamId":${socket.streamId},"channelId":${socket.channelId},"jwt":"${socket.jwt}","excludeStickers":true}]`);
                 socket.intervalSave = setInterval(() => socket.saveUserList(), 30000);
-                socket.intervalWatchChannel = setInterval(() => socket.watchChannelInterval(), 300000);
                 socket.saveUserList();
                 socket.saveMessagesList();
               }
@@ -108,11 +103,6 @@ const socket = {
       if (HelperWASD.current?.user_profile?.user_id && socket.isJoined) {
         socket.isJoined = false;
         socket.isJoining = false;
-        $.ajax({
-          url: `${HelperBWASYA.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`,
-          type: "POST",
-          success: (out) => ovg.log(out),
-        });
       }
 
       clearInterval(socket.intervalcheck);
@@ -144,7 +134,6 @@ const socket = {
             // console.log(`[${JSData[0]}] ${JSData[1].user_channel_role}`, JSData);
             socket.isJoined = true;
             socket.isJoining = false;
-            socket.watchChannelInterval();
             BetterWS.join();
             $(".websocket_loader[ovg]")?.css("display", "none");
             break;
@@ -225,7 +214,6 @@ const socket = {
     socket.stream_url = null;
 
     clearInterval(socket.intervalSave);
-    clearInterval(socket.intervalWatchChannel);
 
     document.querySelector(`.WebSocket_history`)?.remove();
     document.querySelector(".hidden.info__text__status__name")?.remove();
@@ -240,11 +228,7 @@ const socket = {
     return result;
   },
   addWebSocket_history(JSData) {
-    if (
-      this.WebSocket_history &&
-      this.WebSocket_history.children.length >= Number(settings.wasd.limitHistoryUsers) + 1 &&
-      settings.wasd.limitHistoryUsers != 0
-    ) {
+    if (this.WebSocket_history && this.WebSocket_history.children.length >= Number(settings.wasd.limitHistoryUsers) + 1 && settings.wasd.limitHistoryUsers != 0) {
       this.WebSocket_history.firstElementChild.remove();
     }
 
@@ -384,9 +368,7 @@ const socket = {
           if (socket.streamId == 0) return;
           for (let data of out.result) {
             socket.addWebSocket_history(data.info);
-            for (let mention of document.querySelectorAll(
-              `.chat-message-mention[style="color: ;"][usernamelc="@${data.info.user_login.toLowerCase()}"]`
-            )) {
+            for (let mention of document.querySelectorAll(`.chat-message-mention[style="color: ;"][usernamelc="@${data.info.user_login.toLowerCase()}"]`)) {
               mention.style.color = HelperWASD.userColors[data.info.user_id % (HelperWASD.userColors.length - 1)];
             }
           }
@@ -398,19 +380,5 @@ const socket = {
       });
     };
     getall(500, 0);
-  },
-  watchChannelInterval() {
-    if (!HelperWASD.current?.user_profile?.user_id) return;
-    if (!socket.channel?.channel?.channel_owner?.user_login) return;
-    $.ajax({
-      url: `${HelperBWASYA.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}`,
-      type: "POST",
-      data: {
-        watch_channel: socket.channel.channel.channel_owner.user_login,
-        stream_url: socket.stream_url,
-        stream_id: socket.streamId,
-      },
-      success: (out) => ovg.log(out),
-    });
   },
 };

@@ -2,9 +2,7 @@ const Helper = {
   F5: `<a style="position: relative;" class="tooltip-wrapper" title="Eсли отключено 'Автоматически обновлять чат после изменения опции' нажмите дважды 'ОБНОВИТЬ ЧАТ'."><i _ngcontent-boj-c248="" class="wasd-icons-record-1" style="font-size: 14px;"></i></a>`,
   BETA: `<a style="position: relative;" class="tooltip-wrapper" title="Эта опция находится в стадии разработки и может работать некорректно."><i _ngcontent-boj-c248="" class="wasd-icons-beta" style="font-size: 14px;"></i></a>`,
   tooltip(text, data) {
-    return `<a style="position: relative;" class="tooltip-wrapper" title='${data}'>${
-      text == "" ? '<i _ngcontent-boj-c248="" class="wasd-icons-notice" style="font-size: 14px;"></i>' : text
-    }</a>`;
+    return `<a style="position: relative;" class="tooltip-wrapper" title='${data}'>${text == "" ? '<i _ngcontent-boj-c248="" class="wasd-icons-notice" style="font-size: 14px;"></i>' : text}</a>`;
   },
   getDefaultSettings() {
     return {
@@ -295,14 +293,12 @@ const Helper = {
             div.classList.add("ovg");
             div.setAttribute("bell_id", data[info]._id);
             if (data[info].link)
-              linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${
-                data[info].link
-              }"> ${data[info].linkText ? data[info].linkText : "Подробнее"} </a></div>`;
+              linkhtml = `<div _ngcontent-ljm-c288="" class="bell-info__link"><a _ngcontent-ljm-c288="" target="_blank" href="${data[info].link}"> ${
+                data[info].linkText ? data[info].linkText : "Подробнее"
+              } </a></div>`;
             div.innerHTML = `<div _ngcontent-ljm-c288="" class="bell-info__text"> ${HelperBWASYA.replaceText(
               data[info].text
-            )} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${moment(data[info].date).format(
-              "DD.MM.YYYY"
-            )} </div>`;
+            )} </div> ${linkhtml} <div _ngcontent-ljm-c288="" class="bell-info__date"> ${moment(data[info].date).format("DD.MM.YYYY")} </div>`;
             ovg_bell__element.querySelector(".bell-info__list").appendChild(div);
           }
 

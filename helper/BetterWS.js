@@ -3,19 +3,11 @@ const BetterWS = {
   intervalcheck: null,
   join() {
     if (this.socket.readyState === this.socket.OPEN && socket.channel?.channel && HelperWASD.current?.user_profile)
-      this.socket.send(
-        `42["join",{"streamerId":${socket.channel.channel.user_id}, "userId":${
-          HelperWASD.current?.user_profile?.user_id ? HelperWASD.current?.user_profile?.user_id : 0
-        }}]`
-      );
+      this.socket.send(`42["join",{"streamerId":${socket.channel.channel.user_id}, "userId":${HelperWASD.current?.user_profile?.user_id ? HelperWASD.current?.user_profile?.user_id : 0}}]`);
   },
   leave() {
     if (this.socket.readyState === this.socket.OPEN && socket.channel?.channel && HelperWASD.current?.user_profile)
-      this.socket.send(
-        `42["leave",{"streamerId":${socket.channel.channel.user_id}, "userId":${
-          HelperWASD.current?.user_profile?.user_id ? HelperWASD.current?.user_profile?.user_id : 0
-        }}]`
-      );
+      this.socket.send(`42["leave",{"streamerId":${socket.channel.channel.user_id}, "userId":${HelperWASD.current?.user_profile?.user_id ? HelperWASD.current?.user_profile?.user_id : 0}}]`);
   },
   start(isAutoJoin) {
     this.socket = new WebSocket("wss://betterwasd.herokuapp.com/");
@@ -125,8 +117,7 @@ const BetterWS = {
           break;
 
         case "personalEmote":
-          if (!HelperBWASYA.items.bwasdPrivateEmotes[JSData[1].user_login])
-            HelperBWASYA.items.bwasdPrivateEmotes[JSData[1].user_login] = {};
+          if (!HelperBWASYA.items.bwasdPrivateEmotes[JSData[1].user_login]) HelperBWASYA.items.bwasdPrivateEmotes[JSData[1].user_login] = {};
           HelperBWASYA.items.bwasdPrivateEmotes[JSData[1].user_login][JSData[1].code] = {
             id: JSData[1]._id,
             zeroWidth: !!JSData[1].visibility_simple?.filter((t) => t == "ZERO_WIDTH").length,

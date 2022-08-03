@@ -105,9 +105,7 @@ if (!new URL(document.URL).pathname.includes("/api/")) initialize();
 
 // tr_optimization
 updateVideoPlayerButtons = () => {
-  exitfullscreenButton = document.querySelector(
-    ".fullscreen>.live>.custom-media-control>.player-controls>.buttons-container>.buttons-right>div>.fullscreen-button > div.tooltip"
-  );
+  exitfullscreenButton = document.querySelector(".fullscreen>.live>.custom-media-control>.player-controls>.buttons-container>.buttons-right>div>.fullscreen-button > div.tooltip");
   if (exitfullscreenButton) {
     if (settings.wasd.pressedFullScreen) {
       exitfullscreenButton.textContent = "В нормальный режим (f)";
@@ -115,9 +113,7 @@ updateVideoPlayerButtons = () => {
       exitfullscreenButton.textContent = "В нормальный режим";
     }
   } else {
-    gofullscreenButton = document.querySelector(
-      ".live>.custom-media-control>.player-controls>.buttons-container>.buttons-right>div>.fullscreen-button > div.tooltip"
-    );
+    gofullscreenButton = document.querySelector(".live>.custom-media-control>.player-controls>.buttons-container>.buttons-right>div>.fullscreen-button > div.tooltip");
     if (gofullscreenButton) {
       if (settings.wasd.pressedFullScreen) {
         gofullscreenButton.textContent = "На весь экран (f)";
@@ -209,10 +205,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     }
   }
   if (msg.from == "background" && msg.update_save) {
-    let newSettings = JSON.parse(JSON.stringify(settings));
-
     let option = BetterStreamChat.settingsDiv.querySelector(`[data-name="${msg?.update_save?.split[0]}_${msg?.update_save?.split[1]}"]`);
-    let split = msg.update_save.split;
     let value = msg.update_save.value;
 
     if (option.type === "checkbox") {
@@ -232,10 +225,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   sendResponse({ message: "ok" });
   return true;
 });
-
-window.addEventListener("unload", () =>
-  navigator.sendBeacon(`${HelperBWASYA.host}/api/v1/stat/tv/open_chat/${HelperWASD.current?.user_profile?.user_id}/delete`)
-);
 
 const resizeTheaterModeNoFS = (moreUpdate = true, isClick) => {
   if (HelperWASD.isTheaterModeNoFS) {
