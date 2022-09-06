@@ -652,7 +652,7 @@ const wasd = {
     }
 
     if (settings.wasd.wasdIconsCircleRu) {
-      cssCode += `#chat-footer-icon-money { display: none!important; }`;
+      cssCode += `#chat-footer-icon-money-paid { display: none!important; }`;
     }
 
     if (settings.wasd.webkitScrollbarWidth) {

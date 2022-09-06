@@ -13,6 +13,20 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: "1.6.12",
+        date: "2022-09-06T15:01:51.988Z",
+        items: [
+          {
+            text: ['Скрыть "поддержать" в панели ввода текста.'],
+            label: "fixed",
+          },
+          {
+            text: ["BetterWS. (Будет работать до 28 ноября, затем поддержка временно прекратится)"],
+            label: "changed",
+          },
+        ],
+      },
+      {
         version: "1.6.11",
         date: "2022-08-03T11:43:21.479Z",
         items: [
@@ -1098,8 +1112,6 @@ const BetterStreamChat = {
 
     // bind update emotes
     settingsDiv.querySelector(".updateemotes").addEventListener("dblclick", () => {
-      let header_block_menu = document.querySelector(".header > div.header__block__menu");
-
       settingsDiv.querySelector(".updateemotes > i").classList.add("resetPlayerLoading");
       setTimeout(() => {
         settingsDiv.querySelector(".updateemotes > i").classList.remove("resetPlayerLoading");

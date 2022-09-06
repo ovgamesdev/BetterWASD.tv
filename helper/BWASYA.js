@@ -5,7 +5,7 @@ const HelperBWASYA = {
   badges: {},
   subBadges: {},
   paints: {},
-  host: "https://betterwasd.herokuapp.com",
+  host: "https://betterwasya-api.vercel.app",
   // host: "http://localhost:5000",
   updateSettings() {
     let bwasdEmoteList = BetterStreamChat.settingsDiv.querySelector("#bwasdEmoteList");
@@ -33,7 +33,7 @@ const HelperBWASYA = {
             span.innerText = HTML.decode(emoteCode);
             // img.src = `${HelperBWASYA.host}/cached/emote/${HelperBWASYA.emotes[emoteCode]?.id || HelperBWASYA.emotes[emoteCode]}/2x`;
             img.src = HelperBWASYA.emotes[emoteCode]?.url?.x2;
-            a.href = `https://ovgamesdev.github.io/#/emotes/${HelperBWASYA.emotes[emoteCode]?.id || HelperBWASYA.emotes[emoteCode]}`;
+            a.href = `https://betterwasya.vercel.app/emotes/${HelperBWASYA.emotes[emoteCode]?.id || HelperBWASYA.emotes[emoteCode]}`;
             a.target = "_blank";
             a.classList.add("emoteCard");
             a.append(img);

@@ -1,6 +1,7 @@
 const BetterWS = {
   socket: null,
   intervalcheck: null,
+  isBusy: false,
   join() {
     if (this.socket.readyState === this.socket.OPEN && socket.channel?.channel && HelperWASD.current?.user_profile)
       this.socket.send(`42["join",{"streamerId":${socket.channel.channel.user_id}, "userId":${HelperWASD.current?.user_profile?.user_id ? HelperWASD.current?.user_profile?.user_id : 0}}]`);
@@ -10,6 +11,9 @@ const BetterWS = {
       this.socket.send(`42["leave",{"streamerId":${socket.channel.channel.user_id}, "userId":${HelperWASD.current?.user_profile?.user_id ? HelperWASD.current?.user_profile?.user_id : 0}}]`);
   },
   start(isAutoJoin) {
+    if (BetterWS.isBusy) return;
+    BetterWS.isBusy = true;
+
     this.socket = new WebSocket("wss://betterwasd.herokuapp.com/");
     // this.socket = new WebSocket("ws://localhost:5000/");
 
@@ -31,9 +35,10 @@ const BetterWS = {
     };
 
     this.socket.onclose = () => {
+      BetterWS.isBusy = false;
       clearInterval(BetterWS.intervalcheck);
       BetterWS.intervalcheck = null;
-      setTimeout(() => BetterWS.start(true), 5000);
+      setTimeout(() => BetterWS.start(true), 30000);
     };
 
     this.socket.onmessage = (e) => {
@@ -130,9 +135,10 @@ const BetterWS = {
     };
 
     this.socket.onerror = () => {
+      BetterWS.isBusy = false;
       clearInterval(BetterWS.intervalcheck);
       BetterWS.intervalcheck = null;
-      setTimeout(() => BetterWS.start(true), 5000);
+      setTimeout(() => BetterWS.start(true), 30000);
     };
   },
 };
