@@ -69,6 +69,27 @@ const socket = {
         setTimeout(() => socket.join(), 10000);
       },
     });
+    $.ajax({
+      url: "https://static.wasd.tv/settings/smiles.json",
+      success: (out) => {
+        HelperWASD.smiles = {};
+        out.result.forEach((a) =>
+          a.smiles.forEach(
+            (s) =>
+              (HelperWASD.smiles[s.token] = {
+                id: s.token,
+                zeroWidth: false,
+                url: {
+                  x1: s.image_url,
+                  x2: s.image_url_retina,
+                  x3: s.image_preview_url_retina,
+                },
+              })
+          )
+        );
+      },
+      error: (err) => ws.log("err", err),
+    });
   },
   leave() {
     try {

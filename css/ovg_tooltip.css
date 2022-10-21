@@ -12,10 +12,6 @@ ovg-tooltip .tooltip {
   opacity: 0;
 }
 
-ovg-tooltip .tooltip_visible {
-  display: flex
-}
-
 ovg-tooltip .tooltip-content {
   background-color: rgb(var(--color-switch));
   border-radius: 4px;
@@ -25,26 +21,26 @@ ovg-tooltip .tooltip-content {
   font-style: normal;
   line-height: normal;
   position: relative;
-  word-break: break-word
+  word-break: break-word;
 }
 
 ovg-tooltip .tooltip-content_nowrap {
-  white-space: nowrap
+  white-space: nowrap;
 }
 
 ovg-tooltip .tooltip-content_left {
-  text-align: left
+  text-align: left;
 }
 
 ovg-tooltip .tooltip-content_center {
-  text-align: center
+  text-align: center;
 }
 
 ovg-tooltip .tooltip_position-top {
   bottom: 100%;
   left: 50%;
   margin-bottom: 8px;
-  transform: translateX(-50%) translateZ(0)
+  transform: translateX(-50%) translateZ(0);
 }
 
 ovg-tooltip .tooltip_position-top .tooltip-content:before {
@@ -57,14 +53,14 @@ ovg-tooltip .tooltip_position-top .tooltip-content:before {
   margin-left: -4px;
   position: absolute;
   top: 100%;
-  transition: all .3s ease
+  transition: all 0.3s ease;
 }
 
 ovg-tooltip .tooltip_position-topLeft {
   bottom: 100%;
   justify-content: flex-start;
   left: 0;
-  margin-bottom: 8px
+  margin-bottom: 8px;
 }
 
 ovg-tooltip .tooltip_position-topLeft .tooltip-content:before {
@@ -76,14 +72,14 @@ ovg-tooltip .tooltip_position-topLeft .tooltip-content:before {
   left: 8px;
   position: absolute;
   top: 100%;
-  transition: all .3s ease
+  transition: all 0.3s ease;
 }
 
 ovg-tooltip .tooltip_position-topRight {
   bottom: 100%;
   justify-content: flex-end;
   margin-bottom: 8px;
-  right: 0
+  right: 0;
 }
 
 ovg-tooltip .tooltip_position-topRight .tooltip-content:before {
@@ -95,14 +91,14 @@ ovg-tooltip .tooltip_position-topRight .tooltip-content:before {
   position: absolute;
   right: 8px;
   top: 100%;
-  transition: all .3s ease
+  transition: all 0.3s ease;
 }
 
 ovg-tooltip .tooltip_position-bottom {
   left: 50%;
   margin-top: 8px;
   top: 100%;
-  transform: translateX(-50%) translateZ(0)
+  transform: translateX(-50%) translateZ(0);
 }
 
 ovg-tooltip .tooltip_position-bottom .tooltip-content:after {
@@ -115,14 +111,14 @@ ovg-tooltip .tooltip_position-bottom .tooltip-content:after {
   left: 50%;
   margin-left: -4px;
   position: absolute;
-  transition: all .3s ease
+  transition: all 0.3s ease;
 }
 
 ovg-tooltip .tooltip_position-bottomLeft {
   justify-content: flex-start;
   left: 0;
   margin-top: 8px;
-  top: 100%
+  top: 100%;
 }
 
 ovg-tooltip .tooltip_position-bottomLeft:after {
@@ -134,14 +130,14 @@ ovg-tooltip .tooltip_position-bottomLeft:after {
   height: 0;
   left: 8px;
   position: absolute;
-  transition: all .3s ease
+  transition: all 0.3s ease;
 }
 
 ovg-tooltip .tooltip_position-bottomRight {
   justify-content: flex-end;
   margin-top: 8px;
   right: 0;
-  top: 100%
+  top: 100%;
 }
 
 ovg-tooltip .tooltip_position-bottomRight:after {
@@ -153,7 +149,7 @@ ovg-tooltip .tooltip_position-bottomRight:after {
   height: 0;
   position: absolute;
   right: 8px;
-  transition: all .3s ease
+  transition: all 0.3s ease;
 }
 
 ovg-tooltip .tooltip_position-left {
@@ -161,7 +157,7 @@ ovg-tooltip .tooltip_position-left {
   margin-right: 8px;
   right: 100%;
   top: 50%;
-  transform: translateY(-50%) translateZ(0)
+  transform: translateY(-50%) translateZ(0);
 }
 
 ovg-tooltip .tooltip_position-left:after {
@@ -174,7 +170,7 @@ ovg-tooltip .tooltip_position-left:after {
   margin-top: -4px;
   position: absolute;
   top: 50%;
-  transition: all .3s ease
+  transition: all 0.3s ease;
 }
 
 ovg-tooltip .tooltip_position-right {
@@ -182,7 +178,7 @@ ovg-tooltip .tooltip_position-right {
   left: 100%;
   margin-left: 8px;
   top: 50%;
-  transform: translateY(-50%) translateZ(0)
+  transform: translateY(-50%) translateZ(0);
 }
 
 ovg-tooltip .tooltip_position-right:after {
@@ -195,17 +191,16 @@ ovg-tooltip .tooltip_position-right:after {
   position: absolute;
   right: 100%;
   top: 50%;
-  transition: all .3s ease
+  transition: all 0.3s ease;
 }
 
 ovg-tooltip .tooltip_size-small .tooltip-content {
-  padding: 4px 16px
+  padding: 4px 16px;
 }
 
 ovg-tooltip .tooltip_size-large .tooltip-content {
-  padding: 8px 16px
+  padding: 8px 16px;
 }
-
 
 /******************************/
 
@@ -214,6 +209,7 @@ ovg-tooltip .tooltip_size-large .tooltip-content {
   bottom: -5px;
 }
 
+ovg-tooltip .tooltip_visible,
 ovg-button:hover ovg-tooltip .tooltip,
 button:hover ovg-tooltip .tooltip,
 .sticker-card:hover ovg-tooltip .tooltip,
@@ -240,18 +236,18 @@ a:hover ovg-tooltip .tooltip,
 .def:hover ovg-tooltip .tooltip {
   opacity: 1;
 
-  transition: opacity .2s;
+  transition: opacity 0.2s;
   transition-delay: 1s;
 }
 
 .nav-sidebar--expanded ovg-tooltip .tooltip {
-  display: none!important;
+  display: none !important;
 }
 
 .tooltip-wrapper {
   display: inline-block;
   vertical-align: middle;
-  margin: -.5rem 0;
+  margin: -0.5rem 0;
   position: relative;
 }
 
@@ -263,7 +259,7 @@ a:hover ovg-tooltip .tooltip,
   text-align: center;
 }
 
-@media screen and (max-width:479px) {
+@media screen and (max-width: 479px) {
   .def:hover ovg-tooltip .tooltip {
     display: none;
   }

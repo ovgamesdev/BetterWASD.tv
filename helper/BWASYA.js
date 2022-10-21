@@ -31,7 +31,6 @@ const HelperBWASYA = {
             let span = document.createElement("span");
             div.classList.add("div_emoteCard");
             span.innerText = HTML.decode(emoteCode);
-            // img.src = `${HelperBWASYA.host}/cached/emote/${HelperBWASYA.emotes[emoteCode]?.id || HelperBWASYA.emotes[emoteCode]}/2x`;
             img.src = HelperBWASYA.emotes[emoteCode]?.url?.x2;
             a.href = `https://betterwasya.vercel.app/emotes/${HelperBWASYA.emotes[emoteCode]?.id || HelperBWASYA.emotes[emoteCode]}`;
             a.target = "_blank";
@@ -47,9 +46,8 @@ const HelperBWASYA = {
 
         if (Object.keys(items.bwasdEmotes[userID]).length == 0) {
           let div = document.createElement("div");
-          div.classList.add("emoji__item-ovg");
-          div.innerText = "У пользователя нет BetterWASYA эмоций";
-
+          div.classList.add("text");
+          div.innerText = "У пользователя нет смайликов..";
           stickers__line.append(div);
         }
       }
@@ -75,15 +73,7 @@ const HelperBWASYA = {
             },
           });
         }
-
-        let stickersovg = "";
-        for (let stickerovg of node.querySelectorAll(".bttv-emote")) {
-          stickersovg += stickerovg.dataset.code + " ";
-        }
-        node.setAttribute("stickersovg", stickersovg);
       }
-
-      HelperWASD.updateHoverTooltipEmote(settings.wasd.hoverTooltipEmote);
     }
 
     for (let element of document.querySelectorAll("wasd-chat-message .message-text > span .chat-message-mention")) {
@@ -91,9 +81,8 @@ const HelperBWASYA = {
         let username = target.dataset.username?.split("@").join("");
         if (username) {
           if (settings.wasd.onClickMention.toString() === "1" && textarea) {
-            textarea.value += target.dataset.username?.trim() + " ";
-            textarea.dispatchEvent(new Event("input"));
-            textarea.focus();
+            textarea.appendChild(document.createTextNode(target.dataset.username?.trim() + " "));
+            placeCaretAtEnd(textarea);
           } else if (settings.wasd.onClickMention.toString() === "2") {
             if (!HelperWASD.addUsernameToTextarea(username)) {
               HelperWASD.createUserViewerCard(username, false, element.closest(".block__messages__item"));
@@ -134,35 +123,28 @@ const HelperBWASYA = {
     let split = text.split(" ");
     let newText = [];
     for (let word of split) {
-      size = Number(settings.wasd.bttvEmoteSize) + 1;
-      // let link = `${HelperBWASYA.host}/cached/emote/${HelperBWASYA.emotes[word]?.id || HelperBWASYA.emotes[word]}/${size}x`;
-      let link = HelperBWASYA.emotes[word]?.url[`x${size}`];
-
       if (HelperBWASYA.emotes[word]) {
-        let user = "";
+        // let user = "";
+        // if (settings.wasd.hoverTooltipEmote) {
+        //   for (let userID in HelperBWASYA.items.bwasdEmotes) {
+        //     if (typeof HelperBWASYA.items.bwasdEmotes[userID][word]?.id == "string") {
+        //       user = userID;
+        //       break;
+        //     }
+        //   }
+        // }
+        // let title = ` Смайл:&nbsp;${word} <br> ${typeof HelperBWASYA.items.bwasdUsers[user]?.username == "string" ? `Канал:&nbsp;${HelperBWASYA.items.bwasdUsers[user]?.username} <br> Эмоции на канале BWASYA` : "Общедоступный BWASYA"} `;
 
-        if (settings.wasd.hoverTooltipEmote) {
-          for (let userID in HelperBWASYA.items.bwasdEmotes) {
-            if (typeof HelperBWASYA.items.bwasdEmotes[userID][word]?.id == "string") {
-              user = userID;
-              break;
-            }
-          }
-        }
-
-        let title = ` Смайл:&nbsp;${word} <br> ${
-          typeof HelperBWASYA.items.bwasdUsers[user]?.username == "string" ? `Канал:&nbsp;${HelperBWASYA.items.bwasdUsers[user]?.username} <br> Эмоции на канале BWASYA` : "Общедоступный BWASYA"
-        } `;
-        word = `<div data-code="${word}" class="bttv-emote tooltip-wrapper" tooltip="${title}" data-title="${title}"> <img class="stickerovg bwasd small" style="vertical-align: middle; width: auto!important;" src="${link}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
+        word = `<img class="chat-emoji" style="width: auto;" alt="${word}" src="${HelperBWASYA.emotes[word]?.url[`x1`]}" srcset="${HelperBWASYA.emotes[word]?.url[`x2`]}" />`;
       }
 
-      if (HelperBWASYA.items.bwasdPrivateEmotes && HelperBWASYA.items.bwasdPrivateEmotes[user_login] && HelperBWASYA.items.bwasdPrivateEmotes[user_login][word]) {
-        // link = `${HelperBWASYA.host}/cached/emote/${HelperBWASYA.items.bwasdPrivateEmotes[user_login][word]?.id}/${size}x`;
-        link = HelperBWASYA.items.bwasdPrivateEmotes[user_login][word]?.url[`x${size}`];
+      // if (HelperBWASYA.items.bwasdPrivateEmotes && HelperBWASYA.items.bwasdPrivateEmotes[user_login] && HelperBWASYA.items.bwasdPrivateEmotes[user_login][word]) {
+      //   // link = `${HelperBWASYA.host}/cached/emote/${HelperBWASYA.items.bwasdPrivateEmotes[user_login][word]?.id}/${size}x`;
+      //   link = HelperBWASYA.items.bwasdPrivateEmotes[user_login][word]?.url[`x${size}`];
 
-        let title = ` Смайл:&nbsp;${word} <br> Канал:&nbsp;${user_login} <br> Персональная эмоция BWASYA`;
-        word = `<div data-code="${word}" class="bttv-emote tooltip-wrapper" tooltip="${title}" data-title="${title}"> <img class="stickerovg bwasd small" style="vertical-align: middle; width: auto!important;" src="${link}" alt="${word}" /> <span class="chat-message-text stickertext stickerovg_text">Стикер</span> </div>`;
-      }
+      //   // let title = ` Смайл:&nbsp;${word} <br> Канал:&nbsp;${user_login} <br> Персональная эмоция BWASYA`;
+      //   word = `<img class="chat-emoji" style="width: auto;" alt="${word}" src="${link}" />`;
+      // }
 
       newText.push(word);
     }
@@ -172,12 +154,8 @@ const HelperBWASYA = {
     return new Promise((resolve, reject) => {
       $.ajax({
         url: `${HelperBWASYA.host}/api/v1/users?user_id=${userID}`,
-        success: (out) => {
-          resolve(out);
-        },
-        error: (out) => {
-          reject(out?.message);
-        },
+        success: (out) => resolve(out),
+        error: (out) => reject(out?.message),
       });
     });
   },
@@ -188,7 +166,7 @@ const HelperBWASYA = {
       HelperBWASYA.updateEmotes(userID, bwasdData);
       return await HelperBWASYA.addUser(userID, username);
     } catch (err) {
-      return await Promise.reject("У пользователя нет BetterWASYA эмоций");
+      return await Promise.reject("У пользователя нет смайликов..");
     }
   },
   updateEmotes(userID, bwasdData) {
@@ -208,38 +186,22 @@ const HelperBWASYA = {
       globalList = globalList.concat(bwasdData.global);
     }
     for (let emote of emoteList) {
-      HelperBWASYA.items.bwasdEmotes[userID][emote.code] = {
-        id: emote._id,
-        zeroWidth: !!emote.visibility_simple?.filter((t) => t == "ZERO_WIDTH").length,
-        url: emote.url,
-      };
+      HelperBWASYA.items.bwasdEmotes[userID][emote.code] = { id: emote._id, zeroWidth: !!emote.visibility_simple?.filter((t) => t == "ZERO_WIDTH").length, url: emote.url };
     }
     for (let emote of globalList) {
-      HelperBWASYA.items.bwasdEmotes.global[emote.code] = {
-        id: emote._id,
-        zeroWidth: !!emote.visibility_simple?.filter((t) => t == "ZERO_WIDTH").length,
-        url: emote.url,
-      };
+      HelperBWASYA.items.bwasdEmotes.global[emote.code] = { id: emote._id, zeroWidth: !!emote.visibility_simple?.filter((t) => t == "ZERO_WIDTH").length, url: emote.url };
     }
     for (let user in bwasdData.personalEmotes) {
       HelperBWASYA.items.bwasdPrivateEmotes[user] = {};
       for (let emote of bwasdData.personalEmotes[user]) {
-        HelperBWASYA.items.bwasdPrivateEmotes[user][emote.code] = {
-          id: emote._id,
-          zeroWidth: !!emote.visibility_simple?.filter((t) => t == "ZERO_WIDTH").length,
-          url: emote.url,
-        };
+        HelperBWASYA.items.bwasdPrivateEmotes[user][emote.code] = { id: emote._id, zeroWidth: !!emote.visibility_simple?.filter((t) => t == "ZERO_WIDTH").length, url: emote.url };
       }
     }
   },
   addUser(userID, username) {
     if (typeof userID === "string") userID = parseInt(userID);
     return new Promise((resolve) => {
-      let addUser = typeof HelperBWASYA.items.bwasdUsers[userID] === "undefined";
-      HelperBWASYA.items.bwasdUsers[userID] = {
-        username,
-        lastUpdate: Date.now(),
-      };
+      HelperBWASYA.items.bwasdUsers[userID] = { username, lastUpdate: Date.now() };
       resolve();
     });
   },
@@ -251,16 +213,9 @@ const HelperBWASYA = {
     let beforeEmotes = Object.keys(HelperBWASYA.emotes).length;
 
     HelperBWASYA.updateUserChannelEmotes(user_id, user_login)
-      .then(() => {
-        return HelperBWASYA.update();
-      })
-      .then(() => {
-        let newEmotes = Object.keys(HelperBWASYA.emotes).length - beforeEmotes;
-        ovg.log(`Пользователь ${user_login} и ${newEmotes} эмоции добавлены.`);
-      })
-      .catch((err) => {
-        ovg.log(err, "error");
-      })
+      .then(() => HelperBWASYA.update())
+      .then(() => ovg.log(`Пользователь ${user_login} и ${Object.keys(HelperBWASYA.emotes).length - beforeEmotes} эмоции добавлены.`))
+      .catch((err) => ovg.log(err, "error"))
       .finally(() => {
         HelperBWASYA.isBusy = false;
         HelperBWASYA.loaded();
@@ -284,15 +239,13 @@ const HelperBWASYA = {
         HelperBWASYA.updateUserChannelEmotes(userID, items.bwasdUsers[userID].username).finally(() => {
           i++;
           ovg.log(`BWASYA ${i}/${l}`, "success");
-          if (i == l) {
-            resolve();
-          }
+          if (i == l) resolve();
         });
       }
     });
   },
   addToChatMenu() {
-    document.querySelector("div.emoji__head__options")?.insertAdjacentHTML("beforeend", `<div class="option bwasd-emoji"> <i class="ovg-icon-bwasd" style="pointer-events: none;"></i> </div>`);
+    document.querySelector("div.emoji__head__options")?.insertAdjacentHTML("beforeend", `<div class="option bwasd-emoji"> BetterWASYA </div>`);
     let bwasdEmotes = HelperBWASYA.items.bwasdEmotes;
     let bwasdUsers = HelperBWASYA.items.bwasdUsers;
 
@@ -302,93 +255,70 @@ const HelperBWASYA = {
       let timerId = setTimeout(function tick() {
         $("div.option.bwasd-emoji")?.addClass("active");
 
-        $(".emoji__body > wasd-chat-emoji-smiles")?.css("display", "none");
-        $(".emoji__body > wasd-chat-emoji-stickers")?.css("display", "none");
+        $(".emoji__body > wasd-chat-smiles-smiles")?.css("display", "none");
+        $(".emoji__body > wasd-chat-smiles-stickers")?.css("display", "none");
 
         let emoteBodybwasd = document.querySelector(".emoji__body");
         if (emoteBodybwasd) {
-          document.querySelector("wasd-chat-emoji-smiles-ffz")?.remove();
-          document.querySelector("wasd-chat-emoji-smiles-tv7")?.remove();
-          document.querySelector("wasd-chat-emoji-smiles-bttv")?.remove();
-
           emoteBodybwasd.insertAdjacentHTML(
             "beforeend",
-            `<wasd-chat-emoji-smiles-bwasd><div class="emoji-ovg"></div><div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bwasdemojiSearch-shat" style="background: url(${
-              git_url + "img/search.png"
-            }) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;/* margin-left: 10px; *//* width: calc(100% - 20px); */width: 100%;"></div></wasd-chat-emoji-smiles-bwasd>`
+            `<wasd-chat-emoji-smiles-bwasd><div class="smiles-block-better"></div>${
+              settings.wasd.searchInBwasdEmotes
+                ? `<div style="border-top: 1px solid rgba(var(--wasd-color-switch--rgb),.16);"><input type="search" placeholder="Поиск эмоций" class="option bwasdemojiSearch-shat" style="background: url(${git_url}img/search.png) no-repeat 10px;background-color: var(--wasd-color-prime);border-bottom-width: 0px!important;width: 100%;"></div>`
+                : ""
+            }</wasd-chat-emoji-smiles-bwasd>`
           );
-          let EmoteListbwasd = emoteBodybwasd.querySelector("div.emoji-ovg");
-          //ovg.log(HelperBWASYA.emotes);
-
-          if (EmoteListbwasd && HelperBWASYA.items.bwasdPrivateEmotes[HelperWASD.self_channel_name] && Object.keys(HelperBWASYA.items.bwasdPrivateEmotes[HelperWASD.self_channel_name]).length !== 0) {
-            const splitdev = document.createElement("div");
-            splitdev.classList.add("stickers__div-ovg");
-
-            splitdev.innerHTML = `<div class="stickers__info-ovg"><div class="stickers__info__line-ovg"></div><div class="stickers__info__text-ovg"> ${HelperWASD.self_channel_name} </div><div class="stickers__info__line-ovg"></div></div><div class="stickers__line-ovg"></div>`;
-            EmoteListbwasd.append(splitdev);
-
-            const stickers__line = splitdev.querySelector(".stickers__line-ovg");
-            for (let emoteCode in HelperBWASYA.items.bwasdPrivateEmotes[HelperWASD.self_channel_name]) {
-              if (HelperBWASYA.items.bwasdPrivateEmotes[HelperWASD.self_channel_name].hasOwnProperty(emoteCode)) {
-                let img = document.createElement("img");
-                // img.src = `${HelperBWASYA.host}/cached/emote/${HelperBWASYA.items.bwasdPrivateEmotes[HelperWASD.self_channel_name][emoteCode]?.id}/1x`;
-                img.src = HelperBWASYA.items.bwasdPrivateEmotes[HelperWASD.self_channel_name][emoteCode]?.url?.x1;
-                img.classList.add("emoji__item-ovg");
-                img.title = HTML.decode(emoteCode);
-                img.alt = HTML.decode(emoteCode);
-
-                stickers__line.append(img);
-                img.addEventListener("click", () => {
-                  let textareabwasd = document.querySelector(".footer > div > textarea");
-                  textareabwasd.value += HTML.decode(emoteCode) + " ";
-                  textareabwasd.focus();
-                  textareabwasd.dispatchEvent(new Event("input"));
-                });
-              }
-            }
-          }
+          let EmoteListbwasd = emoteBodybwasd.querySelector("div.smiles-block-better");
 
           if (EmoteListbwasd) {
             let emotes = {};
             for (let userID in bwasdEmotes) {
               if (bwasdEmotes.hasOwnProperty(userID)) {
                 const splitdev = document.createElement("div");
-                splitdev.classList.add("stickers__div-ovg");
-
-                splitdev.innerHTML = `<div class="stickers__info-ovg"><div class="stickers__info__line-ovg"></div><div class="stickers__info__text-ovg"> ${
+                splitdev.classList.add("smile-set");
+                splitdev.innerHTML = `<div class="smile-set__title"><i class="wasd-icons-dev"></i> ${
                   typeof bwasdUsers[userID].username == "undefined" ? userID : bwasdUsers[userID].username
-                } </div><div class="stickers__info__line-ovg"></div></div><div class="stickers__line-ovg"></div>`;
+                } </div><div class="smile-set__smiles"></div>`;
                 EmoteListbwasd.append(splitdev);
+                let index = 0;
 
-                const stickers__line = splitdev.querySelector(".stickers__line-ovg");
+                const stickers__line = splitdev.querySelector(".smile-set__smiles");
                 for (let emoteCode in bwasdEmotes[userID]) {
                   if (bwasdEmotes[userID].hasOwnProperty(emoteCode)) {
                     if (typeof emotes[emoteCode] === "undefined") {
                       emotes[emoteCode] = bwasdEmotes[userID][emoteCode];
+                      index++;
 
-                      let img = document.createElement("img");
-                      // img.src = `${HelperBWASYA.host}/cached/emote/${HelperBWASYA.emotes[emoteCode]?.id || HelperBWASYA.emotes[emoteCode]}/1x`;
-                      img.src = HelperBWASYA.emotes[emoteCode]?.url?.x1;
-                      img.classList.add("emoji__item-ovg");
-                      img.title = HTML.decode(emoteCode);
-                      img.alt = HTML.decode(emoteCode);
+                      let div = document.createElement("div");
+                      div.className = "smile";
+                      div.style.position = "relative";
+                      div.innerHTML = `<img src="${HelperBWASYA.emotes[emoteCode]?.url?.x1}" srcset="${HelperBWASYA.emotes[emoteCode]?.url?.x2}" alt=${HTML.decode(emoteCode)} />
+                      <ovg-tooltip><div class="ovg tooltip ${
+                        index % 7 === 0 ? "tooltip_position-topRight" : index % 7 === 1 ? "tooltip_position-topLeft" : "tooltip_position-top"
+                      } tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left ovg"> ${HTML.decode(emoteCode)} </div></div></ovg-tooltip>`;
 
-                      stickers__line.append(img);
-                      img.addEventListener("click", () => {
-                        let textareabwasd = document.querySelector(".footer > div > textarea");
-                        textareabwasd.value += HTML.decode(emoteCode) + " ";
-                        textareabwasd.focus();
-                        textareabwasd.dispatchEvent(new Event("input"));
-                      });
+                      stickers__line.append(div);
+                      div
+                        .querySelector("img")
+                        .addEventListener("click", () =>
+                          appendUsernameToTextarea(
+                            `<img class="message-smile" style="width: auto;" alt="${HTML.decode(emoteCode)}" src="${HelperBWASYA.emotes[emoteCode]?.url?.x1}" srcset="${
+                              HelperBWASYA.emotes[emoteCode]?.url?.x2
+                            }" />`,
+                            false
+                          )
+                        );
+
+                      div.querySelector("img").addEventListener("mouseenter", () => div.querySelector(".tooltip").classList.add("tooltip_visible"));
+                      div.querySelector("img").addEventListener("mouseleave", () => div.querySelector(".tooltip").classList.remove("tooltip_visible"));
                     }
                   }
                 }
 
                 if (Object.keys(bwasdEmotes[userID]).length === 0) {
                   let div = document.createElement("div");
-                  div.classList.add("emoji__item-ovg");
-                  div.innerText = "У пользователя нет BetterWASYA эмоций";
-
+                  div.classList.add("text");
+                  div.innerText = "У пользователя нет смайликов..";
                   stickers__line.append(div);
                 }
               }
@@ -397,19 +327,18 @@ const HelperBWASYA = {
             // bind search emoji chat
             let inputbwasd, filterbwasd, ulbwasd, optionsbwasd, titlebwasd, ibwasd;
             inputbwasd = document.querySelector("input.bwasdemojiSearch-shat");
-            inputbwasd.addEventListener("input", () => {
+            inputbwasd?.addEventListener("input", () => {
               filterbwasd = inputbwasd.value.toUpperCase();
-              ulbwasd = document.querySelector("wasd-chat-emoji-smiles-bwasd .emoji-ovg");
+              ulbwasd = document.querySelector("wasd-chat-emoji-smiles-bwasd .smiles-block-better");
 
-              optionsbwasd = ulbwasd.querySelectorAll("img.emoji__item-ovg");
+              optionsbwasd = ulbwasd.querySelectorAll(".smile");
               for (ibwasd = 0; ibwasd < optionsbwasd.length; ibwasd++) {
-                titlebwasd = optionsbwasd[ibwasd].title;
-                if (titlebwasd) {
-                  if (titlebwasd.toUpperCase().indexOf(filterbwasd) != -1) {
-                    optionsbwasd[ibwasd].style.display = "";
-                  } else {
-                    optionsbwasd[ibwasd].style.display = "none";
-                  }
+                titlebwasd = optionsbwasd[ibwasd].querySelector("img").alt;
+                if (!titlebwasd) return;
+                if (titlebwasd.toUpperCase().indexOf(filterbwasd) != -1) {
+                  optionsbwasd[ibwasd].style.display = "";
+                } else {
+                  optionsbwasd[ibwasd].style.display = "none";
                 }
               }
             });
@@ -427,8 +356,8 @@ const HelperBWASYA = {
 
         document.querySelector("wasd-chat-emoji-smiles-bwasd")?.remove();
 
-        $(".emoji__body > wasd-chat-emoji-smiles")?.css("display", "");
-        $(".emoji__body > wasd-chat-emoji-stickers")?.css("display", "");
+        $(".emoji__body > wasd-chat-smiles-smiles")?.css("display", "");
+        $(".emoji__body > wasd-chat-smiles-stickers")?.css("display", "");
       });
     }
   },

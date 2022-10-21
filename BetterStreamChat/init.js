@@ -13,6 +13,54 @@ const BetterStreamChat = {
     };
     let changelogList = [
       {
+        version: "1.6.14",
+        date: "2022-10-21T13:07:00.829Z",
+        items: [
+          {
+            text: [
+              "Переместить кнопку 'Скрыть чат' в заголовок чата.",
+              "Обновить чат (нажмите дважды).",
+              "Автозаполнение эмоции через Tab.",
+              "Показывать последние сообщения в окне ввода на клавишу «↑» и «↓».",
+              "Формат отметок времени.",
+            ],
+            label: "fixed",
+          },
+          {
+            text: [
+              "Предварительный просмотр при наведении курсора на канал в сети.",
+              "ZeroWidth эмоции теперь поддерживает wasd.",
+              "Автозаполнение эмоции через Tab теперь поддерживает смайлики wasd.",
+              "Добавить поиск в меню смайлов wasd.",
+              "Добавить поиск в меню смайлов BWASYA.",
+            ],
+            label: "added",
+          },
+          {
+            text: [
+              "Поменять панель подарков и информацию о стриме местами.",
+              "Отображение стикеров BWASYA, BTTV, FFZ и 7TV.",
+              "Подсказка для эмоций BWASYA, BTTV, FFZ и 7TV при наведении.",
+              "Разрешение смайликов в чате BWASYA, BTTV, FFZ и 7TV.",
+              "Смайлики 7TV | FFZ | BTTV в чате.",
+              "Опция 7TV | FFZ | BTTV в меню смайликов в чате.",
+              "Размер стикеров BWASYA.",
+            ],
+            label: "removed",
+          },
+        ],
+      },
+      {
+        version: "1.6.13",
+        date: "2022-10-11T12:42:09.803Z",
+        items: [
+          {
+            text: ['Скрыть "поддержать" в панели ввода текста.', "Добавить в текстовое поле.", "Опции в меню смайликов в чате.", "Нажмите клавишу '...' чтобы..."],
+            label: "fixed",
+          },
+        ],
+      },
+      {
         version: "1.6.12",
         date: "2022-09-06T15:01:51.988Z",
         items: [
@@ -79,251 +127,6 @@ const BetterStreamChat = {
           {
             text: ["Поддержка эмоций пользователя 7TV.", "Поддержка эмоций пользователя BetterTTV.", "Поддержка эмоций пользователя FrankerFaceZ."],
             label: "removed",
-          },
-        ],
-      },
-      {
-        version: "1.6.7",
-        date: "2022-06-11T08:22:53.623Z",
-        items: [
-          {
-            text: ["Использовать цвет имени пользователя BetterWASYA."],
-            label: "added",
-          },
-          {
-            text: ["Некоторые ошибки после обновления wasd`a."],
-            label: "fixed",
-          },
-        ],
-      },
-      {
-        version: "1.6.6",
-        date: "2022-05-09T08:26:02.151Z",
-        items: [
-          {
-            text: ["BetterWASYA поддержка ZeroWidth эмоций.", "Теперь при добавлении эмоции BetterWASYA не нужно обновлять чат."],
-            label: "added",
-          },
-        ],
-      },
-      {
-        version: "1.6.5",
-        date: "2022-04-30T17:41:11.260Z",
-        items: [
-          {
-            text: ["Эмоции.", "Упоминине пользователя."],
-            label: "optimized",
-          },
-        ],
-      },
-      {
-        version: "1.6.4",
-        date: "2022-04-25T17:29:05.020Z",
-        items: [
-          {
-            text: [`Скрыть описание выделенного сообщения.`, `Цвет выделенного сообщения.`],
-            label: "added",
-          },
-          {
-            text: ["Аптайм трансляции."],
-            label: "fixed",
-          },
-          {
-            text: ["BetterWASYA_WS."],
-            label: "optimized",
-          },
-          {
-            text: ["Заполнение сообщений чата."],
-            label: "removed",
-          },
-        ],
-      },
-      {
-        version: "1.6.3",
-        date: "2022-04-24T14:27:25.020Z",
-        items: [
-          {
-            text: [`BetterWASYA_WS.`],
-            label: "added",
-          },
-          {
-            text: ["Формат отметок времени.", "Показать значки создателя|модератора|партнера."],
-            label: "fixed",
-          },
-        ],
-      },
-      {
-        version: "1.6.2",
-        date: "2022-04-22T00:50:56.564Z",
-        items: [
-          {
-            text: [`Показать значки партнера - Теперь работает в профиле.`],
-            label: "added",
-          },
-          {
-            text: ["Формат отметок времени.", "Скрыть каналы не в сети"],
-            label: "fixed",
-          },
-          {
-            text: [`Карточка пользователя - Средства модератора.`],
-            label: "changed",
-          },
-        ],
-      },
-      {
-        version: "1.6.1",
-        date: "2022-04-21T00:10:56.564Z",
-        items: [
-          {
-            text: [`Блюр информации при падении сайта.`, `Скрыть каналы не в сети.`, `Показать значки создателя|модератора|партнера - Заменить на значок Twitch.`],
-            label: "added",
-          },
-          {
-            text: ["Показывать последние сообщения в окне ввода на клавишу «↑» и «↓»."],
-            label: "fixed",
-          },
-          {
-            text: [`WebSocket.`, `Карточка пользователя - Средства модератора.`],
-            label: "changed",
-          },
-        ],
-      },
-      {
-        version: "1.6",
-        date: "2022-04-18T21:00:56.564Z",
-        items: [
-          {
-            text: [`Стиль удаленных сообщений.`],
-            label: "added",
-          },
-          {
-            text: ["Меню модератора.", "Цвет ссылки."],
-            label: "fixed",
-          },
-          {
-            text: [`Подсказка для эмоций BWASYA, BTTV, FFZ и 7TV при наведении.`],
-            label: "optimized",
-          },
-        ],
-      },
-      {
-        version: "1.5.9",
-        date: "2022-04-17T21:00:00.000Z",
-        items: [
-          {
-            text: [
-              `Меню модератора - Как у BTTV.`,
-              `7TV поддержка всех ZeroWidth эмоций.`,
-              `FFZ поддержка глобальных ZeroWidth эмоций.`,
-              `Показывать последние сообщения в окне ввода на клавишу «&uarr;» и «&darr;».`,
-            ],
-            label: "added",
-          },
-          {
-            text: ["Меню модератора - Twitch."],
-            label: "fixed",
-          },
-          {
-            text: [`7TV | BetterTTV | FrankerFaceZ | BetterWASYA эмоции.`, `Аптайм трансляции`, "WebSocket.", `Формат отметок времени`],
-            label: "optimized",
-          },
-        ],
-      },
-      {
-        version: "1.5.8",
-        date: "2022-04-15T17:40:00.000Z",
-        items: [
-          {
-            text: [`Автозаполнение эмоции через Tab.`, `Игнорировать БОЛЬШИЕ БУКВЫ для "Автозаполнение эмоции через Tab".`],
-            label: "added",
-          },
-          {
-            text: ["Режим кинотеатра."],
-            label: "fixed",
-          },
-          {
-            text: [`7TV | BetterTTV | FrankerFaceZ | BetterWASYA эмоции.`, "Карточка пользователя.", "WebSocket."],
-            label: "optimized",
-          },
-        ],
-      },
-      {
-        version: "1.5.7",
-        date: "2022-04-08",
-        items: [
-          {
-            text: [`Чат после проигрывателя.`, `Разделитель строк в чате.`, `Режим кинотеатра`],
-            label: "fixed",
-          },
-          {
-            text: [`Режим кинотеатра - В полноэкранном режиме.`],
-            label: "added",
-          },
-          {
-            text: [`Исправить символы ломающие чат.`, `Режим кинотеатра - Показать кнопки подарков.`, `Режим кинотеатра - Скрыть подарки.`],
-            label: "changed",
-          },
-          {
-            text: [`Карточка пользователя.`, `Режим кинотеатра.`, `Распознавание всех ссылок.`],
-            label: "optimized",
-          },
-          {
-            text: [`Отображение стикеров BWASYA, BTTV, FFZ и 7TV - Мин. (увеличить при наведении).`],
-            label: "removed",
-          },
-        ],
-      },
-      {
-        version: "1.5.6",
-        date: "2022-03-28",
-        items: [
-          {
-            text: [`Карточка пользователя - Последние сообщения.`],
-            label: "fixed",
-          },
-          {
-            text: [`Проигрыватель » Режим кинотеатра.`],
-            label: "added",
-          },
-          {
-            text: [`Карточка пользователя - Стикеры.`, `Добавить кнопку 'Картинка в картинке' к управлению проигрывателем (PIP).`, `Фильтрация - Выделение - Роль пользователя.`],
-            label: "optimized",
-          },
-        ],
-      },
-      {
-        version: "1.5.5",
-        date: "2022-03-25",
-        items: [
-          {
-            text: [`Аптайм трансляции.`],
-            label: "fixed",
-          },
-          {
-            text: [`Оформление.`, `Значок подписчика в списке пользователей.`],
-            label: "added",
-          },
-          {
-            text: [`WebSocket.`],
-            label: "optimized",
-          },
-        ],
-      },
-      {
-        version: "1.5.4",
-        date: "2022-03-23",
-        items: [
-          {
-            text: [`Скрыть баннер на главной странице.`, `Поменять боковые панели местами.`, `Скрыть кнопку "Начать стрим" в заголовке.`, `Скрыть кнопку "Великий рандом!" в заголовке.`],
-            label: "fixed",
-          },
-          {
-            text: [`Фон для значка (Скопировать сообщение).`],
-            label: "added",
-          },
-          {
-            text: [`Отображение стикеров WASD.`],
-            label: "optimized",
           },
         ],
       },
@@ -486,7 +289,7 @@ const BetterStreamChat = {
               </a>
             </li>
             <li ovg="">
-              <a ovg="" class="nav-sidebar__item" data-tab="emotes" style="position: relative;">
+              <a ovg="" class="nav-sidebar__item" data-tab="bwasdSettings" style="position: relative;">
                 <i ovg="" class="wasd-icons-smile"></i>
                 <span ovg="">Эмоции</span>
                 <ovg-tooltip>
@@ -603,66 +406,11 @@ const BetterStreamChat = {
         ${HelperSettings.build("general")}
       </main>
 
-      <main class="" data-tab="emotes">
-        <div style="display: flex;justify-content: space-between;">
-          <h1 style="padding-left: 10px;padding-top: 10px;"> Эмоции </h1>
-        </div>
-
-        <div class="links_to">
-
-          <div class="option link_to" data-tab="bwasdSettings">
-            <div class="ovg-option icon">
-              <i class="ovg-icon-bwasd"></i>
-              <div class="option-line">
-                <div class="labelField">
-                  <span class="title"> BetterWASYA </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="option link_to" data-tab="tv7Settings" >
-            <div class="ovg-option icon">
-              <i class="ovg-icon-tv7"></i>
-              <div class="option-line">
-                <div class="labelField">
-                  <span class="title"> 7TV </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="option link_to" data-tab="bttvSettings" >
-            <div class="ovg-option icon">
-              <i class="ovg-icon-bttv"></i>
-              <div class="option-line">
-                <div class="labelField">
-                  <span class="title"> BetterTTV </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="option link_to" data-tab="ffzSettings" >
-            <div class="ovg-option icon">
-              <i class="ovg-icon-ffz"></i>
-              <div class="option-line">
-                <div class="labelField">
-                  <span class="title"> FrankerFaceZ </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </main>
-
-
       <main class="text" data-tab="bwasdSettings">
-        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
+        <!--ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
           <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
           <p style="margin: 5px 0 0 0;"> BetterWASYA </p>
-        </ovg-button>
+        </ovg-button-->
 
         <h2> Доступные эмоции BetterWASYA <a target="_blank" href="https://betterwasya.vercel.app/dashboard/emotes">Добавить свою эмоцию</a> </h2>
 
@@ -679,73 +427,6 @@ const BetterStreamChat = {
         </wasd-input>
 
         <ul id="bwasdEmoteList"></ul>
-      </main>
-
-      <main class="text" data-tab="bttvSettings">
-        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
-          <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
-          <p style="margin: 5px 0 0 0;"> BetterTTV </p>
-        </ovg-button>
-
-        <h2> Доступные эмоции BetterTTV </h2>
-
-        <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-          <div ovg="" class="wasd-input-wrapper">
-            <div ovg="" class="wasd-input">
-              <label ovg=""></label>
-              <input id="bttvemojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
-              <button ovg="" type="button" class="button-icon">
-                <i ovg="" class="wasd-icons-close"></i>
-              </button>
-            </div>
-          </div>
-        </wasd-input>
-
-        <ul id="bttvEmoteList"></ul>
-      </main>
-
-      <main class="text" data-tab="ffzSettings">
-        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
-          <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
-          <p style="margin: 5px 0 0 0;"> FrankerFaceZ </p>
-        </ovg-button>
-
-        <h2> Доступные эмоции FrankerFaceZ </h2>
-
-        <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-          <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-            <label ovg=""></label>
-            <input id="ffzemojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
-              <button ovg="" type="button" class="button-icon">
-                <i ovg="" class="wasd-icons-close"></i>
-              </button>
-            </div>
-          </div>
-        </wasd-input>
-
-        <ul id="ffzEmoteList"></ul>
-      </main>
-
-      <main class="text" data-tab="tv7Settings">
-        <ovg-button class="flat-btn links_to ovg" style="display: flex; align-items: center;">
-          <button style="margin-right: 10px;" data-tab="emotes" class="link_to ovg basic show small"> назад </button>
-          <p style="margin: 5px 0 0 0;"> 7TV </p>
-        </ovg-button>
-
-        <h2> Доступные эмоции 7TV </h2>
-
-        <wasd-input _ngcontent-gmb-c228="" _ngcontent-gmb-c28="" class="ng-valid ng-dirty ng-touched">
-          <div ovg="" class="wasd-input-wrapper"><div ovg="" class="wasd-input">
-            <label ovg=""></label>
-            <input id="tv7emojiSearch" ovg="" class="has-button ng-pristine ng-untouched ng-valid" placeholder="Поиск эмоций" type="text">
-              <button ovg="" type="button" class="button-icon">
-                <i ovg="" class="wasd-icons-close"></i>
-              </button>
-            </div>
-          </div>
-        </wasd-input>
-
-        <ul id="tv7EmoteList"></ul>
       </main>
 
       <main class="active" data-tab="wasdSettings">
@@ -1080,11 +761,11 @@ const BetterStreamChat = {
 
     // bind update chat
     settingsDiv.querySelector(".update").addEventListener("dblclick", () => {
-      let header_block_menu = document.querySelectorAll(".header > div.header__block__menu div.header__block__menu__item");
+      let header_block_menu = document.querySelectorAll(".header div.header__item");
       if (header_block_menu.length >= 1) {
         header_block_menu[1]?.click();
         settingsDiv.querySelector(".update > i").classList.add("resetPlayerLoading");
-        header_block_menu[0]?.children[0]?.click();
+        header_block_menu[0]?.click();
       } else {
         if (settingsDiv.classList.contains("fullscreen")) {
           Helper.trySendMessage({ update_chat: true });
@@ -1117,18 +798,10 @@ const BetterStreamChat = {
         settingsDiv.querySelector(".updateemotes > i").classList.remove("resetPlayerLoading");
       }, 1000);
 
-      HelperBTTV.updateEmotesBttv();
-      HelperFFZ.updateEmotesFfz();
-      HelperTV7.updateEmotesTv7();
       if (socket?.channel?.channel) HelperBWASYA.tryAddUser(socket.channel.channel.channel_owner.user_id, socket.channel.channel.channel_owner.user_login);
-      HelperBTTV.updateSettings(true);
-      HelperFFZ.updateSettings(true);
-      HelperTV7.updateSettings(true);
     });
 
-    document.body.addEventListener("click", (value) => {
-      document.querySelector("#bttv-custom-timeout-contain")?.remove();
-    });
+    document.body.addEventListener("click", () => document.querySelector("#bttv-custom-timeout-contain")?.remove());
 
     Cookies.remove("BetterWASYA_access_token");
     Cookies.remove("BetterWASYA_twitch_display_name");
@@ -1178,61 +851,8 @@ const BetterStreamChat = {
       }
     });
 
-    let bttvfilter, bttvul, bttvoptions, bttvtitle, bttvi;
-    bttvemojiSearch.addEventListener("input", () => {
-      bttvfilter = bttvemojiSearch.value.toUpperCase();
-      bttvul = document.querySelector("main[data-tab='bttvSettings'] > #bttvEmoteList");
-      bttvoptions = bttvul.querySelectorAll(".div_emoteCard");
-      for (bttvi = 0; bttvi < bttvoptions.length; bttvi++) {
-        bttvtitle = bttvoptions[bttvi].querySelector("span");
-        if (bttvtitle) {
-          if (bttvtitle.textContent.toUpperCase().indexOf(bttvfilter) != -1) {
-            bttvoptions[bttvi].style.display = "";
-          } else {
-            bttvoptions[bttvi].style.display = "none";
-          }
-        }
-      }
-    });
-
-    let ffzfilter, ffzul, ffzoptions, ffztitle, ffzi;
-    ffzemojiSearch.addEventListener("input", () => {
-      ffzfilter = ffzemojiSearch.value.toUpperCase();
-      ffzul = document.querySelector("main[data-tab='ffzSettings'] > #ffzEmoteList");
-      ffzoptions = ffzul.querySelectorAll(".div_emoteCard");
-      for (ffzi = 0; ffzi < ffzoptions.length; ffzi++) {
-        ffztitle = ffzoptions[ffzi].querySelector("span");
-        if (ffztitle) {
-          if (ffztitle.textContent.toUpperCase().indexOf(ffzfilter) != -1) {
-            ffzoptions[ffzi].style.display = "";
-          } else {
-            ffzoptions[ffzi].style.display = "none";
-          }
-        }
-      }
-    });
-
-    let tv7filter, tv7ul, tv7options, tv7title, tv7i;
-    tv7emojiSearch.addEventListener("input", () => {
-      tv7filter = tv7emojiSearch.value.toUpperCase();
-      tv7ul = document.querySelector("main[data-tab='tv7Settings'] > #tv7EmoteList");
-      tv7options = tv7ul.querySelectorAll(".div_emoteCard");
-      for (tv7i = 0; tv7i < tv7options.length; tv7i++) {
-        tv7title = tv7options[tv7i].querySelector("span");
-        if (tv7title) {
-          if (tv7title.textContent.toUpperCase().indexOf(tv7filter) != -1) {
-            tv7options[tv7i].style.display = "";
-          } else {
-            tv7options[tv7i].style.display = "none";
-          }
-        }
-      }
-    });
-
     // backup
-    settingsDiv.querySelector(".backup-upload").addEventListener("click", () => {
-      settingsDiv.querySelector("#importInput").click();
-    });
+    settingsDiv.querySelector(".backup-upload").addEventListener("click", () => settingsDiv.querySelector("#importInput").click());
 
     settingsDiv.querySelector("input#importInput").onchange = () => {
       let files = settingsDiv.querySelector("input#importInput").files[0];
@@ -1281,9 +901,7 @@ const BetterStreamChat = {
 
     /************/
 
-    settingsDiv.querySelector(".backup-download").addEventListener("click", () => {
-      HelperWASD.download(`BetterWASYA-settings.backup`, JSON.stringify(settings));
-    });
+    settingsDiv.querySelector(".backup-download").addEventListener("click", () => HelperWASD.download(`BetterWASYA-settings.backup`, JSON.stringify(settings)));
 
     settingsDiv.querySelector(".backup-reset").addEventListener("dblclick", () => {
       chrome.storage[storageType].set(Helper.getDefaultSettings(), () => {
@@ -1635,18 +1253,9 @@ const BetterStreamChat = {
 
     this.install();
 
-    // load bwasd, bttv, ffz and 7tv emotes
+    // load bwasd emotes
     await HelperBWASYA.update();
     HelperBWASYA.loaded();
-
-    await HelperBTTV.update();
-    HelperBTTV.loaded();
-
-    await HelperFFZ.update();
-    HelperFFZ.loaded();
-
-    await HelperTV7.update();
-    HelperTV7.loaded();
 
     // load chat
     HelperWASD.loaded();

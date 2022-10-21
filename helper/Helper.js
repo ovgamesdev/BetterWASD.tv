@@ -24,7 +24,6 @@ const Helper = {
         giftsWrapperSide: false,
         giftsWrapperTopRight: false,
         sticker: "0",
-        stickerovg: "1",
         // paddingChatMessage: "4",
         colonAfterNickname: false,
         linkColor: "rgba(var(--wasd-color-switch--rgb),.88)",
@@ -54,9 +53,6 @@ const Helper = {
         onClickUserName: "1",
         fixedLinks: true,
         uptimeStream: true,
-        bttvEmotes: true,
-        bttvInChatMenu: true,
-        bttvEmoteSize: "2",
         linkRecognizerall: false,
         linkRecognizerWASD: true,
         decorationLink: true,
@@ -70,7 +66,6 @@ const Helper = {
         highlightMessagesOpenCardColor: "rgba(var(--wasd-color-switch--rgb),.08)",
         alwaysOpenVolumeControl: false,
         colorMessageHover: "rgba(var(--wasd-color-switch--rgb),.08)",
-        bttvSize: "56px",
         mutePlayerOnMiddleMouse: false,
         hideBannerOnHome: false,
         hideSelectorStreamSettings: false,
@@ -80,8 +75,6 @@ const Helper = {
         linkRecognitionRights: "3",
         artificialChatDelay: "0",
         forceResizeStickers: "0",
-        ffzEmotes: true,
-        ffzInChatMenu: true,
         decreaseIndentationStickerMenu: false,
         decreaseIndentationSmilesMenu: false,
         decreaseIndentationBTTVandFFZMenu: false,
@@ -91,8 +84,6 @@ const Helper = {
         keepMessagesTimeout: false,
         chatMobilePlayer: false,
         colorModOptions: "rgba(var(--wasd-color-switch--rgb),.08)",
-        tv7Emotes: true,
-        tv7InChatMenu: true,
         uptimeStreamMobile: false,
         highlightingWhenMentionList: {},
         hideWhenMentionList: {},
@@ -100,7 +91,6 @@ const Helper = {
         fixCharactersBreakingChat: false,
         notifyOnMention: false,
         pinMessage: true,
-        hoverTooltipEmote: true,
         limitHistoryUsers: "0",
         showOwnerBadge: true,
         showModeratorBadge: true,
@@ -108,7 +98,6 @@ const Helper = {
         showAdminBadge: true,
         showPromoCodeWin: true,
         truncateLink: 0,
-        swapGiftAndInformationPlace: false,
         moveHideChat: false,
         autoPlayPreviewOnStreaming: true,
         bwasdEmotes: true,
@@ -138,6 +127,8 @@ const Helper = {
         hideDescriptionHighlightedMsg: false,
         highlightedMessageColor: "#00000000",
         betterwasyaPaint: true,
+        searchInWasdSmiles: false,
+        searchInBwasdEmotes: true,
       },
       list: {
         blockUserList: {},
@@ -237,32 +228,11 @@ const Helper = {
     });
   },
   notify(title, body, username) {
-    Helper.trySendMessage({
-      notify: "create",
-      title: title,
-      message: body,
-      username: username,
-    });
+    Helper.trySendMessage({ notify: "create", title: title, message: body, username: username });
   },
   varColorToColor(value) {
     if (!value) return "";
-
-    return value.replace(/var\(\D+\)/gi, ($0) => {
-      data = $0.replace("var(", "").replace(")", "");
-      return window.getComputedStyle(document.body).getPropertyValue(data).replace(/ /gi, "");
-    });
-  },
-  setUnauthorization() {
-    for (let node of [tv7AddUser, bttvAddUser, ffzAddUser]) {
-      node.disabled = true;
-      node.placeholder = `Авторизуйтесь с помощью Twicth`;
-    }
-  },
-  setAuthorization() {
-    for (let node of [tv7AddUser, bttvAddUser, ffzAddUser]) {
-      node.disabled = false;
-      node.placeholder = `Добавить новый канал (Twitch username)`;
-    }
+    return value.replace(/var\(\D+\)/gi, (v) => window.getComputedStyle(document.body).getPropertyValue(v.replace("var(", "").replace(")", "")).replace(/ /gi, ""));
   },
   trySendMessage(arg) {
     if (chrome.runtime?.id) {
@@ -273,14 +243,12 @@ const Helper = {
         alertify.error("Ошибка отправки сообщения", 3);
       }
     } else {
-      alertify.warning(`Расширение было обновлено</br>Перезагрузите страницу`, 4.5).callback = (isClicked) => {
-        if (isClicked) location.reload();
-      };
+      alertify.warning(`Расширение было обновлено</br>Перезагрузите страницу`, 4.5).callback = (isClicked) => isClicked && location.reload();
     }
   },
   buildBell() {
     $.ajax({
-      url: `${HelperBWASYA.host}/api/v1/data/${BetterStreamChat.changelog.version}/bell`,
+      url: `${HelperBWASYA.host}/api/v1/data/${BetterStreamChat.changelog.version}/bell/user/${HelperWASD.current?.user_id}`,
       success: (data) => {
         if (data) {
           ovg_bell__element.querySelector(".bell-info__list").innerHTML = "";
@@ -302,19 +270,21 @@ const Helper = {
             ovg_bell__element.querySelector(".bell-info__list").appendChild(div);
           }
 
-          if (data.length == 0) {
-            ovg_bell__element.style.display = "none";
-          } else {
-            ovg_bell__element.style.display = "";
-          }
+          ovg_bell__element.style.display = data.length === 0 ? "none" : "";
 
           let wrap = document.querySelector("#bscSettingsPanel .bell__icon-wrap");
           if (Helper.isNotifyReaded()) {
             wrap.classList.remove("bell__icon-wrap--animation");
             wrap.classList.remove("bell__icon-wrap--new-msg");
+
+            document.querySelector("wasd-chat-header .wasd-icons-settings")?.classList?.remove("new-bell-msg-better");
+            document.querySelector("wasd-chat-menu #buttonOvG")?.classList?.remove("new-bell-msg-better");
           } else {
             wrap.classList.add("bell__icon-wrap--animation");
             wrap.classList.add("bell__icon-wrap--new-msg");
+
+            document.querySelector("wasd-chat-header .wasd-icons-settings")?.classList?.add("new-bell-msg-better");
+            document.querySelector("wasd-chat-menu #buttonOvG")?.classList?.add("new-bell-msg-better");
           }
         } else {
           ovg_bell__element.style.display = "none";
@@ -332,6 +302,9 @@ const Helper = {
     let wrap = document.querySelector("#bscSettingsPanel .bell__icon-wrap");
     wrap.classList.remove("bell__icon-wrap--animation");
     wrap.classList.remove("bell__icon-wrap--new-msg");
+
+    document.querySelector("wasd-chat-header .wasd-icons-settings")?.classList?.remove("new-bell-msg-better");
+    document.querySelector("wasd-chat-menu #buttonOvG")?.classList?.remove("new-bell-msg-better");
   },
   isNotifyReaded() {
     let notifyReaded = Cookies.get("BetterWASYA_notify_readed");
@@ -348,7 +321,7 @@ const Helper = {
   },
   showSettings() {
     BetterStreamChat.settingsDiv.style.display = "block";
-    if (document.querySelector("wasd-chat-menu")) document.querySelector(".new-chat .header__block__btn .icon")?.click();
+    if (document.querySelector("wasd-chat-menu")) document.querySelector("wasd-chat-header .wasd-icons-settings")?.click();
     BetterStreamChat.settingsDiv.style.animationName = "showbetterpanel";
     BetterStreamChat.settingsDiv.querySelector(".nav-sidebar__list.top").style.animationName = "showbetterpanel_sidebar";
     BetterStreamChat.openSettings();
@@ -357,8 +330,6 @@ const Helper = {
     BetterStreamChat.settingsDiv.style.animationName = "hidebetterpanel";
     BetterStreamChat.settingsDiv.querySelector(".nav-sidebar__list.top").style.animationName = "hidebetterpanel_sidebar";
     HelperWASD.stopTimerStatData();
-    setTimeout(() => {
-      BetterStreamChat.settingsDiv.style.display = "none";
-    }, 350);
+    setTimeout(() => (BetterStreamChat.settingsDiv.style.display = "none"), 350);
   },
 };

@@ -261,119 +261,14 @@ const HelperSettings = {
         onChange: (value) => {
           if (value) {
             document.querySelector("#bwasdInChatMenu").classList.remove("disabled");
+            document.querySelector("#searchInBwasdEmotes").classList.remove("disabled");
           } else {
             document.querySelector("#bwasdInChatMenu").classList.add("disabled");
-          }
-
-          if (value || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || settings.wasd.tv7Emotes) {
-            document.querySelector("#bttvEmoteSize").classList.remove("disabled");
-            document.querySelector("#stickerovg").classList.remove("disabled");
-            document.querySelector("#bttvSize").classList.remove("disabled");
-            document.querySelector("#hoverTooltipEmote").classList.remove("disabled");
-          } else {
-            document.querySelector("#bttvEmoteSize").classList.add("disabled");
-            document.querySelector("#stickerovg").classList.add("disabled");
-            document.querySelector("#bttvSize").classList.add("disabled");
-            document.querySelector("#hoverTooltipEmote").classList.add("disabled");
-          }
-        },
-      },
-      bttvEmotes: {
-        title: `Смайлики BTTV в чате ${Helper.F5}`,
-        updateChat: true,
-        type: "boolean",
-        inInitChange: true,
-        onChange: (value) => {
-          if (value) {
-            document.querySelector("#bttvInChatMenu").classList.remove("disabled");
-          } else {
-            document.querySelector("#bttvInChatMenu").classList.add("disabled");
-          }
-
-          if (settings.wasd.bwasdEmotes || value || settings.wasd.ffzEmotes || settings.wasd.tv7Emotes) {
-            document.querySelector("#bttvEmoteSize").classList.remove("disabled");
-            document.querySelector("#stickerovg").classList.remove("disabled");
-            document.querySelector("#bttvSize").classList.remove("disabled");
-            document.querySelector("#hoverTooltipEmote").classList.remove("disabled");
-          } else {
-            document.querySelector("#bttvEmoteSize").classList.add("disabled");
-            document.querySelector("#stickerovg").classList.add("disabled");
-            document.querySelector("#bttvSize").classList.add("disabled");
-            document.querySelector("#hoverTooltipEmote").classList.add("disabled");
-          }
-        },
-      },
-      ffzEmotes: {
-        title: `Смайлики FFZ в чате ${Helper.F5}`,
-        updateChat: true,
-        type: "boolean",
-        inInitChange: true,
-        onChange: (value) => {
-          if (value) {
-            document.querySelector("#ffzInChatMenu").classList.remove("disabled");
-          } else {
-            document.querySelector("#ffzInChatMenu").classList.add("disabled");
-          }
-
-          if (settings.wasd.bwasdEmotes || settings.wasd.bttvEmotes || value || settings.wasd.tv7Emotes) {
-            document.querySelector("#bttvEmoteSize").classList.remove("disabled");
-            document.querySelector("#stickerovg").classList.remove("disabled");
-            document.querySelector("#bttvSize").classList.remove("disabled");
-            document.querySelector("#hoverTooltipEmote").classList.remove("disabled");
-          } else {
-            document.querySelector("#bttvEmoteSize").classList.add("disabled");
-            document.querySelector("#stickerovg").classList.add("disabled");
-            document.querySelector("#bttvSize").classList.add("disabled");
-            document.querySelector("#hoverTooltipEmote").classList.add("disabled");
-          }
-        },
-      },
-      tv7Emotes: {
-        title: `Смайлики 7TV в чате ${Helper.F5}`,
-        updateChat: true,
-        type: "boolean",
-        inInitChange: true,
-        onChange: (value) => {
-          if (value) {
-            document.querySelector("#tv7InChatMenu").classList.remove("disabled");
-          } else {
-            document.querySelector("#tv7InChatMenu").classList.add("disabled");
-          }
-
-          if (settings.wasd.bwasdEmotes || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || value) {
-            document.querySelector("#bttvEmoteSize").classList.remove("disabled");
-            document.querySelector("#stickerovg").classList.remove("disabled");
-            document.querySelector("#bttvSize").classList.remove("disabled");
-            document.querySelector("#hoverTooltipEmote").classList.remove("disabled");
-          } else {
-            document.querySelector("#bttvEmoteSize").classList.add("disabled");
-            document.querySelector("#stickerovg").classList.add("disabled");
-            document.querySelector("#bttvSize").classList.add("disabled");
-            document.querySelector("#hoverTooltipEmote").classList.add("disabled");
+            document.querySelector("#searchInBwasdEmotes").classList.add("disabled");
           }
         },
       },
 
-      bttvEmoteSize: {
-        title: `Разрешение смайликов в чате BWASYA, BTTV, FFZ и 7TV`,
-        id: "bttvEmoteSize",
-        type: "select",
-        items: [
-          {
-            value: 0,
-            label: "~32px, 28px, 32px, 32px",
-          },
-          {
-            value: 1,
-            label: "~64px, 56px, 64px, 48px",
-          },
-          {
-            value: 2,
-            label: "~128px, 112px, 128px, 128px",
-          },
-        ],
-        onChange: (value) => HelperWASD.updateBttvEmoteSize(value),
-      },
       sticker: {
         title: `Отображение стикеров WASD ${Helper.tooltip("", "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
         type: "select",
@@ -400,56 +295,7 @@ const HelperSettings = {
           },
         ],
       },
-      stickerovg: {
-        title: `Отображение стикеров BWASYA, BTTV, FFZ и 7TV ${Helper.tooltip("", "Мин. (увеличить при наведении) зависит от \u0022Настройки - Вид сообщений в чате - Большой размер стикеров\u0022")}`,
-        id: "stickerovg",
-        type: "select",
-        items: [
-          {
-            value: 0,
-            label: "По умолчанию",
-          },
-          {
-            value: 1,
-            label: "Минимизировать",
-          },
-          // {
-          //   value: 2,
-          //   label: `Мин. (увеличить при наведении)`
-          // }, // (зависит от 'Вид сообщений в чате - Большой размер стикеров')
-          {
-            value: 3,
-            label: "Скрыть сообщение",
-          },
-          {
-            value: 4,
-            label: "Показать сообщение: Стикер",
-          },
-        ],
-      },
-      bttvSize: {
-        title: "Размер стикеров BWASYA, BTTV, FFZ и 7TV",
-        id: "bttvSize",
-        type: "select",
-        items: [
-          {
-            value: "128px",
-            label: "Большой",
-          },
-          {
-            value: "56px",
-            label: "Маленький",
-          },
-        ],
-      },
 
-      hoverTooltipEmote: {
-        title: `Подсказка для эмоций BWASYA, BTTV, FFZ и 7TV при наведении ${Helper.F5}`,
-        updateChat: true,
-        id: "hoverTooltipEmote",
-        type: "boolean",
-        onChange: (value) => HelperWASD.updateHoverTooltipEmote(value),
-      },
       forceResizeStickers: {
         title: "Принудиельно изменять размер стикеров WASD",
         type: "select",
@@ -623,7 +469,7 @@ const HelperSettings = {
       },
 
       subscriberOnUserList: {
-        title: `Значок подписчика в списке пользователей`,
+        title: `Значок подписчика в списке пользователей ${Helper.tooltip("", "только для создателя канала")}`,
         type: "boolean",
       },
 
@@ -796,7 +642,7 @@ const HelperSettings = {
       },
 
       emotesAutoComplete: {
-        title: "Автозаполнение эмоции через Tab",
+        title: `Автозаполнение эмоции через Tab ${Helper.BETA}`,
         type: "select",
         items: [
           {
@@ -900,20 +746,22 @@ const HelperSettings = {
         title: "Опция BWASYA в меню смайликов в чате",
         id: "bwasdInChatMenu",
         type: "boolean",
+        inInitChange: true,
+        onChange: (value) => {
+          if (value) {
+            document.querySelector("#searchInBwasdEmotes").classList.remove("disabled");
+          } else {
+            document.querySelector("#searchInBwasdEmotes").classList.add("disabled");
+          }
+        },
       },
-      bttvInChatMenu: {
-        title: "Опция BTTV в меню смайликов в чате",
-        id: "bttvInChatMenu",
+      searchInBwasdEmotes: {
+        title: "Добавить поиск в меню смайлов BWASYA",
+        id: "searchInBwasdEmotes",
         type: "boolean",
       },
-      ffzInChatMenu: {
-        title: "Опция FFZ в меню смайликов в чате",
-        id: "ffzInChatMenu",
-        type: "boolean",
-      },
-      tv7InChatMenu: {
-        title: "Опция 7TV в меню смайликов в чате",
-        id: "tv7InChatMenu",
+      searchInWasdSmiles: {
+        title: "Добавить поиск в меню смайлов wasd",
         type: "boolean",
       },
 
@@ -1337,10 +1185,6 @@ const HelperSettings = {
         title: "Скрыть подарочные кнопки",
         type: "boolean",
       },
-      swapGiftAndInformationPlace: {
-        title: `Поменять панель подарков и информацию о стриме местами`,
-        type: "boolean",
-      },
       hideRaid: {
         title: "Скрыть рейд",
         type: "boolean",
@@ -1384,6 +1228,10 @@ const HelperSettings = {
       },
       hideOfflineChannelsOnNavSidebar: {
         title: "Скрыть каналы не в сети",
+        type: "boolean",
+      },
+      addNavChannelPreview: {
+        title: `Предварительный просмотр при наведении курсора на канал в сети ${Helper.BETA}`,
         type: "boolean",
       },
 

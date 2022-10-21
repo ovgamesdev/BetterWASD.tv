@@ -21,7 +21,8 @@
         "css/ovg_dropdown.css",
         "css/ovg_footer.css",
         "lib/coloris/coloris.min.css",
-        "lib/alertify/css/alertify.css"
+        "lib/alertify/css/alertify.css",
+        "lib/video/video-js.css"
       ],
       "js": [
         "lib/jquery/jquery.min.js",
@@ -40,13 +41,13 @@
         "lib/code-mnem/code-mnem.js",
         "lib/alertify/alertify.min.js",
         "lib/hex-rgb/index.js",
-        "lib/taliner/taliner.js",
+        "lib/caret/caret.js",
+        "lib/video/video.min.js",
+        "lib/video/videojs-media-sources.js",
+        "lib/video/videojs.hls.min.js",
+        "lib/emoji-from-text/emoji-from-text.js",
         "helper/Helper.js",
         "helper/Settings.js",
-        "helper/Twitch.js",
-        "helper/FFZ.js",
-        "helper/BTTV.js",
-        "helper/TV7.js",
         "helper/WASD.js",
         "helper/BWASYA.js",
         "helper/WebSocket.js",
@@ -78,5 +79,5 @@
   "minimum_chrome_version": "88",
   "permissions": ["storage", "notifications"],
   "host_permissions": ["*://*.wasd.tv/*"],
-  "version": "1.6.12"
+  "version": "1.6.14"
 }

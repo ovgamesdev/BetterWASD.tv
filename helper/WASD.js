@@ -40,6 +40,7 @@ const HelperWASD = {
     },
   ],
   selfMessagesHistory: [],
+  smiles: [],
 
   loaded() {
     for (let as in HelperSettings.availableSettings) {
@@ -58,13 +59,9 @@ const HelperWASD = {
       BetterStreamChat.settingsDiv.style.display = "block";
       BetterStreamChat.settingsDiv.classList.add("fullscreen");
 
-      setInterval(() => {
-        Helper.trySendMessage({ from: "tab_settings" });
-      }, 5000);
+      setInterval(() => Helper.trySendMessage({ from: "tab_settings" }), 5000);
     } else {
-      setInterval(() => {
-        Helper.trySendMessage({ from: "tab_content" });
-      }, 5000);
+      setInterval(() => Helper.trySendMessage({ from: "tab_content" }), 5000);
 
       $("#bscSettingsPanel").draggable({
         containment: "body",
@@ -79,73 +76,6 @@ const HelperWASD = {
       });
     }
 
-    // if (document.location.hash && document.location.hash != "") {
-    //   var parsedHash = new URLSearchParams(window.location.hash.slice(1));
-    //   window.history.pushState("page", "Title", "/");
-    //   if (parsedHash.get("access_token")) {
-    //     var access_token = parsedHash.get("access_token");
-    //     Helper.showSettings();
-    //     Cookies.set("BetterWASYA_access_token", access_token);
-    //     let notify = alertify.success("Авторизовано", 0);
-    //     Helper.loginTwitchUI();
-
-    //     if (!Cookies.get("BetterWASYA_twitch_display_name")) {
-    //       $.ajax({
-    //         headers: {
-    //           "Client-ID": HelperTwitch["Client-ID"],
-    //           Authorization:
-    //             "Bearer " + Cookies.get("BetterWASYA_access_token"),
-    //         },
-    //         url: `https://api.twitch.tv/helix/users`,
-    //         success: (out) => {
-    //           window.history.pushState("page", "Title", "/");
-    //           Cookies.set(
-    //             "BetterWASYA_twitch_display_name",
-    //             out.data[0].display_name
-    //           );
-    //           Helper.loginTwitchUI(out.data[0].display_name);
-    //           notify.setContent("Авторизовано: " + out.data[0].display_name);
-    //           setTimeout(() => {
-    //             notify.dismiss();
-    //           }, 10000);
-    //         },
-    //         error: (e) => {
-    //           window.history.pushState("page", "Title", "/");
-    //           console.log(e);
-    //         },
-    //       });
-    //     }
-    //   }
-    // } else if (document.location.search && document.location.search != "") {
-    //   var parsedParams = new URLSearchParams(window.location.search);
-    //   window.history.pushState("page", "Title", "/");
-    //   if (parsedParams.get("error_description")) {
-    //     Helper.showSettings();
-    //     notify.dismiss();
-    //     alertify.error(
-    //       parsedParams.get("error") +
-    //         " - " +
-    //         parsedParams.get("error_description"),
-    //       5
-    //     );
-    //     Helper.setUnauthorization();
-    //   }
-    // }
-
-    // $.ajax({
-    //   headers: {
-    //     "Client-ID": HelperTwitch["Client-ID"],
-    //     Authorization: "Bearer " + Cookies.get("BetterWASYA_access_token"),
-    //   },
-    //   url: `https://api.twitch.tv/helix/users`,
-    //   error: () => {
-    //     Cookies.remove("BetterWASYA_access_token");
-    //     Cookies.remove("BetterWASYA_twitch_display_name");
-    //     Helper.logoutTwitchUI();
-    //     Helper.setUnauthorization();
-    //   },
-    // });
-
     chrome.storage.onChanged.addListener(async (_, namespace) => {
       if (namespace === "sync") {
         settings = await Helper.getSettings();
@@ -156,7 +86,7 @@ const HelperWASD = {
     $.ajax({
       url: `https://wasd.tv/api/v2/profiles/current`,
       success: (out) => {
-        if (out.result.user_role != "GUEST") {
+        if (out.result.user_role !== "GUEST") {
           HelperWASD.current = out.result;
           HelperWASD.self_channel_name = out.result.user_profile.user_login;
 
@@ -168,14 +98,11 @@ const HelperWASD = {
               channel_image: out.result.user_profile.profile_image.large,
               version: BetterStreamChat.changelog.version,
             },
-            success: (out) => {
-              ovg.log(out);
-            },
+            success: (out) => ovg.log(out),
           });
 
-          Helper.trySendMessage({
-            setUninstall: out.result.user_profile.user_id,
-          });
+          Helper.buildBell();
+          Helper.trySendMessage({ setUninstall: out.result.user_profile.user_id });
         }
       },
     });
@@ -716,36 +643,34 @@ const HelperWASD = {
         $.ajax({
           url: `https://wasd.tv/api/sticker-service/stickerpacks?streamer_id=${data.user_id}&limit=12&offset=0`,
           success: (out) => {
-            if (viewerCard) {
-              if (out.result) {
-                // paid_title-ovg display
-                if (out.result.length >= 1 && out.result[0].stickers.length != 0) {
-                  if (out.result[0].sticker_pack_status == "RESOLVED") {
-                    viewerCard.querySelector("div.paid_title-ovg").style.display = "block";
-                    for (let value of out.result[0].stickers) {
-                      stiscersdiv = document.querySelector("div.paidsubs-popup__stickers");
-                      stiscersdiv?.insertAdjacentHTML(
-                        "beforeend",
-                        `<div class="sticker-card"><div class="paidsubs-popup__stickers-item" style="background-image: url(${value.sticker_image.large});"></div><ovg-tooltip style="margin-right: 8px;"><div class="tooltip tooltip_position-bottom tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> ${value.sticker_name} </div></div></ovg-tooltip></div>`
-                      );
-                    }
-                  }
-                } else {
-                  stiscersdiv = document.querySelector("div.paidsubs-popup__stickers");
-                  if (stiscersdiv) {
-                    stiscersdiv.style.display = "none";
+            if (!viewerCard) return;
+            if (out.result) {
+              // paid_title-ovg display
+              if (out.result.length >= 1 && out.result[0].stickers.length != 0) {
+                if (out.result[0].sticker_pack_status == "RESOLVED") {
+                  viewerCard.querySelector("div.paid_title-ovg").style.display = "block";
+                  for (let value of out.result[0].stickers) {
+                    stiscersdiv = document.querySelector("div.paidsubs-popup__stickers");
+                    stiscersdiv?.insertAdjacentHTML(
+                      "beforeend",
+                      `<div class="sticker-card"><div class="paidsubs-popup__stickers-item" style="background-image: url(${value.sticker_image.large});"></div><ovg-tooltip style="margin-right: 8px;"><div class="tooltip tooltip_position-bottom tooltip_size-small" style="width: 260px;"><div class="tooltip-content tooltip-content_left"> ${value.sticker_name} </div></div></ovg-tooltip></div>`
+                    );
                   }
                 }
               } else {
-                $("div.paidsubs-popup__stickers")?.css("display", "none");
+                stiscersdiv = document.querySelector("div.paidsubs-popup__stickers");
+                if (stiscersdiv) {
+                  stiscersdiv.style.display = "none";
+                }
               }
+            } else {
+              $("div.paidsubs-popup__stickers")?.css("display", "none");
             }
           },
         });
 
-        getChannel = (element, index, array) => {
-          return element.user_id == data.user_id;
-        };
+        getChannel = (element, index, array) => element.user_id == data.user_id;
+
         $.ajax({
           url: `https://wasd.tv/api/profiles/current/followed-channels?limit=1000&offset=0`,
           success: (out) => {
@@ -866,7 +791,7 @@ const HelperWASD = {
                         );
                       }
                     }
-                    if (document.querySelector(".block__messages-ovg").childNodes.length == 0) {
+                    if (document.querySelector(".block__messages-ovg").childNodes.length === 0) {
                       $(".user_last_messages-ovg")?.css("display", "none");
                     }
                   }
@@ -959,13 +884,11 @@ const HelperWASD = {
                       );
 
                       card.querySelector(".ban").addEventListener("click", () => {
-                        HelperWASD.punishment("2", {
-                          user_id: data.user_id,
-                        }).then((is) => {
+                        HelperWASD.punishment("2", { user_id: data.user_id }).then((is) => {
                           if (is) {
                             card.querySelector(".moderator").classList.add("ban");
                             let user = {
-                              by_user_login: HelperWASD.current.user_login,
+                              by_user_login: HelperWASD.current.user_profile.user_login,
                               created_at: new Date(),
                               expire_at: null,
                             };
@@ -977,9 +900,7 @@ const HelperWASD = {
                       });
 
                       card.querySelector(".unban").addEventListener("click", () => {
-                        HelperWASD.punishment("3", {
-                          user_id: data.user_id,
-                        }).then((is) => {
+                        HelperWASD.punishment("3", { user_id: data.user_id }).then((is) => {
                           if (is) {
                             card.querySelector(".moderator").classList.remove("ban");
                           } else {
@@ -993,7 +914,7 @@ const HelperWASD = {
                           if (is) {
                             card.querySelector(".moderator").classList.add("ban");
                             let user = {
-                              by_user_login: HelperWASD.current.user_login,
+                              by_user_login: HelperWASD.current.user_profile.user_login,
                               created_at: new Date(),
                               expire_at: moment(new Date()).add(1, "m"),
                             };
@@ -1009,7 +930,7 @@ const HelperWASD = {
                           if (is) {
                             card.querySelector(".moderator").classList.add("ban");
                             let user = {
-                              by_user_login: HelperWASD.current.user_login,
+                              by_user_login: HelperWASD.current.user_profile.user_login,
                               created_at: new Date(),
                               expire_at: moment(new Date()).add(10, "m"),
                             };
@@ -1025,7 +946,7 @@ const HelperWASD = {
                           if (is) {
                             card.querySelector(".moderator").classList.add("ban");
                             let user = {
-                              by_user_login: HelperWASD.current.user_login,
+                              by_user_login: HelperWASD.current.user_profile.user_login,
                               created_at: new Date(),
                               expire_at: moment(new Date()).add(60, "m"),
                             };
@@ -1048,9 +969,7 @@ const HelperWASD = {
               $(".user_last_messages-ovg")?.css("display", "none");
             }
           },
-          error: () => {
-            $(".user_last_messages-ovg")?.css("display", "none");
-          },
+          error: () => $(".user_last_messages-ovg")?.css("display", "none"),
         });
         // let channelDataset = document.querySelector('wasd-channel').dataset
         // if (channelDataset.streamerId == HelperWASD.current?.user_profile?.user_id) Helper.trySendMessage({ from: 'betterwasya_tv', getCoinUsers: data.user_id });
@@ -1061,10 +980,7 @@ const HelperWASD = {
     };
 
     if (ws_user) {
-      UserCard({
-        user_id: ws_user.getAttribute("user_id"),
-        user_login: ws_user.getAttribute("user_login"),
-      });
+      UserCard({ user_id: ws_user.getAttribute("user_id"), user_login: ws_user.getAttribute("user_login") });
 
       let role = ws_user.getAttribute("role");
       let allbadge = HelperBWASYA.badges[ws_user.getAttribute("user_login")];
@@ -1190,36 +1106,24 @@ const HelperWASD = {
     a.click();
   },
   addUsernameToTextarea(username) {
-    let textarea = document.querySelector(".footer > div >textarea");
+    let textarea = document.querySelector("div.footer__input");
     if (settings.wasd.onClickUser.toString() === "1") {
-      if (isPressedControl) {
-        if (textarea) {
-          textarea.value += `@${username} `;
-          textarea.dispatchEvent(new Event("input"));
-          textarea.focus();
-        }
+      if (isPressControl) {
+        appendUsernameToTextarea(username, true);
         return true;
       } else {
         return false;
       }
     } else if (settings.wasd.onClickUser.toString() === "2") {
-      if (isPressedShift) {
-        if (textarea) {
-          textarea.value += `@${username} `;
-          textarea.dispatchEvent(new Event("input"));
-          textarea.focus();
-        }
+      if (isPressShift) {
+        appendUsernameToTextarea(username, true);
         return true;
       } else {
         return false;
       }
     } else if (settings.wasd.onClickUser.toString() === "3") {
-      if (isPressedAlt) {
-        if (textarea) {
-          textarea.value += `@${username} `;
-          textarea.dispatchEvent(new Event("input"));
-          textarea.focus();
-        }
+      if (isPressAlt) {
+        appendUsernameToTextarea(username, true);
         return true;
       } else {
         return false;
@@ -1244,7 +1148,7 @@ const HelperWASD = {
   },
   async getIsModerator() {
     let isMod = false;
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       if (document.querySelector("wasd-header .user-profile__name")) {
         $.ajax({
           url: HelperWASD.getStreamBroadcastsUrl(),
@@ -1255,7 +1159,7 @@ const HelperWASD = {
                   url: `https://wasd.tv/api/chat/streamers/${out.result.channel.user_id}/moderators`,
                   success: (out) => {
                     for (let mod of out.result) {
-                      if (mod.user_login.trim() == document.querySelector("wasd-header .user-profile__name").textContent.trim()) {
+                      if (mod.user_login.trim() == document.querySelector("wasd-header .user-profile__name")?.textContent?.trim()) {
                         isMod = true;
                         resolve(isMod);
                       }
@@ -1265,9 +1169,7 @@ const HelperWASD = {
                 });
               }
           },
-          error: () => {
-            resolve(false);
-          },
+          error: () => resolve(false),
         });
       } else {
         resolve(false);
@@ -1381,7 +1283,7 @@ const HelperWASD = {
       } else {
         return "https://wasd.tv/api/v2/broadcasts/public?channel_name=" + HelperWASD.getChannelName();
       }
-    } catch (err) {
+    } catch {
       return "https://wasd.tv/error/4xx";
     }
   },
@@ -1410,7 +1312,7 @@ const HelperWASD = {
     }
     blacklistAddUser.value = "";
   },
-  addUserToHL(user, color = "", register = true) {
+  addUserToHL(user, _, register = true) {
     let username = user.trim().split("@").join("");
     if (!settings.list.highlightUserList[username]) {
       HelperWASD.showChatMessage(`Пользователь ${username} добавлен в выделение`, "success");
@@ -1517,12 +1419,12 @@ const HelperWASD = {
     document.querySelector("pin-chat-messages-ovg").append();
   },
   createMessage(role, username, color, message, sticker, date_time = new Date()) {
-    let isOwner = false; // role.indexOf('owner')        != -1 && settings.wasd.showOwnerBadge
-    let isModer = false; // role.indexOf('moderator')    != -1 && settings.wasd.showModeratorBadge
-    let isSub = false; // role.indexOf('sub')          != -1 && settings.wasd.showSubBadge
-    let isAdmin = false; // role.indexOf('admin')        != -1 && settings.wasd.showAdminBadge
-    let isPromoCodeWin = false; // role.indexOf('promowin')     != -1 && settings.wasd.showPromoCodeWin
-    let isPartner = false; // role.indexOf('partner')      != -1 && settings.wasd.showPartnerIcon
+    let isOwner = false; // role.indexOf('owner')  |  != -1 && settings.wasd.showOwnerBadge
+    let isModer = false; // role.indexOf('moderator')  |  != -1 && settings.wasd.showModeratorBadge
+    let isSub = false; // role.indexOf('sub')  |  != -1 && settings.wasd.showSubBadge
+    let isAdmin = false; // role.indexOf('admin')  |  != -1 && settings.wasd.showAdminBadge
+    let isPromoCodeWin = false; // role.indexOf('promowin')  |  != -1 && settings.wasd.showPromoCodeWin
+    let isPartner = false; // role.indexOf('partner')  |  != -1 && settings.wasd.showPartnerIcon
     let blockmessage = message;
     let bl = " ";
 
@@ -1542,7 +1444,7 @@ const HelperWASD = {
     let userPaint = settings.wasd.betterwasyaPaint ? HelperBWASYA.paints[username.trim()] : null;
     node.innerHTML = `<wasd-chat-message>
       <div class="message-ovg is-time${!!message?.match(HelperWASD.self_channel_name) ? " has-mention" : ""}">
-        <div class="message__time-ovg"> ${moment(date_time).format(settings.wasd.formatMessageSentTime == "false" ? "HH:mm" : settings.wasd.formatMessageSentTime)} </div>
+        <div class="message__time-ovg"> ${moment(date_time).format(settings.wasd.formatMessageSentTime.toString() === "false" ? "HH:mm" : settings.wasd.formatMessageSentTime)} </div>
           <div class="message__info-ovg">
             <div class="message__info__text-ovg">
               <div class="info__text__status-ovg">
@@ -1591,18 +1493,10 @@ const HelperWASD = {
       if (settings.wasd.fixedLinks) HelperWASD.elementToURL(messageHTML);
 
       // emotes
-      if (settings.wasd.tv7Emotes) messageHTML.innerHTML = HelperTV7.replaceText(messageHTML.innerHTML);
-      if (settings.wasd.bttvEmotes) messageHTML.innerHTML = HelperBTTV.replaceText(messageHTML.innerHTML);
-      if (settings.wasd.ffzEmotes) messageHTML.innerHTML = HelperFFZ.replaceText(messageHTML.innerHTML);
+      messageHTML.innerHTML = HelperWASD.replaceText(messageHTML.innerHTML);
       if (settings.wasd.bwasdEmotes) messageHTML.innerHTML = HelperBWASYA.replaceText(messageHTML.innerHTML, username);
-      if (settings.wasd.tv7Emotes || settings.wasd.bttvEmotes || settings.wasd.ffzEmotes || settings.wasd.bwasdEmotes) HelperWASD.setZeroSizeEmotes(messageHTML);
+      if (settings.wasd.bwasdEmotes) HelperWASD.setZeroSizeEmotes(messageHTML);
     }
-
-    let stickersovg = "";
-    for (let stickerovg of node.querySelectorAll(".bttv-emote")) {
-      stickersovg += stickerovg.dataset.code + " ";
-    }
-    node.setAttribute("stickersovg", stickersovg);
 
     messageHTML.innerHTML = messageHTML.innerHTML.replace(/@[a-zA-Z0-9_-]+/gi, ($1) => {
       let username = settings.wasd.userNameEdited[$1.trim().split("@").join("")];
@@ -1633,9 +1527,10 @@ const HelperWASD = {
         if (username) {
           if (settings.wasd.onClickMention.toString() === "1") {
             if (textarea) {
-              textarea.value += target.dataset.username?.trim() + " ";
-              textarea.dispatchEvent(new Event("input"));
-              textarea.focus();
+              textarea.appendChild(document.createTextNode(target.dataset.username?.trim() + " "));
+              // textarea.value += target.dataset.username?.trim() + " ";
+              // textarea.dispatchEvent(new Event("input"));
+              placeCaretAtEnd(textarea);
             }
           } else if (settings.wasd.onClickMention.toString() === "2") {
             if (!HelperWASD.addUsernameToTextarea(username)) {
@@ -1653,20 +1548,20 @@ const HelperWASD = {
     //   }
     // }
 
-    let tooltips = node.querySelectorAll(".tooltip-wrapper");
-    for (let tooltip of tooltips) {
-      $(tooltip).tooltip({
-        classes: { "ui-tooltip": "ui-ovg-tooltip" },
-        content: tooltip.dataset.title,
-        show: false,
-        hide: false,
-        position: {
-          my: "center bottom",
-          at: "center top-5",
-          within: $(".block__messages-ovg"),
-        },
-      });
-    }
+    // let tooltips = node.querySelectorAll(".tooltip-wrapper");
+    // for (let tooltip of tooltips) {
+    //   $(tooltip).tooltip({
+    //     classes: { "ui-tooltip": "ui-ovg-tooltip" },
+    //     content: tooltip.dataset.title,
+    //     show: false,
+    //     hide: false,
+    //     position: {
+    //       my: "center bottom",
+    //       at: "center top-5",
+    //       within: $(".block__messages-ovg"),
+    //     },
+    //   });
+    // }
 
     return node;
   },
@@ -1675,7 +1570,9 @@ const HelperWASD = {
       .querySelectorAll("div.menu__block")[0]
       .insertAdjacentHTML(
         "afterend",
-        `<div id="buttonOvG" class="menu__block-ovg menu__block-header"><div class="menu__block__icon"><i class="icon wasd-icons-settings-profile"></i></div><div class="menu__block__text"> BetterWASYA настройки </div></div>`
+        `<div id="buttonOvG" class="menu__block-ovg menu__block-header${
+          !Helper.isNotifyReaded() ? " new-bell-msg-better" : ""
+        }"><div class="menu__block__icon"><i class="icon wasd-icons-settings-profile"></i></div><div class="menu__block__text"> BetterWASYA настройки </div></div>`
       );
     document.querySelector("#buttonOvG")?.addEventListener("click", Helper.showSettings);
   },
@@ -1938,17 +1835,8 @@ const HelperWASD = {
   updateFormatMessageSentTime(value) {
     for (let message of document.querySelectorAll(".block__messages__item.ovg")) {
       if (message.querySelector(".message__time") && message.dataset.time) {
-        message.querySelector(".message__time").textContent = moment(message.dataset.time).format(value == "false" ? "HH:mm" : value);
+        message.querySelector(".message__time").textContent = moment(message.dataset.time).format(value.toString() === "false" ? "HH:mm" : value);
       }
-    }
-  },
-  updateBttvEmoteSize(value) {
-    for (let emoteimg of document.querySelectorAll(".bttv-emote img")) {
-      let size = Number(value) + 1;
-      if (!emoteimg.src.match(/betterttv/) && size == 3) size = 4;
-      let s = emoteimg.src.split("/");
-      s[s.length - 1] = s[s.length - 1].replace(/[0-9]/g, size);
-      emoteimg.src = s.join("/");
     }
   },
   uptimeStreamTimer: null,
@@ -2024,16 +1912,6 @@ const HelperWASD = {
       HelperWASD.uptimeStreamTimerMobile = null;
     }
   },
-  updateHoverTooltipEmote(value, node) {
-    let element = node || document;
-    for (let emote of element.querySelectorAll(".bttv-emote.tooltip-wrapper")) {
-      if (value) {
-        emote.title = emote.dataset.title;
-      } else {
-        emote.removeAttribute("title");
-      }
-    }
-  },
   udpateUserNameEdited(user_channel_name, newusername) {
     let divs = [];
     divs.push(...document.querySelectorAll(`.chat-message-mention[data-username="@${user_channel_name}"]`));
@@ -2062,7 +1940,7 @@ const HelperWASD = {
   startTimerStatData() {
     const update = () => {
       $.ajax({
-        url: `${HelperBWASYA.host}/api/v1/stat/tv`,
+        url: "https://betterwasd.herokuapp.com/api/v1/stat/tv",
         data: {
           channel_name: socket.channel?.channel?.channel_owner?.user_login,
         },
@@ -2194,25 +2072,32 @@ const HelperWASD = {
     });
   },
   setZeroSizeEmotes(html) {
-    let allEmotes = {};
-    for (let emote in HelperBTTV.emotes) allEmotes[emote] = HelperBTTV.emotes[emote];
+    const allEmotes = {};
     for (let emote in HelperBWASYA.emotes) allEmotes[emote] = HelperBWASYA.emotes[emote];
-    for (let emote in HelperFFZ.emotes) allEmotes[emote] = HelperFFZ.emotes[emote];
-    for (let emote in HelperTV7.emotes) allEmotes[emote] = HelperTV7.emotes[emote];
 
-    let emotes = html.querySelectorAll("span > .bttv-emote");
+    const emotes = html.querySelectorAll("span > .chat-emoji");
     emotes.forEach((value, index) => {
-      if ((allEmotes[value.dataset.code]?.zeroWidth || value.dataset.code == "cvHazmat" || value.dataset.code == "cvMask") && emotes[index - 1]) {
-        let emots = html.querySelectorAll("span > .bttv-emote:not(.modified-emote)");
+      if (allEmotes[value.alt]?.zeroWidth && emotes[index - 1]) {
+        let container = value.previousElementSibling.classList.contains("modified-chat-emoji") ? value.previousElementSibling : null;
 
-        let modified = emotes[index - 1]?.closest(".modified-emote") || emotes[index - 1];
-        if (!modified.classList.contains("modified-emote")) modified.dataset.title += "</br>";
-        modified.classList.add("modified-emote");
-        modified.dataset.title += "</br>&nbsp;" + value.dataset.code + "&nbsp; - модификация";
+        if (container) {
+          container.querySelector(".emotes").appendChild(value);
+        } else {
+          container = document.createElement("span");
 
-        let span = document.createElement("span");
-        span.append(value);
-        modified.append(span);
+          const emote = emotes[index - 1].cloneNode(false);
+          emotes[index - 1].replaceWith(container);
+
+          container.classList.add("modified-chat-emoji");
+          container.appendChild(emote);
+
+          const emoets = document.createElement("span");
+          emoets.classList.add("emotes");
+          emoets.appendChild(value);
+
+          container.appendChild(emoets);
+        }
+        container.firstChild.alt += " " + value.alt;
       }
     });
   },
@@ -2255,48 +2140,53 @@ const HelperWASD = {
     let cachedMessagesIdx = null;
     $(input).bind("keydown", (e) => {
       if (settings.wasd.emotesAutoComplete) {
-        if (e.keyCode != "9") {
+        if (e.keyCode !== 9) {
           cachedFetchEmotes = [];
           cachedMatch = null;
           cachedIdx = null;
           cachedEmotes = null;
         } else {
           e.preventDefault();
-          const start = input.selectionStart;
-          const seg = input.value.slice(0, start);
 
-          if (!cachedMatch) cachedMatch = (seg.match(/\S+$/) || [])[0];
+          const seg = window.getSelection().focusNode.data || window.getSelection().focusNode.lastChild.wholeText || window.getSelection().focusNode.lastChild;
+          const focus = window.getSelection().focusNode.data ? window.getSelection().focusNode : window.getSelection().focusNode.lastChild;
+
+          if (seg[seg.length - 1] === " " || seg[seg.length - 1] === " " || seg[seg.length - 1] === " ") return;
+          if (!cachedMatch) cachedMatch = (typeof seg === "object" ? [] : seg.match(/\S+$/) || [])[0];
 
           const toLC = (t = "") => (settings.wasd.emotesAutoCompleteIgnoreLowerCase ? t.toString().toLowerCase() : t);
 
           if (!cachedFetchEmotes.length) {
-            cachedEmotes = [...new Set([...Object.keys(HelperBTTV.emotes), ...Object.keys(HelperBWASYA.emotes), ...Object.keys(HelperFFZ.emotes), ...Object.keys(HelperTV7.emotes)])];
-            if (settings.wasd.emotesAutoComplete.toString() == "1") {
+            cachedEmotes = [...Object.keys(settings.wasd.bwasdEmotes ? HelperBWASYA.emotes : {}).map((o) => HTML.decode(o)), ...Object.keys(HelperWASD.smiles)];
+            if (settings.wasd.emotesAutoComplete.toString() === "1") {
               cachedFetchEmotes = cachedEmotes.filter((x) => toLC(x).startsWith(toLC(cachedMatch)));
-            } else if (settings.wasd.emotesAutoComplete.toString() == "2") {
+            } else if (settings.wasd.emotesAutoComplete.toString() === "2") {
               cachedFetchEmotes = cachedEmotes.filter((x) => toLC(x).match(toLC(cachedMatch)));
             }
           }
 
           if (!cachedFetchEmotes.length) return;
 
-          if (typeof cachedIdx != "number") {
-            cachedIdx = 0;
-          } else {
-            cachedIdx = (cachedIdx + 1) % cachedFetchEmotes.length;
-          }
+          cachedIdx = typeof cachedIdx !== "number" ? 0 : (cachedIdx + 1) % cachedFetchEmotes.length;
 
-          const newSeg = seg.replace(/\S+$/, cachedFetchEmotes[cachedIdx]);
-          input.value = newSeg + input.value.slice(start);
-          input.setSelectionRange(newSeg.length, newSeg.length);
-          input.dispatchEvent(new Event("input"));
+          const newSeg = typeof seg === "object" ? null : seg.replace(/\S+$/, " ");
+          const img = document.createElement("img");
+          const emote = HelperBWASYA.emotes[HTML.encode(cachedFetchEmotes[cachedIdx])] || HelperWASD.smiles[cachedFetchEmotes[cachedIdx]];
+          img.src = emote.url.x1;
+          img.srcset = emote.url.x2;
+          img.alt = HTML.encode(cachedFetchEmotes[cachedIdx]);
+          img.className = "message-smile";
+          img.style.width = "auto";
+
+          newSeg === null ? focus.replaceWith(img) : focus.replaceWith(newSeg, img);
+          placeCaretAtEnd(input);
         }
       }
 
-      if (settings.wasd.recentMessagesOnArrows) {
-        let tail = $(input).taliner();
+      ovg.log(isCaretOnFirstLine(input), isCaretOnLastLine(input));
 
-        if (e.keyCode == "38" && tail.caretOnFirstLine) {
+      if (settings.wasd.recentMessagesOnArrows) {
+        if (e.keyCode === 38 && isCaretOnFirstLine(input)) {
           e.preventDefault(); // up
 
           if (typeof cachedMessagesIdx == "number") {
@@ -2304,16 +2194,17 @@ const HelperWASD = {
             if (cachedMessagesIdx < 0) cachedMessagesIdx = HelperWASD.selfMessagesHistory.length - 1;
           } else {
             cachedMessagesIdx = HelperWASD.selfMessagesHistory.length - 1;
-            if (input.value.trim() != "") HelperWASD.selfMessagesHistory.push(input.value);
+            if (input.innerHTML.trim() !== "") HelperWASD.selfMessagesHistory.push(input.innerHTML);
           }
 
           if (typeof HelperWASD.selfMessagesHistory[cachedMessagesIdx] == "string") {
-            input.value = HelperWASD.selfMessagesHistory[cachedMessagesIdx];
-            input.dispatchEvent(new Event("input"));
+            input.innerHTML = HelperWASD.selfMessagesHistory[cachedMessagesIdx];
+            placeCaretAtEnd(input);
+            $("wasd-chat-footer .footer__placeholder")?.css("display", "none");
           }
         }
 
-        if (e.keyCode == "40" && tail.caretOnLastLine) {
+        if (e.keyCode === 40 && isCaretOnLastLine(input)) {
           e.preventDefault(); // down
 
           if (typeof cachedMessagesIdx == "number") {
@@ -2322,16 +2213,74 @@ const HelperWASD = {
           }
 
           if (cachedMessagesIdx == null) {
-            input.value = "";
-            input.dispatchEvent(new Event("input"));
+            input.innerHTML = "";
+            placeCaretAtEnd(input);
+            $("wasd-chat-footer .footer__placeholder")?.css("display", "");
           } else {
-            input.value = HelperWASD.selfMessagesHistory[cachedMessagesIdx];
-            input.dispatchEvent(new Event("input"));
+            input.innerHTML = HelperWASD.selfMessagesHistory[cachedMessagesIdx];
+            placeCaretAtEnd(input);
+            $("wasd-chat-footer .footer__placeholder")?.css("display", "none");
           }
         }
 
-        if (!(e.keyCode == "40" || e.keyCode == "38")) cachedMessagesIdx = null;
+        if (!(e.keyCode === 40 || e.keyCode === 38)) cachedMessagesIdx = null;
       }
     });
+  },
+  video_players: [],
+  channelNavigationPreview(item) {
+    if (item.dataset.online === "true") {
+      const channel_id = item.href.split("/")[item.href.split("/").length - 1];
+
+      item.onmouseenter = async (e) => {
+        if (!settings.wasd.addNavChannelPreview) return;
+
+        const rect = item.getBoundingClientRect();
+        const def = { height: 198, width: 352 };
+
+        const preview = document.createElement("div");
+        preview.setAttribute("better", item.title);
+        preview.className = "channels_item-preview";
+        preview.style.top = rect.top + def.height > window.innerHeight - 20 ? (preview.style.top = window.innerHeight - def.height - 20 + "px") : (preview.style.top = rect.top + "px");
+        preview.style.left = document.querySelector(".nav-sidebar").clientWidth + "px";
+
+        preview.innerHTML = ` <video class="video-js vjs-default-skin" width="${def.width}" height="${def.height}" preload="auto" muted autoplay data-setup="{}"><source type="application/x-mpegURL"></video><div class="channel"><div class="header"> <div class="header_left"><div class="stream__name"></div><div class="channel__name"></div></div><div class="channel__online"><div class="channel__status-icon icon-live"></div><div class="channel__status-name">В эфире</div></div></div><div class="footer"><div class="channel__online"><i class="wasd-icons-viewers-live"></i><div class="channel__status-name online"></div></div><div class="channel__online"><div class="channel__subscriber-icon"><i class="icon wasd-icons-favorite"></i></div><div class="channel__status-name followers"></div></div></div></div>`;
+        document.querySelectorAll(".channels_item-preview[better]").forEach((n) => n.remove());
+        document.body.appendChild(preview);
+
+        const response = await fetch(`https://wasd.tv/api/v2/broadcasts/public?with_extra=false&channel_id=${channel_id}`);
+        const data = await response.json();
+        if (!document.querySelector(`.channels_item-preview[better="${item.title}"]`)) return;
+
+        HelperWASD.video_players.push(videojs(document.querySelector(`.channels_item-preview[better="${item.title}"] .video-js`)));
+        document.querySelector(".channels_item-preview[better] .header .stream__name").textContent = data.result?.media_container?.media_container_name || "";
+        document.querySelector(".channels_item-preview[better] .header .channel__name").textContent = item.title;
+        document.querySelector(".channels_item-preview[better] .footer .online").textContent = data.result?.media_container?.media_container_streams[0]?.stream_current_viewers || 0;
+        document.querySelector(".channels_item-preview[better] .footer .followers").textContent = data.result?.channel?.followers_count || 0;
+
+        const video = HelperWASD.video_players[HelperWASD.video_players.length - 1];
+        video.poster(data.result.media_container ? data.result.media_container.media_container_streams[0].stream_media[0].media_meta.media_preview_url : "");
+        video.src({ src: data.result.media_container ? data.result.media_container.media_container_streams[0].stream_media[0].media_meta.media_url : "" });
+      };
+      item.onmouseleave = () => {
+        document.querySelectorAll(".channels_item-preview[better]").forEach((n) => n.remove());
+        if (HelperWASD.video_players.length === 0) return;
+        HelperWASD.video_players.forEach((p) => p.dispose());
+        HelperWASD.video_players = [];
+      };
+    }
+  },
+  replaceText(text) {
+    let split = text.split(" ");
+    let newText = [];
+
+    for (let word of split) {
+      if (HelperWASD.smiles[word]) {
+        word = `<img class="chat-emoji" style="width: auto;" alt="${word}" src="${HelperWASD.smiles[word]?.url[`x1`]}" srcset="${HelperWASD.smiles[word]?.url[`x2`]}" />`;
+      }
+
+      newText.push(word);
+    }
+    return newText.join(" ");
   },
 };

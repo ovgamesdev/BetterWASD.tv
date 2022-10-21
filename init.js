@@ -1,61 +1,63 @@
 let storageType = "sync";
-let isPressedAlt, isPressedShift, isPressedControl, isPressedFullScreen, isPressedTheater, isPressedPIP, isPressedClip;
+let isPressAlt, isPressShift, isPressControl, isPressFullScreen, isPressTheater, isPressPIP, isPressClip;
 
 // ${ localStorage.bwasdDebugMode == "true" ? "main" : "release" }
 let git_url = `https://raw.githubusercontent.com/ovgamesdev/res/main/`;
 moment.locale("ru");
 
 window.addEventListener("keyup", (e) => {
-  isPressedAlt = false;
-  isPressedShift = false;
-  isPressedControl = false;
-  isPressedFullScreen = false;
-  isPressedTheater = false;
-  isPressedPIP = false;
-  isPressedClip = false;
+  isPressAlt = false;
+  isPressShift = false;
+  isPressControl = false;
+  isPressFullScreen = false;
+  isPressTheater = false;
+  isPressPIP = false;
+  isPressClip = false;
 });
 
+const isInInput = () => document.activeElement.nodeName === "TEXTAREA" || document.activeElement.nodeName === "INPUT" || document.activeElement.contentEditable === "true";
+
 window.addEventListener("keydown", (e) => {
-  if (e.key == "Alt") isPressedAlt = true;
-  if (e.key == "Shift") isPressedShift = true;
-  if (e.key == "Control") isPressedControl = true;
+  if (e.key == "Alt") isPressAlt = true;
+  if (e.key == "Shift") isPressShift = true;
+  if (e.key == "Control") isPressControl = true;
   if (e.key == "f" || e.key == "а") {
-    if (settings.wasd.pressedFullScreen && !isPressedFullScreen && !isPressedControl) {
-      if (!(document.activeElement.nodeName == "TEXTAREA" || document.activeElement.nodeName == "INPUT")) {
+    if (settings.wasd.pressedFullScreen && !isPressFullScreen && !isPressControl) {
+      if (!isInInput()) {
         document.querySelector("button.player-button.fullscreen-button")?.click();
-        isPressedFullScreen = true;
+        isPressFullScreen = true;
       }
     }
   }
   if (e.key == "t" || e.key == "е") {
-    if (settings.wasd.pressedTheater && !isPressedTheater && !isPressedControl) {
-      if (!(document.activeElement.nodeName == "TEXTAREA" || document.activeElement.nodeName == "INPUT")) {
+    if (settings.wasd.pressedTheater && !isPressTheater && !isPressControl) {
+      if (!isInInput()) {
         if (settings.wasd.theaterModeNoFS) {
           document.querySelector("button.player-button.theaterModeNoFS")?.click();
         } else {
           document.querySelector("button.player-button.theater-button")?.click();
         }
-        isPressedTheater = true;
+        isPressTheater = true;
       }
     }
   }
   if (e.key == "i" || e.key == "ш") {
-    if (settings.wasd.pressedPIP && !isPressedPIP && !isPressedControl) {
-      if (!(document.activeElement.nodeName == "TEXTAREA" || document.activeElement.nodeName == "INPUT")) {
+    if (settings.wasd.pressedPIP && !isPressPIP && !isPressControl) {
+      if (!isInInput()) {
         document.querySelector("button.player-button.pip")?.click();
-        isPressedPIP = true;
+        isPressPIP = true;
       }
     }
   }
   if (e.key == "x" || e.key == "ч") {
-    if (settings.wasd.pressedClip && !isPressedClip && !isPressedControl) {
-      if (!(document.activeElement.nodeName == "TEXTAREA" || document.activeElement.nodeName == "INPUT")) {
+    if (settings.wasd.pressedClip && !isPressClip && !isPressControl) {
+      if (!isInInput()) {
         if (settings.wasd.iframeCreateClip) {
           document.querySelector("button.player-button.clip-ovg")?.click();
         } else {
           document.querySelector("button.player-button.clip-button")?.click();
         }
-        isPressedClip = true;
+        isPressClip = true;
       }
     }
   }
@@ -71,7 +73,6 @@ function copyTextToClipboard(text) {
   $("body").append($temp);
   $temp.val(text);
   $temp.val($temp.val().replace(/\r?\n/g, "").trim()).select();
-  // console.log( $temp.val() )
   document.execCommand("copy");
   $temp.remove();
 }
@@ -193,16 +194,20 @@ updateVideoPlayerButtons = () => {
 
 setInterval(() => updateVideoPlayerButtons(), 1000);
 
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  // console.log(msg)
+const appendUsernameToTextarea = (text, isAddDog) => {
+  const footer = document.querySelector("wasd-chat-footer");
+  const textarea = footer.querySelector("div.footer__input");
+  if (footer) {
+    footer.querySelector(".footer__placeholder")?.remove();
+    textarea.insertAdjacentHTML("beforeend", `${isAddDog ? "&nbsp;@" : "&nbsp;"}${text}&nbsp;`);
+    placeCaretAtEnd(textarea);
+  }
+};
+
+chrome.runtime.onMessage.addListener((msg, _, sendResponse) => {
   if (msg.from == "background" && msg.username) {
     window.focus();
-    let textarea = document.querySelector(".footer > div > textarea");
-    if (textarea) {
-      textarea.value += "@" + msg.username + " ";
-      textarea.dispatchEvent(new Event("input"));
-      textarea.focus();
-    }
+    appendUsernameToTextarea(msg.username, true);
   }
   if (msg.from == "background" && msg.update_save) {
     let option = BetterStreamChat.settingsDiv.querySelector(`[data-name="${msg?.update_save?.split[0]}_${msg?.update_save?.split[1]}"]`);

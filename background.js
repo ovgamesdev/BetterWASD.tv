@@ -14,37 +14,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         iconUrl: "img/icon128.png",
         title: request.title,
         message: request.message,
-        buttons: [
-          {
-            title: "Ответить",
-          },
-        ],
+        buttons: [{ title: "Ответить" }],
       },
-      (id) => {
-        notificationReplyId = id;
-      }
+      (id) => (notificationReplyId = id)
     );
   }
-  if (request.update_save) {
-    if (contentTabId)
-      chrome.tabs.sendMessage(contentTabId, {
-        from: "background",
-        update_save: request.update_save,
-      });
+  if (request.update_save && contentTabId) {
+    chrome.tabs.sendMessage(contentTabId, { from: "background", update_save: request.update_save });
   }
-  if (request.update_chat) {
-    if (contentTabId)
-      chrome.tabs.sendMessage(contentTabId, {
-        from: "background",
-        update_chat: request.update_chat,
-      });
+  if (request.update_chat && contentTabId) {
+    chrome.tabs.sendMessage(contentTabId, { from: "background", update_chat: request.update_chat });
   }
-  if (request.location) {
-    if (contentTabId)
-      chrome.tabs.sendMessage(contentTabId, {
-        from: "background",
-        location: request.location,
-      });
+  if (request.location && contentTabId) {
+    chrome.tabs.sendMessage(contentTabId, { from: "background", location: request.location });
   }
   if (request.from == "tab_settings") {
     tab_settingsId = sender.tab.id;
@@ -71,10 +53,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 chrome.notifications.onButtonClicked.addListener((notifId, btnIdx) => {
   if (notifId == notificationReplyId && btnIdx == 0 && contentTabId) {
-    chrome.tabs.sendMessage(contentTabId, {
-      from: "background",
-      username: username,
-    });
+    chrome.tabs.sendMessage(contentTabId, { from: "background", username: username });
   }
   if (notifId == notificationWhatsNewId && btnIdx == 0) {
     chrome.windows.create({
@@ -91,13 +70,9 @@ let botPort = null;
 chrome.runtime.onConnectExternal.addListener(function (port) {
   botPort = port;
 
-  botPort.onMessage.addListener(function (msg, sender, sendResponse) {
-    console.log(msg, contentTabId);
+  botPort.onMessage.addListener((msg) => {
     if (msg.from == "background_betterwasya_bot" && msg.userCoins && contentTabId) {
-      chrome.tabs.sendMessage(contentTabId, {
-        from: "background",
-        coinUsers: msg.userCoins,
-      });
+      chrome.tabs.sendMessage(contentTabId, { from: "background", coinUsers: msg.userCoins });
     }
 
     return true;
@@ -114,15 +89,9 @@ chrome.runtime.onInstalled.addListener(function (details) {
         iconUrl: "img/icon128.png",
         title: "BetterWASYA",
         message: "Расширение обновлено",
-        buttons: [
-          {
-            title: "Что нового",
-          },
-        ],
+        buttons: [{ title: "Что нового" }],
       },
-      (id) => {
-        notificationWhatsNewId = id;
-      }
+      (id) => (notificationWhatsNewId = id)
     );
   }
 });
